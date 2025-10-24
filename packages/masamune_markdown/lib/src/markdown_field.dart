@@ -1214,7 +1214,7 @@ class MarkdownFieldState extends State<MarkdownField>
     if (widget.readOnly) {
       return;
     }
-    widget.controller.cut();
+    widget.controller.clipboard.cut();
   }
 
   @override

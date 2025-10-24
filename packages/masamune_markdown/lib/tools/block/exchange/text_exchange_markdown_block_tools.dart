@@ -55,4 +55,16 @@ class TextExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   bool get inheritPropertyOnNewLine => true;
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    if (target is MarkdownParagraphBlockValue) {
+      return null;
+    }
+    return MarkdownParagraphBlockValue(
+      id: target.id,
+      children: target.extractLines() ?? [],
+      indent: target.indent,
+    );
+  }
 }

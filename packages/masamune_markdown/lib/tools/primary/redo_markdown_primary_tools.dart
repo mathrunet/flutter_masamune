@@ -40,7 +40,7 @@ class RedoMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool actived(BuildContext context, MarkdownToolRef ref) {
-    return ref.controller.canRedo;
+    return ref.controller.history.canRedo;
   }
 
   @override
@@ -56,6 +56,6 @@ class RedoMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.redo();
+    ref.controller.history.redo();
   }
 }

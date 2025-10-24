@@ -52,4 +52,21 @@ class BulletedListExchangeMarkdownBlockTools extends MarkdownBlockTools {
     ref.controller.exchangeBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  MarkdownBlockValue addBlock() {
+    return MarkdownBulletedListBlockValue.createEmpty();
+  }
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    if (target is MarkdownBulletedListBlockValue) {
+      return null;
+    }
+    return MarkdownBulletedListBlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+    );
+  }
 }

@@ -63,4 +63,9 @@ class VideoFromCameraMediaMarkdownBlockTools extends MarkdownBlockTools {
     ref.insertVideo(uri);
     ref.deleteMode();
   }
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    return null;
+  }
 }

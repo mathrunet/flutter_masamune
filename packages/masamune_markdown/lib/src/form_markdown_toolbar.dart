@@ -133,6 +133,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   double? _prevBottomInset;
   bool _hasClipboardText = false;
   Timer? _clipboardCheckTimer;
+  Completer<void>? _clipboardCheckCompleter;
 
   _LinkSetting? _linkSetting;
   _MentionSetting? _mentionSetting;
@@ -153,8 +154,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     _checkClipboard();
     // Check clipboard periodically to update paste button state
     // ペーストボタンの状態を更新するために定期的にクリップボードをチェック
+    // TODO: もっといい実装はないかチェック
     _clipboardCheckTimer = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(milliseconds: 100),
       (_) => _checkClipboard(),
     );
     widget.controller.setLinkDialogCallback(toggleLinkDialog);
@@ -167,59 +169,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     _linkSetting?.cancel();
     _mentionSetting?.cancel();
     super.dispose();
-  }
-
-  Future<void> _checkClipboard() async {
-    try {
-      final data = await Clipboard.getData(Clipboard.kTextPlain);
-      final hasText = data?.text?.isNotEmpty ?? false;
-      if (_hasClipboardText != hasText) {
-        setState(() {
-          _hasClipboardText = hasText;
-        });
-      }
-    } catch (e) {
-      // Clipboard access may fail on some platforms
-      // 一部のプラットフォームではクリップボードアクセスが失敗する場合がある
-    }
-  }
-
-  void _handledOnKeyboardStateChanged() {
-    final currentBottomInset = context.mediaQuery.viewInsets.bottom;
-    if (_prevBottomInset == currentBottomInset) {
-      return;
-    }
-    _prevBottomInset = currentBottomInset;
-    final isKeyboardShowing =
-        _lastBottomInset + _kMinChangeSize < currentBottomInset;
-    if (currentBottomInset > 0) {
-      if (_isKeyboardHidden && _lastBottomInset == 0) {
-        _isKeyboardHidden = false;
-      }
-      _blockMenuToggleDuration = null;
-    }
-    _lastBottomInset = currentBottomInset;
-    if (!_isKeyboardHidden && _blockMenuHeight < currentBottomInset) {
-      _blockMenuHeight = currentBottomInset;
-    }
-    if (isKeyboardShowing) {
-      if (_showBlockMenu) {
-        _showBlockMenu = false;
-      }
-    }
-  }
-
-  @override
-  bool get canPaste => _hasClipboardText;
-
-  @override
-  void insertImage(Uri uri) {
-    // TODO: insert image
-  }
-
-  @override
-  void insertVideo(Uri uri) {
-    // TODO: insert video
   }
 
   @override
@@ -240,6 +189,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
+  bool get canPaste => _hasClipboardText;
+
+  @override
   List<MarkdownMention> Function(BuildContext context)? get mentionBuilder =>
       widget.mentionBuilder;
 
@@ -253,7 +205,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
             _blockMenuToggleDuration = _kBlockMenuToggleDuration;
           }
           _showBlockMenu = false;
-          field?.reopenInputConnection();
+          _showKeyboard();
         } else {
           if (tool.hideKeyboardOnSelected) {
             if (_blockMenuHeight == 0) {
@@ -261,7 +213,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
             _showBlockMenu = true;
-            SystemChannels.textInput.invokeMethod("TextInput.hide");
+            _hideKeyboard();
           }
         }
         _currentTool = tool;
@@ -273,14 +225,12 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
             }
             _showBlockMenu = false;
-            // Reopen input connection to ensure TextInputClient is properly connected
-            // after TextInput.hide was called when showing block menu
-            field?.reopenInputConnection();
+            _showKeyboard();
           }
         } else {
           if (tool.hideKeyboardOnSelected) {
             _showBlockMenu = true;
-            SystemChannels.textInput.invokeMethod("TextInput.hide");
+            _hideKeyboard();
             if (_blockMenuHeight == 0) {
               _blockMenuHeight = context.mediaQuery.size.height / 3.0;
               _blockMenuToggleDuration = _kBlockMenuToggleDuration;
@@ -333,7 +283,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       }
       _currentTool = null;
       _showBlockMenu = false;
-      field?.reopenInputConnection();
+      _showKeyboard();
     });
   }
 
@@ -344,8 +294,79 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       _showBlockMenu = false;
       _blockMenuHeight = 0;
       controller.focusNode.unfocus();
-      SystemChannels.textInput.invokeMethod("TextInput.hide");
+      _hideKeyboard();
     });
+  }
+
+  @override
+  void insertImage(Uri uri) {
+    // TODO: insert image
+  }
+
+  @override
+  void insertVideo(Uri uri) {
+    // TODO: insert video
+  }
+
+  void _hideKeyboard() {
+    SystemChannels.textInput.invokeMethod("TextInput.hide");
+  }
+
+  void _showKeyboard() {
+    if (field != null) {
+      field!.reopenInputConnection();
+    } else {
+      SystemChannels.textInput.invokeMethod("TextInput.show");
+    }
+  }
+
+  Future<void> _checkClipboard() async {
+    if (_clipboardCheckCompleter != null) {
+      return _clipboardCheckCompleter!.future;
+    }
+    _clipboardCheckCompleter = Completer<void>();
+    try {
+      final data = await Clipboard.getData(Clipboard.kTextPlain);
+      final hasText = data?.text?.isNotEmpty ?? false;
+      if (_hasClipboardText != hasText) {
+        setState(() {
+          _hasClipboardText = hasText;
+        });
+      }
+      _clipboardCheckCompleter!.complete();
+      _clipboardCheckCompleter = null;
+    } catch (e) {
+      _clipboardCheckCompleter!.completeError(e);
+      _clipboardCheckCompleter = null;
+    } finally {
+      _clipboardCheckCompleter!.complete();
+      _clipboardCheckCompleter = null;
+    }
+  }
+
+  void _handledOnKeyboardStateChanged() {
+    final currentBottomInset = context.mediaQuery.viewInsets.bottom;
+    if (_prevBottomInset == currentBottomInset) {
+      return;
+    }
+    _prevBottomInset = currentBottomInset;
+    final isKeyboardShowing =
+        _lastBottomInset + _kMinChangeSize < currentBottomInset;
+    if (currentBottomInset > 0) {
+      if (_isKeyboardHidden && _lastBottomInset == 0) {
+        _isKeyboardHidden = false;
+      }
+      _blockMenuToggleDuration = null;
+    }
+    _lastBottomInset = currentBottomInset;
+    if (!_isKeyboardHidden && _blockMenuHeight < currentBottomInset) {
+      _blockMenuHeight = currentBottomInset;
+    }
+    if (isKeyboardShowing) {
+      if (_showBlockMenu) {
+        _showBlockMenu = false;
+      }
+    }
   }
 
   void _handleControllerStateOnChanged() {
@@ -364,6 +385,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     } else {
       // Update UI to reflect selection state changes (e.g., show/hide copy button)
       // 選択状態の変更を反映するためにUIを更新（例: コピーボタンの表示/非表示）
+      // TODO: 状態を監視してUIを更新するようにする
       setState(() {});
     }
     if (_currentTool is MentionMarkdownPrimaryTools &&
@@ -385,125 +407,102 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       // すべてのツールをListenableBuilderでラップしてコントローラー変更時にenabled/activedを再評価
       if (e is MentionMarkdownPrimaryTools) {
         if (_currentTool == e && _showBlockMenu) {
-          return ListenableBuilder(
-              listenable: controller,
-              builder: (context, child) {
-                return IconButton.filled(
-                  style: IconButton.styleFrom(
-                    backgroundColor: widget.style?.activeBackgroundColor ??
-                        theme.colorTheme?.primary ??
-                        theme.colorScheme.primary,
-                    foregroundColor: widget.style?.activeColor ??
-                        theme.colorTheme?.onPrimary ??
-                        theme.colorScheme.onPrimary,
-                  ),
-                  onPressed: ((field?.cursorInLink ?? false) ||
-                          (field?.selectInMentionLink ?? false))
-                      ? null
-                      : () {
-                          e.onTap(context, this);
-                        },
-                  icon: e.icon(context, this),
-                );
-              });
+          return IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor: widget.style?.activeBackgroundColor ??
+                  theme.colorTheme?.primary ??
+                  theme.colorScheme.primary,
+              foregroundColor: widget.style?.activeColor ??
+                  theme.colorTheme?.onPrimary ??
+                  theme.colorScheme.onPrimary,
+            ),
+            onPressed: ((field?.cursorInLink ?? false) ||
+                    (field?.selectInMentionLink ?? false))
+                ? null
+                : () {
+                    e.onTap(context, this);
+                  },
+            icon: e.icon(context, this),
+          );
         } else {
-          return ListenableBuilder(
-            listenable: controller,
-            builder: (context, child) {
-              return IconButton(
-                onPressed: ((field?.cursorInLink ?? false) ||
-                        (field?.selectInMentionLink ?? false))
-                    ? null
-                    : () {
-                        e.onTap(context, this);
-                      },
-                icon: e.icon(context, this),
-              );
-            },
+          return IconButton(
+            onPressed: ((field?.cursorInLink ?? false) ||
+                    (field?.selectInMentionLink ?? false))
+                ? null
+                : () {
+                    e.onTap(context, this);
+                  },
+            icon: e.icon(context, this),
           );
         }
       } else if (e is IndentUpMarkdownPrimaryTools ||
           e is IndentDownMarkdownPrimaryTools) {
-        // インデントボタンは詳細ログを出力
-        return ListenableBuilder(
-          listenable: controller,
-          builder: (context, child) {
-            final enabled = e.enabled(context, this);
-            final actived = e.actived(context, this);
-            debugPrint(
-                "🔧 ${e.runtimeType}: enabled=$enabled, actived=$actived");
-            if (!enabled || !actived) {
-              return IconButton(
-                onPressed: null,
-                icon: e.icon(context, this),
-              );
-            }
+        final enabled = e.enabled(context, this);
+        final actived = e.actived(context, this);
+        debugPrint("🔧 ${e.runtimeType}: enabled=$enabled, actived=$actived");
+        if (!enabled || !actived) {
+          return IconButton(
+            onPressed: null,
+            icon: e.icon(context, this),
+          );
+        }
 
-            if (_currentTool == e && _showBlockMenu) {
-              return IconButton.filled(
-                style: IconButton.styleFrom(
-                  backgroundColor: widget.style?.activeBackgroundColor ??
-                      theme.colorTheme?.primary ??
-                      theme.colorScheme.primary,
-                  foregroundColor: widget.style?.activeColor ??
-                      theme.colorTheme?.onPrimary ??
-                      theme.colorScheme.onPrimary,
-                ),
-                onPressed: () {
-                  e.onTap(context, this);
-                },
-                icon: e.icon(context, this),
-              );
-            } else {
-              return IconButton(
-                onPressed: () {
-                  e.onTap(context, this);
-                },
-                icon: e.icon(context, this),
-              );
-            }
-          },
-        );
+        if (_currentTool == e && _showBlockMenu) {
+          return IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor: widget.style?.activeBackgroundColor ??
+                  theme.colorTheme?.primary ??
+                  theme.colorScheme.primary,
+              foregroundColor: widget.style?.activeColor ??
+                  theme.colorTheme?.onPrimary ??
+                  theme.colorScheme.onPrimary,
+            ),
+            onPressed: () {
+              e.onTap(context, this);
+            },
+            icon: e.icon(context, this),
+          );
+        } else {
+          return IconButton(
+            onPressed: () {
+              e.onTap(context, this);
+            },
+            icon: e.icon(context, this),
+          );
+        }
       } else {
-        // Wrap other tools with ListenableBuilder to rebuild when controller changes
-        // インデントボタンなど他のツールもListenableBuilderでラップしてコントローラー変更時に再描画
-        return ListenableBuilder(
-          listenable: controller,
-          builder: (context, child) {
-            // Re-evaluate enabled/actived when controller changes
-            // コントローラー変更時にenabled/activedを再評価
-            if (!e.enabled(context, this) || !e.actived(context, this)) {
-              return IconButton(
-                onPressed: null,
-                icon: e.icon(context, this),
-              );
-            }
+        // Re-evaluate enabled/actived when controller changes
+        // コントローラー変更時にenabled/activedを再評価
+        if (!e.enabled(context, this) || !e.actived(context, this)) {
+          return IconButton(
+            onPressed: null,
+            icon: e.icon(context, this),
+          );
+        }
 
-            if (_currentTool == e && _showBlockMenu) {
-              return IconButton.filled(
-                style: IconButton.styleFrom(
-                  backgroundColor: widget.style?.activeBackgroundColor ??
-                      theme.colorTheme?.primary ??
-                      theme.colorScheme.primary,
-                  foregroundColor: widget.style?.activeColor ??
-                      theme.colorTheme?.onPrimary ??
-                      theme.colorScheme.onPrimary,
-                ),
-                onPressed: () {
-                  e.onTap(context, this);
-                },
-                icon: e.icon(context, this),
-              );
-            } else {
-              return IconButton(
-                onPressed: () {
-                  e.onTap(context, this);
-                },
-                icon: e.icon(context, this),
-              );
-            }
-          },
-        );
+        if (_currentTool == e && _showBlockMenu) {
+          return IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor: widget.style?.activeBackgroundColor ??
+                  theme.colorTheme?.primary ??
+                  theme.colorScheme.primary,
+              foregroundColor: widget.style?.activeColor ??
+                  theme.colorTheme?.onPrimary ??
+                  theme.colorScheme.onPrimary,
+            ),
+            onPressed: () {
+              e.onTap(context, this);
+            },
+            icon: e.icon(context, this),
+          );
+        } else {
+          return IconButton(
+            onPressed: () {
+              e.onTap(context, this);
+            },
+            icon: e.icon(context, this),
+          );
+        }
       }
     });
   }
@@ -638,10 +637,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                           widget.style?.backgroundColor ??
                           theme.colorTheme?.surface,
                     ),
-                    // Don't update link on every change, only on submit
-                    // onChanged: (value) {
-                    //   _linkSetting?.updateUrl(value);
-                    // },
                   ),
                 ),
                 8.sx,
@@ -727,44 +722,9 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                           final mention = mentions[index];
                           return GestureDetector(
                             onTap: () {
+                              // メンションの追加
                               _mentionSetting?.focusNode.unfocus();
-                              // Insert mention at current cursor position
-                              final selection = field?._selection;
-                              if (selection != null && selection.isCollapsed) {
-                                final cursorPosition = selection.baseOffset;
-                                // Insert mention text: @{mention.name}
-                                final mentionText = "@${mention.name}";
-
-                                // Validation: Ensure mention text doesn't contain newlines
-                                if (mentionText.contains("\n")) {
-                                  debugPrint(
-                                      "⚠️ Mention text contains newline, skipping insertion");
-                                  return;
-                                }
-
-                                // Insert mention text and property as atomic operation
-                                // (combine both into single undo history entry)
-                                // Replace any selected text or insert at cursor
-                                controller.replaceText(
-                                  cursorPosition,
-                                  cursorPosition,
-                                  mentionText,
-                                );
-                                // Add mention property (skip history since replaceText already saved)
-                                controller.addInlineProperty(
-                                  const MentionMarkdownPrimaryTools(),
-                                  start: cursorPosition,
-                                  end: cursorPosition + mentionText.length,
-                                  value: mention,
-                                  skipHistory: true,
-                                );
-                                // Move cursor to after the mention
-                                field!._selection = TextSelection.collapsed(
-                                  offset: cursorPosition + mentionText.length,
-                                );
-                                field!._updateRemoteEditingValue();
-                              }
-                              // Close mention mode
+                              controller.insertMention(mention);
                               deleteMode();
                               controller.focusNode.requestFocus();
                             },
@@ -930,7 +890,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     // When collapsed, return empty container to avoid overflow
     // collapsed時はオーバーフローを避けるために空のコンテナを返す
     if (widget.collapsed) {
-      return const SizedBox.shrink();
+      return const Empty();
     }
 
     _handledOnKeyboardStateChanged();

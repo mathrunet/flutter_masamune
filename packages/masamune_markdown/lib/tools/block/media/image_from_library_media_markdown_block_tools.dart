@@ -63,4 +63,9 @@ class ImageFromLibraryMediaMarkdownBlockTools extends MarkdownBlockTools {
     ref.insertImage(uri);
     ref.deleteMode();
   }
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    return null;
+  }
 }

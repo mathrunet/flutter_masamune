@@ -52,4 +52,9 @@ class Headline1AddMarkdownBlockTools extends MarkdownBlockTools {
     ref.controller.insertBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    return null;
+  }
 }

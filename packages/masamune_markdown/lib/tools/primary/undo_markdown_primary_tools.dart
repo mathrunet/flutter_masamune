@@ -40,7 +40,7 @@ class UndoMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   bool actived(BuildContext context, MarkdownToolRef ref) {
-    return ref.controller.canUndo;
+    return ref.controller.history.canUndo;
   }
 
   @override
@@ -56,6 +56,6 @@ class UndoMarkdownPrimaryTools extends MarkdownPrimaryTools {
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.undo();
+    ref.controller.history.undo();
   }
 }

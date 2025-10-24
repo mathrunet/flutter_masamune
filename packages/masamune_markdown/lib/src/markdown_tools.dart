@@ -183,6 +183,18 @@ abstract class MarkdownBlockTools extends MarkdownTools {
   ///
   /// プロパティが新しい行に継承されるかどうかを確認します。
   bool get inheritPropertyOnNewLine => false;
+
+  /// Create a new block.
+  ///
+  /// 新しいブロックを作成します。
+  MarkdownBlockValue addBlock() {
+    return MarkdownBlockValue.createEmpty();
+  }
+
+  /// Exchange a block.
+  ///
+  /// ブロックを交換します。
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target);
 }
 
 /// Base class for markdown block variable tools.

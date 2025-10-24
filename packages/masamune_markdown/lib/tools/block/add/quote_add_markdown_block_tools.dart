@@ -52,4 +52,9 @@ class QuoteAddMarkdownBlockTools extends MarkdownBlockTools {
     ref.controller.insertBlock(this);
     ref.deleteMode();
   }
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    return null;
+  }
 }

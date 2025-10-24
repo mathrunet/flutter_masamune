@@ -54,5 +54,22 @@ class BulletedListAddMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
+  MarkdownBlockValue addBlock() {
+    return MarkdownBulletedListBlockValue.createEmpty();
+  }
+
+  @override
+  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
+    if (target is MarkdownBulletedListBlockValue) {
+      return null;
+    }
+    return MarkdownBulletedListBlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+    );
+  }
+
+  @override
   bool get inheritPropertyOnNewLine => true;
 }

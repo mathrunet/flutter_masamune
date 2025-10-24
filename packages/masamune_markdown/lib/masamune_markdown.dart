@@ -31,6 +31,11 @@ part "src/markdown_mention.dart";
 part "src/form_markdown_toolbar.dart";
 part "src/form_markdown_field.dart";
 part "src/markdown.dart";
+part "src/markdown_clipboard.dart";
+part "src/markdown_history.dart";
+
+part "value/markdown_paragraph_block_value.dart";
+part "value/markdown_bulleted_list_block_value.dart";
 
 part "tools/primary/add_markdown_primary_tools.dart";
 part "tools/primary/exchange_markdown_primary_tools.dart";

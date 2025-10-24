@@ -294,6 +294,24 @@ class MarkdownLineValue extends MarkdownValue {
     );
   }
 
+  /// If [initialText] is specified, [initialText] will be set to the first line.
+  /// If [initialText] is not specified, an empty line will be created with no text.
+  ///
+  /// [initialText]を指定した場合、最初の行に[initialText]を設定します。
+  /// [initialText]が指定されていない場合、空の行を作成します。
+  factory MarkdownLineValue.createEmpty([String? initialText]) {
+    return MarkdownLineValue(
+      id: uuid(),
+      children: [
+        MarkdownSpanValue(
+          id: uuid(),
+          value: initialText ?? "",
+          properties: const [],
+        ),
+      ],
+    );
+  }
+
   @override
   String get type => "__text_line__";
 
@@ -366,10 +384,44 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     this.indent = 0,
   });
 
+  /// If [initialText] is specified, [initialText] will be set to the first block.
+  /// If [initialText] is not specified, an empty paragraph will be created with no text.
+  ///
+  /// [initialText]を指定した場合、最初のブロックに[initialText]を設定します。
+  /// [initialText]が指定されていない場合、空の段落を作成します。
+  factory MarkdownBlockValue.createEmpty([String? initialText]) {
+    return MarkdownParagraphBlockValue(
+      id: uuid(),
+      children: [
+        MarkdownLineValue(
+          id: uuid(),
+          children: [
+            MarkdownSpanValue(
+              id: uuid(),
+              value: initialText ?? "",
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   /// The indent of the markdown block value.
   ///
   /// マークダウンのブロックのインデント。
   final int indent;
+
+  /// Checks if the block can be indented.
+  ///
+  /// ブロックがインデントできるかどうかを確認します。
+  bool get canIndent {
+    return false;
+  }
+
+  /// Checks if the indent should be maintained.
+  ///
+  /// インデントが保持されるかどうかを確認します。
+  bool get maintainIndent => false;
 
   /// The padding of the markdown block value.
   ///
@@ -403,6 +455,52 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     MarkdownController controller,
   );
 
+  /// Clone the markdown block value.
+  ///
+  /// マークダウンのブロックの値をクローンします。
+  MarkdownBlockValue clone({
+    String? id,
+    int? indent,
+    MarkdownLineValue? child,
+    String? initialText,
+  }) {
+    final block = this;
+    if (maintainIndent) {
+      indent ??= this.indent;
+    }
+    if (block is MarkdownMultiLineBlockValue) {
+      return block.copyWith(
+        id: id ?? block.id,
+        indent: indent,
+        children: [child ?? MarkdownLineValue.createEmpty(initialText)],
+      );
+    } else if (block is MarkdownSingleLineBlockValue) {
+      return block.copyWith(
+        id: id ?? block.id,
+        indent: indent,
+        child: child ?? MarkdownLineValue.createEmpty(initialText),
+      );
+    } else {
+      return MarkdownParagraphBlockValue(
+        id: id ?? block.id,
+        children: [child ?? MarkdownLineValue.createEmpty(initialText)],
+      );
+    }
+  }
+
+  /// Extract the lines from the markdown block value.
+  ///
+  /// マークダウンのブロックの行を抽出します。
+  List<MarkdownLineValue>? extractLines() {
+    return [];
+  }
+
+  @override
+  MarkdownBlockValue copyWith({
+    String? id,
+    int? indent,
+  });
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
@@ -423,191 +521,51 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   }
 }
 
-/// A class for storing markdown paragraph block value.
+/// A class for storing markdown single line block value.
 ///
-/// マークダウンの段落ブロックの値を格納するクラス。
+/// マークダウンの１行のブロックの値を格納するクラス。
 @immutable
-class MarkdownParagraphBlockValue extends MarkdownBlockValue {
-  /// A class for storing markdown paragraph block value.
+abstract class MarkdownSingleLineBlockValue extends MarkdownBlockValue {
+  /// A class for storing markdown single line block value.
   ///
-  /// マークダウンの段落ブロックの値を格納するクラス。
-  const MarkdownParagraphBlockValue({
+  /// マークダウンの１行のブロックの値を格納するクラス。
+  const MarkdownSingleLineBlockValue({
     required super.id,
-    required this.children,
+    required this.child,
     super.indent = 0,
   });
-
-  /// Create a [MarkdownParagraphBlockValue] from a [DynamicMap].
-  ///
-  /// [DynamicMap]から[MarkdownParagraphBlockValue]を作成します。
-  factory MarkdownParagraphBlockValue.fromJson(DynamicMap json) {
-    return MarkdownParagraphBlockValue(
-      id: json.get(MarkdownValue.idKey, ""),
-      indent: json.get(MarkdownValue.indentKey, 0),
-      children: json
-          .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
-          .map(MarkdownLineValue.fromJson)
-          .toList(),
-    );
-  }
-
-  /// Create a [MarkdownParagraphBlockValue] from a markdown string.
-  ///
-  /// [markdown]から[MarkdownParagraphBlockValue]を作成します。
-  factory MarkdownParagraphBlockValue.fromMarkdown(String markdown) {
-    return MarkdownParagraphBlockValue(
-      id: uuid(),
-      children: [
-        ...markdown.split("\n").map(MarkdownLineValue.fromMarkdown),
-      ],
-    );
-  }
-
-  @override
-  String get type => "__text_block_paragraph__";
 
   /// The children of the markdown block value.
   ///
   /// マークダウンのブロックの子要素。
-  final List<MarkdownLineValue> children;
+  final MarkdownLineValue child;
 
   @override
-  DynamicMap toJson() {
-    return {
-      MarkdownValue.idKey: id,
-      MarkdownValue.typeKey: type,
-      MarkdownValue.indentKey: indent,
-      MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-    };
-  }
-
-  @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.paragraph.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.paragraph.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.paragraph.textStyle ??
-            theme.textTheme.bodyMedium ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.paragraph.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
-    RenderContext context,
-    MarkdownController controller,
-  ) {
-    return null;
-  }
-
-  @override
-  String toMarkdown() {
-    return children.map((e) => e.toMarkdown()).join("\n");
-  }
-
-  @override
-  MarkdownParagraphBlockValue copyWith({
+  MarkdownSingleLineBlockValue copyWith({
     String? id,
     int? indent,
-    List<MarkdownLineValue>? children,
-  }) {
-    return MarkdownParagraphBlockValue(
-      id: id ?? this.id,
-      indent: indent ?? this.indent,
-      children: children ?? this.children,
-    );
-  }
+    MarkdownLineValue? child,
+  });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    return other is MarkdownParagraphBlockValue &&
-        other.id == id &&
-        other.type == type &&
-        children.equalsTo(other.children) &&
-        other.indent == indent;
-  }
-
-  @override
-  int get hashCode {
-    var hash = super.hashCode;
-    for (final child in children) {
-      hash = hash ^ child.hashCode;
-    }
-    return hash;
-  }
-
-  @override
-  String toString() {
-    return "MarkdownParagraphBlockValue(children: $children, indent: $indent)";
+  List<MarkdownLineValue> extractLines() {
+    return [child];
   }
 }
 
-/// A class for storing markdown bulleted list block value.
+/// A class for storing markdown multi line block value.
 ///
-/// マークダウンの箇条書きリストブロックの値を格納するクラス。
+/// マークダウンの複数行のブロックの値を格納するクラス。
 @immutable
-class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
-  /// A class for storing markdown bulleted list block value.
+abstract class MarkdownMultiLineBlockValue extends MarkdownBlockValue {
+  /// A class for storing markdown multi line block value.
   ///
-  /// マークダウンの箇条書きリストブロックの値を格納するクラス。
-  const MarkdownBulletedListBlockValue({
+  /// マークダウンの複数行のブロックの値を格納するクラス。
+  const MarkdownMultiLineBlockValue({
     required super.id,
     required this.children,
     super.indent = 0,
   });
-
-  /// Create a [MarkdownBulletedListBlockValue] from a [DynamicMap].
-  ///
-  /// [DynamicMap]から[MarkdownBulletedListBlockValue]を作成します。
-  factory MarkdownBulletedListBlockValue.fromJson(DynamicMap json) {
-    return MarkdownBulletedListBlockValue(
-      id: json.get(MarkdownValue.idKey, ""),
-      indent: json.get(MarkdownValue.indentKey, 0),
-      children: json
-          .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
-          .map(MarkdownLineValue.fromJson)
-          .toList(),
-    );
-  }
-
-  /// Create a [MarkdownBulletedListBlockValue] from a markdown string.
-  ///
-  /// [markdown]から[MarkdownBulletedListBlockValue]を作成します。
-  factory MarkdownBulletedListBlockValue.fromMarkdown(String markdown) {
-    // Remove leading "- " or "* " marker
-    final cleanedMarkdown = markdown.replaceFirst(RegExp(r"^[-*]\s+"), "");
-    return MarkdownBulletedListBlockValue(
-      id: uuid(),
-      children: [
-        ...cleanedMarkdown.split("\n").map(MarkdownLineValue.fromMarkdown),
-      ],
-    );
-  }
-
-  @override
-  String get type => "__markdown_block_bulleted_list__";
 
   /// The children of the markdown block value.
   ///
@@ -615,96 +573,15 @@ class MarkdownBulletedListBlockValue extends MarkdownBlockValue {
   final List<MarkdownLineValue> children;
 
   @override
-  DynamicMap toJson() {
-    return {
-      MarkdownValue.idKey: id,
-      MarkdownValue.typeKey: type,
-      MarkdownValue.indentKey: indent,
-      MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-    };
-  }
-
-  @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.list.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.list.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.list.textStyle ??
-            theme.textTheme.bodyMedium ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.list.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
-    RenderContext context,
-    MarkdownController controller,
-  ) {
-    return null;
-  }
-
-  @override
-  String toMarkdown() {
-    return children.map((e) => "- ${e.toMarkdown()}").join("\n");
-  }
-
-  @override
-  MarkdownBulletedListBlockValue copyWith({
+  MarkdownMultiLineBlockValue copyWith({
     String? id,
     int? indent,
     List<MarkdownLineValue>? children,
-    bool? hasMarker,
-  }) {
-    return MarkdownBulletedListBlockValue(
-      id: id ?? this.id,
-      indent: indent ?? this.indent,
-      children: children ?? this.children,
-    );
-  }
+  });
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    return other is MarkdownBulletedListBlockValue &&
-        other.id == id &&
-        other.type == type &&
-        children.equalsTo(other.children) &&
-        other.indent == indent;
-  }
-
-  @override
-  int get hashCode {
-    var hash = super.hashCode;
-    for (final child in children) {
-      hash = hash ^ child.hashCode;
-    }
-    return hash;
-  }
-
-  @override
-  String toString() {
-    return "MarkdownBulletedListBlockValue(children: $children, indent: $indent)";
+  List<MarkdownLineValue> extractLines() {
+    return children;
   }
 }
 
@@ -737,6 +614,33 @@ class MarkdownFieldValue extends MarkdownValue {
     return MarkdownFieldValue(
       id: json.get(MarkdownValue.idKey, ""),
       children: children,
+    );
+  }
+
+  /// If [initialText] is specified, [initialText] will be set to the first block.
+  /// If [initialText] is not specified, an empty paragraph will be created with no text.
+  ///
+  /// [initialText]を指定した場合、最初の段落に[initialText]を設定します。
+  /// [initialText]が指定されていない場合、空の段落を作成します。
+  factory MarkdownFieldValue.createEmpty([String? initialText]) {
+    return MarkdownFieldValue(
+      id: uuid(),
+      children: [
+        MarkdownParagraphBlockValue(
+          id: uuid(),
+          children: [
+            MarkdownLineValue(
+              id: uuid(),
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: initialText ?? "",
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -943,5 +847,38 @@ extension MarkdownFieldValueListExtension on List<MarkdownFieldValue> {
   /// マークダウンのフィールドの値のリストをマークダウンの文字列に変換します。
   String toMarkdown() {
     return map((e) => e.toMarkdown()).join("\n");
+  }
+
+  /// Creates a deep copy of the given MarkdownFieldValue list.
+  ///
+  /// 指定されたMarkdownFieldValueリストのディープコピーを作成します。
+  List<MarkdownFieldValue> clone() {
+    final fields = this;
+    return fields.map((field) {
+      return field.copyWith(
+        children: field.children.map<MarkdownBlockValue>((block) {
+          if (block is MarkdownMultiLineBlockValue) {
+            return block.copyWith(
+              children: block.children.map<MarkdownLineValue>((line) {
+                return line.copyWith(
+                  children: line.children.map<MarkdownSpanValue>((span) {
+                    return span.copyWith();
+                  }).toList(),
+                );
+              }).toList(),
+            );
+          } else if (block is MarkdownSingleLineBlockValue) {
+            return block.copyWith(
+              child: block.child.copyWith(
+                children: block.child.children.map<MarkdownSpanValue>((span) {
+                  return span.copyWith();
+                }).toList(),
+              ),
+            );
+          }
+          return block.copyWith();
+        }).toList(),
+      );
+    }).toList();
   }
 }

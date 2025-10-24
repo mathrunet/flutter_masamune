@@ -1,38 +1,5 @@
 part of "/masamune_markdown.dart";
 
-/// Represents a snapshot of document state and cursor position for undo/redo.
-///
-/// Undo/Redo用のドキュメント状態とカーソル位置のスナップショット。
-class _HistorySnapshot {
-  const _HistorySnapshot({
-    required this.fieldValues,
-    required this.cursorPosition,
-  });
-
-  final List<MarkdownFieldValue> fieldValues;
-  final int cursorPosition;
-}
-
-/// Represents clipboard data with block information.
-///
-/// ブロック情報を含むクリップボードデータ。
-class _ClipboardData {
-  const _ClipboardData({
-    required this.spans,
-    this.blockType,
-  });
-
-  /// The spans that were copied.
-  ///
-  /// コピーされたスパン。
-  final List<MarkdownSpanValue> spans;
-
-  /// The type of block if entire block was selected, null otherwise.
-  ///
-  /// ブロック全体が選択された場合のブロックタイプ、それ以外はnull。
-  final String? blockType;
-}
-
 /// Controller for [FormMarkdownField].
 ///
 /// By passing this, you can integrate with [FormMarkdownToolbar] tools.
@@ -76,45 +43,15 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
-  /// Internal clipboard storage for preserving span properties and block information.
+  /// History of clipboard of [MarkdownController].
   ///
-  /// スパンのプロパティとブロック情報を保持するための内部クリップボードストレージ。
-  _ClipboardData? _internalClipboard;
+  /// [MarkdownController]のクリップボード履歴。
+  late final MarkdownClipboard clipboard = MarkdownClipboard._(this);
 
-  /// Undo history stack (stored as deep copied MarkdownFieldValue objects and cursor positions).
+  /// History of [MarkdownController].
   ///
-  /// 元に戻す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとカーソル位置として保存）。
-  final List<_HistorySnapshot> _undoStack = [];
-
-  /// Redo history stack (stored as deep copied MarkdownFieldValue objects and cursor positions).
-  ///
-  /// やり直す履歴スタック（ディープコピーされたMarkdownFieldValueオブジェクトとカーソル位置として保存）。
-  final List<_HistorySnapshot> _redoStack = [];
-
-  /// Maximum number of history entries to keep.
-  ///
-  /// 保持する履歴エントリの最大数。
-  static const int _maxHistorySize = 100;
-
-  /// Timer for debouncing history saves.
-  ///
-  /// 履歴保存のデバウンス用タイマー。
-  Timer? _historyDebounceTimer;
-
-  /// Duration to wait before saving history.
-  ///
-  /// 履歴を保存するまでの待機時間。
-  static const Duration _historyDebounceDuration = Duration(milliseconds: 500);
-
-  /// Tracks if we have pending changes to save.
-  ///
-  /// 保存待ちの変更があるかどうかを追跡します。
-  bool _hasPendingHistorySave = false;
-
-  /// Flag to prevent saving history during undo/redo operations.
-  ///
-  /// Undo/Redo操作中に履歴保存を防ぐフラグ。
-  bool _isUndoRedoInProgress = false;
+  /// [MarkdownController]の履歴。
+  late final MarkdownHistory history = MarkdownHistory._(this);
 
   /// Default style for markdown.
   ///
@@ -136,93 +73,6 @@ class MarkdownController extends MasamuneControllerBase<
 
   MarkdownFieldState? _field;
 
-  /// Creates a deep copy of the given MarkdownFieldValue list.
-  ///
-  /// 指定されたMarkdownFieldValueリストのディープコピーを作成します。
-  List<MarkdownFieldValue> _deepCopyFieldValues(
-      List<MarkdownFieldValue> fields) {
-    return fields.map((field) {
-      return field.copyWith(
-        children: field.children.map<MarkdownBlockValue>((block) {
-          if (block is MarkdownParagraphBlockValue) {
-            return block.copyWith(
-              children: block.children.map<MarkdownLineValue>((line) {
-                return line.copyWith(
-                  children: line.children.map<MarkdownSpanValue>((span) {
-                    return span.copyWith();
-                  }).toList(),
-                );
-              }).toList(),
-            ) as MarkdownBlockValue;
-          }
-          // Add other block types as needed
-          return block.copyWith() as MarkdownBlockValue;
-        }).toList(),
-      );
-    }).toList();
-  }
-
-  /// Saves current state to undo stack immediately.
-  ///
-  /// 現在の状態を元に戻すスタックに即座に保存します。
-  void _saveToUndoStackImmediate() {
-    // Create a deep copy of current state
-    final fieldValuesCopy = _deepCopyFieldValues(_value);
-
-    // Get current cursor position
-    final cursorPosition = _field?._selection.baseOffset ?? 0;
-
-    final snapshot = _HistorySnapshot(
-      fieldValues: fieldValuesCopy,
-      cursorPosition: cursorPosition,
-    );
-
-    _undoStack.add(snapshot);
-
-    // Limit stack size
-    if (_undoStack.length > _maxHistorySize) {
-      _undoStack.removeAt(0);
-    }
-
-    // Clear redo stack when new action is performed
-    if (_redoStack.isNotEmpty) {
-      _redoStack.clear();
-    }
-    _hasPendingHistorySave = false;
-  }
-
-  /// Schedules a history save with debouncing.
-  ///
-  /// デバウンスを使用して履歴保存をスケジュールします。
-  void _scheduleHistorySave() {
-    // Cancel existing timer if any
-    _historyDebounceTimer?.cancel();
-
-    // Mark that we have pending changes
-    _hasPendingHistorySave = true;
-
-    // Schedule a new save
-    _historyDebounceTimer = Timer(_historyDebounceDuration, () {
-      if (_hasPendingHistorySave) {
-        _saveToUndoStackImmediate();
-        // Notify listeners to update UI (e.g., undo/redo button states)
-        notifyListeners();
-      }
-    });
-  }
-
-  /// Saves current state to undo stack (may be debounced).
-  ///
-  /// 現在の状態を元に戻すスタックに保存します（デバウンスされる場合があります）。
-  void _saveToUndoStack({bool immediate = false}) {
-    if (immediate) {
-      _historyDebounceTimer?.cancel();
-      _saveToUndoStackImmediate();
-    } else {
-      _scheduleHistorySave();
-    }
-  }
-
   /// Replaces text in the specified range.
   ///
   /// 指定された範囲のテキストを置換します。
@@ -233,50 +83,31 @@ class MarkdownController extends MasamuneControllerBase<
     if (start == 0 && _value.isNotEmpty) {
       final currentText = getPlainText();
       if (end == currentText.length && text == currentText) {
-        debugPrint("🔍 replaceText: No-op replacement detected, skipping");
         return;
       }
     }
 
     // Skip history saving during undo/redo operations or when explicitly requested
-    if (!_isUndoRedoInProgress && !skipHistory) {
+    if (!history.inProgress && !skipHistory) {
       // Save current state before modification
       // For single character insertion/deletion, save immediately for fine-grained undo
       final isSingleCharEdit = text.length <= 1 && (end - start) <= 1;
 
-      if (_undoStack.isEmpty) {
+      if (history.undoStack.isEmpty) {
         // First edit - save initial empty/current state immediately BEFORE modification
-        _saveToUndoStack(immediate: true);
+        history.saveToUndoStack(immediate: true);
       } else if (isSingleCharEdit) {
         // Single character edit - save immediately for fine-grained undo BEFORE modification
-        _saveToUndoStack(immediate: true);
+        history.saveToUndoStack(immediate: true);
       } else {
         // Multi-character edit (e.g., paste, cut) - save immediately to ensure it's captured
-        _saveToUndoStack(immediate: true);
+        history.saveToUndoStack(immediate: true);
       }
     }
     // Ensure we have a valid structure
     if (_value.isEmpty) {
       // Create initial structure
-      final field = MarkdownFieldValue(
-        id: uuid(),
-        children: [
-          MarkdownParagraphBlockValue(
-            id: uuid(),
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: text,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
+      final field = MarkdownFieldValue.createEmpty(text);
       _value.clear();
       _value.add(field);
       notifyListeners();
@@ -294,20 +125,12 @@ class MarkdownController extends MasamuneControllerBase<
     var localStart = 0;
     var localEnd = 0;
 
-    debugPrint(
-        "🔍 replaceText: Analyzing blocks (total: ${blocks.length}, start=$start, end=$end)");
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
-      if (block is MarkdownParagraphBlockValue ||
-          block is MarkdownBulletedListBlockValue) {
+      if (block is MarkdownMultiLineBlockValue ||
+          block is MarkdownSingleLineBlockValue) {
         final blockText = StringBuffer();
-        List<MarkdownLineValue> blockChildren;
-
-        if (block is MarkdownParagraphBlockValue) {
-          blockChildren = block.children;
-        } else {
-          blockChildren = (block as MarkdownBulletedListBlockValue).children;
-        }
+        final blockChildren = block.extractLines() ?? [];
 
         for (var j = 0; j < blockChildren.length; j++) {
           final line = blockChildren[j];
@@ -323,15 +146,10 @@ class MarkdownController extends MasamuneControllerBase<
         final blockStart = currentOffset;
         final blockEnd = currentOffset + blockLength;
 
-        debugPrint(
-            "   Block $i: start=$blockStart, end=$blockEnd, length=$blockLength, text='${blockText.toString().replaceAll('\n', '\\n')}'");
-
         // Check if this block contains the start position
         if (startBlockIndex == null && blockEnd >= start) {
           startBlockIndex = i;
           localStart = start - blockStart;
-          debugPrint(
-              "      → Contains start position (localStart=$localStart)");
         }
 
         // Check if this block contains the end position
@@ -339,18 +157,12 @@ class MarkdownController extends MasamuneControllerBase<
           endBlockIndex = i;
           endBlockStart = blockStart;
           localEnd = end - blockStart;
-          debugPrint(
-              "      → Contains end position (localEnd=$localEnd, endBlockStart=$endBlockStart)");
           break;
         }
 
         currentOffset += blockLength + 1; // +1 for newline between blocks
       }
     }
-    debugPrint(
-        "   Result: startBlockIndex=$startBlockIndex, endBlockIndex=$endBlockIndex");
-    debugPrint(
-        "   Check: startBlockIndex != endBlockIndex? ${startBlockIndex != endBlockIndex}");
 
     if (startBlockIndex == null) {
       if (blocks.isEmpty) {
@@ -370,14 +182,7 @@ class MarkdownController extends MasamuneControllerBase<
         final lastBlock = blocks[endBlockIndex];
         final lastBlockText = StringBuffer();
 
-        List<MarkdownLineValue> lastBlockChildren;
-        if (lastBlock is MarkdownParagraphBlockValue) {
-          lastBlockChildren = lastBlock.children;
-        } else if (lastBlock is MarkdownBulletedListBlockValue) {
-          lastBlockChildren = lastBlock.children;
-        } else {
-          lastBlockChildren = [];
-        }
+        final lastBlockChildren = lastBlock.extractLines() ?? [];
 
         for (final line in lastBlockChildren) {
           for (final span in line.children) {
@@ -390,20 +195,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     // If blocks is empty, create a new block with the text
     if (blocks.isEmpty) {
-      final newBlock = MarkdownParagraphBlockValue(
-        id: uuid(),
-        children: [
-          MarkdownLineValue(
-            id: uuid(),
-            children: [
-              MarkdownSpanValue(
-                id: uuid(),
-                value: text,
-              ),
-            ],
-          ),
-        ],
-      );
+      final newBlock = MarkdownBlockValue.createEmpty(text);
       blocks.add(newBlock);
 
       final newField = MarkdownFieldValue(
@@ -418,22 +210,12 @@ class MarkdownController extends MasamuneControllerBase<
 
     // If selection spans multiple blocks, merge them
     if (startBlockIndex != endBlockIndex) {
-      debugPrint(
-          "🔄 Multi-block operation: startBlock=$startBlockIndex, endBlock=$endBlockIndex, text='$text'");
-
       // Get text before start in start block
       final startBlock = blocks[startBlockIndex];
       final startBlockText = StringBuffer();
 
       // Extract children based on block type
-      List<MarkdownLineValue> startBlockChildren;
-      if (startBlock is MarkdownParagraphBlockValue) {
-        startBlockChildren = startBlock.children;
-      } else if (startBlock is MarkdownBulletedListBlockValue) {
-        startBlockChildren = startBlock.children;
-      } else {
-        startBlockChildren = [];
-      }
+      final startBlockChildren = startBlock.extractLines() ?? [];
 
       for (final line in startBlockChildren) {
         for (final span in line.children) {
@@ -449,14 +231,7 @@ class MarkdownController extends MasamuneControllerBase<
       final endBlockText = StringBuffer();
 
       // Extract children based on block type
-      List<MarkdownLineValue> endBlockChildren;
-      if (endBlock is MarkdownParagraphBlockValue) {
-        endBlockChildren = endBlock.children;
-      } else if (endBlock is MarkdownBulletedListBlockValue) {
-        endBlockChildren = endBlock.children;
-      } else {
-        endBlockChildren = [];
-      }
+      final endBlockChildren = endBlock.extractLines() ?? [];
 
       for (final line in endBlockChildren) {
         for (final span in line.children) {
@@ -467,9 +242,6 @@ class MarkdownController extends MasamuneControllerBase<
       final safeLocalEnd = localEnd.clamp(0, endBlockTextStr.length);
       final textAfterEnd = endBlockTextStr.substring(safeLocalEnd);
 
-      debugPrint(
-          "   textBeforeStart='$textBeforeStart', textAfterEnd='$textAfterEnd'");
-
       // Calculate what the merged text would be
       final potentialMergedText = textBeforeStart + text + textAfterEnd;
 
@@ -479,14 +251,7 @@ class MarkdownController extends MasamuneControllerBase<
         final block = blocks[i];
 
         // Extract children based on block type
-        List<MarkdownLineValue> blockChildren;
-        if (block is MarkdownParagraphBlockValue) {
-          blockChildren = block.children;
-        } else if (block is MarkdownBulletedListBlockValue) {
-          blockChildren = block.children;
-        } else {
-          blockChildren = [];
-        }
+        final blockChildren = block.extractLines() ?? [];
 
         for (final line in blockChildren) {
           for (final span in line.children) {
@@ -499,16 +264,9 @@ class MarkdownController extends MasamuneControllerBase<
       }
       final originalTextStr = originalText.toString();
 
-      debugPrint("   potentialMergedText='$potentialMergedText'");
-      debugPrint("   originalTextStr='$originalTextStr'");
-      debugPrint(
-          "   Are they equal? ${potentialMergedText == originalTextStr}");
-
       // If the operation would result in the same text, don't merge blocks
       // This happens when selection handles are dragged without actually changing text
       if (potentialMergedText == originalTextStr) {
-        debugPrint("   → Text unchanged, keeping original block structure");
-        // Don't modify anything, just return
         notifyListeners();
         return;
       }
@@ -519,114 +277,12 @@ class MarkdownController extends MasamuneControllerBase<
           text.isEmpty && textBeforeStart.isNotEmpty && textAfterEnd.isNotEmpty;
 
       if (shouldKeepSeparate) {
-        debugPrint(
-            "   → Keeping blocks separate: before='$textBeforeStart', after='$textAfterEnd'");
-
         // Update first block with text before start, preserving block type
-        final MarkdownBlockValue updatedFirstBlock;
-        if (startBlock is MarkdownParagraphBlockValue) {
-          updatedFirstBlock = MarkdownParagraphBlockValue(
-            id: startBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: textBeforeStart,
-                    properties: const [],
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else if (startBlock is MarkdownBulletedListBlockValue) {
-          updatedFirstBlock = MarkdownBulletedListBlockValue(
-            id: startBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: textBeforeStart,
-                    properties: const [],
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else {
-          // Fallback to paragraph for unknown types
-          updatedFirstBlock = MarkdownParagraphBlockValue(
-            id: startBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: textBeforeStart,
-                    properties: const [],
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
+        final updatedFirstBlock =
+            startBlock.clone(initialText: textBeforeStart);
 
         // Update last block with text after end, preserving block type
-        final MarkdownBlockValue updatedLastBlock;
-        if (endBlock is MarkdownParagraphBlockValue) {
-          updatedLastBlock = MarkdownParagraphBlockValue(
-            id: endBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: textAfterEnd,
-                    properties: const [],
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else if (endBlock is MarkdownBulletedListBlockValue) {
-          updatedLastBlock = MarkdownBulletedListBlockValue(
-            id: endBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: textAfterEnd,
-                    properties: const [],
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else {
-          // Fallback to paragraph for unknown types
-          updatedLastBlock = MarkdownParagraphBlockValue(
-            id: endBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: textAfterEnd,
-                    properties: const [],
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
+        final updatedLastBlock = endBlock.clone(initialText: textAfterEnd);
 
         // Remove all blocks in the range
         blocks.removeRange(startBlockIndex, endBlockIndex + 1);
@@ -655,10 +311,7 @@ class MarkdownController extends MasamuneControllerBase<
           textAfterEnd.isEmpty &&
           mergedText.endsWith("\n") &&
           mergedText.isNotEmpty) {
-        debugPrint(
-            "   → Removing trailing newline from merged text (was: ${mergedText.length} chars)");
         mergedText = mergedText.substring(0, mergedText.length - 1);
-        debugPrint("   → New merged text: ${mergedText.length} chars");
       }
 
       // If merged text is empty, just remove the blocks without creating a new one
@@ -668,73 +321,11 @@ class MarkdownController extends MasamuneControllerBase<
 
         // If all blocks were removed, create an empty block
         if (blocks.isEmpty) {
-          blocks.add(MarkdownParagraphBlockValue(
-            id: uuid(),
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: "",
-                  ),
-                ],
-              ),
-            ],
-          ));
+          blocks.add(MarkdownBlockValue.createEmpty());
         }
       } else {
         // Create new merged block, preserving the type of the first block
-        final MarkdownBlockValue mergedBlock;
-        if (startBlock is MarkdownParagraphBlockValue) {
-          mergedBlock = MarkdownParagraphBlockValue(
-            id: startBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: mergedText,
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else if (startBlock is MarkdownBulletedListBlockValue) {
-          debugPrint(
-              "   → Creating merged BulletedList block (preserving first block type)");
-          mergedBlock = MarkdownBulletedListBlockValue(
-            id: startBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: mergedText,
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else {
-          // Fallback to paragraph for unknown types
-          mergedBlock = MarkdownParagraphBlockValue(
-            id: startBlock.id,
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: mergedText,
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
+        final mergedBlock = startBlock.clone(initialText: mergedText);
 
         // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
         blocks.removeRange(startBlockIndex, endBlockIndex + 1);
@@ -761,16 +352,12 @@ class MarkdownController extends MasamuneControllerBase<
     final targetBlock = blocks[targetBlockIndex];
 
     // Get children based on block type
-    List<MarkdownLineValue> targetBlockChildren;
-    if (targetBlock is MarkdownParagraphBlockValue) {
-      targetBlockChildren = targetBlock.children;
-    } else if (targetBlock is MarkdownBulletedListBlockValue) {
-      targetBlockChildren = targetBlock.children;
-    } else {
-      // Unknown block type, skip
+    if (targetBlock is! MarkdownMultiLineBlockValue &&
+        targetBlock is! MarkdownSingleLineBlockValue) {
       notifyListeners();
       return;
     }
+    final targetBlockChildren = targetBlock.extractLines() ?? [];
 
     // Get current text in the block
     final blockText = StringBuffer();
@@ -817,57 +404,27 @@ class MarkdownController extends MasamuneControllerBase<
     // Check if we need to remove a trailing newline
     var removedTrailingNewline = false;
     if (text.isEmpty && newText.endsWith("\n") && newText.isNotEmpty) {
-      debugPrint(
-          "   → Single block: Removing trailing newline (was: ${newText.length} chars)");
       newText = newText.substring(0, newText.length - 1);
-      debugPrint("   → New text: ${newText.length} chars");
       removedTrailingNewline = true;
     }
 
     // If we removed a trailing newline, create a simple span with the new text
     // and skip the complex span merging logic (which would add the newline back)
     if (removedTrailingNewline) {
-      debugPrint("   → Creating simple span from corrected text");
-
-      final MarkdownBlockValue newBlock;
-      if (targetBlock is MarkdownParagraphBlockValue) {
-        newBlock = MarkdownParagraphBlockValue(
-          id: targetBlock.id,
+      final MarkdownBlockValue newBlock = targetBlock.clone(
+        child: MarkdownLineValue(
+          id: targetBlockChildren.isNotEmpty
+              ? targetBlockChildren.first.id
+              : uuid(),
           children: [
-            MarkdownLineValue(
-              id: targetBlockChildren.isNotEmpty
-                  ? targetBlockChildren.first.id
-                  : uuid(),
-              children: [
-                MarkdownSpanValue(
-                  id: uuid(),
-                  value: newText,
-                  properties: const [],
-                ),
-              ],
+            MarkdownSpanValue(
+              id: uuid(),
+              value: newText,
+              properties: const [],
             ),
           ],
-        );
-      } else {
-        // BulletedList
-        newBlock = MarkdownBulletedListBlockValue(
-          id: targetBlock.id,
-          children: [
-            MarkdownLineValue(
-              id: targetBlockChildren.isNotEmpty
-                  ? targetBlockChildren.first.id
-                  : uuid(),
-              children: [
-                MarkdownSpanValue(
-                  id: uuid(),
-                  value: newText,
-                  properties: const [],
-                ),
-              ],
-            ),
-          ],
-        );
-      }
+        ),
+      );
 
       blocks[targetBlockIndex] = newBlock;
 
@@ -891,12 +448,6 @@ class MarkdownController extends MasamuneControllerBase<
     final newSpans = <MarkdownSpanValue>[];
     var currentPos = 0;
 
-    debugPrint("🔧 replaceText: Building new spans");
-    debugPrint("  oldText: '$oldText' (${oldText.length} chars)");
-    debugPrint("  newText will be: '$newText' (${newText.length} chars)");
-    debugPrint("  safeStart=$safeStart, safeEnd=$safeEnd, text='$text'");
-    debugPrint("  existingSpans.length=${existingSpans.length}");
-
     // Process existing spans and split them if necessary
     for (final span in existingSpans) {
       // Skip empty spans - they should be removed
@@ -907,45 +458,28 @@ class MarkdownController extends MasamuneControllerBase<
       final spanStart = currentPos;
       final spanEnd = currentPos + span.value.length;
 
-      debugPrint(
-          "    Processing span: '${span.value}' at pos $spanStart-$spanEnd");
-
       // Check if this span is affected by the replacement
       if (safeEnd < spanStart) {
-        // Span is entirely after the replacement - keep as is
-        debugPrint("      -> Span is after replacement, keeping as is");
         newSpans.add(span);
       } else if (safeStart >= spanEnd) {
-        // Span is entirely before the replacement - keep as is
-        debugPrint("      -> Span is before replacement, keeping as is");
         newSpans.add(span);
 
         // If we're inserting at the end of this span, add the new text after it
         if (safeStart == spanEnd && text.isNotEmpty) {
-          debugPrint("      -> Inserting text after this span");
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
             value: text,
-            properties: const [],
           ));
         }
       } else if (safeStart == safeEnd &&
           safeStart == spanStart &&
           text.isNotEmpty) {
-        // Special case: inserting at the exact start of a span (e.g., paste at offset 0)
-        debugPrint("      -> Inserting text before this span");
         newSpans.add(MarkdownSpanValue(
           id: uuid(),
           value: text,
-          properties: const [],
         ));
         newSpans.add(span);
       } else {
-        debugPrint("      -> Span overlaps with replacement");
-        // Span overlaps with the replacement range
-        // Split into: before, replacement, after
-
-        // Before replacement (if any)
         if (spanStart < safeStart) {
           final beforeText = span.value.substring(0, safeStart - spanStart);
           newSpans.add(span.copyWith(
@@ -959,7 +493,6 @@ class MarkdownController extends MasamuneControllerBase<
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
             value: text,
-            properties: const [], // New text has no properties
           ));
         }
 
@@ -976,18 +509,11 @@ class MarkdownController extends MasamuneControllerBase<
       currentPos += span.value.length;
     }
 
-    debugPrint("  After processing spans: newSpans.length=${newSpans.length}");
-    for (var i = 0; i < newSpans.length; i++) {
-      debugPrint("    newSpans[$i]: '${newSpans[i].value}'");
-    }
-
     // If replacement is at the end or in an empty block, add the text without properties
     if (newSpans.isEmpty && text.isNotEmpty) {
-      debugPrint("  Adding text to empty newSpans");
       newSpans.add(MarkdownSpanValue(
         id: uuid(),
         value: text,
-        properties: const [],
       ));
     }
 
@@ -1001,38 +527,18 @@ class MarkdownController extends MasamuneControllerBase<
             MarkdownSpanValue(
               id: uuid(),
               value: newText,
-              properties: const [],
             )
           ];
 
     // Create updated block with new spans
-    final MarkdownBlockValue newBlock;
-    if (targetBlock is MarkdownParagraphBlockValue) {
-      newBlock = MarkdownParagraphBlockValue(
-        id: targetBlock.id,
-        children: [
-          MarkdownLineValue(
-            id: targetBlockChildren.isNotEmpty
-                ? targetBlockChildren.first.id
-                : uuid(),
-            children: finalSpans,
-          ),
-        ],
-      );
-    } else {
-      // BulletedList
-      newBlock = MarkdownBulletedListBlockValue(
-        id: targetBlock.id,
-        children: [
-          MarkdownLineValue(
-            id: targetBlockChildren.isNotEmpty
-                ? targetBlockChildren.first.id
-                : uuid(),
-            children: finalSpans,
-          ),
-        ],
-      );
-    }
+    final MarkdownBlockValue newBlock = targetBlock.clone(
+      child: MarkdownLineValue(
+        id: targetBlockChildren.isNotEmpty
+            ? targetBlockChildren.first.id
+            : uuid(),
+        children: finalSpans,
+      ),
+    );
 
     // Update blocks list
     blocks[targetBlockIndex] = newBlock;
@@ -1047,132 +553,20 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
-  /// Checks if the document can be redone.
-  ///
-  /// ドキュメントがやり直し可能かどうかを確認します。
-  bool get canRedo => _redoStack.isNotEmpty;
-
-  /// Checks if the document can be undone.
-  ///
-  /// ドキュメントが元に戻し可能かどうかを確認します。
-  bool get canUndo => _undoStack.isNotEmpty;
-
-  /// Redoes the document.
-  ///
-  /// ドキュメントをやり直します。
-  void redo() {
-    if (!canRedo) {
-      return;
-    }
-
-    // Set flag to prevent history saves during redo
-    _isUndoRedoInProgress = true;
-
-    try {
-      // Cancel any pending history saves
-      _historyDebounceTimer?.cancel();
-      _hasPendingHistorySave = false;
-
-      // Save current state to undo stack (deep copy with cursor position)
-      final currentFieldValuesCopy = _deepCopyFieldValues(_value);
-      final currentCursorPosition = _field?._selection.baseOffset ?? 0;
-      final currentSnapshot = _HistorySnapshot(
-        fieldValues: currentFieldValuesCopy,
-        cursorPosition: currentCursorPosition,
-      );
-      _undoStack.add(currentSnapshot);
-
-      // Restore from redo stack
-      final snapshot = _redoStack.removeLast();
-      _value.clear();
-      _value.addAll(snapshot.fieldValues);
-
-      // Restore cursor position from snapshot and clear IME state
-      if (_field != null) {
-        final restoredPosition =
-            snapshot.cursorPosition.clamp(0, getPlainText().length);
-        _field!._selection = TextSelection.collapsed(offset: restoredPosition);
-        _field!.clearComposingState(); // Clear IME composing state
-        _field!._updateRemoteEditingValue();
-      }
-
-      notifyListeners();
-    } finally {
-      // Reset flag
-      _isUndoRedoInProgress = false;
-    }
-  }
-
-  /// Undoes the document.
-  ///
-  /// ドキュメントを元に戻します。
-  void undo() {
-    // If there are pending changes, save them first
-    if (_hasPendingHistorySave) {
-      _historyDebounceTimer?.cancel();
-      _saveToUndoStackImmediate();
-    }
-
-    if (!canUndo) {
-      return;
-    }
-
-    // Set flag to prevent history saves during undo
-    _isUndoRedoInProgress = true;
-
-    try {
-      // Cancel any pending history saves
-      _historyDebounceTimer?.cancel();
-      _hasPendingHistorySave = false;
-
-      final currentCursorPosition = _field?._selection.baseOffset ?? 0;
-
-      // Save current state to redo stack (deep copy with cursor position)
-      final currentFieldValuesCopy = _deepCopyFieldValues(_value);
-      final currentSnapshot = _HistorySnapshot(
-        fieldValues: currentFieldValuesCopy,
-        cursorPosition: currentCursorPosition,
-      );
-      _redoStack.add(currentSnapshot);
-
-      // Restore from undo stack
-      final snapshot = _undoStack.removeLast();
-      _value.clear();
-      _value.addAll(snapshot.fieldValues);
-
-      // Restore cursor position from snapshot and clear IME state
-      if (_field != null) {
-        final textLength = getPlainText().length;
-        final restoredPosition = snapshot.cursorPosition.clamp(0, textLength);
-        _field!._selection = TextSelection.collapsed(offset: restoredPosition);
-        _field!.clearComposingState(); // Clear IME composing state
-        _field!._updateRemoteEditingValue();
-      }
-
-      notifyListeners();
-    } finally {
-      // Reset flag
-      _isUndoRedoInProgress = false;
-    }
-  }
-
   /// Checks if the block can be increased indent.
   ///
   /// ブロックがインデントを増やすことができるかどうかを確認します。
   bool get canIncreaseIndent {
     if (_field == null) {
-      debugPrint("🔍 canIncreaseIndent: _field == null");
       return false;
     }
 
     final selection = _field!._selection;
     if (!selection.isValid) {
-      debugPrint("🔍 canIncreaseIndent: selection.isValid == false");
       return false;
     }
 
     if (_value.isEmpty) {
-      debugPrint("🔍 canIncreaseIndent: _value.isEmpty");
       return false;
     }
 
@@ -1180,15 +574,12 @@ class MarkdownController extends MasamuneControllerBase<
     final blocks = field.children;
 
     if (blocks.isEmpty) {
-      debugPrint("🔍 canIncreaseIndent: blocks.isEmpty");
       return false;
     }
 
     // Find which blocks are selected
     final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
-    debugPrint("🔍 canIncreaseIndent: selectedBlocks=$selectedBlocks");
     if (selectedBlocks.isEmpty) {
-      debugPrint("🔍 canIncreaseIndent: selectedBlocks.isEmpty");
       return false;
     }
 
@@ -1198,15 +589,10 @@ class MarkdownController extends MasamuneControllerBase<
         continue;
       }
       final block = blocks[blockIndex];
-      debugPrint(
-          "🔍 canIncreaseIndent: block[$blockIndex]=${block.runtimeType}, indent=${block.indent}");
       if (block.indent < 5) {
-        debugPrint("✅ canIncreaseIndent: true");
         return true;
       }
     }
-
-    debugPrint("❌ canIncreaseIndent: false (all blocks have indent >= 5)");
     return false;
   }
 
@@ -1263,7 +649,7 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Save current state before modification
-    _saveToUndoStack(immediate: true);
+    history.saveToUndoStack(immediate: true);
 
     final selection = _field!._selection;
     final field = _value.first;
@@ -1276,12 +662,8 @@ class MarkdownController extends MasamuneControllerBase<
     for (final blockIndex in selectedBlocks) {
       if (blockIndex < blocks.length) {
         final block = blocks[blockIndex];
-        if (block.indent < 5) {
-          if (block is MarkdownParagraphBlockValue) {
-            blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
-          } else if (block is MarkdownBulletedListBlockValue) {
-            blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
-          }
+        if (block.indent < 5 && block.canIndent) {
+          blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
         }
       }
     }
@@ -1302,7 +684,7 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Save current state before modification
-    _saveToUndoStack(immediate: true);
+    history.saveToUndoStack(immediate: true);
 
     final selection = _field!._selection;
     final field = _value.first;
@@ -1315,12 +697,8 @@ class MarkdownController extends MasamuneControllerBase<
     for (final blockIndex in selectedBlocks) {
       if (blockIndex < blocks.length) {
         final block = blocks[blockIndex];
-        if (block.indent > 0) {
-          if (block is MarkdownParagraphBlockValue) {
-            blocks[blockIndex] = block.copyWith(indent: block.indent - 1);
-          } else if (block is MarkdownBulletedListBlockValue) {
-            blocks[blockIndex] = block.copyWith(indent: block.indent - 1);
-          }
+        if (block.indent > 0 && block.canIndent) {
+          blocks[blockIndex] = block.copyWith(indent: block.indent - 1);
         }
       }
     }
@@ -1332,61 +710,6 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
-  /// Gets the list of block indices that are within the selection range.
-  ///
-  /// 選択範囲内にあるブロックのインデックスのリストを取得します。
-  List<int> _getSelectedBlocks(int start, int end) {
-    if (_value.isEmpty) {
-      return [];
-    }
-
-    final field = _value.first;
-    final blocks = field.children;
-    final selectedBlockIndices = <int>[];
-
-    var currentOffset = 0;
-
-    for (var i = 0; i < blocks.length; i++) {
-      final block = blocks[i];
-      List<MarkdownLineValue>? blockChildren;
-
-      if (block is MarkdownParagraphBlockValue) {
-        blockChildren = block.children;
-      } else if (block is MarkdownBulletedListBlockValue) {
-        blockChildren = block.children;
-      }
-
-      if (blockChildren != null) {
-        final blockText = StringBuffer();
-        for (var j = 0; j < blockChildren.length; j++) {
-          final line = blockChildren[j];
-          for (final span in line.children) {
-            blockText.write(span.value);
-          }
-          if (j < blockChildren.length - 1) {
-            blockText.writeln();
-          }
-        }
-
-        final blockLength = blockText.toString().length;
-        final blockStart = currentOffset;
-        final blockEnd = currentOffset + blockLength;
-
-        // Check if this block is within the selection
-        // A block is selected if the selection overlaps with it
-        if ((start >= blockStart && start <= blockEnd) ||
-            (end >= blockStart && end <= blockEnd) ||
-            (start <= blockStart && end >= blockEnd)) {
-          selectedBlockIndices.add(i);
-        }
-
-        currentOffset += blockLength + 1; // +1 for newline between blocks
-      }
-    }
-
-    return selectedBlockIndices;
-  }
-
   /// Inserts a block at the specified offset.
   ///
   /// 指定されたオフセット位置にブロックを挿入します。
@@ -1396,9 +719,8 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Save current state before modification
-    if (!_isUndoRedoInProgress) {
-      debugPrint("💾 insertBlock: Saving to undo stack");
-      _saveToUndoStack(immediate: true);
+    if (!history.inProgress) {
+      history.saveToUndoStack(immediate: true);
     }
 
     // Ensure we have a valid structure
@@ -1454,51 +776,12 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Create new block based on tool type
-    MarkdownBlockValue newBlock;
-
-    if (tool is BulletedListAddMarkdownBlockTools) {
-      newBlock = MarkdownBulletedListBlockValue(
-        id: uuid(),
-        children: [
-          MarkdownLineValue(
-            id: uuid(),
-            children: [
-              MarkdownSpanValue(
-                id: uuid(),
-                value: "",
-              ),
-            ],
-          ),
-        ],
-      );
-    } else {
-      // Default to paragraph block
-      newBlock = MarkdownParagraphBlockValue(
-        id: uuid(),
-        children: [
-          MarkdownLineValue(
-            id: uuid(),
-            children: [
-              MarkdownSpanValue(
-                id: uuid(),
-                value: "",
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-
-    // Insert the new block
+    final newBlock = tool.addBlock();
     blocks.insert(insertionIndex, newBlock);
 
     // Update field
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
-
-    debugPrint("📦 insertBlock: Created new block at index $insertionIndex");
-    debugPrint("   Total blocks: ${blocks.length}");
-    debugPrint("   New block type: ${newBlock.type}");
 
     // Move cursor to the beginning of the new block (inside the block, not before it)
     if (_field != null) {
@@ -1508,40 +791,14 @@ class MarkdownController extends MasamuneControllerBase<
         newCursorPosition +=
             _getBlockTextLength(blocks[i]) + 1; // +1 for newline
       }
-      // Now newCursorPosition points to the start of the new block
-      // No need to add anything - we want the cursor at position 0 within the new block
-
-      debugPrint("   Setting cursor position to: $newCursorPosition");
-      debugPrint("   Total text length: ${getPlainText().length}");
 
       _field!._selection = TextSelection.collapsed(offset: newCursorPosition);
     }
 
-    // Check input connection state before notifyListeners
-    final hasConnectionBefore = _field?._hasInputConnection ?? false;
-    debugPrint(
-        "📢 Before notifyListeners: _hasInputConnection=$hasConnectionBefore");
-
     // Notify listeners first to update UI state
     notifyListeners();
 
-    // Check input connection state after notifyListeners
-    final hasConnectionAfter = _field?._hasInputConnection ?? false;
-    debugPrint(
-        "📢 After notifyListeners: _hasInputConnection=$hasConnectionAfter");
-
-    // Reopen IME connection after block insertion
-    // This is needed because the toolbar hides the keyboard when showing block menu
-    // which detaches the TextInputClient without closing the connection
-    debugPrint("⌨️ Reopening input connection after block insertion");
-    if (_field != null) {
-      _field!.reopenInputConnection();
-      final hasConnectionAfterReopen = _field!._hasInputConnection;
-      debugPrint(
-          "📢 After reopenInputConnection: _hasInputConnection=$hasConnectionAfterReopen");
-    } else {
-      debugPrint("⚠️ _field is null, cannot reopen input connection");
-    }
+    _field?.reopenInputConnection();
   }
 
   /// Exchanges a block at the specified index.
@@ -1553,9 +810,8 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Save current state before modification
-    if (!_isUndoRedoInProgress) {
-      debugPrint("💾 exchangeBlock: Saving to undo stack");
-      _saveToUndoStack(immediate: true);
+    if (!history.inProgress) {
+      history.saveToUndoStack(immediate: true);
     }
 
     if (_value.isEmpty) {
@@ -1602,38 +858,9 @@ class MarkdownController extends MasamuneControllerBase<
     final targetBlock = blocks[targetBlockIndex];
 
     // Convert block based on tool type
-    MarkdownBlockValue newBlock;
+    final newBlock = tool.exchangeBlock(targetBlock);
 
-    if (tool is BulletedListExchangeMarkdownBlockTools ||
-        tool is BulletedListAddMarkdownBlockTools) {
-      // Convert to BulletedList
-      if (targetBlock is MarkdownParagraphBlockValue) {
-        newBlock = MarkdownBulletedListBlockValue(
-          id: targetBlock.id,
-          children: targetBlock.children,
-          indent: targetBlock.indent,
-        );
-      } else if (targetBlock is MarkdownBulletedListBlockValue) {
-        // Already a bulleted list, no change needed
-        return;
-      } else {
-        return;
-      }
-    } else if (tool is TextExchangeMarkdownBlockTools) {
-      // Convert to Text (Paragraph)
-      if (targetBlock is MarkdownBulletedListBlockValue) {
-        newBlock = MarkdownParagraphBlockValue(
-          id: targetBlock.id,
-          children: targetBlock.children,
-          indent: targetBlock.indent,
-        );
-      } else if (targetBlock is MarkdownParagraphBlockValue) {
-        // Already a paragraph, no change needed
-        return;
-      } else {
-        return;
-      }
-    } else {
+    if (newBlock == null) {
       return;
     }
 
@@ -1644,32 +871,31 @@ class MarkdownController extends MasamuneControllerBase<
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
-    debugPrint("🔄 exchangeBlock→${newBlock.runtimeType}");
     notifyListeners();
   }
 
   /// Changes the inline text at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
-  void addInlineProperty(MarkdownPropertyTools tool,
-      {int? start, int? end, Object? value, bool skipHistory = false}) {
+  void addInlineProperty(
+    MarkdownPropertyTools tool, {
+    int? start,
+    int? end,
+    Object? value,
+    bool skipHistory = false,
+  }) {
     if (_field == null) {
       return;
     }
 
     // Save current state before modification
-    if (!_isUndoRedoInProgress && !skipHistory) {
-      debugPrint("💾 addInlineProperty: Saving to undo stack");
-      _saveToUndoStack(immediate: true);
+    if (!history.inProgress && !skipHistory) {
+      history.saveToUndoStack(immediate: true);
     }
 
     // If there's composing text, just clear it
     // The text is already in the controller, no need to replace
     if (_field!.composingText != null) {
-      debugPrint("🎨 addInlineProperty: clearing composing state");
-      debugPrint("  composingText: '${_field!.composingText}'");
-      debugPrint("  controller text: '${getPlainText()}'");
-
       // Clear composing state
       _field!._composingText = null;
       _field!._composingRegion = null;
@@ -1709,7 +935,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
-      if (block is MarkdownParagraphBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         final blockStart = currentOffset;
         final blockLength = _getBlockTextLength(block);
         final blockEnd = blockStart + blockLength;
@@ -1793,6 +1019,8 @@ class MarkdownController extends MasamuneControllerBase<
 
         blocks[i] = block.copyWith(children: updatedLines);
         currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+      } else if (block is MarkdownSingleLineBlockValue) {
+        // TODO: Implement single line block
       }
     }
 
@@ -1812,18 +1040,13 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // Save current state before modification
-    if (!_isUndoRedoInProgress) {
-      debugPrint("💾 removeInlineProperty: Saving to undo stack");
-      _saveToUndoStack(immediate: true);
+    if (!history.inProgress) {
+      history.saveToUndoStack(immediate: true);
     }
 
     // If there's composing text, just clear it
     // The text is already in the controller, no need to replace
     if (_field!.composingText != null) {
-      debugPrint("🎨 removeInlineProperty: clearing composing state");
-      debugPrint("  composingText: '${_field!.composingText}'");
-      debugPrint("  controller text: '${getPlainText()}'");
-
       // Clear composing state
       _field!._composingText = null;
       _field!._composingRegion = null;
@@ -1853,7 +1076,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
-      if (block is MarkdownParagraphBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         final lines = List<MarkdownLineValue>.from(block.children);
         final updatedLines = <MarkdownLineValue>[];
 
@@ -1927,6 +1150,8 @@ class MarkdownController extends MasamuneControllerBase<
 
         blocks[i] = block.copyWith(children: updatedLines);
         currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+      } else if (block is MarkdownSingleLineBlockValue) {
+        // TODO: Implement single line block
       }
     }
 
@@ -1969,7 +1194,7 @@ class MarkdownController extends MasamuneControllerBase<
     var hasNonMentionSpan = false;
 
     for (final block in blocks) {
-      if (block is MarkdownParagraphBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         for (final line in block.children) {
           var lineOffset = currentOffset;
 
@@ -2006,6 +1231,8 @@ class MarkdownController extends MasamuneControllerBase<
         if (!allHaveProperty) {
           break;
         }
+      } else if (block is MarkdownSingleLineBlockValue) {
+        // TODO: Implement single line block
       }
     }
 
@@ -2045,65 +1272,6 @@ class MarkdownController extends MasamuneControllerBase<
     return properties.any((e) => e.type == tool.id);
   }
 
-  /// Merges consecutive spans with the same property.
-  ///
-  /// 同じプロパティを持つ連続したスパンをマージします。
-  List<MarkdownSpanValue> _mergeSpans(List<MarkdownSpanValue> spans) {
-    if (spans.isEmpty) {
-      return spans;
-    }
-
-    final merged = <MarkdownSpanValue>[];
-    var current = spans.first;
-
-    for (var i = 1; i < spans.length; i++) {
-      final next = spans[i];
-      if (current.properties.equalsTo(next.properties)) {
-        // Merge
-        current = current.copyWith(value: current.value + next.value);
-      } else {
-        merged.add(current);
-        current = next;
-      }
-    }
-    merged.add(current);
-
-    return merged;
-  }
-
-  /// Gets the text length of a block.
-  ///
-  /// ブロックのテキストの長さを取得します。
-  int _getBlockTextLength(MarkdownBlockValue block) {
-    if (block is MarkdownParagraphBlockValue) {
-      final blockText = StringBuffer();
-      for (var j = 0; j < block.children.length; j++) {
-        final line = block.children[j];
-        for (final span in line.children) {
-          blockText.write(span.value);
-        }
-        if (j < block.children.length - 1) {
-          blockText.writeln();
-        }
-      }
-      return blockText.toString().length;
-    } else if (block is MarkdownBulletedListBlockValue) {
-      // For bulleted lists, calculate text length WITHOUT the marker
-      final blockText = StringBuffer();
-      for (var j = 0; j < block.children.length; j++) {
-        final line = block.children[j];
-        for (final span in line.children) {
-          blockText.write(span.value);
-        }
-        if (j < block.children.length - 1) {
-          blockText.writeln();
-        }
-      }
-      return blockText.toString().length;
-    }
-    return 0;
-  }
-
   /// Unselects the text.
   ///
   /// テキストの選択を解除します。
@@ -2111,567 +1279,16 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
-  /// Extracts spans from the selected range, preserving their properties.
-  ///
-  /// 選択範囲からスパンを抽出し、そのプロパティを保持します。
-  List<MarkdownSpanValue> _extractSpansFromSelection(int start, int end) {
-    if (_value.isEmpty) {
-      return [];
-    }
-
-    final field = _value.first;
-    final blocks = field.children;
-    final extractedSpans = <MarkdownSpanValue>[];
-
-    var currentOffset = 0;
-
-    for (final block in blocks) {
-      if (block is MarkdownParagraphBlockValue) {
-        for (final line in block.children) {
-          var lineOffset = currentOffset;
-
-          for (final span in line.children) {
-            final spanStart = lineOffset;
-            final spanEnd = lineOffset + span.value.length;
-
-            // Check if this span overlaps with the selection
-            if (end > spanStart && start < spanEnd) {
-              // Calculate the overlap
-              final overlapStart = start > spanStart ? start : spanStart;
-              final overlapEnd = end < spanEnd ? end : spanEnd;
-
-              // Extract the overlapping portion
-              final extractedText = span.value.substring(
-                overlapStart - spanStart,
-                overlapEnd - spanStart,
-              );
-
-              // Create a new span with the extracted text and same properties
-              extractedSpans.add(span.copyWith(
-                id: uuid(),
-                value: extractedText,
-              ));
-            }
-
-            lineOffset += span.value.length;
-          }
-        }
-
-        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
-      }
-    }
-
-    return extractedSpans;
-  }
-
-  /// Checks if the selection encompasses an entire block.
-  ///
-  /// 選択範囲がブロック全体を含むかどうかをチェックします。
-  ({bool isFullBlock, String? blockType})? _isFullBlockSelected(
-      int start, int end) {
-    if (_value.isEmpty) {
-      return null;
-    }
-
-    var currentOffset = 0;
-
-    for (final field in _value) {
-      for (final block in field.children) {
-        final blockLength = _getBlockTextLength(block);
-        final blockStart = currentOffset;
-        final blockEnd = currentOffset + blockLength;
-
-        // Check if selection exactly matches this block
-        if (start == blockStart && end == blockEnd) {
-          return (isFullBlock: true, blockType: block.type);
-        }
-
-        currentOffset = blockEnd + 1; // +1 for newline
-      }
-    }
-
-    return (isFullBlock: false, blockType: null);
-  }
-
-  /// Copies the selected text to clipboard.
-  ///
-  /// 選択されたテキストをクリップボードにコピーします。
-  Future<void> copy() async {
-    if (_field == null) {
-      return;
-    }
-
-    final selection = _field!._selection;
-
-    if (!selection.isValid || selection.isCollapsed) {
-      return;
-    }
-
-    // Get text including composing text during IME input
-    final text = _field!.composingText ?? getPlainText();
-
-    // Validate selection range
-    if (selection.end > text.length) {
-      return;
-    }
-
-    final selectedText = selection.textInside(text);
-
-    if (selectedText.isNotEmpty) {
-      // Extract spans with their properties
-      final extractedSpans =
-          _extractSpansFromSelection(selection.start, selection.end);
-
-      // Check if entire block is selected
-      final blockInfo = _isFullBlockSelected(selection.start, selection.end);
-      final blockType =
-          (blockInfo?.isFullBlock ?? false) ? blockInfo?.blockType : null;
-
-      // Store in internal clipboard with block information
-      _internalClipboard = _ClipboardData(
-        spans: extractedSpans,
-        blockType: blockType,
-      );
-
-      // Also copy plain text to system clipboard for external paste
-      await Clipboard.setData(ClipboardData(text: selectedText));
-
-      // Unselect text after copying
-      _field!._selection = TextSelection.collapsed(offset: selection.end);
-      _field!._updateRemoteEditingValue();
-      notifyListeners();
-    }
-  }
-
-  /// Cuts the selected text to clipboard and removes it.
-  ///
-  /// 選択されたテキストをクリップボードに切り取り、削除します。
-  Future<void> cut() async {
-    if (_field == null) {
-      return;
-    }
-
-    // If there's composing text, commit it first before cutting
-    if (_field!.composingText != null) {
-      final composingText = _field!.composingText!;
-      final currentText = getPlainText();
-
-      // Commit the composing text to controller
-      replaceText(0, currentText.length, composingText);
-
-      // Clear composing state
-      _field!._composingText = null;
-      _field!._composingRegion = null;
-
-      // Keep the current selection
-      _field!._updateRemoteEditingValue();
-    }
-
-    final selection = _field!._selection;
-
-    if (!selection.isValid || selection.isCollapsed) {
-      return;
-    }
-
-    // Get text including composing text during IME input
-    final text = _field!.composingText ?? getPlainText();
-
-    // Validate selection range
-    if (selection.end > text.length) {
-      return;
-    }
-
-    final selectedText = selection.textInside(text);
-
-    if (selectedText.isNotEmpty) {
-      // Extract spans with their properties
-      // IMPORTANT: Must be done BEFORE replaceText, as replaceText may merge spans
-      final extractedSpans =
-          _extractSpansFromSelection(selection.start, selection.end);
-
-      // Check if entire block is selected
-      final blockInfo = _isFullBlockSelected(selection.start, selection.end);
-      final blockType =
-          (blockInfo?.isFullBlock ?? false) ? blockInfo?.blockType : null;
-
-      // Store in internal clipboard with block information
-      _internalClipboard = _ClipboardData(
-        spans: extractedSpans,
-        blockType: blockType,
-      );
-
-      debugPrint(
-          "🔪 cut: Extracted ${extractedSpans.length} spans to internal clipboard");
-      debugPrint("  Block type: ${blockType ?? 'none (partial selection)'}");
-      for (var i = 0; i < extractedSpans.length; i++) {
-        final span = extractedSpans[i];
-        debugPrint(
-            "  span[$i]: '${span.value}' with ${span.properties.length} properties");
-        for (var prop in span.properties) {
-          debugPrint("    - ${prop.type}");
-        }
-      }
-
-      // Also copy plain text to system clipboard for external paste
-      await Clipboard.setData(ClipboardData(text: selectedText));
-
-      // Save current state before modification (replaceText will also save, so we skip it here)
-      // Delete the selected text
-      replaceText(selection.start, selection.end, "");
-
-      // Update selection to collapsed at start position
-      _field!._selection = TextSelection.collapsed(offset: selection.start);
-      _field!._updateRemoteEditingValue();
-    }
-  }
-
-  /// Pastes text from clipboard at the cursor position.
-  ///
-  /// クリップボードからカーソル位置にテキストをペーストします。
-  Future<void> paste() async {
-    if (_field == null) {
-      return;
-    }
-
-    debugPrint("📋 paste() called");
-    debugPrint("  Current selection: ${_field!._selection}");
-    debugPrint("  Current text: '${getPlainText()}'");
-    debugPrint("  composingText: '${_field!.composingText ?? 'null'}'");
-
-    // If there's composing text, just clear it
-    // The text is already in the controller, no need to replace
-    if (_field!.composingText != null) {
-      debugPrint("  Clearing composing state before paste");
-      // Clear composing state
-      _field!._composingText = null;
-      _field!._composingRegion = null;
-
-      // Keep the current selection
-      _field!._updateRemoteEditingValue();
-    }
-
-    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-
-    if (clipboardData == null || clipboardData.text == null) {
-      debugPrint("  No clipboard data");
-      return;
-    }
-
-    final text = clipboardData.text!;
-    debugPrint("  Clipboard text: '$text'");
-
-    if (text.isEmpty) {
-      debugPrint("  Clipboard text is empty");
-      return;
-    }
-
-    final selection = _field!._selection;
-
-    if (!selection.isValid) {
-      debugPrint("  Selection is invalid");
-      return;
-    }
-
-    // If there's a selection, replace it with pasted text
-    // If cursor is collapsed, insert at cursor position
-    final start = selection.start;
-    final end = selection.end;
-    debugPrint("  Pasting at position $start-$end");
-
-    // Check if the pasted text contains newlines
-    if (text.contains("\n")) {
-      // Split by newlines and insert them one by one
-      final lines = text.split("\n");
-
-      // First, delete the selected text if any
-      if (end > start) {
-        replaceText(start, end, "");
-      }
-
-      var currentOffset = start;
-
-      // Insert first line at the cursor position
-      if (lines.isNotEmpty && lines.first.isNotEmpty) {
-        replaceText(currentOffset, currentOffset, lines.first);
-        currentOffset += lines.first.length;
-      }
-
-      // For each additional line, insert a new paragraph
-      for (var i = 1; i < lines.length; i++) {
-        insertNewLine(currentOffset);
-        currentOffset++; // Account for the newline character
-
-        if (lines[i].isNotEmpty) {
-          replaceText(currentOffset, currentOffset, lines[i]);
-          currentOffset += lines[i].length;
-        }
-      }
-
-      // Update cursor position to the end of pasted text
-      _field!._selection = TextSelection.collapsed(offset: currentOffset);
-    } else {
-      // Normal text paste without newlines
-      // Check if we have internal clipboard data with properties
-      if (_internalClipboard != null && _internalClipboard!.spans.isNotEmpty) {
-        debugPrint(
-            "  Using internal clipboard with ${_internalClipboard!.spans.length} spans");
-        debugPrint("  Block type: ${_internalClipboard!.blockType ?? 'none'}");
-
-        // If clipboard has block type information, create a new block
-        if (_internalClipboard!.blockType != null) {
-          debugPrint(
-              "  Creating new block with type: ${_internalClipboard!.blockType}");
-          _pasteAsBlock(start, end, _internalClipboard!.spans,
-              _internalClipboard!.blockType!);
-        } else {
-          // Restore spans with their properties (partial selection)
-          _pasteSpansWithProperties(start, end, _internalClipboard!.spans);
-        }
-      } else {
-        debugPrint("  Using plain text paste");
-        // Plain text paste (from external clipboard or no properties)
-        replaceText(start, end, text);
-      }
-
-      // Update cursor position to the end of pasted text
-      final newCursorPosition = start + text.length;
-      _field!._selection = TextSelection.collapsed(offset: newCursorPosition);
-    }
-
-    _field!._updateRemoteEditingValue();
-    notifyListeners();
-  }
-
-  /// Pastes spans with their properties at the specified position.
-  ///
-  /// 指定された位置にプロパティ付きのスパンをペーストします。
-  void _pasteSpansWithProperties(
-    int start,
-    int end,
-    List<MarkdownSpanValue> spans,
-  ) {
-    if (_value.isEmpty) {
-      return;
-    }
-
-    // Save current state before modification
-    _saveToUndoStack(immediate: true);
-
-    final field = _value.first;
-    final blocks = List<MarkdownBlockValue>.from(field.children);
-
-    // Find which block contains the start position
-    var currentOffset = 0;
-    var targetBlockIndex = -1;
-    var targetLineIndex = -1;
-    var targetSpanIndex = -1;
-    var offsetInSpan = 0;
-
-    for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
-      final block = blocks[blockIndex];
-      if (block is MarkdownParagraphBlockValue) {
-        final lines = List<MarkdownLineValue>.from(block.children);
-
-        for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-          final line = lines[lineIndex];
-          var lineOffset = currentOffset;
-
-          for (var spanIndex = 0;
-              spanIndex < line.children.length;
-              spanIndex++) {
-            final span = line.children[spanIndex];
-            final spanStart = lineOffset;
-            final spanEnd = lineOffset + span.value.length;
-
-            if (start >= spanStart && start <= spanEnd) {
-              targetBlockIndex = blockIndex;
-              targetLineIndex = lineIndex;
-              targetSpanIndex = spanIndex;
-              offsetInSpan = start - spanStart;
-              break;
-            }
-
-            lineOffset += span.value.length;
-          }
-
-          if (targetBlockIndex >= 0) {
-            break;
-          }
-        }
-
-        if (targetBlockIndex >= 0) {
-          break;
-        }
-        currentOffset += _getBlockTextLength(block) + 1;
-      }
-    }
-
-    if (targetBlockIndex < 0) {
-      debugPrint("  Could not find target position for paste");
-      return;
-    }
-
-    final block = blocks[targetBlockIndex] as MarkdownParagraphBlockValue;
-    final lines = List<MarkdownLineValue>.from(block.children);
-    final line = lines[targetLineIndex];
-    final lineSpans = List<MarkdownSpanValue>.from(line.children);
-    final targetSpan = lineSpans[targetSpanIndex];
-
-    // Delete selected text if any
-    if (end > start) {
-      replaceText(start, end, "");
-      // Need to recalculate position after deletion
-      // For simplicity, we'll just insert at start
-    }
-
-    // Split the target span at the insertion point
-    final beforeText = targetSpan.value.substring(0, offsetInSpan);
-    final afterText = targetSpan.value.substring(offsetInSpan);
-
-    // Build new spans list
-    final newSpans = <MarkdownSpanValue>[];
-
-    // Add spans before the target
-    newSpans.addAll(lineSpans.take(targetSpanIndex));
-
-    // Add the "before" part of the split span
-    if (beforeText.isNotEmpty) {
-      newSpans.add(targetSpan.copyWith(
-        id: uuid(),
-        value: beforeText,
-      ));
-    }
-
-    // Add the pasted spans
-    newSpans.addAll(spans);
-
-    // Add the "after" part of the split span
-    if (afterText.isNotEmpty) {
-      newSpans.add(targetSpan.copyWith(
-        id: uuid(),
-        value: afterText,
-      ));
-    }
-
-    // Add remaining spans after the target
-    if (targetSpanIndex + 1 < lineSpans.length) {
-      newSpans.addAll(lineSpans.skip(targetSpanIndex + 1));
-    }
-
-    // Update the line with new spans
-    lines[targetLineIndex] = line.copyWith(children: newSpans);
-    blocks[targetBlockIndex] = block.copyWith(children: lines);
-
-    final newField = field.copyWith(children: blocks);
-    _value[0] = newField;
-    notifyListeners();
-  }
-
-  /// Pastes spans as a new block with the specified block type.
-  ///
-  /// 指定されたブロックタイプで新しいブロックとしてスパンをペーストします。
-  void _pasteAsBlock(
-    int start,
-    int end,
-    List<MarkdownSpanValue> spans,
-    String blockType,
-  ) {
-    if (_value.isEmpty) {
-      return;
-    }
-
-    // Save current state before modification
-    _saveToUndoStack(immediate: true);
-
-    final field = _value.first;
-    final blocks = List<MarkdownBlockValue>.from(field.children);
-
-    // Delete selected text if any
-    if (end > start) {
-      replaceText(start, end, "");
-    }
-
-    // Find the block index where we should insert the new block
-    var currentOffset = 0;
-    var insertAtBlockIndex = 0;
-
-    for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
-      final block = blocks[blockIndex];
-      final blockLength = _getBlockTextLength(block);
-      final blockEnd = currentOffset + blockLength;
-
-      if (start <= blockEnd) {
-        insertAtBlockIndex = blockIndex + 1;
-        break;
-      }
-
-      currentOffset = blockEnd + 1; // +1 for newline
-    }
-
-    // Create a new line with the pasted spans
-    final newLine = MarkdownLineValue(
-      id: uuid(),
-      children: spans,
-    );
-
-    // Create a new block based on the block type
-    final MarkdownBlockValue newBlock;
-    if (blockType == "__markdown_block_bulleted_list__") {
-      newBlock = MarkdownBulletedListBlockValue(
-        id: uuid(),
-        children: [newLine],
-      );
-    } else if (blockType == "__markdown_block_paragraph__") {
-      newBlock = MarkdownParagraphBlockValue(
-        id: uuid(),
-        children: [newLine],
-      );
-    } else {
-      // Default to paragraph for unknown types
-      newBlock = MarkdownParagraphBlockValue(
-        id: uuid(),
-        children: [newLine],
-      );
-    }
-
-    // Insert the new block
-    blocks.insert(insertAtBlockIndex, newBlock);
-
-    final newField = field.copyWith(children: blocks);
-    _value[0] = newField;
-    notifyListeners();
-  }
-
   /// Inserts a new paragraph block at the specified offset.
   ///
   /// 指定されたオフセット位置に新しい段落ブロックを挿入します。
   void insertNewLine(int offset) {
-    debugPrint("⏎ insertNewLine called at offset: $offset");
     // Save current state before modification (immediate for explicit actions)
-    _saveToUndoStack(immediate: true);
+    history.saveToUndoStack(immediate: true);
 
     if (_value.isEmpty) {
-      debugPrint("  → Empty value, creating initial paragraph");
       // Create initial structure with empty paragraph
-      final field = MarkdownFieldValue(
-        id: uuid(),
-        children: [
-          MarkdownParagraphBlockValue(
-            id: uuid(),
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: "",
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
+      final field = MarkdownFieldValue.createEmpty();
       _value.clear();
       _value.add(field);
       notifyListeners();
@@ -2690,19 +1307,11 @@ class MarkdownController extends MasamuneControllerBase<
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
-      if (block is MarkdownParagraphBlockValue ||
-          block is MarkdownBulletedListBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         final blockText = StringBuffer();
 
         // Extract children based on block type
-        List<MarkdownLineValue> blockChildren;
-        if (block is MarkdownParagraphBlockValue) {
-          blockChildren = block.children;
-        } else if (block is MarkdownBulletedListBlockValue) {
-          blockChildren = block.children;
-        } else {
-          blockChildren = [];
-        }
+        final blockChildren = block.extractLines();
 
         for (var j = 0; j < blockChildren.length; j++) {
           final line = blockChildren[j];
@@ -2723,10 +1332,6 @@ class MarkdownController extends MasamuneControllerBase<
           final localOffset = offset - currentOffset;
           textBeforeCursor = blockTextStr.substring(0, localOffset);
           textAfterCursor = blockTextStr.substring(localOffset);
-          debugPrint("  → Found block to split at index $i");
-          debugPrint("     Block type: ${block.runtimeType}");
-          debugPrint("     Text before cursor: '$textBeforeCursor'");
-          debugPrint("     Text after cursor: '$textAfterCursor'");
           break;
         }
 
@@ -2735,80 +1340,18 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (blockIndex == -1) {
-      debugPrint("  → Cursor at end, creating new block after last block");
       // Offset is at the end, create new block
       // Check the type of the last block to inherit it for BulletedList
-      final MarkdownBlockValue newBlock;
-      if (blocks.isNotEmpty) {
-        final lastBlock = blocks.last;
-        debugPrint("     Last block type: ${lastBlock.runtimeType}");
-
-        if (lastBlock is MarkdownBulletedListBlockValue) {
-          debugPrint(
-              "  → Creating new BulletedList block (inheriting from last block, indent=${lastBlock.indent})");
-          newBlock = MarkdownBulletedListBlockValue(
-            id: uuid(),
-            indent: lastBlock.indent, // Inherit indent level
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: "",
-                  ),
-                ],
-              ),
-            ],
-          );
-        } else {
-          debugPrint("  → Creating new Paragraph block (default)");
-          newBlock = MarkdownParagraphBlockValue(
-            id: uuid(),
-            children: [
-              MarkdownLineValue(
-                id: uuid(),
-                children: [
-                  MarkdownSpanValue(
-                    id: uuid(),
-                    value: "",
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
-      } else {
-        debugPrint("  → No blocks exist, creating Paragraph block");
-        newBlock = MarkdownParagraphBlockValue(
-          id: uuid(),
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: [
-                MarkdownSpanValue(
-                  id: uuid(),
-                  value: "",
-                ),
-              ],
-            ),
-          ],
-        );
+      final newBlock = blocks.lastOrNull?.clone();
+      if (newBlock != null) {
+        blocks.add(newBlock);
       }
-      blocks.add(newBlock);
     } else {
       // Split the current block
       final oldBlock = blocks[blockIndex];
 
       // Extract children based on block type
-      List<MarkdownLineValue> oldBlockChildren;
-      if (oldBlock is MarkdownParagraphBlockValue) {
-        oldBlockChildren = oldBlock.children;
-      } else if (oldBlock is MarkdownBulletedListBlockValue) {
-        oldBlockChildren = oldBlock.children;
-      } else {
-        oldBlockChildren = [];
-      }
+      final oldBlockChildren = oldBlock.extractLines() ?? [];
 
       // Collect existing spans
       final existingSpans = <MarkdownSpanValue>[];
@@ -2876,73 +1419,22 @@ class MarkdownController extends MasamuneControllerBase<
       }
 
       // Create block with text before cursor (preserving properties, block type, and indent)
-      final MarkdownBlockValue beforeBlock;
-      if (oldBlock is MarkdownParagraphBlockValue) {
-        beforeBlock = MarkdownParagraphBlockValue(
-          id: oldBlock.id,
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: beforeSpans,
-            ),
-          ],
-        );
-      } else if (oldBlock is MarkdownBulletedListBlockValue) {
-        beforeBlock = MarkdownBulletedListBlockValue(
-          id: oldBlock.id,
-          indent: oldBlock.indent, // Preserve indent level
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: beforeSpans,
-            ),
-          ],
-        );
-      } else {
-        // Fallback to paragraph
-        beforeBlock = MarkdownParagraphBlockValue(
-          id: oldBlock.id,
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: beforeSpans,
-            ),
-          ],
-        );
-      }
+      final beforeBlock = oldBlock.clone(
+        child: MarkdownLineValue(
+          id: uuid(),
+          children: beforeSpans,
+        ),
+      );
 
       // Create new block with text after cursor
       // For BulletedList blocks, inherit the block type and indent level
       // For other blocks, create a paragraph
-      final MarkdownBlockValue afterBlock;
-      if (oldBlock is MarkdownBulletedListBlockValue) {
-        debugPrint(
-            "  → Creating new BulletedList block (inheriting block type and indent=${oldBlock.indent})");
-        // Inherit BulletedList block type and indent level on new line
-        afterBlock = MarkdownBulletedListBlockValue(
+      final afterBlock = oldBlock.clone(
+        child: MarkdownLineValue(
           id: uuid(),
-          indent: oldBlock.indent, // Inherit indent level
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: afterSpans,
-            ),
-          ],
-        );
-      } else {
-        debugPrint("  → Creating new Paragraph block (default)");
-        // Default to paragraph
-        afterBlock = MarkdownParagraphBlockValue(
-          id: uuid(),
-          children: [
-            MarkdownLineValue(
-              id: uuid(),
-              children: afterSpans,
-            ),
-          ],
-        );
-      }
-      debugPrint("  → afterBlock type: ${afterBlock.runtimeType}");
+          children: afterSpans,
+        ),
+      );
 
       // Replace old block with before and after blocks
       blocks[blockIndex] = beforeBlock;
@@ -2967,19 +1459,7 @@ class MarkdownController extends MasamuneControllerBase<
     for (final field in _value) {
       for (var i = 0; i < field.children.length; i++) {
         final block = field.children[i];
-        if (block is MarkdownParagraphBlockValue) {
-          for (var j = 0; j < block.children.length; j++) {
-            final line = block.children[j];
-            for (final span in line.children) {
-              buffer.write(span.value);
-            }
-            // Add newline except for the last line in the block
-            if (j < block.children.length - 1) {
-              buffer.writeln();
-            }
-          }
-        } else if (block is MarkdownBulletedListBlockValue) {
-          // For bulleted lists, return text WITHOUT the marker
+        if (block is MarkdownMultiLineBlockValue) {
           for (var j = 0; j < block.children.length; j++) {
             final line = block.children[j];
             for (final span in line.children) {
@@ -3011,11 +1491,6 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
-  /// Callback for when a link should be shown in a dialog.
-  ///
-  /// リンクをダイアログに表示する必要があるときのコールバック。
-  void Function(String url)? _onShowLinkDialog;
-
   /// Sets the callback for when a link dialog should be shown.
   ///
   /// リンクダイアログを表示する必要があるときのコールバックを設定します。
@@ -3030,22 +1505,23 @@ class MarkdownController extends MasamuneControllerBase<
     _onShowLinkDialog?.call(url);
   }
 
+  /// Callback for when a link should be shown in a dialog.
+  ///
+  /// リンクをダイアログに表示する必要があるときのコールバック。
+  void Function(String url)? _onShowLinkDialog;
+
   /// Checks if the cursor is at the end of a link and returns the link range.
   /// Used to implement link deletion behavior (select link on first backspace).
   ///
   /// カーソルがリンクの末尾にあるかチェックし、リンクの範囲を返します。
   /// リンク削除の挙動（最初のBackspaceでリンクを選択）を実装するために使用されます。
   TextRange? getLinkRangeBeforeCursor(int cursorOffset) {
-    debugPrint(
-        "🔎 getLinkRangeBeforeCursor: cursorOffset=$cursorOffset, _value.isEmpty=${_value.isEmpty}");
     if (_value.isEmpty || cursorOffset <= 0) {
-      debugPrint("   → Returning null: empty value or invalid offset");
       return null;
     }
 
     // Check if the position just before the cursor is inside a link
     final checkOffset = cursorOffset - 1;
-    debugPrint("   checkOffset=$checkOffset (cursorOffset - 1)");
     var currentOffset = 0;
     String? targetLinkUrl;
     int? linkStart;
@@ -3054,39 +1530,29 @@ class MarkdownController extends MasamuneControllerBase<
     // Traverse through the markdown structure
     for (final fieldValue in _value) {
       final blocks = fieldValue.children;
-      debugPrint("   Checking ${blocks.length} blocks");
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint("   Block $blockIndex: ${lines.length} lines");
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
-            debugPrint("      Line $lineIndex: ${line.children.length} spans");
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint(
-                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
 
               // Check if checkOffset is within this span
               if (checkOffset >= spanStart && checkOffset < spanEnd) {
-                debugPrint(
-                    "         → checkOffset $checkOffset is in this span");
                 // Check if this span has a link property
                 for (final property in span.properties) {
                   if (property is LinkMarkdownSpanProperty) {
                     targetLinkUrl = property.link;
-                    debugPrint("         → Found link: $targetLinkUrl");
                     break;
                   }
                 }
                 if (targetLinkUrl != null) {
                   break;
-                } else {
-                  debugPrint("         → No link property");
                 }
               }
 
@@ -3115,10 +1581,8 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (targetLinkUrl == null) {
-      debugPrint("   → No link found at checkOffset");
       return null;
     }
-    debugPrint("   → Found link URL: $targetLinkUrl");
 
     // Second pass: find the full range of consecutive spans with the same link URL
     currentOffset = 0;
@@ -3126,7 +1590,7 @@ class MarkdownController extends MasamuneControllerBase<
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -3184,20 +1648,60 @@ class MarkdownController extends MasamuneControllerBase<
     return null;
   }
 
+  /// Inserts a mention at the given offset.
+  ///
+  /// 指定されたオフセットにメンションを挿入します。
+  void insertMention(MarkdownMention mention) {
+    final field = _field;
+    if (field == null) {
+      return;
+    }
+    // Insert mention at current cursor position
+    final selection = field._selection;
+    if (selection.isCollapsed) {
+      final cursorPosition = selection.baseOffset;
+      // Insert mention text: @{mention.name}
+      final mentionText = "@${mention.name}";
+
+      // Validation: Ensure mention text doesn't contain newlines
+      if (mentionText.contains("\n")) {
+        return;
+      }
+
+      // Insert mention text and property as atomic operation
+      // (combine both into single undo history entry)
+      // Replace any selected text or insert at cursor
+      replaceText(
+        cursorPosition,
+        cursorPosition,
+        mentionText,
+      );
+      // Add mention property (skip history since replaceText already saved)
+      addInlineProperty(
+        const MentionMarkdownPrimaryTools(),
+        start: cursorPosition,
+        end: cursorPosition + mentionText.length,
+        value: mention,
+        skipHistory: true,
+      );
+      // Move cursor to after the mention
+      field._selection = TextSelection.collapsed(
+        offset: cursorPosition + mentionText.length,
+      );
+      field._updateRemoteEditingValue();
+    }
+  }
+
   /// Get the range of a mention immediately before the cursor.
   ///
   /// カーソルの直前にあるメンションの範囲を取得します。
   TextRange? getMentionRangeBeforeCursor(int cursorOffset) {
-    debugPrint(
-        "🔎 getMentionRangeBeforeCursor: cursorOffset=$cursorOffset, _value.isEmpty=${_value.isEmpty}");
     if (_value.isEmpty || cursorOffset <= 0) {
-      debugPrint("   → Returning null: empty value or invalid offset");
       return null;
     }
 
     // Check if the position just before the cursor is inside a mention
     final checkOffset = cursorOffset - 1;
-    debugPrint("   checkOffset=$checkOffset (cursorOffset - 1)");
     var currentOffset = 0;
     MarkdownMention? targetMention;
     int? mentionStart;
@@ -3206,39 +1710,29 @@ class MarkdownController extends MasamuneControllerBase<
     // Traverse through the markdown structure
     for (final fieldValue in _value) {
       final blocks = fieldValue.children;
-      debugPrint("   Checking ${blocks.length} blocks");
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
         if (blockValue is MarkdownParagraphBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint("   Block $blockIndex: ${lines.length} lines");
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
-            debugPrint("      Line $lineIndex: ${line.children.length} spans");
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint(
-                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
 
               // Check if checkOffset is within this span
               if (checkOffset >= spanStart && checkOffset < spanEnd) {
-                debugPrint(
-                    "         → checkOffset $checkOffset is in this span");
                 // Check if this span has a mention property
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty) {
                     targetMention = property.mention;
-                    debugPrint("         → Found mention: ${targetMention.id}");
                     break;
                   }
                 }
                 if (targetMention != null) {
                   break;
-                } else {
-                  debugPrint("         → No mention property");
                 }
               }
 
@@ -3267,10 +1761,8 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (targetMention == null) {
-      debugPrint("   → No mention found at checkOffset");
       return null;
     }
-    debugPrint("   → Found mention ID: ${targetMention.id}");
 
     // Second pass: find the full range of consecutive spans with the same mention
     currentOffset = 0;
@@ -3278,7 +1770,7 @@ class MarkdownController extends MasamuneControllerBase<
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -3336,12 +1828,191 @@ class MarkdownController extends MasamuneControllerBase<
     return null;
   }
 
+  void _notifyListeners() {
+    notifyListeners();
+  }
+
+  /// Gets the list of block indices that are within the selection range.
+  ///
+  /// 選択範囲内にあるブロックのインデックスのリストを取得します。
+  List<int> _getSelectedBlocks(int start, int end) {
+    if (_value.isEmpty) {
+      return [];
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+    final selectedBlockIndices = <int>[];
+
+    var currentOffset = 0;
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      final blockChildren = block.extractLines();
+
+      if (blockChildren != null) {
+        final blockText = StringBuffer();
+        for (var j = 0; j < blockChildren.length; j++) {
+          final line = blockChildren[j];
+          for (final span in line.children) {
+            blockText.write(span.value);
+          }
+          if (j < blockChildren.length - 1) {
+            blockText.writeln();
+          }
+        }
+
+        final blockLength = blockText.toString().length;
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        // Check if this block is within the selection
+        // A block is selected if the selection overlaps with it
+        if ((start >= blockStart && start <= blockEnd) ||
+            (end >= blockStart && end <= blockEnd) ||
+            (start <= blockStart && end >= blockEnd)) {
+          selectedBlockIndices.add(i);
+        }
+
+        currentOffset += blockLength + 1; // +1 for newline between blocks
+      }
+    }
+
+    return selectedBlockIndices;
+  }
+
+  /// Gets the text length of a block.
+  ///
+  /// ブロックのテキストの長さを取得します。
+  int _getBlockTextLength(MarkdownBlockValue block) {
+    if (block is MarkdownMultiLineBlockValue) {
+      final blockText = StringBuffer();
+      for (var j = 0; j < block.children.length; j++) {
+        final line = block.children[j];
+        for (final span in line.children) {
+          blockText.write(span.value);
+        }
+        if (j < block.children.length - 1) {
+          blockText.writeln();
+        }
+      }
+      return blockText.toString().length;
+    }
+    return 0;
+  }
+
+  /// Merges consecutive spans with the same property.
+  ///
+  /// 同じプロパティを持つ連続したスパンをマージします。
+  List<MarkdownSpanValue> _mergeSpans(List<MarkdownSpanValue> spans) {
+    if (spans.isEmpty) {
+      return spans;
+    }
+
+    final merged = <MarkdownSpanValue>[];
+    var current = spans.first;
+
+    for (var i = 1; i < spans.length; i++) {
+      final next = spans[i];
+      if (current.properties.equalsTo(next.properties)) {
+        // Merge
+        current = current.copyWith(value: current.value + next.value);
+      } else {
+        merged.add(current);
+        current = next;
+      }
+    }
+    merged.add(current);
+
+    return merged;
+  }
+
+  /// Extracts spans from the selected range, preserving their properties.
+  ///
+  /// 選択範囲からスパンを抽出し、そのプロパティを保持します。
+  List<MarkdownSpanValue> _extractSpansFromSelection(int start, int end) {
+    if (_value.isEmpty) {
+      return [];
+    }
+
+    final field = _value.first;
+    final blocks = field.children;
+    final extractedSpans = <MarkdownSpanValue>[];
+
+    var currentOffset = 0;
+
+    for (final block in blocks) {
+      if (block is MarkdownMultiLineBlockValue) {
+        for (final line in block.children) {
+          var lineOffset = currentOffset;
+
+          for (final span in line.children) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            // Check if this span overlaps with the selection
+            if (end > spanStart && start < spanEnd) {
+              // Calculate the overlap
+              final overlapStart = start > spanStart ? start : spanStart;
+              final overlapEnd = end < spanEnd ? end : spanEnd;
+
+              // Extract the overlapping portion
+              final extractedText = span.value.substring(
+                overlapStart - spanStart,
+                overlapEnd - spanStart,
+              );
+
+              // Create a new span with the extracted text and same properties
+              extractedSpans.add(span.copyWith(
+                id: uuid(),
+                value: extractedText,
+              ));
+            }
+
+            lineOffset += span.value.length;
+          }
+        }
+
+        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+      }
+    }
+
+    return extractedSpans;
+  }
+
+  /// Checks if the selection encompasses an entire block.
+  ///
+  /// 選択範囲がブロック全体を含むかどうかをチェックします。
+  ({bool isFullBlock, String? blockType})? _isFullBlockSelected(
+      int start, int end) {
+    if (_value.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+
+    for (final field in _value) {
+      for (final block in field.children) {
+        final blockLength = _getBlockTextLength(block);
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        // Check if selection exactly matches this block
+        if (start == blockStart && end == blockEnd) {
+          return (isFullBlock: true, blockType: block.type);
+        }
+
+        currentOffset = blockEnd + 1; // +1 for newline
+      }
+    }
+
+    return (isFullBlock: false, blockType: null);
+  }
+
   @override
   void dispose() {
     // Cancel any pending history saves
-    _historyDebounceTimer?.cancel();
-    _historyDebounceTimer = null;
-    _hasPendingHistorySave = false;
+    history.dispose();
 
     // Clear callback
     _onShowLinkDialog = null;
