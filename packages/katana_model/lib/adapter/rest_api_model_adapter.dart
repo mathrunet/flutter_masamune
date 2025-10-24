@@ -88,7 +88,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   final bool emptyWhenThrowError;
 
   @override
-  final VectorConverter  vectorConverter;
+  final VectorConverter vectorConverter;
 
   /// A function that returns the headers.
   ///

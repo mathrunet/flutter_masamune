@@ -41,13 +41,10 @@ class TestMdCliAiCode extends CliAiCode {
     - モックデータの取扱い関しては`documents/rules/docs/mock_data_usage.md`に記載されているのでそちらを参照。
 
 ```dart
-// Dart imports:
 import "dart:async";
 
-// Package imports:
 import "package:masamune_test/masamune_test.dart";
 
-// Project imports:
 import "package:gitvibes/main.dart";
 
 /// Performing test initialization.
@@ -84,7 +81,6 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) {
 ```dart
 // test/controllers/user_test.dart
 
-// Package imports:
 import "package:flutter_test/flutter_test.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_test/masamune_test.dart";
@@ -141,14 +137,11 @@ void main() {
 ```dart
 // test/widgets/user_profile_test.dart
 
-// Flutter imports:
 import "package:flutter/material.dart";
 
-// Package imports:
 import "package:masamune/masamune.dart";
 import "package:masamune_test/masamune_test.dart";
 
-// Project imports:
 import "package:any_app/adapter.dart";
 import "package:any_app/models/user.dart";
 import "package:any_app/widgets/user_profile.dart";
@@ -190,14 +183,11 @@ void main() {
 ```dart
 // test/widgets/user_test.dart
 
-// Flutter imports:
 import "package:flutter/material.dart";
 
-// Package imports:
 import "package:masamune/masamune.dart";
 import "package:masamune_test/masamune_test.dart";
 
-// Project imports:
 import "package:any_app/adapter.dart";
 import "package:any_app/models/user.dart";
 import "package:any_app/pages/user.dart";

@@ -4,7 +4,8 @@ import "package:katana_cli/ai/docs/model_field_value_usage.dart";
 /// Contents of model_vector_value.md.
 ///
 /// model_vector_value.mdの中身。
-class ModelFieldValueModelVectorValueMdCliAiCode extends ModelFieldValueCliAiCode {
+class ModelFieldValueModelVectorValueMdCliAiCode
+    extends ModelFieldValueCliAiCode {
   /// Contents of model_vector_value.md.
   ///
   /// model_vector_value.mdの中身。
@@ -14,7 +15,8 @@ class ModelFieldValueModelVectorValueMdCliAiCode extends ModelFieldValueCliAiCod
   String get name => "`ModelVectorValue`の利用方法";
 
   @override
-  String get description => "ベクトルデータ(埋め込みベクトル)を扱うためのクラスである`ModelVectorValue`の利用方法";
+  String get description =>
+      "ベクトルデータ(埋め込みベクトル)を扱うためのクラスである`ModelVectorValue`の利用方法";
 
   @override
   String get globs => "*.dart";
@@ -23,7 +25,8 @@ class ModelFieldValueModelVectorValueMdCliAiCode extends ModelFieldValueCliAiCod
   String get directory => "docs/model_field_value";
 
   @override
-  String get excerpt => "ベクトルデータ(埋め込みベクトル)を扱うためのクラス。RAG(Retrieval-Augmented Generation)やベクトル類似度検索、セマンティック検索に利用可能。";
+  String get excerpt =>
+      "ベクトルデータ(埋め込みベクトル)を扱うためのクラス。RAG(Retrieval-Augmented Generation)やベクトル類似度検索、セマンティック検索に利用可能。";
 
   @override
   String body(String baseName, String className) {

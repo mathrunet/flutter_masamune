@@ -1,15 +1,15 @@
 // Project imports:
-import "package:katana_cli/ai/agents/initial_development_requirements_analyzer.dart";
-import "package:katana_cli/ai/agents/initial_development_implimenter.dart";
-import "package:katana_cli/ai/agents/ui_builder.dart";
-import "package:katana_cli/ai/agents/firebase_flutter_debugger.dart";
-import "package:katana_cli/ai/agents/enhancement_development_requirements_analyzer.dart";
-import "package:katana_cli/ai/agents/ui_debugger.dart";
-import "package:katana_cli/ai/agents/initial_development_designer.dart";
-import "package:katana_cli/ai/agents/masamune_framework_advisor.dart";
 import "package:katana_cli/ai/agents/enhancement_development_implimenter.dart";
+import "package:katana_cli/ai/agents/enhancement_development_requirements_analyzer.dart";
+import "package:katana_cli/ai/agents/firebase_flutter_debugger.dart";
+import "package:katana_cli/ai/agents/initial_development_designer.dart";
+import "package:katana_cli/ai/agents/initial_development_implimenter.dart";
+import "package:katana_cli/ai/agents/initial_development_requirements_analyzer.dart";
+import "package:katana_cli/ai/agents/masamune_framework_advisor.dart";
 import "package:katana_cli/ai/agents/package_advisor.dart";
 import "package:katana_cli/ai/agents/test_runner.dart";
+import "package:katana_cli/ai/agents/ui_builder.dart";
+import "package:katana_cli/ai/agents/ui_debugger.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// AgentsAiCode is a command that generates agents.

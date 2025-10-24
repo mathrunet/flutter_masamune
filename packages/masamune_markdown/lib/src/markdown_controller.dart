@@ -702,7 +702,8 @@ class MarkdownController extends MasamuneControllerBase<
             ],
           );
         } else if (startBlock is MarkdownBulletedListBlockValue) {
-          debugPrint("   → Creating merged BulletedList block (preserving first block type)");
+          debugPrint(
+              "   → Creating merged BulletedList block (preserving first block type)");
           mergedBlock = MarkdownBulletedListBlockValue(
             id: startBlock.id,
             children: [
@@ -1197,7 +1198,8 @@ class MarkdownController extends MasamuneControllerBase<
         continue;
       }
       final block = blocks[blockIndex];
-      debugPrint("🔍 canIncreaseIndent: block[$blockIndex]=${block.runtimeType}, indent=${block.indent}");
+      debugPrint(
+          "🔍 canIncreaseIndent: block[$blockIndex]=${block.runtimeType}, indent=${block.indent}");
       if (block.indent < 5) {
         debugPrint("✅ canIncreaseIndent: true");
         return true;
@@ -1517,14 +1519,16 @@ class MarkdownController extends MasamuneControllerBase<
 
     // Check input connection state before notifyListeners
     final hasConnectionBefore = _field?._hasInputConnection ?? false;
-    debugPrint("📢 Before notifyListeners: _hasInputConnection=$hasConnectionBefore");
+    debugPrint(
+        "📢 Before notifyListeners: _hasInputConnection=$hasConnectionBefore");
 
     // Notify listeners first to update UI state
     notifyListeners();
 
     // Check input connection state after notifyListeners
     final hasConnectionAfter = _field?._hasInputConnection ?? false;
-    debugPrint("📢 After notifyListeners: _hasInputConnection=$hasConnectionAfter");
+    debugPrint(
+        "📢 After notifyListeners: _hasInputConnection=$hasConnectionAfter");
 
     // Reopen IME connection after block insertion
     // This is needed because the toolbar hides the keyboard when showing block menu
@@ -1533,7 +1537,8 @@ class MarkdownController extends MasamuneControllerBase<
     if (_field != null) {
       _field!.reopenInputConnection();
       final hasConnectionAfterReopen = _field!._hasInputConnection;
-      debugPrint("📢 After reopenInputConnection: _hasInputConnection=$hasConnectionAfterReopen");
+      debugPrint(
+          "📢 After reopenInputConnection: _hasInputConnection=$hasConnectionAfterReopen");
     } else {
       debugPrint("⚠️ _field is null, cannot reopen input connection");
     }
@@ -2739,7 +2744,8 @@ class MarkdownController extends MasamuneControllerBase<
         debugPrint("     Last block type: ${lastBlock.runtimeType}");
 
         if (lastBlock is MarkdownBulletedListBlockValue) {
-          debugPrint("  → Creating new BulletedList block (inheriting from last block, indent=${lastBlock.indent})");
+          debugPrint(
+              "  → Creating new BulletedList block (inheriting from last block, indent=${lastBlock.indent})");
           newBlock = MarkdownBulletedListBlockValue(
             id: uuid(),
             indent: lastBlock.indent, // Inherit indent level
@@ -2910,7 +2916,8 @@ class MarkdownController extends MasamuneControllerBase<
       // For other blocks, create a paragraph
       final MarkdownBlockValue afterBlock;
       if (oldBlock is MarkdownBulletedListBlockValue) {
-        debugPrint("  → Creating new BulletedList block (inheriting block type and indent=${oldBlock.indent})");
+        debugPrint(
+            "  → Creating new BulletedList block (inheriting block type and indent=${oldBlock.indent})");
         // Inherit BulletedList block type and indent level on new line
         afterBlock = MarkdownBulletedListBlockValue(
           id: uuid(),

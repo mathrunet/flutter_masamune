@@ -384,33 +384,19 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       // Wrap all tools with ListenableBuilder to re-evaluate enabled/actived on controller changes
       // すべてのツールをListenableBuilderでラップしてコントローラー変更時にenabled/activedを再評価
       if (e is MentionMarkdownPrimaryTools) {
-          if (_currentTool == e && _showBlockMenu) {
-            return ListenableBuilder(
-                listenable: controller,
-                builder: (context, child) {
-                  return IconButton.filled(
-                    style: IconButton.styleFrom(
-                      backgroundColor: widget.style?.activeBackgroundColor ??
-                          theme.colorTheme?.primary ??
-                          theme.colorScheme.primary,
-                      foregroundColor: widget.style?.activeColor ??
-                          theme.colorTheme?.onPrimary ??
-                          theme.colorScheme.onPrimary,
-                    ),
-                    onPressed: ((field?.cursorInLink ?? false) ||
-                            (field?.selectInMentionLink ?? false))
-                        ? null
-                        : () {
-                            e.onTap(context, this);
-                          },
-                    icon: e.icon(context, this),
-                  );
-                });
-          } else {
-            return ListenableBuilder(
+        if (_currentTool == e && _showBlockMenu) {
+          return ListenableBuilder(
               listenable: controller,
               builder: (context, child) {
-                return IconButton(
+                return IconButton.filled(
+                  style: IconButton.styleFrom(
+                    backgroundColor: widget.style?.activeBackgroundColor ??
+                        theme.colorTheme?.primary ??
+                        theme.colorScheme.primary,
+                    foregroundColor: widget.style?.activeColor ??
+                        theme.colorTheme?.onPrimary ??
+                        theme.colorScheme.onPrimary,
+                  ),
                   onPressed: ((field?.cursorInLink ?? false) ||
                           (field?.selectInMentionLink ?? false))
                       ? null
@@ -419,90 +405,106 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                         },
                   icon: e.icon(context, this),
                 );
-              },
-            );
-          }
-        } else if (e is IndentUpMarkdownPrimaryTools || e is IndentDownMarkdownPrimaryTools) {
-          // インデントボタンは詳細ログを出力
-          return ListenableBuilder(
-            listenable: controller,
-            builder: (context, child) {
-              final enabled = e.enabled(context, this);
-              final actived = e.actived(context, this);
-              debugPrint("🔧 ${e.runtimeType}: enabled=$enabled, actived=$actived");
-              if (!enabled || !actived) {
-                return IconButton(
-                  onPressed: null,
-                  icon: e.icon(context, this),
-                );
-              }
-
-              if (_currentTool == e && _showBlockMenu) {
-                return IconButton.filled(
-                  style: IconButton.styleFrom(
-                    backgroundColor: widget.style?.activeBackgroundColor ??
-                        theme.colorTheme?.primary ??
-                        theme.colorScheme.primary,
-                    foregroundColor: widget.style?.activeColor ??
-                        theme.colorTheme?.onPrimary ??
-                        theme.colorScheme.onPrimary,
-                  ),
-                  onPressed: () {
-                    e.onTap(context, this);
-                  },
-                  icon: e.icon(context, this),
-                );
-              } else {
-                return IconButton(
-                  onPressed: () {
-                    e.onTap(context, this);
-                  },
-                  icon: e.icon(context, this),
-                );
-              }
-            },
-          );
+              });
         } else {
-          // Wrap other tools with ListenableBuilder to rebuild when controller changes
-          // インデントボタンなど他のツールもListenableBuilderでラップしてコントローラー変更時に再描画
           return ListenableBuilder(
             listenable: controller,
             builder: (context, child) {
-              // Re-evaluate enabled/actived when controller changes
-              // コントローラー変更時にenabled/activedを再評価
-              if (!e.enabled(context, this) || !e.actived(context, this)) {
-                return IconButton(
-                  onPressed: null,
-                  icon: e.icon(context, this),
-                );
-              }
-
-              if (_currentTool == e && _showBlockMenu) {
-                return IconButton.filled(
-                  style: IconButton.styleFrom(
-                    backgroundColor: widget.style?.activeBackgroundColor ??
-                        theme.colorTheme?.primary ??
-                        theme.colorScheme.primary,
-                    foregroundColor: widget.style?.activeColor ??
-                        theme.colorTheme?.onPrimary ??
-                        theme.colorScheme.onPrimary,
-                  ),
-                  onPressed: () {
-                    e.onTap(context, this);
-                  },
-                  icon: e.icon(context, this),
-                );
-              } else {
-                return IconButton(
-                  onPressed: () {
-                    e.onTap(context, this);
-                  },
-                  icon: e.icon(context, this),
-                );
-              }
+              return IconButton(
+                onPressed: ((field?.cursorInLink ?? false) ||
+                        (field?.selectInMentionLink ?? false))
+                    ? null
+                    : () {
+                        e.onTap(context, this);
+                      },
+                icon: e.icon(context, this),
+              );
             },
           );
         }
+      } else if (e is IndentUpMarkdownPrimaryTools ||
+          e is IndentDownMarkdownPrimaryTools) {
+        // インデントボタンは詳細ログを出力
+        return ListenableBuilder(
+          listenable: controller,
+          builder: (context, child) {
+            final enabled = e.enabled(context, this);
+            final actived = e.actived(context, this);
+            debugPrint(
+                "🔧 ${e.runtimeType}: enabled=$enabled, actived=$actived");
+            if (!enabled || !actived) {
+              return IconButton(
+                onPressed: null,
+                icon: e.icon(context, this),
+              );
+            }
+
+            if (_currentTool == e && _showBlockMenu) {
+              return IconButton.filled(
+                style: IconButton.styleFrom(
+                  backgroundColor: widget.style?.activeBackgroundColor ??
+                      theme.colorTheme?.primary ??
+                      theme.colorScheme.primary,
+                  foregroundColor: widget.style?.activeColor ??
+                      theme.colorTheme?.onPrimary ??
+                      theme.colorScheme.onPrimary,
+                ),
+                onPressed: () {
+                  e.onTap(context, this);
+                },
+                icon: e.icon(context, this),
+              );
+            } else {
+              return IconButton(
+                onPressed: () {
+                  e.onTap(context, this);
+                },
+                icon: e.icon(context, this),
+              );
+            }
+          },
+        );
+      } else {
+        // Wrap other tools with ListenableBuilder to rebuild when controller changes
+        // インデントボタンなど他のツールもListenableBuilderでラップしてコントローラー変更時に再描画
+        return ListenableBuilder(
+          listenable: controller,
+          builder: (context, child) {
+            // Re-evaluate enabled/actived when controller changes
+            // コントローラー変更時にenabled/activedを再評価
+            if (!e.enabled(context, this) || !e.actived(context, this)) {
+              return IconButton(
+                onPressed: null,
+                icon: e.icon(context, this),
+              );
+            }
+
+            if (_currentTool == e && _showBlockMenu) {
+              return IconButton.filled(
+                style: IconButton.styleFrom(
+                  backgroundColor: widget.style?.activeBackgroundColor ??
+                      theme.colorTheme?.primary ??
+                      theme.colorScheme.primary,
+                  foregroundColor: widget.style?.activeColor ??
+                      theme.colorTheme?.onPrimary ??
+                      theme.colorScheme.onPrimary,
+                ),
+                onPressed: () {
+                  e.onTap(context, this);
+                },
+                icon: e.icon(context, this),
+              );
+            } else {
+              return IconButton(
+                onPressed: () {
+                  e.onTap(context, this);
+                },
+                icon: e.icon(context, this),
+              );
+            }
+          },
+        );
+      }
     });
   }
 

@@ -17,11 +17,12 @@ import "package:flutter/widgets.dart";
 
 // Package imports:
 import "package:cloud_firestore/cloud_firestore.dart" hide VectorValue;
-// import "package:cloud_firestore/cloud_firestore.dart" as firestore
-//     show VectorValue;
 import "package:katana_firebase/katana_firebase.dart";
 import "package:katana_model/katana_model.dart";
 import "package:katana_platform_info/katana_platform_info.dart";
+
+// import "package:cloud_firestore/cloud_firestore.dart" as firestore
+//     show VectorValue;
 
 // Flutter imports:
 

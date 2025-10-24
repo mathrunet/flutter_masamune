@@ -21,6 +21,8 @@ import "package:flutter/widgets.dart";
 
 // Package imports:
 import "package:masamune/masamune.dart";
+
+// Project imports:
 import "package:masamune_ai/models/vector.dart";
 
 part "adapter/ai_masamune_adapter.dart";
