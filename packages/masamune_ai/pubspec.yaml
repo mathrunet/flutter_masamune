@@ -4,7 +4,6 @@ version: 3.0.31
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ai
 
-publish_to: none
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
