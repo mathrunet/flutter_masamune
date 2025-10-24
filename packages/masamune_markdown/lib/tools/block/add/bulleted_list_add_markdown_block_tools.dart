@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// 箇条書きリストブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
-class BulletedListAddMarkdownBlockTools extends MarkdownBlockTools {
+class BulletedListAddMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownBulletedListBlockValue> {
   /// Display the menu to add bulleted list blocks [MarkdownTools].
   ///
   /// 箇条書きリストブロックを追加するメニューを表示する[MarkdownTools]。
@@ -71,5 +72,37 @@ class BulletedListAddMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
-  bool get inheritPropertyOnNewLine => true;
+  MarkdownBulletedListBlockValue? convertFromJson(DynamicMap json) {
+    // TODO: implement convertFromJson
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownBulletedListBlockValue? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownBulletedListBlockValue value) {
+    // TODO: implement convertToJson
+    throw UnimplementedError();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownBulletedListBlockValue value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownBulletedListBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownBulletedListBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
+  }
 }

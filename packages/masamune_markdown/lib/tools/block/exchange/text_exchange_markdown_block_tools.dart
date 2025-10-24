@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// テキストブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
-class TextExchangeMarkdownBlockTools extends MarkdownBlockTools {
+class TextExchangeMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownParagraphBlockValue> {
   /// Display the menu to exchange text blocks [MarkdownTools].
   ///
   /// テキストブロックを変更するメニューを表示する[MarkdownTools]。
@@ -54,9 +55,6 @@ class TextExchangeMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
-  bool get inheritPropertyOnNewLine => true;
-
-  @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
     if (target is MarkdownParagraphBlockValue) {
       return null;
@@ -65,6 +63,41 @@ class TextExchangeMarkdownBlockTools extends MarkdownBlockTools {
       id: target.id,
       children: target.extractLines() ?? [],
       indent: target.indent,
+    );
+  }
+
+  @override
+  MarkdownParagraphBlockValue? convertFromJson(DynamicMap json) {
+    // TODO: implement convertFromJson
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownParagraphBlockValue? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownParagraphBlockValue value) {
+    // TODO: implement convertToJson
+    throw UnimplementedError();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownParagraphBlockValue value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownParagraphBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownParagraphBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
     );
   }
 }

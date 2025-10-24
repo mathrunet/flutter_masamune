@@ -304,11 +304,14 @@ class MarkdownFieldState extends State<MarkdownField>
     return false;
   }
 
-  // Selection state
+  bool get _hasInputConnection =>
+      _textInputConnection != null && _textInputConnection!.attached;
+
+  // 選択状態
   TextSelection _selection = const TextSelection.collapsed(offset: 0);
   TextSelection? _composingRegion;
 
-  // Keep track of composing text during IME input
+  // IME入力中の変換テキストを追跡
   String? _composingText;
 
   /// Returns the current composing text during IME input, or null if not composing.
@@ -316,11 +319,11 @@ class MarkdownFieldState extends State<MarkdownField>
   /// IME入力中の変換テキストを返します。変換中でない場合はnullを返します。
   String? get composingText => _composingText;
 
-  // For tracking cursor blink
+  // カーソルの点滅を追跡するため
   bool _showCursor = true;
   late AnimationController _cursorBlinkController;
 
-  // Context menu overlay
+  // コンテキストメニューオーバーレイ
   OverlayEntry? _contextMenuOverlay;
 
   @override
@@ -332,7 +335,7 @@ class MarkdownFieldState extends State<MarkdownField>
     _focusNode.addListener(_handleFocusChanged);
     widget.controller.addListener(_handleControllerChanged);
 
-    // Setup cursor blink
+    // カーソルの点滅を設定
     _cursorBlinkController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
@@ -438,21 +441,6 @@ class MarkdownFieldState extends State<MarkdownField>
     }
   }
 
-  /// Reopens the input connection even if one already exists.
-  /// This is useful when the connection was hidden but not closed (e.g., by TextInput.hide).
-  ///
-  /// 既存の接続がある場合でも入力接続を再開します。
-  /// 接続が非表示になったが閉じられていない場合（例: TextInput.hideによる）に便利です。
-  void reopenInputConnection() {
-    debugPrint("🔄 reopenInputConnection called");
-    // Close existing connection if any
-    _closeInputConnectionIfNeeded();
-    // Open a new connection
-    _openInputConnection();
-    debugPrint(
-        "✅ Input connection reopened: _hasInputConnection=$_hasInputConnection");
-  }
-
   void _closeInputConnectionIfNeeded() {
     if (_hasInputConnection) {
       _textInputConnection!.close();
@@ -460,25 +448,16 @@ class MarkdownFieldState extends State<MarkdownField>
     }
   }
 
-  bool get _hasInputConnection =>
-      _textInputConnection != null && _textInputConnection!.attached;
-
   void _updateRemoteEditingValue() {
-    debugPrint(
-        "🔄 _updateRemoteEditingValue called: _hasInputConnection=$_hasInputConnection");
     if (!_hasInputConnection) {
-      debugPrint("   ⚠️ Early return: no input connection");
       return;
     }
 
     final text = _getPlainText();
     final textLength = text.length;
 
-    debugPrint(
-        "   ✅ Processing: textLength=$textLength, selection=${_selection.start}-${_selection.end}");
-
-    // Auto-adjust selection if it partially overlaps with link/mention
-    // This catches selection changes from double-tap and handle drag operations
+    // リンク/メンションと部分的に重なる場合は選択を自動調整
+    // ダブルタップとハンドルドラッグ操作による選択変更をキャッチ
     var adjustedSelection = _selection;
     if (!_selection.isCollapsed) {
       final adjusted = _adjustSelectionForLinksAndMentions(_selection);
@@ -488,8 +467,8 @@ class MarkdownFieldState extends State<MarkdownField>
       }
     }
 
-    // Clamp selection and composing region to valid text range
-    // Only clamp if values are actually out of bounds to preserve IME state
+    // 選択と変換領域を有効なテキスト範囲にクランプ
+    // IME状態を保持するため、実際に範囲外の場合のみクランプ
     final clampedSelection = TextSelection(
       baseOffset: adjustedSelection.baseOffset.clamp(0, textLength),
       extentOffset: adjustedSelection.extentOffset.clamp(0, textLength),
@@ -518,6 +497,130 @@ class MarkdownFieldState extends State<MarkdownField>
     );
   }
 
+  /// Adjusts the selection to ensure links and mentions are selected as a whole
+  /// or not at all. If the selection partially overlaps with a link or mention,
+  /// it will be expanded to include the entire link/mention or contracted to exclude it.
+  ///
+  /// リンクやメンションが全体として選択されるか、まったく選択されないように選択範囲を調整します。
+  TextSelection _adjustSelectionForLinksAndMentions(TextSelection selection) {
+    if (selection.isCollapsed || widget.controller.value == null) {
+      return selection;
+    }
+
+    var adjustedStart = selection.start;
+    var adjustedEnd = selection.end;
+    var adjusted = false;
+
+    // ドキュメント内のすべてのリンクとメンション範囲を取得
+    final ranges = <TextRange>[];
+
+    // ドキュメントを走査してすべてのリンクとメンションを検索
+    if (widget.controller.value!.isNotEmpty) {
+      final field = widget.controller.value!.first;
+      final blocks = field.children;
+      var currentOffset = 0;
+
+      for (final block in blocks) {
+        if (block is MarkdownMultiLineBlockValue) {
+          for (final line in block.children) {
+            for (final span in line.children) {
+              final spanStart = currentOffset;
+              final spanEnd = currentOffset + span.value.length;
+
+              // このスパンがリンクまたはメンションプロパティを持つかチェック
+              var hasLinkOrMention = false;
+              for (final property in span.properties) {
+                if (property is LinkMarkdownSpanProperty ||
+                    property is MentionMarkdownSpanProperty) {
+                  hasLinkOrMention = true;
+                  break;
+                }
+              }
+
+              if (hasLinkOrMention) {
+                ranges.add(TextRange(start: spanStart, end: spanEnd));
+              }
+
+              currentOffset += span.value.length;
+            }
+          }
+          currentOffset += 1; // newline
+        }
+      }
+    }
+
+    // 各リンク/メンション範囲をチェック
+    for (final range in ranges) {
+      // 選択がこの範囲と部分的に重なるかチェック
+      final selectionOverlapsRange =
+          selection.end > range.start && selection.start < range.end;
+
+      if (selectionOverlapsRange) {
+        final isFullySelected =
+            selection.start <= range.start && selection.end >= range.end;
+
+        if (!isFullySelected) {
+          // 部分的な重なり - 拡張するか縮小するか決定
+
+          // 重なり量を計算
+          final overlapStart =
+              selection.start > range.start ? selection.start : range.start;
+          final overlapEnd =
+              selection.end < range.end ? selection.end : range.end;
+          final overlapLength = overlapEnd - overlapStart;
+          final rangeLength = range.end - range.start;
+
+          // 半分以上が選択されている場合、全範囲を含むように拡張
+          // それ以外の場合は、除外するために縮小
+          if (overlapLength > rangeLength / 2) {
+            // リンク/メンション全体を含むように選択を拡張
+            if (range.start < adjustedStart) {
+              adjustedStart = range.start;
+              adjusted = true;
+            }
+            if (range.end > adjustedEnd) {
+              adjustedEnd = range.end;
+              adjusted = true;
+            }
+          } else {
+            // リンク/メンションを除外するために選択を縮小
+            if (selection.start < range.end && selection.start >= range.start) {
+              // 選択が範囲内から始まる - 開始を範囲の後に移動
+              adjustedStart = range.end;
+              adjusted = true;
+            }
+            if (selection.end > range.start && selection.end <= range.end) {
+              // 選択が範囲内で終わる - 終了を範囲の前に移動
+              adjustedEnd = range.start;
+              adjusted = true;
+            }
+          }
+        }
+      }
+    }
+
+    if (adjusted) {
+      return TextSelection(
+        baseOffset: adjustedStart,
+        extentOffset: adjustedEnd,
+      );
+    }
+
+    return selection;
+  }
+
+  /// Reopens the input connection even if one already exists.
+  /// This is useful when the connection was hidden but not closed (e.g., by TextInput.hide).
+  ///
+  /// 既存の接続がある場合でも入力接続を再開します。
+  /// 接続が非表示になったが閉じられていない場合（例: TextInput.hideによる）に便利です。
+  void reopenInputConnection() {
+    // 既存の接続がある場合は閉じる
+    _closeInputConnectionIfNeeded();
+    // 新しい接続を開く
+    _openInputConnection();
+  }
+
   /// Clears the IME composing state.
   ///
   /// This should be called when operations like undo/redo need to
@@ -531,170 +634,28 @@ class MarkdownFieldState extends State<MarkdownField>
     _composingRegion = null;
   }
 
-  String _getPlainText() {
-    // Always use controller's text, which is now updated during IME composing
-    final plainText = widget.controller.getPlainText();
-
-    // Debug: Check consistency between _composingText and controller
-    if (_composingText != null && _composingText != plainText) {
-      debugPrint("⚠️ IME/Controller inconsistency detected:");
-      debugPrint(
-          "  _composingText: '$_composingText' (${_composingText!.length} chars)");
-      debugPrint("  controller text: '$plainText' (${plainText.length} chars)");
-      debugPrint("  Stack trace: ${StackTrace.current}");
-    }
-
-    return plainText;
-  }
-
-  /// Adjusts the selection to ensure links and mentions are selected as a whole
-  /// or not at all. If the selection partially overlaps with a link or mention,
-  /// it will be expanded to include the entire link/mention or contracted to exclude it.
-  ///
-  /// リンクやメンションが全体として選択されるか、まったく選択されないように選択範囲を調整します。
-  TextSelection _adjustSelectionForLinksAndMentions(TextSelection selection) {
-    debugPrint(
-        "🔍 _adjustSelectionForLinksAndMentions called: ${selection.start}-${selection.end}");
-    if (selection.isCollapsed || widget.controller.value == null) {
-      debugPrint(
-          "  → Skipping: selection is collapsed or controller value is null");
-      return selection;
-    }
-
-    var adjustedStart = selection.start;
-    var adjustedEnd = selection.end;
-    var adjusted = false;
-
-    // Get all link and mention ranges in the document
-    final ranges = <TextRange>[];
-    debugPrint("  → Scanning for link/mention ranges...");
-
-    // Traverse through the document to find all links and mentions
-    if (widget.controller.value!.isNotEmpty) {
-      final field = widget.controller.value!.first;
-      final blocks = field.children;
-      var currentOffset = 0;
-
-      for (final block in blocks) {
-        if (block is MarkdownParagraphBlockValue) {
-          for (final line in block.children) {
-            for (final span in line.children) {
-              final spanStart = currentOffset;
-              final spanEnd = currentOffset + span.value.length;
-
-              // Check if this span has a link or mention property
-              var hasLinkOrMention = false;
-              for (final property in span.properties) {
-                if (property is LinkMarkdownSpanProperty ||
-                    property is MentionMarkdownSpanProperty) {
-                  hasLinkOrMention = true;
-                  break;
-                }
-              }
-
-              if (hasLinkOrMention) {
-                ranges.add(TextRange(start: spanStart, end: spanEnd));
-                debugPrint(
-                    "    → Found link/mention at $spanStart-$spanEnd: '${span.value}'");
-              }
-
-              currentOffset += span.value.length;
-            }
-          }
-          currentOffset += 1; // newline
-        }
-      }
-    }
-
-    debugPrint("  → Found ${ranges.length} link/mention range(s)");
-
-    // Check each link/mention range
-    for (final range in ranges) {
-      // Check if selection partially overlaps with this range
-      final selectionOverlapsRange =
-          selection.end > range.start && selection.start < range.end;
-
-      if (selectionOverlapsRange) {
-        final isFullySelected =
-            selection.start <= range.start && selection.end >= range.end;
-
-        if (!isFullySelected) {
-          // Partial overlap - decide whether to expand or contract
-
-          // Calculate overlap amount
-          final overlapStart =
-              selection.start > range.start ? selection.start : range.start;
-          final overlapEnd =
-              selection.end < range.end ? selection.end : range.end;
-          final overlapLength = overlapEnd - overlapStart;
-          final rangeLength = range.end - range.start;
-
-          // If more than half is selected, expand to include the whole range
-          // Otherwise, contract to exclude it
-          if (overlapLength > rangeLength / 2) {
-            // Expand selection to include the entire link/mention
-            if (range.start < adjustedStart) {
-              adjustedStart = range.start;
-              adjusted = true;
-            }
-            if (range.end > adjustedEnd) {
-              adjustedEnd = range.end;
-              adjusted = true;
-            }
-          } else {
-            // Contract selection to exclude the link/mention
-            if (selection.start < range.end && selection.start >= range.start) {
-              // Selection starts inside the range - move start to after the range
-              adjustedStart = range.end;
-              adjusted = true;
-            }
-            if (selection.end > range.start && selection.end <= range.end) {
-              // Selection ends inside the range - move end to before the range
-              adjustedEnd = range.start;
-              adjusted = true;
-            }
-          }
-        }
-      }
-    }
-
-    if (adjusted) {
-      debugPrint(
-          "📐 Adjusted selection: ${selection.start}-${selection.end} → $adjustedStart-$adjustedEnd");
-      return TextSelection(
-        baseOffset: adjustedStart,
-        extentOffset: adjustedEnd,
-      );
-    }
-
-    return selection;
-  }
-
-  // TextInputClient implementation
+  // TextInputClientの実装
   @override
   void updateEditingValue(TextEditingValue value) {
     if (widget.readOnly) {
       return;
     }
 
-    // Get the actual current text
-    // During IME composing, use _composingText if available
-    // Otherwise use the controller's text
+    // 実際の現在のテキストを取得
+    // IME変換中は_composingTextが利用可能な場合はそれを使用
+    // そうでない場合はコントローラーのテキストを使用
     final oldText = _composingText ?? widget.controller.getPlainText();
     final newText = value.text;
 
-    // Check if we're currently composing
+    // 現在変換中かチェック
     final isComposing = value.composing.isValid && value.composing.start != -1;
 
     if (oldText != newText) {
-      // Text changed
+      // テキストが変更された
 
       if (isComposing) {
-        // During IME composing, update BOTH _composingText and controller
-        // This preserves block structure during IME input
-        if (_composingText == null) {
-          debugPrint("🎯 IME composing started");
-        }
+        // IME変換中は_composingTextとコントローラーの両方を更新
+        // これによりIME入力中のブロック構造が保持される
         _composingText = newText;
         _selection = value.selection;
         _composingRegion = TextSelection(
@@ -702,7 +663,7 @@ class MarkdownFieldState extends State<MarkdownField>
           extentOffset: value.composing.end,
         );
 
-        // Find the difference and update controller
+        // 差分を見つけてコントローラーを更新
         var start = 0;
         while (start < oldText.length &&
             start < newText.length &&
@@ -721,15 +682,15 @@ class MarkdownFieldState extends State<MarkdownField>
 
         final replacementText = newText.substring(start, newEnd);
 
-        // Update controller to maintain block structure
+        // ブロック構造を維持するためにコントローラーを更新
         widget.controller.replaceText(start, oldEnd, replacementText);
 
-        // Trigger rebuild to show composing text
+        // 変換テキストを表示するために再構築をトリガー
         setState(() {});
       } else {
-        // Composition ended or normal text input - update controller
+        // 変換終了または通常のテキスト入力 - コントローラーを更新
 
-        // Find the difference
+        // 差分を見つける
         var start = 0;
         while (start < oldText.length &&
             start < newText.length &&
@@ -748,23 +709,23 @@ class MarkdownFieldState extends State<MarkdownField>
 
         final replacementText = newText.substring(start, newEnd);
 
-        // Check if the replacement text contains a newline
+        // 置換テキストに改行が含まれているかチェック
         if (replacementText.contains("\n")) {
-          // Split by newlines and insert them one by one
+          // 改行で分割して一つずつ挿入
           final lines = replacementText.split("\n");
 
-          // First, delete the old text if any
+          // まず、古いテキストがある場合は削除
           if (oldEnd > start) {
             widget.controller.replaceText(start, oldEnd, "");
           }
 
-          // Insert first line at the cursor position
+          // カーソル位置に最初の行を挿入
           if (lines.isNotEmpty && lines.first.isNotEmpty) {
             widget.controller.replaceText(start, start, lines.first);
             start += lines.first.length;
           }
 
-          // For each additional line, insert a new paragraph
+          // 追加の各行に対して新しい段落を挿入
           for (var i = 1; i < lines.length; i++) {
             widget.controller.insertNewLine(start);
             start++; // Account for the newline character
@@ -775,31 +736,28 @@ class MarkdownFieldState extends State<MarkdownField>
             }
           }
 
-          // Update cursor position to the end of inserted text
+          // カーソル位置を挿入されたテキストの末尾に更新
           _selection = TextSelection.collapsed(offset: start);
-          // Clear composing region after newline
+          // 改行後に変換領域をクリア
           _composingRegion = null;
         } else {
-          // Check if this is a backspace/delete operation at the end of a link
+          // リンクの末尾でのバックスペース/削除操作かチェック
           final isDeletion = replacementText.isEmpty && oldEnd > start;
 
-          // Use the new cursor position from the value, or fall back to the current selection
+          // 値から新しいカーソル位置を使用、または現在の選択にフォールバック
           final cursorOffset = value.selection.isCollapsed
               ? value.selection.baseOffset
               : value.selection.end;
 
-          debugPrint(
-              "🔍 Checking deletion: isDeletion=$isDeletion, cursorOffset=$cursorOffset, _selection.isCollapsed=${_selection.isCollapsed}");
-
-          // Only check for link/mention deletion when the cursor is collapsed (no selection)
-          // AND we haven't already selected a link/mention range
+          // カーソルが折りたたまれている場合のみリンク/メンション削除をチェック（選択なし）
+          // かつ、まだリンク/メンション範囲を選択していない
           if (isDeletion && value.selection.isCollapsed) {
-            // First, check if the character immediately before cursor is plain text
-            // If so, skip link/mention checks and allow normal deletion
+            // まず、カーソルの直前の文字がプレーンテキストかチェック
+            // その場合、リンク/メンションチェックをスキップして通常の削除を許可
             var isPlainTextBeforeCursor = false;
 
             if (cursorOffset > 0) {
-              // Check if cursor is inside or at the end of a link or mention
+              // カーソルがリンクまたはメンション内または末尾にあるかチェック
               final linkRange =
                   widget.controller.getLinkRangeBeforeCursor(cursorOffset);
               final mentionRange =
@@ -807,13 +765,13 @@ class MarkdownFieldState extends State<MarkdownField>
               final totalTextLength = widget.controller.getPlainText().length;
               final charBeforeCursor = cursorOffset - 1;
 
-              // Check if cursor is AT THE END boundary of link/mention
+              // カーソルがリンク/メンションの末尾境界にあるかチェック
               final isCursorAtEndOfLink =
                   linkRange != null && cursorOffset == linkRange.end;
               final isCursorAtEndOfMention =
                   mentionRange != null && cursorOffset == mentionRange.end;
 
-              // Check if character before cursor is inside the link/mention range
+              // カーソルの前の文字がリンク/メンション範囲内にあるかチェック
               final isCharInsideLink = linkRange != null &&
                   charBeforeCursor >= linkRange.start &&
                   charBeforeCursor < linkRange.end;
@@ -821,9 +779,9 @@ class MarkdownFieldState extends State<MarkdownField>
                   charBeforeCursor >= mentionRange.start &&
                   charBeforeCursor < mentionRange.end;
 
-              // Only check for text after cursor if cursor is at the END boundary
-              // If cursor is at the end AND there's text after, allow normal deletion
-              // If cursor is inside (not at end), always select the link/mention
+              // カーソルが末尾境界にある場合のみカーソル後のテキストをチェック
+              // カーソルが末尾でかつ後にテキストがある場合、通常の削除を許可
+              // カーソルが内部にある場合（末尾でない）、常にリンク/メンションを選択
               final hasTextAfterCursor = cursorOffset < totalTextLength;
 
               final isAtEndOfLink = isCursorAtEndOfLink &&
@@ -833,44 +791,33 @@ class MarkdownFieldState extends State<MarkdownField>
                   isCharInsideMention &&
                   !hasTextAfterCursor; // Only select if at end with no text after
 
-              // If cursor is INSIDE (not at end) a link/mention, always select it
+              // カーソルがリンク/メンション内にある場合（末尾でない）、常に選択
               final isInsideLink = !isCursorAtEndOfLink && isCharInsideLink;
               final isInsideMention =
                   !isCursorAtEndOfMention && isCharInsideMention;
 
-              // Plain text only if NOT at end boundary AND NOT inside link/mention
+              // 末尾境界になくリンク/メンション内にない場合のみプレーンテキスト
               isPlainTextBeforeCursor = !isAtEndOfLink &&
                   !isAtEndOfMention &&
                   !isInsideLink &&
                   !isInsideMention;
-              debugPrint(
-                  "   Cursor at offset $cursorOffset: isPlainText=$isPlainTextBeforeCursor");
-              debugPrint(
-                  "     isAtEndOfLink=$isAtEndOfLink, isAtEndOfMention=$isAtEndOfMention");
-              debugPrint(
-                  "     isInsideLink=$isInsideLink, isInsideMention=$isInsideMention");
-              debugPrint("     hasTextAfterCursor=$hasTextAfterCursor");
             }
 
-            // Only check for link/mention boundaries if the character before cursor
+            // カーソルの前の文字がある場合のみリンク/メンション境界をチェック
             // is not plain text (i.e., it has link/mention properties)
             if (!isPlainTextBeforeCursor) {
-              // Check if cursor is at the end of a link
-              debugPrint("   Calling getLinkRangeBeforeCursor($cursorOffset)");
+              // カーソルがリンクの末尾にあるかチェック
               final linkRange =
                   widget.controller.getLinkRangeBeforeCursor(cursorOffset);
-              debugPrint("   Result: $linkRange");
               if (linkRange != null) {
-                // Check if the current selection already matches the link range
-                // If so, allow deletion to proceed
+                // 現在の選択が既にリンク範囲と一致するかチェック
+                // その場合、削除を続行を許可
                 final alreadySelected =
                     _selection.baseOffset == linkRange.start &&
                         _selection.extentOffset == linkRange.end;
 
                 if (!alreadySelected) {
-                  // Select the entire link instead of deleting
-                  debugPrint(
-                      "🔗 Backspace at end of link - selecting link range: $linkRange");
+                  // 削除する代わりにリンク全体を選択
                   _selection = TextSelection(
                     baseOffset: linkRange.start,
                     extentOffset: linkRange.end,
@@ -879,30 +826,21 @@ class MarkdownFieldState extends State<MarkdownField>
                   _updateRemoteEditingValue();
                   setState(() {});
                   return; // Don't delete, just select
-                } else {
-                  debugPrint("   Link already selected, allowing deletion");
                 }
-              } else {
-                debugPrint("   No link found before cursor");
               }
 
-              // Check if cursor is at the end of a mention
-              debugPrint(
-                  "   Calling getMentionRangeBeforeCursor($cursorOffset)");
+              // カーソルがメンションの末尾にあるかチェック
               final mentionRange =
                   widget.controller.getMentionRangeBeforeCursor(cursorOffset);
-              debugPrint("   Result: $mentionRange");
               if (mentionRange != null) {
-                // Check if the current selection already matches the mention range
-                // If so, allow deletion to proceed
+                // 現在の選択が既にメンション範囲と一致するかチェック
+                // その場合、削除の続行を許可
                 final alreadySelected =
                     _selection.baseOffset == mentionRange.start &&
                         _selection.extentOffset == mentionRange.end;
 
                 if (!alreadySelected) {
-                  // Select the entire mention instead of deleting
-                  debugPrint(
-                      "💬 Backspace at end of mention - selecting mention range: $mentionRange");
+                  // 削除する代わりにメンション全体を選択
                   _selection = TextSelection(
                     baseOffset: mentionRange.start,
                     extentOffset: mentionRange.end,
@@ -911,71 +849,48 @@ class MarkdownFieldState extends State<MarkdownField>
                   _updateRemoteEditingValue();
                   setState(() {});
                   return; // Don't delete, just select
-                } else {
-                  debugPrint("   Mention already selected, allowing deletion");
                 }
-              } else {
-                debugPrint("   No mention found before cursor");
               }
-            } else {
-              debugPrint(
-                  "   Plain text before cursor - allowing normal deletion");
             }
           }
 
-          // Check if backspace deleted a block
+          // バックスペースでブロックが削除されたかチェック
           final blockCountBefore =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
 
-          debugPrint(
-              "📝 Before replaceText: start=$start, oldEnd=$oldEnd, replacementText='$replacementText', blockCountBefore=$blockCountBefore");
-
-          // Normal text replacement
+          // 通常のテキスト置換
           widget.controller.replaceText(start, oldEnd, replacementText);
 
           final blockCountAfter =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
 
-          debugPrint(
-              "📝 After replaceText: blockCountAfter=$blockCountAfter, value.selection=${value.selection}");
-
-          // If a block was deleted (backspace at empty block start)
+          // ブロックが削除された場合（空ブロック開始時のバックスペース）
           if (blockCountAfter < blockCountBefore &&
               oldEnd > start &&
               replacementText.isEmpty) {
-            // Blocks were deleted/merged
-            // Check if the remaining text ends with a trailing newline (orphaned from deleted block)
+            // ブロックが削除/マージされた
+            // 残りのテキストが末尾の改行で終わるかチェック（削除されたブロックから孤立）
             final currentText = widget.controller.getPlainText();
-            debugPrint(
-                "   → Block deleted, currentText length=${currentText.length}, ends with newline=${currentText.endsWith('\n')}");
 
             if (currentText.endsWith("\n") && currentText.isNotEmpty) {
-              // Remove the trailing newline
+              // 末尾の改行を削除
               final newTextWithoutTrailingNewline =
                   currentText.substring(0, currentText.length - 1);
-              debugPrint(
-                  "   → Removing trailing newline, new length=${newTextWithoutTrailingNewline.length}");
 
-              // Replace all text to remove the trailing newline
+              // 末尾の改行を削除するためにすべてのテキストを置換
               widget.controller.replaceText(
                   0, currentText.length, newTextWithoutTrailingNewline);
 
-              // Position cursor at the end of the remaining text (without the newline)
+              // 残りのテキストの末尾（改行なし）にカーソルを配置
               _selection = TextSelection.collapsed(
                   offset: newTextWithoutTrailingNewline.length);
-              debugPrint(
-                  "   → Cursor positioned at end: ${newTextWithoutTrailingNewline.length}");
             } else {
-              // Keep cursor at start position (blocks were merged normally)
-              debugPrint(
-                  "   → No trailing newline, setting cursor to start=$start");
+              // 開始位置にカーソルを保持（ブロックは通常通りマージされた）
               _selection = TextSelection.collapsed(offset: start);
             }
             _composingRegion = null;
           } else {
-            // Update cursor position and composing region
-            debugPrint(
-                "   → No block deleted or not a deletion, using value.selection=${value.selection}");
+            // カーソル位置と変換領域を更新
             _selection = value.selection;
             _composingRegion = null;
           }
@@ -983,96 +898,80 @@ class MarkdownFieldState extends State<MarkdownField>
 
         widget.onChanged?.call(widget.controller.value ?? []);
 
-        // Clear composing text after updating controller
-        if (_composingText != null) {
-          debugPrint("✅ IME composing ended and committed (text changed)");
-        }
+        // コントローラー更新後に変換テキストをクリア
         _composingText = null;
 
-        // Update remote value after composing ends
+        // 変換終了後にリモート値を更新
         _updateRemoteEditingValue();
 
-        // Trigger rebuild to reflect changes
+        // 変更を反映するために再構築をトリガー
         setState(() {});
       }
     } else {
-      // Only selection or composing region changed
+      // 選択または変換領域のみが変更された
       _selection = value.selection;
-      debugPrint(
-          "📝 Selection changed: ${_selection.start}-${_selection.end}, isCollapsed=${_selection.isCollapsed}");
 
-      // Auto-adjust selection if it partially overlaps with link/mention
-      // Links and mentions should be selected as a whole or not at all
+      // リンク/メンションと部分的に重なる場合は選択を自動調整
+      // リンクとメンションは全体として選択するか、まったく選択しないか
       if (!_selection.isCollapsed) {
-        debugPrint("📝 Checking for link/mention overlap adjustment...");
         final adjustedSelection =
             _adjustSelectionForLinksAndMentions(_selection);
         if (adjustedSelection != _selection) {
-          debugPrint(
-              "📝 Selection adjusted: ${_selection.start}-${_selection.end} → ${adjustedSelection.start}-${adjustedSelection.end}");
           _selection = adjustedSelection;
           _updateRemoteEditingValue();
-        } else {
-          debugPrint("📝 No adjustment needed");
         }
       }
 
-      // Check if composing just ended (we had composing text, but now composition is invalid)
+      // 変換が終了したかチェック（変換テキストがあったが今は変換が無効）
       if (_composingText != null &&
           (!value.composing.isValid || value.composing.start == -1)) {
-        // Composition ended
+        // 変換が終了
         final textToCommit = _composingText!;
         final currentText = widget.controller.getPlainText();
 
-        // If text is already committed (textToCommit == currentText),
+        // テキストが既にコミットされている場合（textToCommit == currentText）、
         // no need to call replaceText, just clear composing state
         if (textToCommit == currentText) {
-          // Text already matches, just clear composing state
-          debugPrint("✅ IME composing ended (text already committed)");
+          // テキストは既に一致、変換状態をクリアするだけ
           _composingText = null;
           _composingRegion = null;
 
-          // Update cursor to end of text
+          // カーソルをテキストの末尾に更新
           _selection = TextSelection.collapsed(offset: textToCommit.length);
 
-          // Update remote value
+          // リモート値を更新
           _updateRemoteEditingValue();
 
           setState(() {});
         } else {
-          // Text doesn't match, need to commit
-          debugPrint("⚠️ IME composing ended with text mismatch:");
-          debugPrint("  textToCommit: '$textToCommit'");
-          debugPrint("  currentText: '$currentText'");
-
-          // Set cursor to start position before committing
-          // This ensures the history saves the correct cursor position (0)
+          // コミット前にカーソルを開始位置に設定
+          // これにより履歴が正しいカーソル位置（0）を保存
           _selection = TextSelection.collapsed(offset: currentText.length);
 
-          // Replace the entire text with the committed text
+          // コミットされたテキストですべてのテキストを置換
           widget.controller.replaceText(0, currentText.length, textToCommit);
 
           widget.onChanged?.call(widget.controller.value ?? []);
 
-          // Clear composing state
+          // 変換状態をクリア
           _composingText = null;
           _composingRegion = null;
 
-          // Update cursor to end of committed text
+          // カーソルをコミットされたテキストの末尾に更新
           _selection = TextSelection.collapsed(offset: textToCommit.length);
 
-          // Update remote value
+          // リモート値を更新
           _updateRemoteEditingValue();
 
           setState(() {});
         }
       } else if (!value.composing.isValid || value.composing.start == -1) {
-        // Composing ended but we had no composing text
+        // 変換は終了したが変換テキストはなかった
         _composingRegion = null;
         _updateRemoteEditingValue();
         setState(() {});
       } else {
-        // Still composing
+        // まだ変換中
         _composingRegion = TextSelection(
           baseOffset: value.composing.start,
           extentOffset: value.composing.end,
@@ -1083,34 +982,18 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   @override
-  void didChangeInputControl(
-    TextInputControl? oldControl,
-    TextInputControl? newControl,
-  ) {
-    // Handle input control changes
-  }
-
-  @override
   void performAction(TextInputAction action) {
-    debugPrint(
-        "🎬 performAction called: action=$action, readOnly=${widget.readOnly}");
     switch (action) {
       case TextInputAction.newline:
         if (!widget.readOnly) {
-          debugPrint(
-              "⏎ Handling newline action at offset ${_selection.baseOffset}");
-          // Insert a new paragraph at the current cursor position
+          // 現在のカーソル位置に新しい段落を挿入
           widget.controller.insertNewLine(_selection.baseOffset);
 
-          // Move cursor to the next line
+          // カーソルを次の行に移動
           _selection =
               TextSelection.collapsed(offset: _selection.baseOffset + 1);
 
-          // Clear composing state when inserting newline
-          if (_composingText != null) {
-            debugPrint("🔄 Newline inserted, clearing composing state");
-            debugPrint("  _composingText was: '$_composingText'");
-          }
+          // 改行挿入時に変換状態をクリア
           _composingText = null;
           _composingRegion = null;
 
@@ -1128,16 +1011,6 @@ class MarkdownFieldState extends State<MarkdownField>
       default:
         break;
     }
-  }
-
-  @override
-  void performPrivateCommand(String action, Map<String, dynamic> data) {
-    // Handle platform-specific commands if needed
-  }
-
-  @override
-  void updateFloatingCursor(RawFloatingCursorPoint point) {
-    // TODO: implement floating cursor for iOS
   }
 
   @override
@@ -1164,37 +1037,6 @@ class MarkdownFieldState extends State<MarkdownField>
       );
 
   @override
-  void showAutocorrectionPromptRect(int start, int end) {
-    // TODO: implement autocorrection prompt
-  }
-
-  @override
-  void insertTextPlaceholder(Size size) {
-    // TODO: implement text placeholder for iOS
-  }
-
-  @override
-  void removeTextPlaceholder() {
-    // TODO: implement text placeholder for iOS
-  }
-
-  @override
-  void showToolbar() {
-    // TODO: implement toolbar
-  }
-
-  @override
-  void insertContent(KeyboardInsertedContent content) {
-    // TODO: implement keyboard inserted content
-  }
-
-  @override
-  void performSelector(String selectorName) {
-    // Handle selector for iOS
-  }
-
-  // TextSelectionDelegate implementation
-  @override
   TextEditingValue get textEditingValue => currentTextEditingValue;
 
   set textEditingValue(TextEditingValue value) {
@@ -1218,15 +1060,7 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   @override
-  Future<void> pasteText(SelectionChangedCause cause) async {
-    if (widget.readOnly) {
-      return;
-    }
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    if (data != null && data.text != null) {
-      // TODO: implement actual paste
-    }
-  }
+  Future<void> pasteText(SelectionChangedCause cause) => Future.value();
 
   @override
   void selectAll(SelectionChangedCause cause) {
@@ -1240,14 +1074,37 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   @override
-  void bringIntoView(TextPosition position) {
-    // TODO: implement auto-scroll to cursor
-  }
+  void bringIntoView(TextPosition position) {}
 
   @override
-  void hideToolbar([bool hideHandles = true]) {
-    // TODO: implement toolbar hiding
-  }
+  void didChangeInputControl(
+      TextInputControl? oldControl, TextInputControl? newControl) {}
+
+  @override
+  void insertContent(KeyboardInsertedContent content) {}
+
+  @override
+  void performPrivateCommand(String action, Map<String, dynamic> data) {}
+
+  @override
+  void performSelector(String selectorName) {}
+  @override
+  void showAutocorrectionPromptRect(int start, int end) {}
+
+  @override
+  void insertTextPlaceholder(Size size) {}
+
+  @override
+  void removeTextPlaceholder() {}
+
+  @override
+  void updateFloatingCursor(RawFloatingCursorPoint point) {}
+
+  @override
+  void showToolbar() {}
+
+  @override
+  void hideToolbar([bool hideHandles = true]) {}
 
   @override
   bool get cutEnabled => !widget.readOnly && _selection.isValid;
@@ -1321,7 +1178,7 @@ class MarkdownFieldState extends State<MarkdownField>
           _cursorBlinkController.repeat();
         });
 
-        // When selection changes by tap/drag, clear composing region to commit IME text
+        // タップ/ドラッグで選択が変わる場合、IMEテキストをコミットするために変換領域をクリア
         // タップやドラッグでカーソルが移動した場合、コンポージングをクリアしてIMEテキストを確定
         if (cause == SelectionChangedCause.tap ||
             cause == SelectionChangedCause.drag ||
@@ -1330,7 +1187,7 @@ class MarkdownFieldState extends State<MarkdownField>
         }
 
         _updateRemoteEditingValue();
-        // Notify controller listeners so that toolbar can update based on selection state
+        // ツールバーが選択状態に基づいて更新できるようにコントローラーリスナーに通知
         // ツールバーが選択状態に基づいて更新できるようにコントローラーのリスナーに通知
         widget.controller.notifySelectionChanged();
       },
@@ -1372,6 +1229,12 @@ class MarkdownFieldState extends State<MarkdownField>
     );
   }
 
+  String _getPlainText() {
+    // IME変換中に更新されるコントローラーのテキストを常に使用
+    final plainText = widget.controller.getPlainText();
+    return plainText;
+  }
+
   /// Get the text range of a link at the given offset.
   ///
   /// 指定されたオフセットにあるリンクのテキスト範囲を取得します。
@@ -1386,12 +1249,12 @@ class MarkdownFieldState extends State<MarkdownField>
     int? linkStart;
     int? linkEnd;
 
-    // First pass: find the link URL at target offset
+    // 第1パス: ターゲットオフセットでリンクURLを検索
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -1401,9 +1264,9 @@ class MarkdownFieldState extends State<MarkdownField>
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if target offset is within this span
+              // ターゲットオフセットがこのスパン内にあるかチェック
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                // Check if this span has a link property
+                // このスパンがリンクプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is LinkMarkdownSpanProperty) {
                     targetLinkUrl = property.link;
@@ -1420,7 +1283,7 @@ class MarkdownFieldState extends State<MarkdownField>
             if (targetLinkUrl != null) {
               break;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
@@ -1428,7 +1291,7 @@ class MarkdownFieldState extends State<MarkdownField>
           if (targetLinkUrl != null) {
             break;
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1439,18 +1302,18 @@ class MarkdownFieldState extends State<MarkdownField>
       }
     }
 
-    // If no link found at target offset, return null
+    // ターゲットオフセットでリンクが見つからない場合、nullを返す
     if (targetLinkUrl == null) {
       return null;
     }
 
-    // Second pass: find the full range of consecutive spans with the same link URL
+    // 第2パス: 同じリンクURLを持つ連続したスパンの完全な範囲を検索
     currentOffset = 0;
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -1460,7 +1323,7 @@ class MarkdownFieldState extends State<MarkdownField>
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if this span has the same link URL
+              // このスパンが同じリンクURLを持つかチェック
               var hasTargetLink = false;
               for (final property in span.properties) {
                 if (property is LinkMarkdownSpanProperty &&
@@ -1471,27 +1334,27 @@ class MarkdownFieldState extends State<MarkdownField>
               }
 
               if (hasTargetLink) {
-                // Expand the link range
+                // リンク範囲を拡張
                 linkStart ??= spanStart;
                 linkEnd = spanEnd;
               } else if (linkStart != null) {
-                // We've found the end of the consecutive link spans
+                // 連続したリンクスパンの終わりを見つけた
                 if (currentOffset > targetOffset) {
                   return TextRange(start: linkStart, end: linkEnd!);
                 }
-                // Reset for next potential link range
+                // 次の潜在的なリンク範囲のためにリセット
                 linkStart = null;
                 linkEnd = null;
               }
 
               currentOffset += spanLength;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1499,7 +1362,7 @@ class MarkdownFieldState extends State<MarkdownField>
       }
     }
 
-    // Return the range if we found one
+    // 範囲が見つかった場合は返す
     if (linkStart != null && linkEnd != null) {
       return TextRange(start: linkStart, end: linkEnd);
     }
@@ -1521,12 +1384,12 @@ class MarkdownFieldState extends State<MarkdownField>
     int? mentionStart;
     int? mentionEnd;
 
-    // First pass: find the mention at target offset
+    // 第1パス: ターゲットオフセットでメンションを検索
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -1536,9 +1399,9 @@ class MarkdownFieldState extends State<MarkdownField>
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if target offset is within this span
+              // ターゲットオフセットがこのスパン内にあるかチェック
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                // Check if this span has a mention property
+                // このスパンがメンションプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty) {
                     targetMention = property.mention;
@@ -1555,7 +1418,7 @@ class MarkdownFieldState extends State<MarkdownField>
             if (targetMention != null) {
               break;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
@@ -1563,7 +1426,7 @@ class MarkdownFieldState extends State<MarkdownField>
           if (targetMention != null) {
             break;
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1574,25 +1437,25 @@ class MarkdownFieldState extends State<MarkdownField>
       }
     }
 
-    // If no mention found at target offset, return null
+    // ターゲットオフセットでメンションが見つからない場合、nullを返す
     if (targetMention == null) {
       return null;
     }
 
-    // Second pass: find the full range of consecutive spans with the same mention
-    // BUT ONLY within the same block (mentions cannot cross block boundaries)
+    // 第2パス: 同じメンションを持つ連続したスパンの完全な範囲を検索
+    // ただし同じブロック内のみ（メンションはブロック境界を越えられない）
     currentOffset = 0;
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           final blockStartOffset = currentOffset;
           var blockEndOffset = currentOffset;
 
-          // Calculate block end offset
+          // ブロック終了オフセットを計算
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
             for (final span in line.children) {
@@ -1603,14 +1466,12 @@ class MarkdownFieldState extends State<MarkdownField>
             }
           }
 
-          // Check if target offset is within this block
+          // ターゲットオフセットがこのブロック内にあるかチェック
           final isTargetInThisBlock =
               targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
 
           if (isTargetInThisBlock) {
-            debugPrint(
-                "    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
-            // Only search within this block
+            // このブロック内のみ検索
             var blockLocalOffset = currentOffset;
             for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
               final line = lines[lineIndex];
@@ -1619,7 +1480,7 @@ class MarkdownFieldState extends State<MarkdownField>
                 final spanStart = blockLocalOffset;
                 final spanEnd = blockLocalOffset + spanLength;
 
-                // Check if this span has the same mention
+                // このスパンが同じメンションを持つかチェック
                 var hasTargetMention = false;
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty &&
@@ -1630,15 +1491,11 @@ class MarkdownFieldState extends State<MarkdownField>
                 }
 
                 if (hasTargetMention) {
-                  // Expand the mention range
+                  // メンション範囲を拡張
                   mentionStart ??= spanStart;
                   mentionEnd = spanEnd;
-                  debugPrint(
-                      "       → Expanding mention range: $mentionStart-$mentionEnd");
                 } else if (mentionStart != null) {
-                  // We've found the end of the consecutive mention spans within this block
-                  debugPrint(
-                      "       → Found end of mention, returning range: $mentionStart-$mentionEnd");
+                  // このブロック内の連続したメンションスパンの終わりを見つけた
                   return TextRange(start: mentionStart, end: mentionEnd!);
                 }
 
@@ -1649,15 +1506,13 @@ class MarkdownFieldState extends State<MarkdownField>
               }
             }
 
-            // If we reached the end of the block and still have a mention range, return it
+            // ブロックの終わりに達してもメンション範囲がある場合、それを返す
             if (mentionStart != null && mentionEnd != null) {
-              debugPrint(
-                  "       → Reached end of block, returning range: $mentionStart-$mentionEnd");
               return TextRange(start: mentionStart, end: mentionEnd);
             }
           }
 
-          // Move to next block
+          // 次のブロックに移動
           currentOffset = blockEndOffset;
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1; // newline between blocks
@@ -1666,7 +1521,7 @@ class MarkdownFieldState extends State<MarkdownField>
       }
     }
 
-    // Return the range if we found one
+    // 範囲が見つかった場合は返す
     if (mentionStart != null && mentionEnd != null) {
       return TextRange(start: mentionStart, end: mentionEnd);
     }
@@ -1901,15 +1756,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     if (_selection == value) {
       return;
     }
-    // Adjust selection if callback provided - this intercepts selection changes
+    // コールバックが提供されている場合は選択を調整 - これは選択変更を傍受
     // from double-tap and handle drag operations
-    debugPrint(
-        "🎯 _RenderMarkdownEditor.selection setter: ${value.start}-${value.end}");
     final adjustedValue = _selectionAdjuster?.call(value) ?? value;
-    if (adjustedValue != value) {
-      debugPrint(
-          "  → Adjusted to: ${adjustedValue.start}-${adjustedValue.end}");
-    }
     _selection = adjustedValue;
     markNeedsPaint();
   }
@@ -2128,8 +1977,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     if (_enabled == value) {
       return;
     }
-    debugPrint(
-        "🔄 MarkdownField enabled changed: $_enabled -> $value (controller.hashCode: ${_controller.hashCode})");
     _enabled = value;
     markNeedsPaint();
   }
@@ -2140,32 +1987,30 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     if (_readOnly == value) {
       return;
     }
-    debugPrint(
-        "🔄 MarkdownField readOnly changed: $_readOnly -> $value (controller.hashCode: ${_controller.hashCode})");
     _readOnly = value;
     markNeedsPaint();
   }
 
-  // Block layout information
-  List<_BlockLayout> _blockLayouts = [];
+  // ブロックレイアウト情報
+  List<BlockLayout> _blockLayouts = [];
 
-  // Tap tracking
+  // タップ追跡
   Offset? _lastTapDownPosition;
   int? _lastTapTime;
   Timer? _longPressTimer;
   bool _longPressDetected = false;
 
-  // Track last link dialog show time to prevent duplicate calls
+  // 重複呼び出しを防ぐために最後のリンクダイアログ表示時刻を追跡
   int _lastLinkDialogShowTime = 0;
   bool _doubleTapDetected = false;
 
-  // Selection handle tracking
+  // 選択ハンドル追跡
   Offset? _startHandlePosition;
   Offset? _endHandlePosition;
   bool _isDraggingStartHandle = false;
   bool _isDraggingEndHandle = false;
 
-  // Double tap tracking
+  // ダブルタップ追跡
   static const _doubleTapTimeout = Duration(milliseconds: 300);
   static const _longPressTimeout = Duration(milliseconds: 500);
   static const _handleRadius = 8.0;
@@ -2188,34 +2033,34 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     super.detach();
   }
 
-  List<_BlockLayout> _buildBlockLayouts() {
+  List<BlockLayout> _buildBlockLayouts() {
     if (_blockLayouts.isNotEmpty) {
       return _blockLayouts;
     }
 
-    // IMPORTANT: Always use controller's block structure, even during IME composing
-    // The composing text will be rendered using the controller's structure
-    // This ensures multi-line structure is preserved during IME input
+    // 重要: IME変換中でも常にコントローラーのブロック構造を使用
+    // 変換テキストはコントローラーの構造を使用してレンダリングされる
+    // これによりIME入力中の複数行構造が保持される
 
     final fields = _controller.value ?? [];
-    final layouts = <_BlockLayout>[];
+    final layouts = <BlockLayout>[];
     var textOffset = 0;
 
-    // If there are no fields or no blocks, create a dummy empty paragraph block for cursor rendering
+    // フィールドやブロックがない場合、カーソルレンダリング用のダミー空段落ブロックを作成
     if (fields.isEmpty || fields.every((f) => f.children.isEmpty)) {
-      // Get block style from controller
+      // コントローラーからブロックスタイルを取得
       final padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
           as EdgeInsets;
       final margin =
           (_controller.style.paragraph.margin ?? EdgeInsets.zero) as EdgeInsets;
 
-      // Build text style
+      // テキストスタイルを構築
       final baseStyle = _controller.style.paragraph.textStyle ?? _style;
       final textStyle = baseStyle.copyWith(
         color: _controller.style.paragraph.foregroundColor ?? baseStyle.color,
       );
 
-      // Create text painter for empty block
+      // 空ブロック用のテキストペインターを作成
       final painter = TextPainter(
         text: TextSpan(text: "", style: textStyle),
         textAlign: _textAlign,
@@ -2225,24 +2070,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         strutStyle: _strutStyle,
       );
 
-      // Create a dummy block for layout purposes
-      const dummyBlock = MarkdownParagraphBlockValue(
-        id: "dummy",
-        children: [
-          MarkdownLineValue(
-            id: "dummy-line",
-            children: [
-              MarkdownSpanValue(
-                id: "dummy-span",
-                value: "",
-              ),
-            ],
-          ),
-        ],
-      );
-
-      layouts.add(_BlockLayout(
-        block: dummyBlock,
+      layouts.add(BlockLayout(
+        block: MarkdownBlockValue.createEmpty(),
         painter: painter,
         textOffset: 0,
         textLength: 0,
@@ -2257,191 +2086,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     for (final field in fields) {
       for (final block in field.children) {
-        if (block is MarkdownParagraphBlockValue) {
-          // Get block style from controller
-          var padding = (_controller.style.paragraph.padding ?? EdgeInsets.zero)
-              as EdgeInsets;
-          final margin = (_controller.style.paragraph.margin ?? EdgeInsets.zero)
-              as EdgeInsets;
-
-          // Apply indent
-          final indentWidth = block.indent * _controller.style.indentWidth;
-          padding = padding.copyWith(left: padding.left + indentWidth);
-
-          // Build base text style
-          final baseStyle = _controller.style.paragraph.textStyle ?? _style;
-          final baseTextStyle = baseStyle.copyWith(
-            color:
-                _controller.style.paragraph.foregroundColor ?? baseStyle.color,
-          );
-
-          // Build TextSpan tree with individual styles for each span
-          final textSpans = <TextSpan>[];
-          final spanInfos = <_SpanInfo>[];
-          var totalLength = 0;
-
-          for (var i = 0; i < block.children.length; i++) {
-            final line = block.children[i];
-            for (final span in line.children) {
-              // Apply span-specific style
-              final spanStyle =
-                  span.textStyle(this, _controller, baseTextStyle);
-
-              textSpans.add(TextSpan(
-                text: span.value,
-                style: spanStyle,
-              ));
-
-              // Store span info
-              spanInfos.add(_SpanInfo(
-                span: span,
-                localOffset: totalLength,
-                length: span.value.length,
-              ));
-
-              totalLength += span.value.length;
-            }
-            if (i < block.children.length - 1) {
-              textSpans.add(TextSpan(text: "\n", style: baseTextStyle));
-              totalLength += 1;
-            }
-          }
-
-          // Create text painter for this block
-          final painter = TextPainter(
-            text: TextSpan(children: textSpans, style: baseTextStyle),
-            textAlign: _textAlign,
-            textDirection: _textDirection,
-            textWidthBasis: _textWidthBasis,
-            textHeightBehavior: _textHeightBehavior,
-            strutStyle: _strutStyle,
-          );
-
-          layouts.add(_BlockLayout(
-            block: block,
-            painter: painter,
-            textOffset: textOffset,
-            textLength: totalLength,
-            padding: padding,
-            margin: margin,
-            spans: spanInfos,
-          ));
-
-          textOffset += totalLength + 1; // +1 for newline between blocks
-        } else if (block is MarkdownBulletedListBlockValue) {
-          // Get block style from controller
-          var padding =
-              (_controller.style.list.padding ?? EdgeInsets.zero) as EdgeInsets;
-          final margin =
-              (_controller.style.list.margin ?? EdgeInsets.zero) as EdgeInsets;
-
-          // Apply indent
-          final indentWidth = block.indent * _controller.style.indentWidth;
-          padding = padding.copyWith(
-              left: padding.left + indentWidth + _controller.style.indentWidth);
-
-          // Build base text style
-          final foregroundColor = _controller.style.list.foregroundColor ??
-              _theme.colorScheme.onSurface;
-          final baseStyle = _controller.style.list.textStyle ?? _style;
-          final baseTextStyle = baseStyle.copyWith(
-            color: foregroundColor,
-          );
-
-          // Build TextSpan tree with individual styles for each span
-          // NOTE: Marker is NOT included in the text content
-          final textSpans = <TextSpan>[];
-          final spanInfos = <_SpanInfo>[];
-          var totalLength = 0;
-
-          for (var i = 0; i < block.children.length; i++) {
-            final line = block.children[i];
-            for (final span in line.children) {
-              // Apply span-specific style
-              final spanStyle =
-                  span.textStyle(this, _controller, baseTextStyle);
-
-              textSpans.add(TextSpan(
-                text: span.value,
-                style: spanStyle,
-              ));
-
-              // Store span info
-              spanInfos.add(_SpanInfo(
-                span: span,
-                localOffset: totalLength,
-                length: span.value.length,
-              ));
-
-              totalLength += span.value.length;
-            }
-            if (i < block.children.length - 1) {
-              textSpans.add(TextSpan(text: "\n", style: baseTextStyle));
-              totalLength += 1;
-            }
-          }
-
-          // Create text painter for this block (without marker)
-          final painter = TextPainter(
-            text: TextSpan(children: textSpans, style: baseTextStyle),
-            textAlign: _textAlign,
-            textDirection: _textDirection,
-            textWidthBasis: _textWidthBasis,
-            textHeightBehavior: _textHeightBehavior,
-            strutStyle: _strutStyle,
-          );
-
-          // Create marker info with indent-based symbol
-          void Function(Canvas canvas, Offset offset)? markerSymbol;
-          final markerIndent = block.indent % 3;
-          switch (markerIndent) {
-            case 0:
-              markerSymbol = (canvas, offset) {
-                canvas.drawCircle(offset, 4, Paint()..color = foregroundColor);
-              };
-              break;
-            case 1:
-              markerSymbol = (canvas, offset) {
-                canvas.drawCircle(
-                    offset,
-                    4,
-                    Paint()
-                      ..style = PaintingStyle.stroke
-                      ..strokeWidth = 2
-                      ..color = foregroundColor);
-              };
-              break;
-            default:
-              markerSymbol = (canvas, offset) {
-                canvas.drawRect(
-                  Rect.fromCenter(
-                    center: offset,
-                    width: 8,
-                    height: 8,
-                  ),
-                  Paint()..color = foregroundColor,
-                );
-              };
-              break;
-          }
-          final markerInfo = MarkerInfo(
-            markerBuilder: markerSymbol,
-            width: _controller.style.indentWidth,
-          );
-
-          layouts.add(_BlockLayout(
-            block: block,
-            painter: painter,
-            textOffset: textOffset,
-            textLength: totalLength,
-            padding: padding,
-            margin: margin,
-            spans: spanInfos,
-            marker: markerInfo,
-          ));
-
-          textOffset += totalLength + 1; // +1 for newline between blocks
+        final layout = block.build(this, _controller, textOffset);
+        if (layout == null) {
+          continue;
         }
+        layouts.add(layout);
+        textOffset += layout.textLength + 1; // +1 for newline between blocks
       }
     }
 
@@ -2459,35 +2109,35 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     for (var i = 0; i < layouts.length; i++) {
       final layout = layouts[i];
 
-      // Add margin top
+      // マージン上部を追加
       totalHeight += layout.margin.top;
 
-      // Add padding top
+      // パディング上部を追加
       totalHeight += layout.padding.top;
 
-      // Layout text painter with padding
+      // パディング付きでテキストペインターをレイアウト
       final contentWidth = maxWidth - layout.padding.horizontal;
       layout.painter.layout(
         minWidth: contentWidth,
         maxWidth: contentWidth,
       );
 
-      // Store the offset where the text content starts (after padding)
+      // テキストコンテンツが始まるオフセットを保存（パディング後）
       layout.offset = Offset(0, totalHeight);
 
-      // Calculate total block height with padding
+      // パディング付きのブロック全体の高さを計算
       final blockHeight = layout.painter.height +
           layout.padding.vertical +
           layout.margin.bottom;
       layout.height = blockHeight;
 
-      // Move totalHeight to the end of this block
+      // totalHeightをこのブロックの終わりに移動
       totalHeight +=
           layout.painter.height + layout.padding.bottom + layout.margin.bottom;
     }
 
-    // If expands is true and maxHeight is finite, use the maximum available height
-    // Otherwise, use the actual content height
+    // expandsがtrueで maxHeightが有限の場合、利用可能な最大の高さを使用
+    // それ以外の場合は実際のコンテンツの高さを使用
     final height = _expands && constraints.maxHeight.isFinite
         ? constraints.maxHeight
         : totalHeight;
@@ -2501,12 +2151,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   @override
   void paint(PaintingContext context, Offset offset) {
     final canvas = context.canvas;
-    // Use already computed layouts from performLayout
+    // performLayoutから既に計算されたレイアウトを使用
     final layouts = _blockLayouts;
 
     var currentTextOffset = 0;
 
-    // Reset handle positions
+    // ハンドル位置をリセット
     _startHandlePosition = null;
     _endHandlePosition = null;
 
@@ -2517,10 +2167,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       final blockOffset =
           offset + layout.offset + Offset(layout.padding.left, 0);
 
-      // Draw block background if any
+      // ブロック背景がある場合は描画
       final backgroundColor = layout.block.backgroundColor(this, controller);
       if (backgroundColor != null) {
-        // Background should cover entire block including padding
+        // 背景はパディングを含むブロック全体をカバー
         final blockRect = Rect.fromLTWH(
           offset.dx,
           offset.dy + layout.offset.dy - layout.padding.top,
@@ -2533,11 +2183,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         );
       }
 
-      // Calculate selection for this block
+      // このブロックの選択を計算
       final blockStart = currentTextOffset;
       final blockEnd = currentTextOffset + layout.textLength;
 
-      // Draw selection for this block
+      // このブロックの選択を描画
       if (_selection.isValid && !_selection.isCollapsed) {
         if (_selection.start < blockEnd && _selection.end > blockStart) {
           final localStart =
@@ -2553,18 +2203,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           final boxes = layout.painter.getBoxesForSelection(localSelection);
           final paint = Paint()..color = _selectionColor;
 
-          // Draw selection boxes as returned by TextPainter
-          // This correctly handles text wrapping within the block
+          // TextPainterが返す選択ボックスを描画
+          // これによりブロック内のテキストの折り返しが正しく処理される
           for (final box in boxes) {
             final boxRect = box.toRect().shift(blockOffset);
             canvas.drawRect(boxRect, paint);
           }
 
-          // Calculate handle positions at the selection start/end
-          // Store positions in local coordinates (without offset)
-          // Only show start handle if this block contains the actual start of the selection
+          // 選択の開始/終了でハンドル位置を計算
+          // ローカル座標（オフセットなし）で位置を保存
+          // このブロックが選択の実際の開始を含む場合のみ開始ハンドルを表示
           if (_selection.start >= blockStart && _selection.start < blockEnd) {
-            // Start handle - use actual caret position including Y coordinate
+            // 開始ハンドル - Y座標を含む実際のキャレット位置を使用
             final startOffset = layout.painter.getOffsetForCaret(
               TextPosition(offset: localStart),
               Rect.zero,
@@ -2572,9 +2222,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             _startHandlePosition =
                 Offset(layout.padding.left, layout.offset.dy) + startOffset;
           }
-          // Only show end handle if this block contains the actual end of the selection
+          // このブロックが選択の実際の終了を含む場合のみ終了ハンドルを表示
           if (_selection.end > blockStart && _selection.end <= blockEnd) {
-            // End handle - use actual caret position including Y coordinate
+            // 終了ハンドル - Y座標を含む実際のキャレット位置を使用
             final endOffset = layout.painter.getOffsetForCaret(
               TextPosition(offset: localEnd),
               Rect.zero,
@@ -2585,8 +2235,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       }
 
-      // Draw span background decorations
-      // Merge adjacent spans with the same decoration type
+      // スパンの背景装飾を描画
+      // 同じ装飾タイプの隣接スパンをマージ
       final decorationGroups = <_DecorationGroup>[];
       BoxDecoration? currentDecoration;
       int? groupStart;
@@ -2597,22 +2247,22 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         final decoration =
             spanInfo.span.backgroundDecoration(this, _controller, null);
 
-        // Check if this span has a code decoration
+        // このスパンがコード装飾を持つかチェック
         final hasCodeDecoration = spanInfo.span.properties
-            .any((p) => p.type == "__markdown_inline_font_code__");
+            .any((p) => p is CodeFontMarkdownSpanProperty);
 
         if (hasCodeDecoration && decoration != null) {
           if (currentDecoration == null) {
-            // Start new group
+            // 新しいグループを開始
             currentDecoration = decoration;
             groupStart = spanInfo.localOffset;
             groupEnd = spanInfo.localOffset + spanInfo.length;
           } else {
-            // Extend current group
+            // 現在のグループを拡張
             groupEnd = spanInfo.localOffset + spanInfo.length;
           }
         } else {
-          // End current group if exists
+          // 現在のグループがあれば終了
           if (currentDecoration != null &&
               groupStart != null &&
               groupEnd != null) {
@@ -2628,7 +2278,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       }
 
-      // Add last group if exists
+      // 最後のグループがあれば追加
       if (currentDecoration != null && groupStart != null && groupEnd != null) {
         decorationGroups.add(_DecorationGroup(
           decoration: currentDecoration,
@@ -2637,7 +2287,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         ));
       }
 
-      // Draw merged decoration groups
+      // マージされた装飾グループを描画
       for (final group in decorationGroups) {
         final spanSelection = TextSelection(
           baseOffset: group.start,
@@ -2646,7 +2296,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         final boxes = layout.painter.getBoxesForSelection(spanSelection);
         for (final box in boxes) {
           var boxRect = box.toRect().shift(blockOffset);
-          // Add 2px padding
+          // 2pxのパディングを追加
           boxRect = boxRect.inflate(2.0);
           final paint = Paint();
           if (group.decoration.color != null) {
@@ -2662,9 +2312,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       }
 
-      // Draw marker for list blocks (before text)
+      // リストブロックのマーカーを描画（テキストの前）
       if (layout.marker != null) {
-        // Calculate marker position (to the left of the text)
+        // マーカー位置を計算（テキストの左側）
         final markerOffset = Offset(
           offset.dx +
               layout.offset.dx +
@@ -2673,7 +2323,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           offset.dy + layout.offset.dy,
         );
 
-        // Create marker painter
+        // マーカーペインターを作成
         layout.marker?.markerBuilder?.call(
           canvas,
           markerOffset +
@@ -2682,10 +2332,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         );
       }
 
-      // Draw text
+      // テキストを描画
       layout.painter.paint(canvas, blockOffset);
 
-      // Draw cursor for this block
+      // このブロックのカーソルを描画
       if (_showCursor &&
           _selection.isValid &&
           _selection.isCollapsed &&
@@ -2719,13 +2369,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       currentTextOffset = blockEnd + 1; // +1 for newline between blocks
     }
 
-    // Draw selection handles
+    // 選択ハンドルを描画
     if (_selection.isValid && !_selection.isCollapsed) {
       final handlePaint = Paint()
         ..color = _cursorColor
         ..style = PaintingStyle.fill;
 
-      // Draw start handle (add offset for drawing)
+      // 開始ハンドルを描画（描画用のオフセットを追加）
       if (_startHandlePosition != null) {
         _drawSelectionHandle(
           canvas,
@@ -2735,7 +2385,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         );
       }
 
-      // Draw end handle (add offset for drawing)
+      // 終了ハンドルを描画（描画用のオフセットを追加）
       if (_endHandlePosition != null) {
         _drawSelectionHandle(
           canvas,
@@ -2753,10 +2403,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     Paint paint, {
     required bool isLeft,
   }) {
-    // Draw circle handle at the top
+    // 上部に円形ハンドルを描画
     canvas.drawCircle(position, _handleRadius, paint);
 
-    // Draw line extending downward from handle
+    // ハンドルから下に伸びる線を描画
     final lineStart = position;
     final lineEnd = Offset(position.dx, position.dy + _handleRadius * 3);
     canvas.drawLine(
@@ -2801,23 +2451,23 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // layout.offset.dy is where text content starts (after padding top)
       final blockOffset = layout.offset + Offset(layout.padding.left, 0);
       final blockBottom = blockOffset.dy + layout.painter.height;
-      // Block top includes the padding area above the text
+      // ブロック上部はテキストの上のパディングエリアを含む
       final blockTop = layout.offset.dy - layout.padding.top;
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
-        // Position is within this block's text area
-        // For BulletedList blocks, check if position is in the marker area
+        // 位置がこのブロックのテキストエリア内にある
+        // BulletedListブロックの場合、位置がマーカーエリアにあるかチェック
         if (layout.marker != null) {
           final markerLeft =
               layout.offset.dx + layout.padding.left - layout.marker!.width;
           final markerRight = layout.offset.dx + layout.padding.left;
-          // If clicking in the marker area, treat as beginning of text
+          // マーカーエリアをクリックした場合、テキストの開始として扱う
           if (position.dx >= markerLeft && position.dx < markerRight) {
             return currentTextOffset;
           }
         }
 
-        // TextPainter.getPositionForOffset handles text wrapping correctly
+        // TextPainter.getPositionForOffsetはテキストの折り返しを正しく処理
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
         return currentTextOffset + textPosition.offset;
@@ -2826,8 +2476,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               layout.offset.dy +
                   layout.painter.height +
                   layout.padding.bottom) {
-        // Position is in vertical padding area
-        // If expands is true, treat as end of text
+        // 位置が垂直パディングエリア内にある
+        // expandsがtrueの場合、テキストの終了として扱う
         if (_expands) {
           return currentTextOffset + layout.textLength;
         } else {
@@ -2839,8 +2489,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           layout.textLength + 1; // +1 for newline between blocks
     }
 
-    // Position is after all blocks (below the last text block)
-    // This is still within the editor field area, so:
+    // 位置がすべてのブロックの後（最後のテキストブロックの下）
+    // これはまだエディタフィールドエリア内なので:
     // - If expands is true: return end of text (cursor at end)
     // - If expands is false: return null to deselect
     if (_expands && layouts.isNotEmpty) {
@@ -2855,8 +2505,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
 
-    // Check if tapping on selection handles
-    // Check both handles and select the closer one if both are in range
+    // 選択ハンドルをタップしているかチェック
+    // 両方のハンドルをチェックし、両方が範囲内の場合は近い方を選択
     final startDistance = _startHandlePosition != null
         ? (position - _startHandlePosition!).distance
         : double.infinity;
@@ -2865,7 +2515,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         : double.infinity;
 
     if (startDistance < _handleRadius * 3 || endDistance < _handleRadius * 3) {
-      // Select the closer handle
+      // 近い方のハンドルを選択
       if (startDistance < endDistance) {
         _isDraggingStartHandle = true;
       } else {
@@ -2874,18 +2524,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       return;
     }
 
-    // Reset flags
+    // フラグをリセット
     _longPressDetected = false;
     _doubleTapDetected = false;
     _isDraggingStartHandle = false;
     _isDraggingEndHandle = false;
 
-    // Check for double tap
+    // ダブルタップをチェック
     if (_lastTapTime != null &&
         _lastTapDownPosition != null &&
         now - _lastTapTime! < _doubleTapTimeout.inMilliseconds &&
         (position - _lastTapDownPosition!).distance < 20) {
-      // Double tap detected
+      // ダブルタップ検出
       _doubleTapDetected = true;
       _handleDoubleTapDetected(event.position);
       _lastTapTime = null;
@@ -2897,7 +2547,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     _lastTapDownPosition = position;
     _lastTapTime = now;
 
-    // Start long press timer
+    // ロングプレスタイマーを開始
     _longPressTimer?.cancel();
     _longPressTimer = Timer(_longPressTimeout, () {
       _longPressDetected = true;
@@ -2906,80 +2556,60 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   String? _getLinkAtOffset(int targetOffset) {
-    debugPrint("🔎 _getLinkAtOffset: targetOffset=$targetOffset");
     final controllerValue = _controller.value;
     if (controllerValue == null || controllerValue.isEmpty) {
-      debugPrint("   → Controller value is null or empty");
       return null;
     }
 
     var currentOffset = 0;
 
-    // Traverse through MarkdownFieldValue items
+    // MarkdownFieldValue項目を走査
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
-      // Traverse through blocks in each MarkdownFieldValue
+      // 各MarkdownFieldValue内のブロックを走査
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        // Only handle paragraph blocks for now
-        if (blockValue is MarkdownParagraphBlockValue) {
+        // 現時点では段落ブロックのみ処理
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint(
-              "   Paragraph block $blockIndex with ${lines.length} lines");
-          // Traverse through lines
+          // 行を走査
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
-            debugPrint("   Line $lineIndex (currentOffset=$currentOffset):");
-            // Traverse through spans
+            // スパンを走査
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint(
-                  "      Span: '${span.value}' (start=$spanStart, end=$spanEnd, length=$spanLength)");
 
-              // Check if target offset is within this span
+              // ターゲットオフセットがこのスパン内にあるかチェック
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                debugPrint(
-                    "      → Target offset $targetOffset is in this span");
-                // Check if this span has a link property
+                // このスパンがリンクプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is LinkMarkdownSpanProperty) {
-                    debugPrint("      → Found link: ${property.link}");
                     return property.link;
                   }
                 }
-                // Found the span but no link property
-                debugPrint("      → No link property in this span");
                 return null;
               }
 
               currentOffset += spanLength;
             }
 
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
-              debugPrint(
-                  "      Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
               currentOffset += 1;
             }
           }
 
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
-            debugPrint(
-                "   Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
             currentOffset += 1;
-          } else {
-            debugPrint(
-                "   Last block, no newline added (currentOffset stays: $currentOffset)");
           }
         }
       }
     }
 
-    debugPrint("   → No link found at targetOffset");
     return null;
   }
 
@@ -2987,80 +2617,60 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   ///
   /// 指定されたオフセットにあるメンションを取得します。
   MarkdownMention? _getMentionAtOffset(int targetOffset) {
-    debugPrint("🔎 _getMentionAtOffset: targetOffset=$targetOffset");
     final controllerValue = _controller.value;
     if (controllerValue == null || controllerValue.isEmpty) {
-      debugPrint("   → Controller value is null or empty");
       return null;
     }
 
     var currentOffset = 0;
 
-    // Traverse through MarkdownFieldValue items
+    // MarkdownFieldValue項目を走査
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
-      // Traverse through blocks in each MarkdownFieldValue
+      // 各MarkdownFieldValue内のブロックを走査
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        // Only handle paragraph blocks for now
-        if (blockValue is MarkdownParagraphBlockValue) {
-          final paragraphBlock = blockValue;
-          final lines = paragraphBlock.children;
-          debugPrint(
-              "   Paragraph block $blockIndex with ${lines.length} lines");
-          // Traverse through lines
+        // 現時点では段落ブロックのみ処理
+        if (blockValue is MarkdownMultiLineBlockValue) {
+          final multiLineBlock = blockValue;
+          final lines = multiLineBlock.children;
+          // 行を走査
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
-            debugPrint("   Line $lineIndex (currentOffset=$currentOffset):");
-            // Traverse through spans
+            // スパンを走査
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint(
-                  "      Span: '${span.value}' (start=$spanStart, end=$spanEnd, length=$spanLength)");
 
-              // Check if target offset is within this span
+              // ターゲットオフセットがこのスパン内にあるかチェック
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                debugPrint(
-                    "      → Target offset $targetOffset is in this span");
-                // Check if this span has a mention property
+                // このスパンがメンションプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty) {
-                    debugPrint("      → Found mention: ${property.mention.id}");
                     return property.mention;
                   }
                 }
-                // Found the span but no mention property
-                debugPrint("      → No mention property in this span");
                 return null;
               }
 
               currentOffset += spanLength;
             }
 
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
-              debugPrint(
-                  "      Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
               currentOffset += 1;
             }
           }
 
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
-            debugPrint(
-                "   Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
             currentOffset += 1;
-          } else {
-            debugPrint(
-                "   Last block, no newline added (currentOffset stays: $currentOffset)");
           }
         }
       }
     }
 
-    debugPrint("   → No mention found at targetOffset");
     return null;
   }
 
@@ -3068,7 +2678,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   ///
   /// 指定されたオフセットにあるリンクのテキスト範囲を取得します。
   TextRange? _getLinkRangeAtOffset(int targetOffset) {
-    debugPrint("🔍 _getLinkRangeAtOffset: targetOffset=$targetOffset");
     final controllerValue = _controller.value;
     if (controllerValue == null || controllerValue.isEmpty) {
       return null;
@@ -3079,12 +2688,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     int? linkStart;
     int? linkEnd;
 
-    // First pass: find the link URL at target offset
+    // 第1パス: ターゲットオフセットでリンクURLを検索
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -3094,9 +2703,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if target offset is within this span
+              // ターゲットオフセットがこのスパン内にあるかチェック
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                // Check if this span has a link property
+                // このスパンがリンクプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is LinkMarkdownSpanProperty) {
                     targetLinkUrl = property.link;
@@ -3113,7 +2722,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             if (targetLinkUrl != null) {
               break;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
@@ -3121,7 +2730,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           if (targetLinkUrl != null) {
             break;
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -3132,35 +2741,28 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       }
     }
 
-    // If no link found at target offset, return null
+    // ターゲットオフセットでリンクが見つからない場合、nullを返す
     if (targetLinkUrl == null) {
       return null;
     }
 
-    // Second pass: find the full range of consecutive spans with the same link URL
-    debugPrint(
-        "   🔍 Second pass: finding full range for link: $targetLinkUrl");
+    // 第2パス: 同じリンクURLを持つ連続したスパンの完全な範囲を検索
     currentOffset = 0;
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
-          debugPrint(
-              "      Paragraph block $blockIndex with ${lines.length} lines");
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
-            debugPrint("      Line $lineIndex (currentOffset=$currentOffset):");
             for (final span in line.children) {
               final spanLength = span.value.length;
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
-              debugPrint(
-                  "         Span: '${span.value}' (start=$spanStart, end=$spanEnd)");
 
-              // Check if this span has the same link URL
+              // このスパンが同じリンクURLを持つかチェック
               var hasTargetLink = false;
               for (final property in span.properties) {
                 if (property is LinkMarkdownSpanProperty &&
@@ -3171,56 +2773,41 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               }
 
               if (hasTargetLink) {
-                // Expand the link range
+                // リンク範囲を拡張
                 linkStart ??= spanStart;
-                // Don't include trailing newline in link range
+                // リンク範囲に末尾の改行を含めない
                 linkEnd = spanEnd;
-                debugPrint(
-                    "         → Has target link. linkStart=$linkStart, linkEnd=$linkEnd");
               } else if (linkStart != null) {
-                // We've found the end of the consecutive link spans
-                // But only return if we've already passed the target offset
-                debugPrint(
-                    "         → No target link. linkStart was $linkStart, currentOffset=$currentOffset, targetOffset=$targetOffset");
+                // 連続したリンクスパンの終わりを見つけた
+                // ただし、既にターゲットオフセットを通過している場合のみ返す
                 if (currentOffset > targetOffset) {
-                  debugPrint(
-                      "         → Returning early: TextRange(start: $linkStart, end: $linkEnd)");
                   return TextRange(start: linkStart, end: linkEnd!);
                 }
-                // Reset for next potential link range
+                // 次の潜在的なリンク範囲のためにリセット
                 linkStart = null;
                 linkEnd = null;
               }
 
               currentOffset += spanLength;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
-              debugPrint(
-                  "         Adding newline within block (currentOffset: $currentOffset -> ${currentOffset + 1})");
               currentOffset += 1;
             }
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
-            debugPrint(
-                "      Adding newline after block (currentOffset: $currentOffset -> ${currentOffset + 1})");
             currentOffset += 1;
-          } else {
-            debugPrint(
-                "      Last block, no newline added (currentOffset stays: $currentOffset)");
           }
         }
       }
     }
 
-    // Return the range if we found one
+    // 範囲が見つかった場合は返す
     if (linkStart != null && linkEnd != null) {
-      debugPrint("   → Found link range: start=$linkStart, end=$linkEnd");
       return TextRange(start: linkStart, end: linkEnd);
     }
 
-    debugPrint("   → No link found at targetOffset");
     return null;
   }
 
@@ -3228,7 +2815,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   ///
   /// 指定されたオフセットにあるメンションのテキスト範囲を取得します。
   TextRange? _getMentionRangeAtOffset(int targetOffset) {
-    debugPrint("🔍 _getMentionRangeAtOffset: targetOffset=$targetOffset");
     final controllerValue = _controller.value;
     if (controllerValue == null || controllerValue.isEmpty) {
       return null;
@@ -3239,12 +2825,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     int? mentionStart;
     int? mentionEnd;
 
-    // First pass: find the mention at target offset
+    // 第1パス: ターゲットオフセットでメンションを検索
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -3254,9 +2840,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if target offset is within this span
+              // ターゲットオフセットがこのスパン内にあるかチェック
               if (targetOffset >= spanStart && targetOffset < spanEnd) {
-                // Check if this span has a mention property
+                // このスパンがメンションプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty) {
                     targetMention = property.mention;
@@ -3273,7 +2859,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             if (targetMention != null) {
               break;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
@@ -3281,7 +2867,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           if (targetMention != null) {
             break;
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロック後に改行分+1（最後を除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -3292,27 +2878,25 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       }
     }
 
-    // If no mention found at target offset, return null
+    // ターゲットオフセットでメンションが見つからない場合、nullを返す
     if (targetMention == null) {
       return null;
     }
 
-    // Second pass: find the full range of consecutive spans with the same mention
-    // BUT ONLY within the same block (mentions cannot cross block boundaries)
-    debugPrint(
-        "   🔍 Second pass: finding full range for mention: ${targetMention.id}");
+    // 第2パス: 同じメンションを持つ連続したスパンの完全な範囲を検索
+    // ただし同じブロック内のみ（メンションはブロック境界を越えられない）
     currentOffset = 0;
     for (final fieldValue in controllerValue) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           final blockStartOffset = currentOffset;
           var blockEndOffset = currentOffset;
 
-          // Calculate block end offset
+          // ブロック終了オフセットを計算
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             final line = lines[lineIndex];
             for (final span in line.children) {
@@ -3323,14 +2907,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             }
           }
 
-          // Check if target offset is within this block
+          // ターゲットオフセットがこのブロック内にあるかチェック
           final isTargetInThisBlock =
               targetOffset >= blockStartOffset && targetOffset < blockEndOffset;
 
           if (isTargetInThisBlock) {
-            debugPrint(
-                "    🔍 Target offset $targetOffset is in block $blockIndex (range: $blockStartOffset-$blockEndOffset)");
-            // Only search within this block
+            // このブロック内のみ検索
             var blockLocalOffset = currentOffset;
             for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
               final line = lines[lineIndex];
@@ -3339,7 +2921,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
                 final spanStart = blockLocalOffset;
                 final spanEnd = blockLocalOffset + spanLength;
 
-                // Check if this span has the same mention
+                // このスパンが同じメンションを持つかチェック
                 var hasTargetMention = false;
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty &&
@@ -3350,15 +2932,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
                 }
 
                 if (hasTargetMention) {
-                  // Expand the mention range
+                  // メンション範囲を拡張
                   mentionStart ??= spanStart;
                   mentionEnd = spanEnd;
-                  debugPrint(
-                      "       → Expanding mention range: $mentionStart-$mentionEnd");
                 } else if (mentionStart != null) {
-                  // We've found the end of the consecutive mention spans within this block
-                  debugPrint(
-                      "       → Found end of mention, returning range: $mentionStart-$mentionEnd");
+                  // このブロック内の連続したメンションスパンの終わりを見つけた
                   return TextRange(start: mentionStart, end: mentionEnd!);
                 }
 
@@ -3369,15 +2947,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               }
             }
 
-            // If we reached the end of the block and still have a mention range, return it
+            // ブロックの終わりに達してもメンション範囲がある場合、それを返す
             if (mentionStart != null && mentionEnd != null) {
-              debugPrint(
-                  "       → Reached end of block, returning range: $mentionStart-$mentionEnd");
               return TextRange(start: mentionStart, end: mentionEnd);
             }
           }
 
-          // Move to next block
+          // 次のブロックに移動
           currentOffset = blockEndOffset;
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1; // newline between blocks
@@ -3386,14 +2962,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       }
     }
 
-    // Return the range if we found one
+    // 範囲が見つかった場合は返す
     if (mentionStart != null && mentionEnd != null) {
-      debugPrint(
-          "   → Found mention range: start=$mentionStart, end=$mentionEnd");
       return TextRange(start: mentionStart, end: mentionEnd);
     }
 
-    debugPrint("   → No mention found at targetOffset");
     return null;
   }
 
@@ -3409,78 +2982,59 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapUp(PointerUpEvent event) {
-    debugPrint(
-        "📍 _handleTapUp called (controller.hashCode: ${_controller.hashCode})");
-
     _longPressTimer?.cancel();
     _longPressTimer = null;
 
-    // Reset handle dragging flags
+    // ハンドルドラッグフラグをリセット
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
-      debugPrint("   → Skipping: handle dragging");
       _isDraggingStartHandle = false;
       _isDraggingEndHandle = false;
       return;
     }
 
-    // If long press or double tap was detected, don't process as normal tap
+    // ロングプレスまたはダブルタップが検出された場合、通常のタップとして処理しない
     if (_longPressDetected || _doubleTapDetected) {
-      debugPrint("   → Skipping: long press or double tap detected");
       _longPressDetected = false;
       _doubleTapDetected = false;
       return;
     }
 
     if (_lastTapDownPosition == null) {
-      debugPrint("   → Skipping: no tap down position");
       return;
     }
 
     final position = globalToLocal(event.position);
 
-    // Check if it's a drag (moved too far from tap down position)
+    // ドラッグかチェック（タップダウン位置から離れすぎている）
     if ((position - _lastTapDownPosition!).distance > 10) {
-      debugPrint(
-          "   → Skipping: drag detected (distance: ${(position - _lastTapDownPosition!).distance})");
       return;
     }
 
     final textOffset = _getTextOffsetForPosition(position);
-    debugPrint("   textOffset=$textOffset");
 
     _onTap?.call();
 
     if (textOffset != null) {
-      // Check if tapped on a link
+      // リンクをタップしたかチェック
       final linkUrl = _getLinkAtOffset(textOffset);
       if (linkUrl != null && linkUrl.isNotEmpty) {
-        // Determine behavior based on enabled and readOnly state
-        debugPrint(
-            "🔗 Link tapped on field (controller.hashCode: ${_controller.hashCode})");
-        debugPrint("   enabled=$_enabled, readOnly=$_readOnly");
-        debugPrint("   focusNode.hasFocus=${_focusNode.hasFocus}");
-        debugPrint("   url=$linkUrl");
+        // enabledとreadOnly状態に基づいて動作を決定
 
         if (!_enabled || _readOnly) {
-          // When disabled or read-only: open the link
-          debugPrint(
-              "   → Opening link because enabled=$_enabled or readOnly=$_readOnly");
+          // 無効または読み取り専用の場合: リンクを開く
           _launchUrl(linkUrl);
         } else {
-          // When enabled and not read-only: select the link text and show dialog
-          debugPrint("   → Showing link dialog");
+          // 有効で読み取り専用でない場合: リンクテキストを選択してダイアログを表示
           final linkRange = _getLinkRangeAtOffset(textOffset);
           if (linkRange != null) {
-            // Prevent duplicate calls within 500ms
+            // 500ms以内の重複呼び出しを防ぐ
             final now = DateTime.now().millisecondsSinceEpoch;
             if (now - _lastLinkDialogShowTime < 500) {
-              debugPrint(
-                  "   → Skipping duplicate link dialog call (within 500ms)");
               return;
             }
             _lastLinkDialogShowTime = now;
 
-            // Select the link text
+            // リンクテキストを選択
             _onSelectionChanged(
               TextSelection(
                 baseOffset: linkRange.start,
@@ -3489,26 +3043,19 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
               SelectionChangedCause.tap,
             );
 
-            // Notify controller to show link dialog
-            debugPrint("   → Calling controller.showLinkDialog");
+            // コントローラーにリンクダイアログ表示を通知
             _controller.showLinkDialog(linkUrl);
           }
         }
         return;
       }
 
-      // Check if tapped on a mention
+      // メンションをタップしたかチェック
       final mention = _getMentionAtOffset(textOffset);
       if (mention != null) {
-        debugPrint(
-            "💬 Mention tapped on field (controller.hashCode: ${_controller.hashCode})");
-        debugPrint("   enabled=$_enabled, readOnly=$_readOnly");
-        debugPrint("   focusNode.hasFocus=${_focusNode.hasFocus}");
-        debugPrint("   mention.id=${mention.id}, mention.name=${mention.name}");
-
         final mentionRange = _getMentionRangeAtOffset(textOffset);
         if (mentionRange != null) {
-          // Select the mention text
+          // メンションテキストを選択
           _onSelectionChanged(
             TextSelection(
               baseOffset: mentionRange.start,
@@ -3517,21 +3064,19 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             SelectionChangedCause.tap,
           );
 
-          // Call the onTapMention callback
+          // onTapMentionコールバックを呼び出す
           _onTapMention?.call(mention);
         }
         return;
       }
 
-      // Tapped on text, set cursor position
-      debugPrint("   → Setting cursor position at offset $textOffset");
+      // テキストをタップ、カーソル位置を設定
       _onSelectionChanged(
         TextSelection.collapsed(offset: textOffset),
         SelectionChangedCause.tap,
       );
     } else {
-      // Tapped on empty space (padding/margin), clear selection
-      debugPrint("   → Clearing selection (tapped on empty space)");
+      // 空スペース（パディング/マージン）をタップ、選択をクリア
       _onSelectionChanged(
         const TextSelection.collapsed(offset: 0),
         SelectionChangedCause.tap,
@@ -3544,8 +3089,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final textOffset = _getTextOffsetForPosition(position);
 
     if (textOffset != null) {
-      // Select word at position
-      // Use _getPlainText() to include composing text during IME input
+      // 位置の単語を選択
+      // IME入力中の変換テキストを含めるために_getPlainText()を使用
       final text = _getPlainText();
 
       final wordBoundary = _getWordBoundary(text, textOffset);
@@ -3558,7 +3103,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         SelectionChangedCause.doubleTap,
       );
     }
-    // Call onDoubleTap callback even if tapping on empty space
+    // 空スペースをタップした場合でもonDoubleTapコールバックを呼び出す
     _onDoubleTap?.call(globalPosition);
   }
 
@@ -3567,8 +3112,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final textOffset = _getTextOffsetForPosition(position);
 
     if (textOffset != null) {
-      // Select word at position
-      // Use _getPlainText() to include composing text during IME input
+      // 位置の単語を選択
+      // IME入力中の変換テキストを含めるために_getPlainText()を使用
       final text = _getPlainText();
 
       final wordBoundary = _getWordBoundary(text, textOffset);
@@ -3581,14 +3126,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         SelectionChangedCause.longPress,
       );
     }
-    // Call onLongPress callback even if pressing on empty space
+    // 空スペースを押した場合でもonLongPressコールバックを呼び出す
     _onLongPress?.call(globalPosition);
   }
 
   TextRange _getWordBoundary(String text, int offset) {
-    // Word boundary detection
+    // 単語境界検出
 
-    // Handle empty text or invalid offset
+    // 空テキストまたは無効なオフセットを処理
     if (text.isEmpty || offset < 0 || offset > text.length) {
       return TextRange.empty;
     }
@@ -3596,14 +3141,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     var start = offset;
     var end = offset;
 
-    // Find start of word
+    // 単語の開始を検索
     while (start > 0 &&
         start <= text.length &&
         !_isWordBoundary(text[start - 1])) {
       start--;
     }
 
-    // Find end of word
+    // 単語の終了を検索
     while (end < text.length && !_isWordBoundary(text[end])) {
       end++;
     }
@@ -3612,7 +3157,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   bool _isWordBoundary(String char) {
-    // Consider whitespace, punctuation as word boundaries
+    // 空白、句読点を単語境界として考慮
     return char == " " ||
         char == "\n" ||
         char == "\t" ||
@@ -3652,13 +3197,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void _handleDragUpdate(PointerMoveEvent event) {
     final position = globalToLocal(event.position);
 
-    // Handle selection handle dragging
+    // 選択ハンドルのドラッグを処理
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
       final textOffset = _getTextOffsetForPosition(position);
 
       if (textOffset != null) {
         if (_isDraggingStartHandle) {
-          // Update start of selection
+          // 選択の開始を更新
           final newStart = textOffset.clamp(0, _selection.end);
           _onSelectionChanged(
             TextSelection(
@@ -3668,7 +3213,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
             SelectionChangedCause.drag,
           );
         } else if (_isDraggingEndHandle) {
-          // Update end of selection
+          // 選択の終了を更新
           final newEnd =
               textOffset.clamp(_selection.start, _getPlainText().length);
           _onSelectionChanged(
@@ -3680,7 +3225,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           );
         }
       }
-      // Force repaint to update handle positions
+      // ハンドル位置を更新するために強制的に再描画
       markNeedsPaint();
       return;
     }
@@ -3689,7 +3234,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       return;
     }
 
-    // Cancel long press if moved too far
+    // 離れすぎた場合はロングプレスをキャンセル
     if ((position - _lastTapDownPosition!).distance > 10) {
       _longPressTimer?.cancel();
       _longPressTimer = null;
@@ -3697,10 +3242,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     final textOffset = _getTextOffsetForPosition(position);
 
-    // Only update selection if drag is within text area
+    // ドラッグがテキストエリア内の場合のみ選択を更新
     if (textOffset != null) {
       if (_selection.isCollapsed) {
-        // Start selection from tap down position
+        // タップダウン位置から選択を開始
         final downOffset = _getTextOffsetForPosition(_lastTapDownPosition!);
         if (downOffset != null) {
           _onSelectionChanged(
@@ -3712,7 +3257,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           );
         }
       } else {
-        // Extend selection
+        // 選択を拡張
         _onSelectionChanged(
           TextSelection(
             baseOffset: _selection.baseOffset,
@@ -3725,7 +3270,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   String _getPlainText() {
-    // If composing text exists, use it for display during IME conversion
+    // 変換テキストが存在する場合、IME変換中の表示に使用
     if (_composingText != null && _composingText!.isNotEmpty) {
       return _composingText!;
     }
@@ -3736,8 +3281,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 /// Layout information for a single markdown block.
 ///
 /// 単一のマークダウンブロックのレイアウト情報。
-class _BlockLayout {
-  _BlockLayout({
+class BlockLayout {
+  /// Layout information for a single markdown block.
+  ///
+  /// 単一のマークダウンブロックのレイアウト情報。
+  BlockLayout({
     required this.block,
     required this.painter,
     required this.textOffset,

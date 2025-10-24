@@ -66,15 +66,15 @@ class MarkdownHistory {
       return;
     }
 
-    // Set flag to prevent history saves during redo
+    // やり直し中の履歴保存を防ぐためのフラグを設定
     _isUndoRedoInProgress = true;
 
     try {
-      // Cancel any pending history saves
+      // 保留中の履歴保存をキャンセル
       _historyDebounceTimer?.cancel();
       _hasPendingHistorySave = false;
 
-      // Save current state to undo stack (deep copy with cursor position)
+      // 現在の状態を元に戻すスタックに保存（カーソル位置付きディープコピー）
       final currentFieldValuesCopy = _controller._value.clone();
       final currentCursorPosition = _field?._selection.baseOffset ?? 0;
       final currentSnapshot = _HistorySnapshot(
@@ -83,23 +83,23 @@ class MarkdownHistory {
       );
       _undoStack.add(currentSnapshot);
 
-      // Restore from redo stack
+      // やり直すスタックから復元
       final snapshot = _redoStack.removeLast();
       _controller._value.clear();
       _controller._value.addAll(snapshot.fieldValues);
 
-      // Restore cursor position from snapshot and clear IME state
+      // スナップショットからカーソル位置を復元しIME状態をクリア
       if (_field != null) {
         final restoredPosition =
             snapshot.cursorPosition.clamp(0, _controller.getPlainText().length);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
-        _field!.clearComposingState(); // Clear IME composing state
+        _field!.clearComposingState(); // IME変換状態をクリア
         _field!._updateRemoteEditingValue();
       }
 
       _controller._notifyListeners();
     } finally {
-      // Reset flag
+      // フラグをリセット
       _isUndoRedoInProgress = false;
     }
   }
@@ -108,7 +108,7 @@ class MarkdownHistory {
   ///
   /// ドキュメントを元に戻します。
   void undo() {
-    // If there are pending changes, save them first
+    // 保留中の変更がある場合は、まず保存
     if (_hasPendingHistorySave) {
       _historyDebounceTimer?.cancel();
       _saveToUndoStackImmediate();
@@ -118,17 +118,17 @@ class MarkdownHistory {
       return;
     }
 
-    // Set flag to prevent history saves during undo
+    // 元に戻す中の履歴保存を防ぐためのフラグを設定
     _isUndoRedoInProgress = true;
 
     try {
-      // Cancel any pending history saves
+      // 保留中の履歴保存をキャンセル
       _historyDebounceTimer?.cancel();
       _hasPendingHistorySave = false;
 
       final currentCursorPosition = _field?._selection.baseOffset ?? 0;
 
-      // Save current state to redo stack (deep copy with cursor position)
+      // 現在の状態をやり直すスタックに保存（カーソル位置付きディープコピー）
       final currentFieldValuesCopy = _controller._value.clone();
       final currentSnapshot = _HistorySnapshot(
         fieldValues: currentFieldValuesCopy,
@@ -136,23 +136,23 @@ class MarkdownHistory {
       );
       _redoStack.add(currentSnapshot);
 
-      // Restore from undo stack
+      // 元に戻すスタックから復元
       final snapshot = _undoStack.removeLast();
       _controller._value.clear();
       _controller._value.addAll(snapshot.fieldValues);
 
-      // Restore cursor position from snapshot and clear IME state
+      // スナップショットからカーソル位置を復元しIME状態をクリア
       if (_field != null) {
         final textLength = _controller.getPlainText().length;
         final restoredPosition = snapshot.cursorPosition.clamp(0, textLength);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
-        _field!.clearComposingState(); // Clear IME composing state
+        _field!.clearComposingState(); // IME変換状態をクリア
         _field!._updateRemoteEditingValue();
       }
 
       _controller._notifyListeners();
     } finally {
-      // Reset flag
+      // フラグをリセット
       _isUndoRedoInProgress = false;
     }
   }
@@ -173,10 +173,10 @@ class MarkdownHistory {
   ///
   /// 現在の状態を元に戻すスタックに即座に保存します。
   void _saveToUndoStackImmediate() {
-    // Create a deep copy of current state
+    // 現在の状態のディープコピーを作成
     final fieldValuesCopy = _controller._value.clone();
 
-    // Get current cursor position
+    // 現在のカーソル位置を取得
     final cursorPosition = _field?._selection.baseOffset ?? 0;
 
     final snapshot = _HistorySnapshot(
@@ -186,12 +186,12 @@ class MarkdownHistory {
 
     _undoStack.add(snapshot);
 
-    // Limit stack size
+    // スタックサイズを制限
     if (_undoStack.length > _maxHistorySize) {
       _undoStack.removeAt(0);
     }
 
-    // Clear redo stack when new action is performed
+    // 新しいアクションが実行されたときにやり直すスタックをクリア
     if (_redoStack.isNotEmpty) {
       _redoStack.clear();
     }
@@ -202,17 +202,17 @@ class MarkdownHistory {
   ///
   /// デバウンスを使用して履歴保存をスケジュールします。
   void _scheduleHistorySave() {
-    // Cancel existing timer if any
+    // 既存のタイマーがあればキャンセル
     _historyDebounceTimer?.cancel();
 
-    // Mark that we have pending changes
+    // 保留中の変更があることをマーク
     _hasPendingHistorySave = true;
 
-    // Schedule a new save
+    // 新しい保存をスケジュール
     _historyDebounceTimer = Timer(_historyDebounceDuration, () {
       if (_hasPendingHistorySave) {
         _saveToUndoStackImmediate();
-        // Notify listeners to update UI (e.g., undo/redo button states)
+        // UIを更新するためにリスナーに通知（例: 元に戻す/やり直すボタンの状態）
         _controller._notifyListeners();
       }
     });
@@ -222,7 +222,7 @@ class MarkdownHistory {
   ///
   /// 履歴を破棄します。
   void dispose() {
-    // Cancel any pending history saves
+    // 保留中の履歴保存をキャンセル
     _historyDebounceTimer?.cancel();
     _historyDebounceTimer = null;
     _hasPendingHistorySave = false;

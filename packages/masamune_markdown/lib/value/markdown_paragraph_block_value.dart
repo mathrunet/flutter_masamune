@@ -40,6 +40,20 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
     );
   }
 
+  /// Create a new [MarkdownParagraphBlockValue] with an empty child.
+  ///
+  /// 新しい[MarkdownParagraphBlockValue]を作成します。
+  factory MarkdownParagraphBlockValue.createEmpty(
+      {String? initialText, List<MarkdownLineValue>? children}) {
+    return MarkdownParagraphBlockValue(
+      id: uuid(),
+      children: children ??
+          [
+            MarkdownLineValue.createEmpty(initialText: initialText),
+          ],
+    );
+  }
+
   @override
   String get type => "__text_block_paragraph__";
 
@@ -54,6 +68,11 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
       MarkdownValue.indentKey: indent,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
     };
+  }
+
+  @override
+  String toMarkdown() {
+    return children.map((e) => e.toMarkdown()).join("\n");
   }
 
   @override
@@ -95,8 +114,77 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String toMarkdown() {
-    return children.map((e) => e.toMarkdown()).join("\n");
+  BlockLayout? build(
+    RenderContext context,
+    MarkdownController controller,
+    int textOffset,
+  ) {
+    // コントローラーからブロックスタイルを取得
+    var padding =
+        (controller.style.paragraph.padding ?? EdgeInsets.zero) as EdgeInsets;
+    final margin =
+        (controller.style.paragraph.margin ?? EdgeInsets.zero) as EdgeInsets;
+
+    // インデントを適用
+    final indentWidth = indent * controller.style.indentWidth;
+    padding = padding.copyWith(left: padding.left + indentWidth);
+
+    // ベーステキストスタイルを構築
+    final baseStyle = controller.style.paragraph.textStyle ?? context.style;
+    final baseTextStyle = baseStyle.copyWith(
+      color: controller.style.paragraph.foregroundColor ?? baseStyle.color,
+    );
+
+    // 各スパンに個別のスタイルを持つTextSpanツリーを構築
+    final textSpans = <TextSpan>[];
+    final spanInfos = <_SpanInfo>[];
+    var totalLength = 0;
+
+    for (var i = 0; i < children.length; i++) {
+      final line = children[i];
+      for (final span in line.children) {
+        // スパン固有のスタイルを適用
+        final spanStyle = span.textStyle(context, controller, baseTextStyle);
+
+        textSpans.add(TextSpan(
+          text: span.value,
+          style: spanStyle,
+        ));
+
+        // スパン情報を保存
+        spanInfos.add(_SpanInfo(
+          span: span,
+          localOffset: totalLength,
+          length: span.value.length,
+        ));
+
+        totalLength += span.value.length;
+      }
+      if (i < children.length - 1) {
+        textSpans.add(TextSpan(text: "\n", style: baseTextStyle));
+        totalLength += 1;
+      }
+    }
+
+    // このブロック用のテキストペインターを作成
+    final painter = TextPainter(
+      text: TextSpan(children: textSpans, style: baseTextStyle),
+      textAlign: context.textAlign,
+      textDirection: context.textDirection,
+      textWidthBasis: context.textWidthBasis,
+      textHeightBehavior: context.textHeightBehavior,
+      strutStyle: context.strutStyle,
+    );
+
+    return BlockLayout(
+      block: this,
+      painter: painter,
+      textOffset: textOffset,
+      textLength: totalLength,
+      padding: padding,
+      margin: margin,
+      spans: spanInfos,
+    );
   }
 
   @override

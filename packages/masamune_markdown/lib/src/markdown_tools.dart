@@ -179,11 +179,6 @@ abstract class MarkdownBlockTools extends MarkdownTools {
     required super.config,
   });
 
-  /// Check if the property should be inherited on new line.
-  ///
-  /// プロパティが新しい行に継承されるかどうかを確認します。
-  bool get inheritPropertyOnNewLine => false;
-
   /// Create a new block.
   ///
   /// 新しいブロックを作成します。
@@ -229,6 +224,14 @@ abstract class MarkdownBlockVariableTools<TValue extends MarkdownBlockValue>
   ///
   /// マークダウンブロック値をマークダウン文字列に変換します。
   String? convertToMarkdown(TValue value);
+
+  /// Create a new block value.
+  ///
+  /// 新しいブロック値を作成します。
+  TValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  });
 }
 
 /// Base class for markdown inline tools.

@@ -152,7 +152,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     super.initState();
     widget.controller.addListener(_handleControllerStateOnChanged);
     _checkClipboard();
-    // Check clipboard periodically to update paste button state
     // ペーストボタンの状態を更新するために定期的にクリップボードをチェック
     // TODO: もっといい実装はないかチェック
     _clipboardCheckTimer = Timer.periodic(
@@ -383,7 +382,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
         });
       }
     } else {
-      // Update UI to reflect selection state changes (e.g., show/hide copy button)
       // 選択状態の変更を反映するためにUIを更新（例: コピーボタンの表示/非表示）
       // TODO: 状態を監視してUIを更新するようにする
       setState(() {});
@@ -403,7 +401,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       if (!e.shown(context, this)) {
         return null;
       }
-      // Wrap all tools with ListenableBuilder to re-evaluate enabled/actived on controller changes
       // すべてのツールをListenableBuilderでラップしてコントローラー変更時にenabled/activedを再評価
       if (e is MentionMarkdownPrimaryTools) {
         if (_currentTool == e && _showBlockMenu) {
@@ -471,7 +468,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
           );
         }
       } else {
-        // Re-evaluate enabled/actived when controller changes
         // コントローラー変更時にenabled/activedを再評価
         if (!e.enabled(context, this) || !e.actived(context, this)) {
           return IconButton(
@@ -607,7 +603,7 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                 8.sx,
                 IconButton(
                   onPressed: () {
-                    // Remove the link when cancel button is pressed
+                    // キャンセルボタンが押されたときにリンクを削除
                     controller.removeInlineProperty(
                       const LinkMarkdownInlineTools(),
                     );
@@ -887,7 +883,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   Widget build(BuildContext context) {
-    // When collapsed, return empty container to avoid overflow
     // collapsed時はオーバーフローを避けるために空のコンテナを返す
     if (widget.collapsed) {
       return const Empty();
@@ -896,7 +891,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     _handledOnKeyboardStateChanged();
     final theme = Theme.of(context);
 
-    // Ensure minimum height is toolbar height only when no additional content
     // 追加コンテンツがない場合の最小高さはツールバーの高さのみ
     var height = _blockMenuHeight;
     if (_linkSetting != null) {
@@ -913,7 +907,6 @@ class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
       }
     }
 
-    // Only add toolbar height, not both toolbar and block menu height
     // ツールバーの高さのみを追加し、ブロックメニューの高さは含めない
     height += _kToolbarHeight;
 
@@ -1079,7 +1072,7 @@ class _LinkSetting {
     required this.controller,
     String? initialUrl,
   }) {
-    // Initialize with current selected text and link URL
+    // 現在選択されているテキストとリンクURLで初期化
     final selection = field._selection;
 
     if (selection.isValid && !selection.isCollapsed) {
@@ -1089,12 +1082,12 @@ class _LinkSetting {
 
       titleController.text = selectedText;
 
-      // Use initialUrl if provided, otherwise try to find existing link
+      // initialUrlが提供されている場合は使用し、そうでない場合は既存のリンクを検索
       if (initialUrl != null) {
         _currentLinkUrl = initialUrl;
         urlController.text = initialUrl;
       } else {
-        // Try to find existing link property in selection
+        // 選択範囲内の既存のリンクプロパティを検索
         _currentLinkUrl = _getLinkUrlFromSelection();
 
         if (_currentLinkUrl != null) {
@@ -1131,15 +1124,15 @@ class _LinkSetting {
     var currentOffset = 0;
 
     for (final block in fieldValue.children) {
-      if (block is MarkdownParagraphBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         for (final line in block.children) {
           for (final span in line.children) {
             final spanStart = currentOffset;
             final spanEnd = currentOffset + span.value.length;
 
-            // Check if this span overlaps with the selection
+            // このスパンが選択範囲と重複しているかをチェック
             if (selectionEnd > spanStart && selectionStart < spanEnd) {
-              // Find link property
+              // リンクプロパティを検索
               for (final property in span.properties) {
                 if (property is LinkMarkdownSpanProperty) {
                   return property.link;
@@ -1150,7 +1143,7 @@ class _LinkSetting {
             currentOffset += span.value.length;
           }
         }
-        currentOffset += 1; // newline
+        currentOffset += 1; // 改行
       }
     }
 
@@ -1163,12 +1156,12 @@ class _LinkSetting {
       return;
     }
 
-    // Replace selected text with new title
+    // 選択されたテキストを新しいタイトルに置き換え
     controller.replaceText(selection.start, selection.end, title);
 
-    // Update selection to new text range
-    // Note: Direct selection update method doesn't exist on MarkdownFieldState
-    // The selection will be updated by the controller's replaceText method
+    // 選択範囲を新しいテキスト範囲に更新
+    // 注意: MarkdownFieldStateに直接の選択更新メソッドは存在しない
+    // 選択範囲はコントローラーのreplaceTextメソッドによって更新される
     field._selection = TextSelection(
       baseOffset: selection.start,
       extentOffset: selection.start + title.length,
@@ -1185,16 +1178,16 @@ class _LinkSetting {
     }
 
     if (url == null || url.isEmpty) {
-      // Remove link property
+      // リンクプロパティを削除
       const linkTool = LinkMarkdownInlineTools();
       controller.removeInlineProperty(linkTool);
     } else {
-      // First remove any existing link property
+      // まず既存のリンクプロパティを削除
       const linkTool = LinkMarkdownInlineTools();
       controller.removeInlineProperty(linkTool);
 
-      // Then add new link property with URL
-      // We need to manually update the property with the URL value
+      // 次にURL付きの新しいリンクプロパティを追加
+      // URL値でプロパティを手動更新する必要がある
       _addLinkProperty(url, selection.start, selection.end);
     }
   }
@@ -1212,7 +1205,7 @@ class _LinkSetting {
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
-      if (block is MarkdownParagraphBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         final lines = List<MarkdownLineValue>.from(block.children);
         final updatedLines = <MarkdownLineValue>[];
 
@@ -1243,7 +1236,7 @@ class _LinkSetting {
               final selectedText = span.value
                   .substring(overlapStart - spanStart, overlapEnd - spanStart);
 
-              // Add link property with URL
+              // URL付きのリンクプロパティを追加
               final linkProperty = LinkMarkdownSpanProperty(link: url);
               final newProperties = [
                 ...span.properties.where((p) => p.type != toolId),
@@ -1278,15 +1271,15 @@ class _LinkSetting {
 
     final newField = field.copyWith(children: blocks);
 
-    // Update the controller value directly
+    // コントローラーの値を直接更新
     controller.value![0] = newField;
 
-    // Force a rebuild by notifying the field
+    // フィールドに通知して強制的に再ビルド
     this.field._updateRemoteEditingValue();
   }
 
   int _getBlockTextLength(MarkdownBlockValue block) {
-    if (block is MarkdownParagraphBlockValue) {
+    if (block is MarkdownMultiLineBlockValue) {
       var length = 0;
       for (final line in block.children) {
         for (final span in line.children) {
@@ -1299,7 +1292,7 @@ class _LinkSetting {
   }
 
   void submit() {
-    // Apply link if URL is not empty
+    // URLが空でない場合はリンクを適用
     if (urlController.text.isNotEmpty) {
       updateUrl(urlController.text);
     }

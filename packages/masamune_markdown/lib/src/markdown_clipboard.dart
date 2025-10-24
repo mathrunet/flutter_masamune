@@ -30,10 +30,10 @@ class MarkdownClipboard {
       return;
     }
 
-    // Get text including composing text during IME input
+    // IME入力中の変換テキストを含むテキストを取得
     final text = field.composingText ?? _controller.getPlainText();
 
-    // Validate selection range
+    // 選択範囲を検証
     if (selection.end > text.length) {
       return;
     }
@@ -41,26 +41,26 @@ class MarkdownClipboard {
     final selectedText = selection.textInside(text);
 
     if (selectedText.isNotEmpty) {
-      // Extract spans with their properties
+      // プロパティ付きのスパンを抽出
       final extractedSpans = _controller._extractSpansFromSelection(
           selection.start, selection.end);
 
-      // Check if entire block is selected
+      // ブロック全体が選択されているかをチェック
       final blockInfo =
           _controller._isFullBlockSelected(selection.start, selection.end);
       final blockType =
           (blockInfo?.isFullBlock ?? false) ? blockInfo?.blockType : null;
 
-      // Store in internal clipboard with block information
+      // ブロック情報付きで内部クリップボードに保存
       _internalClipboard = _ClipboardData(
         spans: extractedSpans,
         blockType: blockType,
       );
 
-      // Also copy plain text to system clipboard for external paste
+      // 外部ペースト用にシステムクリップボードにもプレーンテキストをコピー
       await Clipboard.setData(ClipboardData(text: selectedText));
 
-      // Unselect text after copying
+      // コピー後にテキストの選択を解除
       field._selection = TextSelection.collapsed(offset: selection.end);
       field._updateRemoteEditingValue();
       _controller._notifyListeners();
@@ -76,19 +76,19 @@ class MarkdownClipboard {
       return;
     }
 
-    // If there's composing text, commit it first before cutting
+    // カット前に変換テキストがある場合は、まず確定する
     if (field.composingText != null) {
       final composingText = field.composingText!;
       final currentText = _controller.getPlainText();
 
-      // Commit the composing text to controller
+      // 変換テキストをコントローラーに確定
       _controller.replaceText(0, currentText.length, composingText);
 
-      // Clear composing state
+      // 変換状態をクリア
       field._composingText = null;
       field._composingRegion = null;
 
-      // Keep the current selection
+      // 現在の選択を維持
       field._updateRemoteEditingValue();
     }
 
@@ -109,31 +109,31 @@ class MarkdownClipboard {
     final selectedText = selection.textInside(text);
 
     if (selectedText.isNotEmpty) {
-      // Extract spans with their properties
-      // IMPORTANT: Must be done BEFORE replaceText, as replaceText may merge spans
+      // プロパティ付きのスパンを抽出
+      // 重要: replaceTextの前に実行する必要がある（replaceTextがスパンをマージする可能性があるため）
       final extractedSpans = _controller._extractSpansFromSelection(
           selection.start, selection.end);
 
-      // Check if entire block is selected
+      // ブロック全体が選択されているかをチェック
       final blockInfo =
           _controller._isFullBlockSelected(selection.start, selection.end);
       final blockType =
           (blockInfo?.isFullBlock ?? false) ? blockInfo?.blockType : null;
 
-      // Store in internal clipboard with block information
+      // ブロック情報付きで内部クリップボードに保存
       _internalClipboard = _ClipboardData(
         spans: extractedSpans,
         blockType: blockType,
       );
 
-      // Also copy plain text to system clipboard for external paste
+      // 外部ペースト用にシステムクリップボードにもプレーンテキストをコピー
       await Clipboard.setData(ClipboardData(text: selectedText));
 
-      // Save current state before modification (replaceText will also save, so we skip it here)
-      // Delete the selected text
+      // 変更前に現在の状態を保存（replaceTextも保存するため、ここではスキップ）
+      // 選択されたテキストを削除
       _controller.replaceText(selection.start, selection.end, "");
 
-      // Update selection to collapsed at start position
+      // 選択を開始位置で折りたたむように更新
       field._selection = TextSelection.collapsed(offset: selection.start);
       field._updateRemoteEditingValue();
     }
@@ -148,15 +148,15 @@ class MarkdownClipboard {
       return;
     }
 
-    // If there's composing text, just clear it
-    // The text is already in the controller, no need to replace
+    // 変換テキストがある場合は、クリアするだけ
+    // テキストは既にコントローラーにあるため、置換は不要
     if (field.composingText != null) {
       debugPrint("  Clearing composing state before paste");
-      // Clear composing state
+      // 変換状態をクリア
       field._composingText = null;
       field._composingRegion = null;
 
-      // Keep the current selection
+      // 現在の選択を維持
       field._updateRemoteEditingValue();
     }
 
@@ -177,33 +177,33 @@ class MarkdownClipboard {
       return;
     }
 
-    // If there's a selection, replace it with pasted text
-    // If cursor is collapsed, insert at cursor position
+    // 選択がある場合は、ペーストしたテキストで置換
+    // カーソルが折りたたまれている場合は、カーソル位置に挿入
     final start = selection.start;
     final end = selection.end;
 
-    // Check if the pasted text contains newlines
+    // ペーストしたテキストに改行が含まれているかチェック
     if (text.contains("\n")) {
-      // Split by newlines and insert them one by one
+      // 改行で分割して一つずつ挿入
       final lines = text.split("\n");
 
-      // First, delete the selected text if any
+      // まず、選択されたテキストがあれば削除
       if (end > start) {
         _controller.replaceText(start, end, "");
       }
 
       var currentOffset = start;
 
-      // Insert first line at the cursor position
+      // カーソル位置に最初の行を挿入
       if (lines.isNotEmpty && lines.first.isNotEmpty) {
         _controller.replaceText(currentOffset, currentOffset, lines.first);
         currentOffset += lines.first.length;
       }
 
-      // For each additional line, insert a new paragraph
+      // 追加の各行に対して、新しい段落を挿入
       for (var i = 1; i < lines.length; i++) {
         _controller.insertNewLine(currentOffset);
-        currentOffset++; // Account for the newline character
+        currentOffset++; // 改行文字を考慮
 
         if (lines[i].isNotEmpty) {
           _controller.replaceText(currentOffset, currentOffset, lines[i]);
@@ -211,26 +211,26 @@ class MarkdownClipboard {
         }
       }
 
-      // Update cursor position to the end of pasted text
+      // ペーストしたテキストの末尾にカーソル位置を更新
       field._selection = TextSelection.collapsed(offset: currentOffset);
     } else {
-      // Normal text paste without newlines
-      // Check if we have internal clipboard data with properties
+      // 改行なしの通常テキストペースト
+      // プロパティ付きの内部クリップボードデータがあるかチェック
       if (_internalClipboard != null && _internalClipboard!.spans.isNotEmpty) {
-        // If clipboard has block type information, create a new block
+        // クリップボードにブロックタイプ情報がある場合、新しいブロックを作成
         if (_internalClipboard!.blockType != null) {
           _pasteAsBlock(start, end, _internalClipboard!.spans,
               _internalClipboard!.blockType!);
         } else {
-          // Restore spans with their properties (partial selection)
+          // プロパティ付きのスパンを復元（部分選択）
           _pasteSpansWithProperties(start, end, _internalClipboard!.spans);
         }
       } else {
-        // Plain text paste (from external clipboard or no properties)
+        // プレーンテキストペースト（外部クリップボードまたはプロパティなし）
         _controller.replaceText(start, end, text);
       }
 
-      // Update cursor position to the end of pasted text
+      // ペーストしたテキストの末尾にカーソル位置を更新
       final newCursorPosition = start + text.length;
       field._selection = TextSelection.collapsed(offset: newCursorPosition);
     }
@@ -251,13 +251,13 @@ class MarkdownClipboard {
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     _controller.history.saveToUndoStack(immediate: true);
 
     final field = _controller._value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which block contains the start position
+    // 開始位置を含むブロックを検索
     var currentOffset = 0;
     var targetBlockIndex = -1;
     var targetLineIndex = -1;
@@ -314,24 +314,24 @@ class MarkdownClipboard {
     final lineSpans = List<MarkdownSpanValue>.from(line.children);
     final targetSpan = lineSpans[targetSpanIndex];
 
-    // Delete selected text if any
+    // 選択されたテキストがあれば削除
     if (end > start) {
       _controller.replaceText(start, end, "");
-      // Need to recalculate position after deletion
-      // For simplicity, we'll just insert at start
+      // 削除後に位置を再計算する必要がある
+      // 簡単のため、開始位置に挿入する
     }
 
-    // Split the target span at the insertion point
+    // 挿入位置でターゲットスパンを分割
     final beforeText = targetSpan.value.substring(0, offsetInSpan);
     final afterText = targetSpan.value.substring(offsetInSpan);
 
-    // Build new spans list
+    // 新しいスパンリストを構築
     final newSpans = <MarkdownSpanValue>[];
 
-    // Add spans before the target
+    // ターゲットの前のスパンを追加
     newSpans.addAll(lineSpans.take(targetSpanIndex));
 
-    // Add the "before" part of the split span
+    // 分割されたスパンの「前」部分を追加
     if (beforeText.isNotEmpty) {
       newSpans.add(targetSpan.copyWith(
         id: uuid(),
@@ -339,10 +339,10 @@ class MarkdownClipboard {
       ));
     }
 
-    // Add the pasted spans
+    // ペーストされたスパンを追加
     newSpans.addAll(spans);
 
-    // Add the "after" part of the split span
+    // 分割されたスパンの「後」部分を追加
     if (afterText.isNotEmpty) {
       newSpans.add(targetSpan.copyWith(
         id: uuid(),
@@ -350,12 +350,12 @@ class MarkdownClipboard {
       ));
     }
 
-    // Add remaining spans after the target
+    // ターゲット後の残りのスパンを追加
     if (targetSpanIndex + 1 < lineSpans.length) {
       newSpans.addAll(lineSpans.skip(targetSpanIndex + 1));
     }
 
-    // Update the line with new spans
+    // 新しいスパンで行を更新
     lines[targetLineIndex] = line.copyWith(children: newSpans);
     blocks[targetBlockIndex] = block.copyWith(children: lines);
 
@@ -377,18 +377,18 @@ class MarkdownClipboard {
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     _controller.history.saveToUndoStack(immediate: true);
 
     final field = _controller._value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Delete selected text if any
+    // 選択されたテキストがあれば削除
     if (end > start) {
       _controller.replaceText(start, end, "");
     }
 
-    // Find the block index where we should insert the new block
+    // 新しいブロックを挿入すべきブロックインデックスを検索
     var currentOffset = 0;
     var insertAtBlockIndex = 0;
 
@@ -402,36 +402,25 @@ class MarkdownClipboard {
         break;
       }
 
-      currentOffset = blockEnd + 1; // +1 for newline
+      currentOffset = blockEnd + 1; // 改行分+1
     }
 
-    // Create a new line with the pasted spans
+    // ペーストされたスパンで新しい行を作成
     final newLine = MarkdownLineValue(
       id: uuid(),
       children: spans,
     );
 
-    // Create a new block based on the block type
-    final MarkdownBlockValue newBlock;
-    if (blockType == "__markdown_block_bulleted_list__") {
-      newBlock = MarkdownBulletedListBlockValue(
-        id: uuid(),
-        children: [newLine],
-      );
-    } else if (blockType == "__markdown_block_paragraph__") {
-      newBlock = MarkdownParagraphBlockValue(
-        id: uuid(),
-        children: [newLine],
-      );
-    } else {
-      // Default to paragraph for unknown types
-      newBlock = MarkdownParagraphBlockValue(
-        id: uuid(),
-        children: [newLine],
-      );
-    }
+    // ブロックタイプに基づいて新しいブロックを作成
+    final blockTool =
+        MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>(
+      toolId: blockType,
+    ).firstOrNull;
+    final newBlock = blockTool != null
+        ? blockTool.createBlockValue(children: [newLine])
+        : MarkdownBlockValue.createEmpty(children: [newLine]);
 
-    // Insert the new block
+    // 新しいブロックを挿入
     blocks.insert(insertAtBlockIndex, newBlock);
 
     final newField = field.copyWith(children: blocks);

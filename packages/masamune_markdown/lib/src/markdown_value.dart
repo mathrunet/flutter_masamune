@@ -136,6 +136,18 @@ class MarkdownSpanValue extends MarkdownValue {
     );
   }
 
+  /// Create a [MarkdownSpanValue] with an empty value.
+  ///
+  /// [initialText]を指定した場合、[initialText]を設定します。
+  /// [initialText]が指定されていない場合、空のスパンを作成します。
+  factory MarkdownSpanValue.createEmpty({String? initialText}) {
+    return MarkdownSpanValue(
+      id: uuid(),
+      value: initialText ?? "",
+      properties: const [],
+    );
+  }
+
   @override
   String get type => "__text_span__";
 
@@ -299,16 +311,14 @@ class MarkdownLineValue extends MarkdownValue {
   ///
   /// [initialText]を指定した場合、最初の行に[initialText]を設定します。
   /// [initialText]が指定されていない場合、空の行を作成します。
-  factory MarkdownLineValue.createEmpty([String? initialText]) {
+  factory MarkdownLineValue.createEmpty(
+      {String? initialText, List<MarkdownSpanValue>? children}) {
     return MarkdownLineValue(
       id: uuid(),
-      children: [
-        MarkdownSpanValue(
-          id: uuid(),
-          value: initialText ?? "",
-          properties: const [],
-        ),
-      ],
+      children: children ??
+          [
+            MarkdownSpanValue.createEmpty(initialText: initialText),
+          ],
     );
   }
 
@@ -389,20 +399,14 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   ///
   /// [initialText]を指定した場合、最初のブロックに[initialText]を設定します。
   /// [initialText]が指定されていない場合、空の段落を作成します。
-  factory MarkdownBlockValue.createEmpty([String? initialText]) {
+  factory MarkdownBlockValue.createEmpty(
+      {String? initialText, List<MarkdownLineValue>? children}) {
     return MarkdownParagraphBlockValue(
       id: uuid(),
-      children: [
-        MarkdownLineValue(
-          id: uuid(),
-          children: [
-            MarkdownSpanValue(
-              id: uuid(),
-              value: initialText ?? "",
-            ),
+      children: children ??
+          [
+            MarkdownLineValue.createEmpty(initialText: initialText),
           ],
-        ),
-      ],
     );
   }
 
@@ -422,6 +426,15 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   ///
   /// インデントが保持されるかどうかを確認します。
   bool get maintainIndent => false;
+
+  /// Build the block layout.
+  ///
+  /// ブロックのレイアウトを作成します。
+  BlockLayout? build(
+    RenderContext context,
+    MarkdownController controller,
+    int textOffset,
+  );
 
   /// The padding of the markdown block value.
   ///
@@ -472,18 +485,16 @@ abstract class MarkdownBlockValue extends MarkdownValue {
       return block.copyWith(
         id: id ?? block.id,
         indent: indent,
-        children: [child ?? MarkdownLineValue.createEmpty(initialText)],
-      );
-    } else if (block is MarkdownSingleLineBlockValue) {
-      return block.copyWith(
-        id: id ?? block.id,
-        indent: indent,
-        child: child ?? MarkdownLineValue.createEmpty(initialText),
+        children: [
+          child ?? MarkdownLineValue.createEmpty(initialText: initialText)
+        ],
       );
     } else {
       return MarkdownParagraphBlockValue(
         id: id ?? block.id,
-        children: [child ?? MarkdownLineValue.createEmpty(initialText)],
+        children: [
+          child ?? MarkdownLineValue.createEmpty(initialText: initialText)
+        ],
       );
     }
   }
@@ -521,38 +532,6 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   }
 }
 
-/// A class for storing markdown single line block value.
-///
-/// マークダウンの１行のブロックの値を格納するクラス。
-@immutable
-abstract class MarkdownSingleLineBlockValue extends MarkdownBlockValue {
-  /// A class for storing markdown single line block value.
-  ///
-  /// マークダウンの１行のブロックの値を格納するクラス。
-  const MarkdownSingleLineBlockValue({
-    required super.id,
-    required this.child,
-    super.indent = 0,
-  });
-
-  /// The children of the markdown block value.
-  ///
-  /// マークダウンのブロックの子要素。
-  final MarkdownLineValue child;
-
-  @override
-  MarkdownSingleLineBlockValue copyWith({
-    String? id,
-    int? indent,
-    MarkdownLineValue? child,
-  });
-
-  @override
-  List<MarkdownLineValue> extractLines() {
-    return [child];
-  }
-}
-
 /// A class for storing markdown multi line block value.
 ///
 /// マークダウンの複数行のブロックの値を格納するクラス。
@@ -580,7 +559,7 @@ abstract class MarkdownMultiLineBlockValue extends MarkdownBlockValue {
   });
 
   @override
-  List<MarkdownLineValue> extractLines() {
+  List<MarkdownLineValue>? extractLines() {
     return children;
   }
 }
@@ -866,14 +845,6 @@ extension MarkdownFieldValueListExtension on List<MarkdownFieldValue> {
                   }).toList(),
                 );
               }).toList(),
-            );
-          } else if (block is MarkdownSingleLineBlockValue) {
-            return block.copyWith(
-              child: block.child.copyWith(
-                children: block.child.children.map<MarkdownSpanValue>((span) {
-                  return span.copyWith();
-                }).toList(),
-              ),
             );
           }
           return block.copyWith();

@@ -32,7 +32,7 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
   ///
   /// [markdown]から[MarkdownBulletedListBlockValue]を作成します。
   factory MarkdownBulletedListBlockValue.fromMarkdown(String markdown) {
-    // Remove leading "- " or "* " marker
+    // 先頭の "- " または "* " マーカーを削除
     final cleanedMarkdown = markdown.replaceFirst(RegExp(r"^[-*]\s+"), "");
     return MarkdownBulletedListBlockValue(
       id: uuid(),
@@ -45,12 +45,14 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
   /// Create a new [MarkdownBulletedListBlockValue] with an empty child.
   ///
   /// 新しい[MarkdownBulletedListBlockValue]を作成します。
-  factory MarkdownBulletedListBlockValue.createEmpty([String? initialText]) {
+  factory MarkdownBulletedListBlockValue.createEmpty(
+      {String? initialText, List<MarkdownLineValue>? children}) {
     return MarkdownBulletedListBlockValue(
       id: uuid(),
-      children: [
-        MarkdownLineValue.createEmpty(initialText),
-      ],
+      children: children ??
+          [
+            MarkdownLineValue.createEmpty(initialText: initialText),
+          ],
     );
   }
 
@@ -71,6 +73,11 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
       MarkdownValue.indentKey: indent,
       MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
     };
+  }
+
+  @override
+  String toMarkdown() {
+    return children.map((e) => "- ${e.toMarkdown()}").join("\n");
   }
 
   @override
@@ -112,8 +119,120 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String toMarkdown() {
-    return children.map((e) => "- ${e.toMarkdown()}").join("\n");
+  BlockLayout? build(
+    RenderContext context,
+    MarkdownController controller,
+    int textOffset,
+  ) {
+    // コントローラーからブロックスタイルを取得
+    var padding =
+        (controller.style.list.padding ?? EdgeInsets.zero) as EdgeInsets;
+    final margin =
+        (controller.style.list.margin ?? EdgeInsets.zero) as EdgeInsets;
+
+    // インデントを適用
+    final indentWidth = indent * controller.style.indentWidth;
+    padding = padding.copyWith(
+        left: padding.left + indentWidth + controller.style.indentWidth);
+
+    // ベーステキストスタイルを構築
+    final foregroundColor = controller.style.list.foregroundColor ??
+        context.theme.colorScheme.onSurface;
+    final baseStyle = controller.style.list.textStyle ?? context.style;
+    final baseTextStyle = baseStyle.copyWith(
+      color: foregroundColor,
+    );
+
+    // 各スパンに個別のスタイルを持つTextSpanツリーを構築
+    // 注意: マーカーはテキストコンテンツに含まれない
+    final textSpans = <TextSpan>[];
+    final spanInfos = <_SpanInfo>[];
+    var totalLength = 0;
+
+    for (var i = 0; i < children.length; i++) {
+      final line = children[i];
+      for (final span in line.children) {
+        // スパン固有のスタイルを適用
+        final spanStyle = span.textStyle(context, controller, baseTextStyle);
+
+        textSpans.add(TextSpan(
+          text: span.value,
+          style: spanStyle,
+        ));
+
+        // スパン情報を保存
+        spanInfos.add(_SpanInfo(
+          span: span,
+          localOffset: totalLength,
+          length: span.value.length,
+        ));
+
+        totalLength += span.value.length;
+      }
+      if (i < children.length - 1) {
+        textSpans.add(TextSpan(text: "\n", style: baseTextStyle));
+        totalLength += 1;
+      }
+    }
+
+    // このブロック用のテキストペインターを作成（マーカーなし）
+    final painter = TextPainter(
+      text: TextSpan(children: textSpans, style: baseTextStyle),
+      textAlign: context.textAlign,
+      textDirection: context.textDirection,
+      textWidthBasis: context.textWidthBasis,
+      textHeightBehavior: context.textHeightBehavior,
+      strutStyle: context.strutStyle,
+    );
+
+    // インデントベースのシンボルでマーカー情報を作成
+    void Function(Canvas canvas, Offset offset)? markerSymbol;
+    final markerIndent = indent % 3;
+    switch (markerIndent) {
+      case 0:
+        markerSymbol = (canvas, offset) {
+          canvas.drawCircle(offset, 4, Paint()..color = foregroundColor);
+        };
+        break;
+      case 1:
+        markerSymbol = (canvas, offset) {
+          canvas.drawCircle(
+              offset,
+              4,
+              Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 2
+                ..color = foregroundColor);
+        };
+        break;
+      default:
+        markerSymbol = (canvas, offset) {
+          canvas.drawRect(
+            Rect.fromCenter(
+              center: offset,
+              width: 8,
+              height: 8,
+            ),
+            Paint()..color = foregroundColor,
+          );
+        };
+        break;
+    }
+    final markerInfo = MarkerInfo(
+      markerBuilder: markerSymbol,
+      width: controller.style.indentWidth,
+    );
+
+    return BlockLayout(
+      block: this,
+      painter: painter,
+      textOffset: textOffset,
+      textLength: totalLength,
+      padding: padding,
+      margin: margin,
+      spans: spanInfos,
+      marker: markerInfo,
+    );
   }
 
   @override

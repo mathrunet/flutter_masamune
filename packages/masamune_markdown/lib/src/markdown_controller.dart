@@ -78,8 +78,8 @@ class MarkdownController extends MasamuneControllerBase<
   /// 指定された範囲のテキストを置換します。
   void replaceText(int start, int end, String text,
       {bool skipHistory = false}) {
-    // Early return if this is a no-op replacement (same text at same position)
-    // This prevents unnecessary span merging during selection operations
+    // 何も変更しない置換の場合は早期リターン（同じ位置に同じテキスト）
+    // これにより選択操作中の不要なスパンマージを防ぐ
     if (start == 0 && _value.isNotEmpty) {
       final currentText = getPlainText();
       if (end == currentText.length && text == currentText) {
@@ -87,26 +87,26 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // Skip history saving during undo/redo operations or when explicitly requested
+    // Undo/Redo操作中または明示的に要求された場合は履歴保存をスキップ
     if (!history.inProgress && !skipHistory) {
-      // Save current state before modification
-      // For single character insertion/deletion, save immediately for fine-grained undo
+      // 変更前に現在の状態を保存
+      // 単一文字の挿入/削除の場合、細かいUndoのために即座に保存
       final isSingleCharEdit = text.length <= 1 && (end - start) <= 1;
 
       if (history.undoStack.isEmpty) {
-        // First edit - save initial empty/current state immediately BEFORE modification
+        // 最初の編集 - 変更前に初期空/現在の状態を即座に保存
         history.saveToUndoStack(immediate: true);
       } else if (isSingleCharEdit) {
-        // Single character edit - save immediately for fine-grained undo BEFORE modification
+        // 単一文字編集 - 変更前に細かいUndoのために即座に保存
         history.saveToUndoStack(immediate: true);
       } else {
-        // Multi-character edit (e.g., paste, cut) - save immediately to ensure it's captured
+        // 複数文字編集（例: ペースト、カット） - 確実にキャプチャするために即座に保存
         history.saveToUndoStack(immediate: true);
       }
     }
-    // Ensure we have a valid structure
+    // 有効な構造があることを確認
     if (_value.isEmpty) {
-      // Create initial structure
+      // 初期構造を作成
       final field = MarkdownFieldValue.createEmpty(text);
       _value.clear();
       _value.add(field);
@@ -117,7 +117,7 @@ class MarkdownController extends MasamuneControllerBase<
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which blocks contain the start and end positions
+    // 開始位置と終了位置を含むブロックを検索
     var currentOffset = 0;
     int? startBlockIndex;
     int? endBlockIndex;
@@ -127,8 +127,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     for (var i = 0; i < blocks.length; i++) {
       final block = blocks[i];
-      if (block is MarkdownMultiLineBlockValue ||
-          block is MarkdownSingleLineBlockValue) {
+      if (block is MarkdownMultiLineBlockValue) {
         final blockText = StringBuffer();
         final blockChildren = block.extractLines() ?? [];
 
@@ -146,13 +145,13 @@ class MarkdownController extends MasamuneControllerBase<
         final blockStart = currentOffset;
         final blockEnd = currentOffset + blockLength;
 
-        // Check if this block contains the start position
+        // このブロックが開始位置を含むかチェック
         if (startBlockIndex == null && blockEnd >= start) {
           startBlockIndex = i;
           localStart = start - blockStart;
         }
 
-        // Check if this block contains the end position
+        // このブロックが終了位置を含むかチェック
         if (blockEnd >= end) {
           endBlockIndex = i;
           endBlockStart = blockStart;
@@ -160,7 +159,7 @@ class MarkdownController extends MasamuneControllerBase<
           break;
         }
 
-        currentOffset += blockLength + 1; // +1 for newline between blocks
+        currentOffset += blockLength + 1; // ブロック間の改行分+1
       }
     }
 
@@ -193,9 +192,9 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // If blocks is empty, create a new block with the text
+    // blocksが空の場合、テキストで新しいブロックを作成
     if (blocks.isEmpty) {
-      final newBlock = MarkdownBlockValue.createEmpty(text);
+      final newBlock = MarkdownBlockValue.createEmpty(initialText: text);
       blocks.add(newBlock);
 
       final newField = MarkdownFieldValue(
@@ -208,13 +207,13 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // If selection spans multiple blocks, merge them
+    // 選択が複数のブロックにまたがる場合、マージする
     if (startBlockIndex != endBlockIndex) {
-      // Get text before start in start block
+      // 開始ブロックの開始前のテキストを取得
       final startBlock = blocks[startBlockIndex];
       final startBlockText = StringBuffer();
 
-      // Extract children based on block type
+      // ブロックタイプに基づいて子要素を抽出
       final startBlockChildren = startBlock.extractLines() ?? [];
 
       for (final line in startBlockChildren) {
@@ -226,11 +225,11 @@ class MarkdownController extends MasamuneControllerBase<
       final safeLocalStart = localStart.clamp(0, startBlockTextStr.length);
       final textBeforeStart = startBlockTextStr.substring(0, safeLocalStart);
 
-      // Get text after end in end block
+      // 終了ブロックの終了後のテキストを取得
       final endBlock = blocks[endBlockIndex];
       final endBlockText = StringBuffer();
 
-      // Extract children based on block type
+      // ブロックタイプに基づいて子要素を抽出
       final endBlockChildren = endBlock.extractLines() ?? [];
 
       for (final line in endBlockChildren) {
@@ -242,15 +241,15 @@ class MarkdownController extends MasamuneControllerBase<
       final safeLocalEnd = localEnd.clamp(0, endBlockTextStr.length);
       final textAfterEnd = endBlockTextStr.substring(safeLocalEnd);
 
-      // Calculate what the merged text would be
+      // マージされたテキストがどうなるかを計算
       final potentialMergedText = textBeforeStart + text + textAfterEnd;
 
-      // Get the original text across both blocks for comparison
+      // 比較のために両方のブロックにまたがる元のテキストを取得
       final originalText = StringBuffer();
       for (var i = startBlockIndex; i <= endBlockIndex; i++) {
         final block = blocks[i];
 
-        // Extract children based on block type
+        // ブロックタイプに基づいて子要素を抽出
         final blockChildren = block.extractLines() ?? [];
 
         for (final line in blockChildren) {
@@ -259,35 +258,35 @@ class MarkdownController extends MasamuneControllerBase<
           }
         }
         if (i < endBlockIndex) {
-          originalText.write("\n"); // Add newline between blocks
+          originalText.write("\n"); // ブロック間に改行を追加
         }
       }
       final originalTextStr = originalText.toString();
 
-      // If the operation would result in the same text, don't merge blocks
-      // This happens when selection handles are dragged without actually changing text
+      // 操作が同じテキストになる場合は、ブロックをマージしない
+      // これは選択ハンドルがドラッグされたがテキストが実際には変更されなかった場合に発生する
       if (potentialMergedText == originalTextStr) {
         notifyListeners();
         return;
       }
 
-      // Check if we should keep blocks separate or merge them
-      // Keep separate if: deletion AND both blocks have content remaining
+      // ブロックを別々に保つかマージするかをチェック
+      // 別々に保つ条件: 削除 かつ 両方のブロックに内容が残っている
       final shouldKeepSeparate =
           text.isEmpty && textBeforeStart.isNotEmpty && textAfterEnd.isNotEmpty;
 
       if (shouldKeepSeparate) {
-        // Update first block with text before start, preserving block type
+        // ブロックタイプを保持して、開始前のテキストで最初のブロックを更新
         final updatedFirstBlock =
             startBlock.clone(initialText: textBeforeStart);
 
-        // Update last block with text after end, preserving block type
+        // ブロックタイプを保持して、終了後のテキストで最後のブロックを更新
         final updatedLastBlock = endBlock.clone(initialText: textAfterEnd);
 
-        // Remove all blocks in the range
+        // 範囲内のすべてのブロックを削除
         blocks.removeRange(startBlockIndex, endBlockIndex + 1);
 
-        // Insert updated blocks
+        // 更新されたブロックを挿入
         blocks.insert(startBlockIndex, updatedLastBlock);
         blocks.insert(startBlockIndex, updatedFirstBlock);
 
@@ -301,12 +300,12 @@ class MarkdownController extends MasamuneControllerBase<
         return;
       }
 
-      // Merge: text before start + inserted text + text after end
+      // マージ: 開始前のテキスト + 挿入されたテキスト + 終了後のテキスト
       var mergedText = textBeforeStart + text + textAfterEnd;
 
-      // If we're deleting (text is empty) and the merged text ends with a newline,
-      // and there's no text after the end (we deleted everything after the newline),
-      // remove the trailing newline
+      // 削除している（textが空）かつマージされたテキストが改行で終わり、
+      // 終了後にテキストがない（改行後のすべてを削除した）場合、
+      // 末尾の改行を削除
       if (text.isEmpty &&
           textAfterEnd.isEmpty &&
           mergedText.endsWith("\n") &&
@@ -314,27 +313,27 @@ class MarkdownController extends MasamuneControllerBase<
         mergedText = mergedText.substring(0, mergedText.length - 1);
       }
 
-      // If merged text is empty, just remove the blocks without creating a new one
+      // マージされたテキストが空の場合、新しいブロックを作成せずにブロックを削除
       if (mergedText.isEmpty && text.isEmpty) {
-        // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
+        // startBlockIndexからendBlockIndexまでのブロックを削除（両端を含む）
         blocks.removeRange(startBlockIndex, endBlockIndex + 1);
 
-        // If all blocks were removed, create an empty block
+        // すべてのブロックが削除された場合、空のブロックを作成
         if (blocks.isEmpty) {
           blocks.add(MarkdownBlockValue.createEmpty());
         }
       } else {
-        // Create new merged block, preserving the type of the first block
+        // 最初のブロックのタイプを保持して、新しいマージされたブロックを作成
         final mergedBlock = startBlock.clone(initialText: mergedText);
 
-        // Remove blocks from startBlockIndex to endBlockIndex (inclusive)
+        // startBlockIndexからendBlockIndexまでのブロックを削除（両端を含む）
         blocks.removeRange(startBlockIndex, endBlockIndex + 1);
 
-        // Insert merged block at startBlockIndex
+        // startBlockIndexにマージされたブロックを挿入
         blocks.insert(startBlockIndex, mergedBlock);
       }
 
-      // Update field
+      // フィールドを更新
       final newField = MarkdownFieldValue(
         id: field.id,
         children: blocks,
@@ -345,21 +344,20 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Single block edit
+    // 単一ブロックの編集
     final targetBlockIndex = startBlockIndex;
 
-    // Update the target block
+    // ターゲットブロックを更新
     final targetBlock = blocks[targetBlockIndex];
 
-    // Get children based on block type
-    if (targetBlock is! MarkdownMultiLineBlockValue &&
-        targetBlock is! MarkdownSingleLineBlockValue) {
+    // ブロックタイプに基づいて子要素を取得
+    if (targetBlock is! MarkdownMultiLineBlockValue) {
       notifyListeners();
       return;
     }
     final targetBlockChildren = targetBlock.extractLines() ?? [];
 
-    // Get current text in the block
+    // ブロック内の現在のテキストを取得
     final blockText = StringBuffer();
     for (var i = 0; i < targetBlockChildren.length; i++) {
       final line = targetBlockChildren[i];
@@ -373,20 +371,20 @@ class MarkdownController extends MasamuneControllerBase<
 
     final oldText = blockText.toString();
 
-    // Ensure indices are within bounds
+    // インデックスが範囲内にあることを確認
     final safeStart = localStart.clamp(0, oldText.length);
     final safeEnd = localEnd.clamp(0, oldText.length);
 
-    // Check if backspace at the beginning of an empty or near-empty block
+    // 空または空に近いブロックの先頭でバックスペースかチェック
     if (safeStart == 0 &&
         safeEnd == 0 &&
         text.isEmpty &&
         targetBlockIndex > 0 &&
         oldText.isEmpty) {
-      // Delete the current empty block and merge with previous block
+      // 現在の空のブロックを削除して前のブロックとマージ
       blocks.removeAt(targetBlockIndex);
 
-      // Update field
+      // フィールドを更新
       final newField = MarkdownFieldValue(
         id: field.id,
         children: blocks,
@@ -397,19 +395,19 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Create new text
+    // 新しいテキストを作成
     var newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
 
-    // Check if we need to remove a trailing newline
+    // 末尾の改行を削除する必要があるかチェック
     var removedTrailingNewline = false;
     if (text.isEmpty && newText.endsWith("\n") && newText.isNotEmpty) {
       newText = newText.substring(0, newText.length - 1);
       removedTrailingNewline = true;
     }
 
-    // If we removed a trailing newline, create a simple span with the new text
-    // and skip the complex span merging logic (which would add the newline back)
+    // 末尾の改行を削除した場合、新しいテキストでシンプルなスパンを作成し、
+    // 複雑なスパンマージロジックをスキップ（改行が追加され戻されるのを防ぐ）
     if (removedTrailingNewline) {
       final MarkdownBlockValue newBlock = targetBlock.clone(
         child: MarkdownLineValue(
@@ -417,11 +415,7 @@ class MarkdownController extends MasamuneControllerBase<
               ? targetBlockChildren.first.id
               : uuid(),
           children: [
-            MarkdownSpanValue(
-              id: uuid(),
-              value: newText,
-              properties: const [],
-            ),
+            MarkdownSpanValue.createEmpty(initialText: newText),
           ],
         ),
       );
@@ -438,19 +432,19 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Collect existing spans with their properties
+    // プロパティ付きの既存スパンを収集
     final existingSpans = <MarkdownSpanValue>[];
     for (final line in targetBlockChildren) {
       existingSpans.addAll(line.children);
     }
 
-    // Build new spans based on text changes
+    // テキスト変更に基づいて新しいスパンを構築
     final newSpans = <MarkdownSpanValue>[];
     var currentPos = 0;
 
-    // Process existing spans and split them if necessary
+    // 既存のスパンを処理し、必要に応じて分割
     for (final span in existingSpans) {
-      // Skip empty spans - they should be removed
+      // 空のスパンをスキップ - 削除すべき
       if (span.value.isEmpty) {
         continue;
       }
@@ -458,13 +452,13 @@ class MarkdownController extends MasamuneControllerBase<
       final spanStart = currentPos;
       final spanEnd = currentPos + span.value.length;
 
-      // Check if this span is affected by the replacement
+      // このスパンが置換の影響を受けるかチェック
       if (safeEnd < spanStart) {
         newSpans.add(span);
       } else if (safeStart >= spanEnd) {
         newSpans.add(span);
 
-        // If we're inserting at the end of this span, add the new text after it
+        // このスパンの末尾に挿入する場合、その後に新しいテキストを追加
         if (safeStart == spanEnd && text.isNotEmpty) {
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
@@ -488,7 +482,7 @@ class MarkdownController extends MasamuneControllerBase<
           ));
         }
 
-        // Replacement text (without properties from original span)
+        // 置換テキスト（元のスパンからのプロパティなし）
         if (text.isNotEmpty && safeStart >= spanStart && safeStart < spanEnd) {
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
@@ -496,7 +490,7 @@ class MarkdownController extends MasamuneControllerBase<
           ));
         }
 
-        // After replacement (if any)
+        // 置換後（もしあれば）
         if (spanEnd > safeEnd) {
           final afterText = span.value.substring(safeEnd - spanStart);
           newSpans.add(span.copyWith(
@@ -509,7 +503,7 @@ class MarkdownController extends MasamuneControllerBase<
       currentPos += span.value.length;
     }
 
-    // If replacement is at the end or in an empty block, add the text without properties
+    // 置換が末尾または空のブロックにある場合、プロパティなしでテキストを追加
     if (newSpans.isEmpty && text.isNotEmpty) {
       newSpans.add(MarkdownSpanValue(
         id: uuid(),
@@ -517,10 +511,10 @@ class MarkdownController extends MasamuneControllerBase<
       ));
     }
 
-    // Merge consecutive spans with the same properties
+    // 同じプロパティを持つ連続するスパンをマージ
     final mergedSpans = _mergeSpans(newSpans);
 
-    // Ensure we have at least one span
+    // 少なくとも1つのスパンがあることを確認
     final finalSpans = mergedSpans.isNotEmpty
         ? mergedSpans
         : [
@@ -530,7 +524,7 @@ class MarkdownController extends MasamuneControllerBase<
             )
           ];
 
-    // Create updated block with new spans
+    // 新しいスパンで更新されたブロックを作成
     final MarkdownBlockValue newBlock = targetBlock.clone(
       child: MarkdownLineValue(
         id: targetBlockChildren.isNotEmpty
@@ -540,10 +534,10 @@ class MarkdownController extends MasamuneControllerBase<
       ),
     );
 
-    // Update blocks list
+    // ブロックリストを更新
     blocks[targetBlockIndex] = newBlock;
 
-    // Update field
+    // フィールドを更新
     final newField = MarkdownFieldValue(
       id: field.id,
       children: blocks,
@@ -577,13 +571,13 @@ class MarkdownController extends MasamuneControllerBase<
       return false;
     }
 
-    // Find which blocks are selected
+    // 選択されているブロックを検索
     final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
     if (selectedBlocks.isEmpty) {
       return false;
     }
 
-    // Check if any selected block can increase indent (max indent is 5)
+    // 選択されたブロックのいずれかがインデントを増やせるかチェック（最大インデントは5）
     for (final blockIndex in selectedBlocks) {
       if (blockIndex >= blocks.length) {
         continue;
@@ -620,13 +614,13 @@ class MarkdownController extends MasamuneControllerBase<
       return false;
     }
 
-    // Find which blocks are selected
+    // 選択されているブロックを検索
     final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
     if (selectedBlocks.isEmpty) {
       return false;
     }
 
-    // Check if any selected block can decrease indent (min indent is 0)
+    // 選択されたブロックのいずれかがインデントを減らせるかチェック（最小インデントは0）
     for (final blockIndex in selectedBlocks) {
       if (blockIndex >= blocks.length) {
         continue;
@@ -648,17 +642,17 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     history.saveToUndoStack(immediate: true);
 
     final selection = _field!._selection;
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which blocks are selected
+    // 選択されているブロックを検索
     final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
 
-    // Increase indent for all selected blocks
+    // 選択されたすべてのブロックのインデントを増やす
     for (final blockIndex in selectedBlocks) {
       if (blockIndex < blocks.length) {
         final block = blocks[blockIndex];
@@ -668,7 +662,7 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // Update the field
+    // フィールドを更新
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
@@ -683,17 +677,17 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     history.saveToUndoStack(immediate: true);
 
     final selection = _field!._selection;
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which blocks are selected
+    // 選択されているブロックを検索
     final selectedBlocks = _getSelectedBlocks(selection.start, selection.end);
 
-    // Decrease indent for all selected blocks
+    // 選択されたすべてのブロックのインデントを減らす
     for (final blockIndex in selectedBlocks) {
       if (blockIndex < blocks.length) {
         final block = blocks[blockIndex];
@@ -703,7 +697,7 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // Update the field
+    // フィールドを更新
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
@@ -718,12 +712,12 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     if (!history.inProgress) {
       history.saveToUndoStack(immediate: true);
     }
 
-    // Ensure we have a valid structure
+    // 有効な構造があることを確認
     if (_value.isEmpty) {
       _value.add(MarkdownFieldValue(
         id: uuid(),
@@ -734,12 +728,12 @@ class MarkdownController extends MasamuneControllerBase<
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Determine insertion position
+    // 挿入位置を決定
     int insertionIndex;
     if (offset != null) {
-      // Find block index from offset
+      // オフセットからブロックインデックスを検索
       var currentOffset = 0;
-      insertionIndex = blocks.length; // Default to end
+      insertionIndex = blocks.length; // デフォルトは末尾
 
       for (var i = 0; i < blocks.length; i++) {
         final block = blocks[i];
@@ -747,19 +741,19 @@ class MarkdownController extends MasamuneControllerBase<
         final blockEnd = currentOffset + blockLength;
 
         if (offset >= currentOffset && offset <= blockEnd) {
-          insertionIndex = i + 1; // Insert after this block
+          insertionIndex = i + 1; // このブロックの後に挿入
           break;
         }
 
-        currentOffset = blockEnd + 1; // +1 for newline between blocks
+        currentOffset = blockEnd + 1; // ブロック間の改行分+1
       }
     } else {
-      // Use cursor position
+      // カーソル位置を使用
       final selection = _field!._selection;
       final cursorPosition = selection.baseOffset;
 
       var currentOffset = 0;
-      insertionIndex = blocks.length; // Default to end
+      insertionIndex = blocks.length; // デフォルトは末尾
 
       for (var i = 0; i < blocks.length; i++) {
         final block = blocks[i];
@@ -767,35 +761,34 @@ class MarkdownController extends MasamuneControllerBase<
         final blockEnd = currentOffset + blockLength;
 
         if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
-          insertionIndex = i + 1; // Insert after current block
+          insertionIndex = i + 1; // 現在のブロックの後に挿入
           break;
         }
 
-        currentOffset = blockEnd + 1; // +1 for newline between blocks
+        currentOffset = blockEnd + 1; // ブロック間の改行分+1
       }
     }
 
-    // Create new block based on tool type
+    // ツールタイプに基づいて新しいブロックを作成
     final newBlock = tool.addBlock();
     blocks.insert(insertionIndex, newBlock);
 
-    // Update field
+    // フィールドを更新
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
-    // Move cursor to the beginning of the new block (inside the block, not before it)
+    // 新しいブロックの先頭にカーソルを移動（ブロックの前ではなく、ブロック内）
     if (_field != null) {
       var newCursorPosition = 0;
-      // Calculate position up to (but not including) the new block
+      // 新しいブロックまで（含まない）の位置を計算
       for (var i = 0; i < insertionIndex; i++) {
-        newCursorPosition +=
-            _getBlockTextLength(blocks[i]) + 1; // +1 for newline
+        newCursorPosition += _getBlockTextLength(blocks[i]) + 1; // 改行分+1
       }
 
       _field!._selection = TextSelection.collapsed(offset: newCursorPosition);
     }
 
-    // Notify listeners first to update UI state
+    // UI状態を更新するために最初にリスナーに通知
     notifyListeners();
 
     _field?.reopenInputConnection();
@@ -809,7 +802,7 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     if (!history.inProgress) {
       history.saveToUndoStack(immediate: true);
     }
@@ -825,7 +818,7 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Find block index from cursor position or use provided index
+    // カーソル位置からブロックインデックスを検索、または提供されたインデックスを使用
     int targetBlockIndex;
     if (index != null) {
       targetBlockIndex = index;
@@ -833,7 +826,7 @@ class MarkdownController extends MasamuneControllerBase<
       final selection = _field!._selection;
       final cursorPosition = selection.baseOffset;
 
-      // Find which block contains the cursor
+      // カーソルを含むブロックを検索
       var currentOffset = 0;
       targetBlockIndex = 0;
 
@@ -847,7 +840,7 @@ class MarkdownController extends MasamuneControllerBase<
           break;
         }
 
-        currentOffset = blockEnd + 1; // +1 for newline between blocks
+        currentOffset = blockEnd + 1; // ブロック間の改行分+1
       }
     }
 
@@ -857,17 +850,17 @@ class MarkdownController extends MasamuneControllerBase<
 
     final targetBlock = blocks[targetBlockIndex];
 
-    // Convert block based on tool type
+    // ツールタイプに基づいてブロックを変換
     final newBlock = tool.exchangeBlock(targetBlock);
 
     if (newBlock == null) {
       return;
     }
 
-    // Replace the block
+    // ブロックを置換
     blocks[targetBlockIndex] = newBlock;
 
-    // Update field
+    // フィールドを更新
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
@@ -888,37 +881,37 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     if (!history.inProgress && !skipHistory) {
       history.saveToUndoStack(immediate: true);
     }
 
-    // If there's composing text, just clear it
-    // The text is already in the controller, no need to replace
+    // 変換テキストがある場合は、クリアするだけ
+    // テキストは既にコントローラーにあるため、置換は不要
     if (_field!.composingText != null) {
-      // Clear composing state
+      // 変換状態をクリア
       _field!._composingText = null;
       _field!._composingRegion = null;
 
-      // Keep the current selection
+      // 現在の選択を維持
       _field!._updateRemoteEditingValue();
     }
 
     final selection = _field!._selection;
 
-    // If start and end are explicitly provided, use them
-    // Otherwise, use the current selection
+    // 開始と終了が明示的に提供されている場合はそれを使用
+    // そうでない場合は現在の選択を使用
     final selectionStart = start ?? selection.start;
     final selectionEnd = end ?? selection.end;
 
-    // If neither explicit range nor valid selection is provided, return
+    // 明示的な範囲も有効な選択も提供されていない場合はリターン
     if (start == null &&
         end == null &&
         (!selection.isValid || selection.isCollapsed)) {
       return;
     }
 
-    // If we have explicit start/end but they're equal, return
+    // 明示的な開始/終了があるが等しい場合はリターン
     if (selectionStart == selectionEnd) {
       return;
     }
@@ -930,7 +923,7 @@ class MarkdownController extends MasamuneControllerBase<
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which blocks contain the selection
+    // 選択を含むブロックを検索
     var currentOffset = 0;
 
     for (var i = 0; i < blocks.length; i++) {
@@ -940,9 +933,9 @@ class MarkdownController extends MasamuneControllerBase<
         final blockLength = _getBlockTextLength(block);
         final blockEnd = blockStart + blockLength;
 
-        // Skip blocks that are entirely before or after the selection
+        // 選択の前後に完全にあるブロックをスキップ
         if (blockEnd < selectionStart || blockStart > selectionEnd) {
-          currentOffset = blockEnd + 1; // +1 for newline between blocks
+          currentOffset = blockEnd + 1; // ブロック間の改行分+1
           continue;
         }
 
@@ -958,27 +951,27 @@ class MarkdownController extends MasamuneControllerBase<
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
-            // Check if this span has a mention property
-            // Mentions should not be modified by other inline properties
+            // このスパンがメンションプロパティを持つかチェック
+            // メンションは他のインラインプロパティで変更されるべきではない
             final hasMentionProperty =
                 span.properties.any((p) => p is MentionMarkdownSpanProperty);
 
-            // Check if this span overlaps with the selection
+            // このスパンが選択と重なるかチェック
             if (selectionEnd <= spanStart || selectionStart >= spanEnd) {
-              // No overlap, keep the span as is
+              // 重なりなし、スパンをそのまま保持
               updatedSpans.add(span);
             } else if (hasMentionProperty) {
-              // This span has a mention property, keep it as is
-              // Mentions cannot have other inline properties applied
+              // このスパンはメンションプロパティを持つ、そのまま保持
+              // メンションには他のインラインプロパティを適用できない
               updatedSpans.add(span);
             } else {
-              // There is overlap, split the span
+              // 重なりあり、スパンを分割
               final overlapStart =
                   selectionStart > spanStart ? selectionStart : spanStart;
               final overlapEnd =
                   selectionEnd < spanEnd ? selectionEnd : spanEnd;
 
-              // Before selection
+              // 選択前
               if (spanStart < overlapStart) {
                 final beforeText =
                     span.value.substring(0, overlapStart - spanStart);
@@ -988,7 +981,7 @@ class MarkdownController extends MasamuneControllerBase<
                 ));
               }
 
-              // Selected part with updated property
+              // 更新されたプロパティを持つ選択部分
               final selectedText = span.value
                   .substring(overlapStart - spanStart, overlapEnd - spanStart);
               final updatedProperty =
@@ -999,7 +992,7 @@ class MarkdownController extends MasamuneControllerBase<
                 properties: updatedProperty,
               ));
 
-              // After selection
+              // 選択後
               if (spanEnd > overlapEnd) {
                 final afterText = span.value.substring(overlapEnd - spanStart);
                 updatedSpans.add(span.copyWith(
@@ -1012,15 +1005,13 @@ class MarkdownController extends MasamuneControllerBase<
             lineOffset += span.value.length;
           }
 
-          // Merge consecutive spans with the same property
+          // 同じプロパティを持つ連続するスパンをマージ
           final mergedSpans = _mergeSpans(updatedSpans);
           updatedLines.add(line.copyWith(children: mergedSpans));
         }
 
         blocks[i] = block.copyWith(children: updatedLines);
-        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
-      } else if (block is MarkdownSingleLineBlockValue) {
-        // TODO: Implement single line block
+        currentOffset += _getBlockTextLength(block) + 1; // 改行分+1
       }
     }
 
@@ -1039,19 +1030,19 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Save current state before modification
+    // 変更前に現在の状態を保存
     if (!history.inProgress) {
       history.saveToUndoStack(immediate: true);
     }
 
-    // If there's composing text, just clear it
-    // The text is already in the controller, no need to replace
+    // 変換テキストがある場合は、クリアするだけ
+    // テキストは既にコントローラーにあるため、置換は不要
     if (_field!.composingText != null) {
-      // Clear composing state
+      // 変換状態をクリア
       _field!._composingText = null;
       _field!._composingRegion = null;
 
-      // Keep the current selection
+      // 現在の選択を維持
       _field!._updateRemoteEditingValue();
     }
 
@@ -1071,7 +1062,7 @@ class MarkdownController extends MasamuneControllerBase<
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which blocks contain the selection
+    // 選択を含むブロックを検索
     var currentOffset = 0;
 
     for (var i = 0; i < blocks.length; i++) {
@@ -1089,27 +1080,27 @@ class MarkdownController extends MasamuneControllerBase<
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
-            // Check if this span has a mention property
-            // Mentions should not be modified by other inline properties
+            // このスパンがメンションプロパティを持つかチェック
+            // メンションは他のインラインプロパティで変更されるべきではない
             final hasMentionProperty =
                 span.properties.any((p) => p is MentionMarkdownSpanProperty);
 
-            // Check if this span overlaps with the selection
+            // このスパンが選択と重なるかチェック
             if (selectionEnd <= spanStart || selectionStart >= spanEnd) {
-              // No overlap, keep the span as is
+              // 重なりなし、スパンをそのまま保持
               updatedSpans.add(span);
             } else if (hasMentionProperty) {
-              // This span has a mention property, keep it as is
-              // Mentions cannot have other inline properties removed
+              // このスパンはメンションプロパティを持つ、そのまま保持
+              // メンションからは他のインラインプロパティを削除できない
               updatedSpans.add(span);
             } else {
-              // There is overlap, split the span
+              // 重なりあり、スパンを分割
               final overlapStart =
                   selectionStart > spanStart ? selectionStart : spanStart;
               final overlapEnd =
                   selectionEnd < spanEnd ? selectionEnd : spanEnd;
 
-              // Before selection
+              // 選択前
               if (spanStart < overlapStart) {
                 final beforeText =
                     span.value.substring(0, overlapStart - spanStart);
@@ -1119,7 +1110,7 @@ class MarkdownController extends MasamuneControllerBase<
                 ));
               }
 
-              // Selected part with property removed
+              // プロパティが削除された選択部分
               final selectedText = span.value
                   .substring(overlapStart - spanStart, overlapEnd - spanStart);
               final updatedProperty =
@@ -1130,7 +1121,7 @@ class MarkdownController extends MasamuneControllerBase<
                 properties: updatedProperty,
               ));
 
-              // After selection
+              // 選択後
               if (spanEnd > overlapEnd) {
                 final afterText = span.value.substring(overlapEnd - spanStart);
                 updatedSpans.add(span.copyWith(
@@ -1143,15 +1134,13 @@ class MarkdownController extends MasamuneControllerBase<
             lineOffset += span.value.length;
           }
 
-          // Merge consecutive spans with the same property
+          // 同じプロパティを持つ連続するスパンをマージ
           final mergedSpans = _mergeSpans(updatedSpans);
           updatedLines.add(line.copyWith(children: mergedSpans));
         }
 
         blocks[i] = block.copyWith(children: updatedLines);
-        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
-      } else if (block is MarkdownSingleLineBlockValue) {
-        // TODO: Implement single line block
+        currentOffset += _getBlockTextLength(block) + 1; // 改行分+1
       }
     }
 
@@ -1168,8 +1157,8 @@ class MarkdownController extends MasamuneControllerBase<
       return false;
     }
 
-    // If there's composing text (IME input in progress), return false
-    // because properties cannot be applied to uncommitted text
+    // 変換テキストがある場合（IME入力中）、falseを返す
+    // プロパティは未確定のテキストには適用できないため
     if (_field!.composingText != null) {
       return false;
     }
@@ -1202,15 +1191,15 @@ class MarkdownController extends MasamuneControllerBase<
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
-            // Check if this span overlaps with the selection
+            // このスパンが選択と重なるかチェック
             if (selectionEnd > spanStart && selectionStart < spanEnd) {
-              // Check if this span has a mention property
-              // Mentions should be excluded from property checking
+              // このスパンがメンションプロパティを持つかチェック
+              // メンションはプロパティチェックから除外すべき
               final hasMentionProperty =
                   span.properties.any((p) => p is MentionMarkdownSpanProperty);
 
               if (!hasMentionProperty) {
-                // This is a non-mention span, check if it has the property
+                // これは非メンションスパン、プロパティを持つかチェック
                 hasNonMentionSpan = true;
                 if (!_hasInlineProperty(tool, span.properties)) {
                   allHaveProperty = false;
@@ -1227,17 +1216,15 @@ class MarkdownController extends MasamuneControllerBase<
           }
         }
 
-        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+        currentOffset += _getBlockTextLength(block) + 1; // 改行分+1
         if (!allHaveProperty) {
           break;
         }
-      } else if (block is MarkdownSingleLineBlockValue) {
-        // TODO: Implement single line block
       }
     }
 
-    // If all spans in selection are mentions, return false
-    // Only return true if there's at least one non-mention span with the property
+    // 選択内のすべてのスパンがメンションの場合、falseを返す
+    // プロパティを持つ非メンションスパンが少なくとも1つある場合のみtrueを返す
     return hasNonMentionSpan && allHaveProperty;
   }
 
@@ -1283,11 +1270,11 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定されたオフセット位置に新しい段落ブロックを挿入します。
   void insertNewLine(int offset) {
-    // Save current state before modification (immediate for explicit actions)
+    // 変更前に現在の状態を保存（明示的なアクションの場合は即座に）
     history.saveToUndoStack(immediate: true);
 
     if (_value.isEmpty) {
-      // Create initial structure with empty paragraph
+      // 空の段落で初期構造を作成
       final field = MarkdownFieldValue.createEmpty();
       _value.clear();
       _value.add(field);
@@ -1295,11 +1282,11 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
-    // Get current field
+    // 現在のフィールドを取得
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // Find which block and position to split
+    // 分割するブロックと位置を検索
     var currentOffset = 0;
     var blockIndex = -1;
     String? textBeforeCursor;
@@ -1310,8 +1297,8 @@ class MarkdownController extends MasamuneControllerBase<
       if (block is MarkdownMultiLineBlockValue) {
         final blockText = StringBuffer();
 
-        // Extract children based on block type
-        final blockChildren = block.extractLines();
+        // ブロックタイプに基づいて子要素を抽出
+        final blockChildren = block.extractLines() ?? [];
 
         for (var j = 0; j < blockChildren.length; j++) {
           final line = blockChildren[j];
@@ -1327,7 +1314,7 @@ class MarkdownController extends MasamuneControllerBase<
         final blockLength = blockTextStr.length;
 
         if (currentOffset + blockLength >= offset) {
-          // Found the block to split
+          // 分割するブロックを発見
           blockIndex = i;
           final localOffset = offset - currentOffset;
           textBeforeCursor = blockTextStr.substring(0, localOffset);
@@ -1340,26 +1327,26 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (blockIndex == -1) {
-      // Offset is at the end, create new block
-      // Check the type of the last block to inherit it for BulletedList
+      // オフセットが末尾、新しいブロックを作成
+      // BulletedListの場合、最後のブロックのタイプを継承するためにチェック
       final newBlock = blocks.lastOrNull?.clone();
       if (newBlock != null) {
         blocks.add(newBlock);
       }
     } else {
-      // Split the current block
+      // 現在のブロックを分割
       final oldBlock = blocks[blockIndex];
 
-      // Extract children based on block type
+      // ブロックタイプに基づいて子要素を抽出
       final oldBlockChildren = oldBlock.extractLines() ?? [];
 
-      // Collect existing spans
+      // 既存のスパンを収集
       final existingSpans = <MarkdownSpanValue>[];
       for (final line in oldBlockChildren) {
         existingSpans.addAll(line.children);
       }
 
-      // Find the split position within spans
+      // スパン内の分割位置を検索
       final beforeSpans = <MarkdownSpanValue>[];
       final afterSpans = <MarkdownSpanValue>[];
       var currentPos = 0;
@@ -1370,16 +1357,16 @@ class MarkdownController extends MasamuneControllerBase<
         final spanEnd = currentPos + span.value.length;
 
         if (spanEnd <= localOffset) {
-          // Span is entirely before the split - keep in before block with properties
+          // スパンが分割前に完全にある - プロパティ付きで前のブロックに保持
           beforeSpans.add(span);
         } else if (spanStart >= localOffset) {
-          // Span is entirely after the split - move to after block without properties
+          // スパンが分割後に完全にある - プロパティなしで後のブロックに移動
           afterSpans.add(span.copyWith(
             id: uuid(),
-            properties: const [], // Remove properties from text after newline
+            properties: const [], // 改行後のテキストからプロパティを削除
           ));
         } else {
-          // Split the span at the cursor position
+          // カーソル位置でスパンを分割
           final beforeText = span.value.substring(0, localOffset - spanStart);
           final afterText = span.value.substring(localOffset - spanStart);
 
@@ -1394,7 +1381,7 @@ class MarkdownController extends MasamuneControllerBase<
             afterSpans.add(MarkdownSpanValue(
               id: uuid(),
               value: afterText,
-              properties: const [], // New line starts without properties
+              properties: const [], // 新しい行はプロパティなしで始まる
             ));
           }
         }
@@ -1402,7 +1389,7 @@ class MarkdownController extends MasamuneControllerBase<
         currentPos += span.value.length;
       }
 
-      // Ensure we have at least one span in each block
+      // 各ブロックに少なくとも1つのスパンがあることを確認
       if (beforeSpans.isEmpty) {
         beforeSpans.add(MarkdownSpanValue(
           id: uuid(),
@@ -1418,7 +1405,7 @@ class MarkdownController extends MasamuneControllerBase<
         ));
       }
 
-      // Create block with text before cursor (preserving properties, block type, and indent)
+      // カーソル前のテキストでブロックを作成（プロパティ、ブロックタイプ、インデントを保持）
       final beforeBlock = oldBlock.clone(
         child: MarkdownLineValue(
           id: uuid(),
@@ -1426,9 +1413,9 @@ class MarkdownController extends MasamuneControllerBase<
         ),
       );
 
-      // Create new block with text after cursor
-      // For BulletedList blocks, inherit the block type and indent level
-      // For other blocks, create a paragraph
+      // カーソル後のテキストで新しいブロックを作成
+      // BulletedListブロックの場合、ブロックタイプとインデントレベルを継承
+      // その他のブロックの場合、段落を作成
       final afterBlock = oldBlock.clone(
         child: MarkdownLineValue(
           id: uuid(),
@@ -1436,12 +1423,12 @@ class MarkdownController extends MasamuneControllerBase<
         ),
       );
 
-      // Replace old block with before and after blocks
+      // 古いブロックを前後のブロックで置換
       blocks[blockIndex] = beforeBlock;
       blocks.insert(blockIndex + 1, afterBlock);
     }
 
-    // Update field with new blocks
+    // 新しいブロックでフィールドを更新
     final newField = MarkdownFieldValue(
       id: field.id,
       children: blocks,
@@ -1465,13 +1452,13 @@ class MarkdownController extends MasamuneControllerBase<
             for (final span in line.children) {
               buffer.write(span.value);
             }
-            // Add newline except for the last line in the block
+            // ブロック内の最後の行を除いて改行を追加
             if (j < block.children.length - 1) {
               buffer.writeln();
             }
           }
         }
-        // Add newline between blocks except for the last block
+        // 最後のブロックを除いてブロック間に改行を追加
         if (i < field.children.length - 1) {
           buffer.writeln();
         }
@@ -1520,19 +1507,19 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
-    // Check if the position just before the cursor is inside a link
+    // カーソル直前の位置がリンク内にあるかチェック
     final checkOffset = cursorOffset - 1;
     var currentOffset = 0;
     String? targetLinkUrl;
     int? linkStart;
     int? linkEnd;
 
-    // Traverse through the markdown structure
+    // マークダウン構造を走査
     for (final fieldValue in _value) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -1542,9 +1529,9 @@ class MarkdownController extends MasamuneControllerBase<
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if checkOffset is within this span
+              // checkOffsetがこのスパン内にあるかチェック
               if (checkOffset >= spanStart && checkOffset < spanEnd) {
-                // Check if this span has a link property
+                // このスパンがリンクプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is LinkMarkdownSpanProperty) {
                     targetLinkUrl = property.link;
@@ -1561,7 +1548,7 @@ class MarkdownController extends MasamuneControllerBase<
             if (targetLinkUrl != null) {
               break;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
@@ -1569,7 +1556,7 @@ class MarkdownController extends MasamuneControllerBase<
           if (targetLinkUrl != null) {
             break;
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロックの後に改行分+1（最後のものを除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1584,7 +1571,7 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
-    // Second pass: find the full range of consecutive spans with the same link URL
+    // 2回目のパス: 同じリンクURLを持つ連続するスパンの完全な範囲を検索
     currentOffset = 0;
     for (final fieldValue in _value) {
       final blocks = fieldValue.children;
@@ -1600,7 +1587,7 @@ class MarkdownController extends MasamuneControllerBase<
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if this span has the same link URL
+              // このスパンが同じリンクURLを持つかチェック
               var hasTargetLink = false;
               for (final property in span.properties) {
                 if (property is LinkMarkdownSpanProperty &&
@@ -1611,28 +1598,28 @@ class MarkdownController extends MasamuneControllerBase<
               }
 
               if (hasTargetLink) {
-                // Expand the link range
+                // リンク範囲を拡張
                 linkStart ??= spanStart;
                 linkEnd = spanEnd;
               } else if (linkStart != null) {
-                // We've found the end of the consecutive link spans
-                // But only return if we've already passed the check offset
+                // 連続するリンクスパンの終わりを発見
+                // ただし、checkOffsetを既に通過している場合のみ返す
                 if (currentOffset > checkOffset) {
                   return TextRange(start: linkStart, end: linkEnd!);
                 }
-                // Reset for next potential link range
+                // 次の潜在的なリンク範囲のためにリセット
                 linkStart = null;
                 linkEnd = null;
               }
 
               currentOffset += spanLength;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロックの後に改行分+1（最後のものを除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1640,7 +1627,7 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // Return the range if we found one
+    // 見つかった場合は範囲を返す
     if (linkStart != null && linkEnd != null) {
       return TextRange(start: linkStart, end: linkEnd);
     }
@@ -1656,27 +1643,27 @@ class MarkdownController extends MasamuneControllerBase<
     if (field == null) {
       return;
     }
-    // Insert mention at current cursor position
+    // 現在のカーソル位置にメンションを挿入
     final selection = field._selection;
     if (selection.isCollapsed) {
       final cursorPosition = selection.baseOffset;
-      // Insert mention text: @{mention.name}
+      // メンションテキストを挿入: @{mention.name}
       final mentionText = "@${mention.name}";
 
-      // Validation: Ensure mention text doesn't contain newlines
+      // 検証: メンションテキストに改行が含まれていないことを確認
       if (mentionText.contains("\n")) {
         return;
       }
 
-      // Insert mention text and property as atomic operation
-      // (combine both into single undo history entry)
-      // Replace any selected text or insert at cursor
+      // メンションテキストとプロパティをアトミック操作として挿入
+      // （両方を単一のUndo履歴エントリに結合）
+      // 選択されたテキストを置換またはカーソル位置に挿入
       replaceText(
         cursorPosition,
         cursorPosition,
         mentionText,
       );
-      // Add mention property (skip history since replaceText already saved)
+      // メンションプロパティを追加（replaceTextが既に保存しているため履歴をスキップ）
       addInlineProperty(
         const MentionMarkdownPrimaryTools(),
         start: cursorPosition,
@@ -1684,7 +1671,7 @@ class MarkdownController extends MasamuneControllerBase<
         value: mention,
         skipHistory: true,
       );
-      // Move cursor to after the mention
+      // カーソルをメンションの後に移動
       field._selection = TextSelection.collapsed(
         offset: cursorPosition + mentionText.length,
       );
@@ -1700,19 +1687,19 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
-    // Check if the position just before the cursor is inside a mention
+    // カーソル直前の位置がメンション内にあるかチェック
     final checkOffset = cursorOffset - 1;
     var currentOffset = 0;
     MarkdownMention? targetMention;
     int? mentionStart;
     int? mentionEnd;
 
-    // Traverse through the markdown structure
+    // マークダウン構造を走査
     for (final fieldValue in _value) {
       final blocks = fieldValue.children;
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
         final blockValue = blocks[blockIndex];
-        if (blockValue is MarkdownParagraphBlockValue) {
+        if (blockValue is MarkdownMultiLineBlockValue) {
           final paragraphBlock = blockValue;
           final lines = paragraphBlock.children;
           for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -1722,9 +1709,9 @@ class MarkdownController extends MasamuneControllerBase<
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if checkOffset is within this span
+              // checkOffsetがこのスパン内にあるかチェック
               if (checkOffset >= spanStart && checkOffset < spanEnd) {
-                // Check if this span has a mention property
+                // このスパンがメンションプロパティを持つかチェック
                 for (final property in span.properties) {
                   if (property is MentionMarkdownSpanProperty) {
                     targetMention = property.mention;
@@ -1741,7 +1728,7 @@ class MarkdownController extends MasamuneControllerBase<
             if (targetMention != null) {
               break;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
@@ -1749,7 +1736,7 @@ class MarkdownController extends MasamuneControllerBase<
           if (targetMention != null) {
             break;
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロックの後に改行分+1（最後のものを除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1764,7 +1751,7 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
-    // Second pass: find the full range of consecutive spans with the same mention
+    // 2回目のパス: 同じメンションを持つ連続するスパンの完全な範囲を検索
     currentOffset = 0;
     for (final fieldValue in _value) {
       final blocks = fieldValue.children;
@@ -1780,7 +1767,7 @@ class MarkdownController extends MasamuneControllerBase<
               final spanStart = currentOffset;
               final spanEnd = currentOffset + spanLength;
 
-              // Check if this span has the same mention
+              // このスパンが同じメンションを持つかチェック
               var hasTargetMention = false;
               for (final property in span.properties) {
                 if (property is MentionMarkdownSpanProperty &&
@@ -1791,28 +1778,28 @@ class MarkdownController extends MasamuneControllerBase<
               }
 
               if (hasTargetMention) {
-                // Expand the mention range
+                // メンション範囲を拡張
                 mentionStart ??= spanStart;
                 mentionEnd = spanEnd;
               } else if (mentionStart != null) {
-                // We've found the end of the consecutive mention spans
-                // But only return if we've already passed the check offset
+                // 連続するメンションスパンの終わりを発見
+                // ただし、checkOffsetを既に通過している場合のみ返す
                 if (currentOffset > checkOffset) {
                   return TextRange(start: mentionStart, end: mentionEnd!);
                 }
-                // Reset for next potential mention range
+                // 次の潜在的なメンション範囲のためにリセット
                 mentionStart = null;
                 mentionEnd = null;
               }
 
               currentOffset += spanLength;
             }
-            // Add 1 for newline only if this is not the last line in the block
+            // ブロック内の最後の行でない場合のみ改行分+1
             if (lineIndex < lines.length - 1) {
               currentOffset += 1;
             }
           }
-          // Add 1 for newline after each paragraph block (except the last one)
+          // 各段落ブロックの後に改行分+1（最後のものを除く）
           if (blockIndex < blocks.length - 1) {
             currentOffset += 1;
           }
@@ -1820,7 +1807,7 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // Return the range if we found one
+    // 見つかった場合は範囲を返す
     if (mentionStart != null && mentionEnd != null) {
       return TextRange(start: mentionStart, end: mentionEnd);
     }
@@ -1866,8 +1853,8 @@ class MarkdownController extends MasamuneControllerBase<
         final blockStart = currentOffset;
         final blockEnd = currentOffset + blockLength;
 
-        // Check if this block is within the selection
-        // A block is selected if the selection overlaps with it
+        // このブロックが選択内にあるかチェック
+        // 選択と重なる場合、ブロックは選択されている
         if ((start >= blockStart && start <= blockEnd) ||
             (end >= blockStart && end <= blockEnd) ||
             (start <= blockStart && end >= blockEnd)) {
@@ -1915,7 +1902,7 @@ class MarkdownController extends MasamuneControllerBase<
     for (var i = 1; i < spans.length; i++) {
       final next = spans[i];
       if (current.properties.equalsTo(next.properties)) {
-        // Merge
+        // マージ
         current = current.copyWith(value: current.value + next.value);
       } else {
         merged.add(current);
@@ -1950,19 +1937,19 @@ class MarkdownController extends MasamuneControllerBase<
             final spanStart = lineOffset;
             final spanEnd = lineOffset + span.value.length;
 
-            // Check if this span overlaps with the selection
+            // このスパンが選択と重なるかチェック
             if (end > spanStart && start < spanEnd) {
-              // Calculate the overlap
+              // 重なりを計算
               final overlapStart = start > spanStart ? start : spanStart;
               final overlapEnd = end < spanEnd ? end : spanEnd;
 
-              // Extract the overlapping portion
+              // 重なっている部分を抽出
               final extractedText = span.value.substring(
                 overlapStart - spanStart,
                 overlapEnd - spanStart,
               );
 
-              // Create a new span with the extracted text and same properties
+              // 抽出されたテキストと同じプロパティで新しいスパンを作成
               extractedSpans.add(span.copyWith(
                 id: uuid(),
                 value: extractedText,
@@ -1997,7 +1984,7 @@ class MarkdownController extends MasamuneControllerBase<
         final blockStart = currentOffset;
         final blockEnd = currentOffset + blockLength;
 
-        // Check if selection exactly matches this block
+        // 選択がこのブロックと正確に一致するかチェック
         if (start == blockStart && end == blockEnd) {
           return (isFullBlock: true, blockType: block.type);
         }
@@ -2011,13 +1998,13 @@ class MarkdownController extends MasamuneControllerBase<
 
   @override
   void dispose() {
-    // Cancel any pending history saves
+    // 保留中の履歴保存をキャンセル
     history.dispose();
 
-    // Clear callback
+    // コールバックをクリア
     _onShowLinkDialog = null;
 
-    // Dispose focus node
+    // フォーカスノードを破棄
     focusNode.dispose();
 
     super.dispose();

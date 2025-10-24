@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// 箇条書きリストブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
-class BulletedListExchangeMarkdownBlockTools extends MarkdownBlockTools {
+class BulletedListExchangeMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownBulletedListBlockValue> {
   /// Display the menu to exchange bulleted list blocks [MarkdownTools].
   ///
   /// 箇条書きリストブロックを変更するメニューを表示する[MarkdownTools]。
@@ -67,6 +68,39 @@ class BulletedListExchangeMarkdownBlockTools extends MarkdownBlockTools {
       id: target.id,
       indent: target.indent,
       children: target.extractLines() ?? [],
+    );
+  }
+
+  @override
+  MarkdownBulletedListBlockValue? convertFromJson(DynamicMap json) {
+    // TODO: implement convertFromJson
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownBulletedListBlockValue? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownBulletedListBlockValue value) {
+    // TODO: implement convertToJson
+    throw UnimplementedError();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownBulletedListBlockValue value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownBulletedListBlockValue createBlockValue(
+      {String? initialText, List<MarkdownLineValue>? children}) {
+    return MarkdownBulletedListBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
     );
   }
 }
