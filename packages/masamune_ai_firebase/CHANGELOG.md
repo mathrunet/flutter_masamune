@@ -1,3 +1,14 @@
+## 3.1.0
+
+ - **FIX**: Development of tools, including web search. ([1385329a](https://github.com/mathrunet/flutter_masamune/commit/1385329a3baba856b73789230c5fe98ff0432f74))
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **FIX**: Allowed specifying the AI's sorting part. ([80a16738](https://github.com/mathrunet/flutter_masamune/commit/80a16738e5bb1bc19bcbaceeebcc63c8bfb2e11e))
+ - **FEAT**: Add vector database. ([dbf21fb5](https://github.com/mathrunet/flutter_masamune/commit/dbf21fb5756d2a02efccd029c38040818d2d2baa))
+ - **FEAT**: Add a reference. ([d30bd335](https://github.com/mathrunet/flutter_masamune/commit/d30bd33541e111e5f0a8d3dc7d7a92e8401d576d))
+ - **FEAT**: Overhaul of the MCP area. ([1a9dce20](https://github.com/mathrunet/flutter_masamune/commit/1a9dce20ed12eb00147a9888d3dcb3628fd74f15))
+ - **FEAT**: Gemini Update. ([8828ad09](https://github.com/mathrunet/flutter_masamune/commit/8828ad095e7bb86081be3a5f4feaeb3e311b1f50))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.0.31
 
  - Update a dependency to the latest release.

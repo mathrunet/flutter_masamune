@@ -1,3 +1,7 @@
+## 3.8.1
+
+ - **FIX**: Add items to exclude. ([e648c49f](https://github.com/mathrunet/flutter_masamune/commit/e648c49fecbb9f8b7664daca2757cca3cdb47828))
+
 ## 3.8.0
 
  - **FIX**: I decided to create settings.local.json. ([59994a8f](https://github.com/mathrunet/flutter_masamune/commit/59994a8f8b7659183d23fada14aa71982ea9cadb))

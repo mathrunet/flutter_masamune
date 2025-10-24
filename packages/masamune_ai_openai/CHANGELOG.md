@@ -1,3 +1,14 @@
+## 3.2.0
+
+ - **FIX**: Delete Embedding. ([09263cc2](https://github.com/mathrunet/flutter_masamune/commit/09263cc2d61bf3c5d56eedcca4f183f366299970))
+ - **FIX**: Development of tools, including web search. ([1385329a](https://github.com/mathrunet/flutter_masamune/commit/1385329a3baba856b73789230c5fe98ff0432f74))
+ - **FIX**: Allowed specifying the AI's sorting part. ([80a16738](https://github.com/mathrunet/flutter_masamune/commit/80a16738e5bb1bc19bcbaceeebcc63c8bfb2e11e))
+ - **FIX**: Fixing: No default configuration. ([e06e84fe](https://github.com/mathrunet/flutter_masamune/commit/e06e84fef9cbfce8f02454ced73b7137e9c94bbb))
+ - **FEAT**: Add vector database. ([dbf21fb5](https://github.com/mathrunet/flutter_masamune/commit/dbf21fb5756d2a02efccd029c38040818d2d2baa))
+ - **FEAT**: Add a reference. ([d30bd335](https://github.com/mathrunet/flutter_masamune/commit/d30bd33541e111e5f0a8d3dc7d7a92e8401d576d))
+ - **FEAT**: Overhaul of the MCP area. ([1a9dce20](https://github.com/mathrunet/flutter_masamune/commit/1a9dce20ed12eb00147a9888d3dcb3628fd74f15))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
 ## 3.1.4
 
  - Update a dependency to the latest release.

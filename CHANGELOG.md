@@ -15,6 +15,63 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.8.1`](#katana_cli---v381)
+ - [`masamune_ai` - `v3.1.0`](#masamune_ai---v310)
+ - [`masamune_ai_firebase` - `v3.1.0`](#masamune_ai_firebase---v310)
+ - [`masamune_ai_openai` - `v3.2.0`](#masamune_ai_openai---v320)
+
+---
+
+#### `katana_cli` - `v3.8.1`
+
+ - **FIX**: Add items to exclude. ([e648c49f](https://github.com/mathrunet/flutter_masamune/commit/e648c49fecbb9f8b7664daca2757cca3cdb47828))
+
+#### `masamune_ai` - `v3.1.0`
+
+ - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))
+ - **FIX**: Development of tools, including web search. ([1385329a](https://github.com/mathrunet/flutter_masamune/commit/1385329a3baba856b73789230c5fe98ff0432f74))
+ - **FIX**: Fixed insufficient sorting. ([7301a2b0](https://github.com/mathrunet/flutter_masamune/commit/7301a2b0a48a782ad47bb37f78f4ab50a0bee662))
+ - **FIX**: Allowed specifying the AI's sorting part. ([80a16738](https://github.com/mathrunet/flutter_masamune/commit/80a16738e5bb1bc19bcbaceeebcc63c8bfb2e11e))
+ - **FEAT**: Add vector database. ([dbf21fb5](https://github.com/mathrunet/flutter_masamune/commit/dbf21fb5756d2a02efccd029c38040818d2d2baa))
+ - **FEAT**: Add a reference. ([d30bd335](https://github.com/mathrunet/flutter_masamune/commit/d30bd33541e111e5f0a8d3dc7d7a92e8401d576d))
+ - **FEAT**: Overhaul of the MCP area. ([1a9dce20](https://github.com/mathrunet/flutter_masamune/commit/1a9dce20ed12eb00147a9888d3dcb3628fd74f15))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_ai_firebase` - `v3.1.0`
+
+ - **FIX**: Development of tools, including web search. ([1385329a](https://github.com/mathrunet/flutter_masamune/commit/1385329a3baba856b73789230c5fe98ff0432f74))
+ - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))
+ - **FIX**: Allowed specifying the AI's sorting part. ([80a16738](https://github.com/mathrunet/flutter_masamune/commit/80a16738e5bb1bc19bcbaceeebcc63c8bfb2e11e))
+ - **FEAT**: Add vector database. ([dbf21fb5](https://github.com/mathrunet/flutter_masamune/commit/dbf21fb5756d2a02efccd029c38040818d2d2baa))
+ - **FEAT**: Add a reference. ([d30bd335](https://github.com/mathrunet/flutter_masamune/commit/d30bd33541e111e5f0a8d3dc7d7a92e8401d576d))
+ - **FEAT**: Overhaul of the MCP area. ([1a9dce20](https://github.com/mathrunet/flutter_masamune/commit/1a9dce20ed12eb00147a9888d3dcb3628fd74f15))
+ - **FEAT**: Gemini Update. ([8828ad09](https://github.com/mathrunet/flutter_masamune/commit/8828ad095e7bb86081be3a5f4feaeb3e311b1f50))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+#### `masamune_ai_openai` - `v3.2.0`
+
+ - **FIX**: Delete Embedding. ([09263cc2](https://github.com/mathrunet/flutter_masamune/commit/09263cc2d61bf3c5d56eedcca4f183f366299970))
+ - **FIX**: Development of tools, including web search. ([1385329a](https://github.com/mathrunet/flutter_masamune/commit/1385329a3baba856b73789230c5fe98ff0432f74))
+ - **FIX**: Allowed specifying the AI's sorting part. ([80a16738](https://github.com/mathrunet/flutter_masamune/commit/80a16738e5bb1bc19bcbaceeebcc63c8bfb2e11e))
+ - **FIX**: Fixing: No default configuration. ([e06e84fe](https://github.com/mathrunet/flutter_masamune/commit/e06e84fef9cbfce8f02454ced73b7137e9c94bbb))
+ - **FEAT**: Add vector database. ([dbf21fb5](https://github.com/mathrunet/flutter_masamune/commit/dbf21fb5756d2a02efccd029c38040818d2d2baa))
+ - **FEAT**: Add a reference. ([d30bd335](https://github.com/mathrunet/flutter_masamune/commit/d30bd33541e111e5f0a8d3dc7d7a92e8401d576d))
+ - **FEAT**: Overhaul of the MCP area. ([1a9dce20](https://github.com/mathrunet/flutter_masamune/commit/1a9dce20ed12eb00147a9888d3dcb3628fd74f15))
+ - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))
+
+
+## 2025-10-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth_firebase` - `v3.1.8`](#katana_auth_firebase---v318)
  - [`katana_builder` - `v3.1.0`](#katana_builder---v310)
  - [`katana_cli` - `v3.8.0`](#katana_cli---v380)
