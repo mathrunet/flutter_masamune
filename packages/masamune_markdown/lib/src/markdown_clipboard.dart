@@ -348,11 +348,20 @@ class MarkdownClipboard {
     // 変更前に現在の状態を保存
     _controller.history.saveToUndoStack(immediate: true);
 
+    // 選択範囲がある場合は先に削除して挿入位置を確定させる
+    if (end > start) {
+      _controller.replaceText(start, end, "", skipHistory: true);
+      end = start;
+    }
+
+    if (_controller._value.isEmpty) {
+      return;
+    }
+
     final field = _controller._value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
-    // 開始位置を含むブロックを検索
-    var currentOffset = 0;
+    var blockOffset = 0;
     var targetBlockIndex = -1;
     var targetLineIndex = -1;
     var targetSpanIndex = -1;
@@ -360,29 +369,60 @@ class MarkdownClipboard {
 
     for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
       final block = blocks[blockIndex];
-      if (block is MarkdownParagraphBlockValue) {
-        final lines = List<MarkdownLineValue>.from(block.children);
+      final blockLength = _controller._getBlockTextLength(block);
+      final blockStart = blockOffset;
+      final blockEnd = blockStart + blockLength;
 
-        for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-          final line = lines[lineIndex];
-          var lineOffset = currentOffset;
+      if (start > blockEnd) {
+        blockOffset = blockEnd + 1;
+        continue;
+      }
+
+      if (block is! MarkdownParagraphBlockValue) {
+        blockOffset = blockEnd + 1;
+        continue;
+      }
+
+      final lines = List<MarkdownLineValue>.from(block.children);
+      var lineOffset = blockStart;
+
+      for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+        final line = lines[lineIndex];
+        final spansInLine = List<MarkdownSpanValue>.from(line.children);
+        final lineLength = spansInLine.fold<int>(
+          0,
+          (value, span) => value + span.value.length,
+        );
+        final lineStart = lineOffset;
+        final lineEnd = lineStart + lineLength;
+
+        if (spansInLine.isEmpty) {
+          if (start == lineStart) {
+            targetBlockIndex = blockIndex;
+            targetLineIndex = lineIndex;
+            targetSpanIndex = -1;
+            offsetInSpan = 0;
+            break;
+          }
+        } else {
+          var spanOffset = lineStart;
 
           for (var spanIndex = 0;
-              spanIndex < line.children.length;
+              spanIndex < spansInLine.length;
               spanIndex++) {
-            final span = line.children[spanIndex];
-            final spanStart = lineOffset;
-            final spanEnd = lineOffset + span.value.length;
+            final span = spansInLine[spanIndex];
+            final spanEnd = spanOffset + span.value.length;
 
-            if (start >= spanStart && start <= spanEnd) {
+            if (start <= spanEnd) {
               targetBlockIndex = blockIndex;
               targetLineIndex = lineIndex;
               targetSpanIndex = spanIndex;
-              offsetInSpan = start - spanStart;
+              offsetInSpan =
+                  (start - spanOffset).clamp(0, span.value.length).toInt();
               break;
             }
 
-            lineOffset += span.value.length;
+            spanOffset = spanEnd;
           }
 
           if (targetBlockIndex >= 0) {
@@ -390,15 +430,23 @@ class MarkdownClipboard {
           }
         }
 
-        if (targetBlockIndex >= 0) {
-          break;
+        if (lineIndex < lines.length - 1) {
+          lineOffset = lineEnd + 1;
+        } else {
+          lineOffset = lineEnd;
         }
-        currentOffset += _controller._getBlockTextLength(block) + 1;
       }
+
+      if (targetBlockIndex >= 0) {
+        break;
+      }
+
+      blockOffset = blockEnd + 1;
     }
 
     if (targetBlockIndex < 0) {
-      debugPrint("  Could not find target position for paste");
+      // フォールバックとしてプレーンテキストで挿入
+      _controller.replaceText(start, end, insertedText, skipHistory: true);
       return;
     }
 
@@ -406,54 +454,48 @@ class MarkdownClipboard {
     final lines = List<MarkdownLineValue>.from(block.children);
     final line = lines[targetLineIndex];
     final lineSpans = List<MarkdownSpanValue>.from(line.children);
-    final targetSpan = lineSpans[targetSpanIndex];
 
-    // 選択されたテキストがあれば削除
-    if (end > start) {
-      _controller.replaceText(start, end, "");
-      // 削除後に位置を再計算する必要がある
-      // 簡単のため、開始位置に挿入する
-    }
-
-    // 挿入位置でターゲットスパンを分割
-    final beforeText = targetSpan.value.substring(0, offsetInSpan);
-    final afterText = targetSpan.value.substring(offsetInSpan);
-
-    // 新しいスパンリストを構築
     final newSpans = <MarkdownSpanValue>[];
 
-    // ターゲットの前のスパンを追加
-    newSpans.addAll(lineSpans.take(targetSpanIndex));
+    if (targetSpanIndex >= 0 && targetSpanIndex < lineSpans.length) {
+      final targetSpan = lineSpans[targetSpanIndex];
+      newSpans.addAll(lineSpans.take(targetSpanIndex));
 
-    // 分割されたスパンの「前」部分を追加
-    if (beforeText.isNotEmpty) {
-      newSpans.add(targetSpan.copyWith(
-        id: uuid(),
-        value: beforeText,
-      ));
+      final beforeText = targetSpan.value.substring(0, offsetInSpan);
+      if (beforeText.isNotEmpty) {
+        newSpans.add(
+          targetSpan.copyWith(
+            id: uuid(),
+            value: beforeText,
+          ),
+        );
+      }
+
+      newSpans.addAll(spans);
+
+      final afterText = targetSpan.value.substring(offsetInSpan);
+      if (afterText.isNotEmpty) {
+        newSpans.add(
+          targetSpan.copyWith(
+            id: uuid(),
+            value: afterText,
+          ),
+        );
+      }
+
+      if (targetSpanIndex + 1 < lineSpans.length) {
+        newSpans.addAll(lineSpans.skip(targetSpanIndex + 1));
+      }
+    } else {
+      // 空行などターゲットスパンがない場合はそのまま挿入
+      newSpans
+        ..addAll(lineSpans)
+        ..addAll(spans);
     }
 
-    // ペーストされたスパンを追加
-    newSpans.addAll(spans);
-
-    // 分割されたスパンの「後」部分を追加
-    if (afterText.isNotEmpty) {
-      newSpans.add(targetSpan.copyWith(
-        id: uuid(),
-        value: afterText,
-      ));
-    }
-
-    // ターゲット後の残りのスパンを追加
-    if (targetSpanIndex + 1 < lineSpans.length) {
-      newSpans.addAll(lineSpans.skip(targetSpanIndex + 1));
-    }
-
-    // 同一プロパティの隣接スパンを統合
     final mergedSpans = _controller._mergeSpans(newSpans);
 
-    final updatedLine = line.copyWith(children: mergedSpans);
-    lines[targetLineIndex] = updatedLine;
+    lines[targetLineIndex] = line.copyWith(children: mergedSpans);
     final updatedBlock = block.copyWith(children: lines);
     blocks[targetBlockIndex] = updatedBlock;
 

@@ -258,7 +258,7 @@ void main() {
       [MarkdownFieldValue.createEmpty().toDebug()],
     );
   });
-  testWidgets("MarkdownField.field.cut", (tester) async {
+  testWidgets("MarkdownField.field.copyCutAndPaste", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
