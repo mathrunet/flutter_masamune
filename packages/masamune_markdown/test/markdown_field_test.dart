@@ -1,3 +1,4 @@
+import "package:katana/katana.dart";
 import "package:masamune_markdown/masamune_markdown.dart";
 import "package:flutter_test/flutter_test.dart";
 
@@ -461,15 +462,15 @@ void main() {
       ],
     );
     await controller.clipboard.paste();
-    expect(controller.selection.baseOffset, 3);
-    expect(controller.rawText, "aba\nacc\naaa\naa\na");
-    expect(controller.plainText, "aba\nacc\naaa\naa\na");
+    expect(controller.selection.baseOffset, 4);
+    expect(controller.rawText, "acc\naba\naaa\naa\na");
+    expect(controller.plainText, "acc\naba\naaa\naa\na");
     expect(
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownParagraphBlockValue.createEmpty(initialText: "aba"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "acc"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aba"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "aa"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "a"),
@@ -480,24 +481,366 @@ void main() {
     expect(controller.selection.baseOffset, 1);
     expect(controller.selection.extentOffset, 3);
     await controller.clipboard.copy();
-    expect(await controller.clipboard.currentText, "ba");
-    expect(controller.selection.baseOffset, 1);
-    expect(controller.selection.extentOffset, 1);
+    expect(await controller.clipboard.currentText, "cc");
+    expect(controller.selection.baseOffset, 3);
+    expect(controller.selection.extentOffset, 3);
     await input.cursorAtLast();
     expect(controller.selection.baseOffset, 16);
     await controller.clipboard.paste();
     expect(controller.selection.baseOffset, 18);
-    expect(controller.rawText, "aba\nacc\naaa\naa\naba");
-    expect(controller.plainText, "aba\nacc\naaa\naa\naba");
+    expect(controller.rawText, "acc\naba\naaa\naa\nacc");
+    expect(controller.plainText, "acc\naba\naaa\naa\nacc");
     expect(
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownParagraphBlockValue.createEmpty(initialText: "aba"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "acc"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aba"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "aa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "acc"),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(2, 5);
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.selection.extentOffset, 5);
+    await controller.clipboard.copy();
+    expect(await controller.clipboard.currentText, "c\na");
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 5);
+    await input.cursorAt(10);
+    expect(controller.selection.baseOffset, 10);
+    await controller.clipboard.paste();
+    expect(controller.selection.baseOffset, 13);
+    expect(controller.rawText, "acc\naba\naac\naa\naa\nacc");
+    expect(controller.plainText, "acc\naba\naac\naa\naa\nacc");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "acc"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "aba"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aac"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "acc"),
+        ]).toDebug()
+      ],
+    );
+  });
+  testWidgets("MarkdownField.field.indent", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.cursorAt(0);
+    expect(controller.selection.baseOffset, 0);
+    controller.increaseIndent();
+    expect(controller.selection.baseOffset, 0);
+    expect(controller.plainText, "  aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 1,
+          ),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.cursorAt(1);
+    expect(controller.selection.baseOffset, 1);
+    controller.increaseIndent();
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.plainText, "    aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 2,
+          ),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(0, 2);
+    expect(controller.selection.baseOffset, 0);
+    expect(controller.selection.extentOffset, 2);
+    controller.decreaseIndent();
+    expect(controller.selection.baseOffset, 0);
+    expect(controller.selection.extentOffset, 2);
+    expect(controller.plainText, "  aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 1,
+          ),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(5, 6);
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 6);
+    controller.increaseIndent();
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 6);
+    expect(controller.plainText, "  aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 1,
+          ),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(2, 6);
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.selection.extentOffset, 6);
+    controller.increaseIndent();
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.selection.extentOffset, 6);
+    expect(controller.plainText, "    aaa\n    bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 2,
+          ),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 2,
+          ),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(3, 5);
+    expect(controller.selection.baseOffset, 3);
+    expect(controller.selection.extentOffset, 5);
+    controller.decreaseIndent();
+    expect(controller.selection.baseOffset, 3);
+    expect(controller.selection.extentOffset, 5);
+    expect(controller.plainText, "  aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 1,
+          ),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
+  });
+  testWidgets("MarkdownField.field.undoRedo", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    controller.history.undo();
+    expect(controller.selection.baseOffset, 4);
+    expect(controller.plainText, "aaa\n");
+    expect(controller.rawText, "aaa\n");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: ""),
+        ]).toDebug()
+      ],
+    );
+    controller.history.redo();
+    expect(controller.selection.baseOffset, 7);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.cursorAt(5);
+    expect(controller.selection.baseOffset, 5);
+    controller.increaseIndent();
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.plainText, "aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
+    controller.history.undo();
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    controller.history.redo();
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.plainText, "aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(2, 5);
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.selection.extentOffset, 5);
+    await controller.clipboard.cut();
+    expect(await controller.clipboard.currentText, "a\nb");
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.selection.extentOffset, 2);
+    expect(controller.plainText, "aabb");
+    expect(controller.rawText, "aabb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aabb"),
+        ]).toDebug()
+      ],
+    );
+    controller.history.undo();
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.plainText, "aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
+    controller.history.redo();
+    expect(controller.selection.baseOffset, 2);
+    expect(controller.selection.extentOffset, 2);
+    expect(controller.plainText, "aabb");
+    expect(controller.rawText, "aabb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aabb"),
+        ]).toDebug()
+      ],
+    );
+    await controller.clipboard.paste();
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 5);
+    expect(controller.plainText, "aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
         ]).toDebug()
       ],
     );

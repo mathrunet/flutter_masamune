@@ -763,7 +763,7 @@ class MarkdownController extends MasamuneControllerBase<
     for (final blockIndex in selectedBlocks) {
       if (blockIndex < blocks.length) {
         final block = blocks[blockIndex];
-        if (block.indent < 5 && block.canIndent) {
+        if (block.indent < adapter.maxIndentLevel && block.canIndent) {
           blocks[blockIndex] = block.copyWith(indent: block.indent + 1);
         }
       }

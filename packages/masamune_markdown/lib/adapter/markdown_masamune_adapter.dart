@@ -19,6 +19,7 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
     this.defaultStyle = const MarkdownStyle(),
     this.imageLimit = 256,
     this.indentSpaceCount = 2,
+    this.maxIndentLevel = 3,
     this.defaultPrimaryTools = const [
       AddMarkdownPrimaryTools(),
       FontMarkdownPrimaryTools(),
@@ -74,6 +75,11 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
   ///
   /// インデントの空白の数。
   final int indentSpaceCount;
+
+  /// The maximum level of the indent.
+  ///
+  /// インデントの最大レベル。
+  final int maxIndentLevel;
 
   /// Find the markdown tool.
   ///
