@@ -80,7 +80,7 @@ class _$VectorModelRefPath extends ModelRefPath<VectorModel> {
   @override
   DocumentModelQuery get modelQuery {
     return DocumentModelQuery(
-      "agent/$_agentId/vector/${path.trimQuery().trimString("/")}",
+      "plugins/ai/agent/$_agentId/vector/${path.trimQuery().trimString("/")}",
       adapter: adapter,
     );
   }
@@ -95,7 +95,7 @@ class _$VectorModelInitialCollection extends ModelInitialCollection<VectorModel>
   final String _agentId;
 
   @override
-  String get path => "agent/$_agentId/vector";
+  String get path => "plugins/ai/agent/$_agentId/vector";
 
   @override
   DynamicMap toMap(VectorModel value) => value.rawValue;
@@ -118,7 +118,7 @@ class _$VectorModelDocumentQuery {
   }) {
     return _$_VectorModelDocumentQuery(
       DocumentModelQuery(
-        "agent/$agentId/vector/$_id",
+        "plugins/ai/agent/$agentId/vector/$_id",
         adapter: adapter ?? _$VectorModelDocument.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery:
@@ -130,7 +130,7 @@ class _$VectorModelDocumentQuery {
 
   RegExp get regExp {
     return RegExp(
-      r"^agent/([^/]+)/vector/([^/]+)$".trimQuery().trimString("/"),
+      r"^plugins/ai/agent/([^/]+)/vector/([^/]+)$".trimQuery().trimString("/"),
     );
   }
 
@@ -167,7 +167,7 @@ class _$VectorModelCollectionQuery {
   }) {
     return _$_VectorModelCollectionQuery(
       CollectionModelQuery(
-        "agent/$agentId/vector",
+        "plugins/ai/agent/$agentId/vector",
         adapter: adapter ?? _$VectorModelCollection.defaultModelAdapter,
         useTestModelAdapter: useTestModelAdapter,
         accessQuery:
@@ -178,7 +178,9 @@ class _$VectorModelCollectionQuery {
   }
 
   RegExp get regExp {
-    return RegExp(r"^agent/([^/]+)/vector$".trimQuery().trimString("/"));
+    return RegExp(
+      r"^plugins/ai/agent/([^/]+)/vector$".trimQuery().trimString("/"),
+    );
   }
 
   bool hasMatchPath(String path) {

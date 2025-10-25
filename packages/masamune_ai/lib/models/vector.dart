@@ -1,7 +1,6 @@
 // ignore: unused_import, unnecessary_import
 
 // Flutter imports:
-import "package:flutter/material.dart";
 
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
@@ -12,7 +11,6 @@ import "package:masamune_ai/masamune_ai.dart";
 
 // ignore: unused_import, unnecessary_import
 
-
 part "vector.m.dart";
 part "vector.g.dart";
 part "vector.freezed.dart";
@@ -21,7 +19,7 @@ part "vector.freezed.dart";
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("agent/:agent_id/vector",
+@CollectionModelPath("plugins/ai/agent/:agent_id/vector",
     adapter: "AIMasamuneAdapter.primary.vectorModelAdapter")
 abstract class VectorModel with _$VectorModel {
   /// Value for model.
