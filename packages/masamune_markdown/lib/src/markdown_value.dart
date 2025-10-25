@@ -37,6 +37,11 @@ abstract class MarkdownValue {
   /// マークダウンのデータをテスト用のJSONオブジェクトに変換します。
   DynamicMap toDebug();
 
+  /// Convert the markdown value to a text string.
+  ///
+  /// マークダウンのデータをテキストの文字列に変換します。
+  String toText() => toString();
+
   /// The key for the type.
   ///
   /// マークダウンのデータの型のキー。
@@ -97,7 +102,12 @@ abstract class MarkdownValue {
 
   @override
   String toString() {
-    return "MarkdownValue(id: $id, type: $type)";
+    return "";
+  }
+
+  // ignore: unused_element
+  StringBuffer _textBuilder(StringBuffer buffer) {
+    return buffer;
   }
 }
 
@@ -278,7 +288,13 @@ class MarkdownSpanValue extends MarkdownValue {
 
   @override
   String toString() {
-    return "MarkdownSpanValue(value: $value, properties: $properties)";
+    return value;
+  }
+
+  @override
+  StringBuffer _textBuilder(StringBuffer buffer) {
+    buffer.write(value);
+    return buffer;
   }
 }
 
@@ -401,7 +417,15 @@ class MarkdownLineValue extends MarkdownValue {
 
   @override
   String toString() {
-    return "MarkdownLineValue(children: $children)";
+    return _textBuilder(StringBuffer()).toString();
+  }
+
+  @override
+  StringBuffer _textBuilder(StringBuffer buffer) {
+    for (final e in children) {
+      buffer = e._textBuilder(buffer);
+    }
+    return buffer;
   }
 }
 
@@ -571,7 +595,12 @@ abstract class MarkdownBlockValue extends MarkdownValue {
 
   @override
   String toString() {
-    return "MarkdownBlockValue(indent: $indent)";
+    return _textBuilder(StringBuffer(), indent: true).toString();
+  }
+
+  @override
+  StringBuffer _textBuilder(StringBuffer buffer, {bool indent = true}) {
+    return buffer;
   }
 }
 
@@ -623,6 +652,50 @@ abstract class MarkdownMultiLineBlockValue extends MarkdownBlockValue {
       MarkdownValue.indentKey: indent,
       MarkdownValue.childrenKey: children.map((e) => e.toDebug()).toList(),
     };
+  }
+
+  @override
+  String toString() {
+    return _textBuilder(StringBuffer(), indent: true).toString();
+  }
+
+  @override
+  StringBuffer _textBuilder(StringBuffer buffer, {bool indent = true}) {
+    for (var i = 0; i < children.length; i++) {
+      final e = children[i];
+      if (indent) {
+        final space = " " *
+            this.indent *
+            MarkdownMasamuneAdapter.primary.indentSpaceCount;
+        buffer.write(space);
+      }
+      buffer = e._textBuilder(buffer);
+      if (i < children.length - 1) {
+        buffer.write("\n");
+      }
+    }
+    return buffer;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownMultiLineBlockValue &&
+        other.id == id &&
+        other.type == type &&
+        other.indent == indent &&
+        children.equalsTo(other.children);
+  }
+
+  @override
+  int get hashCode {
+    var hash = super.hashCode;
+    for (final child in children) {
+      hash = hash ^ child.hashCode;
+    }
+    return hash;
   }
 }
 
@@ -756,7 +829,19 @@ class MarkdownFieldValue extends MarkdownValue {
 
   @override
   String toString() {
-    return "MarkdownFieldValue(children: $children)";
+    return _textBuilder(StringBuffer(), indent: true).toString();
+  }
+
+  @override
+  StringBuffer _textBuilder(StringBuffer buffer, {bool indent = true}) {
+    for (var i = 0; i < children.length; i++) {
+      final e = children[i];
+      buffer = e._textBuilder(buffer, indent: indent);
+      if (i < children.length - 1) {
+        buffer.write("\n");
+      }
+    }
+    return buffer;
   }
 }
 
@@ -901,6 +986,24 @@ extension MarkdownFieldValueListExtension on List<MarkdownFieldValue> {
   /// マークダウンのフィールドの値のリストをマークダウンの文字列に変換します。
   String toMarkdown() {
     return map((e) => e.toMarkdown()).join("\n");
+  }
+
+  /// Convert the markdown field value list to a string.
+  ///
+  /// マークダウンのフィールドの値のリストを文字列に変換します。
+  String toText() {
+    return _textBuilder(StringBuffer(), indent: true).toString();
+  }
+
+  StringBuffer _textBuilder(StringBuffer buffer, {bool indent = true}) {
+    for (var i = 0; i < length; i++) {
+      final e = this[i];
+      buffer = e._textBuilder(buffer, indent: indent);
+      if (i < length - 1) {
+        buffer.write("\n");
+      }
+    }
+    return buffer;
   }
 
   /// Creates a deep copy of the given MarkdownFieldValue list.

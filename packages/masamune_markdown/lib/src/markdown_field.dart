@@ -644,7 +644,7 @@ class MarkdownFieldState extends State<MarkdownField>
     // 実際の現在のテキストを取得
     // IME変換中は_composingTextが利用可能な場合はそれを使用
     // そうでない場合はコントローラーのテキストを使用
-    final oldText = _composingText ?? widget.controller.getPlainText();
+    final oldText = _composingText ?? widget.controller.rawText;
     final newText = value.text;
 
     // 現在変換中かチェック
@@ -762,7 +762,7 @@ class MarkdownFieldState extends State<MarkdownField>
                   widget.controller.getLinkRangeBeforeCursor(cursorOffset);
               final mentionRange =
                   widget.controller.getMentionRangeBeforeCursor(cursorOffset);
-              final totalTextLength = widget.controller.getPlainText().length;
+              final totalTextLength = widget.controller.rawText.length;
               final charBeforeCursor = cursorOffset - 1;
 
               // カーソルがリンク/メンションの末尾境界にあるかチェック
@@ -870,7 +870,7 @@ class MarkdownFieldState extends State<MarkdownField>
               replacementText.isEmpty) {
             // ブロックが削除/マージされた
             // 残りのテキストが末尾の改行で終わるかチェック（削除されたブロックから孤立）
-            final currentText = widget.controller.getPlainText();
+            final currentText = widget.controller.rawText;
 
             if (currentText.endsWith("\n") && currentText.isNotEmpty) {
               // 末尾の改行を削除
@@ -927,7 +927,7 @@ class MarkdownFieldState extends State<MarkdownField>
           (!value.composing.isValid || value.composing.start == -1)) {
         // 変換が終了
         final textToCommit = _composingText!;
-        final currentText = widget.controller.getPlainText();
+        final currentText = widget.controller.rawText;
 
         // テキストが既にコミットされている場合（textToCommit == currentText）、
         // no need to call replaceText, just clear composing state
@@ -1231,7 +1231,7 @@ class MarkdownFieldState extends State<MarkdownField>
 
   String _getPlainText() {
     // IME変換中に更新されるコントローラーのテキストを常に使用
-    final plainText = widget.controller.getPlainText();
+    final plainText = widget.controller.rawText;
     return plainText;
   }
 
@@ -3274,7 +3274,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     if (_composingText != null && _composingText!.isNotEmpty) {
       return _composingText!;
     }
-    return _controller.getPlainText();
+    return _controller.rawText;
   }
 }
 

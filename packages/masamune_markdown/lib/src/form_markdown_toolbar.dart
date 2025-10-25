@@ -120,10 +120,13 @@ class FormMarkdownToolbar extends StatefulWidget {
   final bool collapsed;
 
   @override
-  State<FormMarkdownToolbar> createState() => _FormMarkdownToolbarState();
+  State<FormMarkdownToolbar> createState() => FormMarkdownToolbarState();
 }
 
-class _FormMarkdownToolbarState extends State<FormMarkdownToolbar>
+/// State for [FormMarkdownToolbar].
+///
+/// [FormMarkdownToolbar]の状態。
+class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     implements MarkdownToolRef {
   bool _isKeyboardHidden = false;
   bool _showBlockMenu = false;
@@ -1075,7 +1078,7 @@ class _LinkSetting {
     final selection = field._selection;
 
     if (selection.isValid && !selection.isCollapsed) {
-      final text = controller.getPlainText();
+      final text = controller.rawText;
 
       final selectedText = selection.textInside(text);
 

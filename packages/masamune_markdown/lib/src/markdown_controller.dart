@@ -43,6 +43,26 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
+  /// Get the plain text of the markdown controller.
+  ///
+  /// Indentation is applied.
+  ///
+  /// マークダウンコントローラーのプレーンテキストを取得します。
+  ///
+  /// インデントは適用されます。
+  String get plainText =>
+      _value._textBuilder(StringBuffer(), indent: true).toString();
+
+  /// Get the plain text of the markdown controller.
+  ///
+  /// Indentation is not applied.
+  ///
+  /// マークダウンコントローラーのプレーンテキストを取得します。
+  ///
+  /// インデントは適用されません。
+  String get rawText =>
+      _value._textBuilder(StringBuffer(), indent: false).toString();
+
   /// History of clipboard of [MarkdownController].
   ///
   /// [MarkdownController]のクリップボード履歴。
@@ -52,6 +72,12 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// [MarkdownController]の履歴。
   late final MarkdownHistory history = MarkdownHistory._(this);
+
+  /// Get the selection of the markdown controller.
+  ///
+  /// マークダウンコントローラーの選択を取得します。
+  TextSelection get selection =>
+      _field?._selection ?? const TextSelection.collapsed(offset: 0);
 
   /// Default style for markdown.
   ///
@@ -81,7 +107,7 @@ class MarkdownController extends MasamuneControllerBase<
     // 何も変更しない置換の場合は早期リターン（同じ位置に同じテキスト）
     // これにより選択操作中の不要なスパンマージを防ぐ
     if (start == 0 && _value.isNotEmpty) {
-      final currentText = getPlainText();
+      final currentText = rawText;
       if (end == currentText.length && text == currentText) {
         return;
       }
@@ -272,8 +298,11 @@ class MarkdownController extends MasamuneControllerBase<
 
       // ブロックを別々に保つかマージするかをチェック
       // 別々に保つ条件: 削除 かつ 両方のブロックに内容が残っている
-      final shouldKeepSeparate =
-          text.isEmpty && textBeforeStart.isNotEmpty && textAfterEnd.isNotEmpty;
+      final isAdjacentBlocks = endBlockIndex == startBlockIndex + 1;
+      final shouldKeepSeparate = text.isEmpty &&
+          textBeforeStart.isNotEmpty &&
+          textAfterEnd.isNotEmpty &&
+          !isAdjacentBlocks;
 
       if (shouldKeepSeparate) {
         // ブロックタイプを保持して、開始前のテキストで最初のブロックを更新
@@ -313,24 +342,26 @@ class MarkdownController extends MasamuneControllerBase<
         mergedText = mergedText.substring(0, mergedText.length - 1);
       }
 
-      // マージされたテキストが空の場合、新しいブロックを作成せずにブロックを削除
-      if (mergedText.isEmpty && text.isEmpty) {
-        // startBlockIndexからendBlockIndexまでのブロックを削除（両端を含む）
-        blocks.removeRange(startBlockIndex, endBlockIndex + 1);
+      final originalRange =
+          blocks.sublist(startBlockIndex, endBlockIndex + 1).toList();
 
+      // startBlockIndexからendBlockIndexまでのブロックを削除（両端を含む）
+      blocks.removeRange(startBlockIndex, endBlockIndex + 1);
+
+      if (mergedText.isEmpty && text.isEmpty) {
         // すべてのブロックが削除された場合、空のブロックを作成
         if (blocks.isEmpty) {
           blocks.add(MarkdownBlockValue.createEmpty());
         }
       } else {
-        // 最初のブロックのタイプを保持して、新しいマージされたブロックを作成
-        final mergedBlock = startBlock.clone(initialText: mergedText);
-
-        // startBlockIndexからendBlockIndexまでのブロックを削除（両端を含む）
-        blocks.removeRange(startBlockIndex, endBlockIndex + 1);
-
-        // startBlockIndexにマージされたブロックを挿入
-        blocks.insert(startBlockIndex, mergedBlock);
+        final segments = mergedText.split("\n");
+        for (var i = 0; i < segments.length; i++) {
+          final segment = segments[i];
+          final template = originalRange[
+              (i < originalRange.length) ? i : originalRange.length - 1];
+          final newBlock = template.clone(initialText: segment);
+          blocks.insert(startBlockIndex + i, newBlock);
+        }
       }
 
       // フィールドを更新
@@ -398,6 +429,19 @@ class MarkdownController extends MasamuneControllerBase<
     // 新しいテキストを作成
     var newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
+
+    if (newText.isEmpty && text.isEmpty && blocks.length > 1) {
+      blocks.removeAt(targetBlockIndex);
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
 
     // 末尾の改行を削除する必要があるかチェック
     var removedTrailingNewline = false;
@@ -523,6 +567,69 @@ class MarkdownController extends MasamuneControllerBase<
               value: newText,
             )
           ];
+
+    final splitLineSpans = _splitSpansByNewline(finalSpans);
+
+    if (splitLineSpans.length > 1) {
+      var segments = splitLineSpans;
+      var insertIndex = targetBlockIndex;
+
+      final leadingEmpty = _groupIsEmpty(segments.first);
+      final trailingEmpty = _groupIsEmpty(segments.last);
+
+      if (leadingEmpty && segments.length > 1) {
+        blocks.removeAt(targetBlockIndex);
+        segments = segments.sublist(1);
+      }
+
+      if (trailingEmpty && segments.length > 1) {
+        segments = segments.sublist(0, segments.length - 1);
+      }
+
+      if (blocks.isEmpty || targetBlockIndex >= blocks.length) {
+        blocks.insert(
+          targetBlockIndex,
+          targetBlock.clone(
+            child: MarkdownLineValue.createEmpty().copyWith(
+              children: List<MarkdownSpanValue>.from(segments.first),
+            ),
+          ),
+        );
+        insertIndex = targetBlockIndex + 1;
+        segments = segments.sublist(1);
+      } else {
+        final templateLine = targetBlockChildren.isNotEmpty
+            ? targetBlockChildren.first
+            : MarkdownLineValue.createEmpty();
+        final updatedFirstBlock = targetBlock.clone(
+          child: templateLine.copyWith(
+            children: List<MarkdownSpanValue>.from(segments.first),
+          ),
+        );
+        blocks[targetBlockIndex] = updatedFirstBlock;
+        insertIndex = targetBlockIndex + 1;
+        segments = segments.sublist(1);
+      }
+
+      for (final segment in segments) {
+        final newBlock = targetBlock.clone(
+          child: MarkdownLineValue.createEmpty().copyWith(
+            children: List<MarkdownSpanValue>.from(segment),
+          ),
+        );
+        blocks.insert(insertIndex, newBlock);
+        insertIndex++;
+      }
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
 
     // 新しいスパンで更新されたブロックを作成
     final MarkdownBlockValue newBlock = targetBlock.clone(
@@ -1182,8 +1289,12 @@ class MarkdownController extends MasamuneControllerBase<
     var allHaveProperty = true;
     var hasNonMentionSpan = false;
 
-    for (final block in blocks) {
+    for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+      final block = blocks[blockIndex];
       if (block is MarkdownMultiLineBlockValue) {
+        final blockLength = _getBlockTextLength(block);
+        final blockStart = currentOffset;
+
         for (final line in block.children) {
           var lineOffset = currentOffset;
 
@@ -1436,35 +1547,6 @@ class MarkdownController extends MasamuneControllerBase<
 
     _value[0] = newField;
     notifyListeners();
-  }
-
-  /// Gets plain text representation of the content.
-  ///
-  /// コンテンツのプレーンテキスト表現を取得します。
-  String getPlainText() {
-    final buffer = StringBuffer();
-    for (final field in _value) {
-      for (var i = 0; i < field.children.length; i++) {
-        final block = field.children[i];
-        if (block is MarkdownMultiLineBlockValue) {
-          for (var j = 0; j < block.children.length; j++) {
-            final line = block.children[j];
-            for (final span in line.children) {
-              buffer.write(span.value);
-            }
-            // ブロック内の最後の行を除いて改行を追加
-            if (j < block.children.length - 1) {
-              buffer.writeln();
-            }
-          }
-        }
-        // 最後のブロックを除いてブロック間に改行を追加
-        if (i < field.children.length - 1) {
-          buffer.writeln();
-        }
-      }
-    }
-    return buffer.toString();
   }
 
   /// Notifies listeners that the selection state has changed.
@@ -1928,10 +2010,18 @@ class MarkdownController extends MasamuneControllerBase<
 
     var currentOffset = 0;
 
-    for (final block in blocks) {
+    for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+      final block = blocks[blockIndex];
       if (block is MarkdownMultiLineBlockValue) {
-        for (final line in block.children) {
-          var lineOffset = currentOffset;
+        final blockLength = _getBlockTextLength(block);
+        final blockStart = currentOffset;
+        final blockEnd = blockStart + blockLength;
+
+        var lineOffset = blockStart;
+        for (var lineIndex = 0;
+            lineIndex < block.children.length;
+            lineIndex++) {
+          final line = block.children[lineIndex];
 
           for (final span in line.children) {
             final spanStart = lineOffset;
@@ -1958,9 +2048,21 @@ class MarkdownController extends MasamuneControllerBase<
 
             lineOffset += span.value.length;
           }
+          if (lineIndex < block.children.length - 1) {
+            lineOffset += 1; // Account for newline between lines
+          }
         }
 
-        currentOffset += _getBlockTextLength(block) + 1; // +1 for newline
+        // ブロック境界の改行が選択に含まれる場合は追加
+        if (blockIndex < blocks.length - 1 &&
+            end > blockStart + blockLength &&
+            start <= blockStart + blockLength) {
+          extractedSpans.add(
+            MarkdownSpanValue.createEmpty(initialText: "\n"),
+          );
+        }
+
+        currentOffset = blockStart + blockLength + 1; // +1 for newline
       }
     }
 
@@ -2009,6 +2111,89 @@ class MarkdownController extends MasamuneControllerBase<
 
     super.dispose();
   }
+}
+
+List<List<MarkdownSpanValue>> _splitSpansByNewline(
+  List<MarkdownSpanValue> spans,
+) {
+  final result = <List<MarkdownSpanValue>>[];
+  var current = <MarkdownSpanValue>[];
+
+  void flush() {
+    if (current.isEmpty) {
+      current = [MarkdownSpanValue.createEmpty(initialText: "")];
+    }
+    result.add(current);
+    current = <MarkdownSpanValue>[];
+  }
+
+  for (final span in spans) {
+    final value = span.value;
+    if (!value.contains("\n")) {
+      current.add(span);
+      continue;
+    }
+
+    var remaining = value;
+    while (true) {
+      final index = remaining.indexOf("\n");
+      if (index == -1) {
+        if (remaining.isNotEmpty) {
+          current.add(span.copyWith(
+            id: uuid(),
+            value: remaining,
+          ));
+        }
+        break;
+      }
+
+      final before = remaining.substring(0, index);
+      if (before.isNotEmpty) {
+        current.add(span.copyWith(
+          id: uuid(),
+          value: before,
+        ));
+      }
+      flush();
+      remaining = remaining.substring(index + 1);
+      if (remaining.isEmpty) {
+        flush();
+        break;
+      }
+    }
+  }
+
+  if (current.isNotEmpty) {
+    flush();
+  }
+
+  if (result.isEmpty) {
+    result.add([MarkdownSpanValue.createEmpty(initialText: "")]);
+  }
+
+  // Remove leading/trailing empty groups when there are other non-empty groups.
+  if (result.length > 1) {
+    while (result.length > 1 && _groupIsEmpty(result.first)) {
+      result.removeAt(0);
+    }
+    while (result.length > 1 && _groupIsEmpty(result.last)) {
+      result.removeLast();
+    }
+  }
+
+  return result;
+}
+
+bool _groupIsEmpty(List<MarkdownSpanValue> group) {
+  if (group.isEmpty) {
+    return true;
+  }
+  for (final span in group) {
+    if (span.value.isNotEmpty) {
+      return false;
+    }
+  }
+  return true;
 }
 
 @immutable

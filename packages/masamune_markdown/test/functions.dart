@@ -3,33 +3,17 @@ import "package:flutter_test/flutter_test.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_markdown/masamune_markdown.dart";
 
+/// Helper for testing TextInput.
+///
+/// TextInputのテストを行うためのヘルパー。
 class TestTextInputHelper {
-  TestTextInputHelper(this.tester);
+  /// Helper for testing TextInput.
+  ///
+  /// TextInputのテストを行うためのヘルパー。
+  TestTextInputHelper(this.tester, this.controller);
 
   final WidgetTester tester;
-
-  String _text = "";
-  int _cursorBaseOffset = 0;
-  int _cursorExtentOffset = 0;
-
-  void _syncWithEditingState() {
-    final state = tester.testTextInput.editingState;
-    if (state == null) {
-      return;
-    }
-    final text = state["text"] as String?;
-    if (text != null) {
-      _text = text;
-    }
-    final selectionBase = state["selectionBase"] as int?;
-    final selectionExtent = state["selectionExtent"] as int?;
-    if (selectionBase != null) {
-      _cursorBaseOffset = selectionBase;
-    }
-    if (selectionExtent != null) {
-      _cursorExtentOffset = selectionExtent;
-    }
-  }
+  final MarkdownController controller;
 
   TextSelection _collapsedSelection(int offset) => TextSelection(
         baseOffset: offset,
@@ -38,19 +22,19 @@ class TestTextInputHelper {
 
   // テキストを追加で入力する
   Future<void> enterText(String text) async {
-    _syncWithEditingState();
-    final currentText = _text;
-    final start = _cursorBaseOffset < _cursorExtentOffset
-        ? _cursorBaseOffset
-        : _cursorExtentOffset;
-    final end = _cursorBaseOffset > _cursorExtentOffset
-        ? _cursorBaseOffset
-        : _cursorExtentOffset;
+    final currentText = controller.rawText;
+    var cursorBaseOffset = controller.selection.baseOffset;
+    var cursorExtentOffset = controller.selection.extentOffset;
+    final start = cursorBaseOffset < cursorExtentOffset
+        ? cursorBaseOffset
+        : cursorExtentOffset;
+    final end = cursorBaseOffset > cursorExtentOffset
+        ? cursorBaseOffset
+        : cursorExtentOffset;
     final newText = currentText.replaceRange(start, end, text);
     final collapsedOffset = start + text.length;
-    _text = newText;
-    _cursorBaseOffset = collapsedOffset;
-    _cursorExtentOffset = collapsedOffset;
+    cursorBaseOffset = collapsedOffset;
+    cursorExtentOffset = collapsedOffset;
     tester.testTextInput.updateEditingValue(
       TextEditingValue(
         text: newText,
@@ -62,31 +46,33 @@ class TestTextInputHelper {
 
   // 一文字削除する
   Future<void> deleteText({int count = 1}) async {
-    _syncWithEditingState();
-    if (_text.isEmpty) {
+    var currentText = controller.rawText;
+    if (currentText.isEmpty) {
       return;
     }
+    var cursorBaseOffset = controller.selection.baseOffset;
+    var cursorExtentOffset = controller.selection.extentOffset;
     for (var i = 0; i < count; i++) {
-      final start = _cursorBaseOffset < _cursorExtentOffset
-          ? _cursorBaseOffset
-          : _cursorExtentOffset;
-      final end = _cursorBaseOffset > _cursorExtentOffset
-          ? _cursorBaseOffset
-          : _cursorExtentOffset;
+      final start = cursorBaseOffset < cursorExtentOffset
+          ? cursorBaseOffset
+          : cursorExtentOffset;
+      final end = cursorBaseOffset > cursorExtentOffset
+          ? cursorBaseOffset
+          : cursorExtentOffset;
       if (start != end) {
-        _text = _text.replaceRange(start, end, "");
-        _cursorBaseOffset = start;
-        _cursorExtentOffset = start;
+        currentText = currentText.replaceRange(start, end, "");
+        cursorBaseOffset = start;
+        cursorExtentOffset = start;
       } else if (start > 0) {
         final deleteStart = start - 1;
-        _text = _text.replaceRange(deleteStart, start, "");
-        _cursorBaseOffset = deleteStart;
-        _cursorExtentOffset = deleteStart;
+        currentText = currentText.replaceRange(deleteStart, start, "");
+        cursorBaseOffset = deleteStart;
+        cursorExtentOffset = deleteStart;
       }
       tester.testTextInput.updateEditingValue(
         TextEditingValue(
-          text: _text,
-          selection: _collapsedSelection(_cursorExtentOffset),
+          text: currentText,
+          selection: _collapsedSelection(cursorExtentOffset),
         ),
       );
       await tester.pump();
@@ -94,16 +80,14 @@ class TestTextInputHelper {
   }
 
   Future<void> cursorAt(int offset) async {
-    _syncWithEditingState();
-    final length = _text.length;
+    final currentText = controller.rawText;
+    final length = currentText.length;
     if (offset < 0 || offset > length) {
       return;
     }
-    _cursorBaseOffset = offset;
-    _cursorExtentOffset = offset;
     final selection = TextSelection(baseOffset: offset, extentOffset: offset);
     final value = TextEditingValue(
-      text: _text,
+      text: currentText,
       selection: selection,
     );
     tester.testTextInput.updateEditingValue(value);
@@ -111,7 +95,7 @@ class TestTextInputHelper {
   }
 
   Future<void> cursorAtLast() async {
-    await cursorAt(_text.length);
+    await cursorAt(controller.rawText.length);
   }
 
   Future<void> cursorAtFirst() async {
@@ -119,22 +103,20 @@ class TestTextInputHelper {
   }
 
   Future<void> cursorAtMiddle() async {
-    await cursorAt(_text.length ~/ 2);
+    await cursorAt(controller.rawText.length ~/ 2);
   }
 
   Future<void> selectAt(int start, int end) async {
-    _syncWithEditingState();
-    if (start < 0 || end < 0 || start > end || end > _text.length) {
+    final currentText = controller.rawText;
+    if (start < 0 || end < 0 || start > end || end > currentText.length) {
       return;
     }
-    _cursorBaseOffset = start;
-    _cursorExtentOffset = end;
     final selection = TextSelection(
-      baseOffset: _cursorBaseOffset,
-      extentOffset: _cursorExtentOffset,
+      baseOffset: start,
+      extentOffset: end,
     );
     final value = TextEditingValue(
-      text: _text,
+      text: currentText,
       selection: selection,
     );
     tester.testTextInput.updateEditingValue(value);
@@ -142,7 +124,7 @@ class TestTextInputHelper {
   }
 
   Future<void> selectAll() async {
-    await selectAt(0, _text.length);
+    await selectAt(0, controller.rawText.length);
   }
 
   Future<void> selectNone() async {
@@ -156,7 +138,8 @@ class TestTextInputHelper {
 Future<
     ({
       Finder finder,
-      MarkdownFieldState state,
+      MarkdownFieldState field,
+      FormMarkdownToolbarState toolbar,
       MarkdownController controller,
       TestTextInputHelper input
     })> buildMarkdownField(WidgetTester tester) async {
@@ -187,8 +170,9 @@ Future<
   );
   await tester.pump();
 
-  final field = find.byType(MarkdownField);
-  await tester.tap(field);
+  final finder = find.byType(MarkdownField);
+  final toolbar = find.byType(FormMarkdownToolbar);
+  await tester.tap(finder);
   await tester.pump();
 
   // タップでフォーカスが当たらないケースがあるため明示的にフォーカスを要求。
@@ -197,11 +181,12 @@ Future<
 
   expect(controller.focusNode.hasFocus, isTrue);
   expect(tester.testTextInput.isRegistered, isTrue);
-  final input = TestTextInputHelper(tester);
+  final input = TestTextInputHelper(tester, controller);
   return (
-    finder: field,
+    finder: finder,
     controller: controller,
-    state: tester.state<MarkdownFieldState>(field),
+    field: tester.state<MarkdownFieldState>(finder),
+    toolbar: tester.state<FormMarkdownToolbarState>(toolbar),
     input: input,
   );
 }

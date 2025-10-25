@@ -91,7 +91,7 @@ class MarkdownHistory {
       // スナップショットからカーソル位置を復元しIME状態をクリア
       if (_field != null) {
         final restoredPosition =
-            snapshot.cursorPosition.clamp(0, _controller.getPlainText().length);
+            snapshot.cursorPosition.clamp(0, _controller.rawText.length);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
         _field!.clearComposingState(); // IME変換状態をクリア
         _field!._updateRemoteEditingValue();
@@ -143,7 +143,7 @@ class MarkdownHistory {
 
       // スナップショットからカーソル位置を復元しIME状態をクリア
       if (_field != null) {
-        final textLength = _controller.getPlainText().length;
+        final textLength = _controller.rawText.length;
         final restoredPosition = snapshot.cursorPosition.clamp(0, textLength);
         _field!._selection = TextSelection.collapsed(offset: restoredPosition);
         _field!.clearComposingState(); // IME変換状態をクリア
