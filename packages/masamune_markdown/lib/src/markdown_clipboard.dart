@@ -64,10 +64,14 @@ class MarkdownClipboard {
       final blockType =
           (blockInfo?.isFullBlock ?? false) ? blockInfo?.blockType : null;
 
+      // インデント情報を取得
+      final indent = _getIndentAtSelection(selection.start, selection.end);
+
       // ブロック情報付きで内部クリップボードに保存
       _internalClipboard = _ClipboardData(
         spans: extractedSpans,
         blockType: blockType,
+        indent: indent,
       );
 
       // 外部ペースト用にシステムクリップボードにもプレーンテキストをコピー
@@ -135,10 +139,14 @@ class MarkdownClipboard {
       final blockType =
           (blockInfo?.isFullBlock ?? false) ? blockInfo?.blockType : null;
 
+      // インデント情報を取得
+      final indent = _getIndentAtSelection(selection.start, selection.end);
+
       // ブロック情報付きで内部クリップボードに保存
       _internalClipboard = _ClipboardData(
         spans: extractedSpans,
         blockType: blockType,
+        indent: indent,
       );
 
       // 外部ペースト用にシステムクリップボードにもプレーンテキストをコピー
@@ -193,11 +201,21 @@ class MarkdownClipboard {
         modified = true;
         // クリップボードにブロックタイプ情報がある場合、新しいブロックを作成
         if (_internalClipboard!.blockType != null) {
-          _pasteAsBlock(start, end, _internalClipboard!.spans,
-              _internalClipboard!.blockType!);
+          _pasteAsBlock(
+            start,
+            end,
+            _internalClipboard!.spans,
+            _internalClipboard!.blockType!,
+            indent: _internalClipboard!.indent,
+          );
         } else {
           // プロパティ付きのスパンを復元（部分選択）
-          _pasteSpansWithProperties(start, end, _internalClipboard!.spans);
+          _pasteSpansWithProperties(
+            start,
+            end,
+            _internalClipboard!.spans,
+            indent: _internalClipboard!.indent,
+          );
         }
       } else {
         return;
@@ -243,10 +261,20 @@ class MarkdownClipboard {
       } else if (_internalClipboard != null &&
           _internalClipboard!.spans.isNotEmpty) {
         if (_internalClipboard!.blockType != null) {
-          _pasteAsBlock(start, end, _internalClipboard!.spans,
-              _internalClipboard!.blockType!);
+          _pasteAsBlock(
+            start,
+            end,
+            _internalClipboard!.spans,
+            _internalClipboard!.blockType!,
+            indent: _internalClipboard!.indent,
+          );
         } else {
-          _pasteSpansWithProperties(start, end, _internalClipboard!.spans);
+          _pasteSpansWithProperties(
+            start,
+            end,
+            _internalClipboard!.spans,
+            indent: _internalClipboard!.indent,
+          );
         }
       } else {
         _controller.replaceText(start, end, text);
@@ -273,8 +301,9 @@ class MarkdownClipboard {
   void _pasteSpansWithProperties(
     int start,
     int end,
-    List<MarkdownSpanValue> spans,
-  ) {
+    List<MarkdownSpanValue> spans, {
+    int? indent,
+  }) {
     if (_controller._value.isEmpty) {
       return;
     }
@@ -282,8 +311,37 @@ class MarkdownClipboard {
     final insertedText = spans.map((span) => span.value).join();
     final hasFormatting = spans.any((span) => span.properties.isNotEmpty);
 
-    if (insertedText.contains("\n") && !hasFormatting) {
+    if (insertedText.contains("\n") && !hasFormatting && indent == null) {
       _controller.replaceText(start, end, insertedText);
+      return;
+    }
+
+    if (insertedText.contains("\n")) {
+      // 改行を含む場合は、複数ブロックとして挿入
+      if (end > start) {
+        _controller.replaceText(start, end, "");
+      }
+
+      var currentOffset = start;
+      final lines = insertedText.split("\n");
+
+      for (var i = 0; i < lines.length; i++) {
+        if (i > 0) {
+          _controller.insertNewLine(currentOffset);
+          currentOffset++; // 改行文字を考慮
+
+          // インデント情報を適用
+          if (indent != null && indent > 0) {
+            _applyIndentAtOffset(currentOffset, indent);
+          }
+        }
+
+        if (lines[i].isNotEmpty) {
+          _controller.replaceText(currentOffset, currentOffset, lines[i]);
+          currentOffset += lines[i].length;
+        }
+      }
+
       return;
     }
 
@@ -411,8 +469,9 @@ class MarkdownClipboard {
     int start,
     int end,
     List<MarkdownSpanValue> spans,
-    String blockType,
-  ) {
+    String blockType, {
+    int? indent,
+  }) {
     if (_controller._value.isEmpty) {
       return;
     }
@@ -456,9 +515,14 @@ class MarkdownClipboard {
         MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>(
       toolId: blockType,
     ).firstOrNull;
-    final newBlock = blockTool != null
+    var newBlock = blockTool != null
         ? blockTool.createBlockValue(children: [newLine])
         : MarkdownBlockValue.createEmpty(children: [newLine]);
+
+    // インデント情報を適用
+    if (indent != null && indent > 0 && newBlock is MarkdownParagraphBlockValue) {
+      newBlock = newBlock.copyWith(indent: indent);
+    }
 
     // 新しいブロックを挿入
     blocks.insert(insertAtBlockIndex, newBlock);
@@ -466,6 +530,77 @@ class MarkdownClipboard {
     final newField = field.copyWith(children: blocks);
     _controller._value[0] = newField;
     _controller._notifyListeners();
+  }
+
+  /// Gets the indent level at the selection.
+  ///
+  /// 選択範囲のインデントレベルを取得します。
+  int? _getIndentAtSelection(int start, int end) {
+    if (_controller._value.isEmpty) {
+      return null;
+    }
+
+    var currentOffset = 0;
+    int? indent;
+
+    for (final field in _controller._value) {
+      for (final block in field.children) {
+        final blockLength = _controller._getBlockTextLength(block);
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        // 選択範囲がこのブロックと重なるかチェック
+        if (start < blockEnd && end > blockStart) {
+          if (block is MarkdownParagraphBlockValue) {
+            // 最初に見つかったブロックのインデントを返す
+            // ブロック間をまたぐ場合は最初のブロックのインデントを使用
+            if (indent == null && block.indent > 0) {
+              indent = block.indent;
+            }
+          }
+        }
+
+        currentOffset = blockEnd + 1; // +1 for newline
+      }
+    }
+
+    return indent;
+  }
+
+  /// Applies indent to the block at the specified offset.
+  ///
+  /// 指定されたオフセットのブロックにインデントを適用します。
+  void _applyIndentAtOffset(int offset, int indent) {
+    if (_controller._value.isEmpty) {
+      return;
+    }
+
+    var currentOffset = 0;
+
+    for (final field in _controller._value) {
+      final blocks = List<MarkdownBlockValue>.from(field.children);
+
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final block = blocks[blockIndex];
+        final blockLength = _controller._getBlockTextLength(block);
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        // オフセットがこのブロック内にあるかチェック
+        if (offset >= blockStart && offset <= blockEnd) {
+          if (block is MarkdownParagraphBlockValue) {
+            // インデントを適用
+            blocks[blockIndex] = block.copyWith(indent: indent);
+            final newField = field.copyWith(children: blocks);
+            _controller._value[0] = newField;
+            _controller._notifyListeners();
+            return;
+          }
+        }
+
+        currentOffset = blockEnd + 1; // +1 for newline
+      }
+    }
   }
 }
 
@@ -476,6 +611,7 @@ class _ClipboardData {
   const _ClipboardData({
     required this.spans,
     this.blockType,
+    this.indent,
   });
 
   /// The spans that were copied.
@@ -487,6 +623,11 @@ class _ClipboardData {
   ///
   /// ブロック全体が選択された場合のブロックタイプ、それ以外はnull。
   final String? blockType;
+
+  /// The indent level of the copied content.
+  ///
+  /// コピーされたコンテンツのインデントレベル。
+  final int? indent;
 
   /// The plain text of the clipboard data.
   ///

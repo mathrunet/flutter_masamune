@@ -1292,8 +1292,8 @@ class MarkdownController extends MasamuneControllerBase<
     for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
       final block = blocks[blockIndex];
       if (block is MarkdownMultiLineBlockValue) {
-        final blockLength = _getBlockTextLength(block);
-        final blockStart = currentOffset;
+        // final blockLength = _getBlockTextLength(block);
+        // final blockStart = currentOffset;
 
         for (final line in block.children) {
           var lineOffset = currentOffset;
@@ -2015,7 +2015,7 @@ class MarkdownController extends MasamuneControllerBase<
       if (block is MarkdownMultiLineBlockValue) {
         final blockLength = _getBlockTextLength(block);
         final blockStart = currentOffset;
-        final blockEnd = blockStart + blockLength;
+        // final blockEnd = blockStart + blockLength;
 
         var lineOffset = blockStart;
         for (var lineIndex = 0;
