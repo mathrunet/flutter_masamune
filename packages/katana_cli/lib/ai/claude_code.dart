@@ -407,13 +407,13 @@ class GitAgentsMarkdownCliCode extends CliCode {
 
 ## 🎯 最重要原則
 
-### 1. 必ず守るべき5つの鉄則
-1. **手動でのファイル作成禁止** → 必ず`katana code`コマンドでテンプレート生成
-2. **段階的な実装とバリデーション** → 1つの実装ごとに必ず`flutter analyze && dart run custom_lint`を実行
+### 1. 必ず守るべき鉄則
+1. **日本語での応答** → 全てのレスポンスは日本語で記述
+2. **手動でのファイル作成禁止** → 必ず`katana code`コマンドでテンプレート生成
+3. **段階的な実装とバリデーション** → 1つの実装ごとに必ず`flutter analyze && dart run custom_lint`を実行
 ${availabeBackground ? """
-3. **Gitコマンドは使用禁止** → 必ず`katana git`コマンドを使用" : ""}
-4. **生成ファイルは全てコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像を必ず含める
-5. **日本語での応答** → 全てのレスポンスは日本語で記述
+4. **Gitコマンドは使用禁止** → 必ず`katana git`コマンドを使用" : ""}
+5. **生成ファイルは全てコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像を必ず含める
 """ : ""}
 
 ### 2. 開発フローの絶対的な順序
