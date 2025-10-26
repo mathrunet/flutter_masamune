@@ -763,4 +763,35 @@ void main() {
       ],
     );
   });
+  testWidgets("MarkdownField.inlineProperty.indent", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    controller.increaseIndent();
+    expect(controller.plainText, "aaa\n  bbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(2, 5);
+    controller.addInlineProperty(
+      const LinkMarkdownInlineTools(),
+    );
+
+  });
 }

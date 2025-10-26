@@ -974,6 +974,52 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
+  /// Updates the title of the link.
+  ///
+  /// リンクのタイトルを更新します。
+  void updateLinkTitle(String title) {
+    final selection = _field?._selection;
+    if (selection == null || !selection.isValid || selection.isCollapsed) {
+      return;
+    }
+
+    // 選択されたテキストを新しいタイトルに置き換え
+    replaceText(selection.start, selection.end, title);
+
+    // 選択範囲を新しいテキスト範囲に更新
+    // 注意: MarkdownFieldStateに直接の選択更新メソッドは存在しない
+    // 選択範囲はコントローラーのreplaceTextメソッドによって更新される
+    _field?._selection = TextSelection(
+      baseOffset: selection.start,
+      extentOffset: selection.start + title.length,
+    );
+  }
+
+  /// Updates the URL of the link.
+  ///
+  /// リンクのURLを更新します。
+  void updateLinkUrl(String? url) {
+    final selection = _field?._selection;
+
+    if (selection == null || !selection.isValid || selection.isCollapsed) {
+      return;
+    }
+
+    if (url == null || url.isEmpty) {
+      // リンクプロパティを削除
+      const linkTool = LinkMarkdownInlineTools();
+      removeInlineProperty(linkTool);
+    } else {
+      // まず既存のリンクプロパティを削除
+      const linkTool = LinkMarkdownInlineTools();
+      removeInlineProperty(linkTool);
+
+      // 次にURL付きの新しいリンクプロパティを追加
+      // URL値でプロパティを手動更新する必要がある
+      _addLinkProperty(url, selection.start, selection.end);
+    }
+  }
+
   /// Changes the inline text at the specified start and end positions.
   ///
   /// 指定された開始位置と終了位置のインラインテキストを変更します。
@@ -1368,6 +1414,92 @@ class MarkdownController extends MasamuneControllerBase<
     List<MarkdownProperty> properties,
   ) {
     return properties.any((e) => e.type == tool.id);
+  }
+
+  void _addLinkProperty(String url, int start, int end) {
+    if (value?.isEmpty ?? true) {
+      return;
+    }
+
+    final field = value!.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    var currentOffset = 0;
+    const toolId = _kLinkMarkdownInlineToolsType;
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      if (block is MarkdownMultiLineBlockValue) {
+        final lines = List<MarkdownLineValue>.from(block.children);
+        final updatedLines = <MarkdownLineValue>[];
+
+        for (final line in lines) {
+          final spans = List<MarkdownSpanValue>.from(line.children);
+          final updatedSpans = <MarkdownSpanValue>[];
+          var lineOffset = currentOffset;
+
+          for (final span in spans) {
+            final spanStart = lineOffset;
+            final spanEnd = lineOffset + span.value.length;
+
+            if (end <= spanStart || start >= spanEnd) {
+              updatedSpans.add(span);
+            } else {
+              final overlapStart = start > spanStart ? start : spanStart;
+              final overlapEnd = end < spanEnd ? end : spanEnd;
+
+              if (spanStart < overlapStart) {
+                final beforeText =
+                    span.value.substring(0, overlapStart - spanStart);
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: beforeText,
+                ));
+              }
+
+              final selectedText = span.value
+                  .substring(overlapStart - spanStart, overlapEnd - spanStart);
+
+              // URL付きのリンクプロパティを追加
+              final linkProperty = LinkMarkdownSpanProperty(link: url);
+              final newProperties = [
+                ...span.properties.where((p) => p.type != toolId),
+                linkProperty,
+              ];
+
+              updatedSpans.add(span.copyWith(
+                id: uuid(),
+                value: selectedText,
+                properties: newProperties,
+              ));
+
+              if (spanEnd > overlapEnd) {
+                final afterText = span.value.substring(overlapEnd - spanStart);
+                updatedSpans.add(span.copyWith(
+                  id: uuid(),
+                  value: afterText,
+                ));
+              }
+            }
+
+            lineOffset += span.value.length;
+          }
+
+          updatedLines.add(line.copyWith(children: updatedSpans));
+        }
+
+        blocks[i] = block.copyWith(children: updatedLines);
+        currentOffset += _getBlockTextLength(block) + 1;
+      }
+    }
+
+    final newField = field.copyWith(children: blocks);
+
+    // コントローラーの値を直接更新
+    _value[0] = newField;
+
+    // フィールドに通知して強制的に再ビルド
+    _field?._updateRemoteEditingValue();
   }
 
   /// Unselects the text.
