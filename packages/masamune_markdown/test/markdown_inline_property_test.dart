@@ -794,4 +794,366 @@ void main() {
     );
 
   });
+  testWidgets("MarkdownField.inlineProperty.undoRedo", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(1, 3);
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    controller.addInlineProperty(
+      const BoldFontMarkdownInlineTools(),
+    );
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    BoldFontMarkdownSpanProperty(),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug(),
+      ],
+    );
+    controller.history.undo();
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    controller.history.redo();
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    BoldFontMarkdownSpanProperty(),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug(),
+      ],
+    );
+    await input.selectAt(5, 6);
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 6);
+    controller.addInlineProperty(
+      const ItalicFontMarkdownInlineTools(),
+    );
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 6);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    BoldFontMarkdownSpanProperty(),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    ItalicFontMarkdownSpanProperty(),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+    controller.history.undo();
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    BoldFontMarkdownSpanProperty(),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug(),
+      ],
+    );
+    controller.history.redo();
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    BoldFontMarkdownSpanProperty(),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    ItalicFontMarkdownSpanProperty(),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+    await input.selectAt(1, 3);
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    controller.removeInlineProperty(
+      const BoldFontMarkdownInlineTools(),
+    );
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    ItalicFontMarkdownSpanProperty(),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+    controller.history.undo();
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    BoldFontMarkdownSpanProperty(),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    ItalicFontMarkdownSpanProperty(),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+    controller.history.redo();
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    ItalicFontMarkdownSpanProperty(),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+  });
 }
