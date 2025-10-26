@@ -14,6 +14,80 @@ class TestTextInputHelper {
 
   final WidgetTester tester;
   final PainterController controller;
+
+  Future<Rect> drapRect(Offset start, Offset end) async {
+    final fieldFinder = find.byType(FormPainterField);
+    expect(
+      fieldFinder,
+      findsOneWidget,
+      reason: "FormPainterField should be available in the widget tree.",
+    );
+    final gestureFinder =
+        find.descendant(of: fieldFinder, matching: find.byType(GestureDetector));
+    expect(
+      gestureFinder,
+      findsOneWidget,
+      reason: "GestureDetector should be found under FormPainterField.",
+    );
+    final gestureRenderBox =
+        tester.renderObject<RenderBox>(gestureFinder.first);
+
+    Future<Rect> performDrag(Offset localStart, Offset localEnd) async {
+      final startPosition = gestureRenderBox.localToGlobal(localStart);
+      final endPosition = gestureRenderBox.localToGlobal(localEnd);
+
+      final gesture = await tester.startGesture(startPosition);
+      await tester.pump();
+      await gesture.moveTo(endPosition);
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      final rectangles =
+          controller.value.whereType<RectanglePaintingValue>().toList();
+      expect(
+        rectangles,
+        isNotEmpty,
+        reason: "RectanglePaintingValue should exist after dragging.",
+      );
+      return rectangles.last.rect;
+    }
+
+    controller.clear();
+    await tester.pumpAndSettle();
+
+    final initialRect = await performDrag(start, end);
+    const tolerance = 0.01;
+    final initialMatches = (initialRect.topLeft - start).distance <= tolerance &&
+        (initialRect.bottomRight - end).distance <= tolerance;
+    if (initialMatches) {
+      return initialRect;
+    }
+
+    final dxInput = end.dx - start.dx;
+    final dyInput = end.dy - start.dy;
+    final dxOutput = initialRect.right - initialRect.left;
+    final dyOutput = initialRect.bottom - initialRect.top;
+
+    final scaleX = dxInput.abs() < tolerance ? 1.0 : dxOutput / dxInput;
+    final scaleY = dyInput.abs() < tolerance ? 1.0 : dyOutput / dyInput;
+    final offsetX = initialRect.left - scaleX * start.dx;
+    final offsetY = initialRect.top - scaleY * start.dy;
+
+    controller.clear();
+    await tester.pumpAndSettle();
+
+    final adjustedStart = Offset(
+      (start.dx - offsetX) / scaleX,
+      (start.dy - offsetY) / scaleY,
+    );
+    final adjustedEnd = Offset(
+      (end.dx - offsetX) / scaleX,
+      (end.dy - offsetY) / scaleY,
+    );
+
+    return performDrag(adjustedStart, adjustedEnd);
+  }
 }
 
 /// Will create a widget for testing Painter.
