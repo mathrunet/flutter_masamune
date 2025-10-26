@@ -183,6 +183,20 @@ class MediaPaintingValue extends PaintingValue {
   }
 
   @override
+  DynamicMap toDebug() {
+    return {
+      PaintingValue.typeKey: type,
+      PaintingValue.propertyKey: property.toJson(),
+      PaintingValue.startXKey: start.dx,
+      PaintingValue.startYKey: start.dy,
+      PaintingValue.endXKey: end.dx,
+      PaintingValue.endYKey: end.dy,
+      PaintingValue.pathKey: path?.toString() ?? "",
+      if (name != null) PaintingValue.nameKey: name,
+    };
+  }
+
+  @override
   MediaPaintingValue copyWith({
     Offset? offset,
     PaintingProperty? property,

@@ -186,6 +186,20 @@ class TextPaintingValue extends PaintingValue {
   }
 
   @override
+  DynamicMap toDebug() {
+    return {
+      PaintingValue.typeKey: type,
+      PaintingValue.propertyKey: property.toJson(),
+      PaintingValue.startXKey: start.dx,
+      PaintingValue.startYKey: start.dy,
+      PaintingValue.endXKey: end.dx,
+      PaintingValue.endYKey: end.dy,
+      textKey: text,
+      if (name != null) PaintingValue.nameKey: name,
+    };
+  }
+
+  @override
   TextPaintingValue copyWith({
     Offset? offset,
     PaintingProperty? property,

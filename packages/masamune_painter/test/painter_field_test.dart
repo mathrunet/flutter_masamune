@@ -1,3 +1,4 @@
+import "package:katana/katana.dart";
 import "package:masamune_painter/masamune_painter.dart";
 import "package:flutter_test/flutter_test.dart";
 
@@ -14,14 +15,16 @@ void main() {
     await tester.pumpAndSettle();
     await tester.drag(context.finder, const Offset(100, 100));
     await tester.pumpAndSettle();
-    expect(context.controller.value.length, 1);
-    final rectangle =
-        context.controller.value.single as RectanglePaintingValue;
-    final size = rectangle.rect.size;
-    expect(rectangle.category, PaintingValueCategory.shape);
-    expect(size.width, greaterThanOrEqualTo(rectangle.minimumSize.width));
-    expect(size.height, greaterThanOrEqualTo(rectangle.minimumSize.height));
-    expect(rectangle.start, isNot(rectangle.end));
-    expect(rectangle.property, context.controller.property.currentToolProperty);
+    expect(
+      context.controller.value.toDebug(),
+      [
+        RectanglePaintingValue(
+          id: uuid(),
+          start: const Offset(100, 100),
+          property: const PaintingProperty(),
+          end: const Offset(150, 150),
+        )
+      ].toDebug(),
+    );
   });
 }

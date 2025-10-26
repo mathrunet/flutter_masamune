@@ -3,6 +3,19 @@ import "package:flutter_test/flutter_test.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_painter/masamune_painter.dart";
 
+/// Helper for testing TextInput.
+///
+/// TextInputのテストを行うためのヘルパー。
+class TestTextInputHelper {
+  /// Helper for testing TextInput.
+  ///
+  /// TextInputのテストを行うためのヘルパー。
+  TestTextInputHelper(this.tester, this.controller);
+
+  final WidgetTester tester;
+  final PainterController controller;
+}
+
 /// Will create a widget for testing Painter.
 ///
 /// Painterのテストを行うためのウィジェットを作成します。
@@ -24,11 +37,11 @@ Future<
     MaterialApp(
       theme: ThemeData(
         textTheme: ThemeData.light().textTheme.copyWith(
-          labelSmall: ThemeData.light()
-              .textTheme
-              .labelSmall
-              ?.copyWith(fontSize: 10),
-        ),
+              labelSmall: ThemeData.light()
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(fontSize: 10),
+            ),
       ),
       home: MasamuneAdapterScope(
         adapter: adapter,

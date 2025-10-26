@@ -51,6 +51,11 @@ abstract class PaintingValue {
   /// 描画用のデータをJSONオブジェクトに変換します。
   DynamicMap toJson();
 
+  /// Convert the painting value to a test JSON object.
+  ///
+  /// 描画用のデータをテスト用のJSONオブジェクトに変換します。
+  DynamicMap toDebug();
+
   /// Object's area (rectangle).
   ///
   /// オブジェクトのエリア（四角）。
@@ -644,4 +649,23 @@ class PaintingProperty {
       fontSize.hashCode ^
       fontStyle.hashCode ^
       paragraphAlign.hashCode;
+}
+
+/// Extension methods for [List<PaintingValue>].
+///
+/// [List<PaintingValue>]の拡張メソッド。
+extension PaintingValueListExtension on List<PaintingValue> {
+  /// Convert the painting value list to a JSON object.
+  ///
+  /// 描画用のデータリストをJSONオブジェクトに変換します。
+  List<DynamicMap> toJson() {
+    return map((value) => value.toJson()).toList();
+  }
+
+  /// Convert the painting value list to a test JSON object.
+  ///
+  /// 描画用のデータリストをテスト用のJSONオブジェクトに変換します。
+  List<DynamicMap> toDebug() {
+    return map((value) => value.toDebug()).toList();
+  }
 }

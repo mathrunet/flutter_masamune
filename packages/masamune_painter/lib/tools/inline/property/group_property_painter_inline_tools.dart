@@ -212,6 +212,34 @@ class GroupPaintingValue extends PaintingValue {
   }
 
   @override
+  DynamicMap toDebug() {
+    // Serialize child values
+    final childrenJson = children
+        .map((child) {
+          final tool = PainterMasamuneAdapter.findTool(
+              toolId: child.type, recursive: true);
+          if (tool is PainterVariableTools) {
+            return tool.convertToJson(child);
+          }
+          return null;
+        })
+        .whereType<DynamicMap>()
+        .toList();
+
+    return {
+      PaintingValue.typeKey: type,
+      PaintingValue.propertyKey: property.toJson(),
+      PaintingValue.startXKey: start.dx,
+      PaintingValue.startYKey: start.dy,
+      PaintingValue.endXKey: end.dx,
+      PaintingValue.endYKey: end.dy,
+      if (name != null) PaintingValue.nameKey: name,
+      PaintingValue.childrenKey: childrenJson,
+      PaintingValue.expandedKey: expanded,
+    };
+  }
+
+  @override
   GroupPaintingValue copyWith({
     Offset? offset,
     PaintingProperty? property,

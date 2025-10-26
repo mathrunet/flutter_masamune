@@ -182,6 +182,19 @@ class RectanglePaintingValue extends PaintingValue {
   }
 
   @override
+  DynamicMap toDebug() {
+    return {
+      PaintingValue.typeKey: type,
+      PaintingValue.propertyKey: property.toJson(),
+      PaintingValue.startXKey: start.dx,
+      PaintingValue.startYKey: start.dy,
+      PaintingValue.endXKey: end.dx,
+      PaintingValue.endYKey: end.dy,
+      if (name != null) PaintingValue.nameKey: name,
+    };
+  }
+
+  @override
   RectanglePaintingValue copyWith({
     Offset? offset,
     PaintingProperty? property,
