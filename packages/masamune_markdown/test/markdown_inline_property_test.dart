@@ -794,6 +794,281 @@ void main() {
     );
 
   });
+  testWidgets("MarkdownField.inlineProperty.link", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.selectAt(1, 3);
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    controller.updateLinkUrl("https://example.com");
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    LinkMarkdownSpanProperty(link: "https://example.com"),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug(),
+      ],
+    );
+    await input.selectAt(5, 6);
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 6);
+    controller.updateLinkUrl("https://example.org");
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.selection.extentOffset, 6);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [
+                    LinkMarkdownSpanProperty(link: "https://example.com"),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    LinkMarkdownSpanProperty(link: "https://example.org"),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+    await input.selectAt(1, 3);
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    controller.updateLinkUrl(null);
+    expect(controller.selection.baseOffset, 1);
+    expect(controller.selection.extentOffset, 3);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [
+                    LinkMarkdownSpanProperty(link: "https://example.org"),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+  });
+  testWidgets("MarkdownField.inlineProperty.mention", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    expect(controller.plainText, "aaa\nbbb");
+    expect(controller.rawText, "aaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug()
+      ],
+    );
+    await input.cursorAt(1);
+    expect(controller.selection.baseOffset, 1);
+    const mention1 = MarkdownMention(
+      id: "user1",
+      name: "John",
+    );
+    controller.insertMention(mention1);
+    expect(controller.selection.baseOffset, 6);
+    expect(controller.plainText, "a@Johnaa\nbbb");
+    expect(controller.rawText, "a@Johnaa\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "@John",
+                  properties: const [
+                    MentionMarkdownSpanProperty(mention: mention1),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
+        ]).toDebug(),
+      ],
+    );
+    await input.cursorAt(10);
+    expect(controller.selection.baseOffset, 10);
+    const mention2 = MarkdownMention(
+      id: "user2",
+      name: "Alice",
+    );
+    controller.insertMention(mention2);
+    expect(controller.selection.baseOffset, 16);
+    expect(controller.plainText, "a@Johnaa\nb@Alicebb");
+    expect(controller.rawText, "a@Johnaa\nb@Alicebb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "a",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "@John",
+                  properties: const [
+                    MentionMarkdownSpanProperty(mention: mention1),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "aa",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+          MarkdownParagraphBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(
+              children: [
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "b",
+                  properties: const [],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "@Alice",
+                  properties: const [
+                    MentionMarkdownSpanProperty(mention: mention2),
+                  ],
+                ),
+                MarkdownSpanValue(
+                  id: uuid(),
+                  value: "bb",
+                  properties: const [],
+                ),
+              ],
+            ),
+          ]),
+        ]).toDebug(),
+      ],
+    );
+  });
   testWidgets("MarkdownField.inlineProperty.undoRedo", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
