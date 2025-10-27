@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// 番号付きリストブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
-class NumberListExchangeMarkdownBlockTools extends MarkdownBlockTools {
+class NumberListExchangeMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownNumberListBlockValue> {
   /// Display the menu to exchange numbered list blocks [MarkdownTools].
   ///
   /// 番号付きリストブロックを変更するメニューを表示する[MarkdownTools]。
@@ -54,7 +55,54 @@ class NumberListExchangeMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
+  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
+    return MarkdownNumberListBlockValue.createEmpty(
+      indent: source?.indent ?? 0,
+      lineIndex: 0,
+    );
+  }
+
+  @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
+    if (target is MarkdownNumberListBlockValue) {
+      return null;
+    }
+    return MarkdownNumberListBlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+      lineIndex: 0,
+    );
+  }
+
+  @override
+  MarkdownNumberListBlockValue? convertFromJson(DynamicMap json) {
+    return MarkdownNumberListBlockValue.fromJson(json);
+  }
+
+  @override
+  MarkdownNumberListBlockValue? convertFromMarkdown(String markdown) {
+    return MarkdownNumberListBlockValue.fromMarkdown(markdown);
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownNumberListBlockValue value) {
+    return value.toJson();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownNumberListBlockValue value) {
+    return value.toMarkdown();
+  }
+
+  @override
+  MarkdownNumberListBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownNumberListBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
   }
 }
