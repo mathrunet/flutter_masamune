@@ -55,8 +55,10 @@ class BulletedListExchangeMarkdownBlockTools
   }
 
   @override
-  MarkdownBlockValue addBlock() {
-    return MarkdownBulletedListBlockValue.createEmpty();
+  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
+    return MarkdownBulletedListBlockValue.createEmpty(
+      indent: source?.indent ?? 0,
+    );
   }
 
   @override

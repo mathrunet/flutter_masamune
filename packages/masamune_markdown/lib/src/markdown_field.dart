@@ -664,48 +664,33 @@ class MarkdownFieldState extends State<MarkdownField>
         );
 
         // 差分を見つけてコントローラーを更新
-        var start = 0;
-        while (start < oldText.length &&
-            start < newText.length &&
-            oldText[start] == newText[start]) {
-          start++;
-        }
+        final diff = _findTextDifference(
+          oldText: oldText,
+          newText: newText,
+          selection: value.selection,
+        );
 
-        var oldEnd = oldText.length;
-        var newEnd = newText.length;
-        while (oldEnd > start &&
-            newEnd > start &&
-            oldText[oldEnd - 1] == newText[newEnd - 1]) {
-          oldEnd--;
-          newEnd--;
-        }
-
-        final replacementText = newText.substring(start, newEnd);
+        final replacementText = newText.substring(diff.start, diff.newEnd);
 
         // ブロック構造を維持するためにコントローラーを更新
-        widget.controller.replaceText(start, oldEnd, replacementText);
+        widget.controller.replaceText(diff.start, diff.oldEnd, replacementText);
 
         // 変換テキストを表示するために再構築をトリガー
         setState(() {});
       } else {
         // 変換終了または通常のテキスト入力 - コントローラーを更新
 
-        // 差分を見つける
-        var start = 0;
-        while (start < oldText.length &&
-            start < newText.length &&
-            oldText[start] == newText[start]) {
-          start++;
-        }
+        // 差分を見つける - カーソル位置を考慮した改善版
+        final diff = _findTextDifference(
+          oldText: oldText,
+          newText: newText,
+          selection: value.selection,
+        );
 
-        var oldEnd = oldText.length;
-        var newEnd = newText.length;
-        while (oldEnd > start &&
-            newEnd > start &&
-            oldText[oldEnd - 1] == newText[newEnd - 1]) {
-          oldEnd--;
-          newEnd--;
-        }
+        // diffから変数を展開
+        var start = diff.start;
+        final oldEnd = diff.oldEnd;
+        final newEnd = diff.newEnd;
 
         final replacementText = newText.substring(start, newEnd);
 
@@ -728,11 +713,16 @@ class MarkdownFieldState extends State<MarkdownField>
           // 追加の各行に対して新しい段落を挿入
           for (var i = 1; i < lines.length; i++) {
             widget.controller.insertNewLine(start);
-            start++; // Account for the newline character
 
             if (lines[i].isNotEmpty) {
+              // テキストがある場合、改行の後に挿入
+              start++; // 改行文字の分だけ進める
               widget.controller.replaceText(start, start, lines[i]);
               start += lines[i].length;
+            } else {
+              // 空行の場合
+              // 改行のみの挿入の場合も、カーソルは改行の後（新しいブロックの先頭）に移動する
+              start++; // 改行文字の分だけ進める
             }
           }
 
@@ -1233,6 +1223,69 @@ class MarkdownFieldState extends State<MarkdownField>
     // IME変換中に更新されるコントローラーのテキストを常に使用
     final plainText = widget.controller.rawText;
     return plainText;
+  }
+
+  /// Find the difference between old and new text, considering cursor position.
+  ///
+  /// カーソル位置を考慮して、古いテキストと新しいテキストの差分を見つけます。
+  ///
+  /// Returns a record containing (start, oldEnd, newEnd) positions.
+  ({int start, int oldEnd, int newEnd}) _findTextDifference({
+    required String oldText,
+    required String newText,
+    required TextSelection selection,
+  }) {
+    var start = 0;
+    var oldEnd = oldText.length;
+    var newEnd = newText.length;
+
+    // 純粋な挿入の場合（テキストが追加されただけ）
+    if (newText.length > oldText.length && selection.isCollapsed) {
+      final insertedLength = newText.length - oldText.length;
+      final cursorPos = selection.baseOffset;
+
+      // カーソル位置から挿入位置を逆算
+      // 挿入後のカーソル位置 = 挿入位置 + 挿入した文字数
+      final insertionPoint = cursorPos - insertedLength;
+
+      if (insertionPoint >= 0 && insertionPoint <= oldText.length) {
+        // 挿入位置の前後でテキストが一致するか確認
+        final beforeInsertion =
+            insertionPoint > 0 ? newText.substring(0, insertionPoint) : "";
+        final afterInsertion =
+            insertionPoint < oldText.length ? newText.substring(cursorPos) : "";
+        final oldBefore =
+            insertionPoint > 0 ? oldText.substring(0, insertionPoint) : "";
+        final oldAfter = insertionPoint < oldText.length
+            ? oldText.substring(insertionPoint)
+            : "";
+
+        if (beforeInsertion == oldBefore && afterInsertion == oldAfter) {
+          // カーソル位置から判定した挿入位置が正しい
+          return (
+            start: insertionPoint,
+            oldEnd: insertionPoint,
+            newEnd: cursorPos
+          );
+        }
+      }
+    }
+
+    // 挿入以外の場合、またはカーソル位置から判定できない場合は従来のアルゴリズムを使用
+    while (start < oldText.length &&
+        start < newText.length &&
+        oldText[start] == newText[start]) {
+      start++;
+    }
+
+    while (oldEnd > start &&
+        newEnd > start &&
+        oldText[oldEnd - 1] == newText[newEnd - 1]) {
+      oldEnd--;
+      newEnd--;
+    }
+
+    return (start: start, oldEnd: oldEnd, newEnd: newEnd);
   }
 
   /// Get the text range of a link at the given offset.

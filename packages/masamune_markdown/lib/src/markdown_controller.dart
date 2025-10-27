@@ -171,6 +171,34 @@ class MarkdownController extends MasamuneControllerBase<
         final blockStart = currentOffset;
         final blockEnd = currentOffset + blockLength;
 
+        // Special case: if we're inserting at a position that's exactly after a block
+        // and before the next block (i.e., at the newline position), and the next block
+        // exists and is empty, we should insert into that next block
+        if (startBlockIndex == null &&
+            start == blockEnd + 1 &&
+            start == end &&
+            i + 1 < blocks.length) {
+          final nextBlock = blocks[i + 1];
+          if (nextBlock is MarkdownMultiLineBlockValue) {
+            final nextBlockChildren = nextBlock.extractLines() ?? [];
+            final nextBlockText = StringBuffer();
+            for (final line in nextBlockChildren) {
+              for (final span in line.children) {
+                nextBlockText.write(span.value);
+              }
+            }
+            if (nextBlockText.toString().isEmpty) {
+              // Insert into the empty next block
+              startBlockIndex = i + 1;
+              localStart = 0;
+              endBlockIndex = i + 1;
+              endBlockStart = blockEnd + 1;
+              localEnd = 0;
+              break;
+            }
+          }
+        }
+
         // このブロックが開始位置を含むかチェック
         if (startBlockIndex == null && blockEnd >= start) {
           startBlockIndex = i;
@@ -837,6 +865,7 @@ class MarkdownController extends MasamuneControllerBase<
 
     // 挿入位置を決定
     int insertionIndex;
+    MarkdownBlockValue? currentBlock;
     if (offset != null) {
       // オフセットからブロックインデックスを検索
       var currentOffset = 0;
@@ -849,6 +878,7 @@ class MarkdownController extends MasamuneControllerBase<
 
         if (offset >= currentOffset && offset <= blockEnd) {
           insertionIndex = i + 1; // このブロックの後に挿入
+          currentBlock = block;
           break;
         }
 
@@ -869,6 +899,7 @@ class MarkdownController extends MasamuneControllerBase<
 
         if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
           insertionIndex = i + 1; // 現在のブロックの後に挿入
+          currentBlock = block;
           break;
         }
 
@@ -877,7 +908,7 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     // ツールタイプに基づいて新しいブロックを作成
-    final newBlock = tool.addBlock();
+    final newBlock = tool.addBlock(source: currentBlock);
     blocks.insert(insertionIndex, newBlock);
 
     // フィールドを更新
@@ -1565,7 +1596,7 @@ class MarkdownController extends MasamuneControllerBase<
           break;
         }
 
-        currentOffset += blockLength;
+        currentOffset += blockLength + 1; // ブロック間の改行分+1
       }
     }
 

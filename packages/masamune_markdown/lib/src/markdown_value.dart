@@ -450,9 +450,11 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   factory MarkdownBlockValue.createEmpty({
     String? initialText,
     List<MarkdownLineValue>? children,
+    int indent = 0,
   }) {
     return MarkdownParagraphBlockValue(
       id: uuid(),
+      indent: indent,
       children: children ??
           [
             MarkdownLineValue.createEmpty(initialText: initialText),

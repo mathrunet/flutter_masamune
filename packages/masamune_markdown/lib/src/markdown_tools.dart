@@ -182,8 +182,8 @@ abstract class MarkdownBlockTools extends MarkdownTools {
   /// Create a new block.
   ///
   /// 新しいブロックを作成します。
-  MarkdownBlockValue addBlock() {
-    return MarkdownBlockValue.createEmpty();
+  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
+    return MarkdownBlockValue.createEmpty(indent: source?.indent ?? 0);
   }
 
   /// Exchange a block.

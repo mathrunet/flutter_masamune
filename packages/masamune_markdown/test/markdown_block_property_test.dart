@@ -354,6 +354,9 @@ void main() {
       ],
     );
     controller.insertBlock(const BulletedListAddMarkdownBlockTools());
+    expect(controller.selection.baseOffset, 8);
+    expect(controller.rawText, "aaa\nbbb\n\nccc");
+    expect(controller.plainText, "aaa\n  bbb\n  \nccc");
     await input.enterText("ddd");
     expect(controller.selection.baseOffset, 11);
     expect(controller.plainText, "aaa\n  bbb\n  ddd\nccc");
@@ -403,7 +406,7 @@ void main() {
     controller.insertBlock(const BulletedListAddMarkdownBlockTools());
     await input.enterText("eee");
     controller.decreaseIndent();
-    expect(controller.selection.baseOffset, 11);
+    expect(controller.selection.baseOffset, 15);
     expect(controller.plainText, "aaa\n  bbb\n    ddd\n  eee\nccc");
     expect(controller.rawText, "aaa\nbbb\nddd\neee\nccc");
     expect(
@@ -431,7 +434,7 @@ void main() {
       ],
     );
     controller.decreaseIndent();
-    expect(controller.selection.baseOffset, 11);
+    expect(controller.selection.baseOffset, 15);
     expect(controller.plainText, "aaa\n  bbb\n    ddd\neee\nccc");
     expect(controller.rawText, "aaa\nbbb\nddd\neee\nccc");
     expect(

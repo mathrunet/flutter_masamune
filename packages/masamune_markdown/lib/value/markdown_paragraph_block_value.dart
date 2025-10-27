@@ -43,10 +43,14 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
   /// Create a new [MarkdownParagraphBlockValue] with an empty child.
   ///
   /// 新しい[MarkdownParagraphBlockValue]を作成します。
-  factory MarkdownParagraphBlockValue.createEmpty(
-      {String? initialText, List<MarkdownLineValue>? children}) {
+  factory MarkdownParagraphBlockValue.createEmpty({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+    int indent = 0,
+  }) {
     return MarkdownParagraphBlockValue(
       id: uuid(),
+      indent: indent,
       children: children ??
           [
             MarkdownLineValue.createEmpty(initialText: initialText),
@@ -59,6 +63,9 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
 
   @override
   bool get canIndent => true;
+
+  @override
+  bool get maintainIndent => true;
 
   @override
   String toMarkdown() {

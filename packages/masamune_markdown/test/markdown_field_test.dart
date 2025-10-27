@@ -683,6 +683,37 @@ void main() {
         ]).toDebug()
       ],
     );
+    // Test adding a new line with indent maintained
+    await input.cursorAt(3);
+    await input.enterText("\n");
+    expect(controller.plainText, "  aaa\n  \n  bbb");
+    expect(controller.rawText, "aaa\n\nbbb");
+    expect(controller.selection.baseOffset, 4);
+    await input.enterText("eee");
+    expect(controller.plainText, "  aaa\n  eee\n  bbb");
+    expect(controller.rawText, "aaa\neee\nbbb");
+    expect(
+      controller.value?.toDebug(),
+      [
+        MarkdownFieldValue.createEmpty(children: [
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "aaa")],
+            indent: 1,
+          ),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "eee")],
+            indent: 1,
+          ),
+          MarkdownParagraphBlockValue(
+            id: uuid(),
+            children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
+            indent: 1,
+          ),
+        ]).toDebug()
+      ],
+    );
   });
   testWidgets("MarkdownField.field.undoRedo", (tester) async {
     final context = await buildMarkdownField(tester);

@@ -45,10 +45,14 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
   /// Create a new [MarkdownBulletedListBlockValue] with an empty child.
   ///
   /// 新しい[MarkdownBulletedListBlockValue]を作成します。
-  factory MarkdownBulletedListBlockValue.createEmpty(
-      {String? initialText, List<MarkdownLineValue>? children}) {
+  factory MarkdownBulletedListBlockValue.createEmpty({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+    int indent = 0,
+  }) {
     return MarkdownBulletedListBlockValue(
       id: uuid(),
+      indent: indent,
       children: children ??
           [
             MarkdownLineValue.createEmpty(initialText: initialText),
@@ -64,7 +68,6 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
 
   @override
   bool get maintainIndent => true;
-
 
   @override
   String toMarkdown() {
