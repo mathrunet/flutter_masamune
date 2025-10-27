@@ -65,7 +65,10 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
   bool get canIndent => true;
 
   @override
-  bool get maintainIndent => true;
+  bool get maintainIndentOnNewLine => true;
+
+  @override
+  bool get maintainTypeOnNewLine => true;
 
   @override
   String toMarkdown() {

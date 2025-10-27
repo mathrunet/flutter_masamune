@@ -477,7 +477,12 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   /// Checks if the indent should be maintained.
   ///
   /// インデントが保持されるかどうかを確認します。
-  bool get maintainIndent => false;
+  bool get maintainIndentOnNewLine => false;
+
+  /// Check if the type is preserved on newline.
+  ///
+  /// 改行時に型を保持するかどうかを確認します。
+  bool get maintainTypeOnNewLine => false;
 
   @override
   DynamicMap toJson() {
@@ -547,17 +552,26 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     String? initialText,
   }) {
     final block = this;
-    if (maintainIndent) {
+    if (maintainIndentOnNewLine) {
       indent ??= this.indent;
     }
-    if (block is MarkdownMultiLineBlockValue) {
-      return block.copyWith(
-        id: id ?? block.id,
-        indent: indent,
-        children: [
-          child ?? MarkdownLineValue.createEmpty(initialText: initialText)
-        ],
-      );
+    if (block.maintainTypeOnNewLine) {
+      if (block is MarkdownMultiLineBlockValue) {
+        return block.copyWith(
+          id: id ?? block.id,
+          indent: indent,
+          children: [
+            child ?? MarkdownLineValue.createEmpty(initialText: initialText)
+          ],
+        );
+      } else {
+        return MarkdownParagraphBlockValue(
+          id: id ?? block.id,
+          children: [
+            child ?? MarkdownLineValue.createEmpty(initialText: initialText)
+          ],
+        );
+      }
     } else {
       return MarkdownParagraphBlockValue(
         id: id ?? block.id,
