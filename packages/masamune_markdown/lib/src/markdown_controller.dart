@@ -1603,9 +1603,19 @@ class MarkdownController extends MasamuneControllerBase<
     if (blockIndex == -1) {
       // オフセットが末尾、新しいブロックを作成
       // BulletedListの場合、最後のブロックのタイプを継承するためにチェック
-      final newBlock = blocks.lastOrNull?.clone();
-      if (newBlock != null) {
-        blocks.add(newBlock);
+      final lastBlock = blocks.lastOrNull;
+      if (lastBlock?.maintainTypeOnNewLine ?? true) {
+        final newBlock = lastBlock?.clone();
+        if (newBlock != null) {
+          blocks.add(newBlock);
+        }
+      } else {
+        blocks.add(MarkdownParagraphBlockValue(
+          id: uuid(),
+          children: [
+            MarkdownLineValue.createEmpty(initialText: textAfterCursor),
+          ],
+        ));
       }
     } else {
       // 現在のブロックを分割
@@ -1680,26 +1690,43 @@ class MarkdownController extends MasamuneControllerBase<
       }
 
       // カーソル前のテキストでブロックを作成（プロパティ、ブロックタイプ、インデントを保持）
-      final beforeBlock = oldBlock.clone(
-        child: MarkdownLineValue(
-          id: uuid(),
-          children: beforeSpans,
-        ),
-      );
+      if (oldBlock.maintainTypeOnNewLine) {
+        final beforeBlock = oldBlock.clone(
+          child: MarkdownLineValue.createEmpty(
+            children: beforeSpans,
+          ),
+        );
 
-      // カーソル後のテキストで新しいブロックを作成
-      // BulletedListブロックの場合、ブロックタイプとインデントレベルを継承
-      // その他のブロックの場合、段落を作成
-      final afterBlock = oldBlock.clone(
-        child: MarkdownLineValue(
-          id: uuid(),
-          children: afterSpans,
-        ),
-      );
+        // カーソル後のテキストで新しいブロックを作成
+        // BulletedListブロックの場合、ブロックタイプとインデントレベルを継承
+        // その他のブロックの場合、段落を作成
+        final afterBlock = oldBlock.clone(
+          child: MarkdownLineValue.createEmpty(
+            children: afterSpans,
+          ),
+        );
 
-      // 古いブロックを前後のブロックで置換
-      blocks[blockIndex] = beforeBlock;
-      blocks.insert(blockIndex + 1, afterBlock);
+        // 古いブロックを前後のブロックで置換
+        blocks[blockIndex] = beforeBlock;
+        blocks.insert(blockIndex + 1, afterBlock);
+      } else {
+        final beforeBlock = oldBlock.clone(
+          child: MarkdownLineValue.createEmpty(
+            children: beforeSpans,
+          ),
+        );
+        final afterBlock = MarkdownParagraphBlockValue.createEmpty(
+          children: [
+            MarkdownLineValue.createEmpty(
+              children: afterSpans,
+            ),
+          ],
+        );
+
+        // 古いブロックを前後のブロックで置換
+        blocks[blockIndex] = beforeBlock;
+        blocks.insert(blockIndex + 1, afterBlock);
+      }
     }
 
     // 新しいブロックでフィールドを更新

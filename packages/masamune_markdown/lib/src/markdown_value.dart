@@ -555,23 +555,14 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     if (maintainIndentOnNewLine) {
       indent ??= this.indent;
     }
-    if (block.maintainTypeOnNewLine) {
-      if (block is MarkdownMultiLineBlockValue) {
-        return block.copyWith(
-          id: id ?? block.id,
-          indent: indent,
-          children: [
-            child ?? MarkdownLineValue.createEmpty(initialText: initialText)
-          ],
-        );
-      } else {
-        return MarkdownParagraphBlockValue(
-          id: id ?? block.id,
-          children: [
-            child ?? MarkdownLineValue.createEmpty(initialText: initialText)
-          ],
-        );
-      }
+    if (block is MarkdownMultiLineBlockValue) {
+      return block.copyWith(
+        id: id ?? block.id,
+        indent: indent,
+        children: [
+          child ?? MarkdownLineValue.createEmpty(initialText: initialText)
+        ],
+      );
     } else {
       return MarkdownParagraphBlockValue(
         id: id ?? block.id,
