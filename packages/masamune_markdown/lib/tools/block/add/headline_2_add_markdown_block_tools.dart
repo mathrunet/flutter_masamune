@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// 見出し2ブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
-class Headline2AddMarkdownBlockTools extends MarkdownBlockTools {
+class Headline2AddMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownHeadline2BlockValue> {
   /// Display the menu to add headline 2 blocks [MarkdownTools].
   ///
   /// 見出し2ブロックを追加するメニューを表示する[MarkdownTools]。
@@ -54,7 +55,52 @@ class Headline2AddMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
+  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
+    return MarkdownHeadline2BlockValue.createEmpty(
+      indent: source?.indent ?? 0,
+    );
+  }
+
+  @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
+    if (target is MarkdownHeadline2BlockValue) {
+      return null;
+    }
+    return MarkdownHeadline2BlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+    );
+  }
+
+  @override
+  MarkdownHeadline2BlockValue? convertFromJson(DynamicMap json) {
+    return MarkdownHeadline2BlockValue.fromJson(json);
+  }
+
+  @override
+  MarkdownHeadline2BlockValue? convertFromMarkdown(String markdown) {
+    return MarkdownHeadline2BlockValue.fromMarkdown(markdown);
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownHeadline2BlockValue value) {
+    return value.toJson();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownHeadline2BlockValue value) {
+    return value.toMarkdown();
+  }
+
+  @override
+  MarkdownHeadline2BlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownHeadline2BlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
   }
 }
