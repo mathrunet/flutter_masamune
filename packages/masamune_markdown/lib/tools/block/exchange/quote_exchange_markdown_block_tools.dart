@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// 引用ブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
-class QuoteExchangeMarkdownBlockTools extends MarkdownBlockTools {
+class QuoteExchangeMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownQuoteBlockValue> {
   /// Display the menu to exchange quote blocks [MarkdownTools].
   ///
   /// 引用ブロックを変更するメニューを表示する[MarkdownTools]。
@@ -55,6 +56,44 @@ class QuoteExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
+    if (target is MarkdownQuoteBlockValue) {
+      return null;
+    }
+    return MarkdownQuoteBlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+    );
+  }
+
+  @override
+  MarkdownQuoteBlockValue? convertFromJson(DynamicMap json) {
+    return MarkdownQuoteBlockValue.fromJson(json);
+  }
+
+  @override
+  MarkdownQuoteBlockValue? convertFromMarkdown(String markdown) {
+    return MarkdownQuoteBlockValue.fromMarkdown(markdown);
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownQuoteBlockValue value) {
+    return value.toJson();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownQuoteBlockValue value) {
+    return value.toMarkdown();
+  }
+
+  @override
+  MarkdownQuoteBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownQuoteBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
   }
 }
