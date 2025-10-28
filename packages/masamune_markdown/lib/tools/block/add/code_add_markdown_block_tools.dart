@@ -75,22 +75,16 @@ class CodeAddMarkdownBlockTools
 
   @override
   MarkdownCodeBlockValue? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kCodeBlockType) {
+      return null;
+    }
     return MarkdownCodeBlockValue.fromJson(json);
   }
 
   @override
   MarkdownCodeBlockValue? convertFromMarkdown(String markdown) {
-    return MarkdownCodeBlockValue.fromMarkdown(markdown);
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownCodeBlockValue value) {
-    return value.toJson();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownCodeBlockValue value) {
-    return value.toMarkdown();
+    return null;
   }
 
   @override

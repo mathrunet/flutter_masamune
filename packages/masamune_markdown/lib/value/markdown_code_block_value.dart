@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kCodeBlockType = "__markdown_block_code__";
+
 /// A class for storing markdown code block value.
 ///
 /// マークダウンのコードブロックの値を格納するクラス。
@@ -95,7 +97,7 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__markdown_block_code__";
+  String get type => _kCodeBlockType;
 
   @override
   bool get canIndent => false;

@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// テキストブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
-class TextAddMarkdownBlockTools extends MarkdownBlockTools {
+class TextAddMarkdownBlockTools
+    extends MarkdownBlockMultiLineVariableTools<MarkdownParagraphBlockValue> {
   /// Display the menu to add text blocks [MarkdownTools].
   ///
   /// テキストブロックを追加するメニューを表示する[MarkdownTools]。
@@ -56,5 +57,30 @@ class TextAddMarkdownBlockTools extends MarkdownBlockTools {
   @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
     return null;
+  }
+
+  @override
+  MarkdownParagraphBlockValue? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kParagraphType) {
+      return null;
+    }
+    return MarkdownParagraphBlockValue.fromJson(json);
+  }
+
+  @override
+  MarkdownParagraphBlockValue? convertFromMarkdown(String markdown) {
+    return null;
+  }
+
+  @override
+  MarkdownParagraphBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownParagraphBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
   }
 }

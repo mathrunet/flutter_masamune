@@ -83,22 +83,19 @@ class NumberListAddMarkdownBlockTools
 
   @override
   MarkdownNumberListBlockValue? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kNumberListType) {
+      return null;
+    }
     return MarkdownNumberListBlockValue.fromJson(json);
   }
 
   @override
   MarkdownNumberListBlockValue? convertFromMarkdown(String markdown) {
-    return MarkdownNumberListBlockValue.fromMarkdown(markdown);
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownNumberListBlockValue value) {
-    return value.toJson();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownNumberListBlockValue value) {
-    return value.toMarkdown();
+    if (RegExp(r"^\d+[.)]?\s+").hasMatch(markdown.trim())) {
+      return MarkdownNumberListBlockValue.fromMarkdown(markdown);
+    }
+    return null;
   }
 
   @override

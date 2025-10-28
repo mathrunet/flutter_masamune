@@ -76,26 +76,19 @@ class BulletedListAddMarkdownBlockTools
 
   @override
   MarkdownBulletedListBlockValue? convertFromJson(DynamicMap json) {
-    // TODO: implement convertFromJson
-    throw UnimplementedError();
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kBulletedListType) {
+      return null;
+    }
+    return MarkdownBulletedListBlockValue.fromJson(json);
   }
 
   @override
   MarkdownBulletedListBlockValue? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownBulletedListBlockValue value) {
-    // TODO: implement convertToJson
-    throw UnimplementedError();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownBulletedListBlockValue value) {
-    // TODO: implement convertToMarkdown
-    throw UnimplementedError();
+    if (RegExp(r"^[-*+]\s+").hasMatch(markdown.trim())) {
+      return MarkdownBulletedListBlockValue.fromMarkdown(markdown);
+    }
+    return null;
   }
 
   @override

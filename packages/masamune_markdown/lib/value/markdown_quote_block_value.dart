@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kQuoteType = "__markdown_block_quote__";
+
 /// A class for storing markdown quote block value.
 ///
 /// マークダウンの引用ブロックの値を格納するクラス。
@@ -61,7 +63,7 @@ class MarkdownQuoteBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__markdown_block_quote__";
+  String get type => _kQuoteType;
 
   @override
   bool get canIndent => false;

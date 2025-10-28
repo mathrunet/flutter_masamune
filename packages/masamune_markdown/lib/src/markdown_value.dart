@@ -87,6 +87,11 @@ abstract class MarkdownValue {
   /// マークダウンのチェックボックスの状態のキー。
   static const String checkedKey = "checked";
 
+  /// The key for the field.
+  ///
+  /// マークダウンのフィールドのキー。
+  static const String fieldKey = "field";
+
   /// Copy the markdown value with the given fields.
   ///
   /// 指定されたフィールドでマークダウンの値をコピーします。
@@ -267,7 +272,24 @@ class MarkdownSpanValue extends MarkdownValue {
 
   @override
   String toMarkdown() {
-    return value;
+    var text = value;
+
+    // Apply properties in reverse order to support nesting
+    for (final property in properties.reversed) {
+      if (property is BoldFontMarkdownSpanProperty) {
+        text = "**$text**";
+      } else if (property is ItalicFontMarkdownSpanProperty) {
+        text = "*$text*";
+      } else if (property is CodeFontMarkdownSpanProperty) {
+        text = "`$text`";
+      } else if (property is StrikeFontMarkdownSpanProperty) {
+        text = "~~$text~~";
+      } else if (property is LinkMarkdownSpanProperty) {
+        text = "[$text](${property.link})";
+      }
+    }
+
+    return text;
   }
 
   @override
@@ -388,8 +410,8 @@ class MarkdownLineValue extends MarkdownValue {
       }
 
       // Check for link ([title](url))
-      final linkMatch =
-          RegExp(r"\[(.+?)\]\((.+?)\)").firstMatch(text.substring(currentIndex));
+      final linkMatch = RegExp(r"\[(.+?)\]\((.+?)\)")
+          .firstMatch(text.substring(currentIndex));
       if (linkMatch != null && linkMatch.start < nextPatternIndex) {
         nextPatternIndex = currentIndex + linkMatch.start;
         matchedPattern = "link";
@@ -430,8 +452,8 @@ class MarkdownLineValue extends MarkdownValue {
           break;
 
         case "italic":
-          final match =
-              RegExp(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)").firstMatch(substring)!;
+          final match = RegExp(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)")
+              .firstMatch(substring)!;
           spans.add(MarkdownSpanValue(
             id: uuid(),
             value: match.group(1)!,
@@ -520,7 +542,8 @@ class MarkdownLineValue extends MarkdownValue {
 
   @override
   String toMarkdown() {
-    return children.map((e) => e.toMarkdown()).join("\n");
+    // Concatenate spans without newlines (newlines are handled at block level)
+    return children.map((e) => e.toMarkdown()).join("");
   }
 
   @override
@@ -937,16 +960,30 @@ class MarkdownFieldValue extends MarkdownValue {
   factory MarkdownFieldValue.fromJson(DynamicMap json) {
     final tools = MarkdownMasamuneAdapter.findTools<
         MarkdownBlockMultiLineVariableTools>();
-    final children = <MarkdownBlockValue>[];
-    for (final tool in tools) {
-      final value = tool.convertFromJson(json);
-      if (value != null) {
-        children.add(value);
+    late String id;
+    final blocks = <MarkdownBlockValue>[];
+    for (final entry in json.entries) {
+      final path = entry.key;
+      final block = entry.value;
+      if (block is! DynamicMap) {
+        continue;
+      }
+      final match = RegExp(r"^field/([^/]+)/block+").firstMatch(path);
+      if (match == null) {
+        continue;
+      }
+      id = match.group(1) ?? "";
+      for (final tool in tools) {
+        final value = tool.convertFromJson(block);
+        if (value != null) {
+          blocks.add(value);
+          break;
+        }
       }
     }
     return MarkdownFieldValue(
-      id: json.get(MarkdownValue.idKey, ""),
-      children: children,
+      id: id,
+      children: blocks,
     );
   }
 
@@ -973,6 +1010,9 @@ class MarkdownFieldValue extends MarkdownValue {
     if (markdown.isEmpty) {
       return MarkdownFieldValue.createEmpty();
     }
+
+    final tools = MarkdownMasamuneAdapter.findTools<
+        MarkdownBlockMultiLineVariableTools>();
 
     final lines = markdown.split("\n");
     final blocks = <MarkdownBlockValue>[];
@@ -1036,8 +1076,7 @@ class MarkdownFieldValue extends MarkdownValue {
         blocks.add(MarkdownImageBlockValue.fromMarkdown(imageMarkdown));
 
         // Extract text after image
-        final afterText =
-            line.substring(imageMatch.end, line.length).trim();
+        final afterText = line.substring(imageMatch.end, line.length).trim();
         if (afterText.isNotEmpty) {
           blocks.add(MarkdownParagraphBlockValue.fromMarkdown(afterText));
         }
@@ -1047,29 +1086,15 @@ class MarkdownFieldValue extends MarkdownValue {
       }
 
       // Pattern matching for block types
-      final MarkdownBlockValue block;
-
-      // Check for headings
-      if (line.trim().startsWith("### ")) {
-        block = MarkdownHeadline3BlockValue.fromMarkdown(line);
-      } else if (line.trim().startsWith("## ")) {
-        block = MarkdownHeadline2BlockValue.fromMarkdown(line);
-      } else if (line.trim().startsWith("# ")) {
-        block = MarkdownHeadline1BlockValue.fromMarkdown(line);
+      MarkdownBlockValue? block;
+      for (final tool in tools) {
+        final value = tool.convertFromMarkdown(line);
+        if (value != null) {
+          block = value;
+          break;
+        }
       }
-      // Check for lists
-      else if (RegExp(r"^[-*+]\s+").hasMatch(line.trim())) {
-        block = MarkdownBulletedListBlockValue.fromMarkdown(line);
-      } else if (RegExp(r"^\d+[.)]?\s+").hasMatch(line.trim())) {
-        block = MarkdownNumberListBlockValue.fromMarkdown(line);
-      } else if (RegExp(r"^\[[ x]\]\s+").hasMatch(line.trim())) {
-        block = MarkdownToggleListBlockValue.fromMarkdown(line);
-      }
-      // Default to paragraph
-      else {
-        block = MarkdownParagraphBlockValue.fromMarkdown(line);
-      }
-
+      block ??= MarkdownParagraphBlockValue.fromMarkdown(line);
       blocks.add(block);
 
       i++;
@@ -1093,11 +1118,16 @@ class MarkdownFieldValue extends MarkdownValue {
 
   @override
   DynamicMap toJson() {
-    return {
-      MarkdownValue.idKey: id,
-      MarkdownValue.typeKey: type,
-      MarkdownValue.childrenKey: children.map((e) => e.toJson()).toList(),
-    };
+    final res = <String, DynamicMap>{};
+    for (final child in children) {
+      res["field/$id/block"] = {
+        child.id: {
+          ...child.toJson(),
+          MarkdownValue.fieldKey: id,
+        },
+      };
+    }
+    return res;
   }
 
   @override
@@ -1110,7 +1140,35 @@ class MarkdownFieldValue extends MarkdownValue {
 
   @override
   String toMarkdown() {
-    return children.map((e) => e.toMarkdown()).join("\n");
+    final result = <String>[];
+    var numberListCounter = 0; // Counter for consecutive number lists
+    var currentIndent = -1; // Current indent level
+
+    for (var i = 0; i < children.length; i++) {
+      final child = children[i];
+
+      if (child is MarkdownNumberListBlockValue) {
+        // Reset counter if indent level changes
+        if (child.indent != currentIndent) {
+          numberListCounter = 0;
+          currentIndent = child.indent;
+        }
+        numberListCounter++;
+
+        // Create temporary MarkdownNumberListBlockValue with correct lineIndex
+        final tempBlock = child.copyWith(
+          lineIndex: numberListCounter - 1,
+        );
+        result.add(tempBlock.toMarkdown());
+      } else {
+        // Reset counter when non-number-list block appears
+        numberListCounter = 0;
+        currentIndent = -1;
+        result.add(child.toMarkdown());
+      }
+    }
+
+    return result.join("\n");
   }
 
   @override

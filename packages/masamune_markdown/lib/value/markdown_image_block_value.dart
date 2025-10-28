@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kImageBlockType = "__markdown_block_image__";
+
 /// A class for storing markdown headline 1 block value.
 ///
 /// マークダウンの見出し1ブロックの値を格納するクラス。
@@ -63,7 +65,7 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
   static const String uriKey = "uri";
 
   @override
-  String get type => "__markdown_block_image__";
+  String get type => _kImageBlockType;
 
   @override
   bool get canIndent => true;
@@ -76,7 +78,8 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
 
   @override
   String toMarkdown() {
-    return "![${child.toString()}](${child.toString()})";
+    // Note: alt text is not stored in current implementation, so use empty string
+    return "![image](${child.toString()})";
   }
 
   @override
@@ -133,8 +136,10 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
       strutStyle: context.strutStyle,
     );
 
-    final padding = (controller.style.h1.padding ?? EdgeInsets.zero) as EdgeInsets;
-    final margin = (controller.style.h1.margin ?? EdgeInsets.zero) as EdgeInsets;
+    final padding =
+        (controller.style.h1.padding ?? EdgeInsets.zero) as EdgeInsets;
+    final margin =
+        (controller.style.h1.margin ?? EdgeInsets.zero) as EdgeInsets;
 
     return BlockLayout(
       block: this,

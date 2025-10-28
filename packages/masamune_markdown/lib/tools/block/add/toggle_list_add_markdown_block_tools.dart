@@ -75,22 +75,19 @@ class ToggleListAddMarkdownBlockTools
 
   @override
   MarkdownToggleListBlockValue? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kToggleListType) {
+      return null;
+    }
     return MarkdownToggleListBlockValue.fromJson(json);
   }
 
   @override
   MarkdownToggleListBlockValue? convertFromMarkdown(String markdown) {
-    return MarkdownToggleListBlockValue.fromMarkdown(markdown);
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownToggleListBlockValue value) {
-    return value.toJson();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownToggleListBlockValue value) {
-    return value.toMarkdown();
+    if (RegExp(r"^\[[ x]\]\s+").hasMatch(markdown.trim())) {
+      return MarkdownToggleListBlockValue.fromMarkdown(markdown);
+    }
+    return null;
   }
 
   @override

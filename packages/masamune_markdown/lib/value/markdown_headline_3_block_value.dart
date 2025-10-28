@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kHeadline3Type = "__markdown_block_headline_3__";
+
 /// A class for storing markdown headline 3 block value.
 ///
 /// マークダウンの見出し3ブロックの値を格納するクラス。
@@ -61,7 +63,7 @@ class MarkdownHeadline3BlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__markdown_block_headline_3__";
+  String get type => _kHeadline3Type;
 
   @override
   bool get canIndent => false;

@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kToggleListType = "__markdown_block_toggle_list__";
+
 /// A class for storing markdown toggle list block value.
 ///
 /// マークダウンのチェックボックスリストブロックの値を格納するクラス。
@@ -35,11 +37,11 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
   /// [markdown]から[MarkdownToggleListBlockValue]を作成します。
   factory MarkdownToggleListBlockValue.fromMarkdown(String markdown) {
     // 先頭の "[x] " または "[ ] " マーカーを削除
-    final checked = markdown.startsWith("[x]");
-    final cleanedMarkdown = markdown.replaceFirst(
-      RegExp(r"^\[x\]\s+"),
-      checked ? "[x] " : "[ ] ",
-    );
+    final checked = markdown.trim().startsWith("[x]");
+    final cleanedMarkdown = markdown.trim().replaceFirst(
+          RegExp(r"^\[[ x]\]\s+"),
+          "",
+        );
     return MarkdownToggleListBlockValue(
       id: uuid(),
       checked: checked,
@@ -70,7 +72,7 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__markdown_block_toggle_list__";
+  String get type => _kToggleListType;
 
   /// The checked state of the toggle list block.
   ///
@@ -88,7 +90,9 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
 
   @override
   String toMarkdown() {
-    return "[${checked ? "x" : " "}] ${children.map((e) => e.toMarkdown()).join("\n")}";
+    return children
+        .map((e) => "[${checked ? "x" : " "}] ${e.toMarkdown()}")
+        .join("\n");
   }
 
   @override

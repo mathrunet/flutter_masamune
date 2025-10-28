@@ -75,22 +75,19 @@ class Headline2AddMarkdownBlockTools
 
   @override
   MarkdownHeadline2BlockValue? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kHeadline2Type) {
+      return null;
+    }
     return MarkdownHeadline2BlockValue.fromJson(json);
   }
 
   @override
   MarkdownHeadline2BlockValue? convertFromMarkdown(String markdown) {
-    return MarkdownHeadline2BlockValue.fromMarkdown(markdown);
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownHeadline2BlockValue value) {
-    return value.toJson();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownHeadline2BlockValue value) {
-    return value.toMarkdown();
+    if (markdown.trim().startsWith("## ")) {
+      return MarkdownHeadline2BlockValue.fromMarkdown(markdown);
+    }
+    return null;
   }
 
   @override

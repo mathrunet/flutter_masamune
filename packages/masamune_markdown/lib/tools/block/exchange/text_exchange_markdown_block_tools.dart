@@ -68,26 +68,16 @@ class TextExchangeMarkdownBlockTools
 
   @override
   MarkdownParagraphBlockValue? convertFromJson(DynamicMap json) {
-    // TODO: implement convertFromJson
-    throw UnimplementedError();
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kParagraphType) {
+      return null;
+    }
+    return MarkdownParagraphBlockValue.fromJson(json);
   }
 
   @override
   MarkdownParagraphBlockValue? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownParagraphBlockValue value) {
-    // TODO: implement convertToJson
-    throw UnimplementedError();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownParagraphBlockValue value) {
-    // TODO: implement convertToMarkdown
-    throw UnimplementedError();
+    return null;
   }
 
   @override

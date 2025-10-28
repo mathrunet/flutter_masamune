@@ -78,28 +78,16 @@ class ImageFromLibraryMediaMarkdownBlockTools
 
   @override
   MarkdownImageBlockValue? convertFromJson(DynamicMap json) {
-    if (json.get(MarkdownValue.typeKey, "") == "__markdown_block_image__") {
-      return MarkdownImageBlockValue.fromJson(json);
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kImageBlockType) {
+      return null;
     }
-    return null;
+    return MarkdownImageBlockValue.fromJson(json);
   }
 
   @override
   MarkdownImageBlockValue? convertFromMarkdown(String markdown) {
-    if (markdown.startsWith(RegExp(r"^!\[.*\]\(.*\)"))) {
-      return MarkdownImageBlockValue.fromMarkdown(markdown);
-    }
     return null;
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownImageBlockValue value) {
-    return value.toJson();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownImageBlockValue value) {
-    return value.toMarkdown();
   }
 
   @override

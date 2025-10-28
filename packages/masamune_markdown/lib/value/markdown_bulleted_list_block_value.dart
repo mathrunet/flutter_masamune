@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kBulletedListType = "__markdown_block_bulleted_list__";
+
 /// A class for storing markdown bulleted list block value.
 ///
 /// マークダウンの箇条書きリストブロックの値を格納するクラス。
@@ -61,7 +63,7 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__markdown_block_bulleted_list__";
+  String get type => _kBulletedListType;
 
   @override
   bool get canIndent => true;

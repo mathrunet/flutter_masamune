@@ -1,5 +1,7 @@
 part of "/masamune_markdown.dart";
 
+const _kParagraphType = "__markdown_block_paragraph__";
+
 /// A class for storing markdown paragraph block value.
 ///
 /// マークダウンの段落ブロックの値を格納するクラス。
@@ -59,7 +61,7 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__text_block_paragraph__";
+  String get type => _kParagraphType;
 
   @override
   bool get canIndent => true;

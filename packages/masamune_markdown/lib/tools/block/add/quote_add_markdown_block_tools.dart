@@ -75,22 +75,16 @@ class QuoteAddMarkdownBlockTools
 
   @override
   MarkdownQuoteBlockValue? convertFromJson(DynamicMap json) {
+    final type = json.get(MarkdownValue.typeKey, "");
+    if (type != _kQuoteType) {
+      return null;
+    }
     return MarkdownQuoteBlockValue.fromJson(json);
   }
 
   @override
   MarkdownQuoteBlockValue? convertFromMarkdown(String markdown) {
-    return MarkdownQuoteBlockValue.fromMarkdown(markdown);
-  }
-
-  @override
-  DynamicMap? convertToJson(MarkdownQuoteBlockValue value) {
-    return value.toJson();
-  }
-
-  @override
-  String? convertToMarkdown(MarkdownQuoteBlockValue value) {
-    return value.toMarkdown();
+    return null;
   }
 
   @override

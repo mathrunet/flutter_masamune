@@ -1,5 +1,7 @@
 part of "../masamune_markdown.dart";
 
+const _kNumberListType = "__markdown_block_number_list__";
+
 /// A class for storing markdown numbered list block value.
 ///
 /// マークダウンの番号付きリストブロックの値を格納するクラス。
@@ -70,7 +72,7 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  String get type => "__markdown_block_number_list__";
+  String get type => _kNumberListType;
 
   @override
   bool get canIndent => true;

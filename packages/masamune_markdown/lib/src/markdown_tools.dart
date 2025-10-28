@@ -210,20 +210,10 @@ abstract class MarkdownBlockVariableTools<TValue extends MarkdownBlockValue>
   /// JSONオブジェクトをマークダウンブロック値に変換します。
   TValue? convertFromJson(DynamicMap json);
 
-  /// Convert a markdown block value to a JSON object.
-  ///
-  /// マークダウンブロック値をJSONオブジェクトに変換します。
-  DynamicMap? convertToJson(TValue value);
-
   /// Convert a markdown string to a markdown block value.
   ///
   /// マークダウン文字列をマークダウンブロック値に変換します。
   TValue? convertFromMarkdown(String markdown);
-
-  /// Convert a markdown block value to a markdown string.
-  ///
-  /// マークダウンブロック値をマークダウン文字列に変換します。
-  String? convertToMarkdown(TValue value);
 }
 
 /// Base class for markdown block multi line variable tools.
