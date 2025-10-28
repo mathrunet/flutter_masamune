@@ -192,16 +192,16 @@ abstract class MarkdownBlockTools extends MarkdownTools {
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target);
 }
 
-/// Base class for markdown block multi line variable tools.
+/// Base class for markdown block variable tools.
 ///
-/// マークダウンブロック複数行変数ツールの基底クラス。
+/// マークダウンブロック変数ツールの基底クラス。
 @immutable
-abstract class MarkdownBlockMultiLineVariableTools<
-    TValue extends MarkdownMultiLineBlockValue> extends MarkdownBlockTools {
-  /// Base class for markdown block multi line variable tools.
+abstract class MarkdownBlockVariableTools<TValue extends MarkdownBlockValue>
+    extends MarkdownBlockTools {
+  /// Base class for markdown block variable tools.
   ///
-  /// マークダウンブロック複数行変数ツールの基底クラス。
-  const MarkdownBlockMultiLineVariableTools({
+  /// マークダウンブロック変数ツールの基底クラス。
+  const MarkdownBlockVariableTools({
     required super.config,
   });
 
@@ -224,6 +224,21 @@ abstract class MarkdownBlockMultiLineVariableTools<
   ///
   /// マークダウンブロック値をマークダウン文字列に変換します。
   String? convertToMarkdown(TValue value);
+}
+
+/// Base class for markdown block multi line variable tools.
+///
+/// マークダウンブロック複数行変数ツールの基底クラス。
+@immutable
+abstract class MarkdownBlockMultiLineVariableTools<
+        TValue extends MarkdownMultiLineBlockValue>
+    extends MarkdownBlockVariableTools<TValue> {
+  /// Base class for markdown block multi line variable tools.
+  ///
+  /// マークダウンブロック複数行変数ツールの基底クラス。
+  const MarkdownBlockMultiLineVariableTools({
+    required super.config,
+  });
 
   /// Create a new block value.
   ///
@@ -240,33 +255,13 @@ abstract class MarkdownBlockMultiLineVariableTools<
 @immutable
 abstract class MarkdownBlockSingleChildVariableTools<T,
         TValue extends MarkdownSingleChildBlockValue<T>>
-    extends MarkdownBlockTools {
+    extends MarkdownBlockVariableTools<TValue> {
   /// Base class for markdown block single child variable tools.
   ///
   /// マークダウンブロック単一子要素変数ツールの基底クラス。
   const MarkdownBlockSingleChildVariableTools({
     required super.config,
   });
-
-  /// Convert a JSON object to a markdown block value.
-  ///
-  /// JSONオブジェクトをマークダウンブロック値に変換します。
-  TValue? convertFromJson(DynamicMap json);
-
-  /// Convert a markdown block value to a JSON object.
-  ///
-  /// マークダウンブロック値をJSONオブジェクトに変換します。
-  DynamicMap? convertToJson(TValue value);
-
-  /// Convert a markdown string to a markdown block value.
-  ///
-  /// マークダウン文字列をマークダウンブロック値に変換します。
-  TValue? convertFromMarkdown(String markdown);
-
-  /// Convert a markdown block value to a markdown string.
-  ///
-  /// マークダウンブロック値をマークダウン文字列に変換します。
-  String? convertToMarkdown(TValue value);
 
   /// Create a new block value.
   ///

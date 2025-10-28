@@ -30,15 +30,15 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
   ///
   /// [markdown]から[MarkdownImageBlockValue]を作成します。
   factory MarkdownImageBlockValue.fromMarkdown(String markdown) {
-    // 先頭の "![<alt text>](<uri>)" マーカーを削除
-    final match = RegExp(r"^!\[\w+\]\(\w+\)").firstMatch(markdown);
+    // Extract image URL from "![<alt text>](<uri>)" format
+    final match = RegExp(r"^!\[.*?\]\((.*?)\)").firstMatch(markdown);
     if (match == null) {
-      throw Exception("Invalid markdown format");
+      throw Exception("Invalid markdown image format: $markdown");
     }
-    final uri = match.group(2);
+    final uriString = match.group(1) ?? "";
     return MarkdownImageBlockValue(
       id: uuid(),
-      child: Uri.tryParse(uri ?? ""),
+      child: Uri.tryParse(uriString),
     );
   }
 

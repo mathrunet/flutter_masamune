@@ -335,10 +335,144 @@ class MarkdownLineValue extends MarkdownValue {
   factory MarkdownLineValue.fromMarkdown(String markdown) {
     return MarkdownLineValue(
       id: uuid(),
-      children: [
-        ...markdown.split("\n").map(MarkdownSpanValue.fromMarkdown),
-      ],
+      children: _parseInlineMarkdown(markdown),
     );
+  }
+
+  /// Parse inline markdown properties (bold, italic, code, strikethrough, link).
+  ///
+  /// インラインマークダウンプロパティ(太字、斜体、コード、打ち消し線、リンク)をパースします。
+  static List<MarkdownSpanValue> _parseInlineMarkdown(String text) {
+    if (text.isEmpty) {
+      return [MarkdownSpanValue.createEmpty()];
+    }
+
+    final spans = <MarkdownSpanValue>[];
+    var currentIndex = 0;
+
+    while (currentIndex < text.length) {
+      // Find the next markdown pattern
+      var nextPatternIndex = text.length;
+      String? matchedPattern;
+
+      // Check for bold (**text**)
+      final boldMatch =
+          RegExp(r"\*\*(.+?)\*\*").firstMatch(text.substring(currentIndex));
+      if (boldMatch != null && boldMatch.start < nextPatternIndex) {
+        nextPatternIndex = currentIndex + boldMatch.start;
+        matchedPattern = "bold";
+      }
+
+      // Check for italic (*text* but not **)
+      final italicMatch = RegExp(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)")
+          .firstMatch(text.substring(currentIndex));
+      if (italicMatch != null && italicMatch.start < nextPatternIndex) {
+        nextPatternIndex = currentIndex + italicMatch.start;
+        matchedPattern = "italic";
+      }
+
+      // Check for inline code (`text`)
+      final codeMatch =
+          RegExp(r"`(.+?)`").firstMatch(text.substring(currentIndex));
+      if (codeMatch != null && codeMatch.start < nextPatternIndex) {
+        nextPatternIndex = currentIndex + codeMatch.start;
+        matchedPattern = "code";
+      }
+
+      // Check for strikethrough (~~text~~)
+      final strikeMatch =
+          RegExp(r"~~(.+?)~~").firstMatch(text.substring(currentIndex));
+      if (strikeMatch != null && strikeMatch.start < nextPatternIndex) {
+        nextPatternIndex = currentIndex + strikeMatch.start;
+        matchedPattern = "strike";
+      }
+
+      // Check for link ([title](url))
+      final linkMatch =
+          RegExp(r"\[(.+?)\]\((.+?)\)").firstMatch(text.substring(currentIndex));
+      if (linkMatch != null && linkMatch.start < nextPatternIndex) {
+        nextPatternIndex = currentIndex + linkMatch.start;
+        matchedPattern = "link";
+      }
+
+      // If no pattern found, add the rest as plain text
+      if (matchedPattern == null) {
+        if (currentIndex < text.length) {
+          spans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: text.substring(currentIndex),
+            properties: const [],
+          ));
+        }
+        break;
+      }
+
+      // Add plain text before the pattern
+      if (nextPatternIndex > currentIndex) {
+        spans.add(MarkdownSpanValue(
+          id: uuid(),
+          value: text.substring(currentIndex, nextPatternIndex),
+          properties: const [],
+        ));
+      }
+
+      // Process the matched pattern
+      final substring = text.substring(currentIndex);
+      switch (matchedPattern) {
+        case "bold":
+          final match = RegExp(r"\*\*(.+?)\*\*").firstMatch(substring)!;
+          spans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: match.group(1)!,
+            properties: const [BoldFontMarkdownSpanProperty()],
+          ));
+          currentIndex = nextPatternIndex + match.group(0)!.length;
+          break;
+
+        case "italic":
+          final match =
+              RegExp(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)").firstMatch(substring)!;
+          spans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: match.group(1)!,
+            properties: const [ItalicFontMarkdownSpanProperty()],
+          ));
+          currentIndex = nextPatternIndex + match.group(0)!.length;
+          break;
+
+        case "code":
+          final match = RegExp(r"`(.+?)`").firstMatch(substring)!;
+          spans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: match.group(1)!,
+            properties: const [CodeFontMarkdownSpanProperty()],
+          ));
+          currentIndex = nextPatternIndex + match.group(0)!.length;
+          break;
+
+        case "strike":
+          final match = RegExp(r"~~(.+?)~~").firstMatch(substring)!;
+          spans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: match.group(1)!,
+            properties: const [StrikeFontMarkdownSpanProperty()],
+          ));
+          currentIndex = nextPatternIndex + match.group(0)!.length;
+          break;
+
+        case "link":
+          final match = RegExp(r"\[(.+?)\]\((.+?)\)").firstMatch(substring)!;
+          spans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: match.group(1)!,
+            properties: [LinkMarkdownSpanProperty(link: match.group(2)!)],
+          ));
+          currentIndex = nextPatternIndex + match.group(0)!.length;
+          break;
+      }
+    }
+
+    return spans.isNotEmpty ? spans : [MarkdownSpanValue.createEmpty()];
   }
 
   /// If [initialText] is specified, [initialText] will be set to the first line.
@@ -836,23 +970,121 @@ class MarkdownFieldValue extends MarkdownValue {
   ///
   /// [markdown]から[MarkdownFieldValue]を作成します。
   factory MarkdownFieldValue.fromMarkdown(String markdown) {
-    final tools = MarkdownMasamuneAdapter.findTools<
-        MarkdownBlockMultiLineVariableTools>();
-    final children = <MarkdownBlockValue>[];
-    for (final tool in tools) {
-      final value = tool.convertFromMarkdown(markdown);
-      if (value != null) {
-        children.add(value);
-      }
+    if (markdown.isEmpty) {
+      return MarkdownFieldValue.createEmpty();
     }
+
+    final lines = markdown.split("\n");
+    final blocks = <MarkdownBlockValue>[];
+
+    var i = 0;
+    while (i < lines.length) {
+      final line = lines[i].trimRight();
+
+      // Handle empty lines as paragraph breaks
+      if (line.isEmpty) {
+        i++;
+        continue;
+      }
+
+      // Handle code blocks (``` ... ```)
+      if (line.trim().startsWith("```")) {
+        final codeLines = <String>[];
+        final language = line.trim().substring(3).trim();
+        i++; // Skip opening ```
+
+        // Collect lines until closing ```
+        while (i < lines.length && !lines[i].trim().startsWith("```")) {
+          codeLines.add(lines[i]);
+          i++;
+        }
+        if (i < lines.length) {
+          i++; // Skip closing ```
+        }
+
+        final codeContent = codeLines.join("\n");
+        blocks.add(MarkdownCodeBlockValue.fromMarkdown(
+          "```$language\n$codeContent\n```",
+        ));
+        continue;
+      }
+
+      // Handle consecutive quote lines (> ...)
+      if (line.trim().startsWith(">")) {
+        final quoteLines = <String>[];
+        while (i < lines.length && lines[i].trim().startsWith(">")) {
+          quoteLines.add(lines[i].trim().substring(1).trim());
+          i++;
+        }
+
+        final quoteContent = quoteLines.join("\n");
+        blocks.add(MarkdownQuoteBlockValue.fromMarkdown("> $quoteContent"));
+        continue;
+      }
+
+      // Handle image blocks (![alt](url))
+      final imageMatch = RegExp(r"!\[.*?\]\(.*?\)").firstMatch(line);
+      if (imageMatch != null) {
+        // Extract text before image
+        final beforeText = line.substring(0, imageMatch.start).trim();
+        if (beforeText.isNotEmpty) {
+          blocks.add(MarkdownParagraphBlockValue.fromMarkdown(beforeText));
+        }
+
+        // Add image block
+        final imageMarkdown = imageMatch.group(0)!;
+        blocks.add(MarkdownImageBlockValue.fromMarkdown(imageMarkdown));
+
+        // Extract text after image
+        final afterText =
+            line.substring(imageMatch.end, line.length).trim();
+        if (afterText.isNotEmpty) {
+          blocks.add(MarkdownParagraphBlockValue.fromMarkdown(afterText));
+        }
+
+        i++;
+        continue;
+      }
+
+      // Pattern matching for block types
+      final MarkdownBlockValue block;
+
+      // Check for headings
+      if (line.trim().startsWith("### ")) {
+        block = MarkdownHeadline3BlockValue.fromMarkdown(line);
+      } else if (line.trim().startsWith("## ")) {
+        block = MarkdownHeadline2BlockValue.fromMarkdown(line);
+      } else if (line.trim().startsWith("# ")) {
+        block = MarkdownHeadline1BlockValue.fromMarkdown(line);
+      }
+      // Check for lists
+      else if (RegExp(r"^[-*+]\s+").hasMatch(line.trim())) {
+        block = MarkdownBulletedListBlockValue.fromMarkdown(line);
+      } else if (RegExp(r"^\d+[.)]?\s+").hasMatch(line.trim())) {
+        block = MarkdownNumberListBlockValue.fromMarkdown(line);
+      } else if (RegExp(r"^\[[ x]\]\s+").hasMatch(line.trim())) {
+        block = MarkdownToggleListBlockValue.fromMarkdown(line);
+      }
+      // Default to paragraph
+      else {
+        block = MarkdownParagraphBlockValue.fromMarkdown(line);
+      }
+
+      blocks.add(block);
+
+      i++;
+    }
+
     return MarkdownFieldValue(
       id: uuid(),
-      children: children,
+      children: blocks.isNotEmpty
+          ? blocks
+          : [MarkdownParagraphBlockValue.createEmpty()],
     );
   }
 
   @override
-  String get type => "__text_field__";
+  String get type => "__markdown_field__";
 
   /// The children of the markdown field value.
   ///

@@ -99,6 +99,16 @@ class MarkdownController extends MasamuneControllerBase<
 
   MarkdownFieldState? _field;
 
+  /// Import from markdown.
+  ///
+  /// マークダウンからインポートします。
+  void importFromMarkdown(String markdown) {
+    final field = MarkdownFieldValue.fromMarkdown(markdown);
+    _value.clear();
+    _value.add(field);
+    notifyListeners();
+  }
+
   /// Replaces text in the specified range.
   ///
   /// 指定された範囲のテキストを置換します。
