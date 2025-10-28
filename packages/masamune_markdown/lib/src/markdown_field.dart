@@ -321,7 +321,7 @@ class MarkdownFieldState extends State<MarkdownField>
 
   // カーソルの点滅を追跡するため
   bool _showCursor = true;
-  late AnimationController _cursorBlinkController;
+  AnimationController? _cursorBlinkController;
 
   // コンテキストメニューオーバーレイ
   OverlayEntry? _contextMenuOverlay;
@@ -332,14 +332,20 @@ class MarkdownFieldState extends State<MarkdownField>
     _focusNode = widget.focusNode ?? widget.controller.focusNode;
     _scrollController = widget.scrollController ?? ScrollController();
     widget.controller._registerField(this);
-    _focusNode.addListener(_handleFocusChanged);
+
+    // readonly時は入力関連の処理をスキップ
+    if (!widget.readOnly) {
+      _focusNode.addListener(_handleFocusChanged);
+    }
     widget.controller.addListener(_handleControllerChanged);
 
-    // カーソルの点滅を設定
-    _cursorBlinkController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    )..addListener(_onCursorBlink);
+    // readonly時はカーソル点滅を無効化
+    if (!widget.readOnly) {
+      _cursorBlinkController = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1000),
+      )..addListener(_onCursorBlink);
+    }
   }
 
   @override
@@ -362,9 +368,13 @@ class MarkdownFieldState extends State<MarkdownField>
   void dispose() {
     _hideContextMenu();
     _closeInputConnectionIfNeeded();
-    _cursorBlinkController.dispose();
+    // readonly時はカーソルコントローラーが存在しない
+    _cursorBlinkController?.dispose();
     widget.controller._unregisterField(this);
-    _focusNode.removeListener(_handleFocusChanged);
+    // readonly時はリスナーが登録されていない
+    if (!widget.readOnly) {
+      _focusNode.removeListener(_handleFocusChanged);
+    }
     widget.controller.removeListener(_handleControllerChanged);
     if (widget.scrollController == null) {
       _scrollController.dispose();
@@ -400,7 +410,7 @@ class MarkdownFieldState extends State<MarkdownField>
 
   void _onCursorBlink() {
     setState(() {
-      _showCursor = _cursorBlinkController.value < 0.5;
+      _showCursor = (_cursorBlinkController?.value ?? 0) < 0.5;
     });
   }
 
@@ -408,11 +418,11 @@ class MarkdownFieldState extends State<MarkdownField>
     if (_focusNode.hasFocus) {
       _openInputConnection();
       _showCursor = true;
-      _cursorBlinkController.reset();
-      _cursorBlinkController.repeat();
+      _cursorBlinkController?.reset();
+      _cursorBlinkController?.repeat();
     } else {
       _closeInputConnectionIfNeeded();
-      _cursorBlinkController.stop();
+      _cursorBlinkController?.stop();
       _showCursor = false;
     }
     setState(() {});
@@ -423,6 +433,11 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   void _openInputConnection() {
+    // readonly時は入力接続を開かない
+    if (widget.readOnly) {
+      return;
+    }
+
     if (!_hasInputConnection) {
       final textInputConfiguration = TextInputConfiguration(
         inputType: widget.keyboardType ?? TextInputType.multiline,
@@ -1137,16 +1152,20 @@ class MarkdownFieldState extends State<MarkdownField>
         theme.textSelectionTheme.selectionColor ??
         theme.colorScheme.primary.withValues(alpha: 0.4);
 
-    final showCursor = _focusNode.hasFocus && _showCursor;
+    // readonly時はカーソル・選択を無効化
+    final showCursor = widget.readOnly ? false : (_focusNode.hasFocus && _showCursor);
+    final effectiveSelection = widget.readOnly
+        ? const TextSelection.collapsed(offset: 0)
+        : _selection;
 
     Widget child = _MarkdownRenderObjectWidget(
       onTapLink: widget.onTapLink,
       onTapMention: widget.onTapMention,
       controller: widget.controller,
       focusNode: _focusNode,
-      selection: _selection,
-      composingRegion: _composingRegion,
-      composingText: _composingText,
+      selection: effectiveSelection,
+      composingRegion: widget.readOnly ? null : _composingRegion,
+      composingText: widget.readOnly ? null : _composingText,
       showCursor: showCursor,
       expands: widget.expands,
       style: defaultStyle!,
@@ -1161,26 +1180,28 @@ class MarkdownFieldState extends State<MarkdownField>
       textWidthBasis: widget.textWidthBasis,
       textHeightBehavior: widget.textHeightBehavior,
       strutStyle: widget.strutStyle,
-      onSelectionChanged: (selection, cause) {
-        setState(() {
-          _selection = selection;
-          _cursorBlinkController.reset();
-          _cursorBlinkController.repeat();
-        });
+      onSelectionChanged: widget.readOnly
+          ? (_, __) {} // readonly時は選択処理を無効化
+          : (selection, cause) {
+              setState(() {
+                _selection = selection;
+                _cursorBlinkController?.reset();
+                _cursorBlinkController?.repeat();
+              });
 
-        // タップ/ドラッグで選択が変わる場合、IMEテキストをコミットするために変換領域をクリア
-        // タップやドラッグでカーソルが移動した場合、コンポージングをクリアしてIMEテキストを確定
-        if (cause == SelectionChangedCause.tap ||
-            cause == SelectionChangedCause.drag ||
-            cause == SelectionChangedCause.toolbar) {
-          _composingRegion = null;
-        }
+              // タップ/ドラッグで選択が変わる場合、IMEテキストをコミットするために変換領域をクリア
+              // タップやドラッグでカーソルが移動した場合、コンポージングをクリアしてIMEテキストを確定
+              if (cause == SelectionChangedCause.tap ||
+                  cause == SelectionChangedCause.drag ||
+                  cause == SelectionChangedCause.toolbar) {
+                _composingRegion = null;
+              }
 
-        _updateRemoteEditingValue();
-        // ツールバーが選択状態に基づいて更新できるようにコントローラーリスナーに通知
-        // ツールバーが選択状態に基づいて更新できるようにコントローラーのリスナーに通知
-        widget.controller.notifySelectionChanged();
-      },
+              _updateRemoteEditingValue();
+              // ツールバーが選択状態に基づいて更新できるようにコントローラーリスナーに通知
+              // ツールバーが選択状態に基づいて更新できるようにコントローラーのリスナーに通知
+              widget.controller.notifySelectionChanged();
+            },
       onTap: () {
         _hideContextMenu();
         if (!_focusNode.hasFocus) {
@@ -2209,12 +2230,34 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     var currentTextOffset = 0;
 
-    // ハンドル位置をリセット
+    // readonly時は選択ハンドルを描画しないのでリセット不要だが、一貫性のため保持
     _startHandlePosition = null;
     _endHandlePosition = null;
 
+    // スクロール最適化: 画面外のブロックをスキップするため、ビューポート範囲を計算
+    // offsetは親からの描画オフセット（通常はスクロール位置に基づく）
+    final viewportTop = -offset.dy;
+    final viewportBottom = viewportTop + size.height;
+
     for (var i = 0; i < layouts.length; i++) {
       final layout = layouts[i];
+
+      // スクロール最適化: 画面外のブロックはスキップ
+      final blockTop = layout.offset.dy - layout.padding.top;
+      final blockBottom = blockTop + layout.height;
+
+      // ブロックが完全に画面外にある場合はスキップ（選択描画は例外）
+      final isVisible = blockBottom >= viewportTop && blockTop <= viewportBottom;
+      final hasSelection = !_readOnly &&
+          _selection.isValid &&
+          !_selection.isCollapsed &&
+          _selection.start < (currentTextOffset + layout.textLength + 1) &&
+          _selection.end > currentTextOffset;
+
+      if (!isVisible && !hasSelection) {
+        currentTextOffset += layout.textLength + 1;
+        continue;
+      }
 
       // layout.offset.dy points to where text content starts (after padding top)
       final blockOffset =
@@ -2240,8 +2283,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       final blockStart = currentTextOffset;
       final blockEnd = currentTextOffset + layout.textLength;
 
-      // このブロックの選択を描画
-      if (_selection.isValid && !_selection.isCollapsed) {
+      // このブロックの選択を描画（readonly時はスキップ）
+      if (!_readOnly && _selection.isValid && !_selection.isCollapsed) {
         if (_selection.start < blockEnd && _selection.end > blockStart) {
           final localStart =
               (_selection.start - blockStart).clamp(0, layout.textLength);
@@ -2388,8 +2431,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // テキストを描画
       layout.painter.paint(canvas, blockOffset);
 
-      // このブロックのカーソルを描画
-      if (_showCursor &&
+      // このブロックのカーソルを描画（readonly時はスキップ）
+      if (!_readOnly &&
+          _showCursor &&
           _selection.isValid &&
           _selection.isCollapsed &&
           _selection.baseOffset >= blockStart &&
@@ -2422,8 +2466,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       currentTextOffset = blockEnd + 1; // +1 for newline between blocks
     }
 
-    // 選択ハンドルを描画
-    if (_selection.isValid && !_selection.isCollapsed) {
+    // 選択ハンドルを描画（readonly時はスキップ）
+    if (!_readOnly && _selection.isValid && !_selection.isCollapsed) {
       final handlePaint = Paint()
         ..color = _cursorColor
         ..style = PaintingStyle.fill;
@@ -2475,6 +2519,15 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   @override
   void handleEvent(PointerEvent event, BoxHitTestEntry entry) {
     assert(debugHandleEvent(event, entry), "");
+
+    // readonly時はリンク/メンションタップのみ処理し、それ以外はスキップ
+    if (_readOnly) {
+      if (event is PointerUpEvent) {
+        _handleReadonlyTap(event);
+      }
+      return;
+    }
+
     if (event is PointerDownEvent) {
       _handleTapDown(event);
     } else if (event is PointerUpEvent) {
@@ -2484,6 +2537,33 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     } else if (event is PointerCancelEvent) {
       _handlePointerCancel(event);
     }
+  }
+
+  // readonly時のタップ処理（リンク/メンションのみ）
+  void _handleReadonlyTap(PointerUpEvent event) {
+    final position = globalToLocal(event.position);
+    final textOffset = _getTextOffsetForPosition(position);
+
+    if (textOffset == null) {
+      return;
+    }
+
+    // リンクをタップしたかチェック
+    final linkUrl = _getLinkAtOffset(textOffset);
+    if (linkUrl != null && linkUrl.isNotEmpty) {
+      _launchUrl(linkUrl);
+      return;
+    }
+
+    // メンションをタップしたかチェック
+    final mention = _getMentionAtOffset(textOffset);
+    if (mention != null) {
+      _onTapMention?.call(mention);
+      return;
+    }
+
+    // readonly時は通常のタップも処理
+    _onTap?.call();
   }
 
   void _handlePointerCancel(PointerCancelEvent event) {
