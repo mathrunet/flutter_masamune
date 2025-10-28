@@ -504,10 +504,80 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
+    // For multi-line text with newlines, use direct approach instead of span processing
+    if (newText.contains("\n") && !targetBlock.insertBlockOnNewLine) {
+      final lines = newText.split("\n");
+      final newChildren = lines
+          .map((lineText) => MarkdownLineValue.createEmpty(
+                children: [
+                  MarkdownSpanValue.createEmpty(initialText: lineText),
+                ],
+              ))
+          .toList();
+
+      final updatedBlock = targetBlock.copyWith(children: newChildren);
+      blocks[targetBlockIndex] = updatedBlock;
+
+      final newField = MarkdownFieldValue(
+        id: field.id,
+        children: blocks,
+      );
+
+      _value[0] = newField;
+      notifyListeners();
+      return;
+    }
+
     // プロパティ付きの既存スパンを収集
     final existingSpans = <MarkdownSpanValue>[];
     for (final line in targetBlockChildren) {
       existingSpans.addAll(line.children);
+    }
+
+    // For multi-line blocks, adjust safeStart/safeEnd to account for newlines
+    // oldText includes newlines between lines, but span processing doesn't
+    var adjustedSafeStart = safeStart;
+    var adjustedSafeEnd = safeEnd;
+    if (targetBlockChildren.length > 1) {
+      // Count how many newlines are before safeStart and safeEnd
+      var currentTextPos = 0;
+      var currentSpanPos = 0;
+      for (var i = 0; i < targetBlockChildren.length; i++) {
+        final line = targetBlockChildren[i];
+        var lineLength = 0;
+        for (final span in line.children) {
+          lineLength += span.value.length;
+        }
+
+        // Update adjustedSafeStart if we haven't passed it yet
+        if (currentTextPos + lineLength >= safeStart &&
+            adjustedSafeStart == safeStart) {
+          adjustedSafeStart = currentSpanPos + (safeStart - currentTextPos);
+        }
+
+        // Update adjustedSafeEnd if we haven't passed it yet
+        if (currentTextPos + lineLength >= safeEnd &&
+            adjustedSafeEnd == safeEnd) {
+          adjustedSafeEnd = currentSpanPos + (safeEnd - currentTextPos);
+        }
+
+        currentTextPos += lineLength;
+        currentSpanPos += lineLength;
+
+        // Add newline (except after last line)
+        if (i < targetBlockChildren.length - 1) {
+          currentTextPos += 1; // newline in oldText
+          // No newline in span concatenation
+        }
+      }
+
+      // Handle case where safeStart/safeEnd are at the very end
+      if (safeStart >= currentTextPos) {
+        adjustedSafeStart = currentSpanPos;
+      }
+      if (safeEnd >= currentTextPos) {
+        adjustedSafeEnd = currentSpanPos;
+      }
     }
 
     // テキスト変更に基づいて新しいスパンを構築
@@ -515,6 +585,12 @@ class MarkdownController extends MasamuneControllerBase<
     var currentPos = 0;
 
     // 既存のスパンを処理し、必要に応じて分割
+    // Use adjustedSafeStart/adjustedSafeEnd for multi-line blocks
+    final effectiveSafeStart =
+        targetBlockChildren.length > 1 ? adjustedSafeStart : safeStart;
+    final effectiveSafeEnd =
+        targetBlockChildren.length > 1 ? adjustedSafeEnd : safeEnd;
+
     for (final span in existingSpans) {
       // 空のスパンをスキップ - 削除すべき
       if (span.value.isEmpty) {
@@ -525,20 +601,20 @@ class MarkdownController extends MasamuneControllerBase<
       final spanEnd = currentPos + span.value.length;
 
       // このスパンが置換の影響を受けるかチェック
-      if (safeEnd < spanStart) {
+      if (effectiveSafeEnd < spanStart) {
         newSpans.add(span);
-      } else if (safeStart >= spanEnd) {
+      } else if (effectiveSafeStart >= spanEnd) {
         newSpans.add(span);
 
         // このスパンの末尾に挿入する場合、その後に新しいテキストを追加
-        if (safeStart == spanEnd && text.isNotEmpty) {
+        if (effectiveSafeStart == spanEnd && text.isNotEmpty) {
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
             value: text,
           ));
         }
-      } else if (safeStart == safeEnd &&
-          safeStart == spanStart &&
+      } else if (effectiveSafeStart == effectiveSafeEnd &&
+          effectiveSafeStart == spanStart &&
           text.isNotEmpty) {
         newSpans.add(MarkdownSpanValue(
           id: uuid(),
@@ -546,8 +622,9 @@ class MarkdownController extends MasamuneControllerBase<
         ));
         newSpans.add(span);
       } else {
-        if (spanStart < safeStart) {
-          final beforeText = span.value.substring(0, safeStart - spanStart);
+        if (spanStart < effectiveSafeStart) {
+          final beforeText =
+              span.value.substring(0, effectiveSafeStart - spanStart);
           newSpans.add(span.copyWith(
             id: uuid(),
             value: beforeText,
@@ -555,7 +632,9 @@ class MarkdownController extends MasamuneControllerBase<
         }
 
         // 置換テキスト（元のスパンからのプロパティなし）
-        if (text.isNotEmpty && safeStart >= spanStart && safeStart < spanEnd) {
+        if (text.isNotEmpty &&
+            effectiveSafeStart >= spanStart &&
+            effectiveSafeStart < spanEnd) {
           newSpans.add(MarkdownSpanValue(
             id: uuid(),
             value: text,
@@ -563,8 +642,8 @@ class MarkdownController extends MasamuneControllerBase<
         }
 
         // 置換後（もしあれば）
-        if (spanEnd > safeEnd) {
-          final afterText = span.value.substring(safeEnd - spanStart);
+        if (spanEnd > effectiveSafeEnd) {
+          final afterText = span.value.substring(effectiveSafeEnd - spanStart);
           newSpans.add(span.copyWith(
             id: uuid(),
             value: afterText,
@@ -599,6 +678,28 @@ class MarkdownController extends MasamuneControllerBase<
     final splitLineSpans = _splitSpansByNewline(finalSpans);
 
     if (splitLineSpans.length > 1) {
+      // Check if this block should add lines instead of creating new blocks
+      if (!targetBlock.insertBlockOnNewLine) {
+        // Add lines within the same block (for code blocks, etc.)
+        final newChildren = splitLineSpans
+            .map((spans) => MarkdownLineValue.createEmpty(
+                  children: List<MarkdownSpanValue>.from(spans),
+                ))
+            .toList();
+
+        final updatedBlock = targetBlock.copyWith(children: newChildren);
+        blocks[targetBlockIndex] = updatedBlock;
+
+        final newField = MarkdownFieldValue(
+          id: field.id,
+          children: blocks,
+        );
+
+        _value[0] = newField;
+        notifyListeners();
+        return;
+      }
+
       var segments = splitLineSpans;
       var insertIndex = targetBlockIndex;
 
@@ -1632,8 +1733,7 @@ class MarkdownController extends MasamuneControllerBase<
         var lineIndex = -1;
         for (var i = 0; i < oldBlockChildren.length; i++) {
           final line = oldBlockChildren[i];
-          final lineText =
-              line.children.map((span) => span.value).join();
+          final lineText = line.children.map((span) => span.value).join();
           final lineLength = lineText.length;
 
           final localOffset = offset - currentOffset;
@@ -1649,7 +1749,8 @@ class MarkdownController extends MasamuneControllerBase<
           lineIndex = oldBlockChildren.length - 1;
           lineCurrentOffset = oldBlockChildren
               .take(lineIndex)
-              .map((line) => line.children.map((span) => span.value).join().length + 1)
+              .map((line) =>
+                  line.children.map((span) => span.value).join().length + 1)
               .fold(0, (a, b) => a + b);
         }
 
@@ -1674,7 +1775,8 @@ class MarkdownController extends MasamuneControllerBase<
             ));
           } else {
             // Split span at cursor
-            final beforeText = span.value.substring(0, lineLocalOffset - spanStart);
+            final beforeText =
+                span.value.substring(0, lineLocalOffset - spanStart);
             final afterText = span.value.substring(lineLocalOffset - spanStart);
 
             if (beforeText.isNotEmpty) {

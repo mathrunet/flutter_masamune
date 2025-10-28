@@ -219,8 +219,8 @@ void main() {
           MarkdownCodeBlockValue.createEmpty(children: [
             MarkdownLineValue.createEmpty(initialText: "bbb"),
             MarkdownLineValue.createEmpty(initialText: "ccc"),
+            MarkdownLineValue.createEmpty(initialText: ""),
           ]),
-          MarkdownCodeBlockValue.createEmpty(initialText: ""),
         ]).toDebug()
       ],
     );
