@@ -2558,6 +2558,29 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
 
+    // マーカーのタップをチェック
+    for (final layout in _blockLayouts) {
+      if (layout.marker?.onTapMarker != null) {
+        // マーカーの位置を計算
+        final markerOffset = Offset(
+          layout.offset.dx - layout.marker!.width,
+          layout.offset.dy,
+        );
+        final markerRect = Rect.fromLTWH(
+          markerOffset.dx,
+          markerOffset.dy,
+          layout.marker!.width,
+          layout.painter.preferredLineHeight,
+        );
+
+        // マーカー領域内でタップされた場合
+        if (markerRect.contains(position)) {
+          layout.marker!.onTapMarker!();
+          return;
+        }
+      }
+    }
+
     // 選択ハンドルをタップしているかチェック
     // 両方のハンドルをチェックし、両方が範囲内の場合は近い方を選択
     final startDistance = _startHandlePosition != null
@@ -3410,6 +3433,7 @@ class MarkerInfo {
   const MarkerInfo({
     required this.markerBuilder,
     required this.width,
+    this.onTapMarker,
   });
 
   /// Builder function to draw the marker.
@@ -3426,6 +3450,11 @@ class MarkerInfo {
   ///
   /// マーカー領域の幅。
   final double width;
+
+  /// Callback when the marker is tapped.
+  ///
+  /// マーカーがタップされた時のコールバック。
+  final void Function()? onTapMarker;
 }
 
 /// Information about a span in a block.

@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// チェックボックスリストブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
-class ToggleListAddMarkdownBlockTools extends MarkdownBlockTools {
+class ToggleListAddMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownToggleListBlockValue> {
   /// Display the menu to add toggle list blocks [MarkdownTools].
   ///
   /// チェックボックスリストブロックを追加するメニューを表示する[MarkdownTools]。
@@ -54,7 +55,52 @@ class ToggleListAddMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
+  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
+    return MarkdownToggleListBlockValue.createEmpty(
+      indent: source?.indent ?? 0,
+    );
+  }
+
+  @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
+    if (target is MarkdownToggleListBlockValue) {
+      return null;
+    }
+    return MarkdownToggleListBlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+    );
+  }
+
+  @override
+  MarkdownToggleListBlockValue? convertFromJson(DynamicMap json) {
+    return MarkdownToggleListBlockValue.fromJson(json);
+  }
+
+  @override
+  MarkdownToggleListBlockValue? convertFromMarkdown(String markdown) {
+    return MarkdownToggleListBlockValue.fromMarkdown(markdown);
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownToggleListBlockValue value) {
+    return value.toJson();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownToggleListBlockValue value) {
+    return value.toMarkdown();
+  }
+
+  @override
+  MarkdownToggleListBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownToggleListBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
   }
 }

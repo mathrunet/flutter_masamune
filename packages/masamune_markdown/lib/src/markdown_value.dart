@@ -82,6 +82,11 @@ abstract class MarkdownValue {
   /// マークダウンのインデントのキー。
   static const String indentKey = "indent";
 
+  /// The key for the checked.
+  ///
+  /// マークダウンのチェックボックスの状態のキー。
+  static const String checkedKey = "checked";
+
   /// Copy the markdown value with the given fields.
   ///
   /// 指定されたフィールドでマークダウンの値をコピーします。

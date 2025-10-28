@@ -1944,6 +1944,40 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
+  /// Toggles the checked state of the block.
+  ///
+  /// Toggles the current value if `[checked]` is not specified.
+  ///
+  /// ブロックのチェック状態をトグルします。
+  ///
+  /// [checked]が指定されていない場合は現在の値を参照してトグルします。
+  void toggleBlock(MarkdownToggleListBlockValue block, {bool? checked}) {
+    if (_value.isEmpty) {
+      return;
+    }
+
+    final field = _value.first;
+
+    // Find the block index in the children list
+    final blockIndex = field.children.indexWhere((b) => b.id == block.id);
+    if (blockIndex == -1) {
+      return;
+    }
+
+    // Create a new block with toggled checked state
+    final newChecked = checked ?? !block.checked;
+    final newBlock = block.copyWith(checked: newChecked);
+
+    // Create a new children list with the updated block
+    final newChildren = List<MarkdownBlockValue>.from(field.children);
+    newChildren[blockIndex] = newBlock;
+
+    // Update the field with new children
+    final newField = field.copyWith(children: newChildren);
+    _value[0] = newField;
+    notifyListeners();
+  }
+
   /// Notifies listeners that the selection state has changed.
   ///
   /// This is useful for updating the toolbar when text selection changes.
