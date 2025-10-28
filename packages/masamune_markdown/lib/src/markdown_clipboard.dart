@@ -554,6 +554,7 @@ class MarkdownClipboard {
     final blockTool =
         MarkdownMasamuneAdapter.findTools<MarkdownBlockMultiLineVariableTools>(
       toolId: blockType,
+      recursive: true,
     ).firstOrNull;
     var newBlock = blockTool != null
         ? blockTool.createBlockValue(children: [newLine])

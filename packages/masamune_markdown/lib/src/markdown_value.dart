@@ -958,8 +958,10 @@ class MarkdownFieldValue extends MarkdownValue {
   ///
   /// [DynamicMap]から[MarkdownFieldValue]を作成します。
   factory MarkdownFieldValue.fromJson(DynamicMap json) {
-    final tools = MarkdownMasamuneAdapter.findTools<
-        MarkdownBlockMultiLineVariableTools>();
+    final tools =
+        MarkdownMasamuneAdapter.findTools<MarkdownBlockMultiLineVariableTools>(
+      recursive: true,
+    );
     late String id;
     final blocks = <MarkdownBlockValue>[];
     for (final entry in json.entries) {
@@ -1011,8 +1013,10 @@ class MarkdownFieldValue extends MarkdownValue {
       return MarkdownFieldValue.createEmpty();
     }
 
-    final tools = MarkdownMasamuneAdapter.findTools<
-        MarkdownBlockMultiLineVariableTools>();
+    final tools =
+        MarkdownMasamuneAdapter.findTools<MarkdownBlockMultiLineVariableTools>(
+      recursive: true,
+    );
 
     final lines = markdown.split("\n");
     final blocks = <MarkdownBlockValue>[];
