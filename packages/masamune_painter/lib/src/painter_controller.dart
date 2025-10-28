@@ -30,6 +30,21 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// ```
   static const query = _$PainterControllerQuery();
 
+  /// The key for the type.
+  ///
+  /// 描画用のデータの型のキー。
+  static const String typeKey = "type";
+
+  /// The key for the data.
+  ///
+  /// 描画用のデータのデータのキー。
+  static const String dataKey = "data";
+
+  /// The key for the version.
+  ///
+  /// 描画用のデータのバージョンのキー。
+  static const String versionKey = "version";
+
   @override
   PainterMasamuneAdapter get primaryAdapter => PainterMasamuneAdapter.primary;
 
@@ -1845,11 +1860,11 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       if (value is GroupPaintingValue) {
         // For groups, store the group data without children
         final groupJson = Map<String, dynamic>.from(json);
-        groupJson.remove("children");
+        groupJson.remove(PaintingValue.childrenKey);
 
         // For ClippingGroup, also remove clipShape from root as it's stored in subcollection
         if (value is ClippingGroupPaintingValue) {
-          groupJson.remove("clipShape");
+          groupJson.remove(ClippingGroupPaintingValue.clipperKey);
         }
 
         layerCollection[value.id] = groupJson;
@@ -2275,6 +2290,11 @@ class PainterControllerColorPalette {
 class PainterControllerClipboard {
   PainterControllerClipboard._(this._controller);
 
+  /// The type of the clipboard.
+  ///
+  /// クリップボードの型。
+  static const String clipboardType = "masamune_painter_data";
+
   final PainterController _controller;
   List<PaintingValue>? _clipboardData;
   int _clipboardPasteCount = 0;
@@ -2304,9 +2324,9 @@ class PainterControllerClipboard {
       final jsonData =
           _controller._currentValues.map((v) => v.toJson()).toList();
       final jsonString = jsonEncode({
-        "type": "masamune_painter_data",
-        "version": "1.0",
-        "data": jsonData,
+        PainterController.typeKey: PainterControllerClipboard.clipboardType,
+        PainterController.versionKey: "1.0",
+        PainterController.dataKey: jsonData,
       });
 
       // Copy as image for external use
@@ -2367,8 +2387,10 @@ class PainterControllerClipboard {
       if (clipboardData != null && clipboardData.text != null) {
         final jsonData = jsonDecode(clipboardData.text!);
         if (jsonData is Map &&
-            jsonData.get("type", "") == "masamune_painter_data") {
-          final dataList = jsonData.getAsList<DynamicMap>("data");
+            jsonData.get(PainterController.typeKey, "") ==
+                PainterControllerClipboard.clipboardType) {
+          final dataList =
+              jsonData.getAsList<DynamicMap>(PainterController.dataKey);
           _clipboardData = dataList
               .map(_createPaintingValueFromJson)
               .whereType<PaintingValue>()
@@ -2418,7 +2440,7 @@ class PainterControllerClipboard {
   }
 
   PaintingValue? _createPaintingValueFromJson(DynamicMap json) {
-    final type = json.get("type", nullOfString);
+    final type = json.get(PainterController.typeKey, nullOfString);
 
     if (type == null) {
       return null;

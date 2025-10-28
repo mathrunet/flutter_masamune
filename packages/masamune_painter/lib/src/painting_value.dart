@@ -658,8 +658,10 @@ extension PaintingValueListExtension on List<PaintingValue> {
   /// Convert the painting value list to a JSON object.
   ///
   /// 描画用のデータリストをJSONオブジェクトに変換します。
-  List<DynamicMap> toJson() {
-    return map((value) => value.toJson()).toList();
+  Map<String, DynamicMap> toJson() {
+    return toMap(
+      (value) => MapEntry(value.id, value.toJson()),
+    );
   }
 
   /// Convert the painting value list to a test JSON object.
