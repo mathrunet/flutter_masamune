@@ -1621,111 +1621,214 @@ class MarkdownController extends MasamuneControllerBase<
       // 現在のブロックを分割
       final oldBlock = blocks[blockIndex];
 
-      // ブロックタイプに基づいて子要素を抽出
-      final oldBlockChildren = oldBlock.extractLines() ?? [];
+      // Check if this block type should add a line instead of creating a new block
+      if (!oldBlock.insertBlockOnNewLine &&
+          oldBlock is MarkdownMultiLineBlockValue) {
+        // Add a new line within the same block (for code blocks, etc.)
+        final oldBlockChildren = oldBlock.extractLines() ?? [];
 
-      // 既存のスパンを収集
-      final existingSpans = <MarkdownSpanValue>[];
-      for (final line in oldBlockChildren) {
-        existingSpans.addAll(line.children);
-      }
+        // Find which line the cursor is in
+        var lineCurrentOffset = 0;
+        var lineIndex = -1;
+        for (var i = 0; i < oldBlockChildren.length; i++) {
+          final line = oldBlockChildren[i];
+          final lineText =
+              line.children.map((span) => span.value).join();
+          final lineLength = lineText.length;
 
-      // スパン内の分割位置を検索
-      final beforeSpans = <MarkdownSpanValue>[];
-      final afterSpans = <MarkdownSpanValue>[];
-      var currentPos = 0;
-      final localOffset = offset - currentOffset;
-
-      for (final span in existingSpans) {
-        final spanStart = currentPos;
-        final spanEnd = currentPos + span.value.length;
-
-        if (spanEnd <= localOffset) {
-          // スパンが分割前に完全にある - プロパティ付きで前のブロックに保持
-          beforeSpans.add(span);
-        } else if (spanStart >= localOffset) {
-          // スパンが分割後に完全にある - プロパティなしで後のブロックに移動
-          afterSpans.add(span.copyWith(
-            id: uuid(),
-            properties: const [], // 改行後のテキストからプロパティを削除
-          ));
-        } else {
-          // カーソル位置でスパンを分割
-          final beforeText = span.value.substring(0, localOffset - spanStart);
-          final afterText = span.value.substring(localOffset - spanStart);
-
-          if (beforeText.isNotEmpty) {
-            beforeSpans.add(span.copyWith(
-              id: uuid(),
-              value: beforeText,
-            ));
+          final localOffset = offset - currentOffset;
+          if (lineCurrentOffset + lineLength >= localOffset) {
+            lineIndex = i;
+            break;
           }
 
-          if (afterText.isNotEmpty) {
-            afterSpans.add(MarkdownSpanValue(
-              id: uuid(),
-              value: afterText,
-              properties: const [], // 新しい行はプロパティなしで始まる
-            ));
-          }
+          lineCurrentOffset += lineLength + 1; // +1 for newline
         }
 
-        currentPos += span.value.length;
-      }
+        if (lineIndex == -1) {
+          lineIndex = oldBlockChildren.length - 1;
+          lineCurrentOffset = oldBlockChildren
+              .take(lineIndex)
+              .map((line) => line.children.map((span) => span.value).join().length + 1)
+              .fold(0, (a, b) => a + b);
+        }
 
-      // 各ブロックに少なくとも1つのスパンがあることを確認
-      if (beforeSpans.isEmpty) {
-        beforeSpans.add(MarkdownSpanValue(
-          id: uuid(),
-          value: textBeforeCursor!,
-          properties: const [],
-        ));
-      }
-      if (afterSpans.isEmpty) {
-        afterSpans.add(MarkdownSpanValue(
-          id: uuid(),
-          value: textAfterCursor!,
-          properties: const [],
-        ));
-      }
+        // Split the line at the cursor position
+        final targetLine = oldBlockChildren[lineIndex];
+        final lineLocalOffset = offset - currentOffset - lineCurrentOffset;
 
-      // カーソル前のテキストでブロックを作成（プロパティ、ブロックタイプ、インデントを保持）
-      if (oldBlock.maintainTypeOnNewLine) {
-        final beforeBlock = oldBlock.clone(
-          child: MarkdownLineValue.createEmpty(
-            children: beforeSpans,
-          ),
-        );
+        final beforeSpans = <MarkdownSpanValue>[];
+        final afterSpans = <MarkdownSpanValue>[];
+        var spanPos = 0;
 
-        // カーソル後のテキストで新しいブロックを作成
-        // BulletedListブロックの場合、ブロックタイプとインデントレベルを継承
-        // その他のブロックの場合、段落を作成
-        final afterBlock = oldBlock.clone(
-          child: MarkdownLineValue.createEmpty(
-            children: afterSpans,
-          ),
-        );
+        for (final span in targetLine.children) {
+          final spanStart = spanPos;
+          final spanEnd = spanPos + span.value.length;
 
-        // 古いブロックを前後のブロックで置換
-        blocks[blockIndex] = beforeBlock;
-        blocks.insert(blockIndex + 1, afterBlock);
+          if (spanEnd <= lineLocalOffset) {
+            beforeSpans.add(span);
+          } else if (spanStart >= lineLocalOffset) {
+            afterSpans.add(span.copyWith(
+              id: uuid(),
+              properties: const [],
+            ));
+          } else {
+            // Split span at cursor
+            final beforeText = span.value.substring(0, lineLocalOffset - spanStart);
+            final afterText = span.value.substring(lineLocalOffset - spanStart);
+
+            if (beforeText.isNotEmpty) {
+              beforeSpans.add(span.copyWith(
+                id: uuid(),
+                value: beforeText,
+              ));
+            }
+            if (afterText.isNotEmpty) {
+              afterSpans.add(MarkdownSpanValue(
+                id: uuid(),
+                value: afterText,
+                properties: const [],
+              ));
+            }
+          }
+
+          spanPos += span.value.length;
+        }
+
+        // Ensure at least one span in each line
+        if (beforeSpans.isEmpty) {
+          beforeSpans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: "",
+            properties: const [],
+          ));
+        }
+        if (afterSpans.isEmpty) {
+          afterSpans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: "",
+            properties: const [],
+          ));
+        }
+
+        // Create new line list with split lines
+        final newChildren = <MarkdownLineValue>[
+          ...oldBlockChildren.take(lineIndex),
+          MarkdownLineValue.createEmpty(children: beforeSpans),
+          MarkdownLineValue.createEmpty(children: afterSpans),
+          ...oldBlockChildren.skip(lineIndex + 1),
+        ];
+
+        // Update the block with new children
+        blocks[blockIndex] = oldBlock.copyWith(children: newChildren);
       } else {
-        final beforeBlock = oldBlock.clone(
-          child: MarkdownLineValue.createEmpty(
-            children: beforeSpans,
-          ),
-        );
-        final afterBlock = MarkdownParagraphBlockValue.createEmpty(
-          children: [
-            MarkdownLineValue.createEmpty(
+        // Original behavior: create a new block
+        // ブロックタイプに基づいて子要素を抽出
+        final oldBlockChildren = oldBlock.extractLines() ?? [];
+
+        // 既存のスパンを収集
+        final existingSpans = <MarkdownSpanValue>[];
+        for (final line in oldBlockChildren) {
+          existingSpans.addAll(line.children);
+        }
+
+        // スパン内の分割位置を検索
+        final beforeSpans = <MarkdownSpanValue>[];
+        final afterSpans = <MarkdownSpanValue>[];
+        var currentPos = 0;
+        final localOffset = offset - currentOffset;
+
+        for (final span in existingSpans) {
+          final spanStart = currentPos;
+          final spanEnd = currentPos + span.value.length;
+
+          if (spanEnd <= localOffset) {
+            // スパンが分割前に完全にある - プロパティ付きで前のブロックに保持
+            beforeSpans.add(span);
+          } else if (spanStart >= localOffset) {
+            // スパンが分割後に完全にある - プロパティなしで後のブロックに移動
+            afterSpans.add(span.copyWith(
+              id: uuid(),
+              properties: const [], // 改行後のテキストからプロパティを削除
+            ));
+          } else {
+            // カーソル位置でスパンを分割
+            final beforeText = span.value.substring(0, localOffset - spanStart);
+            final afterText = span.value.substring(localOffset - spanStart);
+
+            if (beforeText.isNotEmpty) {
+              beforeSpans.add(span.copyWith(
+                id: uuid(),
+                value: beforeText,
+              ));
+            }
+
+            if (afterText.isNotEmpty) {
+              afterSpans.add(MarkdownSpanValue(
+                id: uuid(),
+                value: afterText,
+                properties: const [], // 新しい行はプロパティなしで始まる
+              ));
+            }
+          }
+
+          currentPos += span.value.length;
+        }
+
+        // 各ブロックに少なくとも1つのスパンがあることを確認
+        if (beforeSpans.isEmpty) {
+          beforeSpans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: textBeforeCursor!,
+            properties: const [],
+          ));
+        }
+        if (afterSpans.isEmpty) {
+          afterSpans.add(MarkdownSpanValue(
+            id: uuid(),
+            value: textAfterCursor!,
+            properties: const [],
+          ));
+        }
+
+        // カーソル前のテキストでブロックを作成（プロパティ、ブロックタイプ、インデントを保持）
+        if (oldBlock.maintainTypeOnNewLine) {
+          final beforeBlock = oldBlock.clone(
+            child: MarkdownLineValue.createEmpty(
+              children: beforeSpans,
+            ),
+          );
+
+          // カーソル後のテキストで新しいブロックを作成
+          // BulletedListブロックの場合、ブロックタイプとインデントレベルを継承
+          // その他のブロックの場合、段落を作成
+          final afterBlock = oldBlock.clone(
+            child: MarkdownLineValue.createEmpty(
               children: afterSpans,
             ),
-          ],
-        );
+          );
 
-        // 古いブロックを前後のブロックで置換
-        blocks[blockIndex] = beforeBlock;
-        blocks.insert(blockIndex + 1, afterBlock);
+          // 古いブロックを前後のブロックで置換
+          blocks[blockIndex] = beforeBlock;
+          blocks.insert(blockIndex + 1, afterBlock);
+        } else {
+          final beforeBlock = oldBlock.clone(
+            child: MarkdownLineValue.createEmpty(
+              children: beforeSpans,
+            ),
+          );
+          final afterBlock = MarkdownParagraphBlockValue.createEmpty(
+            children: [
+              MarkdownLineValue.createEmpty(
+                children: afterSpans,
+              ),
+            ],
+          );
+
+          // 古いブロックを前後のブロックで置換
+          blocks[blockIndex] = beforeBlock;
+          blocks.insert(blockIndex + 1, afterBlock);
+        }
       }
     }
 

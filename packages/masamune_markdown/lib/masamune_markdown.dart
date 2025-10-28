@@ -41,6 +41,7 @@ part "value/markdown_headline_1_block_value.dart";
 part "value/markdown_headline_2_block_value.dart";
 part "value/markdown_headline_3_block_value.dart";
 part "value/markdown_quote_block_value.dart";
+part "value/markdown_code_block_value.dart";
 
 part "tools/primary/add_markdown_primary_tools.dart";
 part "tools/primary/exchange_markdown_primary_tools.dart";

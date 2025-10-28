@@ -4,7 +4,8 @@ part of "/masamune_markdown.dart";
 ///
 /// コードブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
-class CodeExchangeMarkdownBlockTools extends MarkdownBlockTools {
+class CodeExchangeMarkdownBlockTools
+    extends MarkdownBlockVariableTools<MarkdownCodeBlockValue> {
   /// Display the menu to exchange code blocks [MarkdownTools].
   ///
   /// コードブロックを変更するメニューを表示する[MarkdownTools]。
@@ -55,6 +56,44 @@ class CodeExchangeMarkdownBlockTools extends MarkdownBlockTools {
 
   @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
+    if (target is MarkdownCodeBlockValue) {
+      return null;
+    }
+    return MarkdownCodeBlockValue(
+      id: target.id,
+      indent: target.indent,
+      children: target.extractLines() ?? [],
+    );
+  }
+
+  @override
+  MarkdownCodeBlockValue? convertFromJson(DynamicMap json) {
+    return MarkdownCodeBlockValue.fromJson(json);
+  }
+
+  @override
+  MarkdownCodeBlockValue? convertFromMarkdown(String markdown) {
+    return MarkdownCodeBlockValue.fromMarkdown(markdown);
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownCodeBlockValue value) {
+    return value.toJson();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownCodeBlockValue value) {
+    return value.toMarkdown();
+  }
+
+  @override
+  MarkdownCodeBlockValue createBlockValue({
+    String? initialText,
+    List<MarkdownLineValue>? children,
+  }) {
+    return MarkdownCodeBlockValue.createEmpty(
+      initialText: initialText,
+      children: children,
+    );
   }
 }

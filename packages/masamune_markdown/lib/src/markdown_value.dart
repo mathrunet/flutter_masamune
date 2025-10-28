@@ -474,6 +474,11 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     return false;
   }
 
+  /// Insert a new block when a newline is created. If this is `false`, create a [MarkdownLineValue] within the block at the line break.
+  ///
+  /// 改行されたときに新規ブロックを挿入する。これが`false`の場合戒行寺に[MarkdownLineValue]をブロック内に作成する。
+  bool get insertBlockOnNewLine => true;
+
   /// Checks if the indent should be maintained.
   ///
   /// インデントが保持されるかどうかを確認します。
