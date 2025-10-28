@@ -90,5 +90,3 @@ part "tools/block/exchange/quote_exchange_markdown_block_tools.dart";
 
 part "tools/block/media/image_from_camera_media_markdown_block_tools.dart";
 part "tools/block/media/image_from_library_media_markdown_block_tools.dart";
-part "tools/block/media/video_from_library_media_markdown_block_tools.dart";
-part "tools/block/media/video_from_camera_media_markdown_block_tools.dart";
