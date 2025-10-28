@@ -3,6 +3,8 @@ import "package:flutter_test/flutter_test.dart";
 import "package:masamune/masamune.dart";
 import "package:masamune_painter/masamune_painter.dart";
 
+const _kDragPerformCount = 10;
+
 /// Helper for testing TextInput.
 ///
 /// TextInputのテストを行うためのヘルパー。
@@ -15,78 +17,29 @@ class TestTextInputHelper {
   final WidgetTester tester;
   final PainterController controller;
 
-  Future<Rect> drapRect(Offset start, Offset end) async {
-    final fieldFinder = find.byType(FormPainterField);
-    expect(
-      fieldFinder,
-      findsOneWidget,
-      reason: "FormPainterField should be available in the widget tree.",
-    );
-    final gestureFinder =
-        find.descendant(of: fieldFinder, matching: find.byType(GestureDetector));
-    expect(
-      gestureFinder,
-      findsOneWidget,
-      reason: "GestureDetector should be found under FormPainterField.",
-    );
-    final gestureRenderBox =
-        tester.renderObject<RenderBox>(gestureFinder.first);
-
-    Future<Rect> performDrag(Offset localStart, Offset localEnd) async {
-      final startPosition = gestureRenderBox.localToGlobal(localStart);
-      final endPosition = gestureRenderBox.localToGlobal(localEnd);
-
-      final gesture = await tester.startGesture(startPosition);
+  /// Drag the canvas.
+  ///
+  /// キャンバスをドラッグします。
+  Future<void> drag(Offset start, Offset end) async {
+    controller.debugTapDown(start);
+    await tester.pump();
+    final delta = (end - start) / _kDragPerformCount.toDouble();
+    for (var i = 0; i <= _kDragPerformCount; i++) {
+      controller.debugDragging(start + Offset(i * delta.dx, i * delta.dy));
       await tester.pump();
-      await gesture.moveTo(endPosition);
-      await tester.pump();
-      await gesture.up();
-      await tester.pumpAndSettle();
-
-      final rectangles =
-          controller.value.whereType<RectanglePaintingValue>().toList();
-      expect(
-        rectangles,
-        isNotEmpty,
-        reason: "RectanglePaintingValue should exist after dragging.",
-      );
-      return rectangles.last.rect;
     }
+    controller.debugTapUp(end);
+    await tester.pump();
+  }
 
-    controller.clear();
-    await tester.pumpAndSettle();
-
-    final initialRect = await performDrag(start, end);
-    const tolerance = 0.01;
-    final initialMatches = (initialRect.topLeft - start).distance <= tolerance &&
-        (initialRect.bottomRight - end).distance <= tolerance;
-    if (initialMatches) {
-      return initialRect;
-    }
-
-    final dxInput = end.dx - start.dx;
-    final dyInput = end.dy - start.dy;
-    final dxOutput = initialRect.right - initialRect.left;
-    final dyOutput = initialRect.bottom - initialRect.top;
-
-    final scaleX = dxInput.abs() < tolerance ? 1.0 : dxOutput / dxInput;
-    final scaleY = dyInput.abs() < tolerance ? 1.0 : dyOutput / dyInput;
-    final offsetX = initialRect.left - scaleX * start.dx;
-    final offsetY = initialRect.top - scaleY * start.dy;
-
-    controller.clear();
-    await tester.pumpAndSettle();
-
-    final adjustedStart = Offset(
-      (start.dx - offsetX) / scaleX,
-      (start.dy - offsetY) / scaleY,
-    );
-    final adjustedEnd = Offset(
-      (end.dx - offsetX) / scaleX,
-      (end.dy - offsetY) / scaleY,
-    );
-
-    return performDrag(adjustedStart, adjustedEnd);
+  /// Tap the canvas.
+  ///
+  /// キャンバスをタップします。
+  Future<void> tap(Offset position) async {
+    controller.debugTapDown(position);
+    await tester.pump();
+    controller.debugTapUp(position);
+    await tester.pump();
   }
 }
 
@@ -106,7 +59,10 @@ Future<
       placeholderImagePath: "",
     ),
   );
-  final controller = PainterController(adapter: adapter);
+  final controller = PainterController(
+    adapter: adapter,
+    canvasSize: const Size(1920, 1920),
+  );
   await tester.pumpWidget(
     MaterialApp(
       theme: ThemeData(
@@ -129,6 +85,8 @@ Future<
             children: [
               Expanded(
                 child: FormPainterField(
+                  minScale: 1.0,
+                  maxScale: 1.0,
                   controller: controller,
                 ),
               ),

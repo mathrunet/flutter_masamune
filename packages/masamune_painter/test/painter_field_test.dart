@@ -13,21 +13,19 @@ void main() {
     expect(context.controller.currentTool,
         const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
-    final rect = await helper.drapRect(
-      const Offset(100, 100),
+    await helper.drag(
       const Offset(150, 150),
+      const Offset(250, 250),
     );
     final expectedProperty = context.controller.property.currentToolProperty;
-    expect(rect.topLeft, const Offset(100, 100));
-    expect(rect.bottomRight, const Offset(150, 150));
     expect(
       context.controller.value.toDebug(),
       [
         RectanglePaintingValue(
           id: uuid(),
-          start: const Offset(100, 100),
+          start: const Offset(150, 150),
           property: expectedProperty,
-          end: const Offset(150, 150),
+          end: const Offset(250, 250),
         )
       ].toDebug(),
     );

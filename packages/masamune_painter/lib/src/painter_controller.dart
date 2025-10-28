@@ -45,6 +45,8 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
   /// 描画用のデータのバージョンのキー。
   static const String versionKey = "version";
 
+  static const PlatformInfo _platformInfo = PlatformInfo();
+
   @override
   PainterMasamuneAdapter get primaryAdapter => PainterMasamuneAdapter.primary;
 
@@ -2147,6 +2149,45 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
 
   void _notifyListeners() {
     notifyListeners();
+  }
+
+  /// Debug tap down.
+  ///
+  /// デバッグ用のタップダウン。
+  void debugTapDown(Offset position) {
+    if (!_platformInfo.isTest) {
+      return;
+    }
+    if (_currentState == null) {
+      return;
+    }
+    _currentState!._handledOnDragStart(position, canvasSize);
+  }
+
+  /// Debug tap up.
+  ///
+  /// デバッグ用のタップアップ。
+  void debugTapUp(Offset position) {
+    if (!_platformInfo.isTest) {
+      return;
+    }
+    if (_currentState == null) {
+      return;
+    }
+    _currentState!._handledOnDragEnd(position, canvasSize);
+  }
+
+  /// Debug dragging.
+  ///
+  /// デバッグ用のドラッグ。
+  void debugDragging(Offset position) {
+    if (!_platformInfo.isTest) {
+      return;
+    }
+    if (_currentState == null) {
+      return;
+    }
+    _currentState!._handledOnDragging(position, canvasSize);
   }
 }
 
