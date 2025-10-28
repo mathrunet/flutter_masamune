@@ -1,4 +1,5 @@
 // Dart imports:
+import "dart:convert";
 import "dart:io";
 
 // Project imports:
@@ -91,6 +92,11 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
         ],
       );
     }
+    label("Convert p12 file to base64.");
+    final p12 = await File(cer.path.replaceAll(regExp, ".p12")).readAsBytes();
+    final p12Base64 = base64.encode(p12);
+    await File(cer.path.replaceAll(regExp, ".p12.base64"))
+        .writeAsString(p12Base64);
     label("Rewrite `.gitignore`.");
     final gitignore = File("ios/.gitignore");
     if (!gitignore.existsSync()) {
@@ -101,6 +107,9 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
     if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
       if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
         gitignores.add("**/*.p12");
+      }
+      if (!gitignores.any((e) => e.startsWith("**/*.p12.base64"))) {
+        gitignores.add("**/*.p12.base64");
       }
       if (!gitignores.any((e) => e.startsWith("**/*.p8"))) {
         gitignores.add("**/*.p8");
@@ -126,6 +135,7 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
       }
     } else {
       gitignores.removeWhere((e) => e.startsWith("**/*.p12"));
+      gitignores.removeWhere((e) => e.startsWith("**/*.p12.base64"));
       gitignores.removeWhere((e) => e.startsWith("**/*.p8"));
       gitignores.removeWhere((e) => e.startsWith("**/*.mobileprovision"));
       gitignores.removeWhere((e) => e.startsWith("**/*.pem"));
