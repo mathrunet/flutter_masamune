@@ -1106,6 +1106,75 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
   }
 
+  /// Inserts an image block at the current cursor position.
+  ///
+  /// 現在のカーソル位置に画像ブロックを挿入します。
+  void insertImage(Uri uri) {
+    if (_field == null) {
+      return;
+    }
+
+    // 変更前に現在の状態を保存
+    if (!history.inProgress) {
+      history.saveToUndoStack(immediate: true);
+    }
+
+    // 有効な構造があることを確認
+    if (_value.isEmpty) {
+      _value.add(MarkdownFieldValue(
+        id: uuid(),
+        children: const [],
+      ));
+    }
+
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+    final selection = _field!._selection;
+    final cursorPosition = selection.baseOffset;
+
+    // 挿入位置を決定
+    int insertionIndex = blocks.length;
+    var currentOffset = 0;
+
+    for (var i = 0; i < blocks.length; i++) {
+      final block = blocks[i];
+      final blockLength = _getBlockTextLength(block);
+      final blockEnd = currentOffset + blockLength;
+
+      if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
+        insertionIndex = i + 1; // 現在のブロックの後に挿入
+        break;
+      }
+
+      currentOffset = blockEnd + 1; // ブロック間の改行分+1
+    }
+
+    // 新しい画像ブロックを作成
+    final newBlock = MarkdownImageBlockValue.createEmpty(uri: uri);
+    blocks.insert(insertionIndex, newBlock);
+
+    // 画像ブロックの後に空の段落ブロックを追加
+    final emptyParagraph = MarkdownParagraphBlockValue.createEmpty();
+    blocks.insert(insertionIndex + 1, emptyParagraph);
+
+    // フィールドを更新
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
+
+    // 画像ブロックの後の段落ブロックにカーソルを移動
+    if (_field != null) {
+      var newCursorPosition = 0;
+      // 画像ブロックの次のブロック（空の段落）の先頭にカーソルを配置
+      for (var i = 0; i <= insertionIndex; i++) {
+        newCursorPosition += _getBlockTextLength(blocks[i]) + 1;
+      }
+
+      _field!._selection = TextSelection.collapsed(offset: newCursorPosition);
+    }
+
+    notifyListeners();
+  }
+
   /// Updates the title of the link.
   ///
   /// リンクのタイトルを更新します。

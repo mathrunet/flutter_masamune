@@ -18,10 +18,11 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
   ///
   /// [DynamicMap]から[MarkdownImageBlockValue]を作成します。
   factory MarkdownImageBlockValue.fromJson(DynamicMap json) {
+    final uriString = json.get(uriKey, "");
     return MarkdownImageBlockValue(
       id: json.get(MarkdownValue.idKey, ""),
       indent: json.get(MarkdownValue.indentKey, 0),
-      child: json.get(uriKey, Uri()),
+      child: uriString.isNotEmpty ? Uri.tryParse(uriString) : null,
     );
   }
 
@@ -121,7 +122,49 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
     RenderContext context,
     MarkdownController controller,
     int textOffset,
-  ) {}
+  ) {
+    // 画像ブロックはテキストを含まないため、空のテキストペインターを作成
+    final painter = TextPainter(
+      text: const TextSpan(text: ""),
+      textAlign: context.textAlign,
+      textDirection: context.textDirection,
+      textWidthBasis: context.textWidthBasis,
+      textHeightBehavior: context.textHeightBehavior,
+      strutStyle: context.strutStyle,
+    );
+
+    final padding = (controller.style.h1.padding ?? EdgeInsets.zero) as EdgeInsets;
+    final margin = (controller.style.h1.margin ?? EdgeInsets.zero) as EdgeInsets;
+
+    return BlockLayout(
+      block: this,
+      painter: painter,
+      textOffset: textOffset,
+      textLength: 0, // 画像ブロックはテキスト長さ0
+      padding: padding,
+      margin: margin,
+      spans: const [], // 画像ブロックはスパンを持たない
+    );
+  }
+
+  @override
+  DynamicMap toJson() {
+    return {
+      MarkdownValue.idKey: id,
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+      uriKey: child?.toString() ?? "",
+    };
+  }
+
+  @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+      uriKey: child?.toString() ?? "",
+    };
+  }
 
   @override
   MarkdownImageBlockValue copyWith({
@@ -158,5 +201,14 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
   @override
   String toString() {
     return "MarkdownImageBlockValue(child: $child, indent: $indent)";
+  }
+
+  @override
+  StringBuffer _textBuilder(StringBuffer buffer, {bool indent = true}) {
+    // plainTextには[Image]タグを追加、rawTextには何も表示しない
+    if (indent) {
+      buffer.write("[Image]");
+    }
+    return buffer;
   }
 }

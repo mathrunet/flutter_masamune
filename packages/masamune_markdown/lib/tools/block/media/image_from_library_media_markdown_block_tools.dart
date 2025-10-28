@@ -68,8 +68,7 @@ class ImageFromLibraryMediaMarkdownBlockTools
 
   @override
   MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    // TODO: implement addBlock
-    throw UnimplementedError();
+    return createBlockValue();
   }
 
   @override
@@ -79,31 +78,32 @@ class ImageFromLibraryMediaMarkdownBlockTools
 
   @override
   MarkdownImageBlockValue? convertFromJson(DynamicMap json) {
-    // TODO: implement convertFromJson
-    throw UnimplementedError();
+    if (json.get(MarkdownValue.typeKey, "") == "__markdown_block_image__") {
+      return MarkdownImageBlockValue.fromJson(json);
+    }
+    return null;
   }
 
   @override
   MarkdownImageBlockValue? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
+    if (markdown.startsWith(RegExp(r"^!\[.*\]\(.*\)"))) {
+      return MarkdownImageBlockValue.fromMarkdown(markdown);
+    }
+    return null;
   }
 
   @override
   DynamicMap? convertToJson(MarkdownImageBlockValue value) {
-    // TODO: implement convertToJson
-    throw UnimplementedError();
+    return value.toJson();
   }
 
   @override
   String? convertToMarkdown(MarkdownImageBlockValue value) {
-    // TODO: implement convertToMarkdown
-    throw UnimplementedError();
+    return value.toMarkdown();
   }
 
   @override
   MarkdownImageBlockValue createBlockValue({String? initialText, Uri? child}) {
-    // TODO: implement createBlockValue
-    throw UnimplementedError();
+    return MarkdownImageBlockValue.createEmpty(uri: child);
   }
 }

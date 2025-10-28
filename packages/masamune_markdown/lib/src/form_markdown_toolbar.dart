@@ -302,7 +302,7 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   void insertImage(Uri uri) {
-    // TODO: insert image
+    widget.controller.insertImage(uri);
   }
 
   @override
