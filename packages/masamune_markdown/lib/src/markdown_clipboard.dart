@@ -407,9 +407,7 @@ class MarkdownClipboard {
         } else {
           var spanOffset = lineStart;
 
-          for (var spanIndex = 0;
-              spanIndex < spansInLine.length;
-              spanIndex++) {
+          for (var spanIndex = 0; spanIndex < spansInLine.length; spanIndex++) {
             final span = spansInLine[spanIndex];
             final spanEnd = spanOffset + span.value.length;
 
@@ -554,7 +552,7 @@ class MarkdownClipboard {
 
     // ブロックタイプに基づいて新しいブロックを作成
     final blockTool =
-        MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>(
+        MarkdownMasamuneAdapter.findTools<MarkdownBlockMultiLineVariableTools>(
       toolId: blockType,
     ).firstOrNull;
     var newBlock = blockTool != null
@@ -562,7 +560,9 @@ class MarkdownClipboard {
         : MarkdownBlockValue.createEmpty(children: [newLine]);
 
     // インデント情報を適用
-    if (indent != null && indent > 0 && newBlock is MarkdownParagraphBlockValue) {
+    if (indent != null &&
+        indent > 0 &&
+        newBlock is MarkdownParagraphBlockValue) {
       newBlock = newBlock.copyWith(indent: indent);
     }
 

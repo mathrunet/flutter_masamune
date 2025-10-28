@@ -5,7 +5,7 @@ part of "/masamune_markdown.dart";
 /// コードブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
 class CodeExchangeMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownCodeBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<MarkdownCodeBlockValue> {
   /// Display the menu to exchange code blocks [MarkdownTools].
   ///
   /// コードブロックを変更するメニューを表示する[MarkdownTools]。

@@ -5,7 +5,7 @@ part of "/masamune_markdown.dart";
 /// 番号付きリストブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
 class NumberListAddMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownNumberListBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<MarkdownNumberListBlockValue> {
   /// Display the menu to add numbered list blocks [MarkdownTools].
   ///
   /// 番号付きリストブロックを追加するメニューを表示する[MarkdownTools]。

@@ -5,7 +5,7 @@ part of "/masamune_markdown.dart";
 /// テキストブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
 class TextExchangeMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownParagraphBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<MarkdownParagraphBlockValue> {
   /// Display the menu to exchange text blocks [MarkdownTools].
   ///
   /// テキストブロックを変更するメニューを表示する[MarkdownTools]。

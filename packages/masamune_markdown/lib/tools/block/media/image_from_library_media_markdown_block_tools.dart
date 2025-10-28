@@ -4,7 +4,9 @@ part of "/masamune_markdown.dart";
 ///
 /// ライブラリから画像を選択するメニューを表示する[MarkdownTools]。
 @immutable
-class ImageFromLibraryMediaMarkdownBlockTools extends MarkdownBlockTools {
+class ImageFromLibraryMediaMarkdownBlockTools
+    extends MarkdownBlockSingleChildVariableTools<Uri,
+        MarkdownImageBlockValue> {
   /// Display the menu to select image from library [MarkdownTools].
   ///
   /// ライブラリから画像を選択するメニューを表示する[MarkdownTools]。
@@ -65,7 +67,43 @@ class ImageFromLibraryMediaMarkdownBlockTools extends MarkdownBlockTools {
   }
 
   @override
+  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
+    // TODO: implement addBlock
+    throw UnimplementedError();
+  }
+
+  @override
   MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
     return null;
+  }
+
+  @override
+  MarkdownImageBlockValue? convertFromJson(DynamicMap json) {
+    // TODO: implement convertFromJson
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownImageBlockValue? convertFromMarkdown(String markdown) {
+    // TODO: implement convertFromMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  DynamicMap? convertToJson(MarkdownImageBlockValue value) {
+    // TODO: implement convertToJson
+    throw UnimplementedError();
+  }
+
+  @override
+  String? convertToMarkdown(MarkdownImageBlockValue value) {
+    // TODO: implement convertToMarkdown
+    throw UnimplementedError();
+  }
+
+  @override
+  MarkdownImageBlockValue createBlockValue({String? initialText, Uri? child}) {
+    // TODO: implement createBlockValue
+    throw UnimplementedError();
   }
 }

@@ -5,7 +5,7 @@ part of "/masamune_markdown.dart";
 /// チェックボックスリストブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
 class ToggleListAddMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownToggleListBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<MarkdownToggleListBlockValue> {
   /// Display the menu to add toggle list blocks [MarkdownTools].
   ///
   /// チェックボックスリストブロックを追加するメニューを表示する[MarkdownTools]。

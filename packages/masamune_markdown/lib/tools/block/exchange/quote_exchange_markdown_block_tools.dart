@@ -5,7 +5,7 @@ part of "/masamune_markdown.dart";
 /// 引用ブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
 class QuoteExchangeMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownQuoteBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<MarkdownQuoteBlockValue> {
   /// Display the menu to exchange quote blocks [MarkdownTools].
   ///
   /// 引用ブロックを変更するメニューを表示する[MarkdownTools]。

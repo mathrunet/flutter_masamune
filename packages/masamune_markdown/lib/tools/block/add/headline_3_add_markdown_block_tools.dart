@@ -5,7 +5,7 @@ part of "/masamune_markdown.dart";
 /// 見出し3ブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
 class Headline3AddMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownHeadline3BlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<MarkdownHeadline3BlockValue> {
   /// Display the menu to add headline 3 blocks [MarkdownTools].
   ///
   /// 見出し3ブロックを追加するメニューを表示する[MarkdownTools]。

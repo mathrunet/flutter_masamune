@@ -716,6 +716,74 @@ abstract class MarkdownMultiLineBlockValue extends MarkdownBlockValue {
   }
 }
 
+/// A class for storing markdown single child block value.
+///
+/// マークダウンの単一の子要素を持つブロックの値を格納するクラス。
+@immutable
+abstract class MarkdownSingleChildBlockValue<T> extends MarkdownBlockValue {
+  /// A class for storing markdown single child block value.
+  ///
+  /// マークダウンの単一の子要素を持つブロックの値を格納するクラス。
+  const MarkdownSingleChildBlockValue({
+    required super.id,
+    required this.child,
+    super.indent = 0,
+  });
+
+  /// The children of the markdown block value.
+  ///
+  /// マークダウンのブロックの子要素。
+  final T? child;
+
+  @override
+  MarkdownSingleChildBlockValue<T> copyWith({
+    String? id,
+    int? indent,
+    T? child,
+  });
+
+  @override
+  DynamicMap toJson() {
+    return {
+      MarkdownValue.idKey: id,
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+    };
+  }
+
+  @override
+  DynamicMap toDebug() {
+    return {
+      MarkdownValue.typeKey: type,
+      MarkdownValue.indentKey: indent,
+    };
+  }
+
+  @override
+  String toString() {
+    return _textBuilder(StringBuffer(), indent: true).toString();
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is MarkdownSingleChildBlockValue &&
+        other.id == id &&
+        other.type == type &&
+        other.indent == indent &&
+        other.child == child;
+  }
+
+  @override
+  int get hashCode {
+    var hash = super.hashCode;
+    hash = hash ^ child.hashCode;
+    return hash;
+  }
+}
+
 /// A class for storing markdown field value.
 ///
 /// マークダウンのフィールドの値を格納するクラス。
@@ -733,8 +801,8 @@ class MarkdownFieldValue extends MarkdownValue {
   ///
   /// [DynamicMap]から[MarkdownFieldValue]を作成します。
   factory MarkdownFieldValue.fromJson(DynamicMap json) {
-    final tools =
-        MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>();
+    final tools = MarkdownMasamuneAdapter.findTools<
+        MarkdownBlockMultiLineVariableTools>();
     final children = <MarkdownBlockValue>[];
     for (final tool in tools) {
       final value = tool.convertFromJson(json);
@@ -768,8 +836,8 @@ class MarkdownFieldValue extends MarkdownValue {
   ///
   /// [markdown]から[MarkdownFieldValue]を作成します。
   factory MarkdownFieldValue.fromMarkdown(String markdown) {
-    final tools =
-        MarkdownMasamuneAdapter.findTools<MarkdownBlockVariableTools>();
+    final tools = MarkdownMasamuneAdapter.findTools<
+        MarkdownBlockMultiLineVariableTools>();
     final children = <MarkdownBlockValue>[];
     for (final tool in tools) {
       final value = tool.convertFromMarkdown(markdown);

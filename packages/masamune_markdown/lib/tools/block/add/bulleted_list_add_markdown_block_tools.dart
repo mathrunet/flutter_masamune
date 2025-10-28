@@ -5,7 +5,8 @@ part of "/masamune_markdown.dart";
 /// 箇条書きリストブロックを追加するメニューを表示する[MarkdownTools]。
 @immutable
 class BulletedListAddMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownBulletedListBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<
+        MarkdownBulletedListBlockValue> {
   /// Display the menu to add bulleted list blocks [MarkdownTools].
   ///
   /// 箇条書きリストブロックを追加するメニューを表示する[MarkdownTools]。

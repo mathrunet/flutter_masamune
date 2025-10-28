@@ -5,7 +5,8 @@ part of "/masamune_markdown.dart";
 /// 箇条書きリストブロックを変更するメニューを表示する[MarkdownTools]。
 @immutable
 class BulletedListExchangeMarkdownBlockTools
-    extends MarkdownBlockVariableTools<MarkdownBulletedListBlockValue> {
+    extends MarkdownBlockMultiLineVariableTools<
+        MarkdownBulletedListBlockValue> {
   /// Display the menu to exchange bulleted list blocks [MarkdownTools].
   ///
   /// 箇条書きリストブロックを変更するメニューを表示する[MarkdownTools]。
