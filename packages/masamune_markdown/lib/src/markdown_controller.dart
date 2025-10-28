@@ -24,7 +24,22 @@ class MarkdownController extends MasamuneControllerBase<
   /// これを渡すことで[FormMarkdownToolbar]のツールと連携することができます。
   ///
   /// また、複数の[FormMarkdownField]を一つの[FormMarkdownToolbar]のツールでコントロールすることができます。
-  MarkdownController({super.adapter});
+  MarkdownController({
+    super.adapter,
+    List<MarkdownFieldValue>? initialValue,
+    String? initialMarkdown,
+    DynamicMap? initialJson,
+  }) {
+    if (initialValue != null) {
+      _value.addAll(initialValue);
+    }
+    if (initialMarkdown != null) {
+      importFromMarkdown(initialMarkdown);
+    }
+    if (initialJson != null) {
+      importFromJson(initialJson);
+    }
+  }
 
   /// Query for MarkdownController.
   ///
@@ -104,6 +119,16 @@ class MarkdownController extends MasamuneControllerBase<
   /// マークダウンからインポートします。
   void importFromMarkdown(String markdown) {
     final field = MarkdownFieldValue.fromMarkdown(markdown);
+    _value.clear();
+    _value.add(field);
+    notifyListeners();
+  }
+
+  /// Import from JSON.
+  ///
+  /// [DynamicMap]からインポートします。
+  void importFromJson(DynamicMap json) {
+    final field = MarkdownFieldValue.fromJson(json);
     _value.clear();
     _value.add(field);
     notifyListeners();
@@ -2709,25 +2734,48 @@ class _$MarkdownControllerQuery {
   const _$MarkdownControllerQuery();
 
   @useResult
-  _$_MarkdownControllerQuery call({MarkdownMasamuneAdapter? adapter}) =>
+  _$_MarkdownControllerQuery call({
+    MarkdownMasamuneAdapter? adapter,
+    List<MarkdownFieldValue>? initialValue,
+    String? initialMarkdown,
+    DynamicMap? initialJson,
+  }) =>
       _$_MarkdownControllerQuery(
         hashCode.toString(),
         adapter: adapter,
+        initialValue: initialValue,
+        initialMarkdown: initialMarkdown,
+        initialJson: initialJson,
       );
 }
 
 @immutable
 class _$_MarkdownControllerQuery
     extends ControllerQueryBase<MarkdownController> {
-  const _$_MarkdownControllerQuery(this._name, {this.adapter});
+  const _$_MarkdownControllerQuery(
+    this._name, {
+    this.adapter,
+    this.initialValue,
+    this.initialMarkdown,
+    this.initialJson,
+  });
 
   final String _name;
 
   final MarkdownMasamuneAdapter? adapter;
 
+  final List<MarkdownFieldValue>? initialValue;
+  final String? initialMarkdown;
+  final DynamicMap? initialJson;
+
   @override
   MarkdownController Function() call(Ref ref) {
-    return () => MarkdownController(adapter: adapter);
+    return () => MarkdownController(
+          adapter: adapter,
+          initialValue: initialValue,
+          initialMarkdown: initialMarkdown,
+          initialJson: initialJson,
+        );
   }
 
   @override
