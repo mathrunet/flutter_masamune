@@ -51,7 +51,8 @@ Future<
       Finder finder,
       FormPainterFieldState field,
       FormPainterToolbarState toolbar,
-      PainterController controller
+      PainterController controller,
+      TestTextInputHelper input,
     })> buildPainterField(WidgetTester tester) async {
   masamuneApplyTestMocks();
   final adapter = PainterMasamuneAdapter(
@@ -114,5 +115,6 @@ Future<
     controller: controller,
     field: tester.state<FormPainterFieldState>(finder),
     toolbar: tester.state<FormPainterToolbarState>(toolbar),
+    input: TestTextInputHelper(tester, controller),
   );
 }

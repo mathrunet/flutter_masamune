@@ -2339,6 +2339,7 @@ class PainterControllerClipboard {
   final PainterController _controller;
   List<PaintingValue>? _clipboardData;
   int _clipboardPasteCount = 0;
+  String? _internalClipboardData;
 
   /// Check if there is data in the clipboard that can be pasted.
   ///
@@ -2370,16 +2371,16 @@ class PainterControllerClipboard {
         PainterController.dataKey: jsonData,
       });
 
-      // Copy as image for external use
-      final imageData = await _controller._captureSelectionAsImage();
-      if (imageData != null) {
-        // Set both text and image data
-        await Clipboard.setData(ClipboardData(text: jsonString));
-        // Note: Flutter doesn't support setting image data directly to clipboard
-        // This would require platform-specific implementation
+      if (PainterController._platformInfo.isTest) {
+        _internalClipboardData = jsonString;
       } else {
-        // Fallback to JSON only
-        await Clipboard.setData(ClipboardData(text: jsonString));
+        // Copy as image for external use
+        final imageData = await _controller._captureSelectionAsImage();
+        if (imageData != null) {
+          await Clipboard.setData(ClipboardData(text: jsonString));
+        } else {
+          await Clipboard.setData(ClipboardData(text: jsonString));
+        }
       }
     } catch (e) {
       // Ignore errors for system clipboard
@@ -2424,9 +2425,15 @@ class PainterControllerClipboard {
   Future<void> paste() async {
     // First try to get data from system clipboard
     try {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-      if (clipboardData != null && clipboardData.text != null) {
-        final jsonData = jsonDecode(clipboardData.text!);
+      String? text;
+      if (PainterController._platformInfo.isTest) {
+        text = _internalClipboardData;
+      } else {
+        final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+        text = clipboardData?.text;
+      }
+      if (text != null) {
+        final jsonData = jsonDecode(text);
         if (jsonData is Map &&
             jsonData.get(PainterController.typeKey, "") ==
                 PainterControllerClipboard.clipboardType) {
