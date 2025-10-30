@@ -783,8 +783,7 @@ void main() {
     );
   });
 
-  testWidgets("PainterField.field.text.history.move_undo_redo",
-      (tester) async {
+  testWidgets("PainterField.field.text.history.move_undo_redo", (tester) async {
     final context = await buildPainterField(tester);
     final toolbar = context.toolbar;
     final helper = context.input;
@@ -897,8 +896,7 @@ void main() {
     );
   });
 
-  testWidgets("PainterField.field.text.history.text_undo_redo",
-      (tester) async {
+  testWidgets("PainterField.field.text.history.text_undo_redo", (tester) async {
     final context = await buildPainterField(tester);
     final toolbar = context.toolbar;
     final helper = context.input;
@@ -915,9 +913,6 @@ void main() {
     await tester.pumpAndSettle();
     // Set text
     context.controller.setText("Modified Text");
-    await tester.pumpAndSettle();
-    // Save to history
-    context.controller.saveCurrentValue(saveToHistory: true);
     await tester.pumpAndSettle();
     // Verify text changed
     expect(

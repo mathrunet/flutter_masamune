@@ -2219,12 +2219,16 @@ class PainterControllerHistory {
   /// Check if undo is available.
   ///
   /// Undoが利用可能かチェック。
-  bool get canUndo => _historyIndex > 0;
+  bool get canUndo {
+    return _historyIndex > 0;
+  }
 
   /// Check if redo is available.
   ///
   /// Redoが利用可能かチェック。
-  bool get canRedo => _historyIndex < _history.length - 1;
+  bool get canRedo {
+    return _historyIndex < _history.length - 1;
+  }
 
   /// Undo the last action.
   ///

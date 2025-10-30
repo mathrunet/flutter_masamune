@@ -306,6 +306,8 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     }
     final updatedValue = currentValue.copyWith(text: text);
     widget.controller.updateCurrentValue(updatedValue);
+    // 履歴に保存
+    widget.controller.saveCurrentValue(saveToHistory: true);
   }
 
   void _handleControllerStateOnChanged() {
@@ -375,8 +377,8 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     _textSetting!.textEditingController.removeListener(_handleTextChanged);
     _textSetting!.cancel();
     _textSetting = null;
-    // 履歴に保存
-    widget.controller.saveCurrentValue(saveToHistory: true);
+    // 履歴に保存（とりあえずsetTextに移動）
+    // widget.controller.saveCurrentValue(saveToHistory: true);
   }
 
   void _restoreTextEditingIfNeeded() {
