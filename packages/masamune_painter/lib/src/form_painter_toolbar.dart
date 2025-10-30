@@ -292,6 +292,22 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
     setState(() {});
   }
 
+  /// Set the text of the current value.
+  ///
+  /// 現在の値のテキストを設定します。
+  void setText(String text) {
+    final currentValue = widget.controller.currentValues.firstOrNull;
+    if (currentValue == null || currentValue is! TextPaintingValue) {
+      return;
+    }
+    final currentText = currentValue.text;
+    if (currentText == text) {
+      return;
+    }
+    final updatedValue = currentValue.copyWith(text: text);
+    widget.controller.updateCurrentValue(updatedValue);
+  }
+
   void _handleControllerStateOnChanged() {
     final currentValue = widget.controller.currentValues.firstOrNull;
 
@@ -349,12 +365,7 @@ class FormPainterToolbarState extends State<FormPainterToolbar>
       return;
     }
     final currentText = _textSetting!.textEditingController.text;
-    final currentValue = widget.controller.currentValues.firstOrNull;
-    if (currentValue is TextPaintingValue && currentValue.text != currentText) {
-      // テキストを更新（履歴には保存しない）
-      final updatedValue = currentValue.copyWith(text: currentText);
-      widget.controller.updateCurrentValue(updatedValue);
-    }
+    setText(currentText);
   }
 
   void _finishTextEditing() {

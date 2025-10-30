@@ -1714,6 +1714,17 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     }
   }
 
+  /// Set the text of the current value.
+  ///
+  /// 現在の値のテキストを設定します。
+  void setText(String text) {
+    if (_currentToolbar == null) {
+      return;
+    }
+    _currentToolbar?.setText(text);
+    notifyListeners();
+  }
+
   /// Insert an image to the canvas.
   ///
   /// キャンバスに画像を挿入します。

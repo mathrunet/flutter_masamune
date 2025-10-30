@@ -74,30 +74,32 @@ Future<
                   ?.copyWith(fontSize: 10),
             ),
       ),
-      home: MasamuneAdapterScope(
-        adapter: adapter,
-        child: SizedBox(
-          width: 1920,
-          height: 1920,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: FormPainterField(
-                  minScale: 1.0,
-                  maxScale: 1.0,
-                  controller: controller,
+      home: Scaffold(
+        body: MasamuneAdapterScope(
+          adapter: adapter,
+          child: SizedBox(
+            width: 1920,
+            height: 1920,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: FormPainterField(
+                    minScale: 1.0,
+                    maxScale: 1.0,
+                    controller: controller,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 48,
-                child: FormPainterToolbar(
-                  controller: controller,
+                SizedBox(
+                  height: 48,
+                  child: FormPainterToolbar(
+                    controller: controller,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
