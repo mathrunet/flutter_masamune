@@ -2540,7 +2540,6 @@ class PainterControllerClipboard {
     } catch (e) {
       // Ignore errors and use internal clipboard
     }
-    
 
     // Paste from internal clipboard
     if (_clipboardData == null || _clipboardData!.isEmpty) {
