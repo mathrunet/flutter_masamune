@@ -1,3 +1,8 @@
+## 3.8.2
+
+ - **FIX**: I have implemented the functionality to output files as Base64. ([03916fc9](https://github.com/mathrunet/flutter_masamune/commit/03916fc9a794959460f056e53e087c890bbe24ff))
+ - **FIX**: Adjust to output responses in Japanese. ([81add249](https://github.com/mathrunet/flutter_masamune/commit/81add249afbcb55d1c323ce19b727f13f3bc58be))
+
 ## 3.8.1
 
  - **FIX**: Add items to exclude. ([e648c49f](https://github.com/mathrunet/flutter_masamune/commit/e648c49fecbb9f8b7664daca2757cca3cdb47828))

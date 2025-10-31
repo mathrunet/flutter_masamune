@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - Update a dependency to the latest release.
+
 ## 3.1.0
 
  - **FIX**: Development of tools, including web search. ([1385329a](https://github.com/mathrunet/flutter_masamune/commit/1385329a3baba856b73789230c5fe98ff0432f74))

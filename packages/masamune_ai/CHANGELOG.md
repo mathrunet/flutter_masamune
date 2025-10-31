@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**: Change path. ([31d98783](https://github.com/mathrunet/flutter_masamune/commit/31d987831cdae253135c84b6f192af7f8808cb21))
+
 ## 3.1.0
 
  - **FIX**: Firebase related updates. ([b720263c](https://github.com/mathrunet/flutter_masamune/commit/b720263c45ebf126f8da3e93131b96c391c56d59))

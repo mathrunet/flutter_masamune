@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-10-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.8.2`](#katana_cli---v382)
+ - [`masamune_ai` - `v3.1.1`](#masamune_ai---v311)
+ - [`masamune_google_cloud` - `v3.1.0`](#masamune_google_cloud---v310)
+ - [`masamune_painter` - `v3.2.1`](#masamune_painter---v321)
+ - [`masamune_speech_to_text` - `v3.1.0`](#masamune_speech_to_text---v310)
+ - [`masamune_speech_to_text_google` - `v3.1.0`](#masamune_speech_to_text_google---v310)
+ - [`masamune_speech_to_text_mobile` - `v3.1.0`](#masamune_speech_to_text_mobile---v310)
+ - [`masamune_ai_openai` - `v3.2.1`](#masamune_ai_openai---v321)
+ - [`masamune_ai_firebase` - `v3.1.1`](#masamune_ai_firebase---v311)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_openai` - `v3.2.1`
+ - `masamune_ai_firebase` - `v3.1.1`
+
+---
+
+#### `katana_cli` - `v3.8.2`
+
+ - **FIX**: I have implemented the functionality to output files as Base64. ([03916fc9](https://github.com/mathrunet/flutter_masamune/commit/03916fc9a794959460f056e53e087c890bbe24ff))
+ - **FIX**: Adjust to output responses in Japanese. ([81add249](https://github.com/mathrunet/flutter_masamune/commit/81add249afbcb55d1c323ce19b727f13f3bc58be))
+
+#### `masamune_ai` - `v3.1.1`
+
+ - **FIX**: Change path. ([31d98783](https://github.com/mathrunet/flutter_masamune/commit/31d987831cdae253135c84b6f192af7f8808cb21))
+
+#### `masamune_google_cloud` - `v3.1.0`
+
+ - **FEAT**: Initial commit. ([0c6eb835](https://github.com/mathrunet/flutter_masamune/commit/0c6eb835106f2bed9edc4949a424c9f35cbf5006))
+
+#### `masamune_painter` - `v3.2.1`
+
+ - **REFACTOR**: Refactoring. ([1f787c93](https://github.com/mathrunet/flutter_masamune/commit/1f787c937c85f69f83233474b54e70d380944b33))
+ - **FIX**: Recheck undo/redo for Text. ([778a52f3](https://github.com/mathrunet/flutter_masamune/commit/778a52f341af9e155718818d2a5b320fcb23f893))
+ - **FIX**: Add test for Rectangle. ([7a70426c](https://github.com/mathrunet/flutter_masamune/commit/7a70426c22990267983ad652c2ba5a99dd318b81))
+ - **FIX**: Add a debugging feature. ([841ba5b7](https://github.com/mathrunet/flutter_masamune/commit/841ba5b7b5d50918f5261ff16dc3cbe7cc8ece92))
+
+#### `masamune_speech_to_text` - `v3.1.0`
+
+ - **FEAT**: Delegate the mechanism to masamune_speech_to_text_xxx. ([1bc79b58](https://github.com/mathrunet/flutter_masamune/commit/1bc79b58f4c63325ff114afc0819ea6392a86103))
+
+#### `masamune_speech_to_text_google` - `v3.1.0`
+
+ - **FEAT**: Initial commit. ([0c6eb835](https://github.com/mathrunet/flutter_masamune/commit/0c6eb835106f2bed9edc4949a424c9f35cbf5006))
+
+#### `masamune_speech_to_text_mobile` - `v3.1.0`
+
+ - **FEAT**: Initial commit. ([0c6eb835](https://github.com/mathrunet/flutter_masamune/commit/0c6eb835106f2bed9edc4949a424c9f35cbf5006))
+
+
 ## 2025-10-24
 
 ### Changes

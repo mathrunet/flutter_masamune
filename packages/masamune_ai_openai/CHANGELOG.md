@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FIX**: Delete Embedding. ([09263cc2](https://github.com/mathrunet/flutter_masamune/commit/09263cc2d61bf3c5d56eedcca4f183f366299970))

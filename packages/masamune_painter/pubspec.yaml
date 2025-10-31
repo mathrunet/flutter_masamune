@@ -1,6 +1,6 @@
 name: masamune_painter
 description: The Masamune package, which will enable drawing with touch or a stylus pen.
-version: 3.2.0
+version: 3.2.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_painter
 

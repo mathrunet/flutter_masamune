@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Delegate the mechanism to masamune_speech_to_text_xxx. ([1bc79b58](https://github.com/mathrunet/flutter_masamune/commit/1bc79b58f4c63325ff114afc0819ea6392a86103))
+
 ## 3.0.29
 
  - **DOCS**: Change readme. ([e6d9c5ef](https://github.com/mathrunet/flutter_masamune/commit/e6d9c5efc21c16c3d2ccb404c6fd138c42b1149b))

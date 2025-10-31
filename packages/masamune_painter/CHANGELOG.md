@@ -1,3 +1,10 @@
+## 3.2.1
+
+ - **REFACTOR**: Refactoring. ([1f787c93](https://github.com/mathrunet/flutter_masamune/commit/1f787c937c85f69f83233474b54e70d380944b33))
+ - **FIX**: Recheck undo/redo for Text. ([778a52f3](https://github.com/mathrunet/flutter_masamune/commit/778a52f341af9e155718818d2a5b320fcb23f893))
+ - **FIX**: Add test for Rectangle. ([7a70426c](https://github.com/mathrunet/flutter_masamune/commit/7a70426c22990267983ad652c2ba5a99dd318b81))
+ - **FIX**: Add a debugging feature. ([841ba5b7](https://github.com/mathrunet/flutter_masamune/commit/841ba5b7b5d50918f5261ff16dc3cbe7cc8ece92))
+
 ## 3.2.0
 
  - **REFACTOR**: Refactoring. ([8989138c](https://github.com/mathrunet/flutter_masamune/commit/8989138cda02245934f5c2e88fad916742691c18))
