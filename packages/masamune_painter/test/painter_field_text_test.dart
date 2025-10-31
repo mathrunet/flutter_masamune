@@ -1,8 +1,12 @@
+// Flutter imports:
 import "package:flutter/material.dart";
-import "package:katana/katana.dart";
-import "package:masamune_painter/masamune_painter.dart";
-import "package:flutter_test/flutter_test.dart";
 
+// Package imports:
+import "package:flutter_test/flutter_test.dart";
+import "package:katana/katana.dart";
+
+// Project imports:
+import "package:masamune_painter/masamune_painter.dart";
 import "functions.dart";
 
 void main() {

@@ -1,6 +1,8 @@
-import "package:masamune_markdown/masamune_markdown.dart";
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
 
+// Project imports:
+import "package:masamune_markdown/masamune_markdown.dart";
 import "functions.dart";
 
 void main() {
@@ -76,8 +78,7 @@ void main() {
       ],
     );
   });
-  testWidgets("MarkdownField.blockProperty.headline1.exchange",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.headline1.exchange", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -156,8 +157,7 @@ void main() {
       ],
     );
   });
-  testWidgets("MarkdownField.blockProperty.headline1.newLine",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.headline1.newLine", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -290,8 +290,7 @@ void main() {
       ],
     );
   });
-  testWidgets("MarkdownField.blockProperty.headline1.undoRedo",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.headline1.undoRedo", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;

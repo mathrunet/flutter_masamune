@@ -1,12 +1,13 @@
-import "package:katana/katana.dart";
-import "package:masamune_markdown/masamune_markdown.dart";
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
+import "package:katana/katana.dart";
 
+// Project imports:
+import "package:masamune_markdown/masamune_markdown.dart";
 import "functions.dart";
 
 void main() {
-  testWidgets("MarkdownField.blockProperty.numberList.insert",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.numberList.insert", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -32,7 +33,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -45,7 +47,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -58,8 +61,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -72,8 +77,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -111,7 +118,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -125,8 +133,10 @@ void main() {
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownNumberListBlockValue.createEmpty(initialText: "aaa", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "aaa", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -139,7 +149,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -160,8 +171,7 @@ void main() {
     );
   });
 
-  testWidgets("MarkdownField.blockProperty.numberList.newLine",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.numberList.newLine", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -177,7 +187,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -190,8 +201,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -204,8 +217,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -219,10 +234,14 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "", lineIndex: 2),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "", lineIndex: 3),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "", lineIndex: 2),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "", lineIndex: 3),
         ]).toDebug()
       ],
     );
@@ -247,8 +266,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -265,7 +286,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "cc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "cc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -280,7 +302,8 @@ void main() {
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "c"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "cc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "cc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -306,15 +329,15 @@ void main() {
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
           MarkdownParagraphBlockValue.createEmpty(initialText: "c"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "cc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "cc", lineIndex: 1),
           MarkdownParagraphBlockValue.createEmpty(initialText: "bbb"),
         ]).toDebug()
       ],
     );
   });
 
-  testWidgets("MarkdownField.blockProperty.numberList.indent",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.numberList.indent", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -332,8 +355,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -354,7 +379,8 @@ void main() {
             indent: 1,
             lineIndex: 0,
           ),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -383,7 +409,8 @@ void main() {
             indent: 1,
             lineIndex: 1,
           ),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -408,7 +435,8 @@ void main() {
             indent: 2,
             lineIndex: 1,
           ),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -441,7 +469,8 @@ void main() {
             indent: 1,
             lineIndex: 2,
           ),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -472,7 +501,8 @@ void main() {
             indent: 0,
             lineIndex: 2,
           ),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "ccc", lineIndex: 1),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "ccc", lineIndex: 1),
         ]).toDebug()
       ],
     );
@@ -495,7 +525,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -507,7 +538,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -519,7 +551,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -533,8 +566,10 @@ void main() {
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownNumberListBlockValue.createEmpty(initialText: "aaa", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "aaa", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -546,7 +581,8 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -557,8 +593,10 @@ void main() {
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownNumberListBlockValue.createEmpty(initialText: "aaa", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "aaa", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -572,7 +610,8 @@ void main() {
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownNumberListBlockValue.createEmpty(initialText: "aaa", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "aaa", lineIndex: 0),
           MarkdownNumberListBlockValue(
             id: uuid(),
             children: [MarkdownLineValue.createEmpty(initialText: "bbb")],
@@ -589,8 +628,10 @@ void main() {
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownNumberListBlockValue.createEmpty(initialText: "aaa", lineIndex: 0),
-          MarkdownNumberListBlockValue.createEmpty(initialText: "bbb", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "aaa", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "bbb", lineIndex: 0),
         ]).toDebug()
       ],
     );
@@ -601,7 +642,8 @@ void main() {
       controller.value?.toDebug(),
       [
         MarkdownFieldValue.createEmpty(children: [
-          MarkdownNumberListBlockValue.createEmpty(initialText: "aaa", lineIndex: 0),
+          MarkdownNumberListBlockValue.createEmpty(
+              initialText: "aaa", lineIndex: 0),
           MarkdownNumberListBlockValue(
             id: uuid(),
             children: [MarkdownLineValue.createEmpty(initialText: "bbb")],

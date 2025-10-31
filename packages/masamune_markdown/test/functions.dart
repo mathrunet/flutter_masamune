@@ -1,6 +1,11 @@
+// Flutter imports:
 import "package:flutter/material.dart";
+
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
 import "package:masamune/masamune.dart";
+
+// Project imports:
 import "package:masamune_markdown/masamune_markdown.dart";
 
 /// Helper for testing TextInput.

@@ -1153,10 +1153,10 @@ class MarkdownFieldState extends State<MarkdownField>
         theme.colorScheme.primary.withValues(alpha: 0.4);
 
     // readonly時はカーソル・選択を無効化
-    final showCursor = widget.readOnly ? false : (_focusNode.hasFocus && _showCursor);
-    final effectiveSelection = widget.readOnly
-        ? const TextSelection.collapsed(offset: 0)
-        : _selection;
+    final showCursor =
+        widget.readOnly ? false : (_focusNode.hasFocus && _showCursor);
+    final effectiveSelection =
+        widget.readOnly ? const TextSelection.collapsed(offset: 0) : _selection;
 
     Widget child = _MarkdownRenderObjectWidget(
       onTapLink: widget.onTapLink,
@@ -2247,7 +2247,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       final blockBottom = blockTop + layout.height;
 
       // ブロックが完全に画面外にある場合はスキップ（選択描画は例外）
-      final isVisible = blockBottom >= viewportTop && blockTop <= viewportBottom;
+      final isVisible =
+          blockBottom >= viewportTop && blockTop <= viewportBottom;
       final hasSelection = !_readOnly &&
           _selection.isValid &&
           !_selection.isCollapsed &&

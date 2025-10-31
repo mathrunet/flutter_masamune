@@ -1,12 +1,13 @@
-import "package:katana/katana.dart";
-import "package:masamune_markdown/masamune_markdown.dart";
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
+import "package:katana/katana.dart";
 
+// Project imports:
+import "package:masamune_markdown/masamune_markdown.dart";
 import "functions.dart";
 
 void main() {
-  testWidgets("MarkdownField.blockProperty.toggleList.insert",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.toggleList.insert", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -158,8 +159,7 @@ void main() {
       ],
     );
   });
-  testWidgets("MarkdownField.blockProperty.toggleList.newLine",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.toggleList.newLine", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -309,8 +309,7 @@ void main() {
       ],
     );
   });
-  testWidgets("MarkdownField.blockProperty.toggleList.indent",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.toggleList.indent", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -594,8 +593,7 @@ void main() {
       ],
     );
   });
-  testWidgets("MarkdownField.blockProperty.toggleList.toggle",
-      (tester) async {
+  testWidgets("MarkdownField.blockProperty.toggleList.toggle", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;
     final input = context.input;
@@ -614,19 +612,22 @@ void main() {
     // Toggle the checkbox
     controller.toggleBlock(toggleBlock);
     final updatedField = controller.value!.first;
-    final updatedBlock = updatedField.children[1] as MarkdownToggleListBlockValue;
+    final updatedBlock =
+        updatedField.children[1] as MarkdownToggleListBlockValue;
     expect(updatedBlock.checked, true);
 
     // Toggle again
     controller.toggleBlock(updatedBlock);
     final reUpdatedField = controller.value!.first;
-    final reUpdatedBlock = reUpdatedField.children[1] as MarkdownToggleListBlockValue;
+    final reUpdatedBlock =
+        reUpdatedField.children[1] as MarkdownToggleListBlockValue;
     expect(reUpdatedBlock.checked, false);
 
     // Set checked explicitly
     controller.toggleBlock(reUpdatedBlock, checked: true);
     final explicitField = controller.value!.first;
-    final explicitBlock = explicitField.children[1] as MarkdownToggleListBlockValue;
+    final explicitBlock =
+        explicitField.children[1] as MarkdownToggleListBlockValue;
     expect(explicitBlock.checked, true);
   });
 }

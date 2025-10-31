@@ -1,5 +1,8 @@
-import "package:masamune_markdown/masamune_markdown.dart";
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
+
+// Project imports:
+import "package:masamune_markdown/masamune_markdown.dart";
 
 void main() {
   setUpAll(() {
@@ -140,14 +143,16 @@ void main() {
     });
 
     test("Blocks with inline properties", () {
-      const markdown = "# Heading with **bold**\nParagraph with *italic*\n- List with `code`";
+      const markdown =
+          "# Heading with **bold**\nParagraph with *italic*\n- List with `code`";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
     });
 
     test("Quote with inline properties", () {
-      const markdown = "> This is a **bold** quote\n> With *italic* text\n> And `code`";
+      const markdown =
+          "> This is a **bold** quote\n> With *italic* text\n> And `code`";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
@@ -178,7 +183,8 @@ void main() {
     });
 
     test("Link with special characters in URL", () {
-      const markdown = "[link](https://example.com/path?query=value&other=test)";
+      const markdown =
+          "[link](https://example.com/path?query=value&other=test)";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
@@ -228,7 +234,8 @@ void main() {
 
   group("Number list auto-numbering tests", () {
     test("Number list interrupted by paragraph", () {
-      const markdown = "1. Item 1\n2. Item 2\nSome paragraph\n1. Item 3\n2. Item 4";
+      const markdown =
+          "1. Item 1\n2. Item 2\nSome paragraph\n1. Item 3\n2. Item 4";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
@@ -242,35 +249,40 @@ void main() {
     });
 
     test("Number list interrupted by bulleted list", () {
-      const markdown = "1. Item 1\n2. Item 2\n- Bullet item\n1. Item 3\n2. Item 4";
+      const markdown =
+          "1. Item 1\n2. Item 2\n- Bullet item\n1. Item 3\n2. Item 4";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
     });
 
     test("Multiple consecutive number list groups", () {
-      const markdown = "1. Group 1 Item 1\n2. Group 1 Item 2\nParagraph break\n1. Group 2 Item 1\n2. Group 2 Item 2";
+      const markdown =
+          "1. Group 1 Item 1\n2. Group 1 Item 2\nParagraph break\n1. Group 2 Item 1\n2. Group 2 Item 2";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
     });
 
     test("Long number list", () {
-      final markdown = List.generate(10, (i) => "${i + 1}. Item ${i + 1}").join("\n");
+      final markdown =
+          List.generate(10, (i) => "${i + 1}. Item ${i + 1}").join("\n");
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
     });
 
     test("Number list with inline properties", () {
-      const markdown = "1. Item with **bold**\n2. Item with *italic*\n3. Item with `code`";
+      const markdown =
+          "1. Item with **bold**\n2. Item with *italic*\n3. Item with `code`";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);
     });
 
     test("Mixed list types maintain separate numbering", () {
-      const markdown = "1. Number 1\n2. Number 2\n- Bullet\n1. Number 3\n2. Number 4";
+      const markdown =
+          "1. Number 1\n2. Number 2\n- Bullet\n1. Number 3\n2. Number 4";
       final value = MarkdownFieldValue.fromMarkdown(markdown);
       final output = value.toMarkdown();
       expect(output, markdown);

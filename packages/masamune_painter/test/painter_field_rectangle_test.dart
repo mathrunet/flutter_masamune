@@ -1,8 +1,12 @@
+// Flutter imports:
 import "package:flutter/material.dart";
-import "package:katana/katana.dart";
-import "package:masamune_painter/masamune_painter.dart";
-import "package:flutter_test/flutter_test.dart";
 
+// Package imports:
+import "package:flutter_test/flutter_test.dart";
+import "package:katana/katana.dart";
+
+// Project imports:
+import "package:masamune_painter/masamune_painter.dart";
 import "functions.dart";
 
 void main() {
@@ -135,8 +139,7 @@ void main() {
     );
   });
 
-  testWidgets("PainterField.field.rectangle.resize.bottomLeft",
-      (tester) async {
+  testWidgets("PainterField.field.rectangle.resize.bottomLeft", (tester) async {
     final context = await buildPainterField(tester);
     final toolbar = context.toolbar;
     final helper = context.input;
@@ -724,8 +727,7 @@ void main() {
     );
   });
 
-  testWidgets(
-      "PainterField.field.rectangle.history.backgroundColor_undo_redo",
+  testWidgets("PainterField.field.rectangle.history.backgroundColor_undo_redo",
       (tester) async {
     final context = await buildPainterField(tester);
     final toolbar = context.toolbar;
@@ -770,8 +772,7 @@ void main() {
     );
   });
 
-  testWidgets(
-      "PainterField.field.rectangle.history.foregroundColor_undo_redo",
+  testWidgets("PainterField.field.rectangle.history.foregroundColor_undo_redo",
       (tester) async {
     final context = await buildPainterField(tester);
     final toolbar = context.toolbar;

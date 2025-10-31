@@ -1,6 +1,8 @@
-import "package:masamune_markdown/masamune_markdown.dart";
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
 
+// Project imports:
+import "package:masamune_markdown/masamune_markdown.dart";
 import "functions.dart";
 
 void main() {

@@ -1,5 +1,8 @@
-import "package:masamune_markdown/masamune_markdown.dart";
+// Package imports:
 import "package:flutter_test/flutter_test.dart";
+
+// Project imports:
+import "package:masamune_markdown/masamune_markdown.dart";
 
 void main() {
   setUpAll(() {
@@ -25,13 +28,15 @@ void main() {
     expect(block.children.length, 1);
 
     final line = block.children[0];
-    expect(line.children.length, 6); // "This is ", "bold", " and ", "italic", " text with ", "code"
+    expect(line.children.length,
+        6); // "This is ", "bold", " and ", "italic", " text with ", "code"
 
     expect(line.children[1].properties.length, 1);
     expect(line.children[1].properties[0], isA<BoldFontMarkdownSpanProperty>());
 
     expect(line.children[3].properties.length, 1);
-    expect(line.children[3].properties[0], isA<ItalicFontMarkdownSpanProperty>());
+    expect(
+        line.children[3].properties[0], isA<ItalicFontMarkdownSpanProperty>());
 
     expect(line.children[5].properties.length, 1);
     expect(line.children[5].properties[0], isA<CodeFontMarkdownSpanProperty>());
@@ -86,7 +91,8 @@ void main() {
   });
 
   test("MarkdownFieldValue.fromMarkdown - Image in text splits blocks", () {
-    const markdown = "Before text ![image](http://example.com/image.png) After text";
+    const markdown =
+        "Before text ![image](http://example.com/image.png) After text";
     final result = MarkdownFieldValue.fromMarkdown(markdown);
 
     expect(result.children.length, 3);
@@ -138,7 +144,8 @@ Some paragraph text
 
     expect(line.children.length, 3); // "This is ", "strikethrough", " text"
     expect(line.children[1].properties.length, 1);
-    expect(line.children[1].properties[0], isA<StrikeFontMarkdownSpanProperty>());
+    expect(
+        line.children[1].properties[0], isA<StrikeFontMarkdownSpanProperty>());
   });
 
   test("MarkdownFieldValue.fromMarkdown - Empty string", () {
