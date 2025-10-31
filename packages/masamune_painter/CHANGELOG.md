@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**: Add missing packages. ([5c709a41](https://github.com/mathrunet/flutter_masamune/commit/5c709a41fd098184ced41b35bf787287e2e3f99a))
+
 ## 3.3.0
 
  - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))

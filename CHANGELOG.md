@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-11-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_painter` - `v3.3.1`](#masamune_painter---v331)
+
+---
+
+#### `masamune_painter` - `v3.3.1`
+
+ - **FIX**: Add missing packages. ([5c709a41](https://github.com/mathrunet/flutter_masamune/commit/5c709a41fd098184ced41b35bf787287e2e3f99a))
+
+
 ## 2025-10-31
 
 ### Changes
