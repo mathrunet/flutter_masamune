@@ -21,6 +21,8 @@ dependencies:
   shared_preferences: ^2.5.3
   vector_math: ^2.1.4
   two_dimensional_scrollables: ^0.3.7
+  path: ^1.9.1
+  path_provider: ^2.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
