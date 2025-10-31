@@ -46,6 +46,15 @@ class TestTextInputHelper {
     controller.debugTapUp(position);
     await tester.pump();
   }
+
+  /// Tap to reset.
+  ///
+  /// リセット用のタップを行います。
+  Future<void> reset() async {
+    await tester.pumpAndSettle();
+    await tap(Offset.zero);
+    await tester.pumpAndSettle();
+  }
 }
 
 /// Will create a widget for testing Painter.

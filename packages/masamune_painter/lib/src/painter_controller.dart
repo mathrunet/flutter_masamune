@@ -1350,9 +1350,9 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
       return;
     }
 
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
+    // if (oldIndex < newIndex) {
+    //   newIndex -= 1;
+    // }
 
     if (oldIndex < 0 ||
         oldIndex >= group.children.length ||
@@ -1396,13 +1396,28 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     var changed = false;
 
     // Group selected items by their parent (null for root level)
-    // Exclude group objects themselves, only process individual items
     final selectedByParent = <String?, List<PaintingValue>>{};
 
+    // Track groups that are fully selected (group + all children)
+    // These groups should be moved as a whole at root level
+    final fullySelectedGroupIds = <String>{};
+
     for (final currentValue in _currentValues) {
-      // Skip group objects - they are containers, not movable items
       if (currentValue is GroupPaintingValue) {
-        continue;
+        // Check if all children of this group are also selected
+        final allChildrenSelected = currentValue.children.every(
+          (child) => _currentValues.any((v) => v.id == child.id),
+        );
+
+        if (allChildrenSelected) {
+          // Group is fully selected -> move the group itself at root level
+          fullySelectedGroupIds.add(currentValue.id);
+          selectedByParent.putIfAbsent(null, () => []).add(currentValue);
+          continue;
+        } else {
+          // Group is partially selected -> skip the group container
+          continue;
+        }
       }
 
       // Find parent group for this value
@@ -1415,6 +1430,12 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
             break;
           }
         }
+      }
+
+      // Skip children of fully selected groups (they move with their parent)
+      if (parentGroupId != null &&
+          fullySelectedGroupIds.contains(parentGroupId)) {
+        continue;
       }
 
       selectedByParent.putIfAbsent(parentGroupId, () => []).add(currentValue);
@@ -1536,13 +1557,28 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
     var changed = false;
 
     // Group selected items by their parent (null for root level)
-    // Exclude group objects themselves, only process individual items
     final selectedByParent = <String?, List<PaintingValue>>{};
 
+    // Track groups that are fully selected (group + all children)
+    // These groups should be moved as a whole at root level
+    final fullySelectedGroupIds = <String>{};
+
     for (final currentValue in _currentValues) {
-      // Skip group objects - they are containers, not movable items
       if (currentValue is GroupPaintingValue) {
-        continue;
+        // Check if all children of this group are also selected
+        final allChildrenSelected = currentValue.children.every(
+          (child) => _currentValues.any((v) => v.id == child.id),
+        );
+
+        if (allChildrenSelected) {
+          // Group is fully selected -> move the group itself at root level
+          fullySelectedGroupIds.add(currentValue.id);
+          selectedByParent.putIfAbsent(null, () => []).add(currentValue);
+          continue;
+        } else {
+          // Group is partially selected -> skip the group container
+          continue;
+        }
       }
 
       // Find parent group for this value
@@ -1555,6 +1591,12 @@ class PainterController extends MasamuneControllerBase<List<PaintingValue>,
             break;
           }
         }
+      }
+
+      // Skip children of fully selected groups (they move with their parent)
+      if (parentGroupId != null &&
+          fullySelectedGroupIds.contains(parentGroupId)) {
+        continue;
       }
 
       selectedByParent.putIfAbsent(parentGroupId, () => []).add(currentValue);
