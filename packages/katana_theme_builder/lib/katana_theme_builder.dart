@@ -13,7 +13,7 @@ import "dart:async";
 import "dart:io";
 
 // Package imports:
-import "package:analyzer/dart/element/element.dart";
+import "package:analyzer/dart/element/element2.dart";
 import "package:build/build.dart";
 import "package:code_builder/code_builder.dart";
 import "package:dart_style/dart_style.dart";

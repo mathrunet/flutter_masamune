@@ -16,9 +16,9 @@ class GoogleSpreadSheetValue {
   ///
   /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
   GoogleSpreadSheetValue(this.element, this.annotationType) {
-    const matcher = TypeChecker.fromRuntime(GoogleSpreadSheetDataSource);
+    const matcher = TypeChecker.typeNamed(GoogleSpreadSheetDataSource);
 
-    for (final meta in element.metadata) {
+    for (final meta in element.metadata2.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         _source = obj.getField("source")?.toStringValue();
@@ -52,7 +52,7 @@ class GoogleSpreadSheetValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement element;
+  final ClassElement2 element;
 
   /// Annotation Type
   ///

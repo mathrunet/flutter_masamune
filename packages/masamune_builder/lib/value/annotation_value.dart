@@ -16,9 +16,9 @@ class ModelAnnotationValue {
   ///
   /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
   ModelAnnotationValue(this.element, this.annotationType) {
-    final matcher = TypeChecker.fromRuntime(annotationType);
+    final matcher = TypeChecker.typeNamed(annotationType);
 
-    for (final meta in element.metadata) {
+    for (final meta in element.metadata2.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
@@ -106,9 +106,9 @@ class ModelAnnotationValue {
   /// Check if the class element has
   ///
   /// クラスエレメントが指定したアノテーションを持っているか確認します。
-  static bool hasMatch(ClassElement element, Type annotationType) {
-    final matcher = TypeChecker.fromRuntime(annotationType);
-    for (final meta in element.metadata) {
+  static bool hasMatch(ClassElement2 element, Type annotationType) {
+    final matcher = TypeChecker.typeNamed(annotationType);
+    for (final meta in element.metadata2.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         return true;
@@ -136,7 +136,7 @@ class ModelAnnotationValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement element;
+  final ClassElement2 element;
 
   /// Annotation Type
   ///

@@ -198,8 +198,8 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   Future<void> _activate() async {
     await FirebaseCore.initialize(options: options);
     await appCheck.activate(
-      androidProvider: androidProvider._toAndroidProvider(),
-      appleProvider: iosProvider._toAppleProvider(),
+      providerAndroid: androidProvider._toAndroidProvider(),
+      providerApple: iosProvider._toAppleProvider(),
     );
     if (_platformInfo.isAndroid) {
       switch (androidProvider) {

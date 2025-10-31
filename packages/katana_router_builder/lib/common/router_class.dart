@@ -119,7 +119,7 @@ List<Class> routerClass(
             ...queries.map((query) {
               return Field(
                 (f) => f
-                  ..name = query.element.name.toCamelCase()
+                  ..name = query.element.name3?.toCamelCase()
                   ..static = true
                   ..modifier = FieldModifier.constant
                   ..assignment = Code(query.query),

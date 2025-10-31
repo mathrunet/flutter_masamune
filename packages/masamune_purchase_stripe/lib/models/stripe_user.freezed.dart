@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -74,7 +73,7 @@ abstract mixin class $StripeUserModelCopyWith<$Res> {
       @JsonKey(name: "account") String? accountId,
       @JsonKey(name: "customer") String? customerId,
       @JsonKey(name: "defaultPayment") String? defaultPayment,
-      @JsonKey(name: "capability") Map<String, dynamic> capablity});
+      @JsonKey(name: "capability") DynamicMap capablity});
 }
 
 /// @nodoc
@@ -114,10 +113,188 @@ class _$StripeUserModelCopyWithImpl<$Res>
           : defaultPayment // ignore: cast_nullable_to_non_nullable
               as String?,
       capablity: null == capablity
-          ? _self.capablity!
+          ? _self.capablity
           : capablity // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as DynamicMap,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [StripeUserModel].
+extension StripeUserModelPatterns on StripeUserModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_StripeUserModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _StripeUserModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_StripeUserModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripeUserModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_StripeUserModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripeUserModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: "user") String userId,
+            @JsonKey(name: "account") String? accountId,
+            @JsonKey(name: "customer") String? customerId,
+            @JsonKey(name: "defaultPayment") String? defaultPayment,
+            @JsonKey(name: "capability") DynamicMap capablity)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _StripeUserModel() when $default != null:
+        return $default(_that.userId, _that.accountId, _that.customerId,
+            _that.defaultPayment, _that.capablity);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: "user") String userId,
+            @JsonKey(name: "account") String? accountId,
+            @JsonKey(name: "customer") String? customerId,
+            @JsonKey(name: "defaultPayment") String? defaultPayment,
+            @JsonKey(name: "capability") DynamicMap capablity)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripeUserModel():
+        return $default(_that.userId, _that.accountId, _that.customerId,
+            _that.defaultPayment, _that.capablity);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: "user") String userId,
+            @JsonKey(name: "account") String? accountId,
+            @JsonKey(name: "customer") String? customerId,
+            @JsonKey(name: "defaultPayment") String? defaultPayment,
+            @JsonKey(name: "capability") DynamicMap capablity)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripeUserModel() when $default != null:
+        return $default(_that.userId, _that.accountId, _that.customerId,
+            _that.defaultPayment, _that.capablity);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -129,8 +306,7 @@ class _StripeUserModel extends StripeUserModel {
       @JsonKey(name: "account") this.accountId,
       @JsonKey(name: "customer") this.customerId,
       @JsonKey(name: "defaultPayment") this.defaultPayment,
-      @JsonKey(name: "capability")
-      final Map<String, dynamic> capablity = const {}})
+      @JsonKey(name: "capability") final DynamicMap capablity = const {}})
       : _capablity = capablity,
         super._();
   factory _StripeUserModel.fromJson(Map<String, dynamic> json) =>
@@ -148,10 +324,10 @@ class _StripeUserModel extends StripeUserModel {
   @override
   @JsonKey(name: "defaultPayment")
   final String? defaultPayment;
-  final Map<String, dynamic> _capablity;
+  final DynamicMap _capablity;
   @override
   @JsonKey(name: "capability")
-  Map<String, dynamic> get capablity {
+  DynamicMap get capablity {
     if (_capablity is EqualUnmodifiableMapView) return _capablity;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_capablity);
@@ -212,7 +388,7 @@ abstract mixin class _$StripeUserModelCopyWith<$Res>
       @JsonKey(name: "account") String? accountId,
       @JsonKey(name: "customer") String? customerId,
       @JsonKey(name: "defaultPayment") String? defaultPayment,
-      @JsonKey(name: "capability") Map<String, dynamic> capablity});
+      @JsonKey(name: "capability") DynamicMap capablity});
 }
 
 /// @nodoc
@@ -254,7 +430,7 @@ class __$StripeUserModelCopyWithImpl<$Res>
       capablity: null == capablity
           ? _self._capablity
           : capablity // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as DynamicMap,
     ));
   }
 }

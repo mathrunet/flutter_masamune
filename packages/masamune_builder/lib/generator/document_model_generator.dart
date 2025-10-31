@@ -11,11 +11,11 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is! ClassElement) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
         "`@DocumentModelPath()` can only be used on classes.",
         element: element,

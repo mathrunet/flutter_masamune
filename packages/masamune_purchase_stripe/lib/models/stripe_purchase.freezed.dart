@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -359,6 +358,328 @@ class _$StripePurchaseModelCopyWithImpl<$Res>
           : cancelAtPeriodEnd // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [StripePurchaseModel].
+extension StripePurchaseModelPatterns on StripePurchaseModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_StripePurchaseModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _StripePurchaseModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_StripePurchaseModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripePurchaseModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_StripePurchaseModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripePurchaseModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: "user") String userId,
+            @JsonKey(name: "orderId") String orderId,
+            @JsonKey(name: "purchaseId") String purchaseId,
+            @JsonKey(name: "paymentMethodId") String paymentMethodId,
+            @JsonKey(name: "customer") String customerId,
+            @JsonKey(name: "clientSecret") String clientSecret,
+            @JsonKey(name: "createdTime") ModelTimestamp createdTime,
+            @JsonKey(name: "updatedTime") ModelTimestamp updatedTime,
+            @JsonKey(name: "confirm") bool confirm,
+            @JsonKey(name: "verify") bool verified,
+            @JsonKey(name: "capture") bool captured,
+            @JsonKey(name: "success") bool success,
+            @JsonKey(name: "cancel") bool canceled,
+            @JsonKey(name: "error") bool error,
+            @JsonKey(name: "refund") bool refund,
+            @JsonKey(name: "amount") double amount,
+            @JsonKey(name: "application") String? application,
+            @JsonKey(name: "applicationFeeAmount") double applicationFeeAmount,
+            @JsonKey(name: "transferAmount") double transferAmount,
+            @JsonKey(name: "transferDistination") String transferDistination,
+            @JsonKey(name: "currency") String currency,
+            @JsonKey(name: "emailFrom") String? emailFrom,
+            @JsonKey(name: "emailTo") String? emailTo,
+            @JsonKey(name: "emailTitle") String? emailTitle,
+            @JsonKey(name: "emailContent") String? emailContent,
+            @JsonKey(name: "locale") String? locale,
+            @JsonKey(name: "cancel_at_period_end") bool cancelAtPeriodEnd)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _StripePurchaseModel() when $default != null:
+        return $default(
+            _that.userId,
+            _that.orderId,
+            _that.purchaseId,
+            _that.paymentMethodId,
+            _that.customerId,
+            _that.clientSecret,
+            _that.createdTime,
+            _that.updatedTime,
+            _that.confirm,
+            _that.verified,
+            _that.captured,
+            _that.success,
+            _that.canceled,
+            _that.error,
+            _that.refund,
+            _that.amount,
+            _that.application,
+            _that.applicationFeeAmount,
+            _that.transferAmount,
+            _that.transferDistination,
+            _that.currency,
+            _that.emailFrom,
+            _that.emailTo,
+            _that.emailTitle,
+            _that.emailContent,
+            _that.locale,
+            _that.cancelAtPeriodEnd);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: "user") String userId,
+            @JsonKey(name: "orderId") String orderId,
+            @JsonKey(name: "purchaseId") String purchaseId,
+            @JsonKey(name: "paymentMethodId") String paymentMethodId,
+            @JsonKey(name: "customer") String customerId,
+            @JsonKey(name: "clientSecret") String clientSecret,
+            @JsonKey(name: "createdTime") ModelTimestamp createdTime,
+            @JsonKey(name: "updatedTime") ModelTimestamp updatedTime,
+            @JsonKey(name: "confirm") bool confirm,
+            @JsonKey(name: "verify") bool verified,
+            @JsonKey(name: "capture") bool captured,
+            @JsonKey(name: "success") bool success,
+            @JsonKey(name: "cancel") bool canceled,
+            @JsonKey(name: "error") bool error,
+            @JsonKey(name: "refund") bool refund,
+            @JsonKey(name: "amount") double amount,
+            @JsonKey(name: "application") String? application,
+            @JsonKey(name: "applicationFeeAmount") double applicationFeeAmount,
+            @JsonKey(name: "transferAmount") double transferAmount,
+            @JsonKey(name: "transferDistination") String transferDistination,
+            @JsonKey(name: "currency") String currency,
+            @JsonKey(name: "emailFrom") String? emailFrom,
+            @JsonKey(name: "emailTo") String? emailTo,
+            @JsonKey(name: "emailTitle") String? emailTitle,
+            @JsonKey(name: "emailContent") String? emailContent,
+            @JsonKey(name: "locale") String? locale,
+            @JsonKey(name: "cancel_at_period_end") bool cancelAtPeriodEnd)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripePurchaseModel():
+        return $default(
+            _that.userId,
+            _that.orderId,
+            _that.purchaseId,
+            _that.paymentMethodId,
+            _that.customerId,
+            _that.clientSecret,
+            _that.createdTime,
+            _that.updatedTime,
+            _that.confirm,
+            _that.verified,
+            _that.captured,
+            _that.success,
+            _that.canceled,
+            _that.error,
+            _that.refund,
+            _that.amount,
+            _that.application,
+            _that.applicationFeeAmount,
+            _that.transferAmount,
+            _that.transferDistination,
+            _that.currency,
+            _that.emailFrom,
+            _that.emailTo,
+            _that.emailTitle,
+            _that.emailContent,
+            _that.locale,
+            _that.cancelAtPeriodEnd);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: "user") String userId,
+            @JsonKey(name: "orderId") String orderId,
+            @JsonKey(name: "purchaseId") String purchaseId,
+            @JsonKey(name: "paymentMethodId") String paymentMethodId,
+            @JsonKey(name: "customer") String customerId,
+            @JsonKey(name: "clientSecret") String clientSecret,
+            @JsonKey(name: "createdTime") ModelTimestamp createdTime,
+            @JsonKey(name: "updatedTime") ModelTimestamp updatedTime,
+            @JsonKey(name: "confirm") bool confirm,
+            @JsonKey(name: "verify") bool verified,
+            @JsonKey(name: "capture") bool captured,
+            @JsonKey(name: "success") bool success,
+            @JsonKey(name: "cancel") bool canceled,
+            @JsonKey(name: "error") bool error,
+            @JsonKey(name: "refund") bool refund,
+            @JsonKey(name: "amount") double amount,
+            @JsonKey(name: "application") String? application,
+            @JsonKey(name: "applicationFeeAmount") double applicationFeeAmount,
+            @JsonKey(name: "transferAmount") double transferAmount,
+            @JsonKey(name: "transferDistination") String transferDistination,
+            @JsonKey(name: "currency") String currency,
+            @JsonKey(name: "emailFrom") String? emailFrom,
+            @JsonKey(name: "emailTo") String? emailTo,
+            @JsonKey(name: "emailTitle") String? emailTitle,
+            @JsonKey(name: "emailContent") String? emailContent,
+            @JsonKey(name: "locale") String? locale,
+            @JsonKey(name: "cancel_at_period_end") bool cancelAtPeriodEnd)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _StripePurchaseModel() when $default != null:
+        return $default(
+            _that.userId,
+            _that.orderId,
+            _that.purchaseId,
+            _that.paymentMethodId,
+            _that.customerId,
+            _that.clientSecret,
+            _that.createdTime,
+            _that.updatedTime,
+            _that.confirm,
+            _that.verified,
+            _that.captured,
+            _that.success,
+            _that.canceled,
+            _that.error,
+            _that.refund,
+            _that.amount,
+            _that.application,
+            _that.applicationFeeAmount,
+            _that.transferAmount,
+            _that.transferDistination,
+            _that.currency,
+            _that.emailFrom,
+            _that.emailTo,
+            _that.emailTitle,
+            _that.emailContent,
+            _that.locale,
+            _that.cancelAtPeriodEnd);
+      case _:
+        return null;
+    }
   }
 }
 

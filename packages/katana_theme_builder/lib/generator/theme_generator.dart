@@ -13,11 +13,11 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is! TopLevelVariableElement) {
+    if (element is! TopLevelVariableElement2) {
       throw InvalidGenerationSourceError(
         "`@AppTheme()` should only be given to top-level fields.\n"
         "```\n"

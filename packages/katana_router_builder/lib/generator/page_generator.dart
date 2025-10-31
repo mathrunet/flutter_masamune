@@ -11,11 +11,11 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! ClassElement) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
         "`@PagePath()` can only be used on classes.",
         element: element,

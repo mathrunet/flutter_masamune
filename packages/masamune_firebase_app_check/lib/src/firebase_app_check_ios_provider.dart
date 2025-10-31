@@ -29,20 +29,20 @@ enum FirebaseAppCheckIOSProvider {
   /// デバッグモードの場合は[debug]プロバイダーを、それ以外の場合は[appAttestWithDeviceCheckFallback]プロバイダーを使用します。
   platformDependent;
 
-  AppleProvider _toAppleProvider() {
+  AppleAppCheckProvider _toAppleProvider() {
     switch (this) {
       case FirebaseAppCheckIOSProvider.debug:
-        return AppleProvider.debug;
+        return const AppleDebugProvider();
       case FirebaseAppCheckIOSProvider.deviceCheck:
-        return AppleProvider.deviceCheck;
+        return const AppleDeviceCheckProvider();
       case FirebaseAppCheckIOSProvider.appAttest:
-        return AppleProvider.appAttest;
+        return const AppleAppAttestProvider();
       case FirebaseAppCheckIOSProvider.appAttestWithDeviceCheckFallback:
-        return AppleProvider.appAttestWithDeviceCheckFallback;
+        return const AppleAppAttestWithDeviceCheckFallbackProvider();
       case FirebaseAppCheckIOSProvider.platformDependent:
         return kDebugMode
-            ? AppleProvider.debug
-            : AppleProvider.appAttestWithDeviceCheckFallback;
+            ? const AppleDebugProvider()
+            : const AppleAppAttestWithDeviceCheckFallbackProvider();
     }
   }
 }

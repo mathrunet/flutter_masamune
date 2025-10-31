@@ -17,10 +17,12 @@ class ClassValue {
   /// [element]に暮らすエレメントを指定します。
   ClassValue(this.element) {
     name = element.displayName;
-    final contstuctor = element.constructors.firstWhere((e) {
-      return e.name.isEmpty;
+    final contstuctor = element.constructors2.firstWhere((e) {
+      // "new"で空のコンストラクターを取得します。
+      return e.name3 == "new";
     });
-    parameters = contstuctor.parameters.where((e) => e.name != "key").map((e) {
+    parameters =
+        contstuctor.formalParameters.where((e) => e.name3 != "key").map((e) {
       return ParamaterValue(e);
     }).toList();
   }
@@ -28,7 +30,7 @@ class ClassValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement element;
+  final ClassElement2 element;
 
   /// Class Name.
   ///

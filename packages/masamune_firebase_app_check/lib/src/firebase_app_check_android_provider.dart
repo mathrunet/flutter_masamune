@@ -19,16 +19,16 @@ enum FirebaseAppCheckAndroidProvider {
   /// デバッグモードの場合は[debug]プロバイダーを、それ以外の場合は[playIntegrity]プロバイダーを使用します。
   platformDependent;
 
-  AndroidProvider _toAndroidProvider() {
+  AndroidAppCheckProvider _toAndroidProvider() {
     switch (this) {
       case FirebaseAppCheckAndroidProvider.debug:
-        return AndroidProvider.debug;
+        return const AndroidDebugProvider();
       case FirebaseAppCheckAndroidProvider.playIntegrity:
-        return AndroidProvider.playIntegrity;
+        return const AndroidPlayIntegrityProvider();
       case FirebaseAppCheckAndroidProvider.platformDependent:
         return kDebugMode
-            ? AndroidProvider.debug
-            : AndroidProvider.playIntegrity;
+            ? const AndroidDebugProvider()
+            : const AndroidPlayIntegrityProvider();
     }
   }
 }

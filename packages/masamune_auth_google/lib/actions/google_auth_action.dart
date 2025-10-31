@@ -11,7 +11,7 @@ class GoogleAuthAction extends AuthAction {
 
   @override
   Future<void> onSignOut() async {
-    final google = GoogleSignIn();
+    final google = GoogleSignIn.instance;
     await google.signOut();
   }
 }

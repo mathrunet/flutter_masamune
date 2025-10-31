@@ -1,7 +1,6 @@
 part of "/masamune_model_firebase_data_connect_builder.dart";
 
-const _firebaseDataConnectChecker =
-    TypeChecker.fromRuntime(FirebaseDataConnect);
+const _firebaseDataConnectChecker = TypeChecker.typeNamed(FirebaseDataConnect);
 
 /// Builder to generate schema for FirebaseDataConnect.
 ///
@@ -127,7 +126,7 @@ generate:
     for (final annotatedElement
         in libraryReader.annotatedWith(_firebaseDataConnectChecker)) {
       final element = annotatedElement.element;
-      if (element is! ClassElement) {
+      if (element is! ClassElement2) {
         throw InvalidGenerationSourceError(
           "`@FirebaseDataConnect()` can only be used on classes.",
           element: element,

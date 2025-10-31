@@ -10,16 +10,16 @@ class AdapterGenerator
   /// FirebaseDataConnect用のModelAdapterの自動生成を行います。
   AdapterGenerator();
 
-  static const _typeChecker = TypeChecker.fromRuntime(FirebaseDataConnect);
+  static const _typeChecker = TypeChecker.typeNamed(FirebaseDataConnect);
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
     try {
-      if (element is! ClassElement) {
+      if (element is! ClassElement2) {
         throw InvalidGenerationSourceError(
           "`@FirebaseDataConnectAdapter()` can only be used on classes.",
           element: element,
@@ -41,7 +41,7 @@ class AdapterGenerator
         );
         for (final annotatedElement in lib.annotatedWith(_typeChecker)) {
           final element = annotatedElement.element;
-          if (element is! ClassElement) {
+          if (element is! ClassElement2) {
             continue;
           }
           final modelAnnotationValue =

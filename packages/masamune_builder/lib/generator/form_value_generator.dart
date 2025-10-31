@@ -11,11 +11,11 @@ class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! ClassElement) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
         "`@FormValue()` can only be used on classes.",
         element: element,

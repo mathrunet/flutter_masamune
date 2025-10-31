@@ -190,8 +190,8 @@ class FirebaseDataConnectAnnotationValue {
   ///
   /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
   FirebaseDataConnectAnnotationValue(this.element, this.annotationType) {
-    final matcher = TypeChecker.fromRuntime(annotationType);
-    for (final meta in element.metadata) {
+    final matcher = TypeChecker.typeNamed(annotationType);
+    for (final meta in element.metadata2.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         schemaDirPath =
@@ -220,9 +220,9 @@ class FirebaseDataConnectAnnotationValue {
   /// Check if the class element has
   ///
   /// クラスエレメントが指定したアノテーションを持っているか確認します。
-  static bool hasMatch(ClassElement element, Type annotationType) {
-    final matcher = TypeChecker.fromRuntime(annotationType);
-    for (final meta in element.metadata) {
+  static bool hasMatch(ClassElement2 element, Type annotationType) {
+    final matcher = TypeChecker.typeNamed(annotationType);
+    for (final meta in element.metadata2.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         return true;
@@ -234,7 +234,7 @@ class FirebaseDataConnectAnnotationValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement element;
+  final ClassElement2 element;
 
   /// Annotation Type
   ///

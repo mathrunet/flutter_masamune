@@ -16,9 +16,9 @@ class AnnotationValue {
   ///
   /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
   AnnotationValue(this.element, this.annotationType) {
-    final matcher = TypeChecker.fromRuntime(annotationType);
+    final matcher = TypeChecker.typeNamed(annotationType);
 
-    for (final meta in element.metadata) {
+    for (final meta in element.metadata2.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
@@ -100,7 +100,7 @@ class AnnotationValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement element;
+  final ClassElement2 element;
 
   /// Annotation Type
   ///

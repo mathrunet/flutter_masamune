@@ -11,12 +11,12 @@ class YamlLocalizeGenerator extends GeneratorForAnnotation<YamlLocalize> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
     try {
-      if (element is! ClassElement) {
+      if (element is! ClassElement2) {
         throw InvalidGenerationSourceError(
           "`@YamlLocalize()` can only be used on classes.",
           element: element,

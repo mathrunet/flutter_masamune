@@ -15,7 +15,7 @@ import "dart:io";
 import "dart:typed_data";
 
 // Package imports:
-import "package:analyzer/dart/element/element.dart";
+import "package:analyzer/dart/element/element2.dart";
 import "package:build/build.dart";
 import "package:code_builder/code_builder.dart";
 import "package:csv/csv.dart";

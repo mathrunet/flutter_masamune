@@ -11,9 +11,9 @@ class _MasamuneModelDocsBuilder extends Builder {
   _MasamuneModelDocsBuilder();
 
   static const _collectionModelPathChecker =
-      TypeChecker.fromRuntime(CollectionModelPath);
+      TypeChecker.typeNamed(CollectionModelPath);
   static const _documentModelPathChecker =
-      TypeChecker.fromRuntime(DocumentModelPath);
+      TypeChecker.typeNamed(DocumentModelPath);
 
   Future<void> _buildDocs(
     String targetPath,
@@ -56,7 +56,7 @@ class _MasamuneModelDocsBuilder extends Builder {
       for (final annotatedElement
           in libraryReader.annotatedWith(_documentModelPathChecker)) {
         final element = annotatedElement.element;
-        if (element is! ClassElement) {
+        if (element is! ClassElement2) {
           throw InvalidGenerationSourceError(
             "`@DocumentModelPath()` can only be used on classes.",
             element: element,
@@ -104,7 +104,7 @@ class _MasamuneModelDocsBuilder extends Builder {
       for (final annotatedElement
           in libraryReader.annotatedWith(_collectionModelPathChecker)) {
         final element = annotatedElement.element;
-        if (element is! ClassElement) {
+        if (element is! ClassElement2) {
           throw InvalidGenerationSourceError(
             "`@CollectionModelPath()` can only be used on classes.",
             element: element,

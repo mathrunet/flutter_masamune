@@ -1,7 +1,7 @@
 part of "/katana_router_builder.dart";
 
-const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
-const _queryParamChecker = TypeChecker.fromRuntime(QueryParam);
+const _pageParamChecker = TypeChecker.typeNamed(PageParam);
+const _queryParamChecker = TypeChecker.typeNamed(QueryParam);
 
 /// Parameter Value.
 ///
@@ -66,7 +66,7 @@ class ParamaterValue {
   /// Parameter Element.
   ///
   /// パラメーターエレメント。
-  final ParameterElement element;
+  final FormalParameterElement element;
 
   /// Default value of the parameter.
   ///

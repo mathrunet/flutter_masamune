@@ -12,11 +12,11 @@ class CollectionModelGenerator
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is ClassElement) {
+    if (element is ClassElement2) {
       if (!_freezedChecker.hasAnnotationOfExact(element)) {
         throw InvalidGenerationSourceError(
           "The `@freezed` annotation is required to use `@CollectionModelPath()` or `@DocumentModelPath()`.",

@@ -51,7 +51,7 @@ class GoogleAuthQuery {
   ///
   /// {@macro google_auth}
   static Future<void> signOut() async {
-    await GoogleSignIn().signOut();
+    await GoogleSignIn.instance.signOut();
   }
 }
 
@@ -70,20 +70,12 @@ class GoogleSignInAuthProvider extends SnsSignInAuthProvider {
   @override
   Future<Credential> credential() async {
     // final adapter = GoogleAuthMasamuneAdapter.primary;
-    final google = GoogleSignIn();
-    var googleCurrentUser = google.currentUser;
-    googleCurrentUser ??= await google.signInSilently();
-    googleCurrentUser ??= await google.signIn();
-    if (googleCurrentUser == null) {
-      throw Exception(
-        "Login failed because the authentication information cannot be found.",
-      );
-    }
-    final credentials = await googleCurrentUser.authentication;
+    final google = GoogleSignIn.instance;
+    final currentUser = await google.authenticate();
+    final credentials = currentUser.authentication;
     return Credential(
       providerId: providerId,
       idToken: credentials.idToken,
-      accessToken: credentials.accessToken,
     );
   }
 }

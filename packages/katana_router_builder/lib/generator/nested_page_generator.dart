@@ -11,11 +11,11 @@ class HiddenPageGenerator extends GeneratorForAnnotation<HiddenPage> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! ClassElement) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
         "`@HiddenPage()` can only be used on classes.",
         element: element,

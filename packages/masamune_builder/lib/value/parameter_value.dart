@@ -1,11 +1,11 @@
 part of "/masamune_builder.dart";
 
-const _searchParamChecker = TypeChecker.fromRuntime(SearchParam);
-const _vectorParamChecker = TypeChecker.fromRuntime(VectorParam);
-const _refParamChecker = TypeChecker.fromRuntime(RefParam);
-const _jsonParamChecker = TypeChecker.fromRuntime(JsonParam);
-const _jsonKeyChecker = TypeChecker.fromRuntime(JsonKey);
-const _commentChecker = TypeChecker.fromRuntime(ParamComment);
+const _searchParamChecker = TypeChecker.typeNamed(SearchParam);
+const _vectorParamChecker = TypeChecker.typeNamed(VectorParam);
+const _refParamChecker = TypeChecker.typeNamed(RefParam);
+const _jsonParamChecker = TypeChecker.typeNamed(JsonParam);
+const _jsonKeyChecker = TypeChecker.typeNamed(JsonKey);
+const _commentChecker = TypeChecker.typeNamed(ParamComment);
 
 /// Parameter Value.
 ///
@@ -67,9 +67,9 @@ class ParamaterValue {
   static final _adapterRegExp = RegExp(r"adapter\s*:\s*([^,\)]+),?");
 
   ReferenceValue? _parseReferenceValue(
-      ParameterElement element, InterfaceType type) {
+      FormalParameterElement element, InterfaceType type) {
     String? referenceAdapter;
-    for (final meta in element.metadata) {
+    for (final meta in element.metadata2.annotations) {
       final source = meta.toSource();
       final adapterMatch = _adapterRegExp.firstMatch(source);
       if (adapterMatch != null) {
@@ -158,7 +158,7 @@ class ParamaterValue {
   /// Parameter Element.
   ///
   /// パラメーターエレメント。
-  final ParameterElement element;
+  final FormalParameterElement element;
 
   /// Parameter Type.
   ///
