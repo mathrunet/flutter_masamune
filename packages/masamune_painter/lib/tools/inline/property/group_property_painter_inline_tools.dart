@@ -128,6 +128,14 @@ class GroupPaintingValue extends PaintingValue {
     final children = <PaintingValue>[];
     for (final childJson in childrenJson) {
       final childType = childJson.get(PaintingValue.typeKey, "");
+
+      // Check if child is a GroupPaintingValue first
+      if (childType == _kGroupPainterPrimaryToolsId ||
+          childType == _kClippingGroupPainterPrimaryToolsId) {
+        children.add(GroupPaintingValue.fromJson(childJson));
+        continue;
+      }
+
       final tool =
           PainterMasamuneAdapter.findTool(toolId: childType, recursive: true);
       if (tool is PainterVariableTools) {
@@ -250,13 +258,18 @@ class GroupPaintingValue extends PaintingValue {
     List<PaintingValue>? children,
     bool? expanded,
   }) {
+    // Apply offset to children recursively if provided
+    final updatedChildren = offset != null && children == null
+        ? this.children.map((child) => child.copyWith(offset: offset)).toList()
+        : (children ?? this.children);
+
     return GroupPaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
-      start: start ?? this.start,
-      end: end ?? this.end,
+      start: (start ?? this.start) + (offset ?? Offset.zero),
+      end: (end ?? this.end) + (offset ?? Offset.zero),
       name: name ?? this.name,
-      children: children ?? this.children,
+      children: updatedChildren,
       expanded: expanded ?? this.expanded,
     );
   }
@@ -376,6 +389,14 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     final children = <PaintingValue>[];
     for (final childJson in childrenJson) {
       final type = childJson.get(PaintingValue.typeKey, "");
+
+      // Check if child is a GroupPaintingValue first
+      if (type == _kGroupPainterPrimaryToolsId ||
+          type == _kClippingGroupPainterPrimaryToolsId) {
+        children.add(GroupPaintingValue.fromJson(childJson));
+        continue;
+      }
+
       final tool =
           PainterMasamuneAdapter.findTool(toolId: type, recursive: true);
       if (tool is PainterVariableTools) {
@@ -484,15 +505,25 @@ class ClippingGroupPaintingValue extends GroupPaintingValue {
     bool? expanded,
     PaintingValue? clipper,
   }) {
+    // Apply offset to children recursively if provided
+    final updatedChildren = offset != null && children == null
+        ? this.children.map((child) => child.copyWith(offset: offset)).toList()
+        : (children ?? this.children);
+
+    // Apply offset to clipper as well if provided
+    final updatedClipper = offset != null && clipper == null
+        ? this.clipper.copyWith(offset: offset)
+        : (clipper ?? this.clipper);
+
     return ClippingGroupPaintingValue(
       id: id ?? this.id,
       property: property ?? this.property,
-      start: start ?? this.start,
-      end: end ?? this.end,
+      start: (start ?? this.start) + (offset ?? Offset.zero),
+      end: (end ?? this.end) + (offset ?? Offset.zero),
       name: name ?? this.name,
-      children: children ?? this.children,
+      children: updatedChildren,
       expanded: expanded ?? this.expanded,
-      clipper: clipper ?? this.clipper,
+      clipper: updatedClipper,
     );
   }
 

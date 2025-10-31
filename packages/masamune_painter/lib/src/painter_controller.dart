@@ -2414,14 +2414,32 @@ class PainterControllerClipboard {
     // Save current editing values first (without history)
     _controller.saveCurrentValue();
 
+    // Filter out children of selected groups to avoid duplicates
+    // When a group is selected, both the group and its children are in _currentValues
+    final groupIds = <String>{};
+    final childIds = <String>{};
+
+    for (final value in _controller._currentValues) {
+      if (value is GroupPaintingValue) {
+        groupIds.add(value.id);
+        for (final child in value.children) {
+          childIds.add(child.id);
+        }
+      }
+    }
+
+    final valuesToCopy = _controller._currentValues.where((value) {
+      // Exclude children of selected groups
+      return !childIds.contains(value.id);
+    }).toList();
+
     // Copy to internal clipboard
-    _clipboardData = List<PaintingValue>.from(_controller._currentValues);
+    _clipboardData = List<PaintingValue>.from(valuesToCopy);
 
     // Try to copy to system clipboard as both JSON and image
     try {
       // Copy as JSON for internal use
-      final jsonData =
-          _controller._currentValues.map((v) => v.toJson()).toList();
+      final jsonData = valuesToCopy.map((v) => v.toJson()).toList();
       final jsonString = jsonEncode({
         PainterController.typeKey: PainterControllerClipboard.clipboardType,
         PainterController.versionKey: "1.0",
@@ -2461,9 +2479,26 @@ class PainterControllerClipboard {
     // Copy to clipboard (without additional history save)
     await copy();
 
-    // Remove cut values from the main list
-    final cutIds = _controller._currentValues.map((v) => v.id).toSet();
-    _controller._values.removeWhere((v) => cutIds.contains(v.id));
+    // Remove cut values from their current locations (root or within groups)
+    // Filter to only include top-level items (exclude children of selected groups)
+    final groupIds = <String>{};
+    final childIds = <String>{};
+
+    for (final value in _controller._currentValues) {
+      if (value is GroupPaintingValue) {
+        groupIds.add(value.id);
+        for (final child in value.children) {
+          childIds.add(child.id);
+        }
+      }
+    }
+
+    final idsToRemove = _controller._currentValues
+        .where((value) => !childIds.contains(value.id))
+        .map((v) => v.id)
+        .toList();
+
+    _controller._removeItemsFromCurrentLocations(idsToRemove);
 
     // Clear selection
     _controller._currentValues.clear();
@@ -2505,6 +2540,7 @@ class PainterControllerClipboard {
     } catch (e) {
       // Ignore errors and use internal clipboard
     }
+    
 
     // Paste from internal clipboard
     if (_clipboardData == null || _clipboardData!.isEmpty) {
@@ -2549,6 +2585,12 @@ class PainterControllerClipboard {
 
     if (type == null) {
       return null;
+    }
+
+    // Check for GroupPaintingValue first (special types not handled by tools)
+    if (type == "__painter_property_group__" ||
+        type == "__painter_property_clipping_group__") {
+      return GroupPaintingValue.fromJson(json);
     }
 
     // Check primary tools first

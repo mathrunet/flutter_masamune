@@ -1408,6 +1408,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1415,6 +1418,7 @@ void main() {
     context.controller.selectAll();
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
@@ -1423,10 +1427,11 @@ void main() {
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.selectAll();
-    context.controller.createGroupFromSelection();
+    final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
-    context.controller.saveCurrentValue();
+    context.controller.select(group!);
     await tester.pumpAndSettle();
 
     // Copy
@@ -1451,15 +1456,19 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.selectAll();
-    context.controller.createGroupFromSelection();
+    final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
-    context.controller.saveCurrentValue();
+    context.controller.select(group!);
     await tester.pumpAndSettle();
 
     // Cut
@@ -1486,6 +1495,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1493,6 +1505,7 @@ void main() {
     context.controller.selectAll();
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
@@ -1501,10 +1514,11 @@ void main() {
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.selectAll();
-    context.controller.createGroupFromSelection();
+    final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
-    context.controller.saveCurrentValue();
+    context.controller.select(group!);
     await tester.pumpAndSettle();
 
     // Cut
@@ -1532,6 +1546,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1539,24 +1556,29 @@ void main() {
     context.controller.selectAll();
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Create second group
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(220, 100), const Offset(270, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(280, 100), const Offset(330, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(context.controller.value[1]);
     context.controller.select(context.controller.value[2]);
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Select both groups
     context.controller.selectAll();
-    context.controller.saveCurrentValue();
     await tester.pumpAndSettle();
 
     // Copy
@@ -1580,6 +1602,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1587,6 +1612,7 @@ void main() {
     context.controller.selectAll();
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add standalone rectangle
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
@@ -1598,7 +1624,6 @@ void main() {
 
     // Select both
     context.controller.selectAll();
-    context.controller.saveCurrentValue();
     await tester.pumpAndSettle();
 
     // Copy
@@ -1621,6 +1646,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1628,6 +1656,7 @@ void main() {
     context.controller.selectAll();
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add text
     toolbar.toggleMode(const TextPainterPrimaryTools());
@@ -1639,7 +1668,6 @@ void main() {
 
     // Select both
     context.controller.selectAll();
-    context.controller.saveCurrentValue();
     await tester.pumpAndSettle();
 
     // Cut
@@ -1666,6 +1694,10 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
+    await helper.reset();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1676,8 +1708,8 @@ void main() {
 
     // Select group child directly (this will also select parent in current implementation)
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(group!.children.first);
-    context.controller.saveCurrentValue();
     await tester.pumpAndSettle();
 
     // Copy
@@ -1705,7 +1737,11 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
+    await helper.reset();
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
@@ -1746,6 +1782,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1753,6 +1792,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Ungroup
     context.controller.ungroup(group!.id);
@@ -1785,6 +1825,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1792,6 +1835,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add new rectangle
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
@@ -1835,7 +1879,13 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(320, 100), const Offset(420, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1843,6 +1893,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final childId = group!.children.first.id;
 
@@ -1882,6 +1933,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -1889,19 +1943,26 @@ void main() {
     context.controller.selectAll();
     final group1 = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(350, 100), const Offset(450, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(460, 100), const Offset(560, 200));
+    await helper.reset();
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(context.controller.value[1]);
     context.controller.select(context.controller.value[2]);
     final group2 = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final itemId = group1!.children.first.id;
 
@@ -1962,6 +2023,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final firstChildId = group!.children[0].id;
     final secondChildId = group.children[1].id;
@@ -2001,6 +2063,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2008,6 +2073,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add rectangle on top
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
@@ -2021,6 +2087,7 @@ void main() {
 
     // Move forward
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(group);
     context.controller.moveSelectedLayersForward();
     await tester.pumpAndSettle();
@@ -2049,26 +2116,36 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(350, 100), const Offset(450, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
 
     // Create group
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(context.controller.value[1]);
     context.controller.select(context.controller.value[2]);
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     expect(context.controller.value[1].id, group!.id);
 
     // Move backward
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(group);
     context.controller.moveSelectedLayersBackward();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     expect(context.controller.value[0].id, group.id);
 
@@ -2094,6 +2171,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2101,15 +2181,20 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add two rectangles
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(350, 100), const Offset(450, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(460, 100), const Offset(560, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
+    await helper.reset();
 
     expect(context.controller.value[0].id, group!.id);
 
@@ -2141,6 +2226,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2148,6 +2236,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final originalStart = group!.start;
 
@@ -2185,6 +2274,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2198,6 +2290,7 @@ void main() {
     // Resize group
     await helper.drag(originalEnd, const Offset(400, 250));
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final resizedGroup = context.controller.value.first as GroupPaintingValue;
     expect(resizedGroup.end.dx, greaterThan(originalEnd.dx));
@@ -2229,15 +2322,19 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.selectAll();
-    context.controller.createGroupFromSelection();
+    final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
-    context.controller.saveCurrentValue();
+    context.controller.select(group!);
     await tester.pumpAndSettle();
 
     // Copy and paste
@@ -2272,15 +2369,19 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.selectAll();
-    context.controller.createGroupFromSelection();
+    final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
-    context.controller.saveCurrentValue();
+    context.controller.select(group!);
     await tester.pumpAndSettle();
 
     // Cut
@@ -2298,6 +2399,7 @@ void main() {
     // Redo cut
     context.controller.history.redo();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     expect(context.controller.value.length, 0);
 
@@ -2330,6 +2432,7 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
 
     // Create text
     toolbar.toggleMode(const TextPainterPrimaryTools());
@@ -2344,6 +2447,7 @@ void main() {
     // Create group
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     expect(context.controller.value.length, 1);
     expect(group!.children[0], isA<RectanglePaintingValue>());
@@ -2376,6 +2480,10 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2383,6 +2491,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add text
     toolbar.toggleMode(const TextPainterPrimaryTools());
@@ -2391,6 +2500,7 @@ void main() {
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final textId = context.controller.value.last.id;
 
@@ -2428,8 +2538,17 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(220, 100), const Offset(270, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(280, 100), const Offset(330, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2437,6 +2556,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final firstId = group!.children[0].id;
     final secondId = group.children[1].id;
@@ -2496,6 +2616,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(210, 100), const Offset(310, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2503,6 +2626,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add rectangle
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
@@ -2569,6 +2693,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2576,6 +2703,7 @@ void main() {
     context.controller.selectAll();
     context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add rectangle
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
@@ -2589,6 +2717,7 @@ void main() {
     context.controller.selectAll();
     final nestedGroup = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     expect(context.controller.value.length, 1);
     expect(nestedGroup!.children.length, 3); // Flattened
@@ -2617,6 +2746,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(200, 200));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(250, 100), const Offset(350, 200));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2624,6 +2756,7 @@ void main() {
     context.controller.selectAll();
     final group = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     final firstId = group!.children.first.id;
 
@@ -2634,8 +2767,10 @@ void main() {
     // Remove last element (should delete group)
     final remainingGroup = context.controller.value
         .firstWhere((v) => v is GroupPaintingValue) as GroupPaintingValue;
-    context.controller.removeFromGroup(remainingGroup.children.first.id);
-    await tester.pumpAndSettle();
+    for (final child in remainingGroup.children) {
+      context.controller.removeFromGroup(child.id);
+      await tester.pumpAndSettle();
+    }
 
     expect(
         context.controller.value.every((v) => v is! GroupPaintingValue), true);
@@ -2673,6 +2808,9 @@ void main() {
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(100, 100), const Offset(150, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(160, 100), const Offset(210, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
@@ -2680,23 +2818,32 @@ void main() {
     context.controller.selectAll();
     final group1 = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Add standalone rectangle
     toolbar.toggleMode(const RectangleShapePainterInlineTools());
     await tester.pumpAndSettle();
     await helper.drag(const Offset(220, 100), const Offset(270, 150));
 
+    await helper.reset();
     // Create second group
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(280, 100), const Offset(330, 150));
+    await helper.reset();
+    toolbar.toggleMode(const RectangleShapePainterInlineTools());
+    await tester.pumpAndSettle();
     await helper.drag(const Offset(340, 100), const Offset(390, 150));
 
     toolbar.toggleMode(const SelectPainterInlineTools());
     await tester.pumpAndSettle();
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(context.controller.value[2]);
     context.controller.select(context.controller.value[3]);
     final group2 = context.controller.createGroupFromSelection();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Initial order: group1, rect, group2
     expect(context.controller.value[0].id, group1!.id);
@@ -2705,18 +2852,22 @@ void main() {
 
     // Move group2 backward
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(group2);
     context.controller.moveSelectedLayersBackward();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Order: group1, group2, rect
     expect(context.controller.value[1].id, group2.id);
 
     // Move group1 forward
     context.controller.unselectAll();
+    await helper.reset();
     context.controller.select(group1);
     context.controller.moveSelectedLayersForward();
     await tester.pumpAndSettle();
+    await helper.reset();
 
     // Order: group2, group1, rect
     expect(context.controller.value[0].id, group2.id);
