@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.1.0
 
  - **FIX**: Build configuration for Vector. ([350ea67e](https://github.com/mathrunet/flutter_masamune/commit/350ea67ec68d87df8fcf3070f1eae7ff108a5fdf))

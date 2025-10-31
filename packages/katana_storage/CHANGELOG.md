@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.0.8
 
  - **FIX**: Fixed because PlatformInfo was not used. ([b52de4be](https://github.com/mathrunet/flutter_masamune/commit/b52de4be85939aa060e4ad645c8386864fe6c074))

@@ -1,6 +1,6 @@
 name: masamune_universal_ui
 description: The package provide a universal UI that aims to be written in one code on any platform.
-version: 3.1.28
+version: 3.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_universal_ui
 
@@ -12,12 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.2.1
-  masamune: ^3.4.0
+  katana: ^3.3.0
+  masamune: ^3.5.0
   url_launcher: ^6.3.1
   shimmer: ^3.0.0
 dev_dependencies:
   test: ^1.25.0
-  katana_test: ^3.0.3
+  katana_test: ^3.1.0
   flutter_lints: ^6.0.0
   import_sorter: ^4.6.0

@@ -1,6 +1,6 @@
 name: katana_test
 description: Base package containing utilities for testing. It provides the base part of the Masamune framework.
-version: 3.0.3
+version: 3.1.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_test
 

@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.2.1
 
  - **FIX**: Removed unremovable emojis. ([a2461ac3](https://github.com/mathrunet/flutter_masamune/commit/a2461ac35357740ce296237312ba3060c3d7dcf5))

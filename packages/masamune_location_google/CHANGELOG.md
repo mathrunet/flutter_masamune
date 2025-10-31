@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.0.29
 
  - **FIX**: Fixed an error. ([85a8514b](https://github.com/mathrunet/flutter_masamune/commit/85a8514b0801f1a16f54ba28f3ed1737ddb4e758))

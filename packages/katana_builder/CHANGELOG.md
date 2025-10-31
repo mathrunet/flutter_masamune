@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.1.0
 
  - **FEAT**: Enabled building of ModelVectorValue. ([bd087525](https://github.com/mathrunet/flutter_masamune/commit/bd0875253b34b125c63b38d7c7809f8a6f2d48a0))

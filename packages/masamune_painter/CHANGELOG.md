@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.2.1
 
  - **REFACTOR**: Refactoring. ([1f787c93](https://github.com/mathrunet/flutter_masamune/commit/1f787c937c85f69f83233474b54e70d380944b33))

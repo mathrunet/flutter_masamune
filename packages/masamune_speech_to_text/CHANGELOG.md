@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.1.0
 
  - **FEAT**: Delegate the mechanism to masamune_speech_to_text_xxx. ([1bc79b58](https://github.com/mathrunet/flutter_masamune/commit/1bc79b58f4c63325ff114afc0819ea6392a86103))

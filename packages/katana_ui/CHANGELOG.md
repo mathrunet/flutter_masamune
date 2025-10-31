@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.2.0
 
  - **FIX**: Add an enabled flag to CachedImageBuilder. ([4bff63f6](https://github.com/mathrunet/flutter_masamune/commit/4bff63f647030d4053691a678e594b0608201186))

@@ -1,3 +1,7 @@
+## 3.5.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.4.0
 
  - **FEAT**: Create a Mixin for vector search. ([003214b6](https://github.com/mathrunet/flutter_masamune/commit/003214b66dcf6d2db789c9ce6127197af7cd907d))

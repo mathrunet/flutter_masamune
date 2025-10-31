@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.2.0
 
  - **FEAT**: Added image output functionality for debugging. ([5bed5d2e](https://github.com/mathrunet/flutter_masamune/commit/5bed5d2e41a193b2ebf9166b81040e4274abef51))

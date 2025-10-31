@@ -1,3 +1,7 @@
+## 3.1.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.0.12
 
  - **FIX**: Made the memory cache accessible. ([5ddb2395](https://github.com/mathrunet/flutter_masamune/commit/5ddb2395f42ff69e5b5003b0f9edc22957cd96eb))

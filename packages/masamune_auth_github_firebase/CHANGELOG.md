@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+
 ## 3.3.11
 
  - **FIX**: Firebase update. ([daef673c](https://github.com/mathrunet/flutter_masamune/commit/daef673c7d321f40e0bea48e3b850e63dae519ce))

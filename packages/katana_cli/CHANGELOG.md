@@ -1,3 +1,7 @@
+## 3.8.3
+
+ - Update a dependency to the latest release.
+
 ## 3.8.2
 
  - **FIX**: I have implemented the functionality to output files as Base64. ([03916fc9](https://github.com/mathrunet/flutter_masamune/commit/03916fc9a794959460f056e53e087c890bbe24ff))

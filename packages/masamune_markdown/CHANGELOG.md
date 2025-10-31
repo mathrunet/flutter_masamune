@@ -1,3 +1,20 @@
+## 3.4.0
+
+ - **REFACTOR**: Refactoring around links. ([81b3b740](https://github.com/mathrunet/flutter_masamune/commit/81b3b740ffa41749bb143d81298157ba404db0a5))
+ - **REFACTOR**: Refactoring complete. ([53836123](https://github.com/mathrunet/flutter_masamune/commit/538361231b121c245d8ff020807edf0d829e81b0))
+ - **REFACTOR**: Refactoring. ([6dc835ba](https://github.com/mathrunet/flutter_masamune/commit/6dc835ba3599fa0362c36d3da4077c48bd7eaeb4))
+ - **FIX**: It is now possible to set initial values. ([c17d7521](https://github.com/mathrunet/flutter_masamune/commit/c17d75218f8fb51df8189bd3c195b1e8f1e7bcae))
+ - **FIX**: Add camera image function. ([c3685039](https://github.com/mathrunet/flutter_masamune/commit/c368503931effab64709ea737ee46e56bac27375))
+ - **FIX**: Add image. ([24ef9933](https://github.com/mathrunet/flutter_masamune/commit/24ef9933577992f31563118ca96ffe79c00dc2ac))
+ - **FIX**: Fix newline in code block. ([0b4a2994](https://github.com/mathrunet/flutter_masamune/commit/0b4a29945c0ea7b5df872916a05bdd012b1efb5c))
+ - **FIX**: Fixing around indents. ([2359a273](https://github.com/mathrunet/flutter_masamune/commit/2359a2736e672b9795655e26f1de2539973c39ca))
+ - **FIX**: Fix paste bug. ([6b2902eb](https://github.com/mathrunet/flutter_masamune/commit/6b2902eb0f5b9ef6cbf72c583ca8998036582181))
+ - **FIX**: Bugfix for clipboard operations. ([84699b3e](https://github.com/mathrunet/flutter_masamune/commit/84699b3e24a64e514f316bfabef045f747e9525f))
+ - **FIX**: I made it easier to retrieve information. ([835d22e5](https://github.com/mathrunet/flutter_masamune/commit/835d22e5789d7340db14407adfba3bdd8f8e4b16))
+ - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
+ - **FEAT**: Performance improvement. ([56c97f21](https://github.com/mathrunet/flutter_masamune/commit/56c97f21adb248e43ec58f74a2bb5d626f099747))
+ - **FEAT**: Markdown editor complete. ([1514a4ce](https://github.com/mathrunet/flutter_masamune/commit/1514a4ce9b6aef8f4a28ac8efc59c414496139dd))
+
 ## 3.3.0
 
  - **FIX**: Simultaneous display of underline and strikethrough. ([9c0ec9bd](https://github.com/mathrunet/flutter_masamune/commit/9c0ec9bd457dd63415441bf73fbf764357803a52))
