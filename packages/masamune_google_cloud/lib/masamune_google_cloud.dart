@@ -2,7 +2,7 @@
 
 // Copyright (c) 2025 mathru. All rights reserved.
 
-/// The base package for using Google Cloud Platform.
+/// The base package for using Google Cloud Platform. Use together with Firebase Functions.
 ///
 /// To use, import `package:masamune_google_cloud/masamune_google_cloud.dart`.
 ///

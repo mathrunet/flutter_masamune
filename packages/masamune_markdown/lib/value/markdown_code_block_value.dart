@@ -193,7 +193,7 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
 
     // Build TextSpan tree with individual styles for each span
     final textSpans = <TextSpan>[];
-    final spanInfos = <_SpanInfo>[];
+    final spanInfos = <SpanInfo>[];
     var totalLength = 0;
 
     for (var i = 0; i < children.length; i++) {
@@ -208,7 +208,7 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
         ));
 
         // Save span info
-        spanInfos.add(_SpanInfo(
+        spanInfos.add(SpanInfo(
           span: span,
           localOffset: totalLength,
           length: span.value.length,

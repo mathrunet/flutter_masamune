@@ -16,9 +16,9 @@ dependencies:
   masamune: ^3.5.0
   katana_firebase: ^3.1.0
   firebase_core: ^4.2.0
-  firebase_app_check: ^0.4.1
+  firebase_app_check: ^0.4.1+1
 dev_dependencies:
-  test: ^1.25.0
+  test: ^1.26.2
   katana_test: ^3.1.0
   flutter_lints: ^6.0.0
   import_sorter: ^4.6.0

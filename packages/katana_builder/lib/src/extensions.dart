@@ -44,9 +44,9 @@ extension DartTypeExtensions on DartType {
   ///
   /// エイリアス名を取得します。
   String get aliasName {
-    final aliasElement = alias?.element;
+    final aliasElement = alias?.element2;
     if (aliasElement != null) {
-      return aliasElement.name;
+      return aliasElement.name3 ?? "";
     }
     return toString();
   }

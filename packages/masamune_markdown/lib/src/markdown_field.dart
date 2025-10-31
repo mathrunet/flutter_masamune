@@ -3486,7 +3486,7 @@ class BlockLayout {
   /// Spans with their local offsets and lengths.
   ///
   /// ローカルオフセットと長さを持つスパン。
-  final List<_SpanInfo> spans;
+  final List<SpanInfo> spans;
 
   /// Marker information for list blocks.
   ///
@@ -3541,8 +3541,11 @@ class MarkerInfo {
 /// Information about a span in a block.
 ///
 /// ブロック内のスパンに関する情報。
-class _SpanInfo {
-  _SpanInfo({
+class SpanInfo {
+  /// Information about a span in a block.
+  ///
+  /// ブロック内のスパンに関する情報。
+  SpanInfo({
     required this.span,
     required this.localOffset,
     required this.length,

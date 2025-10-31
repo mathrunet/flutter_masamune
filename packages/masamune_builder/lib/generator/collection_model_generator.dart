@@ -98,7 +98,7 @@ class CollectionModelGenerator
       ).format(
         code.isEmpty ? "// no code." : code,
       );
-    } else if (element is TypeDefiningElement) {
+    } else if (element is TypeDefiningElement2) {
       if (_documentModelPathChecker.hasAnnotationOfExact(element)) {
         throw InvalidGenerationSourceError(
           "You cannot use `@CollectionModelPath()` and `@DocumentModelPath()` at the same time.",

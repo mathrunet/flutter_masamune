@@ -260,7 +260,7 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
 
     // 各スパンに個別のスタイルを持つTextSpanツリーを構築
     final textSpans = <TextSpan>[];
-    final spanInfos = <_SpanInfo>[];
+    final spanInfos = <SpanInfo>[];
     var totalLength = 0;
 
     for (var i = 0; i < children.length; i++) {
@@ -275,7 +275,7 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
         ));
 
         // スパン情報を保存
-        spanInfos.add(_SpanInfo(
+        spanInfos.add(SpanInfo(
           span: span,
           localOffset: totalLength,
           length: span.value.length,
