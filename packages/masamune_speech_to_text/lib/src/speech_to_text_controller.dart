@@ -1,9 +1,5 @@
 part of "/masamune_speech_to_text.dart";
 
-const _kFinalStatus = "final";
-const _kDoneNoResultStatus = "doneNoResult";
-const _kNotListeningStatus = "notListening";
-
 /// Controller for Speech-to-Text.
 ///
 /// [initialize] to initialize and check permissions.
@@ -54,30 +50,37 @@ class SpeechToTextController extends MasamuneControllerBase<
   /// Returns `true` if the controller has been initialized.
   ///
   /// コントローラーが初期化済みの場合`true`を返します。
-  bool get initialized => _initialized;
-  bool _initialized = false;
+  bool get initialized => _container != null;
+  SpeechToTextContainer? _container;
 
-  SpeechToTextResponse? _current;
-  Completer<SpeechToTextResponse?>? _listenCompleter;
-  Completer<void>? _cancelCompleter;
   Completer<void>? _initializeCompleter;
 
   /// Returns `true` if the controller is listening.
   ///
   /// コントローラーが音声認識中の場合`true`を返します。
-  bool get listening => _listenCompleter != null;
+  bool get listening => _container?.listening ?? false;
 
-  /// `true` if a new voice recognition is done.
+  /// Returns `true` if the controller is canceling.
   ///
-  /// `false` when [listen] is executed.
-  ///
-  /// 新しく音声認識がされた場合`true`になります。
-  ///
-  /// [listen]が実行されると`false`になります。
-  bool get updated => _updated;
-  bool _updated = false;
+  /// コントローラーがキャンセル中の場合`true`を返します。
+  bool get canceling => _cancelCompleter != null;
+  Completer<void>? _cancelCompleter;
 
-  final _stt = _SpeechToText();
+  /// Returns the current speech-to-text response.
+  ///
+  /// 現在の音声認識のレスポンスを返します。
+  SpeechToTextResponse get current {
+    final found = value?.firstWhereOrNull((element) => !element.isFinal);
+    if (found != null) {
+      return found;
+    }
+    final current = SpeechToTextResponse();
+    setValueInternal(List.unmodifiable([
+      if (value != null) ...value!,
+      current,
+    ]));
+    return current;
+  }
 
   /// Initialize the controller.
   ///
@@ -87,7 +90,7 @@ class SpeechToTextController extends MasamuneControllerBase<
   ///
   /// 権限の確認も行います。権限の確認が取れなかった場合は例外が発生します。
   Future<void> initialize() async {
-    if (initialized) {
+    if (_container != null) {
       return;
     }
     if (_initializeCompleter != null) {
@@ -95,8 +98,9 @@ class SpeechToTextController extends MasamuneControllerBase<
     }
     _initializeCompleter = Completer();
     try {
-      await _stt.initialize(onError: _onError, onStatus: _onStatus);
-      _initialized = true;
+      _container = await adapter.initialize(
+        controller: this,
+      );
       _initializeCompleter?.complete();
       _initializeCompleter = null;
       notifyListeners();
@@ -108,24 +112,6 @@ class SpeechToTextController extends MasamuneControllerBase<
       _initializeCompleter?.complete();
       _initializeCompleter = null;
     }
-  }
-
-  Future<void> _onStatus(String status) async {
-    if (_current == null) {
-      return;
-    }
-    if (_cancelCompleter != null && _kNotListeningStatus == status) {
-      _listenComplete();
-    } else if (status == _kFinalStatus || status == _kDoneNoResultStatus) {
-      _listenComplete();
-    }
-  }
-
-  void _onError(SpeechRecognitionError error) {
-    _listenCompleter?.completeError(Exception(error.errorMsg));
-    _listenCompleter = null;
-    _initializeCompleter?.completeError(Exception(error.errorMsg));
-    _initializeCompleter = null;
   }
 
   /// Starts voice recognition.
@@ -144,46 +130,33 @@ class SpeechToTextController extends MasamuneControllerBase<
     Locale? locale,
     void Function(SpeechToTextResponse text)? onChanged,
   }) async {
-    if (_listenCompleter != null) {
-      await _stt.stop();
-      await _listenCompleter?.future;
+    if (_container?.listening ?? false) {
+      await adapter.stop(container: _container!, controller: this);
       notifyListeners();
-      _listenComplete();
     }
-    _listenCompleter = Completer();
     try {
-      _updated = false;
-      _current = SpeechToTextResponse._();
-      setValueInternal(List.unmodifiable([
-        if (value != null) ...value!,
-        _current!,
-      ]));
       await initialize();
-      await _stt.listen(
-        listenMode: ListenMode.dictation,
-        localeId: (locale ?? adapter.defaultLocale).toLanguageTag(),
-        onResult: (result) {
-          final prev = _current?.value;
-          final res = result.recognizedWords;
-          if (res.isEmpty || prev == res) {
+      _container = await adapter.listen(
+        controller: this,
+        container: _container!,
+        duration: duration,
+        locale: locale,
+        onResult: (result, isFinal) {
+          final current = this.current;
+          final prev = current.value;
+          if (result.isEmpty || prev == result) {
             return;
           }
-          _current?._value = res;
-          onChanged?.call(_current!);
+          current.set(value: result, isFinal: isFinal);
+          onChanged?.call(current);
           notifyListeners();
         },
-        listenFor: duration,
       );
-      await _listenCompleter?.future;
       notifyListeners();
-      _listenComplete();
-      return _current!;
+      return current;
     } catch (e) {
-      _listenCompleter?.completeError(e);
-      _listenCompleter = null;
+      _container?.error(e);
       rethrow;
-    } finally {
-      _listenComplete();
     }
   }
 
@@ -196,7 +169,7 @@ class SpeechToTextController extends MasamuneControllerBase<
         "SpeechToTextController is not initialized. Please call initialize() first.",
       );
     }
-    if (_listenCompleter == null) {
+    if (!(_container?.listening ?? false)) {
       return;
     }
     if (_cancelCompleter != null) {
@@ -205,16 +178,21 @@ class SpeechToTextController extends MasamuneControllerBase<
     _cancelCompleter = Completer();
     try {
       await initialize();
-      await _stt.cancel();
-      await _listenCompleter?.future;
-      final list = List<SpeechToTextResponse>.from(value ?? []);
-      list.remove(_current);
-      setValueInternal(List.unmodifiable(list));
+      await adapter.cancel(
+        container: _container!,
+        controller: this,
+      );
+      final found = value?.firstWhereOrNull((element) => !element.isFinal);
+      if (found != null) {
+        final list = List<SpeechToTextResponse>.from(value ?? []);
+        list.remove(found);
+        setValueInternal(List.unmodifiable(list));
+      }
       notifyListeners();
-      _listenComplete();
       _cancelCompleter?.complete();
       _cancelCompleter = null;
     } catch (e) {
+      _container?.error(e);
       _cancelCompleter?.completeError(e);
       _cancelCompleter = null;
       rethrow;
@@ -233,7 +211,7 @@ class SpeechToTextController extends MasamuneControllerBase<
         "SpeechToTextController is not initialized. Please call initialize() first.",
       );
     }
-    if (_listenCompleter == null) {
+    if (!(_container?.listening ?? false)) {
       return;
     }
     if (_cancelCompleter != null) {
@@ -242,13 +220,19 @@ class SpeechToTextController extends MasamuneControllerBase<
     _cancelCompleter = Completer();
     try {
       await initialize();
-      await _stt.stop();
-      await _listenCompleter?.future;
+      await adapter.stop(
+        container: _container!,
+        controller: this,
+      );
+      final found = value?.firstWhereOrNull((element) => !element.isFinal);
+      if (found != null) {
+        found.set(value: found.value, isFinal: true);
+      }
       notifyListeners();
-      _listenComplete();
       _cancelCompleter?.complete();
       _cancelCompleter = null;
     } catch (e) {
+      _container?.error(e);
       _cancelCompleter?.completeError(e);
       _cancelCompleter = null;
       rethrow;
@@ -258,19 +242,15 @@ class SpeechToTextController extends MasamuneControllerBase<
     }
   }
 
-  void _listenComplete() {
-    final text = _current?.value;
-    if (text.isNotEmpty) {
-      _updated = true;
-    }
-    _listenCompleter?.complete(_current);
-    _listenCompleter = null;
-  }
-
   @override
   void dispose() {
     super.dispose();
-    _stt.cancel();
+    adapter.dispose(container: _container!, controller: this);
+    _cancelCompleter?.complete();
+    _cancelCompleter = null;
+    _initializeCompleter?.complete();
+    _initializeCompleter = null;
+    _container = null;
   }
 }
 
@@ -278,13 +258,46 @@ class SpeechToTextController extends MasamuneControllerBase<
 ///
 /// Speech-to-Textのレスポンスです。
 class SpeechToTextResponse {
-  SpeechToTextResponse._();
+  /// Speech-to-Text response.
+  ///
+  /// Speech-to-Textのレスポンスです。
+  SpeechToTextResponse({String? value}) {
+    _value.add(value ?? "");
+  }
 
   /// The value of the Speech-to-Text response.
   ///
   /// Speech-to-Textのレスポンスの値。
-  String get value => _value;
-  String _value = "";
+  String get value => _value.join("\n");
+  final List<String> _value = [];
+
+  /// Returns `true` if the response is final.
+  ///
+  /// レスポンスが最終的な場合`true`を返します。
+  bool get isFinal => _isFinal;
+  bool _isFinal = false;
+
+  /// Set the value of the Speech-to-Text response.
+  ///
+  /// Specifies the value of the speech recognition response in [value].
+  ///
+  /// Specify `true` in [isFinal] if the speech recognition response is final.
+  ///
+  /// 音声認識のレスポンスの値を設定します。
+  ///
+  /// [value]には音声認識のレスポンスの値を指定します。
+  ///
+  /// [isFinal]には音声認識のレスポンスが最終的な場合`true`を指定します。
+  void set({String? value, bool isFinal = true}) {
+    if (isFinal) {
+      return;
+    }
+    if (_value.lastOrNull == value && isFinal == _isFinal) {
+      return;
+    }
+    _value.add(value ?? "");
+    _isFinal = isFinal;
+  }
 }
 
 @immutable

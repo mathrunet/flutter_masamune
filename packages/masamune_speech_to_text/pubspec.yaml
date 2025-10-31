@@ -9,14 +9,11 @@ environment:
   flutter: ">=3.0.0"
 
 dependencies:
-  clock: ^1.1.1
   flutter:
     sdk: flutter
     
   katana: ^3.2.1
   masamune: ^3.4.0
-  speech_to_text: ^7.0.0
-  speech_to_text_platform_interface: ^2.1.0
 
 dev_dependencies:
   test: ^1.24.0

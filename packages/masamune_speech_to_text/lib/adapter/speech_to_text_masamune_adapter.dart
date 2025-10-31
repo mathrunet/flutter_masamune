@@ -1,12 +1,13 @@
 part of "/masamune_speech_to_text.dart";
 
-/// [MasamuneAdapter], which is the initial setup for handling Speech-to-Text.
+/// Base class for [MasamuneAdapter] that performs initial setup for handling Speech-to-Text.
 ///
-/// Speech-to-Textを取り扱うための初期設定を行う[MasamuneAdapter]。
-class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
-  /// [MasamuneAdapter], which is the initial setup for handling Speech-to-Text.
+/// Speech-to-Textを取り扱うための初期設定を行う[MasamuneAdapter]のベースクラス。
+abstract class SpeechToTextMasamuneAdapter<
+    TContainer extends SpeechToTextContainer> extends MasamuneAdapter {
+  /// Base class for [MasamuneAdapter] that performs initial setup for handling Speech-to-Text.
   ///
-  /// Speech-to-Textを取り扱うための初期設定を行う[MasamuneAdapter]。
+  /// Speech-to-Textを取り扱うための初期設定を行う[MasamuneAdapter]のベースクラス。
   const SpeechToTextMasamuneAdapter({
     required this.defaultLocale,
     this.speechToTextController,
@@ -31,6 +32,53 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
   ///
   /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
   final SpeechToTextController? speechToTextController;
+
+  /// Returns `true` if the speech-to-text engine supports continuous listening.
+  ///
+  /// 音声認識エンジンが連続音声認識をサポートしている場合`true`を返します。
+  bool get continuousListening => false;
+
+  /// Initialize the speech-to-text engine.
+  ///
+  /// 音声認識エンジンを初期化します。
+  Future<TContainer> initialize({
+    required SpeechToTextController controller,
+  });
+
+  /// Start speech recognition.
+  ///
+  /// 音声認識を開始します。
+  Future<TContainer> listen({
+    required TContainer container,
+    required SpeechToTextController controller,
+    required Duration duration,
+    Locale? locale,
+    void Function(String result, bool isFinal)? onResult,
+  });
+
+  /// Cancel speech recognition.
+  ///
+  /// 音声認識をキャンセルします。
+  Future<void> cancel({
+    required TContainer container,
+    required SpeechToTextController controller,
+  });
+
+  /// Stop speech recognition.
+  ///
+  /// 音声認識を停止します。
+  Future<void> stop({
+    required TContainer container,
+    required SpeechToTextController controller,
+  });
+
+  /// Dispose the speech-to-text engine.
+  ///
+  /// 音声認識エンジンを破棄します。
+  void dispose({
+    required TContainer container,
+    required SpeechToTextController controller,
+  });
 
   /// You can retrieve the [SpeechToTextMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
