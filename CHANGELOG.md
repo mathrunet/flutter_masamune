@@ -15,6 +15,83 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_builder` - `v3.2.1`](#katana_builder---v321)
+ - [`katana_router_builder` - `v3.1.1`](#katana_router_builder---v311)
+ - [`masamune_builder` - `v3.1.1`](#masamune_builder---v311)
+ - [`masamune_firebase_app_check` - `v3.1.1`](#masamune_firebase_app_check---v311)
+ - [`masamune_google_cloud` - `v3.2.1`](#masamune_google_cloud---v321)
+ - [`masamune_markdown` - `v3.4.1`](#masamune_markdown---v341)
+ - [`masamune_model_algolia` - `v3.2.1`](#masamune_model_algolia---v321)
+ - [`masamune_model_docs_builder` - `v3.2.1`](#masamune_model_docs_builder---v321)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.2.1`](#masamune_model_firebase_data_connect_builder---v321)
+ - [`masamune_model_firestore_builder` - `v3.2.1`](#masamune_model_firestore_builder---v321)
+ - [`katana_localization_builder` - `v3.2.1`](#katana_localization_builder---v321)
+ - [`katana_theme_builder` - `v3.1.1`](#katana_theme_builder---v311)
+ - [`masamune_speech_to_text_google` - `v3.2.1`](#masamune_speech_to_text_google---v321)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_localization_builder` - `v3.2.1`
+ - `katana_theme_builder` - `v3.1.1`
+ - `masamune_speech_to_text_google` - `v3.2.1`
+
+---
+
+#### `katana_builder` - `v3.2.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `katana_router_builder` - `v3.1.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_builder` - `v3.1.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_firebase_app_check` - `v3.1.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_google_cloud` - `v3.2.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_markdown` - `v3.4.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_model_algolia` - `v3.2.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_model_docs_builder` - `v3.2.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_model_firebase_data_connect_builder` - `v3.2.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+#### `masamune_model_firestore_builder` - `v3.2.1`
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
+
+## 2025-11-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_painter` - `v3.3.1`](#masamune_painter---v331)
 
 ---

@@ -1,3 +1,7 @@
+## 3.4.1
+
+ - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
+
 ## 3.4.0
 
  - **REFACTOR**: Refactoring around links. ([81b3b740](https://github.com/mathrunet/flutter_masamune/commit/81b3b740ffa41749bb143d81298157ba404db0a5))

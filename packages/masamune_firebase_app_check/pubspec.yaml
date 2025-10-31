@@ -1,6 +1,6 @@
 name: masamune_firebase_app_check
 description: Plug-in to make Firebase App Check available on Masamune Framework.
-version: 3.1.0
+version: 3.1.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_firebase_app_check
 
