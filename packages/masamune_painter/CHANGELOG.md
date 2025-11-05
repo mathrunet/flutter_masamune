@@ -1,3 +1,7 @@
+## 3.3.2
+
+ - Update a dependency to the latest release.
+
 ## 3.3.1
 
  - **FIX**: Add missing packages. ([5c709a41](https://github.com/mathrunet/flutter_masamune/commit/5c709a41fd098184ced41b35bf787287e2e3f99a))

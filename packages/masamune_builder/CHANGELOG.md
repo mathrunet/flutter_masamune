@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**: Fixed a bug where the version was incorrect. ([505475f6](https://github.com/mathrunet/flutter_masamune/commit/505475f65de869a9168604edd760da3ba7f91b34))
+
 ## 3.1.1
 
  - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))
