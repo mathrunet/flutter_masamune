@@ -7,7 +7,10 @@
 // RouterGenerator
 // **************************************************************************
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana_router/katana_router.dart';
 
 class AutoRouter extends AppRouter {
