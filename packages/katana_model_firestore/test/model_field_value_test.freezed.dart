@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -246,6 +245,280 @@ class _$TestValueCopyWithImpl<$Res> implements $TestValueCopyWith<$Res> {
           : localizedList // ignore: cast_nullable_to_non_nullable
               as List<ModelLocalizedValue>,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [TestValue].
+extension TestValuePatterns on TestValue {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_TestValue value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _TestValue() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_TestValue value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TestValue():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_TestValue value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TestValue() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            ModelTimestamp dateTime,
+            ModelDate date,
+            ModelTime time,
+            ModelTimeRange timeRange,
+            ModelTimestampRange timestampRange,
+            ModelDateRange dateRange,
+            ModelCounter counter,
+            ModelUri uri,
+            ModelImageUri image,
+            ModelVideoUri video,
+            ModelGeoValue geo,
+            ModelVectorValue vector,
+            ModelSearch search,
+            ModelLocale locale,
+            ModelLocalizedValue localized,
+            Map<String, ModelVideoUri> videoMap,
+            List<ModelImageUri> imageList,
+            Map<String, ModelLocalizedValue> localizedMap,
+            List<ModelLocalizedValue> localizedList)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _TestValue() when $default != null:
+        return $default(
+            _that.dateTime,
+            _that.date,
+            _that.time,
+            _that.timeRange,
+            _that.timestampRange,
+            _that.dateRange,
+            _that.counter,
+            _that.uri,
+            _that.image,
+            _that.video,
+            _that.geo,
+            _that.vector,
+            _that.search,
+            _that.locale,
+            _that.localized,
+            _that.videoMap,
+            _that.imageList,
+            _that.localizedMap,
+            _that.localizedList);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            ModelTimestamp dateTime,
+            ModelDate date,
+            ModelTime time,
+            ModelTimeRange timeRange,
+            ModelTimestampRange timestampRange,
+            ModelDateRange dateRange,
+            ModelCounter counter,
+            ModelUri uri,
+            ModelImageUri image,
+            ModelVideoUri video,
+            ModelGeoValue geo,
+            ModelVectorValue vector,
+            ModelSearch search,
+            ModelLocale locale,
+            ModelLocalizedValue localized,
+            Map<String, ModelVideoUri> videoMap,
+            List<ModelImageUri> imageList,
+            Map<String, ModelLocalizedValue> localizedMap,
+            List<ModelLocalizedValue> localizedList)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TestValue():
+        return $default(
+            _that.dateTime,
+            _that.date,
+            _that.time,
+            _that.timeRange,
+            _that.timestampRange,
+            _that.dateRange,
+            _that.counter,
+            _that.uri,
+            _that.image,
+            _that.video,
+            _that.geo,
+            _that.vector,
+            _that.search,
+            _that.locale,
+            _that.localized,
+            _that.videoMap,
+            _that.imageList,
+            _that.localizedMap,
+            _that.localizedList);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            ModelTimestamp dateTime,
+            ModelDate date,
+            ModelTime time,
+            ModelTimeRange timeRange,
+            ModelTimestampRange timestampRange,
+            ModelDateRange dateRange,
+            ModelCounter counter,
+            ModelUri uri,
+            ModelImageUri image,
+            ModelVideoUri video,
+            ModelGeoValue geo,
+            ModelVectorValue vector,
+            ModelSearch search,
+            ModelLocale locale,
+            ModelLocalizedValue localized,
+            Map<String, ModelVideoUri> videoMap,
+            List<ModelImageUri> imageList,
+            Map<String, ModelLocalizedValue> localizedMap,
+            List<ModelLocalizedValue> localizedList)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TestValue() when $default != null:
+        return $default(
+            _that.dateTime,
+            _that.date,
+            _that.time,
+            _that.timeRange,
+            _that.timestampRange,
+            _that.dateRange,
+            _that.counter,
+            _that.uri,
+            _that.image,
+            _that.video,
+            _that.geo,
+            _that.vector,
+            _that.search,
+            _that.locale,
+            _that.localized,
+            _that.videoMap,
+            _that.imageList,
+            _that.localizedMap,
+            _that.localizedList);
+      case _:
+        return null;
+    }
   }
 }
 

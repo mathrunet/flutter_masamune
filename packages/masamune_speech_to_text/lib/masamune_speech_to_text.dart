@@ -20,5 +20,6 @@ import "package:flutter/widgets.dart";
 import "package:masamune/masamune.dart";
 
 part "adapter/speech_to_text_masamune_adapter.dart";
+part "adapter/runtime_speech_to_text_masamune_adapter.dart";
 part "src/speech_to_text_controller.dart";
 part "src/speech_to_text_container.dart";

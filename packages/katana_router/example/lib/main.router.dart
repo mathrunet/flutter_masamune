@@ -7,19 +7,8 @@
 // RouterGenerator
 // **************************************************************************
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
-
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:katana_router/katana_router.dart';
-
-// Project imports:
-import 'package:katana_router_example/main.dart' as _$main;
-
-export 'package:katana_router_example/main.dart'
-    show MainPage, UserPage, ContentPage, NestedContainerPage;
 
 class AutoRouter extends AppRouter {
   AutoRouter({
@@ -37,28 +26,7 @@ class AutoRouter extends AppRouter {
     super.reportsRouteUpdateToEngine = true,
     super.backgroundWidget = const Scaffold(),
     super.loggerAdapters,
-  }) : super(
-          pages: pages ??
-              [
-                _$main.UserPage.query,
-                _$main.NestedContainerPage.query,
-                _$main.ContentPage.query,
-                _$main.MainPage.query,
-              ],
-        );
+  }) : super(pages: pages ?? []);
 
-  static const userPage = _$main.UserPage.query;
-
-  static const nestedContainerPage = _$main.NestedContainerPage.query;
-
-  static const contentPage = _$main.ContentPage.query;
-
-  static const mainPage = _$main.MainPage.query;
-
-  Map<RouteQueryBuilder, String> queryMap = {
-    _$main.UserPage.query: "/page/:user_id",
-    _$main.NestedContainerPage.query: "/nested",
-    _$main.ContentPage.query: "/content/:content_id",
-    _$main.MainPage.query: "/",
-  };
+  Map<RouteQueryBuilder, String> queryMap = {};
 }
