@@ -43,6 +43,8 @@ class Fuctions {
     _rawData = await index.readAsString();
     final region = _regExp.firstMatch(_rawData);
     if (region == null) {
+      _regions = [];
+      _functions = [];
       return;
     }
     _regions = region
