@@ -221,7 +221,7 @@ void main() {
   masamunePageTest(
     name: "${className}AddPage",
     path: "${sourcePath}_add",
-    builder: (context, ref) {
+    builder: (context, ref, value) {
       // TODO: Write test code.
       return const ${className}AddPage();
     },
