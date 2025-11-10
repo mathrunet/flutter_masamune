@@ -1,3 +1,8 @@
+## 3.3.3
+
+ - **REFACTOR**: Separate the PaintingValue file. ([9fc88463](https://github.com/mathrunet/flutter_masamune/commit/9fc88463618b75b2ec134dfe1290a43c255f864e))
+ - **FIX**: Performance improvement. ([e8ff8727](https://github.com/mathrunet/flutter_masamune/commit/e8ff872772233aea8a94a610f29af1d7e8e2a5ce))
+
 ## 3.3.2
 
  - Update a dependency to the latest release.

@@ -1,3 +1,9 @@
+## 3.8.4
+
+ - **FIX**: Test code bug fix. ([10c81af4](https://github.com/mathrunet/flutter_masamune/commit/10c81af4d6b49a0e72abfe71fead990277970465))
+ - **FIX**: Fixed a bug where initialization failed. ([b1a66e0f](https://github.com/mathrunet/flutter_masamune/commit/b1a66e0f9777c65a7378968e399ecb21db9b4af1))
+ - **FIX**: Create AGENTS.md on compose. ([99c64c0d](https://github.com/mathrunet/flutter_masamune/commit/99c64c0d9694a63e6de6876a3d63379ef101d1f0))
+
 ## 3.8.3
 
  - Update a dependency to the latest release.

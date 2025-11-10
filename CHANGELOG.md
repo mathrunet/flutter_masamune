@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-11-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.8.4`](#katana_cli---v384)
+ - [`masamune_painter` - `v3.3.3`](#masamune_painter---v333)
+
+---
+
+#### `katana_cli` - `v3.8.4`
+
+ - **FIX**: Test code bug fix. ([10c81af4](https://github.com/mathrunet/flutter_masamune/commit/10c81af4d6b49a0e72abfe71fead990277970465))
+ - **FIX**: Fixed a bug where initialization failed. ([b1a66e0f](https://github.com/mathrunet/flutter_masamune/commit/b1a66e0f9777c65a7378968e399ecb21db9b4af1))
+ - **FIX**: Create AGENTS.md on compose. ([99c64c0d](https://github.com/mathrunet/flutter_masamune/commit/99c64c0d9694a63e6de6876a3d63379ef101d1f0))
+
+#### `masamune_painter` - `v3.3.3`
+
+ - **REFACTOR**: Separate the PaintingValue file. ([9fc88463](https://github.com/mathrunet/flutter_masamune/commit/9fc88463618b75b2ec134dfe1290a43c255f864e))
+ - **FIX**: Performance improvement. ([e8ff8727](https://github.com/mathrunet/flutter_masamune/commit/e8ff872772233aea8a94a610f29af1d7e8e2a5ce))
+
+
 ## 2025-11-05
 
 ### Changes
