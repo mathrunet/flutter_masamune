@@ -140,6 +140,8 @@ class FormPainterField<TValue> extends FormField<List<PaintingValue>> {
                 isDragging: state._isDragging,
                 actualCanvasSize: controller.canvasSize,
                 currentScale: state._currentScale,
+                currentOffset: state._currentOffset,
+                transformMatrix: state._transformMatrix,
               ),
               size: canvasSize,
             );
@@ -292,6 +294,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   double _currentScale = 1.0;
   Offset _currentOffset = Offset.zero;
 
+  // Transform matrix caching: track last values to avoid unnecessary recalculations
+  double? _cachedMatrixScale;
+  Offset? _cachedMatrixOffset;
+
   // アニメーション用
   AnimationController? _panAnimationController;
   Animation<Offset>? _panAnimation;
@@ -308,6 +314,10 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
   bool _isDragStarted = false;
   PainterDragMode _dragMode = PainterDragMode.none;
   PainterResizeDirection? _resizeDirection;
+
+  // setState throttling for drag operations: only call setState every N frames
+  int _dragUpdateFrameCounter = 0;
+  static const int _dragUpdateFrameInterval = 2; // Update every 2 frames
 
   PainterTools? get _currentTool {
     return widget.controller._currentTool;
@@ -411,7 +421,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       _currentScale = newScale;
       _currentOffset = newOffset;
       _updateTransformMatrix();
-      setState(() {});
+      _throttledSetState();
     } else if (!_isScaling) {
       // シングルタッチドラッグ
       final transformedPosition = _transformPosition(details.localFocalPoint);
@@ -422,7 +432,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
         final newOffset = focalPointInWidget - _startFocalPoint;
         _currentOffset = newOffset;
         _updateTransformMatrix();
-        setState(() {});
+        _throttledSetState();
       } else {
         _handledOnDragging(transformedPosition, widget.controller.canvasSize);
       }
@@ -525,7 +535,7 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
       final selectionRect = Rect.fromPoints(dragStartPoint, position);
       widget.controller.updateDragSelectionRect(selectionRect);
       _dragEndPoint = position;
-      setState(() {});
+      _throttledSetState();
       return;
     }
 
@@ -592,7 +602,18 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     }
     _dragEndPoint = position;
 
-    setState(() {});
+    _throttledSetState();
+  }
+
+  // Throttled setState for drag operations: only update every N frames
+  void _throttledSetState() {
+    _dragUpdateFrameCounter++;
+    if (_dragUpdateFrameCounter >= _dragUpdateFrameInterval) {
+      _dragUpdateFrameCounter = 0;
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 
   // ドラッグ終了時。
@@ -636,10 +657,11 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     _dragStartPoint = null;
     _dragEndPoint = null;
     _resizeDirection = null;
+    _dragUpdateFrameCounter = 0; // Reset throttle counter on drag end
     for (var callback in widget.controller._onDragEndCallback) {
       callback();
     }
-    setState(() {});
+    setState(() {}); // Always call setState on drag end to ensure final state
   }
 
   // スケールに応じたハンドルサイズを取得。
@@ -765,12 +787,22 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
     _panAnimationController!.forward(from: 0.0);
   }
 
-  // 変換行列を更新
+  // 変換行列を更新（キャッシュを使用して不要な再計算を回避）
   void _updateTransformMatrix() {
+    // Check if values have changed - if not, skip recalculation
+    if (_cachedMatrixScale == _currentScale &&
+        _cachedMatrixOffset == _currentOffset) {
+      return; // Matrix is already up to date
+    }
+
     _transformMatrix = Matrix4.identity();
     _transformMatrix.translateByDouble(
         _currentOffset.dx, _currentOffset.dy, 0.0, 1.0);
     _transformMatrix.scaleByDouble(_currentScale, _currentScale, 1.0, 1.0);
+
+    // Update cache
+    _cachedMatrixScale = _currentScale;
+    _cachedMatrixOffset = _currentOffset;
   }
 
   bool _editingStart({
@@ -880,6 +912,8 @@ class _RawPainter extends CustomPainter {
     required this.currentValues,
     required this.actualCanvasSize,
     required this.currentScale,
+    required this.currentOffset,
+    required this.transformMatrix,
     this.dragSelectionRect,
     this.selectionBounds,
     this.dragStartPoint,
@@ -896,6 +930,8 @@ class _RawPainter extends CustomPainter {
   final bool isDragging;
   final Size actualCanvasSize;
   final double currentScale;
+  final Offset currentOffset;
+  final Matrix4 transformMatrix;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -918,9 +954,40 @@ class _RawPainter extends CustomPainter {
       );
     }
 
-    // 既存の値を描画
+    // ビューポートカリング: 表示領域を計算
+    // The canvas size represents the logical size of the canvas
+    // The actual visible area depends on the current transform (scale + offset)
+    // We calculate the visible rect in canvas coordinates
+
+    // Start with the canvas size as the base viewport
+    Rect visibleRect = Offset.zero & size;
+
+    // If we have a meaningful transform, calculate the visible area more precisely
+    // This accounts for zoom (scale) and pan (offset)
+    if (currentScale != 1.0 || currentOffset != Offset.zero) {
+      // Calculate viewport bounds considering the transform
+      // The visible area in canvas coordinates is roughly:
+      // - offset by -currentOffset / currentScale
+      // - sized to size / currentScale
+      final inverseScale = 1.0 / currentScale;
+      visibleRect = Rect.fromLTWH(
+        -currentOffset.dx * inverseScale,
+        -currentOffset.dy * inverseScale,
+        size.width * inverseScale,
+        size.height * inverseScale,
+      );
+    }
+
+    // Add margin for smooth scrolling and to account for stroke widths/shadows
+    const visibleMargin = 100.0;
+    final expandedViewport = visibleRect.inflate(visibleMargin);
+
+    // 既存の値を描画（ビューポートカリングを適用）
     for (final value in values) {
-      _paintValue(canvas, value);
+      // Check if the value's rect intersects with the expanded viewport
+      if (expandedViewport.overlaps(value.rect)) {
+        _paintValue(canvas, value);
+      }
     }
 
     // ドラッグ選択矩形を描画
@@ -1113,6 +1180,8 @@ class _RawPainter extends CustomPainter {
         oldDelegate.dragStartPoint != dragStartPoint ||
         oldDelegate.dragEndPoint != dragEndPoint ||
         oldDelegate.isDragging != isDragging ||
-        oldDelegate.actualCanvasSize != actualCanvasSize;
+        oldDelegate.actualCanvasSize != actualCanvasSize ||
+        oldDelegate.currentScale != currentScale ||
+        oldDelegate.currentOffset != currentOffset;
   }
 }
