@@ -112,3 +112,10 @@ part "tools/block/text/size_112px_font_painter_block_tools.dart";
 part "tools/block/text/size_128px_font_painter_block_tools.dart";
 part "tools/block/text/style_normal_font_painter_block_tools.dart";
 part "tools/block/text/style_bold_font_painter_block_tools.dart";
+
+part "value/group_painting_value.dart";
+part "value/clipping_group_painting_value.dart";
+part "value/media_painting_value.dart";
+part "value/ellipse_shape_painting_value.dart";
+part "value/rectangle_shape_painting_value.dart";
+part "value/text_painting_value.dart";
