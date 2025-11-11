@@ -593,6 +593,16 @@ extension StringExtensions on String {
   /// Base64URLエンコードされた[String]をデコードします。
   String fromBase64Url() => utf8.fuse(base64Url).decode(this);
 
+  /// Encodes [String] into a URL-encoded string.
+  ///
+  /// [String]をURLエンコードします。
+  String toUrlEncode() => Uri.encodeComponent(this);
+
+  /// Decodes URL-encoded [String].
+  ///
+  /// URLエンコードされた[String]をデコードします。
+  String fromUrlEncode() => Uri.decodeComponent(this);
+
   /// Hash [String] with SHA1.
   ///
   /// [String]をSHA1でハッシュ化します。
