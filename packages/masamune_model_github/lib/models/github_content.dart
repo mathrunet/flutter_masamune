@@ -1,7 +1,7 @@
 // ignore: unused_import, unnecessary_import
 
 // Dart imports:
-import "dart:convert";
+import "dart:convert" as convert;
 
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
@@ -59,7 +59,8 @@ abstract class GithubContentModel with _$GithubContentModel {
     if (content == null) {
       return null;
     }
-    return utf8.decode(base64Decode(LineSplitter.split(content).join()));
+    return convert.utf8.decode(
+        convert.base64Decode(convert.LineSplitter.split(content).join()));
   }
 
   /// Get the path id from the path.

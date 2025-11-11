@@ -22,7 +22,7 @@ _GithubBranchModel _$GithubBranchModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$GithubBranchModelToJson(_GithubBranchModel instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'commit': instance.commit,
-      'baseRef': instance.baseRef,
+      'commit': instance.commit?.toJson(),
+      'baseRef': instance.baseRef?.toJson(),
       'fromServer': instance.fromServer,
     };

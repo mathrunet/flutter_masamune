@@ -10,16 +10,21 @@ library;
 
 // Dart imports:
 import "dart:async";
+import "dart:convert" as convert;
 
 // Flutter imports:
 import "package:flutter/widgets.dart";
 
 // Package imports:
+import "package:archive/archive.dart";
 import "package:github/github.dart" as git_hub show Authentication;
 import "package:github/github.dart" hide Authentication;
 import "package:masamune/masamune.dart";
 
 // Project imports:
+import "package:masamune_model_github/models/github_actions.dart";
+import "package:masamune_model_github/models/github_actions_job.dart";
+import "package:masamune_model_github/models/github_actions_log.dart";
 import "package:masamune_model_github/models/github_branch.dart";
 import "package:masamune_model_github/models/github_commit.dart";
 import "package:masamune_model_github/models/github_content.dart";
@@ -44,6 +49,9 @@ export "models/github_issue_timeline.dart";
 export "models/github_label.dart";
 export "models/github_milestone.dart";
 export "models/github_organization.dart";
+export "models/github_actions.dart";
+export "models/github_actions_job.dart";
+export "models/github_actions_log.dart";
 export "models/github_pull_request.dart";
 export "models/github_pull_request_timeline.dart";
 export "models/github_pull_request_head.dart";

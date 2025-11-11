@@ -290,7 +290,8 @@ extension GithubBranchModelPatterns on GithubBranchModel {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _GithubBranchModel extends GithubBranchModel {
   const _GithubBranchModel(
       {this.name,

@@ -16,7 +16,7 @@ dependencies:
 
   katana: ^3.3.0
   masamune: ^3.5.1
-  archive: ^3.6.1
+  archive: ^4.0.0
   github: ^9.25.0
   freezed_annotation: ^3.0.0
   json_annotation: ^4.8.0

@@ -1,5 +1,7 @@
 // ignore: unused_import, unnecessary_import
 
+// ignore_for_file: invalid_annotation_target
+
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
@@ -26,6 +28,7 @@ abstract class GithubBranchModel with _$GithubBranchModel {
   /// Model for managing Github branches.
   ///
   /// Githubのブランチを管理するためのモデル。
+  @JsonSerializable(explicitToJson: true)
   const factory GithubBranchModel({
     String? name,
     @jsonParam GithubCommitModel? commit,

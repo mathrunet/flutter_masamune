@@ -19,6 +19,7 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
     required this.modelAdapter,
     required this.appRef,
     this.debugAuthDapter,
+    this.defaultSinceFromCommit = const Duration(days: 30),
   });
 
   /// Application reference.
@@ -35,6 +36,11 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
   ///
   /// デバッグ用の認証アダプター。
   final AuthAdapter? debugAuthDapter;
+
+  /// Default since.
+  ///
+  /// デフォルトのsince。
+  final Duration defaultSinceFromCommit;
 
   /// You can retrieve the [GithubModelMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
