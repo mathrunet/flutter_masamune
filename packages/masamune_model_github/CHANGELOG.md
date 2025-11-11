@@ -1,3 +1,7 @@
+## 3.5.0
+
+ - **FEAT**: Add models for Actions. ([dd81069d](https://github.com/mathrunet/flutter_masamune/commit/dd81069d35fd16b3d23f955209186be6724709a2))
+
 ## 3.4.1
 
  - Update a dependency to the latest release.

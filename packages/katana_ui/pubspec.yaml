@@ -1,6 +1,6 @@
 name: katana_ui
 description: A package that provides widgets for UI to facilitate design and implementation.
-version: 3.3.0
+version: 3.3.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_ui
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.3.0
-  katana_platform_info: ^3.2.0
+  katana: ^3.4.0
+  katana_platform_info: ^3.2.1
   shimmer: ^3.0.0
 dev_dependencies:
   test: ^1.25.0

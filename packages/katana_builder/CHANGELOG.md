@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - Update a dependency to the latest release.
+
 ## 3.2.1
 
  - **FIX**: Care for Pubpoint. ([58ef7d4b](https://github.com/mathrunet/flutter_masamune/commit/58ef7d4b76dce75ad3eb612597d9d4240b448f29))

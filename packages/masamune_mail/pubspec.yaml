@@ -1,6 +1,6 @@
 name: masamune_mail
 description: Plug-in for sending emails via Sendgrid, Gmail, etc. from servers, etc. using Functions.
-version: 3.1.1
+version: 3.1.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_mail
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.3.0
-  masamune: ^3.5.1
+  katana: ^3.4.0
+  masamune: ^3.5.2
 dev_dependencies:
   test: ^1.25.0
   katana_test: ^3.1.0

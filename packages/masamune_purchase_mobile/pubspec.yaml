@@ -1,6 +1,6 @@
 name: masamune_purchase_mobile
 description: Masamune plugin library to implement in-app purchases for GooglePlay and AppStore.
-version: 3.1.1
+version: 3.1.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase_mobile
 
@@ -23,9 +23,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.3.0
-  masamune: ^3.5.1
-  masamune_purchase: ^3.1.1
+  katana: ^3.4.0
+  masamune: ^3.5.2
+  masamune_purchase: ^3.1.2
   in_app_purchase: ^3.1.7
   in_app_purchase_android: ^0.4.0
   in_app_purchase_storekit: ^0.4.3

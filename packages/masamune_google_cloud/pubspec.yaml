@@ -1,6 +1,6 @@
 name: masamune_google_cloud
 description: The base package for using Google Cloud Platform. Use together with Firebase Functions.
-version: 3.2.2
+version: 3.2.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_google_cloud
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.3.0
-  masamune: ^3.5.1
+  katana: ^3.4.0
+  masamune: ^3.5.2
 
 dev_dependencies:
   test: ^1.25.0

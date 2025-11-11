@@ -1,3 +1,7 @@
+## 3.8.5
+
+ - Update a dependency to the latest release.
+
 ## 3.8.4
 
  - **FIX**: Test code bug fix. ([10c81af4](https://github.com/mathrunet/flutter_masamune/commit/10c81af4d6b49a0e72abfe71fead990277970465))

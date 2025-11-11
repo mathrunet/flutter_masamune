@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**: Add URLEncode related features. ([68c196e6](https://github.com/mathrunet/flutter_masamune/commit/68c196e6049e951342c3e0f6232367f99d161770))
+
 ## 3.3.0
 
  - **FEAT**: Package version upgrade. ([a9d83c31](https://github.com/mathrunet/flutter_masamune/commit/a9d83c315f458a1b1629fddbac2f5ceb3a4d3480))
