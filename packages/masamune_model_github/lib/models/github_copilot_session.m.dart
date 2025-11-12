@@ -17,7 +17,6 @@ extension on GithubCopilotSessionModel {
 
 enum _$GithubCopilotSessionModelKeys {
   id,
-  state,
   name,
   resourceType,
   resourceId,
@@ -29,6 +28,7 @@ enum _$GithubCopilotSessionModelKeys {
   pullRequestUrl,
   pullRequestId,
   pullRequestBaseRef,
+  status,
   completedAt,
   createdAt,
   updatedAt,
@@ -286,14 +286,6 @@ class _$_GithubCopilotSessionModelCollectionQuery
           );
 
   StringModelQuerySelector<_$_GithubCopilotSessionModelCollectionQuery>
-      get state =>
-          StringModelQuerySelector<_$_GithubCopilotSessionModelCollectionQuery>(
-            key: "state",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
-  StringModelQuerySelector<_$_GithubCopilotSessionModelCollectionQuery>
       get name =>
           StringModelQuerySelector<_$_GithubCopilotSessionModelCollectionQuery>(
             key: "name",
@@ -380,6 +372,12 @@ class _$_GithubCopilotSessionModelCollectionQuery
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );
+
+  ValueModelQuerySelector<GithubCopilotSessionStatus,
+          _$_GithubCopilotSessionModelCollectionQuery>
+      get status => ValueModelQuerySelector<GithubCopilotSessionStatus,
+              _$_GithubCopilotSessionModelCollectionQuery>(
+          key: "status", toQuery: _toQuery, modelQuery: modelQuery);
 
   ModelTimestampModelQuerySelector<_$_GithubCopilotSessionModelCollectionQuery>
       get completedAt => ModelTimestampModelQuerySelector<

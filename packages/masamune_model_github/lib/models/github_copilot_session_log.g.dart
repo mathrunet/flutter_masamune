@@ -12,10 +12,12 @@ _GithubCopilotSessionLogModel _$GithubCopilotSessionLogModelFromJson(
       id: json['id'] as String,
       sessionId: json['sessionId'] as String,
       message: json['message'] as String,
-      level: json['level'] as String?,
       metadata: json['metadata'] as Map<String, dynamic>?,
       toolName: json['toolName'] as String?,
       toolResult: json['toolResult'] as String?,
+      level: $enumDecodeNullable(
+              _$GithubCopilotSessionLogLevelEnumMap, json['level']) ??
+          GithubCopilotSessionLogLevel.unknown,
       timestamp: json['timestamp'] == null
           ? const ModelTimestamp()
           : ModelTimestamp.fromJson(json['timestamp'] as Map<String, dynamic>),
@@ -28,10 +30,18 @@ Map<String, dynamic> _$GithubCopilotSessionLogModelToJson(
       'id': instance.id,
       'sessionId': instance.sessionId,
       'message': instance.message,
-      'level': instance.level,
       'metadata': instance.metadata,
       'toolName': instance.toolName,
       'toolResult': instance.toolResult,
+      'level': _$GithubCopilotSessionLogLevelEnumMap[instance.level]!,
       'timestamp': instance.timestamp,
       'fromServer': instance.fromServer,
     };
+
+const _$GithubCopilotSessionLogLevelEnumMap = {
+  GithubCopilotSessionLogLevel.unknown: 'unknown',
+  GithubCopilotSessionLogLevel.debug: 'debug',
+  GithubCopilotSessionLogLevel.info: 'info',
+  GithubCopilotSessionLogLevel.warning: 'warning',
+  GithubCopilotSessionLogLevel.error: 'error',
+};

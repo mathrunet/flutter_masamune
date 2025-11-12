@@ -15,7 +15,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GithubCopilotSessionModel {
   String get id;
-  String get state;
   String? get name;
   String? get resourceType;
   String? get resourceId;
@@ -27,6 +26,7 @@ mixin _$GithubCopilotSessionModel {
   String? get pullRequestUrl;
   String? get pullRequestId;
   String? get pullRequestBaseRef;
+  GithubCopilotSessionStatus get status;
   ModelTimestamp? get completedAt;
   ModelTimestamp get createdAt;
   ModelTimestamp get updatedAt;
@@ -49,7 +49,6 @@ mixin _$GithubCopilotSessionModel {
         (other.runtimeType == runtimeType &&
             other is GithubCopilotSessionModel &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.state, state) || other.state == state) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.resourceType, resourceType) ||
                 other.resourceType == resourceType) &&
@@ -69,6 +68,7 @@ mixin _$GithubCopilotSessionModel {
                 other.pullRequestId == pullRequestId) &&
             (identical(other.pullRequestBaseRef, pullRequestBaseRef) ||
                 other.pullRequestBaseRef == pullRequestBaseRef) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.createdAt, createdAt) ||
@@ -84,7 +84,6 @@ mixin _$GithubCopilotSessionModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      state,
       name,
       resourceType,
       resourceId,
@@ -96,6 +95,7 @@ mixin _$GithubCopilotSessionModel {
       pullRequestUrl,
       pullRequestId,
       pullRequestBaseRef,
+      status,
       completedAt,
       createdAt,
       updatedAt,
@@ -103,7 +103,7 @@ mixin _$GithubCopilotSessionModel {
 
   @override
   String toString() {
-    return 'GithubCopilotSessionModel(id: $id, state: $state, name: $name, resourceType: $resourceType, resourceId: $resourceId, userId: $userId, agentId: $agentId, errorMessage: $errorMessage, errorCode: $errorCode, pullRequestNumber: $pullRequestNumber, pullRequestUrl: $pullRequestUrl, pullRequestId: $pullRequestId, pullRequestBaseRef: $pullRequestBaseRef, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
+    return 'GithubCopilotSessionModel(id: $id, name: $name, resourceType: $resourceType, resourceId: $resourceId, userId: $userId, agentId: $agentId, errorMessage: $errorMessage, errorCode: $errorCode, pullRequestNumber: $pullRequestNumber, pullRequestUrl: $pullRequestUrl, pullRequestId: $pullRequestId, pullRequestBaseRef: $pullRequestBaseRef, status: $status, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -115,7 +115,6 @@ abstract mixin class $GithubCopilotSessionModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String state,
       String? name,
       String? resourceType,
       String? resourceId,
@@ -127,6 +126,7 @@ abstract mixin class $GithubCopilotSessionModelCopyWith<$Res> {
       String? pullRequestUrl,
       String? pullRequestId,
       String? pullRequestBaseRef,
+      GithubCopilotSessionStatus status,
       ModelTimestamp? completedAt,
       ModelTimestamp createdAt,
       ModelTimestamp updatedAt,
@@ -147,7 +147,6 @@ class _$GithubCopilotSessionModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? state = null,
     Object? name = freezed,
     Object? resourceType = freezed,
     Object? resourceId = freezed,
@@ -159,6 +158,7 @@ class _$GithubCopilotSessionModelCopyWithImpl<$Res>
     Object? pullRequestUrl = freezed,
     Object? pullRequestId = freezed,
     Object? pullRequestBaseRef = freezed,
+    Object? status = null,
     Object? completedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -168,10 +168,6 @@ class _$GithubCopilotSessionModelCopyWithImpl<$Res>
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
-          ? _self.state
-          : state // ignore: cast_nullable_to_non_nullable
               as String,
       name: freezed == name
           ? _self.name
@@ -217,6 +213,10 @@ class _$GithubCopilotSessionModelCopyWithImpl<$Res>
           ? _self.pullRequestBaseRef
           : pullRequestBaseRef // ignore: cast_nullable_to_non_nullable
               as String?,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as GithubCopilotSessionStatus,
       completedAt: freezed == completedAt
           ? _self.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
@@ -332,7 +332,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             String id,
-            String state,
             String? name,
             String? resourceType,
             String? resourceId,
@@ -344,6 +343,7 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
             String? pullRequestUrl,
             String? pullRequestId,
             String? pullRequestBaseRef,
+            GithubCopilotSessionStatus status,
             ModelTimestamp? completedAt,
             ModelTimestamp createdAt,
             ModelTimestamp updatedAt,
@@ -356,7 +356,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
       case _GithubCopilotSessionModel() when $default != null:
         return $default(
             _that.id,
-            _that.state,
             _that.name,
             _that.resourceType,
             _that.resourceId,
@@ -368,6 +367,7 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
             _that.pullRequestUrl,
             _that.pullRequestId,
             _that.pullRequestBaseRef,
+            _that.status,
             _that.completedAt,
             _that.createdAt,
             _that.updatedAt,
@@ -394,7 +394,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
   TResult when<TResult extends Object?>(
     TResult Function(
             String id,
-            String state,
             String? name,
             String? resourceType,
             String? resourceId,
@@ -406,6 +405,7 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
             String? pullRequestUrl,
             String? pullRequestId,
             String? pullRequestBaseRef,
+            GithubCopilotSessionStatus status,
             ModelTimestamp? completedAt,
             ModelTimestamp createdAt,
             ModelTimestamp updatedAt,
@@ -417,7 +417,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
       case _GithubCopilotSessionModel():
         return $default(
             _that.id,
-            _that.state,
             _that.name,
             _that.resourceType,
             _that.resourceId,
@@ -429,6 +428,7 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
             _that.pullRequestUrl,
             _that.pullRequestId,
             _that.pullRequestBaseRef,
+            _that.status,
             _that.completedAt,
             _that.createdAt,
             _that.updatedAt,
@@ -454,7 +454,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             String id,
-            String state,
             String? name,
             String? resourceType,
             String? resourceId,
@@ -466,6 +465,7 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
             String? pullRequestUrl,
             String? pullRequestId,
             String? pullRequestBaseRef,
+            GithubCopilotSessionStatus status,
             ModelTimestamp? completedAt,
             ModelTimestamp createdAt,
             ModelTimestamp updatedAt,
@@ -477,7 +477,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
       case _GithubCopilotSessionModel() when $default != null:
         return $default(
             _that.id,
-            _that.state,
             _that.name,
             _that.resourceType,
             _that.resourceId,
@@ -489,6 +488,7 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
             _that.pullRequestUrl,
             _that.pullRequestId,
             _that.pullRequestBaseRef,
+            _that.status,
             _that.completedAt,
             _that.createdAt,
             _that.updatedAt,
@@ -504,7 +504,6 @@ extension GithubCopilotSessionModelPatterns on GithubCopilotSessionModel {
 class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
   const _GithubCopilotSessionModel(
       {required this.id,
-      required this.state,
       this.name,
       this.resourceType,
       this.resourceId,
@@ -516,6 +515,7 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
       this.pullRequestUrl,
       this.pullRequestId,
       this.pullRequestBaseRef,
+      this.status = GithubCopilotSessionStatus.none,
       this.completedAt,
       this.createdAt = const ModelTimestamp(),
       this.updatedAt = const ModelTimestamp(),
@@ -526,8 +526,6 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
 
   @override
   final String id;
-  @override
-  final String state;
   @override
   final String? name;
   @override
@@ -550,6 +548,9 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
   final String? pullRequestId;
   @override
   final String? pullRequestBaseRef;
+  @override
+  @JsonKey()
+  final GithubCopilotSessionStatus status;
   @override
   final ModelTimestamp? completedAt;
   @override
@@ -585,7 +586,6 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
         (other.runtimeType == runtimeType &&
             other is _GithubCopilotSessionModel &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.state, state) || other.state == state) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.resourceType, resourceType) ||
                 other.resourceType == resourceType) &&
@@ -605,6 +605,7 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
                 other.pullRequestId == pullRequestId) &&
             (identical(other.pullRequestBaseRef, pullRequestBaseRef) ||
                 other.pullRequestBaseRef == pullRequestBaseRef) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.createdAt, createdAt) ||
@@ -620,7 +621,6 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      state,
       name,
       resourceType,
       resourceId,
@@ -632,6 +632,7 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
       pullRequestUrl,
       pullRequestId,
       pullRequestBaseRef,
+      status,
       completedAt,
       createdAt,
       updatedAt,
@@ -639,7 +640,7 @@ class _GithubCopilotSessionModel extends GithubCopilotSessionModel {
 
   @override
   String toString() {
-    return 'GithubCopilotSessionModel(id: $id, state: $state, name: $name, resourceType: $resourceType, resourceId: $resourceId, userId: $userId, agentId: $agentId, errorMessage: $errorMessage, errorCode: $errorCode, pullRequestNumber: $pullRequestNumber, pullRequestUrl: $pullRequestUrl, pullRequestId: $pullRequestId, pullRequestBaseRef: $pullRequestBaseRef, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
+    return 'GithubCopilotSessionModel(id: $id, name: $name, resourceType: $resourceType, resourceId: $resourceId, userId: $userId, agentId: $agentId, errorMessage: $errorMessage, errorCode: $errorCode, pullRequestNumber: $pullRequestNumber, pullRequestUrl: $pullRequestUrl, pullRequestId: $pullRequestId, pullRequestBaseRef: $pullRequestBaseRef, status: $status, completedAt: $completedAt, createdAt: $createdAt, updatedAt: $updatedAt, fromServer: $fromServer)';
   }
 }
 
@@ -653,7 +654,6 @@ abstract mixin class _$GithubCopilotSessionModelCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String state,
       String? name,
       String? resourceType,
       String? resourceId,
@@ -665,6 +665,7 @@ abstract mixin class _$GithubCopilotSessionModelCopyWith<$Res>
       String? pullRequestUrl,
       String? pullRequestId,
       String? pullRequestBaseRef,
+      GithubCopilotSessionStatus status,
       ModelTimestamp? completedAt,
       ModelTimestamp createdAt,
       ModelTimestamp updatedAt,
@@ -685,7 +686,6 @@ class __$GithubCopilotSessionModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
-    Object? state = null,
     Object? name = freezed,
     Object? resourceType = freezed,
     Object? resourceId = freezed,
@@ -697,6 +697,7 @@ class __$GithubCopilotSessionModelCopyWithImpl<$Res>
     Object? pullRequestUrl = freezed,
     Object? pullRequestId = freezed,
     Object? pullRequestBaseRef = freezed,
+    Object? status = null,
     Object? completedAt = freezed,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -706,10 +707,6 @@ class __$GithubCopilotSessionModelCopyWithImpl<$Res>
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      state: null == state
-          ? _self.state
-          : state // ignore: cast_nullable_to_non_nullable
               as String,
       name: freezed == name
           ? _self.name
@@ -755,6 +752,10 @@ class __$GithubCopilotSessionModelCopyWithImpl<$Res>
           ? _self.pullRequestBaseRef
           : pullRequestBaseRef // ignore: cast_nullable_to_non_nullable
               as String?,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as GithubCopilotSessionStatus,
       completedAt: freezed == completedAt
           ? _self.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable

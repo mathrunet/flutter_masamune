@@ -19,10 +19,10 @@ enum _$GithubCopilotSessionLogModelKeys {
   id,
   sessionId,
   message,
-  level,
   metadata,
   toolName,
   toolResult,
+  level,
   timestamp,
   fromServer,
 }
@@ -305,14 +305,6 @@ class _$_GithubCopilotSessionLogModelCollectionQuery
             modelQuery: modelQuery,
           );
 
-  StringModelQuerySelector<_$_GithubCopilotSessionLogModelCollectionQuery>
-      get level => StringModelQuerySelector<
-              _$_GithubCopilotSessionLogModelCollectionQuery>(
-            key: "level",
-            toQuery: _toQuery,
-            modelQuery: modelQuery,
-          );
-
   MapModelQuerySelector<dynamic, _$_GithubCopilotSessionLogModelCollectionQuery>
       get metadata => MapModelQuerySelector<dynamic,
               _$_GithubCopilotSessionLogModelCollectionQuery>(
@@ -333,6 +325,12 @@ class _$_GithubCopilotSessionLogModelCollectionQuery
             toQuery: _toQuery,
             modelQuery: modelQuery,
           );
+
+  ValueModelQuerySelector<GithubCopilotSessionLogLevel,
+          _$_GithubCopilotSessionLogModelCollectionQuery>
+      get level => ValueModelQuerySelector<GithubCopilotSessionLogLevel,
+              _$_GithubCopilotSessionLogModelCollectionQuery>(
+          key: "level", toQuery: _toQuery, modelQuery: modelQuery);
 
   ModelTimestampModelQuerySelector<
           _$_GithubCopilotSessionLogModelCollectionQuery>

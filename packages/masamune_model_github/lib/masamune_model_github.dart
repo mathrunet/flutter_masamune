@@ -63,6 +63,8 @@ export "models/github_repository.dart";
 export "models/github_repository_permission.dart";
 export "models/github_license.dart";
 export "models/github_user.dart";
+export "models/github_copilot_session.dart";
+export "models/github_copilot_session_log.dart";
 
 part "adapter/github_model_adapter.dart";
 part "adapter/github_model_masamune_adapter.dart";
@@ -71,3 +73,5 @@ part "src/github_organization_type.dart";
 part "src/github_user_controller.dart";
 part "src/github_timeline_event.dart";
 part "src/github_copilot_agent_controller.dart";
+part "src/github_copilot_session_status.dart";
+part "src/github_copilot_session_log_level.dart";

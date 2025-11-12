@@ -30,10 +30,11 @@ abstract class GithubCopilotSessionLogModel
     required String id,
     required String sessionId,
     required String message,
-    String? level,
     Map<String, dynamic>? metadata,
     String? toolName,
     String? toolResult,
+    @Default(GithubCopilotSessionLogLevel.unknown)
+    GithubCopilotSessionLogLevel level,
     @Default(ModelTimestamp()) ModelTimestamp timestamp,
     @Default(false) bool fromServer,
   }) = _GithubCopilotSessionLogModel;

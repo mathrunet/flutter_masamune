@@ -10,7 +10,6 @@ _GithubCopilotSessionModel _$GithubCopilotSessionModelFromJson(
         Map<String, dynamic> json) =>
     _GithubCopilotSessionModel(
       id: json['id'] as String,
-      state: json['state'] as String,
       name: json['name'] as String?,
       resourceType: json['resourceType'] as String?,
       resourceId: json['resourceId'] as String?,
@@ -22,6 +21,9 @@ _GithubCopilotSessionModel _$GithubCopilotSessionModelFromJson(
       pullRequestUrl: json['pullRequestUrl'] as String?,
       pullRequestId: json['pullRequestId'] as String?,
       pullRequestBaseRef: json['pullRequestBaseRef'] as String?,
+      status: $enumDecodeNullable(
+              _$GithubCopilotSessionStatusEnumMap, json['status']) ??
+          GithubCopilotSessionStatus.none,
       completedAt: json['completedAt'] == null
           ? null
           : ModelTimestamp.fromJson(
@@ -39,7 +41,6 @@ Map<String, dynamic> _$GithubCopilotSessionModelToJson(
         _GithubCopilotSessionModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'state': instance.state,
       'name': instance.name,
       'resourceType': instance.resourceType,
       'resourceId': instance.resourceId,
@@ -51,8 +52,16 @@ Map<String, dynamic> _$GithubCopilotSessionModelToJson(
       'pullRequestUrl': instance.pullRequestUrl,
       'pullRequestId': instance.pullRequestId,
       'pullRequestBaseRef': instance.pullRequestBaseRef,
+      'status': _$GithubCopilotSessionStatusEnumMap[instance.status]!,
       'completedAt': instance.completedAt,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'fromServer': instance.fromServer,
     };
+
+const _$GithubCopilotSessionStatusEnumMap = {
+  GithubCopilotSessionStatus.none: 'none',
+  GithubCopilotSessionStatus.running: 'running',
+  GithubCopilotSessionStatus.completed: 'completed',
+  GithubCopilotSessionStatus.failed: 'failed',
+};

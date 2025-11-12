@@ -17,10 +17,10 @@ mixin _$GithubCopilotSessionLogModel {
   String get id;
   String get sessionId;
   String get message;
-  String? get level;
   Map<String, dynamic>? get metadata;
   String? get toolName;
   String? get toolResult;
+  GithubCopilotSessionLogLevel get level;
   ModelTimestamp get timestamp;
   bool get fromServer;
 
@@ -45,12 +45,12 @@ mixin _$GithubCopilotSessionLogModel {
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.level, level) || other.level == level) &&
             const DeepCollectionEquality().equals(other.metadata, metadata) &&
             (identical(other.toolName, toolName) ||
                 other.toolName == toolName) &&
             (identical(other.toolResult, toolResult) ||
                 other.toolResult == toolResult) &&
+            (identical(other.level, level) || other.level == level) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             (identical(other.fromServer, fromServer) ||
@@ -64,16 +64,16 @@ mixin _$GithubCopilotSessionLogModel {
       id,
       sessionId,
       message,
-      level,
       const DeepCollectionEquality().hash(metadata),
       toolName,
       toolResult,
+      level,
       timestamp,
       fromServer);
 
   @override
   String toString() {
-    return 'GithubCopilotSessionLogModel(id: $id, sessionId: $sessionId, message: $message, level: $level, metadata: $metadata, toolName: $toolName, toolResult: $toolResult, timestamp: $timestamp, fromServer: $fromServer)';
+    return 'GithubCopilotSessionLogModel(id: $id, sessionId: $sessionId, message: $message, metadata: $metadata, toolName: $toolName, toolResult: $toolResult, level: $level, timestamp: $timestamp, fromServer: $fromServer)';
   }
 }
 
@@ -88,10 +88,10 @@ abstract mixin class $GithubCopilotSessionLogModelCopyWith<$Res> {
       {String id,
       String sessionId,
       String message,
-      String? level,
       Map<String, dynamic>? metadata,
       String? toolName,
       String? toolResult,
+      GithubCopilotSessionLogLevel level,
       ModelTimestamp timestamp,
       bool fromServer});
 }
@@ -112,10 +112,10 @@ class _$GithubCopilotSessionLogModelCopyWithImpl<$Res>
     Object? id = null,
     Object? sessionId = null,
     Object? message = null,
-    Object? level = freezed,
     Object? metadata = freezed,
     Object? toolName = freezed,
     Object? toolResult = freezed,
+    Object? level = null,
     Object? timestamp = null,
     Object? fromServer = null,
   }) {
@@ -132,10 +132,6 @@ class _$GithubCopilotSessionLogModelCopyWithImpl<$Res>
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      level: freezed == level
-          ? _self.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as String?,
       metadata: freezed == metadata
           ? _self.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -148,6 +144,10 @@ class _$GithubCopilotSessionLogModelCopyWithImpl<$Res>
           ? _self.toolResult
           : toolResult // ignore: cast_nullable_to_non_nullable
               as String?,
+      level: null == level
+          ? _self.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as GithubCopilotSessionLogLevel,
       timestamp: null == timestamp
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -257,10 +257,10 @@ extension GithubCopilotSessionLogModelPatterns on GithubCopilotSessionLogModel {
             String id,
             String sessionId,
             String message,
-            String? level,
             Map<String, dynamic>? metadata,
             String? toolName,
             String? toolResult,
+            GithubCopilotSessionLogLevel level,
             ModelTimestamp timestamp,
             bool fromServer)?
         $default, {
@@ -273,10 +273,10 @@ extension GithubCopilotSessionLogModelPatterns on GithubCopilotSessionLogModel {
             _that.id,
             _that.sessionId,
             _that.message,
-            _that.level,
             _that.metadata,
             _that.toolName,
             _that.toolResult,
+            _that.level,
             _that.timestamp,
             _that.fromServer);
       case _:
@@ -303,10 +303,10 @@ extension GithubCopilotSessionLogModelPatterns on GithubCopilotSessionLogModel {
             String id,
             String sessionId,
             String message,
-            String? level,
             Map<String, dynamic>? metadata,
             String? toolName,
             String? toolResult,
+            GithubCopilotSessionLogLevel level,
             ModelTimestamp timestamp,
             bool fromServer)
         $default,
@@ -318,10 +318,10 @@ extension GithubCopilotSessionLogModelPatterns on GithubCopilotSessionLogModel {
             _that.id,
             _that.sessionId,
             _that.message,
-            _that.level,
             _that.metadata,
             _that.toolName,
             _that.toolResult,
+            _that.level,
             _that.timestamp,
             _that.fromServer);
       case _:
@@ -347,10 +347,10 @@ extension GithubCopilotSessionLogModelPatterns on GithubCopilotSessionLogModel {
             String id,
             String sessionId,
             String message,
-            String? level,
             Map<String, dynamic>? metadata,
             String? toolName,
             String? toolResult,
+            GithubCopilotSessionLogLevel level,
             ModelTimestamp timestamp,
             bool fromServer)?
         $default,
@@ -362,10 +362,10 @@ extension GithubCopilotSessionLogModelPatterns on GithubCopilotSessionLogModel {
             _that.id,
             _that.sessionId,
             _that.message,
-            _that.level,
             _that.metadata,
             _that.toolName,
             _that.toolResult,
+            _that.level,
             _that.timestamp,
             _that.fromServer);
       case _:
@@ -381,10 +381,10 @@ class _GithubCopilotSessionLogModel extends GithubCopilotSessionLogModel {
       {required this.id,
       required this.sessionId,
       required this.message,
-      this.level,
       final Map<String, dynamic>? metadata,
       this.toolName,
       this.toolResult,
+      this.level = GithubCopilotSessionLogLevel.unknown,
       this.timestamp = const ModelTimestamp(),
       this.fromServer = false})
       : _metadata = metadata,
@@ -398,8 +398,6 @@ class _GithubCopilotSessionLogModel extends GithubCopilotSessionLogModel {
   final String sessionId;
   @override
   final String message;
-  @override
-  final String? level;
   final Map<String, dynamic>? _metadata;
   @override
   Map<String, dynamic>? get metadata {
@@ -414,6 +412,9 @@ class _GithubCopilotSessionLogModel extends GithubCopilotSessionLogModel {
   final String? toolName;
   @override
   final String? toolResult;
+  @override
+  @JsonKey()
+  final GithubCopilotSessionLogLevel level;
   @override
   @JsonKey()
   final ModelTimestamp timestamp;
@@ -446,12 +447,12 @@ class _GithubCopilotSessionLogModel extends GithubCopilotSessionLogModel {
             (identical(other.sessionId, sessionId) ||
                 other.sessionId == sessionId) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.level, level) || other.level == level) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.toolName, toolName) ||
                 other.toolName == toolName) &&
             (identical(other.toolResult, toolResult) ||
                 other.toolResult == toolResult) &&
+            (identical(other.level, level) || other.level == level) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             (identical(other.fromServer, fromServer) ||
@@ -465,16 +466,16 @@ class _GithubCopilotSessionLogModel extends GithubCopilotSessionLogModel {
       id,
       sessionId,
       message,
-      level,
       const DeepCollectionEquality().hash(_metadata),
       toolName,
       toolResult,
+      level,
       timestamp,
       fromServer);
 
   @override
   String toString() {
-    return 'GithubCopilotSessionLogModel(id: $id, sessionId: $sessionId, message: $message, level: $level, metadata: $metadata, toolName: $toolName, toolResult: $toolResult, timestamp: $timestamp, fromServer: $fromServer)';
+    return 'GithubCopilotSessionLogModel(id: $id, sessionId: $sessionId, message: $message, metadata: $metadata, toolName: $toolName, toolResult: $toolResult, level: $level, timestamp: $timestamp, fromServer: $fromServer)';
   }
 }
 
@@ -491,10 +492,10 @@ abstract mixin class _$GithubCopilotSessionLogModelCopyWith<$Res>
       {String id,
       String sessionId,
       String message,
-      String? level,
       Map<String, dynamic>? metadata,
       String? toolName,
       String? toolResult,
+      GithubCopilotSessionLogLevel level,
       ModelTimestamp timestamp,
       bool fromServer});
 }
@@ -515,10 +516,10 @@ class __$GithubCopilotSessionLogModelCopyWithImpl<$Res>
     Object? id = null,
     Object? sessionId = null,
     Object? message = null,
-    Object? level = freezed,
     Object? metadata = freezed,
     Object? toolName = freezed,
     Object? toolResult = freezed,
+    Object? level = null,
     Object? timestamp = null,
     Object? fromServer = null,
   }) {
@@ -535,10 +536,6 @@ class __$GithubCopilotSessionLogModelCopyWithImpl<$Res>
           ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      level: freezed == level
-          ? _self.level
-          : level // ignore: cast_nullable_to_non_nullable
-              as String?,
       metadata: freezed == metadata
           ? _self._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -551,6 +548,10 @@ class __$GithubCopilotSessionLogModelCopyWithImpl<$Res>
           ? _self.toolResult
           : toolResult // ignore: cast_nullable_to_non_nullable
               as String?,
+      level: null == level
+          ? _self.level
+          : level // ignore: cast_nullable_to_non_nullable
+              as GithubCopilotSessionLogLevel,
       timestamp: null == timestamp
           ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable

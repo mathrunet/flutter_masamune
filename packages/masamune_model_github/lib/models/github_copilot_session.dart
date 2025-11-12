@@ -27,7 +27,6 @@ abstract class GithubCopilotSessionModel with _$GithubCopilotSessionModel {
   /// Copilotのセッションを管理するモデル。
   const factory GithubCopilotSessionModel({
     required String id,
-    required String state,
     String? name,
     String? resourceType,
     String? resourceId,
@@ -39,6 +38,7 @@ abstract class GithubCopilotSessionModel with _$GithubCopilotSessionModel {
     String? pullRequestUrl,
     String? pullRequestId,
     String? pullRequestBaseRef,
+    @Default(GithubCopilotSessionStatus.none) GithubCopilotSessionStatus status,
     ModelTimestamp? completedAt,
     @Default(ModelTimestamp()) ModelTimestamp createdAt,
     @Default(ModelTimestamp()) ModelTimestamp updatedAt,

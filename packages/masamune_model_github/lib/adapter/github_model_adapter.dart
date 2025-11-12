@@ -796,7 +796,7 @@ extension on DynamicMap {
 
     return GithubCopilotSessionModel(
       id: get("id", ""),
-      state: get("state", "unknown"),
+      status: GithubCopilotSessionStatus.fromString(get("state", "unknown")),
       name: get("name", nullOfString),
       resourceType: get("resource_type", nullOfString),
       resourceId: get("resource_id", nullOfString),
@@ -827,7 +827,7 @@ extension on DynamicMap {
       id: get("id", ""),
       sessionId: sessionId,
       message: get("message", ""),
-      level: get("level", nullOfString),
+      level: GithubCopilotSessionLogLevel.fromString(get("level", "unknown")),
       timestamp: timestamp != null
           ? ModelTimestamp.tryParse(timestamp) ?? const ModelTimestamp.now()
           : const ModelTimestamp.now(),
@@ -948,6 +948,10 @@ class GithubModelAdapter extends ModelAdapter {
     final github = await _getInstance();
 
     if (GithubOrganizationModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final organizationId = query.query.path.split("/").last;
       final userQuery = ModelAdapterDocumentQuery(
           query: GithubUserModel.document(organizationId).modelQuery);
@@ -979,12 +983,20 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubUserModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final ownerId = query.query.path.split("/").last;
       final owner = await github.users.getUser(ownerId);
       final res = owner.toGithubUserModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res;
     } else if (GithubRepositoryModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubRepositoryModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1001,6 +1013,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubActionsModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubActionsModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1024,6 +1040,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubActionsJobModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubActionsJobModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1052,6 +1072,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubActionsLogModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubActionsLogModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1080,6 +1104,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, log);
       return log;
     } else if (GithubIssueModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubIssueModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1097,6 +1125,10 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubIssueTimelineModel.document
         .hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubIssueTimelineModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1117,6 +1149,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubPullRequestModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubPullRequestModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1137,6 +1173,10 @@ class GithubModelAdapter extends ModelAdapter {
       return res;
     } else if (GithubPullRequestTimelineModel.document
         .hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match = GithubPullRequestTimelineModel.document.regExp
           .firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1158,6 +1198,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubBranchModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubBranchModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1174,6 +1218,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubCommitModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubCommitModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1191,6 +1239,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncDocument(query, res);
       return res;
     } else if (GithubContentModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
       final match =
           GithubContentModel.document.regExp.firstMatch(query.query.path);
       final organizationId = match?.group(1);
@@ -1214,6 +1266,48 @@ class GithubModelAdapter extends ModelAdapter {
       final res = contents.toGithubContentModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res;
+    } else if (GithubCopilotSessionModel.document
+        .hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
+      final match = GithubCopilotSessionModel.document.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final sessionId = query.query.path.split("/").last;
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for copilot session document load");
+      }
+      final accessToken =
+          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      if (accessToken == null) {
+        throw Exception("Failed to get access token");
+      }
+      // レポジトリを取得
+      final repository = await github.repositories.getRepository(
+        RepositorySlug(organizationId, repositoryId),
+      );
+      final nodeId = repository.nodeId;
+      if (nodeId == null) {
+        throw Exception("Failed to get node id");
+      }
+      final session = await Api.get(
+        "$_kGithubCopilotEndpoint/agents/resource/repository/$nodeId",
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+          "Copilot-Integration-Id": "copilot-4-cli",
+        },
+      );
+      final json = jsonDecodeAsMap(session.body);
+      final sessions = json.getAsList<DynamicMap>("sessions");
+      final doc = sessions
+          .firstWhereOrNull((e) => e.get("id", nullOfString) == sessionId);
+      final res = doc?.toGithubCopilotSessionModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res ?? {};
     }
     throw UnsupportedError("Unsupported document: ${query.query.path}");
   }
