@@ -3,6 +3,7 @@ part of "/masamune_model_github.dart";
 const _kLocalDatabaseId = "github://";
 const _kGitHubApiVersionHeader = "X-GitHub-Api-Version";
 const _kGitHubApiVersion = "2022-11-28";
+const _kGithubCopilotEndpoint = "https://api.githubcopilot.com";
 
 extension on Organization {
   String? get uid {
@@ -783,6 +784,58 @@ Future<Map<String, DynamicMap>> _fetchGithubActionsLogs({
       log.toJson().toEntireJson(),
     );
   });
+}
+
+extension on DynamicMap {
+  GithubCopilotSessionModel toGithubCopilotSessionModel() {
+    final createdAt = get("created_at", nullOfString);
+    final updatedAt = get("updated_at", nullOfString);
+    final completedAt = get("completed_at", nullOfString);
+    final error = getAsMap("error");
+    final pullRequest = getAsMap("pull_request");
+
+    return GithubCopilotSessionModel(
+      id: get("id", ""),
+      state: get("state", "unknown"),
+      name: get("name", nullOfString),
+      resourceType: get("resource_type", nullOfString),
+      resourceId: get("resource_id", nullOfString),
+      userId: get("user_id", nullOfString),
+      agentId: get("agent_id", nullOfString),
+      createdAt: createdAt != null
+          ? ModelTimestamp.tryParse(createdAt) ?? const ModelTimestamp.now()
+          : const ModelTimestamp.now(),
+      updatedAt: updatedAt != null
+          ? ModelTimestamp.tryParse(updatedAt) ?? const ModelTimestamp.now()
+          : const ModelTimestamp.now(),
+      completedAt: completedAt != null
+          ? ModelTimestamp.tryParse(completedAt) ?? const ModelTimestamp.now()
+          : null,
+      errorMessage: error.get("message", nullOfString),
+      errorCode: error.get("code", nullOfString),
+      pullRequestNumber: pullRequest.get("number", nullOfNum)?.toInt(),
+      pullRequestUrl: pullRequest.get("url", nullOfString),
+      pullRequestId: pullRequest.get("id", nullOfString),
+      pullRequestBaseRef: pullRequest.get("base_ref", nullOfString),
+    );
+  }
+
+  GithubCopilotSessionLogModel toGithubCopilotSessionLogModel(
+      {required String sessionId}) {
+    final timestamp = get("timestamp", nullOfString);
+    return GithubCopilotSessionLogModel(
+      id: get("id", ""),
+      sessionId: sessionId,
+      message: get("message", ""),
+      level: get("level", nullOfString),
+      timestamp: timestamp != null
+          ? ModelTimestamp.tryParse(timestamp) ?? const ModelTimestamp.now()
+          : const ModelTimestamp.now(),
+      metadata: getAsMap("metadata"),
+      toolName: get("tool_name", nullOfString),
+      toolResult: get("tool_result", nullOfString),
+    );
+  }
 }
 
 /// Model adapter with GitHub available.
@@ -1646,6 +1699,96 @@ class GithubModelAdapter extends ModelAdapter {
                 id, e.toGithubContentModel().toJson().toEntireJson());
           }) ??
           {};
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubCopilotSessionModel.collection
+        .hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (!query.reload && res.isNotEmpty) {
+        return res ?? {};
+      }
+      final match = GithubCopilotSessionModel.collection.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for copilot session collection load");
+      }
+      final accessToken =
+          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      if (accessToken == null) {
+        throw Exception("Failed to get access token");
+      }
+      // レポジトリを取得
+      final repository = await github.repositories.getRepository(
+        RepositorySlug(organizationId, repositoryId),
+      );
+      final nodeId = repository.nodeId;
+      if (nodeId == null) {
+        throw Exception("Failed to get node id");
+      }
+      final session = await Api.get(
+        "$_kGithubCopilotEndpoint/agents/resource/repository/$nodeId",
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+          "Copilot-Integration-Id": "copilot-4-cli",
+        },
+      );
+      final json = jsonDecodeAsMap(session.body);
+      final sessions = json.getAsList<DynamicMap>("sessions");
+      res = sessions.toMap((e) {
+        final id = e.get("id", nullOfString);
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(
+            id, e.toGithubCopilotSessionModel().toJson().toEntireJson());
+      });
+      await database.syncCollection(query, res);
+      return res;
+    } else if (GithubCopilotSessionLogModel.collection
+        .hasMatchPath(query.query.path)) {
+      var res = await database.loadCollection(query);
+      if (!query.reload && res.isNotEmpty) {
+        return res ?? {};
+      }
+      final match = GithubCopilotSessionLogModel.collection.regExp
+          .firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final sessionId = match?.group(3);
+      if (organizationId == null || repositoryId == null || sessionId == null) {
+        throw Exception("Invalid path for copilot session log collection load");
+      }
+      final accessToken =
+          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      if (accessToken == null) {
+        throw Exception("Failed to get access token");
+      }
+      final log = await Api.get(
+        "$_kGithubCopilotEndpoint/agents/sessions/$sessionId/logs",
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+          "Copilot-Integration-Id": "copilot-4-cli",
+        },
+      );
+      final json = jsonDecodeAsMap(log.body);
+      final logs = json.getAsList<DynamicMap>("logs");
+      res = logs.toMap((e) {
+        final id = e.get("id", nullOfString);
+        if (id == null) {
+          return null;
+        }
+        return MapEntry(
+          id,
+          e
+              .toGithubCopilotSessionLogModel(sessionId: sessionId)
+              .toJson()
+              .toEntireJson(),
+        );
+      });
       await database.syncCollection(query, res);
       return res;
     }

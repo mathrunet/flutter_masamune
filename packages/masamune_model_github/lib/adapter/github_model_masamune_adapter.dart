@@ -20,6 +20,7 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
     required this.appRef,
     this.debugAuthDapter,
     this.defaultSinceFromCommit = const Duration(days: 30),
+    this.githubCopilotApiVersion = "2025-10-22",
   });
 
   /// Application reference.
@@ -41,6 +42,21 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
   ///
   /// デフォルトのsince。
   final Duration defaultSinceFromCommit;
+
+  /// GitHub Copilot API version.
+  ///
+  /// GitHub Copilot APIのバージョン。
+  final String githubCopilotApiVersion;
+
+  /// Get access token.
+  ///
+  /// アクセストークンを取得します。
+  Future<String?> getAccessToken() async {
+    if (modelAdapter is GithubModelAdapter) {
+      return await (modelAdapter as GithubModelAdapter).onRetrieveToken.call();
+    }
+    return null;
+  }
 
   /// You can retrieve the [GithubModelMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

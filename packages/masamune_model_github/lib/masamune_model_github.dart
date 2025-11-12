@@ -11,6 +11,7 @@ library;
 // Dart imports:
 import "dart:async";
 import "dart:convert" as convert;
+import "dart:convert";
 
 // Flutter imports:
 import "package:flutter/widgets.dart";
@@ -28,6 +29,8 @@ import "package:masamune_model_github/models/github_actions_log.dart";
 import "package:masamune_model_github/models/github_branch.dart";
 import "package:masamune_model_github/models/github_commit.dart";
 import "package:masamune_model_github/models/github_content.dart";
+import "package:masamune_model_github/models/github_copilot_session.dart";
+import "package:masamune_model_github/models/github_copilot_session_log.dart";
 import "package:masamune_model_github/models/github_issue.dart";
 import "package:masamune_model_github/models/github_issue_timeline.dart";
 import "package:masamune_model_github/models/github_label.dart";
@@ -67,3 +70,4 @@ part "adapter/github_model_masamune_adapter.dart";
 part "src/github_organization_type.dart";
 part "src/github_user_controller.dart";
 part "src/github_timeline_event.dart";
+part "src/github_copilot_agent_controller.dart";
