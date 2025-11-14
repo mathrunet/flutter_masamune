@@ -4,6 +4,7 @@ const _kLocalDatabaseId = "github://";
 const _kGitHubApiVersionHeader = "X-GitHub-Api-Version";
 const _kGitHubApiVersion = "2022-11-28";
 const _kGithubCopilotEndpoint = "https://api.githubcopilot.com";
+const _kGithubEndpoint = "https://api.github.com";
 
 extension on Organization {
   String? get uid {
@@ -492,10 +493,6 @@ extension on CommitFile {
 }
 
 extension on RepositoryCommit {
-  String? get uid {
-    return sha;
-  }
-
   GithubCommitModel toGithubCommitModel() {
     return GithubCommitModel(
       sha: sha,
@@ -517,6 +514,7 @@ extension on RepositoryCommit {
       totalCount: stats?.total ?? 0,
       parents: parents?.mapAndRemoveEmpty((e) => e.toGithubCommitModel()) ?? [],
       contents: files?.map((e) => e.toGithubContentModel()).toList() ?? [],
+      message: commit?.message,
       fromServer: true,
     );
   }
@@ -787,6 +785,57 @@ Future<Map<String, DynamicMap>> _fetchGithubActionsLogs({
 }
 
 extension on DynamicMap {
+  GithubCommitModel toGithubCommitModel() {
+    final commit = getAsMap("commit");
+    final author = getAsMap("author");
+    final committer = getAsMap("committer");
+    final parents = getAsList<DynamicMap>("parents");
+    final authorDate = commit.getAsMap("author").get("date", nullOfString);
+    final committerDate =
+        commit.getAsMap("committer").get("date", nullOfString);
+    final stats = getAsMap("stats");
+    final files = getAsList<DynamicMap>("files");
+    return GithubCommitModel(
+      sha: get("sha", nullOfString),
+      message: commit.get("message", nullOfString),
+      url: ModelUri.tryParse(get("url", nullOfString)),
+      htmlUrl: ModelUri.tryParse(get("html_url", nullOfString)),
+      commentsUrl: ModelUri.tryParse(get("comments_url", nullOfString)),
+      author: author.isNotEmpty
+          ? GithubUserModelRefPath(author.get("login", nullOfString) ?? "")
+          : null,
+      committer: committer.isNotEmpty
+          ? GithubUserModelRefPath(committer.get("login", nullOfString) ?? "")
+          : null,
+      authorDate:
+          authorDate != null ? ModelTimestamp.tryParse(authorDate) : null,
+      committerDate:
+          committerDate != null ? ModelTimestamp.tryParse(committerDate) : null,
+      commentCount: commit.getAsInt("comment_count", 0),
+      additionsCount: stats.getAsInt("additions", 0),
+      deletionsCount: stats.getAsInt("deletions", 0),
+      totalCount: stats.getAsInt("total", 0),
+      parents: parents.mapAndRemoveEmpty((e) => e.toGithubCommitModel()),
+      contents: files.map((e) => e.toGithubContentModel()).toList(),
+      fromServer: true,
+    );
+  }
+
+  GithubContentModel toGithubContentModel() {
+    return GithubContentModel(
+      name: get("filename", nullOfString),
+      additionsCount: getAsInt("additions"),
+      deletionsCount: getAsInt("deletions"),
+      changesCount: getAsInt("changes"),
+      status: get("status", nullOfString),
+      rawUrl: ModelUri.tryParse(get("raw_url", nullOfString)),
+      blobUrl: ModelUri.tryParse(get("blob_url", nullOfString)),
+      patch: get("patch", nullOfString),
+      sha: get("sha", nullOfString),
+      type: get("type", nullOfString),
+    );
+  }
+
   GithubCopilotSessionModel toGithubCopilotSessionModel() {
     final createdAt = get("created_at", nullOfString);
     final updatedAt = get("updated_at", nullOfString);
@@ -1285,16 +1334,8 @@ class GithubModelAdapter extends ModelAdapter {
       if (accessToken == null) {
         throw Exception("Failed to get access token");
       }
-      // レポジトリを取得
-      final repository = await github.repositories.getRepository(
-        RepositorySlug(organizationId, repositoryId),
-      );
-      final nodeId = repository.nodeId;
-      if (nodeId == null) {
-        throw Exception("Failed to get node id");
-      }
       final session = await Api.get(
-        "$_kGithubCopilotEndpoint/agents/resource/repository/$nodeId",
+        "$_kGithubCopilotEndpoint/agents/resource/repository/$repositoryId",
         headers: {
           "Authorization": "Bearer $accessToken",
           "Content-Type": "application/json",
@@ -1698,38 +1739,10 @@ class GithubModelAdapter extends ModelAdapter {
       await database.syncCollection(query, res);
       return res;
     } else if (GithubCommitModel.collection.hasMatchPath(query.query.path)) {
-      final since = query.query.filters.get<ModelTimestamp>(
-            key: "authorDate",
-            types: [
-              ModelQueryFilterType.greaterThan,
-              ModelQueryFilterType.greaterThanOrEqualTo
-            ],
-          ) ??
-          query.query.filters.get<ModelTimestamp>(
-            key: "committerDate",
-            types: [
-              ModelQueryFilterType.greaterThan,
-              ModelQueryFilterType.greaterThanOrEqualTo
-            ],
-          ) ??
-          ModelTimestamp(
-            DateTime.now().subtract(
-                GithubModelMasamuneAdapter.primary.defaultSinceFromCommit),
-          );
-      final until = query.query.filters.get<ModelTimestamp>(
-            key: "authorDate",
-            types: [
-              ModelQueryFilterType.lessThan,
-              ModelQueryFilterType.lessThanOrEqualTo
-            ],
-          ) ??
-          query.query.filters.get<ModelTimestamp>(
-            key: "committerDate",
-            types: [
-              ModelQueryFilterType.lessThan,
-              ModelQueryFilterType.lessThanOrEqualTo
-            ],
-          );
+      final limit = (query.query.filters.get<int>(types: [
+            ModelQueryFilterType.limit,
+          ]) ??
+          100);
       var res = await database.loadCollection(query);
       if (!query.reload && res.isNotEmpty) {
         return res ?? {};
@@ -1742,22 +1755,39 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null || branchId == null) {
         throw Exception("Invalid path for commit collection load");
       }
-      final commit = github.repositories.listCommits(
-        RepositorySlug(organizationId, repositoryId),
-        sha: branchId,
-        since: since.value,
-        until: until?.value,
-      );
-      res = (await commit.map((e) {
-        return e;
-      }).toList())
-          .toMap((e) {
-        final id = e.uid;
-        if (id == null) {
-          return null;
+      res ??= {};
+      final accessToken =
+          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      if (accessToken == null) {
+        throw Exception("Failed to get access token");
+      }
+      var page = 1;
+      do {
+        final parameters = Uri(queryParameters: {
+          "per_page": limit.toString(),
+          "page": page.toString(),
+        }).query;
+        final result = await Api.get(
+          "$_kGithubEndpoint/repos/$organizationId/$repositoryId/commits?$parameters",
+          headers: {
+            "Authorization": "Bearer $accessToken",
+            "Content-Type": "application/json",
+          },
+        );
+        if (!result.statusCode.toString().startsWith("2")) {
+          throw Exception("Failed to get commits: ${result.statusCode}");
         }
-        return MapEntry(id, e.toGithubCommitModel().toJson().toEntireJson());
-      });
+        final json = jsonDecodeAsList<DynamicMap>(result.body);
+        final partialRes = json.toMap((e) {
+          final id = e.get("sha", nullOfString);
+          if (id == null) {
+            return null;
+          }
+          return MapEntry(id, e.toGithubCommitModel().toJson().toEntireJson());
+        });
+        res.addAll(partialRes);
+        page++;
+      } while (page <= query.page);
       await database.syncCollection(query, res);
       return res;
     } else if (GithubContentModel.collection.hasMatchPath(query.query.path)) {
@@ -1813,16 +1843,8 @@ class GithubModelAdapter extends ModelAdapter {
       if (accessToken == null) {
         throw Exception("Failed to get access token");
       }
-      // レポジトリを取得
-      final repository = await github.repositories.getRepository(
-        RepositorySlug(organizationId, repositoryId),
-      );
-      final nodeId = repository.nodeId;
-      if (nodeId == null) {
-        throw Exception("Failed to get node id");
-      }
       final session = await Api.get(
-        "$_kGithubCopilotEndpoint/agents/resource/repository/$nodeId",
+        "$_kGithubCopilotEndpoint/agents/resource/repository/$repositoryId",
         headers: {
           "Authorization": "Bearer $accessToken",
           "Content-Type": "application/json",

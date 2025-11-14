@@ -242,8 +242,9 @@ class GithubCopilotAgentController
     } catch (error) {
       // ファイルが存在しない場合は無視
       if (!error.toString().contains("404")) {
-        rethrow;
+        return;
       }
+      rethrow;
     } finally {
       client.dispose();
     }
