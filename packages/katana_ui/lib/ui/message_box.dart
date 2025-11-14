@@ -123,6 +123,7 @@ class MessageBox extends StatelessWidget {
     required this.label,
     super.key,
     this.icon,
+    this.title,
     this.textStyle,
     this.backgroundColor,
     this.border,
@@ -158,6 +159,11 @@ class MessageBox extends StatelessWidget {
   /// メッセージ部分にいれるウィジェット。
   final Widget label;
 
+  /// A widget that can be placed in the title section.
+  ///
+  /// タイトル部にいれるウィジェット。
+  final Widget? title;
+
   /// A widget that can be placed in the icon section.
   ///
   /// アイコン部にいれるウィジェット。
@@ -188,6 +194,55 @@ class MessageBox extends StatelessWidget {
     final color = this.color ?? Theme.of(context).primaryColor;
     final backgroundColor =
         this.backgroundColor ?? color.withValues(alpha: 0.1);
+
+    if (title != null) {
+      final theme = Theme.of(context);
+      return Container(
+        margin: margin,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: borderRadius ?? BorderRadius.circular(16),
+          border: border ?? Border.all(color: color, width: 1),
+        ),
+        child: IconTheme(
+          data: IconThemeData(color: color, size: 48),
+          child: DefaultTextStyle(
+            style: TextStyle(color: color),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                icon ?? const Icon(Icons.info_outline),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DefaultTextStyle(
+                        style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: color,
+                            ) ??
+                            TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: color,
+                            ),
+                        child: title!,
+                      ),
+                      const SizedBox(height: 8),
+                      DefaultTextStyle(
+                          style: TextStyle(color: color), child: label),
+                      if (actions.isNotEmpty) const SizedBox(height: 16),
+                      ...actions,
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Container(
       margin: margin,

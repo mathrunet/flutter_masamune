@@ -221,7 +221,7 @@ class Label extends StatelessWidget {
       color: backgroundColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leading != null) ...[
