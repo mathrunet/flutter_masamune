@@ -341,13 +341,23 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> next() async {
     await _enqueueInternalTransaction(() async {
-      _loaded = false;
-      _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
-      final prevLength = length;
-      await _load();
-      if (length == prevLength) {
-        _canNext = false;
-        _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
+      _reloadingCompleter = Completer();
+      try {
+        _loaded = false;
+        _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
+        final prevLength = length;
+        await _load();
+        if (length == prevLength) {
+          _canNext = false;
+          _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
+        }
+      } catch (e) {
+        _reloadingCompleter?.completeError(e);
+        _reloadingCompleter = null;
+        rethrow;
+      } finally {
+        _reloadingCompleter?.complete(this);
+        _reloadingCompleter = null;
       }
     });
     return this;
