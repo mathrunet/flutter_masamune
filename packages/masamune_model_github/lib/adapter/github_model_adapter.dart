@@ -977,16 +977,18 @@ class GithubModelAdapter extends ModelAdapter {
     if (_github != null) {
       return _github!;
     }
-    if (_githubInstance != null) {
+    final token = await onRetrieveToken();
+    if (_githubInstance != null && _accessToken == token) {
       return _githubInstance!;
     }
-    final token = await onRetrieveToken();
+    _accessToken = token;
     return _githubInstance =
         GitHub(auth: git_hub.Authentication.withToken(token));
   }
 
   final GitHub? _github;
   static GitHub? _githubInstance;
+  static String? _accessToken;
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
@@ -1329,8 +1331,7 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null) {
         throw Exception("Invalid path for copilot session document load");
       }
-      final accessToken =
-          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      final accessToken = await onRetrieveToken();
       if (accessToken == null) {
         throw Exception("Failed to get access token");
       }
@@ -1756,14 +1757,14 @@ class GithubModelAdapter extends ModelAdapter {
         throw Exception("Invalid path for commit collection load");
       }
       res ??= {};
-      final accessToken =
-          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      final accessToken = await onRetrieveToken();
       if (accessToken == null) {
         throw Exception("Failed to get access token");
       }
       var page = 1;
       do {
         final parameters = Uri(queryParameters: {
+          "sha": branchId,
           "per_page": limit.toString(),
           "page": page.toString(),
         }).query;
@@ -1838,8 +1839,7 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null) {
         throw Exception("Invalid path for copilot session collection load");
       }
-      final accessToken =
-          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      final accessToken = await onRetrieveToken();
       if (accessToken == null) {
         throw Exception("Failed to get access token");
       }
@@ -1877,8 +1877,7 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null || sessionId == null) {
         throw Exception("Invalid path for copilot session log collection load");
       }
-      final accessToken =
-          await GithubModelMasamuneAdapter.primary.getAccessToken();
+      final accessToken = await onRetrieveToken();
       if (accessToken == null) {
         throw Exception("Failed to get access token");
       }
@@ -2449,8 +2448,8 @@ class GithubModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<void> clearAll() {
-    throw UnsupportedError("Clear all operation is not supported.");
+  Future<void> clearAll() async {
+    await database.clearAll();
   }
 
   @override
