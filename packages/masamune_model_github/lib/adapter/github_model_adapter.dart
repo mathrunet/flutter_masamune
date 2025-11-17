@@ -561,230 +561,170 @@ extension on RepositoryContents {
   }
 }
 
-ModelTimestamp? _parseGithubTimestamp(dynamic value) {
-  if (value is String && value.isNotEmpty) {
-    final date = DateTime.tryParse(value);
-    if (date != null) {
-      return ModelTimestamp(date.toLocal());
-    }
-  }
-  return null;
-}
-
-GithubUserModel? _githubUserModelFromJson(dynamic value) {
-  if (value is Map<String, dynamic>) {
-    return User.fromJson(value).toGithubUserModel();
-  }
-  return null;
-}
-
-GithubActionsStepValue _githubActionsStepValueFromJson(
-    Map<String, dynamic>? json) {
-  if (json == null) {
-    return const GithubActionsStepValue();
-  }
-  return GithubActionsStepValue(
-    number: json["number"] is int ? json["number"] as int : null,
-    name: json["name"]?.toString(),
-    status: json["status"]?.toString(),
-    conclusion: json["conclusion"]?.toString(),
-    startedAt: _parseGithubTimestamp(json["started_at"]),
-    completedAt: _parseGithubTimestamp(json["completed_at"]),
-  );
-}
-
-GithubActionsJobModel _githubActionsJobModelFromJson(
-  Map<String, dynamic> json,
-  String organizationId,
-  String repositoryId,
-) {
-  final runner = _githubUserModelFromJson(json["runner"]);
-  final steps = (json["steps"] as List?)
-          ?.map((e) => _githubActionsStepValueFromJson(
-                e is Map<String, dynamic> ? e : null,
-              ))
-          .toList() ??
-      const <GithubActionsStepValue>[];
-  return GithubActionsJobModel(
-    id: json["id"] is int ? json["id"] as int : null,
-    runId: json["run_id"] is int ? json["run_id"] as int : null,
-    runAttempt: json["run_attempt"] is int ? json["run_attempt"] as int : null,
-    name: json["name"]?.toString(),
-    runnerName: json["runner_name"]?.toString(),
-    runnerId: json["runner_id"] is int ? json["runner_id"] as int : null,
-    runnerGroupId:
-        json["runner_group_id"] is int ? json["runner_group_id"] as int : null,
-    status: json["status"]?.toString(),
-    conclusion: json["conclusion"]?.toString(),
-    labels: (json["labels"] as List?)
-            ?.map((e) => e?.toString())
-            .whereType<String>()
-            .toList() ??
-        const <String>[],
-    runner: runner,
-    steps: steps,
-    url: ModelUri.tryParse(json["url"]),
-    htmlUrl: ModelUri.tryParse(json["html_url"]),
-    logsUrl: ModelUri.tryParse(json["logs_url"]),
-    startedAt: _parseGithubTimestamp(json["started_at"]),
-    completedAt: _parseGithubTimestamp(json["completed_at"]),
-    fromServer: true,
-  );
-}
-
-GithubActionsModel _githubActionsModelFromJson(
-  Map<String, dynamic> json,
-  String organizationId,
-  String repositoryId,
-) {
-  final actor = _githubUserModelFromJson(json["actor"]);
-  final triggeringActor = _githubUserModelFromJson(json["triggering_actor"]);
-  return GithubActionsModel(
-    id: json["id"] is int ? json["id"] as int : null,
-    workflowId: json["workflow_id"] is int ? json["workflow_id"] as int : null,
-    runNumber: json["run_number"] is int ? json["run_number"] as int : null,
-    runAttempt: json["run_attempt"] is int ? json["run_attempt"] as int : null,
-    name: json["name"]?.toString(),
-    displayTitle: json["display_title"]?.toString(),
-    event: json["event"]?.toString(),
-    status: json["status"]?.toString(),
-    conclusion: json["conclusion"]?.toString(),
-    headBranch: json["head_branch"]?.toString(),
-    headSha: json["head_sha"]?.toString(),
-    path: json["path"]?.toString(),
-    actor: actor,
-    triggeringActor: triggeringActor,
-    repository: GithubRepositoryModelRefPath(
-      repositoryId,
-      organizationId: organizationId,
-    ),
-    url: ModelUri.tryParse(json["url"]),
-    htmlUrl: ModelUri.tryParse(json["html_url"]),
-    jobsUrl: ModelUri.tryParse(json["jobs_url"]),
-    logsUrl: ModelUri.tryParse(json["logs_url"]),
-    artifactsUrl: ModelUri.tryParse(json["artifacts_url"]),
-    cancelUrl: ModelUri.tryParse(json["cancel_url"]),
-    rerunUrl: ModelUri.tryParse(json["rerun_url"]),
-    workflowUrl: ModelUri.tryParse(json["workflow_url"]),
-    checkSuiteUrl: ModelUri.tryParse(json["check_suite_url"]),
-    previousAttemptUrl: ModelUri.tryParse(json["previous_attempt_url"]),
-    runStartedAt: _parseGithubTimestamp(json["run_started_at"]),
-    createdAt:
-        _parseGithubTimestamp(json["created_at"]) ?? const ModelTimestamp.now(),
-    updatedAt:
-        _parseGithubTimestamp(json["updated_at"]) ?? const ModelTimestamp.now(),
-    fromServer: true,
-  );
-}
-
-bool _isZipArchive(List<int> bytes) {
-  return bytes.length >= 4 &&
-      bytes[0] == 0x50 &&
-      bytes[1] == 0x4B &&
-      bytes[2] == 0x03 &&
-      bytes[3] == 0x04;
-}
-
-bool _isGzipCompressed(List<int> bytes) {
-  return bytes.length >= 2 && bytes[0] == 0x1F && bytes[1] == 0x8B;
-}
-
-List<GithubActionsLogModel> _githubActionsLogsFromBytes({
-  required List<int> bytes,
-  required int runId,
-  required int jobId,
-  required String downloadUrl,
-}) {
-  final logs = <GithubActionsLogModel>[];
-  const timestamp = ModelTimestamp.now();
-  if (_isZipArchive(bytes)) {
-    final archive = ZipDecoder().decodeBytes(bytes, verify: false);
-    var index = 0;
-    for (final file in archive.files) {
-      if (!file.isFile) {
-        continue;
-      }
-      final content = file.content;
-      final data = convert.utf8.decode(content, allowMalformed: true);
-      logs.add(
-        GithubActionsLogModel(
-          runId: runId,
-          jobId: jobId,
-          chunk: index,
-          name: file.name,
-          downloadUrl: ModelUri.tryParse(downloadUrl),
-          text: data,
-          createdAt: timestamp,
-          fromServer: true,
-        ),
-      );
-      index++;
-    }
-    if (logs.isEmpty) {
-      logs.add(
-        GithubActionsLogModel(
-          runId: runId,
-          jobId: jobId,
-          chunk: 0,
-          downloadUrl: ModelUri.tryParse(downloadUrl),
-          text: "",
-          createdAt: timestamp,
-          fromServer: true,
-        ),
-      );
-    }
-    return logs;
-  }
-  final decodedBytes =
-      _isGzipCompressed(bytes) ? const GZipDecoder().decodeBytes(bytes) : bytes;
-  final text = convert.utf8.decode(decodedBytes, allowMalformed: true);
-  logs.add(
-    GithubActionsLogModel(
-      runId: runId,
-      jobId: jobId,
-      chunk: 0,
-      downloadUrl: ModelUri.tryParse(downloadUrl),
-      text: text,
-      createdAt: timestamp,
-      fromServer: true,
-    ),
-  );
-  return logs;
-}
-
-Future<Map<String, DynamicMap>> _fetchGithubActionsLogs({
-  required GitHub github,
-  required String organizationId,
-  required String repositoryId,
-  required int runId,
-  required int jobId,
-}) async {
-  final response = await github.request(
-    "GET",
-    "/repos/$organizationId/$repositoryId/actions/jobs/$jobId/logs",
-    headers: const {
-      _kGitHubApiVersionHeader: _kGitHubApiVersion,
-      "Accept": "application/vnd.github+json",
-    },
-  );
-  final downloadUrl =
-      "https://api.github.com/repos/$organizationId/$repositoryId/actions/jobs/$jobId/logs";
-  final logs = _githubActionsLogsFromBytes(
-    bytes: response.bodyBytes,
-    runId: runId,
-    jobId: jobId,
-    downloadUrl: downloadUrl,
-  );
-  return logs.toMap((log) {
-    final chunk = log.chunk ?? 0;
-    return MapEntry(
-      chunk.toString(),
-      log.toJson().toEntireJson(),
-    );
-  });
-}
-
 extension on DynamicMap {
+  GithubCompareModel toGithubCompareModel() {
+    // Parse merge_base_commit
+    final mergeBaseCommitJson = getAsMap("merge_base_commit");
+    final mergeBaseCommit = mergeBaseCommitJson.toGithubCommitModel();
+
+    // Parse base_commit
+    final baseCommitJson = getAsMap("base_commit");
+    final baseCommit = baseCommitJson.toGithubCommitModel();
+
+    // Parse commits array
+    final commitsJson = getAsList<DynamicMap>("commits");
+    final commits = commitsJson.map((e) => e.toGithubCommitModel()).toList();
+
+    return GithubCompareModel(
+      status: get("status", nullOfString),
+      aheadBy: getAsInt("ahead_by", 0),
+      behindBy: getAsInt("behind_by", 0),
+      totalCommits: getAsInt("total_commits", 0),
+      mergeBaseCommit: mergeBaseCommit,
+      baseCommit: baseCommit,
+      commits: commits,
+      diffUrl: ModelUri.tryParse(get("diff_url", nullOfString)),
+      patchUrl: ModelUri.tryParse(get("patch_url", nullOfString)),
+      htmlUrl: ModelUri.tryParse(get("html_url", nullOfString)),
+      permalinkUrl: ModelUri.tryParse(get("permalink_url", nullOfString)),
+      fromServer: true,
+    );
+  }
+
+  GithubActionsModel toGithubActionsModel({
+    required String organizationId,
+    required String repositoryId,
+  }) {
+    final actorJson = getAsMap("actor");
+    final triggeringActorJson = getAsMap("triggering_actor");
+    final actor = actorJson.isEmpty ? null : actorJson.toGithubUserModel();
+    final triggeringActor = triggeringActorJson.isEmpty
+        ? null
+        : triggeringActorJson.toGithubUserModel();
+    return GithubActionsModel(
+      id: get("id", nullOfNum)?.toInt(),
+      workflowId: get("workflow_id", nullOfNum)?.toInt(),
+      runNumber: get("run_number", nullOfNum)?.toInt(),
+      runAttempt: get("run_attempt", nullOfNum)?.toInt(),
+      name: get("name", nullOfString),
+      displayTitle: get("display_title", nullOfString),
+      event: get("event", nullOfString),
+      status: get("status", nullOfString),
+      conclusion: get("conclusion", nullOfString),
+      headBranch: get("head_branch", nullOfString),
+      headSha: get("head_sha", nullOfString),
+      path: get("path", nullOfString),
+      actor: actor,
+      triggeringActor: triggeringActor,
+      repository: GithubRepositoryModelRefPath(
+        repositoryId,
+        organizationId: organizationId,
+      ),
+      url: ModelUri.tryParse(get("url", nullOfString)),
+      htmlUrl: ModelUri.tryParse(get("html_url", nullOfString)),
+      jobsUrl: ModelUri.tryParse(get("jobs_url", nullOfString)),
+      logsUrl: ModelUri.tryParse(get("logs_url", nullOfString)),
+      artifactsUrl: ModelUri.tryParse(get("artifacts_url", nullOfString)),
+      cancelUrl: ModelUri.tryParse(get("cancel_url", nullOfString)),
+      rerunUrl: ModelUri.tryParse(get("rerun_url", nullOfString)),
+      workflowUrl: ModelUri.tryParse(get("workflow_url", nullOfString)),
+      checkSuiteUrl: ModelUri.tryParse(get("check_suite_url", nullOfString)),
+      previousAttemptUrl:
+          ModelUri.tryParse(get("previous_attempt_url", nullOfString)),
+      runStartedAt: ModelTimestamp.tryParse(get("run_started_at", "")),
+      createdAt: ModelTimestamp.tryParse(get("created_at", "")) ??
+          const ModelTimestamp.now(),
+      updatedAt: ModelTimestamp.tryParse(get("updated_at", "")) ??
+          const ModelTimestamp.now(),
+      fromServer: true,
+    );
+  }
+
+  GithubActionsJobModel toGithubActionsJobModel({
+    required String organizationId,
+    required String repositoryId,
+  }) {
+    final runnerJson = getAsMap("runner");
+    final runner = runnerJson.isEmpty ? null : runnerJson.toGithubUserModel();
+    final steps = getAsList<DynamicMap>("steps")
+        .map((e) => e.toGithubActionsStepValue())
+        .toList();
+    return GithubActionsJobModel(
+      id: get("id", nullOfNum)?.toInt(),
+      runId: get("run_id", nullOfNum)?.toInt(),
+      runAttempt: get("run_attempt", nullOfNum)?.toInt(),
+      name: get("name", nullOfString),
+      runnerName: get("runner_name", nullOfString),
+      runnerId: get("runner_id", nullOfNum)?.toInt(),
+      runnerGroupId: get("runner_group_id", nullOfNum)?.toInt(),
+      status: get("status", nullOfString),
+      conclusion: get("conclusion", nullOfString),
+      labels: getAsList<String>("labels"),
+      runner: runner,
+      steps: steps,
+      url: ModelUri.tryParse(get("url", nullOfString)),
+      htmlUrl: ModelUri.tryParse(get("html_url", nullOfString)),
+      logsUrl: ModelUri.tryParse(get("logs_url", nullOfString)),
+      startedAt: ModelTimestamp.tryParse(get("started_at", "")),
+      completedAt: ModelTimestamp.tryParse(get("completed_at", "")),
+      fromServer: true,
+    );
+  }
+
+  GithubUserModel toGithubUserModel() {
+    return GithubUserModel(
+      id: get("id", nullOfNum)?.toInt(),
+      login: get("login", nullOfString),
+      avatarUrl: ModelImageUri.tryParse(get("avatar_url", nullOfString)),
+      htmlUrl: ModelUri.tryParse(get("html_url", nullOfString)),
+      siteAdmin: get("site_admin", false),
+      name: get("name", nullOfString),
+      company: get("company", nullOfString),
+      blog: get("blog", nullOfString),
+      location: get("location", nullOfString),
+      email: get("email", nullOfString),
+      hirable: get("hirable", false),
+      bio: get("bio", nullOfString),
+      publicReposCount: getAsInt("public_repos", 0),
+      publicGistsCount: getAsInt("public_gists", 0),
+      followersCount: getAsInt("followers", 0),
+      followingCount: getAsInt("following", 0),
+      createdAt: ModelTimestamp.tryParse(get("created_at", "")) ??
+          const ModelTimestamp.now(),
+      updatedAt: ModelTimestamp.tryParse(get("updated_at", "")) ??
+          const ModelTimestamp.now(),
+      eventsUrl: ModelUri.tryParse(get("events_url", nullOfString)),
+      followersUrl: ModelUri.tryParse(get("followers_url", nullOfString)),
+      followingUrl: ModelUri.tryParse(get("following_url", nullOfString)),
+      gistsUrl: ModelUri.tryParse(get("gists_url", nullOfString)),
+      gravatarId: get("gravatar_id", nullOfString),
+      nodeId: get("node_id", nullOfString),
+      organizationsUrl:
+          ModelUri.tryParse(get("organizations_url", nullOfString)),
+      receivedEventsUrl:
+          ModelUri.tryParse(get("received_events_url", nullOfString)),
+      reposUrl: ModelUri.tryParse(get("repos_url", nullOfString)),
+      starredAt: ModelTimestamp.tryParse(get("starred_at", "")),
+      starredUrl: ModelUri.tryParse(get("starred_url", nullOfString)),
+      subscriptionsUrl:
+          ModelUri.tryParse(get("subscriptions_url", nullOfString)),
+      type: get("type", nullOfString),
+      userUrl: ModelUri.tryParse(get("url", nullOfString)),
+      xUsername: get("twitter_username", nullOfString),
+    );
+  }
+
+  GithubActionsStepValue toGithubActionsStepValue() {
+    return GithubActionsStepValue(
+      number: get("number", nullOfNum)?.toInt(),
+      name: get("name", nullOfString),
+      status: get("status", nullOfString),
+      conclusion: get("conclusion", nullOfString),
+      startedAt: ModelTimestamp.tryParse(get("started_at", "")),
+      completedAt: ModelTimestamp.tryParse(get("completed_at", "")),
+    );
+  }
+
   GithubCommitModel toGithubCommitModel() {
     final commit = getAsMap("commit");
     final author = getAsMap("author");
@@ -887,6 +827,84 @@ extension on DynamicMap {
   }
 }
 
+extension on List<int> {
+  List<GithubActionsLogModel> toGithubActionsLogModelList({
+    required int runId,
+    required int jobId,
+    required String downloadUrl,
+  }) {
+    final logs = <GithubActionsLogModel>[];
+    const timestamp = ModelTimestamp.now();
+    if (_isZipArchive()) {
+      final archive = ZipDecoder().decodeBytes(this, verify: false);
+      var index = 0;
+      for (final file in archive.files) {
+        if (!file.isFile) {
+          continue;
+        }
+        final content = file.content;
+        final data = convert.utf8.decode(content, allowMalformed: true);
+        logs.add(
+          GithubActionsLogModel(
+            runId: runId,
+            jobId: jobId,
+            chunk: index,
+            name: file.name,
+            downloadUrl: ModelUri.tryParse(downloadUrl),
+            text: data,
+            createdAt: timestamp,
+            fromServer: true,
+          ),
+        );
+        index++;
+      }
+      if (logs.isEmpty) {
+        logs.add(
+          GithubActionsLogModel(
+            runId: runId,
+            jobId: jobId,
+            chunk: 0,
+            downloadUrl: ModelUri.tryParse(downloadUrl),
+            text: "",
+            createdAt: timestamp,
+            fromServer: true,
+          ),
+        );
+      }
+      return logs;
+    }
+    final decodedBytes =
+        _isGzipCompressed() ? const GZipDecoder().decodeBytes(this) : this;
+    final text = convert.utf8.decode(decodedBytes, allowMalformed: true);
+    logs.add(
+      GithubActionsLogModel(
+        runId: runId,
+        jobId: jobId,
+        chunk: 0,
+        downloadUrl: ModelUri.tryParse(downloadUrl),
+        text: text,
+        createdAt: timestamp,
+        fromServer: true,
+      ),
+    );
+    return logs;
+  }
+
+  bool _isZipArchive() {
+    final bytes = this;
+    return bytes.length >= 4 &&
+        bytes[0] == 0x50 &&
+        bytes[1] == 0x4B &&
+        bytes[2] == 0x03 &&
+        bytes[3] == 0x04;
+  }
+
+  bool _isGzipCompressed() {
+    final bytes = this;
+    return bytes.length >= 2 && bytes[0] == 0x1F && bytes[1] == 0x8B;
+  }
+}
+
 /// Model adapter with GitHub available.
 ///
 /// Please provide a GitHub API token using [onRetrieveToken].
@@ -908,6 +926,7 @@ class GithubModelAdapter extends ModelAdapter {
     NoSqlDatabase? database,
     GitHub? github,
     this.useLocalDatabase = true,
+    this.commitsDuration = const Duration(days: 90),
   })  : _github = github,
         _database = database;
 
@@ -920,6 +939,11 @@ class GithubModelAdapter extends ModelAdapter {
   ///
   /// ローカルデータベースを使用します。
   final bool useLocalDatabase;
+
+  /// Commits duration.
+  ///
+  /// 取得するコミットの期間。
+  final Duration commitsDuration;
 
   @override
   VectorConverter get vectorConverter => const PassVectorConverter();
@@ -1076,18 +1100,28 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null || actionId == null) {
         throw Exception("Invalid path for actions document load");
       }
-      final response = await github.getJSON(
-        "/repos/$organizationId/$repositoryId/actions/runs/$actionId",
-        headers: const {
+      final accessToken = await onRetrieveToken();
+      if (accessToken == null) {
+        throw Exception("Access token is not available");
+      }
+      final response = await Api.get(
+        "$_kGithubEndpoint/repos/$organizationId/$repositoryId/actions/runs/$actionId",
+        headers: {
+          "Authorization": "Bearer $accessToken",
           _kGitHubApiVersionHeader: _kGitHubApiVersion,
           "Accept": "application/vnd.github+json",
         },
-      ) as Map<String, dynamic>;
-      final res = _githubActionsModelFromJson(
-        response,
-        organizationId,
-        repositoryId,
-      ).toJson().toEntireJson();
+      );
+      if (!response.statusCode.toString().startsWith("2")) {
+        throw Exception(
+            "Failed to load actions document: ${response.statusCode}");
+      }
+      final json = jsonDecodeAsMap(response.body);
+      final res = json
+          .toGithubActionsModel(
+              organizationId: organizationId, repositoryId: repositoryId)
+          .toJson()
+          .toEntireJson();
       await database.syncDocument(query, res);
       return res;
     } else if (GithubActionsJobModel.document.hasMatchPath(query.query.path)) {
@@ -1107,19 +1141,29 @@ class GithubModelAdapter extends ModelAdapter {
           jobId == null) {
         throw Exception("Invalid path for actions job document load");
       }
-      final response = await github.getJSON(
-        "/repos/$organizationId/$repositoryId/actions/jobs/$jobId",
-        headers: const {
+      final accessToken = await onRetrieveToken();
+      if (accessToken == null) {
+        throw Exception("Access token is not available");
+      }
+      final response = await Api.get(
+        "$_kGithubEndpoint/repos/$organizationId/$repositoryId/actions/jobs/$jobId",
+        headers: {
+          "Authorization": "Bearer $accessToken",
           _kGitHubApiVersionHeader: _kGitHubApiVersion,
           "Accept": "application/vnd.github+json",
         },
-      ) as Map<String, dynamic>;
-      response["run_id"] ??= actionId;
-      final res = _githubActionsJobModelFromJson(
-        response,
-        organizationId,
-        repositoryId,
-      ).toJson().toEntireJson();
+      );
+      if (!response.statusCode.toString().startsWith("2")) {
+        throw Exception(
+            "Failed to load actions job document: ${response.statusCode}");
+      }
+      final json = jsonDecodeAsMap(response.body);
+      json["run_id"] ??= actionId;
+      final res = json
+          .toGithubActionsJobModel(
+              organizationId: organizationId, repositoryId: repositoryId)
+          .toJson()
+          .toEntireJson();
       await database.syncDocument(query, res);
       return res;
     } else if (GithubActionsLogModel.document.hasMatchPath(query.query.path)) {
@@ -1142,7 +1186,6 @@ class GithubModelAdapter extends ModelAdapter {
         throw Exception("Invalid path for actions log document load");
       }
       final logs = await _fetchGithubActionsLogs(
-        github: github,
         organizationId: organizationId,
         repositoryId: repositoryId,
         runId: actionId,
@@ -1350,6 +1393,49 @@ class GithubModelAdapter extends ModelAdapter {
       final res = doc?.toGithubCopilotSessionModel().toJson().toEntireJson();
       await database.syncDocument(query, res);
       return res ?? {};
+    } else if (GithubCompareModel.document.hasMatchPath(query.query.path)) {
+      final cachedRes = await database.loadDocument(query);
+      if (cachedRes != null && !query.reload) {
+        return cachedRes;
+      }
+      final match =
+          GithubCompareModel.document.regExp.firstMatch(query.query.path);
+      final organizationId = match?.group(1);
+      final repositoryId = match?.group(2);
+      final compareId = query.query.path.split("/").last;
+      if (organizationId == null || repositoryId == null) {
+        throw Exception("Invalid path for compare document load");
+      }
+      // compareId is in the format "base...head"
+      final compareParts = compareId.split("...");
+      if (compareParts.length != 2) {
+        throw Exception(
+            "Invalid compare format. Expected 'base...head', got: $compareId");
+      }
+      final base = compareParts[0].fromUrlEncode();
+      final head = compareParts[1].fromUrlEncode();
+
+      final accessToken = await onRetrieveToken();
+      if (accessToken == null) {
+        throw Exception("Failed to get access token");
+      }
+
+      final result = await Api.get(
+        "$_kGithubEndpoint/repos/$organizationId/$repositoryId/compare/$base...$head",
+        headers: {
+          "Authorization": "Bearer $accessToken",
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (!result.statusCode.toString().startsWith("2")) {
+        throw Exception("Failed to compare branches: ${result.statusCode}");
+      }
+
+      final json = jsonDecodeAsMap(result.body);
+      final res = json.toGithubCompareModel().toJson().toEntireJson();
+      await database.syncDocument(query, res);
+      return res;
     }
     throw UnsupportedError("Unsupported document: ${query.query.path}");
   }
@@ -1510,23 +1596,29 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null) {
         throw Exception("Invalid path for actions collection load");
       }
-      final response = await github.getJSON(
-        "/repos/$organizationId/$repositoryId/actions/runs",
-        headers: const {
+      final accessToken = await onRetrieveToken();
+      if (accessToken == null) {
+        throw Exception("Access token is not available");
+      }
+      final response = await Api.get(
+        "$_kGithubEndpoint/repos/$organizationId/$repositoryId/actions/runs",
+        headers: {
+          "Authorization": "Bearer $accessToken",
           _kGitHubApiVersionHeader: _kGitHubApiVersion,
           "Accept": "application/vnd.github+json",
         },
-      ) as Map<String, dynamic>;
-      final runs = (response["workflow_runs"] as List?)
-              ?.whereType<Map<String, dynamic>>()
-              .map((run) => _githubActionsModelFromJson(
-                    run,
-                    organizationId,
-                    repositoryId,
-                  ))
-              .where((run) => run.id != null)
-              .toList() ??
-          const <GithubActionsModel>[];
+      );
+      if (!response.statusCode.toString().startsWith("2")) {
+        throw Exception(
+            "Failed to load actions collection: ${response.statusCode}");
+      }
+      final json = jsonDecodeAsMap(response.body);
+      final runs = json
+          .getAsList<DynamicMap>("workflow_runs")
+          .map((run) => run.toGithubActionsModel(
+              organizationId: organizationId, repositoryId: repositoryId))
+          .where((run) => run.id != null)
+          .toList();
       res = runs.toMap((run) {
         final id = run.id?.toString();
         if (id == null) {
@@ -1550,23 +1642,29 @@ class GithubModelAdapter extends ModelAdapter {
       if (organizationId == null || repositoryId == null || actionId == null) {
         throw Exception("Invalid path for actions job collection load");
       }
-      final response = await github.getJSON(
-        "/repos/$organizationId/$repositoryId/actions/runs/$actionId/jobs",
-        headers: const {
+      final accessToken = await onRetrieveToken();
+      if (accessToken == null) {
+        throw Exception("Access token is not available");
+      }
+      final response = await Api.get(
+        "$_kGithubEndpoint/repos/$organizationId/$repositoryId/actions/runs/$actionId/jobs",
+        headers: {
+          "Authorization": "Bearer $accessToken",
           _kGitHubApiVersionHeader: _kGitHubApiVersion,
           "Accept": "application/vnd.github+json",
         },
-      ) as Map<String, dynamic>;
-      final jobs = (response["jobs"] as List?)
-              ?.whereType<Map<String, dynamic>>()
-              .map((job) => _githubActionsJobModelFromJson(
-                    job,
-                    organizationId,
-                    repositoryId,
-                  ))
-              .where((job) => job.id != null)
-              .toList() ??
-          const <GithubActionsJobModel>[];
+      );
+      if (!response.statusCode.toString().startsWith("2")) {
+        throw Exception(
+            "Failed to load actions job collection: ${response.statusCode}");
+      }
+      final json = jsonDecodeAsMap(response.body);
+      final jobs = json
+          .getAsList<DynamicMap>("jobs")
+          .map((job) => job.toGithubActionsJobModel(
+              organizationId: organizationId, repositoryId: repositoryId))
+          .where((job) => job.id != null)
+          .toList();
       res = jobs.toMap((job) {
         final id = job.id?.toString();
         if (id == null) {
@@ -1595,7 +1693,6 @@ class GithubModelAdapter extends ModelAdapter {
         throw Exception("Invalid path for actions log collection load");
       }
       res = await _fetchGithubActionsLogs(
-        github: github,
         organizationId: organizationId,
         repositoryId: repositoryId,
         runId: actionId,
@@ -1762,9 +1859,12 @@ class GithubModelAdapter extends ModelAdapter {
         throw Exception("Failed to get access token");
       }
       var page = 1;
+      final since = DateTime.now().subtract(commitsDuration);
+      final sinceIso = since.toUtc().toIso8601String();
       do {
         final parameters = Uri(queryParameters: {
           "sha": branchId,
+          "since": sinceIso,
           "per_page": limit.toString(),
           "page": page.toString(),
         }).query;
@@ -2463,5 +2563,39 @@ class GithubModelAdapter extends ModelAdapter {
   @override
   int get hashCode {
     return onRetrieveToken.hashCode ^ database.hashCode;
+  }
+
+  Future<Map<String, DynamicMap>> _fetchGithubActionsLogs({
+    required String organizationId,
+    required String repositoryId,
+    required int runId,
+    required int jobId,
+  }) async {
+    final accessToken = await onRetrieveToken();
+    if (accessToken == null) {
+      throw Exception("Access token is not available");
+    }
+    final response = await Api.get(
+      "$_kGithubEndpoint/repos/$organizationId/$repositoryId/actions/jobs/$jobId/logs",
+      headers: {
+        "Authorization": "Bearer $accessToken",
+        _kGitHubApiVersionHeader: _kGitHubApiVersion,
+        "Accept": "application/vnd.github+json",
+      },
+    );
+    final downloadUrl =
+        "$_kGithubEndpoint/repos/$organizationId/$repositoryId/actions/jobs/$jobId/logs";
+    final logs = response.bodyBytes.toGithubActionsLogModelList(
+      runId: runId,
+      jobId: jobId,
+      downloadUrl: downloadUrl,
+    );
+    return logs.toMap((log) {
+      final chunk = log.chunk ?? 0;
+      return MapEntry(
+        chunk.toString(),
+        log.toJson().toEntireJson(),
+      );
+    });
   }
 }

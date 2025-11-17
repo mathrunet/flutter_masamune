@@ -61,6 +61,7 @@ Map<String, dynamic> _$GithubCopilotSessionModelToJson(
 
 const _$GithubCopilotSessionStatusEnumMap = {
   GithubCopilotSessionStatus.none: 'none',
+  GithubCopilotSessionStatus.unknown: 'unknown',
   GithubCopilotSessionStatus.running: 'running',
   GithubCopilotSessionStatus.completed: 'completed',
   GithubCopilotSessionStatus.failed: 'failed',

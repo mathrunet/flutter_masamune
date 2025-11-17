@@ -28,6 +28,7 @@ import "package:masamune_model_github/models/github_actions_job.dart";
 import "package:masamune_model_github/models/github_actions_log.dart";
 import "package:masamune_model_github/models/github_branch.dart";
 import "package:masamune_model_github/models/github_commit.dart";
+import "package:masamune_model_github/models/github_compare.dart";
 import "package:masamune_model_github/models/github_content.dart";
 import "package:masamune_model_github/models/github_copilot_session.dart";
 import "package:masamune_model_github/models/github_copilot_session_log.dart";
@@ -46,6 +47,7 @@ import "package:masamune_model_github/models/github_user.dart";
 
 export "models/github_branch.dart";
 export "models/github_commit.dart";
+export "models/github_compare.dart";
 export "models/github_content.dart";
 export "models/github_issue.dart";
 export "models/github_issue_timeline.dart";
