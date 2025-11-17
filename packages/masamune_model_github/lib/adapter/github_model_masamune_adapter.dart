@@ -20,6 +20,8 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
     required this.appRef,
     this.debugAuthDapter,
     this.githubCopilotApiVersion = "2025-10-22",
+    this.onRetrieveDefaultOrganizationId,
+    this.onSaveDefaultOrganizationId,
   });
 
   /// Application reference.
@@ -41,6 +43,17 @@ class GithubModelMasamuneAdapter extends MasamuneAdapter {
   ///
   /// GitHub Copilot APIのバージョン。
   final String githubCopilotApiVersion;
+
+  /// On retrieve default organization id.
+  ///
+  /// デフォルトの組織IDを取得するためのコールバック。
+  final Future<String?> Function()? onRetrieveDefaultOrganizationId;
+
+  /// On save default organization id.
+  ///
+  /// デフォルトの組織IDを保存するためのコールバック。
+  final Future<void> Function(String organizationId)?
+      onSaveDefaultOrganizationId;
 
   /// Get access token.
   ///

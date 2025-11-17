@@ -8,7 +8,9 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
   /// Controller for the user of GitHub.
   ///
   /// ユーザーのGitHubのコントローラー。
-  GithubUserController({super.adapter});
+  GithubUserController({
+    super.adapter,
+  });
 
   /// Query for GithubUserController.
   ///
@@ -54,10 +56,15 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
     if (_organizations.isEmpty) {
       return null;
     }
-    _currentOrganization ??= _organizations?.firstOrNull;
+    _currentOrganization ??= (_defaultOrganizationId != null
+            ? _organizations?.firstWhereOrNull(
+                (organization) => organization.uid == _defaultOrganizationId)
+            : _organizations?.firstOrNull) ??
+        _organizations?.firstOrNull;
     return _currentOrganization;
   }
 
+  String? _defaultOrganizationId;
   GithubOrganizationModelDocument? _currentOrganization;
 
   /// Returns the current organization slug.
@@ -104,6 +111,9 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
       _organizations ??=
           this.adapter.appRef.model(GithubOrganizationModel.collection());
       await _organizations?.reload();
+      _defaultOrganizationId =
+          await this.adapter.onRetrieveDefaultOrganizationId?.call();
+      _currentOrganization = null;
       _loaded = true;
       notifyListeners();
       _loadingCompleter?.complete();
@@ -129,8 +139,11 @@ class GithubUserController extends MasamuneControllerBase<GithubUserModel?,
   /// Selects the organization.
   ///
   /// 組織を選択します。
-  void selectOrganization(GithubOrganizationModelDocument organization) {
+  Future<void> selectOrganization(
+    GithubOrganizationModelDocument organization,
+  ) async {
     _currentOrganization = organization;
+    await adapter.onSaveDefaultOrganizationId?.call(organization.uid);
     notifyListeners();
   }
 }
