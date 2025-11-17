@@ -1205,7 +1205,15 @@ class MarkdownFieldState extends State<MarkdownField>
       onTap: () {
         _hideContextMenu();
         if (!_focusNode.hasFocus) {
-          _focusNode.requestFocus();
+          // First unfocus any current focus, then request focus for this field
+          // This helps when another widget (like toolbar) has focus
+          FocusManager.instance.primaryFocus?.unfocus();
+          // Use a microtask to ensure unfocus completes before requesting focus
+          Future.microtask(() {
+            if (mounted && !_focusNode.hasFocus) {
+              _focusNode.requestFocus();
+            }
+          });
         }
         widget.onTap?.call();
       },
@@ -2581,6 +2589,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final layouts = _blockLayouts;
     var currentTextOffset = 0;
 
+    // Always check x bounds to prevent out-of-bounds taps
+    if (position.dx < 0 || position.dx > size.width) {
+      return null;
+    }
+
+    // When expands is false, also check y bounds strictly
+    // When expands is true, allow taps anywhere in the y direction to enable
+    // full-area tapping even when content height is less than container height
+    if (!_expands && (position.dy < 0 || position.dy > size.height)) {
+      return null;
+    }
+
     for (final layout in layouts) {
       // layout.offset.dy is where text content starts (after padding top)
       final blockOffset = layout.offset + Offset(layout.padding.left, 0);
@@ -2623,11 +2643,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           layout.textLength + 1; // +1 for newline between blocks
     }
 
-    // 位置がすべてのブロックの後（最後のテキストブロックの下）
-    // これはまだエディタフィールドエリア内なので:
-    // - If expands is true: return end of text (cursor at end)
-    // - If expands is false: return null to deselect
-    if (_expands && layouts.isNotEmpty) {
+    // 位置がすべてのブロックの後、または空白領域(ブロック間など)にある
+    // expandsがtrueの場合、x座標が範囲内であれば(上でチェック済み)
+    // テキストの末尾にカーソルを配置する
+    // expandsがfalseの場合、nullを返して選択解除
+    if (_expands) {
       final lastOffset = currentTextOffset > 0 ? currentTextOffset - 1 : 0;
       return lastOffset;
     } else {
