@@ -94,6 +94,37 @@ void main() {
       ],
     );
   });
+  testWidgets("MarkdownField.field.delete", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 7);
+    await input.deleteText(count: 1);
+    await input.deleteText(count: 1);
+    await input.deleteText(count: 1);
+    expect(controller.selection.baseOffset, 4);
+    expect(controller.rawText, "aaa\n");
+    final field = controller.value?.first;
+    expect(field?.children.length, 2);
+    final firstBlock = field?.children.first;
+    final secondBlock = field?.children.last;
+    expect(firstBlock.runtimeType, MarkdownParagraphBlockValue);
+    expect(
+      firstBlock?.toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "aaa").toDebug(),
+    );
+    expect(
+      secondBlock?.toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    await input.enterText("c");
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.rawText, "aaa\nc");
+  });
   testWidgets("MarkdownField.field.cursor", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;

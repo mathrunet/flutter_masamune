@@ -874,25 +874,8 @@ class MarkdownFieldState extends State<MarkdownField>
               oldEnd > start &&
               replacementText.isEmpty) {
             // ブロックが削除/マージされた
-            // 残りのテキストが末尾の改行で終わるかチェック（削除されたブロックから孤立）
-            final currentText = widget.controller.rawText;
-
-            if (currentText.endsWith("\n") && currentText.isNotEmpty) {
-              // 末尾の改行を削除
-              final newTextWithoutTrailingNewline =
-                  currentText.substring(0, currentText.length - 1);
-
-              // 末尾の改行を削除するためにすべてのテキストを置換
-              widget.controller.replaceText(
-                  0, currentText.length, newTextWithoutTrailingNewline);
-
-              // 残りのテキストの末尾（改行なし）にカーソルを配置
-              _selection = TextSelection.collapsed(
-                  offset: newTextWithoutTrailingNewline.length);
-            } else {
-              // 開始位置にカーソルを保持（ブロックは通常通りマージされた）
-              _selection = TextSelection.collapsed(offset: start);
-            }
+            // カーソル位置を設定
+            _selection = TextSelection.collapsed(offset: start);
             _composingRegion = null;
           } else {
             // カーソル位置と変換領域を更新

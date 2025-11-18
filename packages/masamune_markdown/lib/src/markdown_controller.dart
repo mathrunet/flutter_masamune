@@ -493,7 +493,18 @@ class MarkdownController extends MasamuneControllerBase<
     var newText =
         oldText.substring(0, safeStart) + text + oldText.substring(safeEnd);
 
-    if (newText.isEmpty && text.isEmpty && blocks.length > 1) {
+    // 削除された文字列を取得
+    final deletedText = oldText.substring(safeStart, safeEnd);
+
+    // 空ブロックを削除するかどうかを決定：
+    // - 最初のブロック（index 0）が空になった場合：削除
+    // - 削除されたテキストに改行が含まれている場合：ブロックマージなので削除
+    // - 削除されたテキストに改行がない場合：空行として保持（削除しない）
+    if (newText.isEmpty &&
+        text.isEmpty &&
+        blocks.length > 1 &&
+        (targetBlockIndex == 0 || deletedText.contains("\n"))) {
+      // 最初のブロックまたは改行を含む削除の場合、空ブロックを削除
       blocks.removeAt(targetBlockIndex);
 
       final newField = MarkdownFieldValue(
@@ -504,6 +515,10 @@ class MarkdownController extends MasamuneControllerBase<
       _value[0] = newField;
       notifyListeners();
       return;
+    } else if (newText.isEmpty && !deletedText.contains("\n")) {
+      // 削除されたテキストに改行がない場合、空ブロックを保持
+      // （ユーザーが空の行で入力を続けられるようにするため）
+      // 何もせず、下のロジックで空ブロックが作成される
     }
 
     // 末尾の改行を削除する必要があるかチェック
