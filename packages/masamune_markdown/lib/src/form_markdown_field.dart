@@ -307,6 +307,11 @@ class FormMarkdownFieldState<TValue>
   void initState() {
     super.initState();
     widget.form?.register(this);
+    // Sync initialValue to controller if provided
+    if (widget.initialValue != null && widget.initialValue!.isNotEmpty) {
+      _effectiveController.value?.clear();
+      _effectiveController.value?.addAll(widget.initialValue!);
+    }
     _effectiveController.addListener(_handleControllerChanged);
   }
 
