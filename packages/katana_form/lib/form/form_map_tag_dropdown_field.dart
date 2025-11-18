@@ -109,6 +109,7 @@ class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
     this.suffix,
     this.showDropdownIcon = true,
     this.dropdownIcon,
+    this.buttonWidget,
     TValue Function(List<String> value)? onSaved,
     String Function(List<String>? value)? validator,
     List<String> super.initialValue = const [],
@@ -233,6 +234,11 @@ class FormMapTagDropdownField<TValue> extends FormField<List<String>> {
   ///
   /// ドロップダウン用のアイコン。[showDropdownIcon]が`true`の場合のみ有効。
   final Widget? dropdownIcon;
+
+  /// Widget to be displayed instead of the dropdown button.
+  ///
+  /// ドロップダウンボタンの代わりに表示されるウィジェット。
+  final Widget? buttonWidget;
 
   @override
   FormFieldState<List<String>> createState() =>
@@ -466,101 +472,106 @@ class _FormMapTagDropdownField<TValue> extends FormFieldState<List<String>>
                   child: SizedBox(
                     height: widget.style?.height,
                     width: widget.style?.width,
-                    child: Stack(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          constraints: const BoxConstraints(minHeight: 32),
-                          child: MouseRegion(
-                            cursor: !widget.enabled
-                                ? SystemMouseCursors.forbidden
-                                : SystemMouseCursors.text,
-                            child: InputDecorator(
-                              decoration: InputDecoration(
-                                contentPadding: widget.style?.contentPadding ??
-                                    const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 0),
-                                fillColor: widget.style?.backgroundColor,
-                                filled: widget.style?.backgroundColor != null,
-                                isDense: true,
-                                border: widget.style?.border ?? borderSide,
-                                enabledBorder:
-                                    widget.style?.border ?? borderSide,
-                                disabledBorder: widget.style?.disabledBorder ??
-                                    widget.style?.border ??
-                                    disabledBorderSide,
-                                errorBorder: widget.style?.errorBorder ??
-                                    widget.style?.border ??
-                                    errorBorderSide,
-                                focusedBorder:
-                                    widget.style?.border ?? borderSide,
-                                focusedErrorBorder: widget.style?.errorBorder ??
-                                    widget.style?.border ??
-                                    errorBorderSide,
-                                hintText: widget.hintText,
-                                labelText: widget.labelText,
-                                prefix: widget.prefix?.child ??
-                                    widget.style?.prefix?.child,
-                                suffix: widget.suffix?.child ??
-                                    widget.style?.suffix?.child,
-                                prefixIcon: widget.prefix?.icon ??
-                                    widget.style?.prefix?.icon,
-                                suffixIcon: widget.suffix?.icon ??
-                                    widget.style?.suffix?.icon,
-                                prefixText: widget.prefix?.label ??
-                                    widget.style?.prefix?.label,
-                                suffixText: widget.suffix?.label ??
-                                    widget.style?.suffix?.label,
-                                prefixIconColor: widget.prefix?.iconColor ??
-                                    widget.style?.prefix?.iconColor,
-                                suffixIconColor: widget.suffix?.iconColor ??
-                                    widget.style?.suffix?.iconColor,
-                                prefixIconConstraints:
-                                    widget.prefix?.iconConstraints ??
+                    child: widget.buttonWidget ??
+                        Stack(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              constraints: const BoxConstraints(minHeight: 32),
+                              child: MouseRegion(
+                                cursor: !widget.enabled
+                                    ? SystemMouseCursors.forbidden
+                                    : SystemMouseCursors.text,
+                                child: InputDecorator(
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        widget.style?.contentPadding ??
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 0),
+                                    fillColor: widget.style?.backgroundColor,
+                                    filled:
+                                        widget.style?.backgroundColor != null,
+                                    isDense: true,
+                                    border: widget.style?.border ?? borderSide,
+                                    enabledBorder:
+                                        widget.style?.border ?? borderSide,
+                                    disabledBorder:
+                                        widget.style?.disabledBorder ??
+                                            widget.style?.border ??
+                                            disabledBorderSide,
+                                    errorBorder: widget.style?.errorBorder ??
+                                        widget.style?.border ??
+                                        errorBorderSide,
+                                    focusedBorder:
+                                        widget.style?.border ?? borderSide,
+                                    focusedErrorBorder:
+                                        widget.style?.errorBorder ??
+                                            widget.style?.border ??
+                                            errorBorderSide,
+                                    hintText: widget.hintText,
+                                    labelText: widget.labelText,
+                                    prefix: widget.prefix?.child ??
+                                        widget.style?.prefix?.child,
+                                    suffix: widget.suffix?.child ??
+                                        widget.style?.suffix?.child,
+                                    prefixIcon: widget.prefix?.icon ??
+                                        widget.style?.prefix?.icon,
+                                    suffixIcon: widget.suffix?.icon ??
+                                        widget.style?.suffix?.icon,
+                                    prefixText: widget.prefix?.label ??
+                                        widget.style?.prefix?.label,
+                                    suffixText: widget.suffix?.label ??
+                                        widget.style?.suffix?.label,
+                                    prefixIconColor: widget.prefix?.iconColor ??
+                                        widget.style?.prefix?.iconColor,
+                                    suffixIconColor: widget.suffix?.iconColor ??
+                                        widget.style?.suffix?.iconColor,
+                                    prefixIconConstraints: widget
+                                            .prefix?.iconConstraints ??
                                         widget.style?.prefix?.iconConstraints,
-                                suffixIconConstraints:
-                                    widget.suffix?.iconConstraints ??
+                                    suffixIconConstraints: widget
+                                            .suffix?.iconConstraints ??
                                         widget.style?.suffix?.iconConstraints,
-                                labelStyle: widget.enabled
-                                    ? mainTextStyle
-                                    : disabledTextStyle,
-                                hintStyle: subTextStyle,
-                                suffixStyle: subTextStyle,
-                                prefixStyle: subTextStyle,
-                                counterStyle: subTextStyle,
-                                helperStyle: subTextStyle,
-                                errorStyle: errorTextStyle,
-                                errorText: errorText,
-                              ),
-                              child: widget.picker
-                                  .buildChips(context, _selections ?? {}, this),
-                            ),
-                          ),
-                        ),
-                        if (widget.showDropdownIcon)
-                          Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 16),
-                                child: IgnorePointer(
-                                  ignoring: true,
-                                  child: IconTheme(
-                                    data: IconThemeData(
-                                      size: 24,
-                                      color: widget.enabled
-                                          ? mainTextStyle.color
-                                          : disabledTextStyle.color,
-                                    ),
-                                    child: widget.dropdownIcon ??
-                                        const Icon(Icons.arrow_drop_down),
+                                    labelStyle: widget.enabled
+                                        ? mainTextStyle
+                                        : disabledTextStyle,
+                                    hintStyle: subTextStyle,
+                                    suffixStyle: subTextStyle,
+                                    prefixStyle: subTextStyle,
+                                    counterStyle: subTextStyle,
+                                    helperStyle: subTextStyle,
+                                    errorStyle: errorTextStyle,
+                                    errorText: errorText,
                                   ),
+                                  child: widget.picker.buildChips(
+                                      context, _selections ?? {}, this),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
+                            if (widget.showDropdownIcon)
+                              Positioned.fill(
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: IgnorePointer(
+                                      ignoring: true,
+                                      child: IconTheme(
+                                        data: IconThemeData(
+                                          size: 24,
+                                          color: widget.enabled
+                                              ? mainTextStyle.color
+                                              : disabledTextStyle.color,
+                                        ),
+                                        child: widget.dropdownIcon ??
+                                            const Icon(Icons.arrow_drop_down),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                   ),
                 ),
                 CompositedTransformTarget(

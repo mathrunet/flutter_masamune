@@ -490,7 +490,7 @@ class _FormCheckBoxState<TValue> extends FormFieldState<bool>
   @override
   void reset() {
     super.reset();
-    didChange(widget.initialValue);
+    super.didChange(widget.initialValue);
   }
 
   @override
