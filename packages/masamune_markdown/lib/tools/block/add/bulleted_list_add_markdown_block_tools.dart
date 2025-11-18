@@ -84,9 +84,15 @@ class BulletedListAddMarkdownBlockTools
   }
 
   @override
-  MarkdownBulletedListBlockValue? convertFromMarkdown(String markdown) {
-    if (RegExp(r"^[-*+]\s+").hasMatch(markdown.trim())) {
-      return MarkdownBulletedListBlockValue.fromMarkdown(markdown);
+  ({MarkdownBulletedListBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+    if (RegExp(r"^[-*+]\s+").hasMatch(line)) {
+      return (
+        value: MarkdownBulletedListBlockValue.fromMarkdown(context.currentLine),
+        linesConsumed: 1,
+      );
     }
     return null;
   }

@@ -77,8 +77,7 @@ class UnderlineFontMarkdownInlineTools
 
   @override
   UnderlineFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
+    return null;
   }
 
   @override

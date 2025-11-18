@@ -76,8 +76,41 @@ class QuoteExchangeMarkdownBlockTools
   }
 
   @override
-  MarkdownQuoteBlockValue? convertFromMarkdown(String markdown) {
-    return null;
+  ({MarkdownQuoteBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+
+    // Check if this is a quote line (starts with >)
+    if (!line.startsWith(">")) {
+      return null;
+    }
+
+    // Collect consecutive quote lines
+    final quoteLines = <String>[];
+    var consumed = 0;
+
+    while (context.currentIndex + consumed < context.lines.length) {
+      final nextLine = context.lines[context.currentIndex + consumed].trim();
+
+      // Stop if line doesn't start with >
+      if (!nextLine.startsWith(">")) {
+        break;
+      }
+
+      // Remove the > prefix and add the content
+      quoteLines.add(nextLine.substring(1).trim());
+      consumed++;
+    }
+
+    // Build the full markdown string for parsing
+    final quoteContent = quoteLines.join("\n");
+    final fullMarkdown = "> $quoteContent";
+
+    return (
+      value: MarkdownQuoteBlockValue.fromMarkdown(fullMarkdown),
+      linesConsumed: consumed,
+    );
   }
 
   @override

@@ -86,7 +86,9 @@ class ImageFromCameraMediaMarkdownBlockTools
   }
 
   @override
-  MarkdownImageBlockValue? convertFromMarkdown(String markdown) {
+  ({MarkdownImageBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
     return null;
   }
 

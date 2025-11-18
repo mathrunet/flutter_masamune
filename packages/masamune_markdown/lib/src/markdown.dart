@@ -3,7 +3,7 @@ part of "/masamune_markdown.dart";
 /// Widget for displaying Markdown.
 ///
 /// マークダウンを表示するウィジェット。
-class Markdown extends StatelessWidget {
+class Markdown extends StatefulWidget {
   /// Widget for displaying Markdown.
   ///
   /// マークダウンを表示するウィジェット。
@@ -48,15 +48,38 @@ class Markdown extends StatelessWidget {
   final void Function(MarkdownMention mention)? onTapMention;
 
   @override
+  State<Markdown> createState() => _MarkdownState();
+}
+
+class _MarkdownState extends State<Markdown> {
+  List<MarkdownFieldValue>? _markdown;
+
+  @override
+  void initState() {
+    super.initState();
+    _markdown = [MarkdownFieldValue.fromMarkdown(widget.value)];
+  }
+
+  @override
+  void didUpdateWidget(Markdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      setState(() {
+        _markdown = [MarkdownFieldValue.fromMarkdown(widget.value)];
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FormMarkdownField(
-      initialValue: value,
-      style: style,
-      expands: expands,
-      onTapLink: onTapLink,
-      onTapMention: onTapMention,
+      initialValue: _markdown,
+      style: widget.style,
+      expands: widget.expands,
+      onTapLink: widget.onTapLink,
+      onTapMention: widget.onTapMention,
       readOnly: true,
-      scrollable: scrollable,
+      scrollable: widget.scrollable,
     );
   }
 }

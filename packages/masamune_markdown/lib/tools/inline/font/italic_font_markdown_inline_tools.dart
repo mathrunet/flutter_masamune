@@ -76,8 +76,7 @@ class ItalicFontMarkdownInlineTools
 
   @override
   ItalicFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
+    return null;
   }
 
   @override

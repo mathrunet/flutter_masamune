@@ -1,5 +1,77 @@
 part of "/masamune_markdown.dart";
 
+/// Context class for parsing markdown with multi-line support.
+///
+/// Provides access to the list of lines being parsed and the current position.
+/// Tools can peek ahead or consume multiple lines as needed.
+///
+/// 複数行サポートを持つマークダウンパース用のコンテキストクラス。
+///
+/// パース中の行リストと現在位置へのアクセスを提供します。
+/// ツールは必要に応じて先読みや複数行の消費が可能です。
+class MarkdownParseContext {
+  /// Context class for parsing markdown with multi-line support.
+  ///
+  /// Provides access to the list of lines being parsed and the current position.
+  /// Tools can peek ahead or consume multiple lines as needed.
+  ///
+  /// 複数行サポートを持つマークダウンパース用のコンテキストクラス。
+  ///
+  /// パース中の行リストと現在位置へのアクセスを提供します。
+  /// ツールは必要に応じて先読みや複数行の消費が可能です。
+  const MarkdownParseContext({
+    required this.lines,
+    required this.currentIndex,
+  });
+
+  /// The list of lines in the markdown document.
+  ///
+  /// マークダウンドキュメント内の行リスト。
+  final List<String> lines;
+
+  /// The current line index being processed.
+  ///
+  /// 現在処理中の行インデックス。
+  final int currentIndex;
+
+  /// Get the current line being processed.
+  ///
+  /// 現在処理中の行を取得します。
+  String get currentLine => lines[currentIndex];
+
+  /// Check if there are more lines to process.
+  ///
+  /// 処理すべき行がまだあるかを確認します。
+  bool get hasMore => currentIndex < lines.length;
+
+  /// Peek at a line with the given offset from the current position.
+  ///
+  /// Returns null if the offset is out of bounds.
+  ///
+  /// 現在位置から指定されたオフセットの行を先読みします。
+  ///
+  /// オフセットが範囲外の場合は null を返します。
+  String? peekLine(int offset) {
+    final index = currentIndex + offset;
+    if (index < 0 || index >= lines.length) {
+      return null;
+    }
+    return lines[index];
+  }
+
+  /// Create a new context with an updated index.
+  ///
+  /// 更新されたインデックスで新しいコンテキストを作成します。
+  MarkdownParseContext copyWith({
+    int? currentIndex,
+  }) {
+    return MarkdownParseContext(
+      lines: lines,
+      currentIndex: currentIndex ?? this.currentIndex,
+    );
+  }
+}
+
 /// Base class for markdown tools.
 ///
 /// マークダウンツールの基底クラス。
@@ -210,10 +282,36 @@ abstract class MarkdownBlockVariableTools<TValue extends MarkdownBlockValue>
   /// JSONオブジェクトをマークダウンブロック値に変換します。
   TValue? convertFromJson(DynamicMap json);
 
-  /// Convert a markdown string to a markdown block value.
+  /// Convert a markdown block using context-based parsing.
   ///
-  /// マークダウン文字列をマークダウンブロック値に変換します。
-  TValue? convertFromMarkdown(String markdown);
+  /// Returns a record containing:
+  /// - [value]: The parsed block value, or null if this tool cannot handle the current line
+  /// - [linesConsumed]: The number of lines consumed from the context (including the current line)
+  ///
+  /// If this method returns null, the parser will try the next tool.
+  /// If it returns a non-null record, [linesConsumed] must be at least 1.
+  ///
+  /// For single-line blocks, you can simply check [context.currentLine] and return
+  /// a record with [linesConsumed] = 1.
+  ///
+  /// For multi-line blocks, you can peek ahead using [context.peekLine] and return
+  /// the total number of lines consumed.
+  ///
+  /// コンテキストベースのパースを使用してマークダウンブロックを変換します。
+  ///
+  /// 以下を含むレコードを返します:
+  /// - [value]: パースされたブロック値、またはこのツールが現在の行を処理できない場合は null
+  /// - [linesConsumed]: コンテキストから消費された行数（現在の行を含む）
+  ///
+  /// このメソッドが null を返した場合、パーサーは次のツールを試します。
+  /// null でないレコードを返す場合、[linesConsumed] は少なくとも 1 でなければなりません。
+  ///
+  /// 単一行ブロックの場合、[context.currentLine] をチェックして [linesConsumed] = 1 のレコードを返すだけです。
+  ///
+  /// 複数行ブロックの場合、[context.peekLine] を使って先読みし、消費した行の総数を返します。
+  ({TValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  );
 }
 
 /// Base class for markdown block multi line variable tools.

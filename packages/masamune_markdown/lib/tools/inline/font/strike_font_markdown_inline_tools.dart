@@ -76,8 +76,7 @@ class StrikeFontMarkdownInlineTools
 
   @override
   StrikeFontMarkdownSpanProperty? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
+    return null;
   }
 
   @override

@@ -22,6 +22,11 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
   /// コードブロックのプログラミング言語（例: "dart", "javascript"）。
   final String language;
 
+  /// The key for the programming language of the code block.
+  ///
+  /// コードブロックのプログラミング言語のキー。
+  static const String languageKey = "language";
+
   /// Create a [MarkdownCodeBlockValue] from a [DynamicMap].
   ///
   /// [DynamicMap]から[MarkdownCodeBlockValue]を作成します。
@@ -29,7 +34,7 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
     return MarkdownCodeBlockValue(
       id: json.get(MarkdownValue.idKey, ""),
       indent: json.get(MarkdownValue.indentKey, 0),
-      language: json.get("language", ""),
+      language: json.get(languageKey, ""),
       children: json
           .getAsList<DynamicMap>(MarkdownValue.childrenKey, [])
           .map(MarkdownLineValue.fromJson)
@@ -247,7 +252,7 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
   DynamicMap toJson() {
     return {
       ...super.toJson(),
-      "language": language,
+      languageKey: language,
     };
   }
 

@@ -83,9 +83,15 @@ class Headline3ExchangeMarkdownBlockTools
   }
 
   @override
-  MarkdownHeadline3BlockValue? convertFromMarkdown(String markdown) {
-    if (markdown.trim().startsWith("### ")) {
-      return MarkdownHeadline3BlockValue.fromMarkdown(markdown);
+  ({MarkdownHeadline3BlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+    if (line.startsWith("### ")) {
+      return (
+        value: MarkdownHeadline3BlockValue.fromMarkdown(context.currentLine),
+        linesConsumed: 1,
+      );
     }
     return null;
   }

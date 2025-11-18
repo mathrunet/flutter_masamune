@@ -83,9 +83,15 @@ class Headline2AddMarkdownBlockTools
   }
 
   @override
-  MarkdownHeadline2BlockValue? convertFromMarkdown(String markdown) {
-    if (markdown.trim().startsWith("## ")) {
-      return MarkdownHeadline2BlockValue.fromMarkdown(markdown);
+  ({MarkdownHeadline2BlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+    if (line.startsWith("## ")) {
+      return (
+        value: MarkdownHeadline2BlockValue.fromMarkdown(context.currentLine),
+        linesConsumed: 1,
+      );
     }
     return null;
   }

@@ -53,7 +53,7 @@ part of "/masamune_markdown.dart";
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormMarkdownField<TValue> extends FormField<String> {
+class FormMarkdownField<TValue> extends FormField<List<MarkdownFieldValue>> {
   /// Widget for Markdown text field for forms.
   ///
   /// You can use `h1`, `h2`, `h3`, and block styles for quotes and code.
@@ -115,7 +115,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
     this.controller,
     this.style,
     super.enabled = true,
-    String? initialValue,
+    List<MarkdownFieldValue>? initialValue,
     this.focusNode,
     TextInputAction textInputAction = TextInputAction.newline,
     bool enableInteractiveSelection = true,
@@ -126,8 +126,8 @@ class FormMarkdownField<TValue> extends FormField<String> {
     this.onSubmitted,
     String? emptyErrorText,
     TextAlign textAlign = TextAlign.start,
-    String? Function(String? value)? validator,
-    TValue Function(String value)? onSaved,
+    String? Function(List<MarkdownFieldValue>? value)? validator,
+    TValue Function(List<MarkdownFieldValue> value)? onSaved,
     String? hintText,
     bool scrollable = true,
     void Function(Uri link)? onTapLink,
@@ -143,7 +143,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          initialValue: initialValue ?? "",
+          initialValue: initialValue ?? [],
           onSaved: (value) {
             if (value == null) {
               return;
@@ -155,7 +155,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
             form!.value = res;
           },
           autovalidateMode: AutovalidateMode.disabled,
-          builder: (FormFieldState<String> field) {
+          builder: (FormFieldState<List<MarkdownFieldValue>> field) {
             final state = field as FormMarkdownFieldState<TValue>;
 
             return FormContainer(
@@ -187,16 +187,11 @@ class FormMarkdownField<TValue> extends FormField<String> {
                 onTapMention: onTapMention,
                 scrollable: scrollable,
                 onEditingComplete: onEditingComplete,
-                onChanged: onChanged != null
-                    ? (value) {
-                        onChanged.call(value.toMarkdown());
-                      }
-                    : null,
-                onSubmitted: onSubmitted != null
-                    ? (value) {
-                        onSubmitted.call(value.toMarkdown());
-                      }
-                    : null,
+                onChanged: (value) {
+                  field.didChange(value);
+                  onChanged?.call(value);
+                },
+                onSubmitted: onSubmitted?.call,
                 scrollController: scrollController,
                 scrollPhysics: scrollPhysics,
                 textInputAction: textInputAction,
@@ -263,7 +258,7 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// 値が変更されるたびに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(String? value)? onChanged;
+  final void Function(List<MarkdownFieldValue>? value)? onChanged;
 
   /// It is executed when the Enter button on the keyboard or the Submit button on the software keyboard is pressed.
   ///
@@ -272,17 +267,19 @@ class FormMarkdownField<TValue> extends FormField<String> {
   /// キーボードのEnterボタン、もしくはソフトウェアキーボードのサブミットボタンが押された場合に実行されます。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(String? value)? onSubmitted;
+  final void Function(List<MarkdownFieldValue>? value)? onSubmitted;
 
   @override
-  FormFieldState<String> createState() => FormMarkdownFieldState<TValue>();
+  FormFieldState<List<MarkdownFieldValue>> createState() =>
+      FormMarkdownFieldState<TValue>();
 }
 
 /// State for FormMarkdownField.
 ///
 /// フォーム用のMarkdownテキストフィールド用のステート。
-class FormMarkdownFieldState<TValue> extends FormFieldState<String>
-    with AutomaticKeepAliveClientMixin<FormField<String>> {
+class FormMarkdownFieldState<TValue>
+    extends FormFieldState<List<MarkdownFieldValue>>
+    with AutomaticKeepAliveClientMixin<FormField<List<MarkdownFieldValue>>> {
   @override
   FormMarkdownField<TValue> get widget =>
       super.widget as FormMarkdownField<TValue>;

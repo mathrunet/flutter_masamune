@@ -83,8 +83,43 @@ class CodeAddMarkdownBlockTools
   }
 
   @override
-  MarkdownCodeBlockValue? convertFromMarkdown(String markdown) {
-    return null;
+  ({MarkdownCodeBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+
+    // Check if this is a code block opening (```)
+    if (!line.startsWith("```")) {
+      return null;
+    }
+
+    // Extract language from opening line
+    final language = line.substring(3).trim();
+
+    // Collect code lines until closing ```
+    final codeLines = <String>[];
+    var consumed = 1; // Start with 1 for the opening ``` line
+
+    while (context.currentIndex + consumed < context.lines.length) {
+      final nextLine = context.lines[context.currentIndex + consumed];
+
+      // Check for closing ```
+      if (nextLine.trim().startsWith("```")) {
+        consumed++; // Include the closing ``` line
+        break;
+      }
+
+      codeLines.add(nextLine);
+      consumed++;
+    }
+
+    // Build the full markdown string for parsing
+    final fullMarkdown = "```$language\n${codeLines.join("\n")}\n```";
+
+    return (
+      value: MarkdownCodeBlockValue.fromMarkdown(fullMarkdown),
+      linesConsumed: consumed,
+    );
   }
 
   @override

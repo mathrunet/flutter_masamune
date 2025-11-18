@@ -1031,42 +1031,8 @@ class MarkdownFieldValue extends MarkdownValue {
         continue;
       }
 
-      // Handle code blocks (``` ... ```)
-      if (line.trim().startsWith("```")) {
-        final codeLines = <String>[];
-        final language = line.trim().substring(3).trim();
-        i++; // Skip opening ```
-
-        // Collect lines until closing ```
-        while (i < lines.length && !lines[i].trim().startsWith("```")) {
-          codeLines.add(lines[i]);
-          i++;
-        }
-        if (i < lines.length) {
-          i++; // Skip closing ```
-        }
-
-        final codeContent = codeLines.join("\n");
-        blocks.add(MarkdownCodeBlockValue.fromMarkdown(
-          "```$language\n$codeContent\n```",
-        ));
-        continue;
-      }
-
-      // Handle consecutive quote lines (> ...)
-      if (line.trim().startsWith(">")) {
-        final quoteLines = <String>[];
-        while (i < lines.length && lines[i].trim().startsWith(">")) {
-          quoteLines.add(lines[i].trim().substring(1).trim());
-          i++;
-        }
-
-        final quoteContent = quoteLines.join("\n");
-        blocks.add(MarkdownQuoteBlockValue.fromMarkdown("> $quoteContent"));
-        continue;
-      }
-
       // Handle image blocks (![alt](url))
+      // This is kept as special handling because it requires inline splitting
       final imageMatch = RegExp(r"!\[.*?\]\(.*?\)").firstMatch(line);
       if (imageMatch != null) {
         // Extract text before image
@@ -1089,19 +1055,28 @@ class MarkdownFieldValue extends MarkdownValue {
         continue;
       }
 
-      // Pattern matching for block types
+      // Context-based pattern matching for block types
+      final context = MarkdownParseContext(
+        lines: lines,
+        currentIndex: i,
+      );
+
       MarkdownBlockValue? block;
+      var linesConsumed = 1;
+
       for (final tool in tools) {
-        final value = tool.convertFromMarkdown(line);
-        if (value != null) {
-          block = value;
+        final result = tool.convertFromMarkdown(context);
+        if (result != null && result.value != null) {
+          block = result.value;
+          linesConsumed = result.linesConsumed;
           break;
         }
       }
+
       block ??= MarkdownParagraphBlockValue.fromMarkdown(line);
       blocks.add(block);
 
-      i++;
+      i += linesConsumed;
     }
 
     return MarkdownFieldValue(

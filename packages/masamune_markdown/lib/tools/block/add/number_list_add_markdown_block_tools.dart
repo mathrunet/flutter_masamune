@@ -91,9 +91,15 @@ class NumberListAddMarkdownBlockTools
   }
 
   @override
-  MarkdownNumberListBlockValue? convertFromMarkdown(String markdown) {
-    if (RegExp(r"^\d+[.)]?\s+").hasMatch(markdown.trim())) {
-      return MarkdownNumberListBlockValue.fromMarkdown(markdown);
+  ({MarkdownNumberListBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+    if (RegExp(r"^\d+[.)]?\s+").hasMatch(line)) {
+      return (
+        value: MarkdownNumberListBlockValue.fromMarkdown(context.currentLine),
+        linesConsumed: 1,
+      );
     }
     return null;
   }

@@ -76,7 +76,9 @@ class CodeExchangeMarkdownBlockTools
   }
 
   @override
-  MarkdownCodeBlockValue? convertFromMarkdown(String markdown) {
+  ({MarkdownCodeBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
     return null;
   }
 

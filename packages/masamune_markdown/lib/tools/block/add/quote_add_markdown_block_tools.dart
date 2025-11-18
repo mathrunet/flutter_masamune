@@ -83,7 +83,9 @@ class QuoteAddMarkdownBlockTools
   }
 
   @override
-  MarkdownQuoteBlockValue? convertFromMarkdown(String markdown) {
+  ({MarkdownQuoteBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
     return null;
   }
 

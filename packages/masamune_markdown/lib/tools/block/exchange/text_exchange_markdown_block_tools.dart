@@ -76,7 +76,9 @@ class TextExchangeMarkdownBlockTools
   }
 
   @override
-  MarkdownParagraphBlockValue? convertFromMarkdown(String markdown) {
+  ({MarkdownParagraphBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
     return null;
   }
 

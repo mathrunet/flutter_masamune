@@ -83,9 +83,15 @@ class ToggleListAddMarkdownBlockTools
   }
 
   @override
-  MarkdownToggleListBlockValue? convertFromMarkdown(String markdown) {
-    if (RegExp(r"^\[[ x]\]\s+").hasMatch(markdown.trim())) {
-      return MarkdownToggleListBlockValue.fromMarkdown(markdown);
+  ({MarkdownToggleListBlockValue? value, int linesConsumed})? convertFromMarkdown(
+    MarkdownParseContext context,
+  ) {
+    final line = context.currentLine.trim();
+    if (RegExp(r"^\[[ x]\]\s+").hasMatch(line)) {
+      return (
+        value: MarkdownToggleListBlockValue.fromMarkdown(context.currentLine),
+        linesConsumed: 1,
+      );
     }
     return null;
   }

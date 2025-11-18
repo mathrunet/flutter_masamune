@@ -76,8 +76,7 @@ class LinkMarkdownInlineTools
 
   @override
   LinkMarkdownSpanProperty? convertFromMarkdown(String markdown) {
-    // TODO: implement convertFromMarkdown
-    throw UnimplementedError();
+    return null;
   }
 
   @override
