@@ -311,6 +311,16 @@ class FormMarkdownFieldState<TValue>
     if (widget.initialValue != null && widget.initialValue!.isNotEmpty) {
       _effectiveController.value?.clear();
       _effectiveController.value?.addAll(widget.initialValue!);
+      // Move cursor to end if autofocus is enabled
+      if (widget.autofocus) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            final textLength = _effectiveController.rawText.length;
+            _effectiveController
+                .setSelection(TextSelection.collapsed(offset: textLength));
+          }
+        });
+      }
     }
     _effectiveController.addListener(_handleControllerChanged);
   }

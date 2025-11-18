@@ -94,6 +94,16 @@ class MarkdownController extends MasamuneControllerBase<
   TextSelection get selection =>
       _field?._selection ?? const TextSelection.collapsed(offset: 0);
 
+  /// Set the selection of the markdown controller.
+  ///
+  /// マークダウンコントローラーの選択を設定します。
+  void setSelection(TextSelection selection) {
+    if (_field != null) {
+      _field!._selection = selection;
+      _field!._updateRemoteEditingValue();
+    }
+  }
+
   /// Default style for markdown.
   ///
   /// マークダウンのデフォルトのスタイル。
