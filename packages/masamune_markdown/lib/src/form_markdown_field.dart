@@ -296,10 +296,18 @@ class FormMarkdownFieldState<TValue>
   @override
   bool get wantKeepAlive => widget.keepAlive;
 
+  void _handleControllerChanged() {
+    final controllerValue = _effectiveController.value;
+    if (controllerValue != null && controllerValue != value) {
+      didChange(controllerValue);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     widget.form?.register(this);
+    _effectiveController.addListener(_handleControllerChanged);
   }
 
   @override
@@ -309,8 +317,15 @@ class FormMarkdownFieldState<TValue>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (widget.controller != oldWidget.controller) {
+      (oldWidget.controller ?? _controller)
+          ?.removeListener(_handleControllerChanged);
+      _effectiveController.addListener(_handleControllerChanged);
+    }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
+      _effectiveController.value?.clear();
+      _effectiveController.value?.addAll(widget.initialValue!);
       reset();
     }
   }
@@ -318,6 +333,8 @@ class FormMarkdownFieldState<TValue>
   @override
   void dispose() {
     widget.form?.unregister(this);
+    _effectiveController.removeListener(_handleControllerChanged);
+    _controller?.dispose();
     super.dispose();
   }
 

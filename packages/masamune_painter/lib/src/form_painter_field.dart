@@ -372,6 +372,8 @@ class FormPainterFieldState<TValue> extends FormFieldState<List<PaintingValue>>
 
   void _handleControllerChanged() {
     if (mounted) {
+      // Notify FormField that the value has changed
+      didChange(widget.controller.value);
       setState(() {});
     }
   }
