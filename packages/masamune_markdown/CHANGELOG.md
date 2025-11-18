@@ -1,3 +1,12 @@
+## 3.4.4
+
+ - **FIX**: Fix initial cursor. ([734de9d3](https://github.com/mathrunet/flutter_masamune/commit/734de9d316e275272a97b2fee7ddfe9fe173ed35))
+ - **FIX**: Fixed because there was no value at initialization. ([12a19964](https://github.com/mathrunet/flutter_masamune/commit/12a19964f4301d247ebd5d1f3bda98072b05b511))
+ - **FIX**: Fix bug where it is not saved in onSaved. ([f50628dd](https://github.com/mathrunet/flutter_masamune/commit/f50628dd2787e40ddd978c71b46d4db150f6bade))
+ - **FIX**: Fix Markdown conversion. ([886ce404](https://github.com/mathrunet/flutter_masamune/commit/886ce404ae197ab0ddcc57f4b1cc3051804fbee2))
+ - **FIX**: Input defect fix. ([7728f9b8](https://github.com/mathrunet/flutter_masamune/commit/7728f9b8b2012f9b67101201022ef7a9dac87afd))
+ - **FIX**: Fix for issue where tap does not focus. ([a64e6c99](https://github.com/mathrunet/flutter_masamune/commit/a64e6c993c553b1be87a7e676508eb2d1020d8c6))
+
 ## 3.4.3
 
  - Update a dependency to the latest release.

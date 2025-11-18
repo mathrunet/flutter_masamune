@@ -1,3 +1,12 @@
+## 3.6.0
+
+ - **FIX**: Add a mechanism to store OrganizationId. ([6fa41041](https://github.com/mathrunet/flutter_masamune/commit/6fa410417f04221bf99815833218f90f38dea8c2))
+ - **FIX**: Token Mechanism Change. ([72a09010](https://github.com/mathrunet/flutter_masamune/commit/72a09010ffabebc8c00f30a6c5be2746192ad7e3))
+ - **FIX**: Change how CommitModel is retrieved. ([2cc5baef](https://github.com/mathrunet/flutter_masamune/commit/2cc5baeffc2b3ec78f64ad5cea61b8f8a4636a06))
+ - **FIX**: Enumify Status and Level. ([bc088a22](https://github.com/mathrunet/flutter_masamune/commit/bc088a2227c7cc36b69b9db40177155fbc84f3ae))
+ - **FEAT**: Add GithubCompareModel. ([c9af34ef](https://github.com/mathrunet/flutter_masamune/commit/c9af34ef5b559a6586b0244f173e5e42053d3664))
+ - **FEAT**: Added CopilotSession related parts. ([602fbd1c](https://github.com/mathrunet/flutter_masamune/commit/602fbd1c789f81f83d666abf8727fb3433fdfcdf))
+
 ## 3.5.0
 
  - **FEAT**: Add models for Actions. ([dd81069d](https://github.com/mathrunet/flutter_masamune/commit/dd81069d35fd16b3d23f955209186be6724709a2))

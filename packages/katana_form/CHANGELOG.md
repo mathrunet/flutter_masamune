@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - **FIX**: Enabled dummy display for buttons. ([9f80dc41](https://github.com/mathrunet/flutter_masamune/commit/9f80dc41353730fc1d79f7beb862032a25da0b95))
+
 ## 3.2.1
 
  - Update a dependency to the latest release.

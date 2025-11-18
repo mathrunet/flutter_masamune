@@ -1,3 +1,7 @@
+## 3.5.2
+
+ - **FIX**: Apply reload to next. ([24d58728](https://github.com/mathrunet/flutter_masamune/commit/24d587282dc4ae9538b1a6bf11d2f55a2a913d4e))
+
 ## 3.5.1
 
  - Update a dependency to the latest release.

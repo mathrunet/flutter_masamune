@@ -1,6 +1,6 @@
 name: masamune_storage_functions
 description: Masamune package for uploading files to storage using Functions.
-version: 3.2.2
+version: 3.2.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_storage_functions
 
@@ -14,7 +14,7 @@ dependencies:
 
   meta:
   katana: ^3.4.0
-  masamune: ^3.5.2
+  masamune: ^3.5.3
   katana_functions: ^3.1.1
 dev_dependencies:
   test: ^1.25.0

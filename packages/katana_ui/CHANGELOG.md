@@ -1,3 +1,7 @@
+## 3.3.2
+
+ - **FIX**: Add message box patterns. ([4f992ac8](https://github.com/mathrunet/flutter_masamune/commit/4f992ac8b2db21ce4b7fe5b2ea77eb2611c453fd))
+
 ## 3.3.1
 
  - Update a dependency to the latest release.
