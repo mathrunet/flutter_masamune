@@ -2190,15 +2190,22 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // テキストコンテンツが始まるオフセットを保存（パディング後）
       layout.offset = Offset(0, totalHeight);
 
-      // パディング付きのブロック全体の高さを計算
-      final blockHeight = layout.painter.height +
+      // 子ブロックのレイアウトを計算
+      var childrenHeight = 0.0;
+      if (layout.children != null && layout.children!.isNotEmpty) {
+        childrenHeight = _layoutChildren(layout.children!, contentWidth);
+      }
+
+      // パディング付きのブロック全体の高さを計算（子ブロックを含む）
+      final blockContentHeight = layout.painter.height + childrenHeight;
+      final blockHeight = blockContentHeight +
           layout.padding.vertical +
           layout.margin.bottom;
       layout.height = blockHeight;
 
       // totalHeightをこのブロックの終わりに移動
       totalHeight +=
-          layout.painter.height + layout.padding.bottom + layout.margin.bottom;
+          blockContentHeight + layout.padding.bottom + layout.margin.bottom;
     }
 
     // expandsがtrueで maxHeightが有限の場合、利用可能な最大の高さを使用
@@ -2211,6 +2218,52 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       constraints.maxWidth,
       height,
     ));
+  }
+
+  /// Layout child blocks recursively.
+  ///
+  /// 子ブロックを再帰的にレイアウトします。
+  double _layoutChildren(List<BlockLayout> children, double maxWidth) {
+    var totalHeight = 0.0;
+
+    for (var i = 0; i < children.length; i++) {
+      final child = children[i];
+
+      // マージン上部を追加
+      totalHeight += child.margin.top;
+
+      // パディング上部を追加
+      totalHeight += child.padding.top;
+
+      // パディング付きでテキストペインターをレイアウト
+      final contentWidth = maxWidth - child.padding.horizontal;
+      child.painter.layout(
+        minWidth: contentWidth,
+        maxWidth: contentWidth,
+      );
+
+      // テキストコンテンツが始まるオフセットを保存（パディング後）
+      child.offset = Offset(0, totalHeight);
+
+      // 子の子ブロックのレイアウトを計算（再帰）
+      var grandchildrenHeight = 0.0;
+      if (child.children != null && child.children!.isNotEmpty) {
+        grandchildrenHeight = _layoutChildren(child.children!, contentWidth);
+      }
+
+      // パディング付きのブロック全体の高さを計算（孫ブロックを含む）
+      final childContentHeight = child.painter.height + grandchildrenHeight;
+      final childHeight = childContentHeight +
+          child.padding.vertical +
+          child.margin.bottom;
+      child.height = childHeight;
+
+      // totalHeightをこの子ブロックの終わりに移動
+      totalHeight +=
+          childContentHeight + child.padding.bottom + child.margin.bottom;
+    }
+
+    return totalHeight;
   }
 
   @override
@@ -2440,6 +2493,16 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // テキストを描画
       layout.painter.paint(canvas, blockOffset);
 
+      // 子ブロックを描画
+      if (layout.children != null && layout.children!.isNotEmpty) {
+        // 子ブロックはテキストの後に描画される
+        final childrenOffset = Offset(
+          offset.dx + layout.padding.left,
+          offset.dy + layout.offset.dy + layout.painter.height,
+        );
+        _paintChildren(context, childrenOffset, layout.children!, offset);
+      }
+
       // このブロックのカーソルを描画（readonly時はスキップ）
       if (!_readOnly &&
           _showCursor &&
@@ -2520,6 +2583,157 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       lineEnd,
       paint..strokeWidth = 2.0,
     );
+  }
+
+  /// Paint child blocks recursively.
+  ///
+  /// 子ブロックを再帰的に描画します。
+  void _paintChildren(
+    PaintingContext context,
+    Offset offset,
+    List<BlockLayout> children,
+    Offset rootOffset,
+  ) {
+    final canvas = context.canvas;
+
+    for (var i = 0; i < children.length; i++) {
+      final child = children[i];
+
+      // 子ブロックのオフセットを計算
+      final childBlockOffset = offset +
+          child.offset +
+          Offset(child.padding.left, 0);
+
+      // 子ブロック背景を描画
+      final childBlockStyle = child.block.style(this, controller);
+      final childBackgroundColor = childBlockStyle.backgroundColor;
+      if (childBackgroundColor != null) {
+        final childBlockRect = Rect.fromLTWH(
+          offset.dx,
+          offset.dy + child.offset.dy - child.padding.top,
+          size.width - (offset.dx - rootOffset.dx),
+          child.height,
+        );
+        canvas.drawRect(
+          childBlockRect,
+          Paint()..color = childBackgroundColor,
+        );
+      }
+
+      // 子ブロックボーダーを描画
+      final childBorder = childBlockStyle.border;
+      if (childBorder != null) {
+        final childBlockRect = Rect.fromLTWH(
+          offset.dx,
+          offset.dy + child.offset.dy - child.padding.top,
+          size.width - (offset.dx - rootOffset.dx),
+          child.height,
+        );
+        childBorder.paint(
+          canvas,
+          childBlockRect,
+        );
+      }
+
+      // 子ブロックのスパン背景装飾を描画
+      final childDecorationGroups = <_DecorationGroup>[];
+      BoxDecoration? currentDecoration;
+      int? groupStart;
+      int? groupEnd;
+
+      for (var j = 0; j < child.spans.length; j++) {
+        final spanInfo = child.spans[j];
+        final decoration =
+            spanInfo.span.backgroundDecoration(this, _controller, null);
+
+        final hasCodeDecoration = spanInfo.span.properties
+            .any((p) => p is CodeFontMarkdownSpanProperty);
+
+        if (hasCodeDecoration && decoration != null) {
+          if (currentDecoration == null) {
+            currentDecoration = decoration;
+            groupStart = spanInfo.localOffset;
+            groupEnd = spanInfo.localOffset + spanInfo.length;
+          } else {
+            groupEnd = spanInfo.localOffset + spanInfo.length;
+          }
+        } else {
+          if (currentDecoration != null &&
+              groupStart != null &&
+              groupEnd != null) {
+            childDecorationGroups.add(_DecorationGroup(
+              decoration: currentDecoration,
+              start: groupStart,
+              end: groupEnd,
+            ));
+            currentDecoration = null;
+            groupStart = null;
+            groupEnd = null;
+          }
+        }
+      }
+
+      if (currentDecoration != null && groupStart != null && groupEnd != null) {
+        childDecorationGroups.add(_DecorationGroup(
+          decoration: currentDecoration,
+          start: groupStart,
+          end: groupEnd,
+        ));
+      }
+
+      for (final group in childDecorationGroups) {
+        final spanSelection = TextSelection(
+          baseOffset: group.start,
+          extentOffset: group.end,
+        );
+        final boxes = child.painter.getBoxesForSelection(spanSelection);
+        for (final box in boxes) {
+          var boxRect = box.toRect().shift(childBlockOffset);
+          boxRect = boxRect.inflate(2.0);
+          final paint = Paint();
+          if (group.decoration.color != null) {
+            paint.color = group.decoration.color!;
+          }
+          if (group.decoration.borderRadius != null) {
+            final rRect = (group.decoration.borderRadius as BorderRadius)
+                .toRRect(boxRect);
+            canvas.drawRRect(rRect, paint);
+          } else {
+            canvas.drawRect(boxRect, paint);
+          }
+        }
+      }
+
+      // 子ブロックのマーカーを描画
+      if (child.marker != null) {
+        final markerOffset = Offset(
+          offset.dx +
+              child.offset.dx +
+              child.padding.left -
+              child.marker!.width,
+          offset.dy + child.offset.dy,
+        );
+
+        child.marker?.markerBuilder?.call(
+          canvas,
+          markerOffset +
+              Offset(child.marker!.width / 3,
+                  child.painter.preferredLineHeight / 2),
+        );
+      }
+
+      // 子ブロックのテキストを描画
+      child.painter.paint(canvas, childBlockOffset);
+
+      // 孫ブロックを描画（再帰）
+      if (child.children != null && child.children!.isNotEmpty) {
+        final grandchildrenOffset = Offset(
+          offset.dx + child.padding.left,
+          offset.dy + child.offset.dy + child.painter.height,
+        );
+        _paintChildren(context, grandchildrenOffset, child.children!, rootOffset);
+      }
+    }
   }
 
   @override
