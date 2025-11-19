@@ -83,41 +83,22 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
   }
 
   @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.h1.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.h1.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.h1.textStyle ??
-            theme.textTheme.headlineLarge ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.h1.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   ) {
-    return null;
+    final theme = context.theme;
+    return BlockStyle(
+      padding: controller.style.media.padding ?? EdgeInsets.zero,
+      margin: controller.style.media.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.media.textStyle ??
+              theme.textTheme.labelMedium ??
+              const TextStyle())
+          .copyWith(
+        color: controller.style.media.foregroundColor,
+      ),
+      backgroundColor: controller.style.media.backgroundColor,
+    );
   }
 
   @override

@@ -39,58 +39,66 @@ class MarkdownStyle {
     this.code = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
     ),
+    this.media = const MarkdownStyleValue(
+      margin: EdgeInsets.symmetric(vertical: 8),
+    ),
     this.indentWidth = 16,
     this.indentWhiteSpaceCount = 2,
   });
 
-  /// Vertical spacing for paragraph.
+  /// Style for paragraph.
   ///
-  /// 段落の垂直スペース。
+  /// 段落のスタイル。
   final MarkdownStyleValue paragraph;
 
-  /// Vertical spacing for h1.
+  /// Style for h1.
   ///
-  /// h1の垂直スペース。
+  /// h1のスタイル。
   final MarkdownStyleValue h1;
 
-  /// Vertical spacing for h2.
+  /// Style for h2.
   ///
-  /// h2の垂直スペース。
+  /// h2のスタイル。
   final MarkdownStyleValue h2;
 
-  /// Vertical spacing for h3.
+  /// Style for h3.
   ///
-  /// h3の垂直スペース。
+  /// h3のスタイル。
   final MarkdownStyleValue h3;
 
-  /// Vertical spacing for h4.
+  /// Style for h4.
   ///
-  /// h4の垂直スペース。
+  /// h4のスタイル。
   final MarkdownStyleValue h4;
 
-  /// Vertical spacing for h5.
+  /// Style for h5.
   ///
-  /// h5の垂直スペース。
+  /// h5のスタイル。
   final MarkdownStyleValue h5;
 
-  /// Vertical spacing for h6.
+  /// Style for h6.
   ///
-  /// h6の垂直スペース。
+  /// h6のスタイル。
   final MarkdownStyleValue h6;
 
-  /// Vertical spacing for list.
+  /// Style for list.
   ///
-  /// リストの垂直スペース。
+  /// リストのスタイル。
   final MarkdownStyleValue list;
 
-  /// Vertical spacing for quote.
+  /// Style for media.
   ///
-  /// 引用の垂直スペース。
+  /// メディアのスタイル。
+  final MarkdownStyleValue media;
+
+  /// Style for quote.
+  ///
+  /// 引用のスタイル。
   final MarkdownStyleValue quote;
 
-  /// Vertical spacing for code.
+  /// Style for code.
   ///
-  /// コードの垂直スペース。
+  /// コードのスタイル。
   final MarkdownStyleValue code;
 
   /// Indent width.

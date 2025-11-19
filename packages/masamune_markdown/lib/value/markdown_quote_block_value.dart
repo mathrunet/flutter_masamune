@@ -80,41 +80,22 @@ class MarkdownQuoteBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.quote.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.quote.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.quote.textStyle ??
-            theme.textTheme.bodyLarge ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.quote.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   ) {
-    return controller.style.quote.backgroundColor;
+    final theme = context.theme;
+    return BlockStyle(
+      padding: controller.style.quote.padding ?? EdgeInsets.zero,
+      margin: controller.style.quote.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.quote.textStyle ??
+              theme.textTheme.bodyLarge ??
+              const TextStyle())
+          .copyWith(
+        color: controller.style.quote.foregroundColor,
+      ),
+      backgroundColor: controller.style.quote.backgroundColor,
+    );
   }
 
   @override

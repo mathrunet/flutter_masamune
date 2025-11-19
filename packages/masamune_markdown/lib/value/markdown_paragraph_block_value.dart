@@ -78,41 +78,21 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.paragraph.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.paragraph.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.paragraph.textStyle ??
-            theme.textTheme.bodyMedium ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.paragraph.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   ) {
-    return null;
+    final theme = context.theme;
+    return BlockStyle(
+      padding: controller.style.paragraph.padding ?? EdgeInsets.zero,
+      margin: controller.style.paragraph.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.paragraph.textStyle ??
+              theme.textTheme.bodyMedium ??
+              const TextStyle())
+          .copyWith(
+        color: controller.style.paragraph.foregroundColor,
+      ),
+    );
   }
 
   @override

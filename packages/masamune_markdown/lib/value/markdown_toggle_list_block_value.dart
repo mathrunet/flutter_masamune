@@ -104,41 +104,21 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.list.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.list.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.list.textStyle ??
-            theme.textTheme.bodyMedium ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.list.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   ) {
-    return null;
+    final theme = context.theme;
+    return BlockStyle(
+      padding: controller.style.list.padding ?? EdgeInsets.zero,
+      margin: controller.style.list.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.list.textStyle ??
+              theme.textTheme.bodyMedium ??
+              const TextStyle())
+          .copyWith(
+        color: controller.style.list.foregroundColor,
+      ),
+    );
   }
 
   @override

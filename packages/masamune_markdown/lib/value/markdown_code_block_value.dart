@@ -123,47 +123,28 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.code.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.code.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.code.textStyle ??
-            theme.textTheme.bodyMedium?.copyWith(
-              fontFamily: "monospace",
-              fontFamilyFallback: ["Courier", "monospace"],
-            ) ??
-            const TextStyle(
-              fontFamily: "monospace",
-              fontFamilyFallback: ["Courier", "monospace"],
-            ))
-        .copyWith(
-      color: controller.style.code.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   ) {
-    return controller.style.code.backgroundColor;
+    final theme = context.theme;
+    return BlockStyle(
+      padding: controller.style.code.padding ?? EdgeInsets.zero,
+      margin: controller.style.code.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.code.textStyle ??
+              theme.textTheme.bodyMedium?.copyWith(
+                fontFamily: "monospace",
+                fontFamilyFallback: ["Courier", "monospace"],
+              ) ??
+              const TextStyle(
+                fontFamily: "monospace",
+                fontFamilyFallback: ["Courier", "monospace"],
+              ))
+          .copyWith(
+        color: controller.style.code.foregroundColor,
+      ),
+      backgroundColor: controller.style.code.backgroundColor,
+    );
   }
 
   @override

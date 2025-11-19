@@ -2256,7 +2256,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           offset + layout.offset + Offset(layout.padding.left, 0);
 
       // ブロック背景がある場合は描画
-      final backgroundColor = layout.block.backgroundColor(this, controller);
+      final backgroundColor =
+          layout.block.style(this, controller).backgroundColor;
       if (backgroundColor != null) {
         // 背景はパディングを含むブロック全体をカバー
         final blockRect = Rect.fromLTWH(
@@ -3453,6 +3454,7 @@ class BlockLayout {
     required this.padding,
     required this.margin,
     required this.spans,
+    this.children,
     this.marker,
   });
 
@@ -3496,6 +3498,11 @@ class BlockLayout {
   /// リストブロックのマーカー情報。
   final MarkerInfo? marker;
 
+  /// Child blocks.
+  ///
+  /// 子ブロック。
+  final List<BlockLayout>? children;
+
   /// Offset where this block is positioned.
   ///
   /// このブロックが配置されるオフセット。
@@ -3505,6 +3512,47 @@ class BlockLayout {
   ///
   /// パディングとマージンを含むこのブロックの高さ。
   double height = 0;
+}
+
+/// Block style information.
+///
+/// ブロックスタイル情報。
+class BlockStyle {
+  /// Block style information.
+  ///
+  /// ブロックスタイル情報。
+  const BlockStyle({
+    this.backgroundColor,
+    this.border,
+    this.textStyle,
+    this.padding = EdgeInsets.zero,
+    this.margin = EdgeInsets.zero,
+  });
+
+  /// Background color of the block.
+  ///
+  /// ブロックの背景色。
+  final Color? backgroundColor;
+
+  /// Border of the block.
+  ///
+  /// ブロックの境界線。
+  final Border? border;
+
+  /// Text style of the block.
+  ///
+  /// ブロックのテキストスタイル。
+  final TextStyle? textStyle;
+
+  /// Padding of the block.
+  ///
+  /// ブロックのパディング。
+  final EdgeInsetsGeometry padding;
+
+  /// Margin of the block.
+  ///
+  /// ブロックのマージン。
+  final EdgeInsetsGeometry margin;
 }
 
 /// Information about a list marker.

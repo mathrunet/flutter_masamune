@@ -80,41 +80,21 @@ class MarkdownHeadline1BlockValue extends MarkdownMultiLineBlockValue {
   }
 
   @override
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.h1.padding ?? EdgeInsets.zero;
-  }
-
-  @override
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    return controller.style.h1.margin ?? EdgeInsets.zero;
-  }
-
-  @override
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  ) {
-    final theme = Theme.of(context);
-    return (controller.style.h1.textStyle ??
-            theme.textTheme.headlineLarge ??
-            const TextStyle())
-        .copyWith(
-      color: controller.style.h1.foregroundColor,
-    );
-  }
-
-  @override
-  Color? backgroundColor(
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   ) {
-    return null;
+    final theme = context.theme;
+    return BlockStyle(
+      padding: controller.style.h1.padding ?? EdgeInsets.zero,
+      margin: controller.style.h1.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.h1.textStyle ??
+              theme.textTheme.headlineLarge ??
+              const TextStyle())
+          .copyWith(
+        color: controller.style.h1.foregroundColor,
+      ),
+    );
   }
 
   @override

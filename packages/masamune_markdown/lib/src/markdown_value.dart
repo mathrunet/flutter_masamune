@@ -677,34 +677,10 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     int textOffset,
   );
 
-  /// The padding of the markdown block value.
+  /// The style of the markdown block value.
   ///
-  /// マークダウンのブロックのパディング。
-  EdgeInsetsGeometry padding(
-    BuildContext context,
-    MarkdownController controller,
-  );
-
-  /// The margin of the markdown block value.
-  ///
-  /// マークダウンのブロックのマージン。
-  EdgeInsetsGeometry margin(
-    BuildContext context,
-    MarkdownController controller,
-  );
-
-  /// The text style of the markdown block value.
-  ///
-  /// マークダウンのブロックのテキストスタイル。
-  TextStyle textStyle(
-    BuildContext context,
-    MarkdownController controller,
-  );
-
-  /// The background color of the markdown span value.
-  ///
-  /// マークダウンのスパンの背景色。
-  Color? backgroundColor(
+  /// マークダウンのブロックのスタイル。
+  BlockStyle style(
     RenderContext context,
     MarkdownController controller,
   );
