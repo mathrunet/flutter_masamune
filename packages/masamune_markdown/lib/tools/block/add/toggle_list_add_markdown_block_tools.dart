@@ -83,7 +83,8 @@ class ToggleListAddMarkdownBlockTools
   }
 
   @override
-  ({MarkdownToggleListBlockValue? value, int linesConsumed})? convertFromMarkdown(
+  ({MarkdownToggleListBlockValue? value, int linesConsumed})?
+      convertFromMarkdown(
     MarkdownParseContext context,
   ) {
     final line = context.currentLine.trim();

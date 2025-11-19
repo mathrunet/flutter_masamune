@@ -83,7 +83,8 @@ class Headline2AddMarkdownBlockTools
   }
 
   @override
-  ({MarkdownHeadline2BlockValue? value, int linesConsumed})? convertFromMarkdown(
+  ({MarkdownHeadline2BlockValue? value, int linesConsumed})?
+      convertFromMarkdown(
     MarkdownParseContext context,
   ) {
     final line = context.currentLine.trim();

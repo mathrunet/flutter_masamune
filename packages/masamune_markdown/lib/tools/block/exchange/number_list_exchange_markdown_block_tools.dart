@@ -85,7 +85,8 @@ class NumberListExchangeMarkdownBlockTools
   }
 
   @override
-  ({MarkdownNumberListBlockValue? value, int linesConsumed})? convertFromMarkdown(
+  ({MarkdownNumberListBlockValue? value, int linesConsumed})?
+      convertFromMarkdown(
     MarkdownParseContext context,
   ) {
     final line = context.currentLine.trim();

@@ -84,7 +84,8 @@ class BulletedListExchangeMarkdownBlockTools
   }
 
   @override
-  ({MarkdownBulletedListBlockValue? value, int linesConsumed})? convertFromMarkdown(
+  ({MarkdownBulletedListBlockValue? value, int linesConsumed})?
+      convertFromMarkdown(
     MarkdownParseContext context,
   ) {
     final line = context.currentLine.trim();

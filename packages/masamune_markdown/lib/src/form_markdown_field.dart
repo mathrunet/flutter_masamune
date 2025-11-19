@@ -337,7 +337,7 @@ class FormMarkdownFieldState<TValue>
           ?.removeListener(_handleControllerChanged);
       _effectiveController.addListener(_handleControllerChanged);
     }
-    if (oldWidget.initialValue != widget.initialValue &&
+    if (oldWidget.initialValue.equalsTo(widget.initialValue) &&
         widget.initialValue != null) {
       _effectiveController.value?.clear();
       _effectiveController.value?.addAll(widget.initialValue!);

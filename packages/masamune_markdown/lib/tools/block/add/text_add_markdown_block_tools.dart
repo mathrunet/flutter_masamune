@@ -69,7 +69,8 @@ class TextAddMarkdownBlockTools
   }
 
   @override
-  ({MarkdownParagraphBlockValue? value, int linesConsumed})? convertFromMarkdown(
+  ({MarkdownParagraphBlockValue? value, int linesConsumed})?
+      convertFromMarkdown(
     MarkdownParseContext context,
   ) {
     return null;
