@@ -2256,8 +2256,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           offset + layout.offset + Offset(layout.padding.left, 0);
 
       // ブロック背景がある場合は描画
-      final backgroundColor =
-          layout.block.style(this, controller).backgroundColor;
+      final blockStyle = layout.block.style(this, controller);
+      final backgroundColor = blockStyle.backgroundColor;
       if (backgroundColor != null) {
         // 背景はパディングを含むブロック全体をカバー
         final blockRect = Rect.fromLTWH(
@@ -2269,6 +2269,22 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         canvas.drawRect(
           blockRect,
           Paint()..color = backgroundColor,
+        );
+      }
+
+      // ブロックボーダーがある場合は描画
+      final border = blockStyle.border;
+      if (border != null) {
+        // ボーダーはパディングを含むブロック全体をカバー
+        final blockRect = Rect.fromLTWH(
+          offset.dx,
+          offset.dy + layout.offset.dy - layout.padding.top,
+          size.width,
+          layout.height,
+        );
+        border.paint(
+          canvas,
+          blockRect,
         );
       }
 
