@@ -316,7 +316,7 @@ class GithubCopilotAgentController
           RepositorySlug(organizationId, repositoryId),
           path,
           message,
-          content,
+          base64Encode(utf8.encode(content)),
           sha,
           branch: defaultBranch ?? "main",
         );

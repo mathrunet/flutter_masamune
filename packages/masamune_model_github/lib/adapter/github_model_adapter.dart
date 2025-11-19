@@ -2283,7 +2283,7 @@ class GithubModelAdapter extends ModelAdapter {
           RepositorySlug(organizationId, repositoryId),
           model.path ?? "$path/$contentPath",
           "chore: Update file(${model.path?.last()})",
-          model.content ?? "",
+          base64Encode(utf8.encode(model.content ?? "")),
           model.sha ?? "",
           branch: branchId,
         );

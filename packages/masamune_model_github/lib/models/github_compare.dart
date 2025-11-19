@@ -32,24 +32,34 @@ abstract class GithubCompareModel with _$GithubCompareModel {
   const factory GithubCompareModel({
     /// Comparison status (behind, ahead, identical, diverged)
     String? status,
+
     /// How many commits ahead
     @Default(0) int aheadBy,
+
     /// How many commits behind
     @Default(0) int behindBy,
+
     /// Total commits in comparison
     @Default(0) int totalCommits,
+
     /// Merge base commit (divergence point)
     @jsonParam GithubCommitModel? mergeBaseCommit,
+
     /// Base commit
     @jsonParam GithubCommitModel? baseCommit,
+
     /// Commits in the comparison
     @jsonParam @Default([]) List<GithubCommitModel> commits,
+
     /// URL for diff
     ModelUri? diffUrl,
+
     /// URL for patch
     ModelUri? patchUrl,
+
     /// HTML URL
     ModelUri? htmlUrl,
+
     /// Permalink URL
     ModelUri? permalinkUrl,
     @Default(false) bool fromServer,
