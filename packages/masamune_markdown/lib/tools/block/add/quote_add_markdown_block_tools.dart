@@ -50,27 +50,17 @@ class QuoteAddMarkdownBlockTools
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.insertBlock(this);
+    // Get current block to preserve indent
+    final currentBlock = ref.controller.getCurrentBlock();
+
+    // Create new block with preserved indent
+    final newBlock = MarkdownQuoteBlockValue.createEmpty(
+      indent: currentBlock?.indent ?? 0,
+    );
+
+    // Insert the block
+    ref.controller.insertBlock(newBlock);
     ref.deleteMode();
-  }
-
-  @override
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    return MarkdownQuoteBlockValue.createEmpty(
-      indent: source?.indent ?? 0,
-    );
-  }
-
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    if (target is MarkdownQuoteBlockValue) {
-      return null;
-    }
-    return MarkdownQuoteBlockValue(
-      id: target.id,
-      indent: target.indent,
-      children: target.extractLines() ?? [],
-    );
   }
 
   @override

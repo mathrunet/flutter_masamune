@@ -304,18 +304,6 @@ abstract class MarkdownBlockTools extends MarkdownTools {
   const MarkdownBlockTools({
     required super.config,
   });
-
-  /// Create a new block.
-  ///
-  /// 新しいブロックを作成します。
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    return MarkdownBlockValue.createEmpty(indent: source?.indent ?? 0);
-  }
-
-  /// Exchange a block.
-  ///
-  /// ブロックを交換します。
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target);
 }
 
 /// Base class for markdown block variable tools.

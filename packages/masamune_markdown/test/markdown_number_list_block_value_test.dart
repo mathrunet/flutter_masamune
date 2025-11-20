@@ -24,7 +24,15 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock1 = controller.getCurrentBlock();
+    var lineIndex1 = 0;
+    if (currentBlock1 is MarkdownNumberListBlockValue) {
+      lineIndex1 = currentBlock1.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock1?.indent ?? 0,
+      lineIndex: lineIndex1,
+    ));
     expect(controller.selection.baseOffset, 4);
     expect(controller.plainText, "aaa\n");
     expect(controller.rawText, "aaa\n");
@@ -52,7 +60,15 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock2 = controller.getCurrentBlock();
+    var lineIndex2 = 0;
+    if (currentBlock2 is MarkdownNumberListBlockValue) {
+      lineIndex2 = currentBlock2.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock2?.indent ?? 0,
+      lineIndex: lineIndex2,
+    ));
     expect(controller.selection.baseOffset, 8);
     expect(controller.plainText, "aaa\nbbb\n");
     expect(controller.rawText, "aaa\nbbb\n");
@@ -109,7 +125,13 @@ void main() {
     );
     await input.cursorAt(5);
     expect(controller.selection.baseOffset, 5);
-    controller.exchangeBlock(const NumberListExchangeMarkdownBlockTools());
+    final currentBlock3 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownNumberListBlockValue(
+      id: currentBlock3.id,
+      indent: currentBlock3.indent,
+      children: currentBlock3.extractLines() ?? [],
+      lineIndex: 0,
+    ));
     expect(controller.selection.baseOffset, 5);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -125,7 +147,13 @@ void main() {
     );
     await input.cursorAt(1);
     expect(controller.selection.baseOffset, 1);
-    controller.exchangeBlock(const NumberListExchangeMarkdownBlockTools());
+    final currentBlock4 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownNumberListBlockValue(
+      id: currentBlock4.id,
+      indent: currentBlock4.indent,
+      children: currentBlock4.extractLines() ?? [],
+      lineIndex: 0,
+    ));
     expect(controller.selection.baseOffset, 1);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -140,7 +168,12 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.exchangeBlock(const TextExchangeMarkdownBlockTools());
+    final currentBlock5 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownParagraphBlockValue(
+      id: currentBlock5.id,
+      indent: currentBlock5.indent,
+      children: currentBlock5.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 1);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -156,7 +189,12 @@ void main() {
     );
     await input.cursorAt(5);
     expect(controller.selection.baseOffset, 5);
-    controller.exchangeBlock(const TextExchangeMarkdownBlockTools());
+    final currentBlock6 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownParagraphBlockValue(
+      id: currentBlock6.id,
+      indent: currentBlock6.indent,
+      children: currentBlock6.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 5);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -177,7 +215,15 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock7 = controller.getCurrentBlock();
+    var lineIndex7 = 0;
+    if (currentBlock7 is MarkdownNumberListBlockValue) {
+      lineIndex7 = currentBlock7.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock7?.indent ?? 0,
+      lineIndex: lineIndex7,
+    ));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");
@@ -254,9 +300,25 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock8 = controller.getCurrentBlock();
+    var lineIndex8 = 0;
+    if (currentBlock8 is MarkdownNumberListBlockValue) {
+      lineIndex8 = currentBlock8.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock8?.indent ?? 0,
+      lineIndex: lineIndex8,
+    ));
     await input.enterText("bbb");
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock9 = controller.getCurrentBlock();
+    var lineIndex9 = 0;
+    if (currentBlock9 is MarkdownNumberListBlockValue) {
+      lineIndex9 = currentBlock9.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock9?.indent ?? 0,
+      lineIndex: lineIndex9,
+    ));
     await input.enterText("ccc");
     expect(controller.selection.baseOffset, 11);
     expect(controller.plainText, "aaa\nbbb\nccc");
@@ -343,9 +405,25 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock10 = controller.getCurrentBlock();
+    var lineIndex10 = 0;
+    if (currentBlock10 is MarkdownNumberListBlockValue) {
+      lineIndex10 = currentBlock10.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock10?.indent ?? 0,
+      lineIndex: lineIndex10,
+    ));
     await input.enterText("bbb");
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock11 = controller.getCurrentBlock();
+    var lineIndex11 = 0;
+    if (currentBlock11 is MarkdownNumberListBlockValue) {
+      lineIndex11 = currentBlock11.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock11?.indent ?? 0,
+      lineIndex: lineIndex11,
+    ));
     await input.enterText("ccc");
     expect(controller.selection.baseOffset, 11);
     expect(controller.plainText, "aaa\nbbb\nccc");
@@ -384,7 +462,15 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock12 = controller.getCurrentBlock();
+    var lineIndex12 = 0;
+    if (currentBlock12 is MarkdownNumberListBlockValue) {
+      lineIndex12 = currentBlock12.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock12?.indent ?? 0,
+      lineIndex: lineIndex12,
+    ));
     expect(controller.selection.baseOffset, 8);
     expect(controller.rawText, "aaa\nbbb\n\nccc");
     expect(controller.plainText, "aaa\n  bbb\n  \nccc");
@@ -440,7 +526,15 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock13 = controller.getCurrentBlock();
+    var lineIndex13 = 0;
+    if (currentBlock13 is MarkdownNumberListBlockValue) {
+      lineIndex13 = currentBlock13.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock13?.indent ?? 0,
+      lineIndex: lineIndex13,
+    ));
     await input.enterText("eee");
     controller.decreaseIndent();
     expect(controller.selection.baseOffset, 15);
@@ -515,7 +609,15 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const NumberListAddMarkdownBlockTools());
+    final currentBlock14 = controller.getCurrentBlock();
+    var lineIndex14 = 0;
+    if (currentBlock14 is MarkdownNumberListBlockValue) {
+      lineIndex14 = currentBlock14.lineIndex + 1;
+    }
+    controller.insertBlock(MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock14?.indent ?? 0,
+      lineIndex: lineIndex14,
+    ));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");
@@ -558,7 +660,13 @@ void main() {
     );
     await input.cursorAt(1);
     expect(controller.selection.baseOffset, 1);
-    controller.exchangeBlock(const NumberListExchangeMarkdownBlockTools());
+    final currentBlock15 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownNumberListBlockValue(
+      id: currentBlock15.id,
+      indent: currentBlock15.indent,
+      children: currentBlock15.extractLines() ?? [],
+      lineIndex: 0,
+    ));
     expect(controller.selection.baseOffset, 1);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");

@@ -50,29 +50,30 @@ class NumberListExchangeMarkdownBlockTools
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.exchangeBlock(this);
-    ref.deleteMode();
-  }
+    // Get current block
+    final currentBlock = ref.controller.getCurrentBlock<MarkdownBlockValue>();
 
-  @override
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    return MarkdownNumberListBlockValue.createEmpty(
-      indent: source?.indent ?? 0,
-      lineIndex: 0,
-    );
-  }
-
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    if (target is MarkdownNumberListBlockValue) {
-      return null;
+    if (currentBlock == null) {
+      return;
     }
-    return MarkdownNumberListBlockValue(
-      id: target.id,
-      indent: target.indent,
-      children: target.extractLines() ?? [],
+
+    // Don't exchange if already the correct type
+    if (currentBlock is MarkdownNumberListBlockValue) {
+      return;
+    }
+
+    // Create new block preserving id, indent, and content
+    // lineIndex is reset to 0 when exchanging to number list
+    final newBlock = MarkdownNumberListBlockValue(
+      id: currentBlock.id,
+      indent: currentBlock.indent,
+      children: currentBlock.extractLines() ?? [],
       lineIndex: 0,
     );
+
+    // Exchange the block
+    ref.controller.exchangeBlock(newBlock);
+    ref.deleteMode();
   }
 
   @override

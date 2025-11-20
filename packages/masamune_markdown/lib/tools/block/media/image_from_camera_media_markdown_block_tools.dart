@@ -67,16 +67,6 @@ class ImageFromCameraMediaMarkdownBlockTools
   }
 
   @override
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    return createBlockValue();
-  }
-
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
-  }
-
-  @override
   MarkdownImageBlockValue? convertFromJson(DynamicMap json) {
     final type = json.get(MarkdownValue.typeKey, "");
     if (type != _kImageBlockType) {

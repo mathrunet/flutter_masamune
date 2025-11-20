@@ -50,13 +50,17 @@ class TextAddMarkdownBlockTools
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.insertBlock(this);
-    ref.deleteMode();
-  }
+    // Get current block to preserve indent
+    final currentBlock = ref.controller.getCurrentBlock();
 
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    return null;
+    // Create new paragraph block with preserved indent
+    final newBlock = MarkdownParagraphBlockValue.createEmpty(
+      indent: currentBlock?.indent ?? 0,
+    );
+
+    // Insert the block
+    ref.controller.insertBlock(newBlock);
+    ref.deleteMode();
   }
 
   @override

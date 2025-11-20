@@ -51,27 +51,28 @@ class BulletedListExchangeMarkdownBlockTools
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.exchangeBlock(this);
-    ref.deleteMode();
-  }
+    // Get current block
+    final currentBlock = ref.controller.getCurrentBlock<MarkdownBlockValue>();
 
-  @override
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    return MarkdownBulletedListBlockValue.createEmpty(
-      indent: source?.indent ?? 0,
-    );
-  }
-
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    if (target is MarkdownBulletedListBlockValue) {
-      return null;
+    if (currentBlock == null) {
+      return;
     }
-    return MarkdownBulletedListBlockValue(
-      id: target.id,
-      indent: target.indent,
-      children: target.extractLines() ?? [],
+
+    // Don't exchange if already the correct type
+    if (currentBlock is MarkdownBulletedListBlockValue) {
+      return;
+    }
+
+    // Create new block preserving id, indent, and content
+    final newBlock = MarkdownBulletedListBlockValue(
+      id: currentBlock.id,
+      indent: currentBlock.indent,
+      children: currentBlock.extractLines() ?? [],
     );
+
+    // Exchange the block
+    ref.controller.exchangeBlock(newBlock);
+    ref.deleteMode();
   }
 
   @override

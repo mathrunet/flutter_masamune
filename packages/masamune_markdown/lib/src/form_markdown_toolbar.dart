@@ -312,10 +312,18 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   TValue? insertBlock<TValue extends MarkdownBlockValue>(
-    MarkdownBlockTools tool, {
+    TValue block, {
     int? offset,
   }) {
-    return widget.controller.insertBlock<TValue>(tool, offset: offset);
+    return widget.controller.insertBlock<TValue>(block, offset: offset);
+  }
+
+  @override
+  TValue? exchangeBlock<TValue extends MarkdownBlockValue>(
+    TValue block, {
+    int? index,
+  }) {
+    return widget.controller.exchangeBlock<TValue>(block, index: index);
   }
 
   void _hideKeyboard() {
@@ -1079,8 +1087,16 @@ abstract class MarkdownToolRef {
   ///
   /// 指定されたオフセット位置にブロックを挿入します。
   TValue? insertBlock<TValue extends MarkdownBlockValue>(
-    MarkdownBlockTools tool, {
+    TValue block, {
     int? offset,
+  });
+
+  /// Exchanges a block at the specified index.
+  ///
+  /// 指定されたインデックスのブロックを交換します。
+  TValue? exchangeBlock<TValue extends MarkdownBlockValue>(
+    TValue block, {
+    int? index,
   });
 }
 

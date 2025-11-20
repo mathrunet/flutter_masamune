@@ -50,35 +50,24 @@ class NumberListAddMarkdownBlockTools
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.insertBlock(this);
-    ref.deleteMode();
-  }
+    // Get current block to preserve indent and calculate line index
+    final currentBlock = ref.controller.getCurrentBlock();
 
-  @override
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
     // Get line index based on previous number list blocks
     var lineIndex = 0;
-    if (source is MarkdownNumberListBlockValue) {
-      lineIndex = source.lineIndex + 1;
+    if (currentBlock is MarkdownNumberListBlockValue) {
+      lineIndex = currentBlock.lineIndex + 1;
     }
 
-    return MarkdownNumberListBlockValue.createEmpty(
-      indent: source?.indent ?? 0,
+    // Create new block with preserved indent and calculated line index
+    final newBlock = MarkdownNumberListBlockValue.createEmpty(
+      indent: currentBlock?.indent ?? 0,
       lineIndex: lineIndex,
     );
-  }
 
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    if (target is MarkdownNumberListBlockValue) {
-      return null;
-    }
-    return MarkdownNumberListBlockValue(
-      id: target.id,
-      indent: target.indent,
-      children: target.extractLines() ?? [],
-      lineIndex: 0,
-    );
+    // Insert the block
+    ref.controller.insertBlock(newBlock);
+    ref.deleteMode();
   }
 
   @override

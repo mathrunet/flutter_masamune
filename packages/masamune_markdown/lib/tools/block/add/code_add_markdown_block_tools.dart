@@ -50,27 +50,17 @@ class CodeAddMarkdownBlockTools
 
   @override
   void onTap(BuildContext context, MarkdownToolRef ref) {
-    ref.controller.insertBlock(this);
+    // Get current block to preserve indent
+    final currentBlock = ref.controller.getCurrentBlock();
+
+    // Create new block with preserved indent
+    final newBlock = MarkdownCodeBlockValue.createEmpty(
+      indent: currentBlock?.indent ?? 0,
+    );
+
+    // Insert the block
+    ref.controller.insertBlock(newBlock);
     ref.deleteMode();
-  }
-
-  @override
-  MarkdownBlockValue addBlock({MarkdownBlockValue? source}) {
-    return MarkdownCodeBlockValue.createEmpty(
-      indent: source?.indent ?? 0,
-    );
-  }
-
-  @override
-  MarkdownBlockValue? exchangeBlock(MarkdownBlockValue target) {
-    if (target is MarkdownCodeBlockValue) {
-      return null;
-    }
-    return MarkdownCodeBlockValue(
-      id: target.id,
-      indent: target.indent,
-      children: target.extractLines() ?? [],
-    );
   }
 
   @override

@@ -24,7 +24,10 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock1 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock1?.indent ?? 0,
+    ));
     expect(controller.selection.baseOffset, 4);
     expect(controller.plainText, "aaa\n");
     expect(controller.rawText, "aaa\n");
@@ -50,7 +53,10 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock2 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock2?.indent ?? 0,
+    ));
     expect(controller.selection.baseOffset, 8);
     expect(controller.plainText, "aaa\nbbb\n");
     expect(controller.rawText, "aaa\nbbb\n");
@@ -102,7 +108,12 @@ void main() {
     );
     await input.cursorAt(5);
     expect(controller.selection.baseOffset, 5);
-    controller.exchangeBlock(const ToggleListExchangeMarkdownBlockTools());
+    final currentBlock3 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownToggleListBlockValue(
+      id: currentBlock3.id,
+      indent: currentBlock3.indent,
+      children: currentBlock3.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 5);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -117,7 +128,12 @@ void main() {
     );
     await input.cursorAt(1);
     expect(controller.selection.baseOffset, 1);
-    controller.exchangeBlock(const ToggleListExchangeMarkdownBlockTools());
+    final currentBlock4 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownToggleListBlockValue(
+      id: currentBlock4.id,
+      indent: currentBlock4.indent,
+      children: currentBlock4.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 1);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -130,7 +146,12 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.exchangeBlock(const TextExchangeMarkdownBlockTools());
+    final currentBlock5 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownParagraphBlockValue(
+      id: currentBlock5.id,
+      indent: currentBlock5.indent,
+      children: currentBlock5.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 1);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -145,7 +166,12 @@ void main() {
     );
     await input.cursorAt(5);
     expect(controller.selection.baseOffset, 5);
-    controller.exchangeBlock(const TextExchangeMarkdownBlockTools());
+    final currentBlock6 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownParagraphBlockValue(
+      id: currentBlock6.id,
+      indent: currentBlock6.indent,
+      children: currentBlock6.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 5);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -165,7 +191,10 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock7 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock7?.indent ?? 0,
+    ));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");
@@ -232,9 +261,15 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock8 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock8?.indent ?? 0,
+    ));
     await input.enterText("bbb");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock9 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock9?.indent ?? 0,
+    ));
     await input.enterText("ccc");
     expect(controller.selection.baseOffset, 11);
     expect(controller.plainText, "aaa\nbbb\nccc");
@@ -315,9 +350,15 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock10 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock10?.indent ?? 0,
+    ));
     await input.enterText("bbb");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock11 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock11?.indent ?? 0,
+    ));
     await input.enterText("ccc");
     expect(controller.selection.baseOffset, 11);
     expect(controller.plainText, "aaa\nbbb\nccc");
@@ -352,7 +393,10 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock12 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock12?.indent ?? 0,
+    ));
     expect(controller.selection.baseOffset, 8);
     expect(controller.rawText, "aaa\nbbb\n\nccc");
     expect(controller.plainText, "aaa\n  bbb\n  \nccc");
@@ -402,7 +446,10 @@ void main() {
         ]).toDebug()
       ],
     );
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock13 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock13?.indent ?? 0,
+    ));
     await input.enterText("eee");
     controller.decreaseIndent();
     expect(controller.selection.baseOffset, 15);
@@ -468,7 +515,10 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock14 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock14?.indent ?? 0,
+    ));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");
@@ -508,7 +558,12 @@ void main() {
     );
     await input.cursorAt(1);
     expect(controller.selection.baseOffset, 1);
-    controller.exchangeBlock(const ToggleListExchangeMarkdownBlockTools());
+    final currentBlock15 = controller.getCurrentBlock<MarkdownBlockValue>()!;
+    controller.exchangeBlock(MarkdownToggleListBlockValue(
+      id: currentBlock15.id,
+      indent: currentBlock15.indent,
+      children: currentBlock15.extractLines() ?? [],
+    ));
     expect(controller.selection.baseOffset, 1);
     expect(controller.plainText, "aaa\nbbb");
     expect(controller.rawText, "aaa\nbbb");
@@ -599,7 +654,10 @@ void main() {
     final input = context.input;
 
     await input.enterText("aaa");
-    controller.insertBlock(const ToggleListAddMarkdownBlockTools());
+    final currentBlock16 = controller.getCurrentBlock();
+    controller.insertBlock(MarkdownToggleListBlockValue.createEmpty(
+      indent: currentBlock16?.indent ?? 0,
+    ));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");

@@ -104,6 +104,47 @@ class MarkdownController extends MasamuneControllerBase<
     }
   }
 
+  /// Get the current block at the specified offset or cursor position.
+  ///
+  /// 指定されたオフセットまたはカーソル位置にある現在のブロックを取得します。
+  TValue? getCurrentBlock<TValue extends MarkdownBlockValue>({int? offset}) {
+    if (_field == null) {
+      return null;
+    }
+
+    if (_value.isEmpty) {
+      return null;
+    }
+
+    // Determine target offset
+    final targetOffset = offset ?? selection.baseOffset;
+
+    // Get blocks (works for both single and multi-field)
+    final blocks = _isSingleField ? _value.first.children : _getAllBlocks();
+
+    if (blocks.isEmpty) {
+      return null;
+    }
+
+    // Find block at offset
+    var currentOffset = 0;
+
+    for (final block in blocks) {
+      final blockLength = _getBlockTextLength(block);
+      final blockEnd = currentOffset + blockLength;
+
+      if (targetOffset >= currentOffset && targetOffset <= blockEnd) {
+        return block is TValue ? block : null;
+      }
+
+      currentOffset = blockEnd + 1; // +1 for newline between blocks
+    }
+
+    // If offset is beyond all blocks, return last block
+    final lastBlock = blocks.last;
+    return lastBlock is TValue ? lastBlock : null;
+  }
+
   /// Default style for markdown.
   ///
   /// マークダウンのデフォルトのスタイル。
@@ -367,7 +408,7 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定されたオフセット位置にブロックを挿入します。
   TValue? insertBlock<TValue extends MarkdownBlockValue>(
-      MarkdownBlockTools tool,
+      TValue block,
       {int? offset}) {
     if (_field == null) {
       return null;
@@ -388,34 +429,32 @@ class MarkdownController extends MasamuneControllerBase<
 
     // 単一フィールドの場合：既存のロジック
     if (_isSingleField) {
-      return _insertBlockSingleField<TValue>(tool, offset);
+      return _insertBlockSingleField<TValue>(block, offset);
     }
 
     // 複数フィールドの場合：新しいロジック
-    return _insertBlockMultiField<TValue>(tool, offset);
+    return _insertBlockMultiField<TValue>(block, offset);
   }
 
   TValue? _insertBlockSingleField<TValue extends MarkdownBlockValue>(
-      MarkdownBlockTools tool, int? offset) {
+      TValue block, int? offset) {
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
     // 挿入位置を決定
     int insertionIndex;
-    MarkdownBlockValue? currentBlock;
     if (offset != null) {
       // オフセットからブロックインデックスを検索
       var currentOffset = 0;
       insertionIndex = blocks.length; // デフォルトは末尾
 
       for (var i = 0; i < blocks.length; i++) {
-        final block = blocks[i];
-        final blockLength = _getBlockTextLength(block);
+        final currentBlock = blocks[i];
+        final blockLength = _getBlockTextLength(currentBlock);
         final blockEnd = currentOffset + blockLength;
 
         if (offset >= currentOffset && offset <= blockEnd) {
           insertionIndex = i + 1; // このブロックの後に挿入
-          currentBlock = block;
           break;
         }
 
@@ -430,13 +469,12 @@ class MarkdownController extends MasamuneControllerBase<
       insertionIndex = blocks.length; // デフォルトは末尾
 
       for (var i = 0; i < blocks.length; i++) {
-        final block = blocks[i];
-        final blockLength = _getBlockTextLength(block);
+        final currentBlock = blocks[i];
+        final blockLength = _getBlockTextLength(currentBlock);
         final blockEnd = currentOffset + blockLength;
 
         if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
           insertionIndex = i + 1; // 現在のブロックの後に挿入
-          currentBlock = block;
           break;
         }
 
@@ -444,9 +482,8 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // ツールタイプに基づいて新しいブロックを作成
-    final newBlock = tool.addBlock(source: currentBlock);
-    blocks.insert(insertionIndex, newBlock);
+    // ブロックを挿入
+    blocks.insert(insertionIndex, block);
 
     // フィールドを更新
     final newField = field.copyWith(children: blocks);
@@ -467,32 +504,27 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
 
     _field?.reopenInputConnection();
-    if (newBlock is TValue) {
-      return newBlock;
-    }
-    return null;
+    return block;
   }
 
   TValue? _insertBlockMultiField<TValue extends MarkdownBlockValue>(
-      MarkdownBlockTools tool, int? offset) {
+      TValue block, int? offset) {
     final blocks = List<MarkdownBlockValue>.from(_getAllBlocks());
 
     // 挿入位置を決定
     int insertionIndex;
-    MarkdownBlockValue? currentBlock;
     if (offset != null) {
       // オフセットからブロックインデックスを検索
       var currentOffset = 0;
       insertionIndex = blocks.length; // デフォルトは末尾
 
       for (var i = 0; i < blocks.length; i++) {
-        final block = blocks[i];
-        final blockLength = _getBlockTextLength(block);
+        final currentBlock = blocks[i];
+        final blockLength = _getBlockTextLength(currentBlock);
         final blockEnd = currentOffset + blockLength;
 
         if (offset >= currentOffset && offset <= blockEnd) {
           insertionIndex = i + 1; // このブロックの後に挿入
-          currentBlock = block;
           break;
         }
 
@@ -507,13 +539,12 @@ class MarkdownController extends MasamuneControllerBase<
       insertionIndex = blocks.length; // デフォルトは末尾
 
       for (var i = 0; i < blocks.length; i++) {
-        final block = blocks[i];
-        final blockLength = _getBlockTextLength(block);
+        final currentBlock = blocks[i];
+        final blockLength = _getBlockTextLength(currentBlock);
         final blockEnd = currentOffset + blockLength;
 
         if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
           insertionIndex = i + 1; // 現在のブロックの後に挿入
-          currentBlock = block;
           break;
         }
 
@@ -521,9 +552,8 @@ class MarkdownController extends MasamuneControllerBase<
       }
     }
 
-    // ツールタイプに基づいて新しいブロックを作成
-    final newBlock = tool.addBlock(source: currentBlock);
-    blocks.insert(insertionIndex, newBlock);
+    // ブロックを挿入
+    blocks.insert(insertionIndex, block);
 
     // ブロックをフィールドに再配分
     _updateBlocksAcrossFields(blocks);
@@ -543,17 +573,14 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
 
     _field?.reopenInputConnection();
-    if (newBlock is TValue) {
-      return newBlock;
-    }
-    return null;
+    return block;
   }
 
   /// Exchanges a block at the specified index.
   ///
   /// 指定されたインデックスのブロックを交換します。
   TValue? exchangeBlock<TValue extends MarkdownBlockValue>(
-    MarkdownBlockTools tool, {
+    TValue block, {
     int? index,
   }) {
     if (_field == null) {
@@ -571,15 +598,15 @@ class MarkdownController extends MasamuneControllerBase<
 
     // 単一フィールドの場合：既存のロジック
     if (_isSingleField) {
-      return _exchangeBlockSingleField<TValue>(tool, index);
+      return _exchangeBlockSingleField<TValue>(block, index);
     }
 
     // 複数フィールドの場合：新しいロジック
-    return _exchangeBlockMultiField<TValue>(tool, index);
+    return _exchangeBlockMultiField<TValue>(block, index);
   }
 
   TValue? _exchangeBlockSingleField<TValue extends MarkdownBlockValue>(
-      MarkdownBlockTools tool, int? index) {
+      TValue block, int? index) {
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
@@ -600,8 +627,8 @@ class MarkdownController extends MasamuneControllerBase<
       targetBlockIndex = 0;
 
       for (var i = 0; i < blocks.length; i++) {
-        final block = blocks[i];
-        final blockLength = _getBlockTextLength(block);
+        final currentBlock = blocks[i];
+        final blockLength = _getBlockTextLength(currentBlock);
         final blockEnd = currentOffset + blockLength;
 
         if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
@@ -617,31 +644,19 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
-    final targetBlock = blocks[targetBlockIndex];
-
-    // ツールタイプに基づいてブロックを変換
-    final newBlock = tool.exchangeBlock(targetBlock);
-
-    if (newBlock == null) {
-      return null;
-    }
-
     // ブロックを置換
-    blocks[targetBlockIndex] = newBlock;
+    blocks[targetBlockIndex] = block;
 
     // フィールドを更新
     final newField = field.copyWith(children: blocks);
     _value[0] = newField;
 
     notifyListeners();
-    if (newBlock is TValue) {
-      return newBlock;
-    }
-    return null;
+    return block;
   }
 
   TValue? _exchangeBlockMultiField<TValue extends MarkdownBlockValue>(
-      MarkdownBlockTools tool, int? index) {
+      TValue block, int? index) {
     final blocks = List<MarkdownBlockValue>.from(_getAllBlocks());
 
     if (blocks.isEmpty) {
@@ -661,8 +676,8 @@ class MarkdownController extends MasamuneControllerBase<
       targetBlockIndex = 0;
 
       for (var i = 0; i < blocks.length; i++) {
-        final block = blocks[i];
-        final blockLength = _getBlockTextLength(block);
+        final currentBlock = blocks[i];
+        final blockLength = _getBlockTextLength(currentBlock);
         final blockEnd = currentOffset + blockLength;
 
         if (cursorPosition >= currentOffset && cursorPosition <= blockEnd) {
@@ -678,26 +693,14 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
-    final targetBlock = blocks[targetBlockIndex];
-
-    // ツールタイプに基づいてブロックを変換
-    final newBlock = tool.exchangeBlock(targetBlock);
-
-    if (newBlock == null) {
-      return null;
-    }
-
     // ブロックを置換
-    blocks[targetBlockIndex] = newBlock;
+    blocks[targetBlockIndex] = block;
 
     // ブロックをフィールドに再配分
     _updateBlocksAcrossFields(blocks);
 
     notifyListeners();
-    if (newBlock is TValue) {
-      return newBlock;
-    }
-    return null;
+    return block;
   }
 
   /// Replace the Markdown block from [from] to [to].
