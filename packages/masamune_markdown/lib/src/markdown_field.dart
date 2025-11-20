@@ -2198,9 +2198,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
       // パディング付きのブロック全体の高さを計算（子ブロックを含む）
       final blockContentHeight = layout.painter.height + childrenHeight;
-      final blockHeight = blockContentHeight +
-          layout.padding.vertical +
-          layout.margin.bottom;
+      final blockHeight =
+          blockContentHeight + layout.padding.vertical + layout.margin.bottom;
       layout.height = blockHeight;
 
       // totalHeightをこのブロックの終わりに移動
@@ -2253,9 +2252,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
       // パディング付きのブロック全体の高さを計算（孫ブロックを含む）
       final childContentHeight = child.painter.height + grandchildrenHeight;
-      final childHeight = childContentHeight +
-          child.padding.vertical +
-          child.margin.bottom;
+      final childHeight =
+          childContentHeight + child.padding.vertical + child.margin.bottom;
       child.height = childHeight;
 
       // totalHeightをこの子ブロックの終わりに移動
@@ -2600,9 +2598,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       final child = children[i];
 
       // 子ブロックのオフセットを計算
-      final childBlockOffset = offset +
-          child.offset +
-          Offset(child.padding.left, 0);
+      final childBlockOffset =
+          offset + child.offset + Offset(child.padding.left, 0);
 
       // 子ブロック背景を描画
       final childBlockStyle = child.block.style(this, controller);
@@ -2731,7 +2728,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           offset.dx + child.padding.left,
           offset.dy + child.offset.dy + child.painter.height,
         );
-        _paintChildren(context, grandchildrenOffset, child.children!, rootOffset);
+        _paintChildren(
+            context, grandchildrenOffset, child.children!, rootOffset);
       }
     }
   }
@@ -3757,12 +3755,18 @@ class BlockStyle {
     this.textStyle,
     this.padding = EdgeInsets.zero,
     this.margin = EdgeInsets.zero,
+    this.highlightColor,
   });
 
   /// Background color of the block.
   ///
   /// ブロックの背景色。
   final Color? backgroundColor;
+
+  /// Highlight color of the block.
+  ///
+  /// ブロックのハイライト色。
+  final Color? highlightColor;
 
   /// Border of the block.
   ///
