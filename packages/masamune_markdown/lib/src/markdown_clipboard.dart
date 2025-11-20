@@ -620,7 +620,10 @@ class MarkdownClipboard {
 
     var currentOffset = 0;
 
-    for (final field in _controller._value) {
+    for (var fieldIndex = 0;
+        fieldIndex < _controller._value.length;
+        fieldIndex++) {
+      final field = _controller._value[fieldIndex];
       final blocks = List<MarkdownBlockValue>.from(field.children);
 
       for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
@@ -635,7 +638,7 @@ class MarkdownClipboard {
             // インデントを適用
             blocks[blockIndex] = block.copyWith(indent: indent);
             final newField = field.copyWith(children: blocks);
-            _controller._value[0] = newField;
+            _controller._value[fieldIndex] = newField;
             _controller._notifyListeners();
             return;
           }
