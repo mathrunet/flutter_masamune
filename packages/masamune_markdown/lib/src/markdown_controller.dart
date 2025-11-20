@@ -1003,9 +1003,11 @@ class MarkdownController extends MasamuneControllerBase<
   /// Inserts a block at the specified offset.
   ///
   /// 指定されたオフセット位置にブロックを挿入します。
-  void insertBlock(MarkdownBlockTools tool, {int? offset}) {
+  TValue? insertBlock<TValue extends MarkdownBlockValue>(
+      MarkdownBlockTools tool,
+      {int? offset}) {
     if (_field == null) {
-      return;
+      return null;
     }
 
     // 変更前に現在の状態を保存
@@ -1091,14 +1093,21 @@ class MarkdownController extends MasamuneControllerBase<
     notifyListeners();
 
     _field?.reopenInputConnection();
+    if (newBlock is TValue) {
+      return newBlock;
+    }
+    return null;
   }
 
   /// Exchanges a block at the specified index.
   ///
   /// 指定されたインデックスのブロックを交換します。
-  void exchangeBlock(MarkdownBlockTools tool, {int? index}) {
+  TValue? exchangeBlock<TValue extends MarkdownBlockValue>(
+    MarkdownBlockTools tool, {
+    int? index,
+  }) {
     if (_field == null) {
-      return;
+      return null;
     }
 
     // 変更前に現在の状態を保存
@@ -1107,14 +1116,14 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (_value.isEmpty) {
-      return;
+      return null;
     }
 
     final field = _value.first;
     final blocks = List<MarkdownBlockValue>.from(field.children);
 
     if (blocks.isEmpty) {
-      return;
+      return null;
     }
 
     // カーソル位置からブロックインデックスを検索、または提供されたインデックスを使用
@@ -1144,7 +1153,7 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     if (targetBlockIndex >= blocks.length) {
-      return;
+      return null;
     }
 
     final targetBlock = blocks[targetBlockIndex];
@@ -1153,7 +1162,7 @@ class MarkdownController extends MasamuneControllerBase<
     final newBlock = tool.exchangeBlock(targetBlock);
 
     if (newBlock == null) {
-      return;
+      return null;
     }
 
     // ブロックを置換
@@ -1164,14 +1173,57 @@ class MarkdownController extends MasamuneControllerBase<
     _value[0] = newField;
 
     notifyListeners();
+    if (newBlock is TValue) {
+      return newBlock;
+    }
+    return null;
+  }
+
+  /// Replace the Markdown block from [from] to [to].
+  ///
+  /// マークダウンのブロックを[from]から[to]に置き換えます。
+  TValue? replaceBlock<TValue extends MarkdownBlockValue>(
+    MarkdownBlockValue from,
+    MarkdownBlockValue to,
+  ) {
+    if (_field == null) {
+      return null;
+    }
+
+    if (_value.isEmpty) {
+      return null;
+    }
+
+    final field = _value.first;
+    final blocks = List<MarkdownBlockValue>.from(field.children);
+
+    if (blocks.isEmpty) {
+      return null;
+    }
+
+    for (var i = 0; i < blocks.length; i++) {
+      if (blocks[i] == from) {
+        blocks[i] = to;
+        break;
+      }
+    }
+
+    final newField = field.copyWith(children: blocks);
+    _value[0] = newField;
+
+    notifyListeners();
+    if (to is TValue) {
+      return to;
+    }
+    return null;
   }
 
   /// Inserts an image block at the current cursor position.
   ///
   /// 現在のカーソル位置に画像ブロックを挿入します。
-  void insertImage(Uri uri) {
+  MarkdownImageBlockValue? insertImage(Uri uri) {
     if (_field == null) {
-      return;
+      return null;
     }
 
     // 変更前に現在の状態を保存
@@ -1233,6 +1285,7 @@ class MarkdownController extends MasamuneControllerBase<
     }
 
     notifyListeners();
+    return newBlock;
   }
 
   /// Updates the title of the link.

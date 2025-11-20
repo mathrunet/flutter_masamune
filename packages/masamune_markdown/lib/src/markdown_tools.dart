@@ -226,6 +226,33 @@ abstract class MarkdownPropertyPrimaryTools<TProperty extends MarkdownProperty>
   });
 }
 
+/// Base class for markdown block primary tools.
+///
+/// マークダウンブロックプライマリツールの基底クラス。
+abstract class MarkdownBlockPrimaryTools extends MarkdownPrimaryTools
+    implements MarkdownBlockTools {
+  /// Base class for markdown block primary tools.
+  ///
+  /// マークダウンブロックプライマリツールの基底クラス。
+  const MarkdownBlockPrimaryTools({
+    required super.config,
+  });
+}
+
+/// Base class for markdown block variable primary tools.
+///
+/// マークダウンブロック変数プライマリツールの基底クラス。
+abstract class MarkdownBlockVariablePrimaryTools<
+        TValue extends MarkdownBlockValue> extends MarkdownBlockPrimaryTools
+    implements MarkdownBlockVariableTools<TValue> {
+  /// Base class for markdown block variable primary tools.
+  ///
+  /// マークダウンブロック変数プライマリツールの基底クラス。
+  const MarkdownBlockVariablePrimaryTools({
+    required super.config,
+  });
+}
+
 /// Base class for markdown sub tools.
 ///
 /// マークダウンサブツールの基底クラス。
@@ -235,6 +262,33 @@ abstract class MarkdownSecondaryTools extends MarkdownTools {
   ///
   /// マークダウンサブツールの基底クラス。
   const MarkdownSecondaryTools({
+    required super.config,
+  });
+}
+
+/// Base class for markdown block secondary tools.
+///
+/// マークダウンブロックサブツールの基底クラス。
+abstract class MarkdownBlockSecondaryTools extends MarkdownSecondaryTools
+    implements MarkdownBlockTools {
+  /// Base class for markdown block secondary tools.
+  ///
+  /// マークダウンブロックサブツールの基底クラス。
+  const MarkdownBlockSecondaryTools({
+    required super.config,
+  });
+}
+
+/// Base class for markdown block variable secondary tools.
+///
+/// マークダウンブロック変数サブツールの基底クラス。
+abstract class MarkdownBlockVariableSecondaryTools<
+        TValue extends MarkdownBlockValue> extends MarkdownBlockSecondaryTools
+    implements MarkdownBlockVariableTools<TValue> {
+  /// Base class for markdown block variable secondary tools.
+  ///
+  /// マークダウンブロック変数サブツールの基底クラス。
+  const MarkdownBlockVariableSecondaryTools({
     required super.config,
   });
 }

@@ -301,13 +301,21 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
   }
 
   @override
-  void insertImage(Uri uri) {
-    widget.controller.insertImage(uri);
+  MarkdownImageBlockValue? insertImage(Uri uri) {
+    return widget.controller.insertImage(uri);
   }
 
   @override
   void insertVideo(Uri uri) {
     // TODO: insert video
+  }
+
+  @override
+  TValue? insertBlock<TValue extends MarkdownBlockValue>(
+    MarkdownBlockTools tool, {
+    int? offset,
+  }) {
+    return widget.controller.insertBlock<TValue>(tool, offset: offset);
   }
 
   void _hideKeyboard() {
@@ -1060,12 +1068,20 @@ abstract class MarkdownToolRef {
   /// Insert image.
   ///
   /// 画像を挿入します。
-  void insertImage(Uri uri);
+  MarkdownImageBlockValue? insertImage(Uri uri);
 
   /// Insert video.
   ///
   /// ビデオを挿入します。
   void insertVideo(Uri uri);
+
+  /// Inserts a block at the specified offset.
+  ///
+  /// 指定されたオフセット位置にブロックを挿入します。
+  TValue? insertBlock<TValue extends MarkdownBlockValue>(
+    MarkdownBlockTools tool, {
+    int? offset,
+  });
 }
 
 class _LinkSetting {
