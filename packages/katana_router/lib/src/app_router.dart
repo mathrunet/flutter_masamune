@@ -407,11 +407,11 @@ class AppRouter extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
-  void _removeWith(Page page) {
-    _pageStack.removeWhere((e) {
-      return e.route == page;
-    });
-  }
+  // void _removeWith(Page page) {
+  //   _pageStack.removeWhere((e) {
+  //     return e.route == page;
+  //   });
+  // }
 
   /// Keep [pop] until the [predicate] condition is `true`.
   ///

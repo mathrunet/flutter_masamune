@@ -27,14 +27,16 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
         pages: router._pageStack.map((e) => e.route).toList(),
         observers: observers,
         restorationScopeId: restorationScopeId,
-        // onPopPage: (route, result) {
-        //   if (!route.didPop(result)) {
-        //     return false;
-        //   }
-        //   pop();
-        //   return true;
-        // },
-        onDidRemovePage: router._removeWith,
+        onPopPage: (route, result) {
+          if (!route.didPop(result)) {
+            return false;
+          }
+          pop();
+          return true;
+        },
+        // onDidRemovePage: (e) {
+        //   router._removeWith(e);
+        // }
       ),
     );
   }
