@@ -27,6 +27,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
         pages: router._pageStack.map((e) => e.route).toList(),
         observers: observers,
         restorationScopeId: restorationScopeId,
+        // TODO: onDidRemovePageだとうまくページが削除されなくなった。PopScopeなどのウィジェットうまくつかってPageStackを削除するひつようあり
         onPopPage: (route, result) {
           if (!route.didPop(result)) {
             return false;
