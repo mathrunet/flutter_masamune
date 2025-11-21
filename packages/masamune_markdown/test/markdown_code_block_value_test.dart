@@ -24,7 +24,8 @@ void main() {
       ],
     );
     final currentBlock1 = controller.getCurrentBlock();
-    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(indent: currentBlock1?.indent ?? 0));
+    controller.insertBlock(
+        MarkdownCodeBlockValue.createEmpty(indent: currentBlock1?.indent ?? 0));
     expect(controller.selection.baseOffset, 4);
     expect(controller.plainText, "aaa\n");
     expect(controller.rawText, "aaa\n");
@@ -51,7 +52,8 @@ void main() {
       ],
     );
     final currentBlock2 = controller.getCurrentBlock();
-    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(indent: currentBlock2?.indent ?? 0));
+    controller.insertBlock(
+        MarkdownCodeBlockValue.createEmpty(indent: currentBlock2?.indent ?? 0));
     expect(controller.selection.baseOffset, 8);
     expect(controller.plainText, "aaa\nbbb\n");
     expect(controller.rawText, "aaa\nbbb\n");
@@ -186,7 +188,8 @@ void main() {
 
     await input.enterText("aaa");
     final currentBlock7 = controller.getCurrentBlock();
-    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(indent: currentBlock7?.indent ?? 0));
+    controller.insertBlock(
+        MarkdownCodeBlockValue.createEmpty(indent: currentBlock7?.indent ?? 0));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");
@@ -275,10 +278,12 @@ void main() {
 
     await input.enterText("aaa");
     final currentBlock8 = controller.getCurrentBlock();
-    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(indent: currentBlock8?.indent ?? 0));
+    controller.insertBlock(
+        MarkdownCodeBlockValue.createEmpty(indent: currentBlock8?.indent ?? 0));
     await input.enterText("bbb");
     final currentBlock9 = controller.getCurrentBlock();
-    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(indent: currentBlock9?.indent ?? 0));
+    controller.insertBlock(
+        MarkdownCodeBlockValue.createEmpty(indent: currentBlock9?.indent ?? 0));
     await input.enterText("ccc");
     expect(controller.selection.baseOffset, 11);
     expect(controller.plainText, "aaa\nbbb\nccc");
@@ -360,7 +365,8 @@ void main() {
 
     await input.enterText("aaa");
     final currentBlock10 = controller.getCurrentBlock();
-    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(indent: currentBlock10?.indent ?? 0));
+    controller.insertBlock(MarkdownCodeBlockValue.createEmpty(
+        indent: currentBlock10?.indent ?? 0));
     await input.enterText("bbb");
     expect(controller.selection.baseOffset, 7);
     expect(controller.plainText, "aaa\nbbb");

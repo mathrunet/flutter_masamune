@@ -1,3 +1,9 @@
+## 3.5.0
+
+ - **FEAT**: enhance markdown block tools with new additions and update package dependencies. ([8d4f779f](https://github.com/mathrunet/flutter_masamune/commit/8d4f779ff0f9a598a6e1f17ff3d234de6dc1555d))
+ - **FEAT**: Update dependency lock files for multiple packages. ([dbd462f5](https://github.com/mathrunet/flutter_masamune/commit/dbd462f54d4dfb66ec6ea76fe50a8b2706e194c1))
+ - **FEAT**: update package dependencies, remove Claude agent definitions, and refine GitHub Copilot models and Markdown block tools. ([a0ac5871](https://github.com/mathrunet/flutter_masamune/commit/a0ac58719f79251e0f8ea877af893f4ee2375b57))
+
 ## 3.4.4
 
  - **FIX**: Fix initial cursor. ([734de9d3](https://github.com/mathrunet/flutter_masamune/commit/734de9d316e275272a97b2fee7ddfe9fe173ed35))

@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Update package dependencies across various packages and modify `SpeechToTextController` implementation. ([13a0c3ed](https://github.com/mathrunet/flutter_masamune/commit/13a0c3ed76935132534c4c642266fd9959342589))
+
 ## 3.2.2
 
  - Update a dependency to the latest release.

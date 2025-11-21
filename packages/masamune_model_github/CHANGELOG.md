@@ -1,3 +1,7 @@
+## 3.6.1
+
+ - Update a dependency to the latest release.
+
 ## 3.6.0
 
  - **FIX**: Add a mechanism to store OrganizationId. ([6fa41041](https://github.com/mathrunet/flutter_masamune/commit/6fa410417f04221bf99815833218f90f38dea8c2))

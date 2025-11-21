@@ -1,3 +1,7 @@
+## 3.3.6
+
+ - Update a dependency to the latest release.
+
 ## 3.3.5
 
  - **FIX**: Fix bug where it is not saved in onSaved. ([f50628dd](https://github.com/mathrunet/flutter_masamune/commit/f50628dd2787e40ddd978c71b46d4db150f6bade))

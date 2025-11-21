@@ -1,6 +1,6 @@
 name: masamune_model_functions
 description: A package for generating models for interacting with external databases and Firestore using Functions.
-version: 3.4.3
+version: 3.4.4
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_functions
 
@@ -14,7 +14,7 @@ dependencies:
 
   meta:
   katana: ^3.4.0
-  masamune: ^3.5.3
+  masamune: ^3.5.4
   katana_functions: ^3.1.1
 dev_dependencies:
   test: ^1.25.0

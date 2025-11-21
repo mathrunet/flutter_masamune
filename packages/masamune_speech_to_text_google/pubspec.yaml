@@ -1,6 +1,6 @@
 name: masamune_speech_to_text_google
 description: Masamune plug-in adapter for use with Speech-to-Text on Google. Provides a controller.
-version: 3.2.4
+version: 3.2.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_speech_to_text_google
 
@@ -13,12 +13,12 @@ dependencies:
     sdk: flutter
     
   katana: ^3.4.0
-  masamune: ^3.5.3
+  masamune: ^3.5.4
   google_speech: ^5.3.0
-  masamune_speech_to_text: ^3.2.3
+  masamune_speech_to_text: ^3.2.4
   flutter_sound: ^9.28.0
   permission_handler: ^12.0.0
-  masamune_google_cloud: ^3.2.4
+  masamune_google_cloud: ^3.2.5
 
 dev_dependencies:
   test: ^1.25.0

@@ -407,8 +407,7 @@ class MarkdownController extends MasamuneControllerBase<
   /// Inserts a block at the specified offset.
   ///
   /// 指定されたオフセット位置にブロックを挿入します。
-  TValue? insertBlock<TValue extends MarkdownBlockValue>(
-      TValue block,
+  TValue? insertBlock<TValue extends MarkdownBlockValue>(TValue block,
       {int? offset}) {
     if (_field == null) {
       return null;
