@@ -27,6 +27,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
         pages: router._pageStack.map((e) => e.route).toList(),
         observers: observers,
         restorationScopeId: restorationScopeId,
+        // TODO: 必要なければなにもしなくてもよい
         onDidRemovePage: router._removeWith,
       ),
     );
