@@ -1,6 +1,6 @@
 name: masamune_model_github
 description: Masamune plugin package that includes a model adapter to retrieve data from Github.
-version: 3.6.1
+version: 3.6.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_github
 
@@ -15,7 +15,7 @@ dependencies:
   meta:
 
   katana: ^3.4.0
-  masamune: ^3.5.4
+  masamune: ^3.5.5
   archive: ^4.0.0
   github: ^9.25.0
   freezed_annotation: ^3.0.0

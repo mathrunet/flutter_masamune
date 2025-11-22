@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**: Fixed a bug where the router's pop was not working. ([b78ed480](https://github.com/mathrunet/flutter_masamune/commit/b78ed480b776684e975ae22fd5afc858598bb6a8))
+
 ## 3.3.0
 
  - **FEAT**: Update package dependencies across various packages and modify `SpeechToTextController` implementation. ([13a0c3ed](https://github.com/mathrunet/flutter_masamune/commit/13a0c3ed76935132534c4c642266fd9959342589))

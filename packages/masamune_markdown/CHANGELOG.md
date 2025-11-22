@@ -1,3 +1,7 @@
+## 3.5.1
+
+ - Update a dependency to the latest release.
+
 ## 3.5.0
 
  - **FEAT**: enhance markdown block tools with new additions and update package dependencies. ([8d4f779f](https://github.com/mathrunet/flutter_masamune/commit/8d4f779ff0f9a598a6e1f17ff3d234de6dc1555d))
