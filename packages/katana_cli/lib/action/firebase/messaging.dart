@@ -437,8 +437,14 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
-      if (!functions.functions.any((e) => e.startsWith("sendNotification"))) {
-        functions.functions.add("sendNotification()");
+      if (!functions.imports
+          .any((e) => e.contains("@mathrunet/masamune_notification"))) {
+        functions.imports.add(
+            "import * as notification from \"@mathrunet/masamune_notification\";");
+      }
+      if (!functions.functions.any(
+          (e) => e.startsWith("notification.Functions.sendNotification"))) {
+        functions.functions.add("notification.Functions.sendNotification()");
       }
       await functions.save();
       context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);

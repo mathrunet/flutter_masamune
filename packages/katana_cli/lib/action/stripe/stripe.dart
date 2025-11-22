@@ -440,28 +440,49 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("stripe"))) {
-      functions.functions.add("stripe()");
+    if (!functions.imports
+        .any((e) => e.contains("@mathrunet/masamune_purchase_stripe"))) {
+      functions.imports.add(
+          "import * as stripe from \"@mathrunet/masamune_purchase_stripe\";");
     }
-    if (!functions.functions.any((e) => e.startsWith("stripeWebhook"))) {
-      functions.functions.add("stripeWebhook()");
+    if (!functions.functions
+        .any((e) => e.startsWith("stripe.Functions.stripe"))) {
+      functions.functions.add("stripe.Functions.stripe()");
     }
-    if (!functions.functions.any((e) => e.startsWith("stripeWebhookSecure"))) {
-      functions.functions.add("stripeWebhookSecure()");
+    if (!functions.functions
+        .any((e) => e.startsWith("stripe.Functions.stripeWebhook"))) {
+      functions.functions.add("stripe.Functions.stripeWebhook()");
+    }
+    if (!functions.functions
+        .any((e) => e.startsWith("stripe.Functions.stripeWebhookSecure"))) {
+      functions.functions.add("stripe.Functions.stripeWebhookSecure()");
     }
     if (enableConnect &&
-        !functions.functions.any((e) => e.startsWith("stripeWebhookConnect"))) {
-      functions.functions.add("stripeWebhookConnect()");
+        !functions.functions.any(
+            (e) => e.startsWith("stripe.Functions.stripeWebhookConnect"))) {
+      functions.functions.add("stripe.Functions.stripeWebhookConnect()");
     }
     switch (emailProvider) {
       case "gmail":
-        if (!functions.functions.any((e) => e.startsWith("gmail"))) {
-          functions.functions.add("gmail()");
+        if (!functions.imports
+            .any((e) => e.contains("@mathrunet/masamune_mail_gmail"))) {
+          functions.imports.add(
+              "import * as gmail from \"@mathrunet/masamune_mail_gmail\";");
+        }
+        if (!functions.functions
+            .any((e) => e.startsWith("gmail.Functions.gmail"))) {
+          functions.functions.add("gmail.Functions.gmail()");
         }
         break;
       case "sendgrid":
-        if (!functions.functions.any((e) => e.startsWith("sendGrid"))) {
-          functions.functions.add("sendGrid()");
+        if (!functions.imports
+            .any((e) => e.contains("@mathrunet/masamune_mail_sendgrid"))) {
+          functions.imports.add(
+              "import * as sendgrid from \"@mathrunet/masamune_mail_sendgrid\";");
+        }
+        if (!functions.functions
+            .any((e) => e.startsWith("sendgrid.Functions.sendGrid"))) {
+          functions.functions.add("sendgrid.Functions.sendGrid()");
         }
         break;
     }

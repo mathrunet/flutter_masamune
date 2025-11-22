@@ -261,41 +261,50 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
+      if (!functions.imports
+          .any((e) => e.contains("@mathrunet/masamune_purchase"))) {
+        functions.imports
+            .add("import * as purchase from \"@mathrunet/masamune_purchase\";");
+      }
       if (enableAppStore) {
-        if (!functions.functions
-            .any((e) => e.startsWith("consumableVerifyIOS"))) {
-          functions.functions.add("consumableVerifyIOS()");
+        if (!functions.functions.any(
+            (e) => e.startsWith("purchase.Functions.consumableVerifyIOS"))) {
+          functions.functions.add("purchase.Functions.consumableVerifyIOS()");
         }
-        if (!functions.functions
-            .any((e) => e.startsWith("nonconsumableVerifyIOS"))) {
-          functions.functions.add("nonconsumableVerifyIOS()");
+        if (!functions.functions.any(
+            (e) => e.startsWith("purchase.Functions.nonconsumableVerifyIOS"))) {
+          functions.functions
+              .add("purchase.Functions.nonconsumableVerifyIOS()");
         }
-        if (!functions.functions
-            .any((e) => e.startsWith("subscriptionVerifyIOS"))) {
-          functions.functions.add("subscriptionVerifyIOS()");
+        if (!functions.functions.any(
+            (e) => e.startsWith("purchase.Functions.subscriptionVerifyIOS"))) {
+          functions.functions.add("purchase.Functions.subscriptionVerifyIOS()");
         }
-        if (!functions.functions
-            .any((e) => e.startsWith("purchaseWebhookIOS"))) {
-          functions.functions.add("purchaseWebhookIOS()");
+        if (!functions.functions.any(
+            (e) => e.startsWith("purchase.Functions.purchaseWebhookIOS"))) {
+          functions.functions.add("purchase.Functions.purchaseWebhookIOS()");
         }
       }
       if (enableGooglePlay) {
-        if (!functions.functions
-            .any((e) => e.startsWith("consumableVerifyAndroid"))) {
-          functions.functions.add("consumableVerifyAndroid()");
+        if (!functions.functions.any((e) =>
+            e.startsWith("purchase.Functions.consumableVerifyAndroid"))) {
+          functions.functions
+              .add("purchase.Functions.consumableVerifyAndroid()");
         }
-        if (!functions.functions
-            .any((e) => e.startsWith("nonconsumableVerifyAndroid"))) {
-          functions.functions.add("nonconsumableVerifyAndroid()");
+        if (!functions.functions.any((e) =>
+            e.startsWith("purchase.Functions.nonconsumableVerifyAndroid"))) {
+          functions.functions
+              .add("purchase.Functions.nonconsumableVerifyAndroid()");
         }
-        if (!functions.functions
-            .any((e) => e.startsWith("subscriptionVerifyAndroid"))) {
-          functions.functions.add("subscriptionVerifyAndroid()");
+        if (!functions.functions.any((e) =>
+            e.startsWith("purchase.Functions.subscriptionVerifyAndroid"))) {
+          functions.functions
+              .add("purchase.Functions.subscriptionVerifyAndroid()");
         }
-        if (!functions.functions
-            .any((e) => e.startsWith("purchaseWebhookAndroid"))) {
+        if (!functions.functions.any(
+            (e) => e.startsWith("purchase.Functions.purchaseWebhookAndroid"))) {
           functions.functions.add(
-              "purchaseWebhookAndroid({topic: \"$googlePlayPubsubTopic\"})");
+              "purchase.Functions.purchaseWebhookAndroid({topic: \"$googlePlayPubsubTopic\"})");
         }
       }
       await functions.save();

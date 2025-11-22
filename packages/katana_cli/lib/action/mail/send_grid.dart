@@ -69,8 +69,14 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("sendGrid"))) {
-      functions.functions.add("sendGrid()");
+    if (!functions.imports
+        .any((e) => e.contains("@mathrunet/masamune_mail_sendgrid"))) {
+      functions.imports.add(
+          "import * as sendgrid from \"@mathrunet/masamune_mail_sendgrid\";");
+    }
+    if (!functions.functions
+        .any((e) => e.startsWith("sendgrid.Functions.sendGrid"))) {
+      functions.functions.add("sendgrid.Functions.sendGrid()");
     }
     await functions.save();
     label("Set firebase functions config.");

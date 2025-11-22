@@ -152,12 +152,19 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("agoraToken"))) {
-      functions.functions.add("agoraToken()");
+    if (!functions.imports
+        .any((e) => e.contains("@mathrunet/masamune_agora"))) {
+      functions.imports
+          .add("import * as agora from \"@mathrunet/masamune_agora\";");
+    }
+    if (!functions.functions
+        .any((e) => e.startsWith("agora.Functions.agoraToken"))) {
+      functions.functions.add("agora.Functions.agoraToken()");
     }
     if (enableCloudRecording &&
-        !functions.functions.any((e) => e.startsWith("agoraCloudRecording"))) {
-      functions.functions.add("agoraCloudRecording()");
+        !functions.functions
+            .any((e) => e.startsWith("agora.Functions.agoraCloudRecording"))) {
+      functions.functions.add("agora.Functions.agoraCloudRecording()");
     }
     await functions.save();
     label("Set firebase functions config.");

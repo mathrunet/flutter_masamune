@@ -13,8 +13,12 @@ class Fuctions {
   /// Firebase FunctionsのFunctionを指定するためのクラス。
   Fuctions();
 
-  static final _regExp = RegExp(
+  static final _functionRegExp = RegExp(
     r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",
+  );
+
+  static final _importRegexp = RegExp(
+    "import\\s+([\\s\\S]*?)\\s+from\\s+\"(@mathrunet/[\\s\\S]*?)\"\\s*;",
   );
 
   /// Original text data.
@@ -35,13 +39,24 @@ class Fuctions {
   List<String> get regions => _regions;
   late List<String> _regions;
 
+  /// List of imports.
+  ///
+  /// importの一覧。
+  List<String> get imports => _imports;
+  late List<String> _imports;
+
   /// Data loading.
   ///
   /// データの読み込み。
   Future<void> load() async {
     final index = File("firebase/functions/src/index.ts");
     _rawData = await index.readAsString();
-    final region = _regExp.firstMatch(_rawData);
+    final imports = _importRegexp.allMatches(_rawData);
+    _imports = imports
+        .map((e) => e.group(0)?.trim() ?? "")
+        .where((e) => e.isNotEmpty)
+        .toList();
+    final region = _functionRegExp.firstMatch(_rawData);
     if (region == null) {
       _regions = [];
       _functions = [];
@@ -70,17 +85,21 @@ class Fuctions {
     if (_rawData.isEmpty) {
       throw Exception("No value. Please load data with [load].");
     }
-    _rawData = _rawData.replaceAll(_regExp, """
+    final imports = [
+      ...this.imports,
+      "import * as m from \"@mathrunet/masamune\";",
+    ].distinct();
+    _rawData = _rawData.replaceAll(_importRegexp, "");
+    for (final import in imports) {
+      _rawData = "$import\n$_rawData";
+    }
+    _rawData = _rawData.replaceAll(_functionRegExp, """
 m.deploy(
   exports,
   [${regions.map((e) => '"$e"').join(", ")}],
   [
 ${functions.map((e) {
-      if (e.startsWith("new ") || e.startsWith("//")) {
-        return "    $e,";
-      } else {
-        return "    m.Functions.$e,";
-      }
+      return "    $e,";
     }).join("\n")}
   ],
 );""");

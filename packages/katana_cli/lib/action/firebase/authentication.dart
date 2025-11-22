@@ -880,8 +880,14 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
-      if (!functions.functions.any((e) => e.startsWith("deleteUser"))) {
-        functions.functions.add("deleteUser()");
+      if (!functions.imports
+          .any((e) => e.contains("@mathrunet/masamune_auth"))) {
+        functions.imports
+            .add("import * as auth from \"@mathrunet/masamune_auth\";");
+      }
+      if (!functions.functions
+          .any((e) => e.startsWith("auth.Functions.deleteUser"))) {
+        functions.functions.add("auth.Functions.deleteUser()");
       }
       await functions.save();
     }

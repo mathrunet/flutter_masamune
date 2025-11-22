@@ -74,8 +74,14 @@ class FirebaseAlogliaCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("algolia"))) {
-      functions.functions.add("algolia({path: \"$path\"})");
+    if (!functions.imports
+        .any((e) => e.contains("@mathrunet/masamune_algolia"))) {
+      functions.imports
+          .add("import * as algolia from \"@mathrunet/masamune_algolia\";");
+    }
+    if (!functions.functions
+        .any((e) => e.startsWith("algolia.Functions.algolia"))) {
+      functions.functions.add("algolia.Functions.algolia({path: \"$path\"})");
     }
     await functions.save();
     label("Set firebase functions config.");

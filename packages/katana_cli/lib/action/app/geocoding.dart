@@ -70,8 +70,14 @@ class AppGeocodingCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("geocoding"))) {
-      functions.functions.add("geocoding()");
+    if (!functions.imports
+        .any((e) => e.contains("@mathrunet/masamune_location_geocoding"))) {
+      functions.imports.add(
+          "import * as geocoding from \"@mathrunet/masamune_location_geocoding\";");
+    }
+    if (!functions.functions
+        .any((e) => e.startsWith("geocoding.Functions.geocoding"))) {
+      functions.functions.add("geocoding.Functions.geocoding()");
     }
     await functions.save();
     label("Set firebase functions config.");

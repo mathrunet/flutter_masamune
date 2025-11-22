@@ -134,9 +134,16 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
+    if (!functions.imports
+        .any((e) => e.contains("@mathrunet/masamune_scheduler"))) {
+      functions.imports
+          .add("import * as scheduler from \"@mathrunet/masamune_scheduler\";");
+    }
     if (time.isNotEmpty &&
-        !functions.functions.any((e) => e.startsWith("scheduler"))) {
-      functions.functions.add("scheduler({schedule: \"$time\"})");
+        !functions.functions
+            .any((e) => e.startsWith("scheduler.Functions.scheduler"))) {
+      functions.functions
+          .add("scheduler.Functions.scheduler({schedule: \"$time\"})");
     }
     await functions.save();
     context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
