@@ -407,11 +407,11 @@ class AppRouter extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
-  // void _removeWith(Page page) {
-  //   _pageStack.removeWhere((e) {
-  //     return e.route == page;
-  //   });
-  // }
+  void _removeWith(Page page) {
+    _pageStack.removeWhere((e) {
+      return e.route == page;
+    });
+  }
 
   /// Keep [pop] until the [predicate] condition is `true`.
   ///
@@ -681,6 +681,14 @@ class AppRouteScope extends InheritedWidget {
   ///
   /// [AppRouter]の値。
   final AppRouter router;
+
+  /// Returns the [AppRouteScope] of the current context.
+  ///
+  /// 現在のコンテキストの[AppRouteScope]を返します。
+  static AppRouteScope? maybeOf(BuildContext context) {
+    final widget = context.dependOnInheritedWidgetOfExactType<AppRouteScope>();
+    return widget;
+  }
 
   @override
   bool updateShouldNotify(covariant AppRouteScope oldWidget) {
