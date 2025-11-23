@@ -32,11 +32,13 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
     this.defaultBreakpoint = Breakpoint.sm,
     this.defaultBodyPadding = const ResponsiveEdgeInsets(
       EdgeInsets.symmetric(vertical: kDefaultVerticalPadding),
-      greaterThanBreakpoint: EdgeInsets.symmetric(vertical: kToolbarHeight),
+      greaterThanBreakpoint:
+          EdgeInsets.symmetric(vertical: kDefaultVerticalPadding),
     ),
     this.defaultSidebarPadding = const ResponsiveEdgeInsets(
       EdgeInsets.symmetric(vertical: kDefaultVerticalPadding),
-      greaterThanBreakpoint: EdgeInsets.symmetric(vertical: kToolbarHeight),
+      greaterThanBreakpoint:
+          EdgeInsets.symmetric(vertical: kDefaultVerticalPadding),
     ),
     this.breakpointSettings = const BreakpointSettings(),
     this.defaultScrollbarRadius,
