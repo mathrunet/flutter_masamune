@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-11-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v3.2.6`](#masamune_universal_ui---v326)
+
+---
+
+#### `masamune_universal_ui` - `v3.2.6`
+
+ - **FIX**: Update dependencies for multiple packages and modify `speech_to_text_controller`. ([3bfbed62](https://github.com/mathrunet/flutter_masamune/commit/3bfbed62fab7c3a1bb40325e1e592d9dcfab00c3))
+
+
 ## 2025-11-22
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.2.6
+
+ - **FIX**: Update dependencies for multiple packages and modify `speech_to_text_controller`. ([3bfbed62](https://github.com/mathrunet/flutter_masamune/commit/3bfbed62fab7c3a1bb40325e1e592d9dcfab00c3))
+
 ## 3.2.5
 
  - Update a dependency to the latest release.
