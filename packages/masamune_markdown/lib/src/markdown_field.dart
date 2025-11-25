@@ -41,12 +41,12 @@ class MarkdownField extends StatefulWidget {
     this.onEditingComplete,
     this.onSubmitted,
     this.onTap,
+    this.padding,
     this.onTapOutside,
     this.onTapLink,
     this.onTapMention,
     this.enabled,
     this.rendererIgnoresPointer = false,
-    this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.contextMenuBuilder,
     this.onLongPress,
@@ -241,7 +241,7 @@ class MarkdownField extends StatefulWidget {
   /// Padding for scrolling to reveal the cursor.
   ///
   /// カーソルを表示するためのスクロール時のパディング。
-  final EdgeInsets scrollPadding;
+  final EdgeInsetsGeometry? padding;
 
   /// Whether to enable interactive selection.
   ///
@@ -325,6 +325,9 @@ class MarkdownFieldState extends State<MarkdownField>
 
   // コンテキストメニューオーバーレイ
   OverlayEntry? _contextMenuOverlay;
+
+  // Androidでタップ/ロングプレス後にフォーカスが失われた場合に再取得するためのフラグ
+  bool _shouldRestoreFocusOnLoss = false;
 
   @override
   void initState() {
@@ -415,12 +418,30 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   void _handleFocusChanged() {
+    debugPrint(
+        "[MarkdownField] _handleFocusChanged: hasFocus=${_focusNode.hasFocus}, shouldRestoreFocus=$_shouldRestoreFocusOnLoss");
     if (_focusNode.hasFocus) {
+      debugPrint("[MarkdownField] Opening input connection");
       _openInputConnection();
       _showCursor = true;
       _cursorBlinkController?.reset();
       _cursorBlinkController?.repeat();
     } else {
+      // Androidでタップ/ロングプレス後にフォーカスが失われる問題を修正
+      // フラグが設定されている場合、フォーカスを再取得する
+      if (_shouldRestoreFocusOnLoss) {
+        debugPrint("[MarkdownField] Restoring focus due to flag");
+        _shouldRestoreFocusOnLoss = false;
+        // マイクロタスクでフォーカスを再取得
+        Future.microtask(() {
+          if (mounted && !_focusNode.hasFocus) {
+            debugPrint("[MarkdownField] Requesting focus in microtask");
+            _focusNode.requestFocus();
+          }
+        });
+        return; // 入力接続を閉じない
+      }
+      debugPrint("[MarkdownField] Closing input connection");
       _closeInputConnectionIfNeeded();
       _cursorBlinkController?.stop();
       _showCursor = false;
@@ -433,12 +454,16 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   void _openInputConnection() {
+    debugPrint(
+        "[MarkdownField] _openInputConnection called, readOnly=${widget.readOnly}, hasInputConnection=$_hasInputConnection");
     // readonly時は入力接続を開かない
     if (widget.readOnly) {
+      debugPrint("[MarkdownField] readOnly, not opening connection");
       return;
     }
 
     if (!_hasInputConnection) {
+      debugPrint("[MarkdownField] Creating new input connection");
       final textInputConfiguration = TextInputConfiguration(
         inputType: widget.keyboardType ?? TextInputType.multiline,
         obscureText: widget.obscureText,
@@ -652,7 +677,12 @@ class MarkdownFieldState extends State<MarkdownField>
   // TextInputClientの実装
   @override
   void updateEditingValue(TextEditingValue value) {
+    // デバッグログ
+    debugPrint(
+        "[MarkdownField] updateEditingValue called: text='${value.text}', selection=${value.selection}, composing=${value.composing}");
+
     if (widget.readOnly) {
+      debugPrint("[MarkdownField] readOnly, returning");
       return;
     }
 
@@ -662,10 +692,14 @@ class MarkdownFieldState extends State<MarkdownField>
     final oldText = _composingText ?? widget.controller.rawText;
     final newText = value.text;
 
+    debugPrint(
+        "[MarkdownField] oldText='$oldText' (len=${oldText.length}), newText='$newText' (len=${newText.length})");
+
     // 現在変換中かチェック
     final isComposing = value.composing.isValid && value.composing.start != -1;
 
     if (oldText != newText) {
+      debugPrint("[MarkdownField] Text changed, isComposing=$isComposing");
       // テキストが変更された
 
       if (isComposing) {
@@ -746,125 +780,23 @@ class MarkdownFieldState extends State<MarkdownField>
           // 改行後に変換領域をクリア
           _composingRegion = null;
         } else {
-          // リンクの末尾でのバックスペース/削除操作かチェック
-          final isDeletion = replacementText.isEmpty && oldEnd > start;
+          // 注意: リンク/メンションの削除時に選択する機能は削除
+          // Androidでは IMEが既に削除を実行しているため、
+          // 削除をブロックするとコントローラーとIMEの同期が崩れる
 
-          // 値から新しいカーソル位置を使用、または現在の選択にフォールバック
-          final cursorOffset = value.selection.isCollapsed
-              ? value.selection.baseOffset
-              : value.selection.end;
-
-          // カーソルが折りたたまれている場合のみリンク/メンション削除をチェック（選択なし）
-          // かつ、まだリンク/メンション範囲を選択していない
-          if (isDeletion && value.selection.isCollapsed) {
-            // まず、カーソルの直前の文字がプレーンテキストかチェック
-            // その場合、リンク/メンションチェックをスキップして通常の削除を許可
-            var isPlainTextBeforeCursor = false;
-
-            if (cursorOffset > 0) {
-              // カーソルがリンクまたはメンション内または末尾にあるかチェック
-              final linkRange =
-                  widget.controller.getLinkRangeBeforeCursor(cursorOffset);
-              final mentionRange =
-                  widget.controller.getMentionRangeBeforeCursor(cursorOffset);
-              final totalTextLength = widget.controller.rawText.length;
-              final charBeforeCursor = cursorOffset - 1;
-
-              // カーソルがリンク/メンションの末尾境界にあるかチェック
-              final isCursorAtEndOfLink =
-                  linkRange != null && cursorOffset == linkRange.end;
-              final isCursorAtEndOfMention =
-                  mentionRange != null && cursorOffset == mentionRange.end;
-
-              // カーソルの前の文字がリンク/メンション範囲内にあるかチェック
-              final isCharInsideLink = linkRange != null &&
-                  charBeforeCursor >= linkRange.start &&
-                  charBeforeCursor < linkRange.end;
-              final isCharInsideMention = mentionRange != null &&
-                  charBeforeCursor >= mentionRange.start &&
-                  charBeforeCursor < mentionRange.end;
-
-              // カーソルが末尾境界にある場合のみカーソル後のテキストをチェック
-              // カーソルが末尾でかつ後にテキストがある場合、通常の削除を許可
-              // カーソルが内部にある場合（末尾でない）、常にリンク/メンションを選択
-              final hasTextAfterCursor = cursorOffset < totalTextLength;
-
-              final isAtEndOfLink = isCursorAtEndOfLink &&
-                  isCharInsideLink &&
-                  !hasTextAfterCursor; // Only select if at end with no text after
-              final isAtEndOfMention = isCursorAtEndOfMention &&
-                  isCharInsideMention &&
-                  !hasTextAfterCursor; // Only select if at end with no text after
-
-              // カーソルがリンク/メンション内にある場合（末尾でない）、常に選択
-              final isInsideLink = !isCursorAtEndOfLink && isCharInsideLink;
-              final isInsideMention =
-                  !isCursorAtEndOfMention && isCharInsideMention;
-
-              // 末尾境界になくリンク/メンション内にない場合のみプレーンテキスト
-              isPlainTextBeforeCursor = !isAtEndOfLink &&
-                  !isAtEndOfMention &&
-                  !isInsideLink &&
-                  !isInsideMention;
-            }
-
-            // カーソルの前の文字がある場合のみリンク/メンション境界をチェック
-            // is not plain text (i.e., it has link/mention properties)
-            if (!isPlainTextBeforeCursor) {
-              // カーソルがリンクの末尾にあるかチェック
-              final linkRange =
-                  widget.controller.getLinkRangeBeforeCursor(cursorOffset);
-              if (linkRange != null) {
-                // 現在の選択が既にリンク範囲と一致するかチェック
-                // その場合、削除を続行を許可
-                final alreadySelected =
-                    _selection.baseOffset == linkRange.start &&
-                        _selection.extentOffset == linkRange.end;
-
-                if (!alreadySelected) {
-                  // 削除する代わりにリンク全体を選択
-                  _selection = TextSelection(
-                    baseOffset: linkRange.start,
-                    extentOffset: linkRange.end,
-                  );
-                  _composingRegion = null;
-                  _updateRemoteEditingValue();
-                  setState(() {});
-                  return; // Don't delete, just select
-                }
-              }
-
-              // カーソルがメンションの末尾にあるかチェック
-              final mentionRange =
-                  widget.controller.getMentionRangeBeforeCursor(cursorOffset);
-              if (mentionRange != null) {
-                // 現在の選択が既にメンション範囲と一致するかチェック
-                // その場合、削除の続行を許可
-                final alreadySelected =
-                    _selection.baseOffset == mentionRange.start &&
-                        _selection.extentOffset == mentionRange.end;
-
-                if (!alreadySelected) {
-                  // 削除する代わりにメンション全体を選択
-                  _selection = TextSelection(
-                    baseOffset: mentionRange.start,
-                    extentOffset: mentionRange.end,
-                  );
-                  _composingRegion = null;
-                  _updateRemoteEditingValue();
-                  setState(() {});
-                  return; // Don't delete, just select
-                }
-              }
-            }
-          }
+          debugPrint(
+              "[MarkdownField] Normal text change: start=$start, oldEnd=$oldEnd, newEnd=$newEnd, replacementText='$replacementText'");
 
           // バックスペースでブロックが削除されたかチェック
           final blockCountBefore =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
 
           // 通常のテキスト置換
+          debugPrint(
+              "[MarkdownField] Calling replaceText($start, $oldEnd, '$replacementText')");
           widget.controller.replaceText(start, oldEnd, replacementText);
+          debugPrint(
+              "[MarkdownField] After replaceText, controller.rawText='${widget.controller.rawText}'");
 
           final blockCountAfter =
               widget.controller.value?.firstOrNull?.children.length ?? 0;
@@ -1166,6 +1098,9 @@ class MarkdownFieldState extends State<MarkdownField>
       onSelectionChanged: widget.readOnly
           ? (_, __) {} // readonly時は選択処理を無効化
           : (selection, cause) {
+              debugPrint(
+                  "[MarkdownField] onSelectionChanged: selection=$selection, cause=$cause");
+              final hadFocus = _focusNode.hasFocus;
               setState(() {
                 _selection = selection;
                 _cursorBlinkController?.reset();
@@ -1184,16 +1119,31 @@ class MarkdownFieldState extends State<MarkdownField>
               // ツールバーが選択状態に基づいて更新できるようにコントローラーリスナーに通知
               // ツールバーが選択状態に基づいて更新できるようにコントローラーのリスナーに通知
               widget.controller.notifySelectionChanged();
+
+              // Androidでタップ/ロングプレス/ダブルタップ後にフォーカスが失われる問題を修正
+              // フォーカスがあった場合、フラグを設定してフォーカス喪失時に再取得
+              if (hadFocus &&
+                  (cause == SelectionChangedCause.tap ||
+                      cause == SelectionChangedCause.longPress ||
+                      cause == SelectionChangedCause.doubleTap)) {
+                debugPrint(
+                    "[MarkdownField] Setting focus restore flag (hadFocus=$hadFocus, cause=$cause)");
+                _shouldRestoreFocusOnLoss = true;
+              }
             },
       onTap: () {
+        debugPrint(
+            "[MarkdownField] onTap callback, hasFocus=${_focusNode.hasFocus}");
         _hideContextMenu();
         if (!_focusNode.hasFocus) {
+          debugPrint("[MarkdownField] Requesting focus from onTap");
           // First unfocus any current focus, then request focus for this field
           // This helps when another widget (like toolbar) has focus
           FocusManager.instance.primaryFocus?.unfocus();
           // Use a microtask to ensure unfocus completes before requesting focus
           Future.microtask(() {
             if (mounted && !_focusNode.hasFocus) {
+              debugPrint("[MarkdownField] Microtask: requesting focus");
               _focusNode.requestFocus();
             }
           });
@@ -1209,17 +1159,19 @@ class MarkdownFieldState extends State<MarkdownField>
       onDoubleTap: (globalPosition) {
         widget.onDoubleTap?.call(globalPosition);
       },
+      onRequestShowKeyboard: () {
+        _textInputConnection?.show();
+      },
       enabled: widget.enabled ?? true,
       readOnly: widget.readOnly,
       selectionAdjuster: _adjustSelectionForLinksAndMentions,
     );
 
-    if (widget.scrollable &&
-        (widget.scrollController != null || !widget.expands)) {
+    if (widget.scrollable) {
       child = SingleChildScrollView(
         controller: _scrollController,
-        physics: widget.scrollPhysics,
-        padding: widget.scrollPadding,
+        physics: widget.scrollPhysics ?? const AlwaysScrollableScrollPhysics(),
+        padding: widget.padding,
         child: child,
       );
     }
@@ -1227,8 +1179,96 @@ class MarkdownFieldState extends State<MarkdownField>
     return Focus(
       focusNode: _focusNode,
       autofocus: widget.autofocus,
+      onKeyEvent: widget.readOnly ? null : _handleKeyEvent,
       child: child,
     );
+  }
+
+  /// Handle keyboard events (especially for Android backspace).
+  ///
+  /// キーボードイベントを処理します（特にAndroidのバックスペース用）。
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    // KeyDownEventまたはKeyRepeatEventのみ処理
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+
+    debugPrint("[MarkdownField] _handleKeyEvent: ${event.logicalKey}");
+
+    // バックスペースキーの処理
+    if (event.logicalKey == LogicalKeyboardKey.backspace) {
+      debugPrint("[MarkdownField] Backspace key detected");
+      _handleBackspace();
+      return KeyEventResult.handled;
+    }
+
+    // Deleteキーの処理
+    if (event.logicalKey == LogicalKeyboardKey.delete) {
+      debugPrint("[MarkdownField] Delete key detected");
+      _handleDelete();
+      return KeyEventResult.handled;
+    }
+
+    return KeyEventResult.ignored;
+  }
+
+  /// Handle backspace key press.
+  ///
+  /// バックスペースキーの押下を処理します。
+  void _handleBackspace() {
+    final text = widget.controller.rawText;
+    if (text.isEmpty) {
+      return;
+    }
+
+    if (_selection.isCollapsed) {
+      // カーソル位置から1文字削除
+      final cursorPos = _selection.baseOffset;
+      if (cursorPos > 0) {
+        debugPrint(
+            "[MarkdownField] Deleting character at position ${cursorPos - 1}");
+        widget.controller.replaceText(cursorPos - 1, cursorPos, "");
+        _selection = TextSelection.collapsed(offset: cursorPos - 1);
+        _updateRemoteEditingValue();
+        widget.onChanged?.call(widget.controller.value ?? []);
+        setState(() {});
+      }
+    } else {
+      // 選択範囲を削除
+      final start = _selection.start;
+      final end = _selection.end;
+      debugPrint("[MarkdownField] Deleting selection from $start to $end");
+      widget.controller.replaceText(start, end, "");
+      _selection = TextSelection.collapsed(offset: start);
+      _updateRemoteEditingValue();
+      widget.onChanged?.call(widget.controller.value ?? []);
+      setState(() {});
+    }
+  }
+
+  /// Handle delete key press.
+  ///
+  /// Deleteキーの押下を処理します。
+  void _handleDelete() {
+    final text = widget.controller.rawText;
+    if (text.isEmpty) {
+      return;
+    }
+
+    if (_selection.isCollapsed) {
+      // カーソル位置の後の1文字を削除
+      final cursorPos = _selection.baseOffset;
+      if (cursorPos < text.length) {
+        debugPrint("[MarkdownField] Deleting character at position $cursorPos");
+        widget.controller.replaceText(cursorPos, cursorPos + 1, "");
+        _updateRemoteEditingValue();
+        widget.onChanged?.call(widget.controller.value ?? []);
+        setState(() {});
+      }
+    } else {
+      // 選択範囲を削除（バックスペースと同じ）
+      _handleBackspace();
+    }
   }
 
   String _getPlainText() {
@@ -1625,6 +1665,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     this.strutStyle,
     this.onLongPress,
     this.onDoubleTap,
+    this.onRequestShowKeyboard,
     this.onTapLink,
     this.onTapMention,
     this.selectionAdjuster,
@@ -1653,6 +1694,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final VoidCallback? onTap;
   final void Function(Offset globalPosition)? onLongPress;
   final void Function(Offset globalPosition)? onDoubleTap;
+  final VoidCallback? onRequestShowKeyboard;
   final void Function(Uri link)? onTapLink;
   final void Function(MarkdownMention mention)? onTapMention;
   final bool enabled;
@@ -1685,6 +1727,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       onTap: onTap,
       onLongPress: onLongPress,
       onDoubleTap: onDoubleTap,
+      onRequestShowKeyboard: onRequestShowKeyboard,
       enabled: enabled,
       readOnly: readOnly,
       onTapLink: onTapLink,
@@ -1722,6 +1765,7 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       .._onTap = onTap
       .._onLongPress = onLongPress
       .._onDoubleTap = onDoubleTap
+      .._onRequestShowKeyboard = onRequestShowKeyboard
       ..enabled = enabled
       ..readOnly = readOnly
       .._onTapLink = onTapLink
@@ -1760,6 +1804,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     StrutStyle? strutStyle,
     void Function(Offset globalPosition)? onLongPress,
     void Function(Offset globalPosition)? onDoubleTap,
+    VoidCallback? onRequestShowKeyboard,
     void Function(Uri link)? onTapLink,
     void Function(MarkdownMention mention)? onTapMention,
     TextSelection Function(TextSelection selection)? selectionAdjuster,
@@ -1786,6 +1831,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         _onTap = onTap,
         _onLongPress = onLongPress,
         _onDoubleTap = onDoubleTap,
+        _onRequestShowKeyboard = onRequestShowKeyboard,
         _enabled = enabled,
         _readOnly = readOnly,
         _onTapLink = onTapLink,
@@ -2030,6 +2076,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
   void Function(Offset globalPosition)? _onDoubleTap;
 
+  VoidCallback? _onRequestShowKeyboard;
+
   void Function(Uri link)? _onTapLink;
 
   void Function(MarkdownMention mention)? _onTapMention;
@@ -2074,6 +2122,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   Offset? _endHandlePosition;
   bool _isDraggingStartHandle = false;
   bool _isDraggingEndHandle = false;
+
+  // スクロールとドラッグ選択の区別
+  bool _isDragSelection = false;
+  bool _isScrollGesture = false; // スクロールジェスチャー中かどうか
+  static const _dragSelectionThreshold = 10.0;
 
   // ダブルタップ追跡
   static const _doubleTapTimeout = Duration(milliseconds: 300);
@@ -2741,6 +2794,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void handleEvent(PointerEvent event, BoxHitTestEntry entry) {
     assert(debugHandleEvent(event, entry), "");
 
+    debugPrint("[MarkdownField] handleEvent: ${event.runtimeType}");
+
     // readonly時はリンク/メンションタップのみ処理し、それ以外はスキップ
     if (_readOnly) {
       if (event is PointerUpEvent) {
@@ -2754,6 +2809,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     } else if (event is PointerUpEvent) {
       _handleTapUp(event);
     } else if (event is PointerMoveEvent) {
+      // スクロールジェスチャー中は処理しない（スクロールビューに任せる）
+      if (_isScrollGesture) {
+        return;
+      }
+      // ハンドルドラッグ中、またはドラッグ選択中のみ処理
+      // それ以外の場合は_handleDragUpdateで方向を判定
       _handleDragUpdate(event);
     } else if (event is PointerCancelEvent) {
       _handlePointerCancel(event);
@@ -2795,6 +2856,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     _doubleTapDetected = false;
     _isDraggingStartHandle = false;
     _isDraggingEndHandle = false;
+    _isDragSelection = false;
+    _isScrollGesture = false;
   }
 
   int? _getTextOffsetForPosition(Offset position) {
@@ -2868,8 +2931,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapDown(PointerDownEvent event) {
+    debugPrint("[MarkdownField] _handleTapDown called");
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
+    debugPrint("[MarkdownField] _handleTapDown position=$position");
 
     // マーカーのタップをチェック
     for (final layout in _blockLayouts) {
@@ -2918,6 +2983,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     _doubleTapDetected = false;
     _isDraggingStartHandle = false;
     _isDraggingEndHandle = false;
+    _isDragSelection = false;
+    _isScrollGesture = false;
 
     // ダブルタップをチェック
     if (_lastTapTime != null &&
@@ -3371,35 +3438,63 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapUp(PointerUpEvent event) {
+    debugPrint("[MarkdownField] _handleTapUp called");
     _longPressTimer?.cancel();
     _longPressTimer = null;
 
     // ハンドルドラッグフラグをリセット
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
+      debugPrint("[MarkdownField] Was dragging handle, returning");
       _isDraggingStartHandle = false;
       _isDraggingEndHandle = false;
+      _isDragSelection = false;
+      return;
+    }
+
+    // ドラッグ選択中だった場合はタップとして処理しない
+    if (_isDragSelection) {
+      debugPrint("[MarkdownField] Was drag selection, returning");
+      _isDragSelection = false;
+      _lastTapDownPosition = null;
+      return;
+    }
+
+    // スクロールジェスチャー中だった場合はタップとして処理しない
+    if (_isScrollGesture) {
+      debugPrint("[MarkdownField] Was scroll gesture, returning");
+      _isScrollGesture = false;
+      _lastTapDownPosition = null;
       return;
     }
 
     // ロングプレスまたはダブルタップが検出された場合、通常のタップとして処理しない
     if (_longPressDetected || _doubleTapDetected) {
+      debugPrint(
+          "[MarkdownField] Long press or double tap detected, returning");
       _longPressDetected = false;
       _doubleTapDetected = false;
+      _lastTapDownPosition = null;
       return;
     }
 
     if (_lastTapDownPosition == null) {
+      debugPrint("[MarkdownField] _lastTapDownPosition is null, returning");
       return;
     }
 
     final position = globalToLocal(event.position);
+    debugPrint(
+        "[MarkdownField] position=$position, _lastTapDownPosition=$_lastTapDownPosition");
 
     // ドラッグかチェック（タップダウン位置から離れすぎている）
     if ((position - _lastTapDownPosition!).distance > 10) {
+      debugPrint("[MarkdownField] Too far from tap down, returning");
+      _lastTapDownPosition = null;
       return;
     }
 
     final textOffset = _getTextOffsetForPosition(position);
+    debugPrint("[MarkdownField] textOffset=$textOffset");
 
     _onTap?.call();
 
@@ -3465,11 +3560,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         SelectionChangedCause.tap,
       );
     } else {
-      // 空スペース（パディング/マージン）をタップ、選択をクリア
-      _onSelectionChanged(
-        const TextSelection.collapsed(offset: 0),
-        SelectionChangedCause.tap,
-      );
+      // 空スペース（パディング/マージン）をタップ
+      // フォーカスがあり、かつexpandsがtrueの場合はテキストの末尾にカーソルを移動
+      // それ以外の場合は現在の選択を維持
+      if (_expands && _focusNode.hasFocus) {
+        final textLength = _getPlainText().length;
+        _onSelectionChanged(
+          TextSelection.collapsed(offset: textLength),
+          SelectionChangedCause.tap,
+        );
+      }
+      // フォーカスがない場合やexpandsがfalseの場合は何もしない
+      // （選択を解除しない）
     }
   }
 
@@ -3497,15 +3599,26 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleLongPressDetected(Offset globalPosition) {
+    debugPrint("[MarkdownField] _handleLongPressDetected called");
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
+    debugPrint("[MarkdownField] Long press textOffset=$textOffset");
 
     if (textOffset != null) {
+      final needsFocus = !_focusNode.hasFocus;
+      // フォーカスがない場合はフォーカスを要求
+      // _handleFocusChangedで入力接続が開かれる
+      if (needsFocus) {
+        debugPrint("[MarkdownField] Focus not available, requesting focus");
+        _focusNode.requestFocus();
+      }
+
       // 位置の単語を選択
       // IME入力中の変換テキストを含めるために_getPlainText()を使用
       final text = _getPlainText();
 
       final wordBoundary = _getWordBoundary(text, textOffset);
+      debugPrint("[MarkdownField] Word boundary: $wordBoundary");
 
       _onSelectionChanged(
         TextSelection(
@@ -3514,6 +3627,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         ),
         SelectionChangedCause.longPress,
       );
+
+      // Androidでロングプレス後にキーボードが表示されない問題を修正
+      // フォーカスを要求した場合、フレーム後にキーボードを明示的に表示
+      if (needsFocus) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_focusNode.hasFocus) {
+            debugPrint(
+                "[MarkdownField] Explicitly showing keyboard after long press");
+            _onRequestShowKeyboard?.call();
+          }
+        });
+      }
     }
     // 空スペースを押した場合でもonLongPressコールバックを呼び出す
     _onLongPress?.call(globalPosition);
@@ -3586,6 +3711,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void _handleDragUpdate(PointerMoveEvent event) {
     final position = globalToLocal(event.position);
 
+    // デバッグログ（スクロール問題の調査）
+    debugPrint(
+        "[MarkdownField] _handleDragUpdate: position=$position, _isScrollGesture=$_isScrollGesture, _isDragSelection=$_isDragSelection, _lastTapDownPosition=$_lastTapDownPosition");
+
     // 選択ハンドルのドラッグを処理
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
       final textOffset = _getTextOffsetForPosition(position);
@@ -3619,24 +3748,63 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       return;
     }
 
+    // スクロールジェスチャー中は何もしない
+    if (_isScrollGesture) {
+      return;
+    }
+
     if (_lastTapDownPosition == null) {
       return;
     }
 
+    final delta = position - _lastTapDownPosition!;
+    final distance = delta.distance;
+
     // 離れすぎた場合はロングプレスをキャンセル
-    if ((position - _lastTapDownPosition!).distance > 10) {
+    if (distance > 10) {
       _longPressTimer?.cancel();
       _longPressTimer = null;
+    }
+
+    // ドラッグ選択がまだ開始されていない場合
+    if (!_isDragSelection) {
+      debugPrint(
+          "[MarkdownField] delta=$delta, distance=$distance, dy.abs=${delta.dy.abs()}, dx.abs=${delta.dx.abs()}");
+      // 垂直方向の移動が水平方向より大きい場合はスクロールとして扱う
+      // 方向チェックを閾値チェックの前に行う（小さな動きでもスクロールを検出）
+      if (delta.dy.abs() > delta.dx.abs() && distance > 5) {
+        debugPrint(
+            "[MarkdownField] Detected vertical scroll, setting _isScrollGesture=true");
+        _isScrollGesture = true;
+        _lastTapDownPosition = null;
+        _longPressTimer?.cancel();
+        _longPressTimer = null;
+        return;
+      }
+
+      // 閾値を超えていない場合は何もしない（スクロールの可能性がある）
+      if (distance < _dragSelectionThreshold) {
+        debugPrint("[MarkdownField] Distance below threshold, returning");
+        return;
+      }
+
+      // 水平方向の移動が大きい場合はドラッグ選択を開始
+      debugPrint("[MarkdownField] Starting drag selection");
+      _isDragSelection = true;
     }
 
     final textOffset = _getTextOffsetForPosition(position);
 
     // ドラッグがテキストエリア内の場合のみ選択を更新
     if (textOffset != null) {
+      debugPrint(
+          "[MarkdownField] Updating selection during drag, textOffset=$textOffset");
       if (_selection.isCollapsed) {
         // タップダウン位置から選択を開始
         final downOffset = _getTextOffsetForPosition(_lastTapDownPosition!);
         if (downOffset != null) {
+          debugPrint(
+              "[MarkdownField] Starting selection from $downOffset to $textOffset");
           _onSelectionChanged(
             TextSelection(
               baseOffset: downOffset,
@@ -3647,6 +3815,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       } else {
         // 選択を拡張
+        debugPrint("[MarkdownField] Extending selection to $textOffset");
         _onSelectionChanged(
           TextSelection(
             baseOffset: _selection.baseOffset,

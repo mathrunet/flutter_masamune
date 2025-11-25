@@ -14,10 +14,7 @@ dependencies:
   
   katana: ^3.4.0
   masamune: ^3.5.5
-  flutter_quill: ^11.4.1
-  markdown_quill: ^4.3.0
   font_awesome_flutter: ^10.8.0
-  markdown: ^7.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -165,6 +165,7 @@ class FormMarkdownField<TValue> extends FormField<List<MarkdownFieldValue>> {
               hintText: hintText,
               errorText: emptyErrorText,
               alignment: style?.alignment ?? Alignment.topLeft,
+              padding: const EdgeInsets.all(0),
               contentPadding: style?.contentPadding ?? EdgeInsets.zero,
               validator: form != null
                   ? () {
@@ -186,6 +187,7 @@ class FormMarkdownField<TValue> extends FormField<List<MarkdownFieldValue>> {
                 onTapLink: onTapLink,
                 onTapMention: onTapMention,
                 scrollable: scrollable,
+                padding: style?.padding,
                 onEditingComplete: onEditingComplete,
                 onChanged: (value) {
                   field.didChange(value);
