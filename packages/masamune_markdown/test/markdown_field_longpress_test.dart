@@ -30,6 +30,7 @@ void main() {
         ),
       );
       await tester.pump();
+      expect(longPressCount, 0);
 
       // Request focus and enter text
       controller.focusNode.requestFocus();
@@ -57,6 +58,7 @@ void main() {
         ),
       );
       await tester.pump();
+      expect(longPressCount, 0);
 
       expect(controller.selection.baseOffset, 6);
       expect(controller.selection.extentOffset, 11);
@@ -99,7 +101,8 @@ void main() {
       expect(longPressPosition, isNotNull);
     });
 
-    testWidgets("long press without focus requests focus first", (tester) async {
+    testWidgets("long press without focus requests focus first",
+        (tester) async {
       masamuneApplyTestMocks();
       const adapter = MarkdownMasamuneAdapter();
       final controller = MarkdownController(adapter: adapter);
@@ -156,14 +159,12 @@ void main() {
       // This documents the expected behavior
     });
 
-    testWidgets("long press in readOnly mode does not modify selection", (tester) async {
+    testWidgets("long press in readOnly mode does not modify selection",
+        (tester) async {
       masamuneApplyTestMocks();
       const adapter = MarkdownMasamuneAdapter();
       final controller = MarkdownController(adapter: adapter);
       var longPressCalled = false;
-
-      // Set initial value
-      controller.importFromMarkdown("Hello World");
 
       await tester.pumpWidget(
         MaterialApp(
@@ -183,12 +184,18 @@ void main() {
       );
       await tester.pump();
 
+      // Set initial value
+      controller.importFromMarkdown("Hello World");
+      await tester.pump();
+
+      expect(longPressCalled, false);
       expect(controller.rawText, "Hello World");
 
       // Long press in readOnly mode
       final finder = find.byType(MarkdownField);
       await tester.longPress(finder);
       await tester.pump();
+      expect(longPressCalled, true);
 
       // In readOnly mode, long press might still trigger callback
       // but should not open input connection
@@ -282,7 +289,8 @@ void main() {
       expect(contextMenuBuilderCalled, isTrue);
     });
 
-    testWidgets("long press on empty field still triggers callback", (tester) async {
+    testWidgets("long press on empty field still triggers callback",
+        (tester) async {
       masamuneApplyTestMocks();
       const adapter = MarkdownMasamuneAdapter();
       final controller = MarkdownController(adapter: adapter);

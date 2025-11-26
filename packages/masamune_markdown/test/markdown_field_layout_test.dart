@@ -163,7 +163,7 @@ void main() {
             child: Scaffold(
               body: MarkdownField(
                 controller: controller,
-                scrollPadding: customPadding,
+                padding: customPadding,
               ),
             ),
           ),

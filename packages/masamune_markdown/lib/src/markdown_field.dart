@@ -2330,9 +2330,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     _endHandlePosition = null;
 
     // スクロール最適化: 画面外のブロックをスキップするため、ビューポート範囲を計算
-    // offsetは親からの描画オフセット（通常はスクロール位置に基づく）
-    final viewportTop = -offset.dy;
-    final viewportBottom = viewportTop + size.height;
+    // canvas.getLocalClipBounds()で実際の表示領域を取得し、ローカル座標に変換
+    final clipBounds = canvas.getLocalClipBounds();
+    final viewportTop = clipBounds.top - offset.dy;
+    final viewportBottom = clipBounds.bottom - offset.dy;
 
     for (var i = 0; i < layouts.length; i++) {
       final layout = layouts[i];
@@ -2876,12 +2877,37 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       return null;
     }
 
-    for (final layout in layouts) {
+    // ブロック間のギャップに対応するため、前のブロックの情報を保持
+    double? previousBlockBottom;
+    int? previousBlockEndOffset;
+
+    for (var i = 0; i < layouts.length; i++) {
+      final layout = layouts[i];
       // layout.offset.dy is where text content starts (after padding top)
       final blockOffset = layout.offset + Offset(layout.padding.left, 0);
       final blockBottom = blockOffset.dy + layout.painter.height;
       // ブロック上部はテキストの上のパディングエリアを含む
       final blockTop = layout.offset.dy - layout.padding.top;
+      // パディングを含む完全なブロックの下端
+      final blockBottomWithPadding =
+          layout.offset.dy + layout.painter.height + layout.padding.bottom;
+
+      // ブロック間のギャップをチェック（前のブロックの下端と現在のブロックの上端の間）
+      if (previousBlockBottom != null &&
+          position.dy > previousBlockBottom &&
+          position.dy < blockTop) {
+        // ギャップ内にある場合、どちらのブロックに近いかを判断
+        final distanceToPrevious = position.dy - previousBlockBottom;
+        final distanceToNext = blockTop - position.dy;
+
+        if (distanceToPrevious <= distanceToNext) {
+          // 前のブロックの方が近い → 前のブロックの末尾に配置
+          return previousBlockEndOffset;
+        } else {
+          // 次のブロックの方が近い → このブロックの先頭に配置
+          return currentTextOffset;
+        }
+      }
 
       if (position.dy >= blockOffset.dy && position.dy <= blockBottom) {
         // 位置がこのブロックのテキストエリア内にある
@@ -2900,31 +2926,28 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
         return currentTextOffset + textPosition.offset;
-      } else if (position.dy >= blockTop &&
-          position.dy <
-              layout.offset.dy +
-                  layout.painter.height +
-                  layout.padding.bottom) {
+      } else if (position.dy >= blockTop && position.dy < blockBottomWithPadding) {
         // 位置が垂直パディングエリア内にある
-        // expandsがtrueの場合、テキストの終了として扱う
-        if (_expands) {
-          return currentTextOffset + layout.textLength;
+        if (position.dy < blockOffset.dy) {
+          // 上部パディング内 → ブロックの先頭
+          return currentTextOffset;
         } else {
-          return null;
+          // 下部パディング内 → ブロックの末尾
+          return currentTextOffset + layout.textLength;
         }
       }
 
+      // 次のイテレーションのために情報を保存
+      previousBlockBottom = blockBottomWithPadding;
+      previousBlockEndOffset = currentTextOffset + layout.textLength;
       currentTextOffset +=
           layout.textLength + 1; // +1 for newline between blocks
     }
 
-    // 位置がすべてのブロックの後、または空白領域(ブロック間など)にある
-    // expandsがtrueの場合、x座標が範囲内であれば(上でチェック済み)
-    // テキストの末尾にカーソルを配置する
-    // expandsがfalseの場合、nullを返して選択解除
-    if (_expands) {
-      final lastOffset = currentTextOffset > 0 ? currentTextOffset - 1 : 0;
-      return lastOffset;
+    // 位置がすべてのブロックの後にある
+    // expandsがtrueの場合、最後のブロックの末尾にカーソルを配置
+    if (_expands && layouts.isNotEmpty) {
+      return previousBlockEndOffset ?? 0;
     } else {
       return null;
     }
