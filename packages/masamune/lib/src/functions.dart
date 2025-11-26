@@ -41,6 +41,9 @@ void masamuneApplyTestMocks({
     TestLoggerAdapterScope.setTestAdapters(loggerAdapters);
   }
   if (masamuneAdapters.isNotEmpty) {
+    for (final adapter in masamuneAdapters) {
+      adapter.onInitScope(adapter);
+    }
     TestMasamuneAdapterScope.setTestAdapters(masamuneAdapters);
   }
   TestPlatformInfoAdapterScope.setTestAdapter(
