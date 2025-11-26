@@ -94,6 +94,9 @@ class MarkdownHeadline1BlockValue extends MarkdownMultiLineBlockValue {
           .copyWith(
         color: controller.style.h1.foregroundColor,
       ),
+      borderRadius: controller.style.h1.borderRadius,
+      border: controller.style.h1.border,
+      backgroundColor: controller.style.h1.backgroundColor,
     );
   }
 

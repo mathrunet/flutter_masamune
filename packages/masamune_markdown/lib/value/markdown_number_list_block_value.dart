@@ -115,6 +115,9 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
           .copyWith(
         color: controller.style.list.foregroundColor,
       ),
+      borderRadius: controller.style.list.borderRadius,
+      border: controller.style.list.border,
+      backgroundColor: controller.style.list.backgroundColor,
     );
   }
 

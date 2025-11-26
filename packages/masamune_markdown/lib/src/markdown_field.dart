@@ -448,8 +448,7 @@ class MarkdownFieldState extends State<MarkdownField>
 
         // フォーカス復元後500ms間はIMEからの変換テキストを無視する
         // IMEが古い変換状態を送り返す問題を回避するため
-        _ignoreComposingUntil =
-            DateTime.now().millisecondsSinceEpoch + 500;
+        _ignoreComposingUntil = DateTime.now().millisecondsSinceEpoch + 500;
 
         // マイクロタスクでフォーカスを再取得
         Future.microtask(() {
@@ -1225,8 +1224,9 @@ class MarkdownFieldState extends State<MarkdownField>
               }
             },
       onTap: () {
+        final attached = _textInputConnection?.attached ?? false;
         debugPrint(
-            "[MarkdownField] onTap callback, hasFocus=${_focusNode.hasFocus}");
+            "[MarkdownField] onTap callback, hasFocus=${_focusNode.hasFocus}, hasInputConnection=$_hasInputConnection, attached=$attached");
         _hideContextMenu();
         if (!_focusNode.hasFocus) {
           debugPrint("[MarkdownField] Requesting focus from onTap");
@@ -1240,6 +1240,20 @@ class MarkdownFieldState extends State<MarkdownField>
               _focusNode.requestFocus();
             }
           });
+        } else if (!_hasInputConnection || !attached) {
+          // フォーカスはあるが入力接続がない/attachされていない場合
+          // （Androidの戻るボタンでキーボードを閉じた後など）
+          // 入力接続を再度開く
+          debugPrint(
+              "[MarkdownField] Focus exists but input connection invalid, reopening connection");
+          if (_hasInputConnection && !attached) {
+            _closeInputConnectionIfNeeded();
+          }
+          _openInputConnection();
+        } else {
+          // 入力接続があるがキーボードが閉じている場合、明示的に表示
+          debugPrint("[MarkdownField] Showing keyboard via show()");
+          _textInputConnection?.show();
         }
         widget.onTap?.call();
       },
@@ -3019,7 +3033,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         final localPosition = position - blockOffset;
         final textPosition = layout.painter.getPositionForOffset(localPosition);
         return currentTextOffset + textPosition.offset;
-      } else if (position.dy >= blockTop && position.dy < blockBottomWithPadding) {
+      } else if (position.dy >= blockTop &&
+          position.dy < blockBottomWithPadding) {
         // 位置が垂直パディングエリア内にある
         if (position.dy < blockOffset.dy) {
           // 上部パディング内 → ブロックの先頭
@@ -4041,6 +4056,7 @@ class BlockStyle {
     this.padding = EdgeInsets.zero,
     this.margin = EdgeInsets.zero,
     this.highlightColor,
+    this.borderRadius,
   });
 
   /// Background color of the block.
@@ -4072,6 +4088,11 @@ class BlockStyle {
   ///
   /// ブロックのマージン。
   final EdgeInsetsGeometry margin;
+
+  /// Border radius of the block.
+  ///
+  /// ブロックの角の丸み。
+  final BorderRadiusGeometry? borderRadius;
 }
 
 /// Information about a list marker.

@@ -143,7 +143,11 @@ class MarkdownCodeBlockValue extends MarkdownMultiLineBlockValue {
           .copyWith(
         color: controller.style.code.foregroundColor,
       ),
-      backgroundColor: controller.style.code.backgroundColor,
+      borderRadius:
+          controller.style.code.borderRadius ?? BorderRadius.circular(8.0),
+      border: controller.style.code.border,
+      backgroundColor:
+          controller.style.code.backgroundColor ?? theme.colorScheme.surface,
     );
   }
 

@@ -33,11 +33,17 @@ class MarkdownStyle {
     this.list = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
     ),
+    this.toggleList = const MarkdownStyleValue(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+    ),
     this.quote = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.fromLTRB(16, 8, 8, 8),
     ),
     this.code = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
     ),
     this.media = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -86,6 +92,11 @@ class MarkdownStyle {
   /// リストのスタイル。
   final MarkdownStyleValue list;
 
+  /// Style for check list.
+  ///
+  /// チェックリストのスタイル。
+  final MarkdownStyleValue toggleList;
+
   /// Style for media.
   ///
   /// メディアのスタイル。
@@ -125,6 +136,8 @@ class MarkdownStyleValue {
     this.textStyle,
     this.backgroundColor,
     this.foregroundColor,
+    this.borderRadius,
+    this.border,
   });
 
   /// Padding of the markdown style.
@@ -151,4 +164,14 @@ class MarkdownStyleValue {
   ///
   /// マークダウンのスタイルの前景色。
   final Color? foregroundColor;
+
+  /// Border of the markdown style.
+  ///
+  /// マークダウンのスタイルのボーダー。
+  final Border? border;
+
+  /// Border radius of the markdown style.
+  ///
+  /// マークダウンのスタイルの角の丸み。
+  final BorderRadiusGeometry? borderRadius;
 }

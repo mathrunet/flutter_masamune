@@ -92,6 +92,9 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
           .copyWith(
         color: controller.style.paragraph.foregroundColor,
       ),
+      borderRadius: controller.style.paragraph.borderRadius,
+      border: controller.style.paragraph.border,
+      backgroundColor: controller.style.paragraph.backgroundColor,
     );
   }
 

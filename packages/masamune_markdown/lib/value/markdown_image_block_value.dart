@@ -97,6 +97,8 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
           .copyWith(
         color: controller.style.media.foregroundColor,
       ),
+      borderRadius: controller.style.media.borderRadius,
+      border: controller.style.media.border,
       backgroundColor: controller.style.media.backgroundColor,
     );
   }

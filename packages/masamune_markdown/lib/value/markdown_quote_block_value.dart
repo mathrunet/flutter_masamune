@@ -94,6 +94,16 @@ class MarkdownQuoteBlockValue extends MarkdownMultiLineBlockValue {
           .copyWith(
         color: controller.style.quote.foregroundColor,
       ),
+      border: controller.style.quote.border ??
+          Border(
+            left: BorderSide(
+              color: controller.style.quote.foregroundColor ??
+                  theme.colorTheme?.outline ??
+                  Colors.grey,
+              width: 4,
+            ),
+          ),
+      borderRadius: controller.style.quote.borderRadius,
       backgroundColor: controller.style.quote.backgroundColor,
     );
   }

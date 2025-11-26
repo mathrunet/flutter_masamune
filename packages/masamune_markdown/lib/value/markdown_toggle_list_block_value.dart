@@ -110,14 +110,17 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
   ) {
     final theme = context.theme;
     return BlockStyle(
-      padding: controller.style.list.padding ?? EdgeInsets.zero,
-      margin: controller.style.list.margin ?? EdgeInsets.zero,
-      textStyle: (controller.style.list.textStyle ??
+      padding: controller.style.toggleList.padding ?? EdgeInsets.zero,
+      margin: controller.style.toggleList.margin ?? EdgeInsets.zero,
+      textStyle: (controller.style.toggleList.textStyle ??
               theme.textTheme.bodyMedium ??
               const TextStyle())
           .copyWith(
-        color: controller.style.list.foregroundColor,
+        color: controller.style.toggleList.foregroundColor,
       ),
+      borderRadius: controller.style.toggleList.borderRadius,
+      border: controller.style.toggleList.border,
+      backgroundColor: controller.style.toggleList.backgroundColor,
     );
   }
 
@@ -129,9 +132,9 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
   ) {
     // コントローラーからブロックスタイルを取得
     var padding =
-        (controller.style.list.padding ?? EdgeInsets.zero) as EdgeInsets;
+        (controller.style.toggleList.padding ?? EdgeInsets.zero) as EdgeInsets;
     final margin =
-        (controller.style.list.margin ?? EdgeInsets.zero) as EdgeInsets;
+        (controller.style.toggleList.margin ?? EdgeInsets.zero) as EdgeInsets;
 
     // インデントを適用
     final indentWidth = indent * controller.style.indentWidth;
@@ -139,9 +142,9 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
         left: padding.left + indentWidth + controller.style.indentWidth);
 
     // ベーステキストスタイルを構築
-    final foregroundColor = controller.style.list.foregroundColor ??
+    final foregroundColor = controller.style.toggleList.foregroundColor ??
         context.theme.colorScheme.onSurface;
-    final baseStyle = controller.style.list.textStyle ?? context.style;
+    final baseStyle = controller.style.toggleList.textStyle ?? context.style;
     final baseTextStyle = baseStyle.copyWith(
       color: foregroundColor,
     );
