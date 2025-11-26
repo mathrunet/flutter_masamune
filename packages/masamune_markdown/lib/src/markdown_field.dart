@@ -329,6 +329,10 @@ class MarkdownFieldState extends State<MarkdownField>
   // Androidでタップ/ロングプレス後にフォーカスが失われた場合に再取得するためのフラグ
   bool _shouldRestoreFocusOnLoss = false;
 
+  // フォーカス復元後のIME変換テキストを無視するための時刻
+  // この時刻以降の変換テキストは無視する
+  int? _ignoreComposingUntil;
+
   @override
   void initState() {
     super.initState();
@@ -426,12 +430,27 @@ class MarkdownFieldState extends State<MarkdownField>
       _showCursor = true;
       _cursorBlinkController?.reset();
       _cursorBlinkController?.repeat();
+
+      // フォーカス復元後はIMEを現在のテキスト状態に同期する
+      // これにより、IMEが古い/不正なテキストを送り返すことを防ぐ
+      _updateRemoteEditingValue();
     } else {
       // Androidでタップ/ロングプレス後にフォーカスが失われる問題を修正
       // フラグが設定されている場合、フォーカスを再取得する
       if (_shouldRestoreFocusOnLoss) {
         debugPrint("[MarkdownField] Restoring focus due to flag");
         _shouldRestoreFocusOnLoss = false;
+
+        // 変換状態を完全にクリア
+        // フォーカス復元後は新しい入力セッションとして扱う
+        _composingText = null;
+        _composingRegion = null;
+
+        // フォーカス復元後500ms間はIMEからの変換テキストを無視する
+        // IMEが古い変換状態を送り返す問題を回避するため
+        _ignoreComposingUntil =
+            DateTime.now().millisecondsSinceEpoch + 500;
+
         // マイクロタスクでフォーカスを再取得
         Future.microtask(() {
           if (mounted && !_focusNode.hasFocus) {
@@ -439,7 +458,7 @@ class MarkdownFieldState extends State<MarkdownField>
             _focusNode.requestFocus();
           }
         });
-        return; // 入力接続を閉じない
+        return;
       }
       debugPrint("[MarkdownField] Closing input connection");
       _closeInputConnectionIfNeeded();
@@ -477,8 +496,12 @@ class MarkdownFieldState extends State<MarkdownField>
       );
       _textInputConnection = TextInput.attach(this, textInputConfiguration);
       _textInputConnection!.show();
-      _updateRemoteEditingValue();
     }
+
+    // 常にIMEを現在の状態に同期する
+    // これは新しい接続でも既存の接続でも必要
+    // （フォーカス復元後にIMEが不正なテキストを送ることを防ぐ）
+    _updateRemoteEditingValue();
   }
 
   void _closeInputConnectionIfNeeded() {
@@ -698,6 +721,41 @@ class MarkdownFieldState extends State<MarkdownField>
     // 現在変換中かチェック
     final isComposing = value.composing.isValid && value.composing.start != -1;
 
+    // 以前composing中だったかチェック（composing終了検出用）
+    final wasComposing = _composingRegion != null &&
+        _composingRegion!.start >= 0 &&
+        _composingRegion!.end > _composingRegion!.start;
+
+    // フォーカス復元後の一定時間内にIMEから変換テキストが来た場合は無視
+    // IMEが古い変換状態を送り返す問題を回避するため
+    if (_ignoreComposingUntil != null) {
+      final now = DateTime.now().millisecondsSinceEpoch;
+      if (now < _ignoreComposingUntil!) {
+        if (isComposing || oldText != newText) {
+          debugPrint(
+              "[MarkdownField] Ignoring IME update during focus restore cooldown");
+          _updateRemoteEditingValue();
+          return;
+        }
+      } else {
+        // タイムアウト期間が過ぎたのでクリア
+        _ignoreComposingUntil = null;
+      }
+    }
+
+    // IME同期エラーの検出：テキスト長の差が大きすぎる場合
+    // 通常の編集では1文字ずつ変わるか、ペーストでも連続的に変わる
+    // 急激に大きく変わる場合はIMEの同期ズレの可能性が高い
+    final lengthDiff = (newText.length - oldText.length).abs();
+    if (lengthDiff > 10 && !value.composing.isValid) {
+      // テキストが大きく異なり、変換中でない場合はIME同期エラーの可能性
+      // 現在の正しいテキストでIMEを再同期
+      debugPrint(
+          "[MarkdownField] IME sync error detected: large text difference ($lengthDiff chars). Resyncing...");
+      _updateRemoteEditingValue();
+      return;
+    }
+
     if (oldText != newText) {
       debugPrint("[MarkdownField] Text changed, isComposing=$isComposing");
       // テキストが変更された
@@ -741,7 +799,17 @@ class MarkdownFieldState extends State<MarkdownField>
         final oldEnd = diff.oldEnd;
         final newEnd = diff.newEnd;
 
-        final replacementText = newText.substring(start, newEnd);
+        var replacementText = newText.substring(start, newEnd);
+
+        // composing終了直後の改行は無視する
+        // 日本語IMEでは、Enter押下はcomposingテキストの「確定」であり「改行」ではない
+        // IMEが改行を送ってきた場合は、確定のためのEnterと判断して改行を除去
+        if (wasComposing && !isComposing && replacementText.endsWith("\n")) {
+          debugPrint(
+              "[MarkdownField] Ignoring trailing newline after composing confirmation");
+          replacementText =
+              replacementText.substring(0, replacementText.length - 1);
+        }
 
         // 置換テキストに改行が含まれているかチェック
         if (replacementText.contains("\n")) {
@@ -779,6 +847,16 @@ class MarkdownFieldState extends State<MarkdownField>
           _selection = TextSelection.collapsed(offset: start);
           // 改行後に変換領域をクリア
           _composingRegion = null;
+        } else if (replacementText.isEmpty && wasComposing && !isComposing) {
+          // composing確定のみで改行なし - composing状態をクリアして終了
+          debugPrint("[MarkdownField] Composing confirmed without newline");
+          _composingText = null;
+          _composingRegion = null;
+          _selection = value.selection;
+          _updateRemoteEditingValue();
+          widget.onChanged?.call(widget.controller.value ?? []);
+          setState(() {});
+          return;
         } else {
           // 注意: リンク/メンションの削除時に選択する機能は削除
           // Androidでは IMEが既に削除を実行しているため、
@@ -856,18 +934,14 @@ class MarkdownFieldState extends State<MarkdownField>
           _composingText = null;
           _composingRegion = null;
 
-          // カーソルをテキストの末尾に更新
-          _selection = TextSelection.collapsed(offset: textToCommit.length);
+          // IMEが指定したカーソル位置を使用（末尾ではなく確定位置）
+          _selection = value.selection;
 
           // リモート値を更新
           _updateRemoteEditingValue();
 
           setState(() {});
         } else {
-          // コミット前にカーソルを開始位置に設定
-          // これにより履歴が正しいカーソル位置（0）を保存
-          _selection = TextSelection.collapsed(offset: currentText.length);
-
           // コミットされたテキストですべてのテキストを置換
           widget.controller.replaceText(0, currentText.length, textToCommit);
 
@@ -877,8 +951,8 @@ class MarkdownFieldState extends State<MarkdownField>
           _composingText = null;
           _composingRegion = null;
 
-          // カーソルをコミットされたテキストの末尾に更新
-          _selection = TextSelection.collapsed(offset: textToCommit.length);
+          // IMEが指定したカーソル位置を使用（末尾ではなく確定位置）
+          _selection = value.selection;
 
           // リモート値を更新
           _updateRemoteEditingValue();
@@ -906,12 +980,16 @@ class MarkdownFieldState extends State<MarkdownField>
     switch (action) {
       case TextInputAction.newline:
         if (!widget.readOnly) {
-          // 現在のカーソル位置に新しい段落を挿入
-          widget.controller.insertNewLine(_selection.baseOffset);
+          final oldOffset = _selection.baseOffset;
+          debugPrint(
+              "[MarkdownField] performAction.newline: oldOffset=$oldOffset");
 
-          // カーソルを次の行に移動
-          _selection =
-              TextSelection.collapsed(offset: _selection.baseOffset + 1);
+          // 現在のカーソル位置に新しい段落を挿入
+          // コントローラー内で正しいカーソル位置 (offset + 1) が設定される
+          widget.controller.insertNewLine(oldOffset);
+
+          debugPrint(
+              "[MarkdownField] performAction.newline: after insertNewLine, _selection=${_selection.baseOffset}");
 
           // 改行挿入時に変換状態をクリア
           _composingText = null;
@@ -1107,15 +1185,30 @@ class MarkdownFieldState extends State<MarkdownField>
                 _cursorBlinkController?.repeat();
               });
 
-              // タップ/ドラッグで選択が変わる場合、IMEテキストをコミットするために変換領域をクリア
-              // タップやドラッグでカーソルが移動した場合、コンポージングをクリアしてIMEテキストを確定
+              // タップ/ドラッグで選択が変わる場合、変換状態をクリア
+              // composing中にタップした場合、composingを終了させる必要がある
+              final wasComposing = _composingRegion != null &&
+                  _composingRegion!.start >= 0 &&
+                  _composingRegion!.end > _composingRegion!.start;
               if (cause == SelectionChangedCause.tap ||
                   cause == SelectionChangedCause.drag ||
                   cause == SelectionChangedCause.toolbar) {
+                _composingText = null;
                 _composingRegion = null;
               }
 
-              _updateRemoteEditingValue();
+              // Androidではタップ後にフォーカスが失われるため、
+              // composing中だった場合はIME更新を遅延させる
+              // フォーカス復元後にIMEが更新される
+              if (wasComposing &&
+                  (cause == SelectionChangedCause.tap ||
+                      cause == SelectionChangedCause.longPress ||
+                      cause == SelectionChangedCause.doubleTap)) {
+                debugPrint(
+                    "[MarkdownField] Deferring IME update due to composing tap");
+              } else {
+                _updateRemoteEditingValue();
+              }
               // ツールバーが選択状態に基づいて更新できるようにコントローラーリスナーに通知
               // ツールバーが選択状態に基づいて更新できるようにコントローラーのリスナーに通知
               widget.controller.notifySelectionChanged();

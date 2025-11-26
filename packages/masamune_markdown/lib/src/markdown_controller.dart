@@ -3289,6 +3289,13 @@ class MarkdownController extends MasamuneControllerBase<
     );
 
     _value[0] = newField;
+
+    // 新しいブロック（分割後のブロック）の先頭にカーソルを移動
+    // offset + 1 は新しいブロックの開始位置（改行文字の次）
+    if (_field != null) {
+      _field!._selection = TextSelection.collapsed(offset: offset + 1);
+    }
+
     notifyListeners();
   }
 
@@ -3571,6 +3578,13 @@ class MarkdownController extends MasamuneControllerBase<
 
     // Redistribute blocks across fields
     _updateBlocksAcrossFields(allBlocks);
+
+    // 新しいブロック（分割後のブロック）の先頭にカーソルを移動
+    // offset + 1 は新しいブロックの開始位置（改行文字の次）
+    if (_field != null) {
+      _field!._selection = TextSelection.collapsed(offset: offset + 1);
+    }
+
     notifyListeners();
   }
 
