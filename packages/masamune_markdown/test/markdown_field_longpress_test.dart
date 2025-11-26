@@ -159,7 +159,7 @@ void main() {
       // This documents the expected behavior
     });
 
-    testWidgets("long press in readOnly mode does not modify selection",
+    testWidgets("long press in readOnly mode does not trigger callback",
         (tester) async {
       masamuneApplyTestMocks();
       const adapter = MarkdownMasamuneAdapter();
@@ -183,8 +183,7 @@ void main() {
         ),
       );
       await tester.pump();
-
-      // Set initial value
+      // Set initial value before building widget
       controller.importFromMarkdown("Hello World");
       await tester.pump();
 
@@ -195,10 +194,11 @@ void main() {
       final finder = find.byType(MarkdownField);
       await tester.longPress(finder);
       await tester.pump();
-      expect(longPressCalled, true);
 
-      // In readOnly mode, long press might still trigger callback
-      // but should not open input connection
+      // In readOnly mode, handleEvent skips PointerDownEvent,
+      // so the long press timer is never started and onLongPress is NOT called.
+      // This is because readOnly mode only handles PointerUpEvent for link/mention taps.
+      expect(longPressCalled, false);
     });
 
     testWidgets("long press selects word at position", (tester) async {
