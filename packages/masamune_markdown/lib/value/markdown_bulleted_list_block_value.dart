@@ -164,8 +164,14 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
       textDirection: context.textDirection,
       textWidthBasis: context.textWidthBasis,
       textHeightBehavior: context.textHeightBehavior,
-      strutStyle: context.strutStyle,
+      strutStyle: StrutStyle(
+        fontSize: baseTextStyle.fontSize,
+        height: baseTextStyle.height,
+        forceStrutHeight: true,
+      ),
     );
+    final markerHeight =
+        (baseTextStyle.fontSize ?? 0) * (baseTextStyle.height ?? 0);
 
     // インデントベースのシンボルでマーカー情報を作成
     void Function(Canvas canvas, Offset offset)? markerSymbol;
@@ -173,13 +179,14 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
     switch (markerIndent) {
       case 0:
         markerSymbol = (canvas, offset) {
-          canvas.drawCircle(offset, 4, Paint()..color = foregroundColor);
+          canvas.drawCircle(offset + Offset(6, markerHeight / 2), 4,
+              Paint()..color = foregroundColor);
         };
         break;
       case 1:
         markerSymbol = (canvas, offset) {
           canvas.drawCircle(
-              offset,
+              offset + Offset(6, markerHeight / 2),
               4,
               Paint()
                 ..style = PaintingStyle.stroke
@@ -191,7 +198,7 @@ class MarkdownBulletedListBlockValue extends MarkdownMultiLineBlockValue {
         markerSymbol = (canvas, offset) {
           canvas.drawRect(
             Rect.fromCenter(
-              center: offset,
+              center: offset + Offset(6, markerHeight / 2),
               width: 8,
               height: 8,
             ),

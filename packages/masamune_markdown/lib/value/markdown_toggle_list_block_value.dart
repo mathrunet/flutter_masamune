@@ -138,6 +138,7 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
 
     // インデントを適用
     final indentWidth = indent * controller.style.indentWidth;
+    final boxSize = controller.style.indentWidth / 3 * 2;
     padding = padding.copyWith(
         left: padding.left + indentWidth + controller.style.indentWidth);
 
@@ -188,15 +189,20 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
       textDirection: context.textDirection,
       textWidthBasis: context.textWidthBasis,
       textHeightBehavior: context.textHeightBehavior,
-      strutStyle: context.strutStyle,
+      strutStyle: StrutStyle(
+        fontSize: baseTextStyle.fontSize,
+        height: baseTextStyle.height,
+        forceStrutHeight: true,
+      ),
     );
+    final painterHeight =
+        (baseTextStyle.fontSize ?? 0) * (baseTextStyle.height ?? 0);
 
     // チェックボックスマーカー情報を作成
     void Function(Canvas canvas, Offset offset)? markerSymbol;
     markerSymbol = (canvas, offset) {
-      const boxSize = 16.0;
       final rect = Rect.fromCenter(
-        center: offset,
+        center: offset + Offset(boxSize / 2 + 2, painterHeight / 2 - 1),
         width: boxSize,
         height: boxSize,
       );

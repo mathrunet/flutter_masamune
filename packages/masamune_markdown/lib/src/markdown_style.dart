@@ -35,7 +35,6 @@ class MarkdownStyle {
     ),
     this.toggleList = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
     ),
     this.quote = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -48,7 +47,7 @@ class MarkdownStyle {
     this.media = const MarkdownStyleValue(
       margin: EdgeInsets.symmetric(vertical: 8),
     ),
-    this.indentWidth = 16,
+    this.indentWidth = 24,
     this.indentWhiteSpaceCount = 2,
   });
 

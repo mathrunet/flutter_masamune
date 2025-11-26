@@ -221,18 +221,6 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
     // マーカーのテキストを取得
     final markerText = getMarkerForIndent(indent, lineIndex);
 
-    // マーカーの幅を計算（マーカーテキスト + スペース）
-    final markerStyle = controller.style.list.textStyle ?? context.style;
-    final markerPainter = TextPainter(
-      text: TextSpan(text: "$markerText ", style: markerStyle),
-      textDirection: context.textDirection,
-    );
-    markerPainter.layout();
-    final markerWidth = markerPainter.width;
-
-    padding = padding.copyWith(
-        left: padding.left + indentWidth + markerWidth + 4); // 4 for spacing
-
     // ベーステキストスタイルを構築
     final foregroundColor = controller.style.list.foregroundColor ??
         context.theme.colorScheme.onSurface;
@@ -240,6 +228,25 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
     final baseTextStyle = baseStyle.copyWith(
       color: foregroundColor,
     );
+
+    // マーカーの幅を計算（マーカーテキスト + スペース）
+    final markerPainter = TextPainter(
+      text: TextSpan(text: "$markerText ", style: baseTextStyle),
+      textAlign: context.textAlign,
+      textDirection: context.textDirection,
+      textWidthBasis: context.textWidthBasis,
+      strutStyle: StrutStyle(
+        fontSize: baseTextStyle.fontSize,
+        height: baseTextStyle.height,
+        forceStrutHeight: true,
+      ),
+    );
+    markerPainter.layout();
+
+    padding = padding.copyWith(
+        left: padding.left +
+            indentWidth +
+            controller.style.indentWidth); // 4 for spacing
 
     // 各スパンに個別のスタイルを持つTextSpanツリーを構築
     final textSpans = <TextSpan>[];
@@ -278,21 +285,29 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
       textAlign: context.textAlign,
       textDirection: context.textDirection,
       textWidthBasis: context.textWidthBasis,
-      textHeightBehavior: context.textHeightBehavior,
-      strutStyle: context.strutStyle,
+      strutStyle: StrutStyle(
+        fontSize: baseTextStyle.fontSize,
+        height: baseTextStyle.height,
+        forceStrutHeight: true,
+      ),
     );
 
     // マーカー情報を作成（テキストベースのマーカー）
-    // offsetは垂直方向に中央揃え（preferredLineHeight / 2が加算されている）
-    // TextPainterは左上から描画するため、マーカーの高さの半分を引いて調整
+    // offsetは垂直方向に中央揃え（painter.preferredLineHeight / 2が加算されている）
+    // TextPainterは左上から描画するため、コンテンツペインターの高さの半分を引いて調整
+    // painterとmarkerPainterの行高さが異なる場合を考慮
+    // x座標: マーカーをテキストの左端に近づけるため、markerWidthを引かない
     final markerInfo = MarkerInfo(
       markerBuilder: (canvas, offset) {
         markerPainter.paint(
           canvas,
-          Offset(offset.dx - markerWidth, offset.dy - markerPainter.height / 2),
+          Offset(
+            offset.dx,
+            offset.dy,
+          ),
         );
       },
-      width: markerWidth,
+      width: controller.style.indentWidth,
     );
 
     return BlockLayout(

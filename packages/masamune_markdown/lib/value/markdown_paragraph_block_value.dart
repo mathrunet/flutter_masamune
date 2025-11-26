@@ -158,7 +158,11 @@ class MarkdownParagraphBlockValue extends MarkdownMultiLineBlockValue {
       textDirection: context.textDirection,
       textWidthBasis: context.textWidthBasis,
       textHeightBehavior: context.textHeightBehavior,
-      strutStyle: context.strutStyle,
+      strutStyle: StrutStyle(
+        fontSize: baseTextStyle.fontSize,
+        height: baseTextStyle.height,
+        forceStrutHeight: true,
+      ),
     );
 
     return BlockLayout(

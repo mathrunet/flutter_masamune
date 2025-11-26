@@ -32,7 +32,6 @@ class MarkdownField extends StatefulWidget {
     this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
     this.style,
-    this.strutStyle,
     this.textWidthBasis = TextWidthBasis.parent,
     this.textHeightBehavior,
     this.scrollController,
@@ -167,11 +166,6 @@ class MarkdownField extends StatefulWidget {
   ///
   /// テキストスタイル。
   final TextStyle? style;
-
-  /// Strut style.
-  ///
-  /// ストラットスタイル。
-  final StrutStyle? strutStyle;
 
   /// Text width basis.
   ///
@@ -1171,7 +1165,6 @@ class MarkdownFieldState extends State<MarkdownField>
       textDirection: widget.textDirection ?? Directionality.of(context),
       textWidthBasis: widget.textWidthBasis,
       textHeightBehavior: widget.textHeightBehavior,
-      strutStyle: widget.strutStyle,
       onSelectionChanged: widget.readOnly
           ? (_, __) {} // readonly時は選択処理を無効化
           : (selection, cause) {
@@ -1769,7 +1762,6 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
     this.cursorHeight,
     this.cursorRadius,
     this.textHeightBehavior,
-    this.strutStyle,
     this.onLongPress,
     this.onDoubleTap,
     this.onRequestShowKeyboard,
@@ -1796,7 +1788,6 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
   final TextDirection textDirection;
   final TextWidthBasis textWidthBasis;
   final TextHeightBehavior? textHeightBehavior;
-  final StrutStyle? strutStyle;
   final SelectionChangedCallback onSelectionChanged;
   final VoidCallback? onTap;
   final void Function(Offset globalPosition)? onLongPress;
@@ -1829,7 +1820,6 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       textDirection: textDirection,
       textWidthBasis: textWidthBasis,
       textHeightBehavior: textHeightBehavior,
-      strutStyle: strutStyle,
       onSelectionChanged: onSelectionChanged,
       onTap: onTap,
       onLongPress: onLongPress,
@@ -1867,7 +1857,6 @@ class _MarkdownRenderObjectWidget extends LeafRenderObjectWidget {
       ..textDirection = textDirection
       ..textWidthBasis = textWidthBasis
       ..textHeightBehavior = textHeightBehavior
-      ..strutStyle = strutStyle
       .._onSelectionChanged = onSelectionChanged
       .._onTap = onTap
       .._onLongPress = onLongPress
@@ -1908,7 +1897,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     double? cursorHeight,
     Radius? cursorRadius,
     TextHeightBehavior? textHeightBehavior,
-    StrutStyle? strutStyle,
     void Function(Offset globalPosition)? onLongPress,
     void Function(Offset globalPosition)? onDoubleTap,
     VoidCallback? onRequestShowKeyboard,
@@ -1933,7 +1921,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         _textDirection = textDirection,
         _textWidthBasis = textWidthBasis,
         _textHeightBehavior = textHeightBehavior,
-        _strutStyle = strutStyle,
         _onSelectionChanged = onSelectionChanged,
         _onTap = onTap,
         _onLongPress = onLongPress,
@@ -2163,18 +2150,6 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
   TextHeightBehavior? _textHeightBehavior;
 
-  @override
-  StrutStyle? get strutStyle => _strutStyle;
-  set strutStyle(StrutStyle? value) {
-    if (_strutStyle == value) {
-      return;
-    }
-    _strutStyle = value;
-    markNeedsLayout();
-  }
-
-  StrutStyle? _strutStyle;
-
   SelectionChangedCallback _onSelectionChanged;
 
   VoidCallback? _onTap;
@@ -2292,7 +2267,11 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         textDirection: _textDirection,
         textWidthBasis: _textWidthBasis,
         textHeightBehavior: _textHeightBehavior,
-        strutStyle: _strutStyle,
+        strutStyle: StrutStyle(
+          fontSize: textStyle.fontSize,
+          height: textStyle.height,
+          forceStrutHeight: true,
+        ),
       );
 
       layouts.add(BlockLayout(
@@ -2655,20 +2634,16 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // リストブロックのマーカーを描画（テキストの前）
       if (layout.marker != null) {
         // マーカー位置を計算（テキストの左側）
-        final markerOffset = Offset(
-          offset.dx +
-              layout.offset.dx +
-              layout.padding.left -
-              layout.marker!.width,
-          offset.dy + layout.offset.dy,
-        );
+        final markerOffset = blockOffset +
+            Offset(
+              -layout.marker!.width,
+              0,
+            );
 
         // マーカーペインターを作成
         layout.marker?.markerBuilder?.call(
           canvas,
-          markerOffset +
-              Offset(layout.marker!.width / 3,
-                  layout.painter.preferredLineHeight / 2),
+          markerOffset,
         );
       }
 
@@ -2887,19 +2862,15 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
       // 子ブロックのマーカーを描画
       if (child.marker != null) {
-        final markerOffset = Offset(
-          offset.dx +
-              child.offset.dx +
-              child.padding.left -
-              child.marker!.width,
-          offset.dy + child.offset.dy,
-        );
+        final markerOffset = childBlockOffset +
+            Offset(
+              -child.marker!.width,
+              0,
+            );
 
         child.marker?.markerBuilder?.call(
           canvas,
-          markerOffset +
-              Offset(child.marker!.width / 3,
-                  child.painter.preferredLineHeight / 2),
+          markerOffset,
         );
       }
 
@@ -4295,9 +4266,4 @@ abstract class RenderContext {
   ///
   /// テキストの高さの振る舞い。
   TextHeightBehavior? get textHeightBehavior;
-
-  /// Strut style of the text.
-  ///
-  /// テキストのストライドスタイル。
-  StrutStyle? get strutStyle;
 }

@@ -116,7 +116,6 @@ class MarkdownImageBlockValue extends MarkdownSingleChildBlockValue<Uri> {
       textDirection: context.textDirection,
       textWidthBasis: context.textWidthBasis,
       textHeightBehavior: context.textHeightBehavior,
-      strutStyle: context.strutStyle,
     );
 
     final padding =
