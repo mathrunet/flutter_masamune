@@ -156,6 +156,11 @@ class TextPaintingValue extends PaintingValue {
         text: textSpan,
         textAlign: textAlign,
         textDirection: TextDirection.ltr,
+        strutStyle: StrutStyle(
+          fontSize: textStyle.fontSize,
+          height: textStyle.height,
+          forceStrutHeight: true,
+        ),
       );
 
       // レイアウトを実行（横幅を制約）
