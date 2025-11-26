@@ -214,13 +214,15 @@ class MarkdownController extends MasamuneControllerBase<
       return false;
     }
 
-    // 選択されたブロックのいずれかがインデントを増やせるかチェック（最大インデントは5）
+    // 選択されたブロックのいずれかがインデントを増やせるかチェック
+    // canIndent=falseのブロック（見出しなど）はインデントできない
+    // 最大インデントは5
     for (final blockIndex in selectedBlocks) {
       if (blockIndex >= blocks.length) {
         continue;
       }
       final block = blocks[blockIndex];
-      if (block.indent < 5) {
+      if (block.canIndent && block.indent < 5) {
         return true;
       }
     }
@@ -256,13 +258,15 @@ class MarkdownController extends MasamuneControllerBase<
       return false;
     }
 
-    // 選択されたブロックのいずれかがインデントを減らせるかチェック（最小インデントは0）
+    // 選択されたブロックのいずれかがインデントを減らせるかチェック
+    // canIndent=falseのブロック（見出しなど）はインデントできない
+    // 最小インデントは0
     for (final blockIndex in selectedBlocks) {
       if (blockIndex >= blocks.length) {
         continue;
       }
       final block = blocks[blockIndex];
-      if (block.indent > 0) {
+      if (block.canIndent && block.indent > 0) {
         return true;
       }
     }
