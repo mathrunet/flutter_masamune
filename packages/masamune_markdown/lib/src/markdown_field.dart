@@ -2309,9 +2309,32 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       return layouts;
     }
 
+    // 番号リストの連番を追跡するためのマップ（インデントレベル -> カウンター）
+    final numberListCounters = <int, int>{};
+
     for (final field in fields) {
       for (final block in field.children) {
-        final layout = block.build(this, _controller, textOffset);
+        var blockToRender = block;
+
+        // 番号リストの場合、正しいlineIndexを計算
+        if (block is MarkdownNumberListBlockValue) {
+          final indent = block.indent;
+
+          // このインデントレベルより深いレベルのカウンターをリセット
+          numberListCounters.removeWhere((key, _) => key > indent);
+
+          // このインデントレベルのカウンターを取得または初期化
+          final currentIndex = numberListCounters[indent] ?? 0;
+          numberListCounters[indent] = currentIndex + 1;
+
+          // 正しいlineIndexでブロックをコピー
+          blockToRender = block.copyWith(lineIndex: currentIndex);
+        } else {
+          // 番号リスト以外のブロックの場合、そのインデントレベル以下のカウンターをリセット
+          numberListCounters.removeWhere((key, _) => key >= block.indent);
+        }
+
+        final layout = blockToRender.build(this, _controller, textOffset);
         if (layout == null) {
           continue;
         }

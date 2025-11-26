@@ -283,9 +283,14 @@ class MarkdownNumberListBlockValue extends MarkdownMultiLineBlockValue {
     );
 
     // マーカー情報を作成（テキストベースのマーカー）
+    // offsetは垂直方向に中央揃え（preferredLineHeight / 2が加算されている）
+    // TextPainterは左上から描画するため、マーカーの高さの半分を引いて調整
     final markerInfo = MarkerInfo(
       markerBuilder: (canvas, offset) {
-        markerPainter.paint(canvas, Offset(offset.dx - markerWidth, offset.dy));
+        markerPainter.paint(
+          canvas,
+          Offset(offset.dx - markerWidth, offset.dy - markerPainter.height / 2),
+        );
       },
       width: markerWidth,
     );
