@@ -200,9 +200,10 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
 
     // チェックボックスマーカー情報を作成
     void Function(Canvas canvas, Offset offset)? markerSymbol;
+    final markerOffset = Offset(boxSize / 2 + 2, painterHeight / 2 - 1);
     markerSymbol = (canvas, offset) {
       final rect = Rect.fromCenter(
-        center: offset + Offset(boxSize / 2 + 2, painterHeight / 2 - 1),
+        center: offset + markerOffset,
         width: boxSize,
         height: boxSize,
       );
@@ -225,9 +226,12 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
           ..strokeCap = StrokeCap.round;
 
         final checkPath = Path();
-        checkPath.moveTo(offset.dx - 4, offset.dy);
-        checkPath.lineTo(offset.dx - 1, offset.dy + 3);
-        checkPath.lineTo(offset.dx + 4, offset.dy - 4);
+        checkPath.moveTo(
+            offset.dx + markerOffset.dx - 4, offset.dy + markerOffset.dy);
+        checkPath.lineTo(
+            offset.dx + markerOffset.dx - 1, offset.dy + markerOffset.dy + 3);
+        checkPath.lineTo(
+            offset.dx + markerOffset.dx + 4, offset.dy + markerOffset.dy - 4);
 
         canvas.drawPath(checkPath, checkPaint);
       }

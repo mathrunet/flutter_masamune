@@ -3064,9 +3064,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     // マーカーのタップをチェック
     for (final layout in _blockLayouts) {
       if (layout.marker?.onTapMarker != null) {
-        // マーカーの位置を計算
+        // マーカーの位置を計算（paint()と同じ計算方法を使用）
         final markerOffset = Offset(
-          layout.offset.dx - layout.marker!.width,
+          layout.offset.dx + layout.padding.left - layout.marker!.width,
           layout.offset.dy,
         );
         final markerRect = Rect.fromLTWH(
