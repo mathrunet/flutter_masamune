@@ -3062,7 +3062,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     debugPrint("[MarkdownField] _handleTapDown position=$position");
 
     // マーカーのタップをチェック
-    for (final layout in _blockLayouts) {
+    for (var i = 0; i < _blockLayouts.length; i++) {
+      final layout = _blockLayouts[i];
       if (layout.marker?.onTapMarker != null) {
         // マーカーの位置を計算（paint()と同じ計算方法を使用）
         final markerOffset = Offset(
@@ -3075,9 +3076,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           layout.marker!.width,
           layout.painter.preferredLineHeight,
         );
+        debugPrint(
+            "[MarkdownField] Checking marker[$i]: rect=$markerRect, blockId=${layout.block.id}");
 
         // マーカー領域内でタップされた場合
         if (markerRect.contains(position)) {
+          debugPrint(
+              "[MarkdownField] Marker[$i] hit! blockId=${layout.block.id}");
           layout.marker!.onTapMarker!();
           return;
         }

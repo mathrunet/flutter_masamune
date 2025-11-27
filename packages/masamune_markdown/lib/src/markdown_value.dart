@@ -698,9 +698,11 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     if (maintainIndentOnNewLine) {
       indent ??= this.indent;
     }
+    // Always generate a new ID for cloned blocks to ensure uniqueness
+    final newId = id ?? uuid();
     if (block is MarkdownMultiLineBlockValue) {
       return block.copyWith(
-        id: id ?? block.id,
+        id: newId,
         indent: indent,
         children: [
           child ?? MarkdownLineValue.createEmpty(initialText: initialText)
@@ -708,7 +710,7 @@ abstract class MarkdownBlockValue extends MarkdownValue {
       );
     } else {
       return MarkdownParagraphBlockValue(
-        id: id ?? block.id,
+        id: newId,
         children: [
           child ?? MarkdownLineValue.createEmpty(initialText: initialText)
         ],
