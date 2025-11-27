@@ -160,7 +160,14 @@ class MarkdownToggleListBlockValue extends MarkdownMultiLineBlockValue {
       final line = children[i];
       for (final span in line.children) {
         // スパン固有のスタイルを適用
-        final spanStyle = span.textStyle(context, controller, baseTextStyle);
+        var spanStyle = span.textStyle(context, controller, baseTextStyle);
+
+        // チェックされている場合は打ち消し線を追加
+        if (checked) {
+          spanStyle = spanStyle?.copyWith(
+            decoration: TextDecoration.lineThrough,
+          );
+        }
 
         textSpans.add(TextSpan(
           text: span.value,
