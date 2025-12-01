@@ -690,6 +690,45 @@ class MarkdownFieldState extends State<MarkdownField>
     _composingRegion = null;
   }
 
+  /// Finishes IME composing and commits the current composing text.
+  ///
+  /// This should be called before performing any non-IME operations
+  /// (toolbar button taps, cursor movements, selection changes, etc.)
+  /// to ensure the composing text is properly committed.
+  ///
+  /// IME変換を終了し、現在の変換テキストを確定します。
+  ///
+  /// IME以外の操作（ツールバーボタンのタップ、カーソル移動、選択変更など）を
+  /// 実行する前に呼び出して、変換テキストが正しく確定されるようにします。
+  void finishComposing() {
+    if (_composingText == null && _composingRegion == null) {
+      // 変換中でない場合は何もしない
+      return;
+    }
+
+    debugPrint("[MarkdownField] finishComposing: committing composing text");
+
+    // 変換テキストがある場合は確定処理を行う
+    if (_composingText != null) {
+      final currentText = widget.controller.rawText;
+
+      // テキストが既にコミットされていない場合はコミット
+      if (_composingText != currentText) {
+        widget.controller.replaceText(0, currentText.length, _composingText!);
+        widget.onChanged?.call(widget.controller.value ?? []);
+      }
+    }
+
+    // 変換状態をクリア
+    _composingText = null;
+    _composingRegion = null;
+
+    // リモート値を更新（変換状態がないことをIMEに通知）
+    _updateRemoteEditingValue();
+
+    setState(() {});
+  }
+
   // TextInputClientの実装
   @override
   void updateEditingValue(TextEditingValue value) {
@@ -841,11 +880,24 @@ class MarkdownFieldState extends State<MarkdownField>
           // 改行後に変換領域をクリア
           _composingRegion = null;
         } else if (replacementText.isEmpty && wasComposing && !isComposing) {
-          // composing確定のみで改行なし - composing状態をクリアして終了
-          debugPrint("[MarkdownField] Composing confirmed without newline");
+          // composing終了時
+          if (oldEnd > start) {
+            // 削除が必要な場合（composing中の最後の文字を削除した場合）
+            // 例: 「あかさは」→「あかさ」で「は」を削除
+            debugPrint(
+                "[MarkdownField] Composing ended with deletion: deleting from $start to $oldEnd");
+            widget.controller.replaceText(start, oldEnd, "");
+            // 削除後のテキスト長を超えないようにクランプ
+            final newText = widget.controller.rawText;
+            final newCursorPos = start.clamp(0, newText.length);
+            _selection = TextSelection.collapsed(offset: newCursorPos);
+          } else {
+            // 確定のみで削除なし
+            debugPrint("[MarkdownField] Composing confirmed without change");
+            _selection = value.selection;
+          }
           _composingText = null;
           _composingRegion = null;
-          _selection = value.selection;
           _updateRemoteEditingValue();
           widget.onChanged?.call(widget.controller.value ?? []);
           setState(() {});
@@ -877,8 +929,10 @@ class MarkdownFieldState extends State<MarkdownField>
               oldEnd > start &&
               replacementText.isEmpty) {
             // ブロックが削除/マージされた
-            // カーソル位置を設定
-            _selection = TextSelection.collapsed(offset: start);
+            // カーソル位置を設定（新しいテキスト長を超えないようにクランプ）
+            final newText = widget.controller.rawText;
+            final newCursorPos = start.clamp(0, newText.length);
+            _selection = TextSelection.collapsed(offset: newCursorPos);
             _composingRegion = null;
           } else {
             // カーソル位置と変換領域を更新
@@ -1171,23 +1225,35 @@ class MarkdownFieldState extends State<MarkdownField>
               debugPrint(
                   "[MarkdownField] onSelectionChanged: selection=$selection, cause=$cause");
               final hadFocus = _focusNode.hasFocus;
-              setState(() {
-                _selection = selection;
-                _cursorBlinkController?.reset();
-                _cursorBlinkController?.repeat();
-              });
 
-              // タップ/ドラッグで選択が変わる場合、変換状態をクリア
+              // タップ/ドラッグで選択が変わる場合、変換テキストを確定してからクリア
               // composing中にタップした場合、composingを終了させる必要がある
               final wasComposing = _composingRegion != null &&
                   _composingRegion!.start >= 0 &&
                   _composingRegion!.end > _composingRegion!.start;
               if (cause == SelectionChangedCause.tap ||
                   cause == SelectionChangedCause.drag ||
+                  cause == SelectionChangedCause.doubleTap ||
+                  cause == SelectionChangedCause.longPress ||
                   cause == SelectionChangedCause.toolbar) {
+                // 変換テキストがある場合は確定してからクリア
+                if (_composingText != null) {
+                  final currentText = widget.controller.rawText;
+                  if (_composingText != currentText) {
+                    widget.controller
+                        .replaceText(0, currentText.length, _composingText!);
+                    widget.onChanged?.call(widget.controller.value ?? []);
+                  }
+                }
                 _composingText = null;
                 _composingRegion = null;
               }
+
+              setState(() {
+                _selection = selection;
+                _cursorBlinkController?.reset();
+                _cursorBlinkController?.repeat();
+              });
 
               // Androidではタップ後にフォーカスが失われるため、
               // composing中だった場合はIME更新を遅延させる
@@ -1328,7 +1394,11 @@ class MarkdownFieldState extends State<MarkdownField>
         debugPrint(
             "[MarkdownField] Deleting character at position ${cursorPos - 1}");
         widget.controller.replaceText(cursorPos - 1, cursorPos, "");
-        _selection = TextSelection.collapsed(offset: cursorPos - 1);
+        // 削除後のテキスト長を取得し、カーソル位置をクランプ
+        // （空ブロック削除時に複数文字分のrawText長が変わることがあるため）
+        final newText = widget.controller.rawText;
+        final newCursorPos = (cursorPos - 1).clamp(0, newText.length);
+        _selection = TextSelection.collapsed(offset: newCursorPos);
         _updateRemoteEditingValue();
         widget.onChanged?.call(widget.controller.value ?? []);
         setState(() {});
@@ -1339,7 +1409,10 @@ class MarkdownFieldState extends State<MarkdownField>
       final end = _selection.end;
       debugPrint("[MarkdownField] Deleting selection from $start to $end");
       widget.controller.replaceText(start, end, "");
-      _selection = TextSelection.collapsed(offset: start);
+      // 削除後のテキスト長を取得し、カーソル位置をクランプ
+      final newText = widget.controller.rawText;
+      final newCursorPos = start.clamp(0, newText.length);
+      _selection = TextSelection.collapsed(offset: newCursorPos);
       _updateRemoteEditingValue();
       widget.onChanged?.call(widget.controller.value ?? []);
       setState(() {});
@@ -1361,6 +1434,11 @@ class MarkdownFieldState extends State<MarkdownField>
       if (cursorPos < text.length) {
         debugPrint("[MarkdownField] Deleting character at position $cursorPos");
         widget.controller.replaceText(cursorPos, cursorPos + 1, "");
+        // 削除後のテキスト長を取得し、カーソル位置をクランプ
+        // （空ブロック削除時に複数文字分のrawText長が変わることがあるため）
+        final newText = widget.controller.rawText;
+        final newCursorPos = cursorPos.clamp(0, newText.length);
+        _selection = TextSelection.collapsed(offset: newCursorPos);
         _updateRemoteEditingValue();
         widget.onChanged?.call(widget.controller.value ?? []);
         setState(() {});

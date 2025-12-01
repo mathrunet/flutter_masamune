@@ -104,6 +104,20 @@ class MarkdownController extends MasamuneControllerBase<
     }
   }
 
+  /// Finishes IME composing and commits the current composing text.
+  ///
+  /// This should be called before performing any non-IME operations
+  /// (toolbar button taps, indent changes, etc.) to ensure the
+  /// composing text is properly committed.
+  ///
+  /// IME変換を終了し、現在の変換テキストを確定します。
+  ///
+  /// IME以外の操作（ツールバーボタンのタップ、インデント変更など）を
+  /// 実行する前に呼び出して、変換テキストが正しく確定されるようにします。
+  void finishComposing() {
+    _field?.finishComposing();
+  }
+
   /// Get the current block at the specified offset or cursor position.
   ///
   /// 指定されたオフセットまたはカーソル位置にある現在のブロックを取得します。
@@ -282,6 +296,9 @@ class MarkdownController extends MasamuneControllerBase<
       return;
     }
 
+    // IME入力中の場合は先に確定する
+    finishComposing();
+
     // 変更前に現在の状態を保存
     history.saveToUndoStack(immediate: true);
 
@@ -348,6 +365,9 @@ class MarkdownController extends MasamuneControllerBase<
     if (!canDecreaseIndent) {
       return;
     }
+
+    // IME入力中の場合は先に確定する
+    finishComposing();
 
     // 変更前に現在の状態を保存
     history.saveToUndoStack(immediate: true);
@@ -416,6 +436,9 @@ class MarkdownController extends MasamuneControllerBase<
     if (_field == null) {
       return null;
     }
+
+    // IME入力中の場合は先に確定する
+    finishComposing();
 
     // 変更前に現在の状態を保存
     if (!history.inProgress) {
@@ -590,6 +613,9 @@ class MarkdownController extends MasamuneControllerBase<
       return null;
     }
 
+    // IME入力中の場合は先に確定する
+    finishComposing();
+
     // 変更前に現在の状態を保存
     if (!history.inProgress) {
       history.saveToUndoStack(immediate: true);
@@ -752,6 +778,9 @@ class MarkdownController extends MasamuneControllerBase<
     if (_field == null) {
       return null;
     }
+
+    // IME入力中の場合は先に確定する
+    finishComposing();
 
     // 変更前に現在の状態を保存
     if (!history.inProgress) {
@@ -1114,6 +1143,11 @@ class MarkdownController extends MasamuneControllerBase<
         // すべてのブロックが削除された場合、空のブロックを作成
         if (blocks.isEmpty) {
           blocks.add(MarkdownBlockValue.createEmpty());
+        } else if (originalRange.length >= 2) {
+          // 2つ以上の空ブロックをマージした場合、1つの空ブロックを保持
+          // （改行を削除して2つの空ブロックを1つにマージする場合）
+          final template = originalRange[0];
+          blocks.insert(startBlockIndex, template.clone(initialText: ""));
         }
       } else {
         final segments = mergedText.split("\n");
@@ -2987,6 +3021,9 @@ class MarkdownController extends MasamuneControllerBase<
   ///
   /// 指定されたオフセット位置に新しい段落ブロックを挿入します。
   void insertNewLine(int offset) {
+    // IME入力中の場合は先に確定する
+    finishComposing();
+
     // 変更前に現在の状態を保存（明示的なアクションの場合は即座に）
     history.saveToUndoStack(immediate: true);
 
@@ -3852,6 +3889,10 @@ class MarkdownController extends MasamuneControllerBase<
     if (field == null) {
       return;
     }
+
+    // IME入力中の場合は先に確定する
+    finishComposing();
+
     // 現在のカーソル位置にメンションを挿入
     final selection = field._selection;
     if (selection.isCollapsed) {

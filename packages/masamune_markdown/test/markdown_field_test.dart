@@ -125,6 +125,73 @@ void main() {
     expect(controller.selection.baseOffset, 5);
     expect(controller.rawText, "aaa\nc");
   });
+  testWidgets("MarkdownField.field.multiLineDelete", (tester) async {
+    final context = await buildMarkdownField(tester);
+    final controller = context.controller;
+    final input = context.input;
+
+    await input.enterText("aaa");
+    await input.enterText("\n\n\n");
+    await input.enterText("bbb");
+    expect(controller.selection.baseOffset, 9);
+    await input.deleteText(count: 1);
+    await input.deleteText(count: 1);
+    await input.deleteText(count: 1);
+    expect(controller.selection.baseOffset, 6);
+    expect(controller.rawText, "aaa\n\n\n");
+    expect(controller.value?.first.children.length, 4);
+    expect(controller.value?.first.children[0].runtimeType,
+        MarkdownParagraphBlockValue);
+    expect(
+      controller.value?.first.children[0].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "aaa").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[1].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[2].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[3].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    await input.deleteText(count: 1);
+    expect(controller.selection.baseOffset, 5);
+    expect(controller.rawText, "aaa\n\n");
+    expect(controller.value?.first.children.length, 3);
+    expect(controller.value?.first.children[0].runtimeType,
+        MarkdownParagraphBlockValue);
+    expect(
+      controller.value?.first.children[0].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "aaa").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[1].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[2].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    await input.enterText("c");
+    expect(controller.selection.baseOffset, 6);
+    expect(controller.rawText, "aaa\n\nc");
+    expect(
+      controller.value?.first.children[0].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "aaa").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[1].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "").toDebug(),
+    );
+    expect(
+      controller.value?.first.children[2].toDebug(),
+      MarkdownParagraphBlockValue.createEmpty(initialText: "c").toDebug(),
+    );
+  });
   testWidgets("MarkdownField.field.cursor", (tester) async {
     final context = await buildMarkdownField(tester);
     final controller = context.controller;

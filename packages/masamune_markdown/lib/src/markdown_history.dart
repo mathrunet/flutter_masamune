@@ -62,6 +62,9 @@ class MarkdownHistory {
   ///
   /// ドキュメントをやり直します。
   void redo() {
+    // IME入力中の場合は先に確定する
+    _controller.finishComposing();
+
     if (!canRedo) {
       return;
     }
@@ -108,6 +111,9 @@ class MarkdownHistory {
   ///
   /// ドキュメントを元に戻します。
   void undo() {
+    // IME入力中の場合は先に確定する
+    _controller.finishComposing();
+
     // 保留中の変更がある場合は、まず保存
     if (_hasPendingHistorySave) {
       _historyDebounceTimer?.cancel();

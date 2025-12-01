@@ -199,6 +199,9 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   void toggleMode(MarkdownPrimaryTools tool) {
+    // IME入力中の場合は先に確定する
+    controller.finishComposing();
+
     setState(() {
       if (tool == _currentTool) {
         if (_showBlockMenu) {
@@ -256,6 +259,9 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   void toggleLinkDialog([String? initialUrl]) {
+    // IME入力中の場合は先に確定する
+    controller.finishComposing();
+
     if (_linkSetting != null) {
       setState(() {
         _linkSetting = null;
@@ -274,6 +280,9 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   void deleteMode() {
+    // IME入力中の場合は先に確定する
+    controller.finishComposing();
+
     setState(() {
       if (_currentTool is MentionMarkdownPrimaryTools) {
         _mentionSetting?.cancel();
@@ -291,6 +300,9 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
 
   @override
   void closeKeyboard() {
+    // IME入力中の場合は先に確定する
+    controller.finishComposing();
+
     setState(() {
       _isKeyboardHidden = true;
       _showBlockMenu = false;
