@@ -488,7 +488,10 @@ class MarkdownFieldState extends State<MarkdownField>
             : Brightness.light,
       );
       _textInputConnection = TextInput.attach(this, textInputConfiguration);
+      debugPrint("[MarkdownField] Calling show() on new input connection");
       _textInputConnection!.show();
+    } else {
+      debugPrint("[MarkdownField] Input connection already exists");
     }
 
     // 常にIMEを現在の状態に同期する
@@ -1272,11 +1275,12 @@ class MarkdownFieldState extends State<MarkdownField>
               widget.controller.notifySelectionChanged();
 
               // Androidでタップ/ロングプレス/ダブルタップ後にフォーカスが失われる問題を修正
-              // フォーカスがあった場合、フラグを設定してフォーカス喪失時に再取得
-              if (hadFocus &&
-                  (cause == SelectionChangedCause.tap ||
-                      cause == SelectionChangedCause.longPress ||
-                      cause == SelectionChangedCause.doubleTap)) {
+              // タップ/ロングプレス/ダブルタップ操作中はフォーカスを復元する
+              // hadFocusに関わらず設定（ロングプレス等では非同期でフォーカスがリクエストされるため、
+              // onSelectionChanged時点ではhadFocusがfalseの場合がある）
+              if (cause == SelectionChangedCause.tap ||
+                  cause == SelectionChangedCause.longPress ||
+                  cause == SelectionChangedCause.doubleTap) {
                 debugPrint(
                     "[MarkdownField] Setting focus restore flag (hadFocus=$hadFocus, cause=$cause)");
                 _shouldRestoreFocusOnLoss = true;
@@ -1326,7 +1330,27 @@ class MarkdownFieldState extends State<MarkdownField>
         widget.onDoubleTap?.call(globalPosition);
       },
       onRequestShowKeyboard: () {
-        _textInputConnection?.show();
+        debugPrint(
+            "[MarkdownField] onRequestShowKeyboard called, hasInputConnection=$_hasInputConnection");
+        if (_textInputConnection != null) {
+          // 接続がある場合はキーボードを表示
+          final attached = _textInputConnection?.attached ?? false;
+          debugPrint(
+              "[MarkdownField] Connection exists, attached=$attached, calling show()");
+          if (!attached) {
+            // attachされていない場合は再接続
+            debugPrint("[MarkdownField] Connection not attached, reopening");
+            _closeInputConnectionIfNeeded();
+            _openInputConnection();
+          } else {
+            _textInputConnection!.show();
+          }
+        } else {
+          // 接続がない場合は新しく開く
+          debugPrint(
+              "[MarkdownField] _textInputConnection is null, opening new connection");
+          _openInputConnection();
+        }
       },
       enabled: widget.enabled ?? true,
       readOnly: widget.readOnly,
@@ -3213,7 +3237,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // ロングプレスタイマーを開始
     _longPressTimer?.cancel();
+    debugPrint("[MarkdownField] Starting long press timer (500ms)");
     _longPressTimer = Timer(_longPressTimeout, () {
+      debugPrint("[MarkdownField] Long press timer fired!");
       _longPressDetected = true;
       _handleLongPressDetected(event.position);
     });
@@ -3646,7 +3672,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapUp(PointerUpEvent event) {
-    debugPrint("[MarkdownField] _handleTapUp called");
+    debugPrint(
+        "[MarkdownField] _handleTapUp called, _longPressTimer=${_longPressTimer != null}, _longPressDetected=$_longPressDetected");
     _longPressTimer?.cancel();
     _longPressTimer = null;
 
@@ -3810,15 +3837,19 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     debugPrint("[MarkdownField] _handleLongPressDetected called");
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
-    debugPrint("[MarkdownField] Long press textOffset=$textOffset");
+    debugPrint(
+        "[MarkdownField] Long press textOffset=$textOffset, hasFocus=${_focusNode.hasFocus}");
 
     if (textOffset != null) {
       final needsFocus = !_focusNode.hasFocus;
+      debugPrint("[MarkdownField] needsFocus=$needsFocus");
       // フォーカスがない場合はフォーカスを要求
       // _handleFocusChangedで入力接続が開かれる
       if (needsFocus) {
         debugPrint("[MarkdownField] Focus not available, requesting focus");
         _focusNode.requestFocus();
+        debugPrint(
+            "[MarkdownField] After requestFocus, hasFocus=${_focusNode.hasFocus}");
       }
 
       // 位置の単語を選択
@@ -3837,16 +3868,24 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       );
 
       // Androidでロングプレス後にキーボードが表示されない問題を修正
-      // フォーカスを要求した場合、フレーム後にキーボードを明示的に表示
-      if (needsFocus) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_focusNode.hasFocus) {
-            debugPrint(
-                "[MarkdownField] Explicitly showing keyboard after long press");
-            _onRequestShowKeyboard?.call();
-          }
-        });
-      }
+      // テキストが選択された場合は常にキーボードを表示する
+      // （フォーカスがあってもキーボードが閉じている場合があるため）
+      debugPrint(
+          "[MarkdownField] Scheduling postFrameCallback to show keyboard");
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        debugPrint(
+            "[MarkdownField] postFrameCallback: hasFocus=${_focusNode.hasFocus}, _onRequestShowKeyboard=${_onRequestShowKeyboard != null}");
+        if (_focusNode.hasFocus) {
+          debugPrint(
+              "[MarkdownField] Explicitly showing keyboard after long press");
+          _onRequestShowKeyboard?.call();
+        } else {
+          debugPrint(
+              "[MarkdownField] Focus not acquired in postFrameCallback, not showing keyboard");
+        }
+      });
+    } else {
+      debugPrint("[MarkdownField] textOffset is null, not selecting");
     }
     // 空スペースを押した場合でもonLongPressコールバックを呼び出す
     _onLongPress?.call(globalPosition);
@@ -3970,6 +4009,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // 離れすぎた場合はロングプレスをキャンセル
     if (distance > 10) {
+      debugPrint(
+          "[MarkdownField] Distance > 10 ($distance), cancelling long press timer");
       _longPressTimer?.cancel();
       _longPressTimer = null;
     }
@@ -3982,7 +4023,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // 方向チェックを閾値チェックの前に行う（小さな動きでもスクロールを検出）
       if (delta.dy.abs() > delta.dx.abs() && distance > 5) {
         debugPrint(
-            "[MarkdownField] Detected vertical scroll, setting _isScrollGesture=true");
+            "[MarkdownField] Detected vertical scroll, setting _isScrollGesture=true, cancelling long press timer");
         _isScrollGesture = true;
         _lastTapDownPosition = null;
         _longPressTimer?.cancel();
