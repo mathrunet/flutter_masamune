@@ -1370,6 +1370,28 @@ class MarkdownFieldState extends State<MarkdownField>
         controller: _scrollController,
         physics: widget.scrollPhysics ?? const AlwaysScrollableScrollPhysics(),
         padding: widget.padding,
+        // Bouncingスクロール時にオーバースクロール領域でコンテンツがクリップされないようにする
+        clipBehavior: Clip.none,
+        child: child,
+      );
+    }
+
+    // expandsがtrueの場合、コンテンツ外の空のエリアをタップしてもフォーカスを取得できるようにする
+    if (widget.expands) {
+      child = GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          debugPrint(
+              "[MarkdownField] Expands area tapped (GestureDetector), requesting focus");
+          if (!_focusNode.hasFocus) {
+            _focusNode.requestFocus();
+          }
+          // テキストの末尾にカーソルを移動
+          final textLength = widget.controller.rawText.length;
+          _selection = TextSelection.collapsed(offset: textLength);
+          _updateRemoteEditingValue();
+          setState(() {});
+        },
         child: child,
       );
     }
@@ -3903,17 +3925,21 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       );
     } else {
       // 空スペース（パディング/マージン）をタップ
-      // フォーカスがあり、かつexpandsがtrueの場合はテキストの末尾にカーソルを移動
-      // それ以外の場合は現在の選択を維持
-      if (_expands && _focusNode.hasFocus) {
+      // expandsがtrueの場合はテキストの末尾にカーソルを移動してフォーカスを取得
+      if (_expands) {
         final textLength = _getPlainText().length;
+        // フォーカスがない場合はフォーカスを要求
+        if (!_focusNode.hasFocus) {
+          debugPrint(
+              "[MarkdownField] Expands empty area tapped, requesting focus");
+          _focusNode.requestFocus();
+        }
         _onSelectionChanged(
           TextSelection.collapsed(offset: textLength),
           SelectionChangedCause.tap,
         );
       }
-      // フォーカスがない場合やexpandsがfalseの場合は何もしない
-      // （選択を解除しない）
+      // expandsがfalseの場合は何もしない（選択を解除しない）
     }
   }
 
