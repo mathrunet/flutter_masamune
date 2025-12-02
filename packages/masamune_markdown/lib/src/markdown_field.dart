@@ -457,6 +457,14 @@ class MarkdownFieldState extends State<MarkdownField>
       _closeInputConnectionIfNeeded();
       _cursorBlinkController?.stop();
       _showCursor = false;
+
+      // フォーカスが完全に失われた場合、選択をクリア（カーソル位置のみに縮小）
+      // これにより長押し選択後にフィールド外をタップした場合、選択状態が解除される
+      if (!_selection.isCollapsed) {
+        debugPrint(
+            "[MarkdownField] Collapsing selection on focus loss: ${_selection.baseOffset}");
+        _selection = TextSelection.collapsed(offset: _selection.baseOffset);
+      }
     }
     setState(() {});
   }
