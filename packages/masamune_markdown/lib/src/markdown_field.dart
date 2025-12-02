@@ -2637,13 +2637,15 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // ブロック背景がある場合は描画
       final blockStyle = layout.block.style(this, controller);
       final backgroundColor = blockStyle.backgroundColor;
+      // 視覚的な高さ（マージンを除く）: content + padding.vertical
+      final visualHeight = layout.height - layout.margin.bottom;
       if (backgroundColor != null) {
-        // 背景はパディングを含むブロック全体をカバー
+        // 背景はパディングを含むブロック全体をカバー（マージンは除く）
         final blockRect = Rect.fromLTWH(
           offset.dx,
           offset.dy + layout.offset.dy - layout.padding.top,
           size.width,
-          layout.height,
+          visualHeight,
         );
         canvas.drawRect(
           blockRect,
@@ -2654,12 +2656,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // ブロックボーダーがある場合は描画
       final border = blockStyle.border;
       if (border != null) {
-        // ボーダーはパディングを含むブロック全体をカバー
+        // ボーダーはパディングを含むブロック全体をカバー（マージンは除く）
         final blockRect = Rect.fromLTWH(
           offset.dx,
           offset.dy + layout.offset.dy - layout.padding.top,
           size.width,
-          layout.height,
+          visualHeight,
         );
         border.paint(
           canvas,
@@ -2928,12 +2930,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // 子ブロック背景を描画
       final childBlockStyle = child.block.style(this, controller);
       final childBackgroundColor = childBlockStyle.backgroundColor;
+      // 視覚的な高さ（マージンを除く）
+      final childVisualHeight = child.height - child.margin.bottom;
       if (childBackgroundColor != null) {
         final childBlockRect = Rect.fromLTWH(
           offset.dx,
           offset.dy + child.offset.dy - child.padding.top,
           size.width - (offset.dx - rootOffset.dx),
-          child.height,
+          childVisualHeight,
         );
         canvas.drawRect(
           childBlockRect,
@@ -2948,7 +2952,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           offset.dx,
           offset.dy + child.offset.dy - child.padding.top,
           size.width - (offset.dx - rootOffset.dx),
-          child.height,
+          childVisualHeight,
         );
         childBorder.paint(
           canvas,
