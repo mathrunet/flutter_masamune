@@ -1407,6 +1407,20 @@ class MarkdownFieldState extends State<MarkdownField>
       return KeyEventResult.handled;
     }
 
+    // 左矢印キーの処理
+    if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      debugPrint("[MarkdownField] Arrow left key detected");
+      _handleArrowLeft();
+      return KeyEventResult.handled;
+    }
+
+    // 右矢印キーの処理
+    if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      debugPrint("[MarkdownField] Arrow right key detected");
+      _handleArrowRight();
+      return KeyEventResult.handled;
+    }
+
     return KeyEventResult.ignored;
   }
 
@@ -1478,6 +1492,47 @@ class MarkdownFieldState extends State<MarkdownField>
     } else {
       // 選択範囲を削除（バックスペースと同じ）
       _handleBackspace();
+    }
+  }
+
+  /// Handle left arrow key press.
+  ///
+  /// 左矢印キーの押下を処理します。
+  void _handleArrowLeft() {
+    if (_selection.isCollapsed) {
+      // カーソルを1文字左に移動
+      final cursorPos = _selection.baseOffset;
+      if (cursorPos > 0) {
+        _selection = TextSelection.collapsed(offset: cursorPos - 1);
+        _updateRemoteEditingValue();
+        setState(() {});
+      }
+    } else {
+      // 選択範囲がある場合、選択の開始位置にカーソルを移動
+      _selection = TextSelection.collapsed(offset: _selection.start);
+      _updateRemoteEditingValue();
+      setState(() {});
+    }
+  }
+
+  /// Handle right arrow key press.
+  ///
+  /// 右矢印キーの押下を処理します。
+  void _handleArrowRight() {
+    final text = widget.controller.rawText;
+    if (_selection.isCollapsed) {
+      // カーソルを1文字右に移動
+      final cursorPos = _selection.baseOffset;
+      if (cursorPos < text.length) {
+        _selection = TextSelection.collapsed(offset: cursorPos + 1);
+        _updateRemoteEditingValue();
+        setState(() {});
+      }
+    } else {
+      // 選択範囲がある場合、選択の終了位置にカーソルを移動
+      _selection = TextSelection.collapsed(offset: _selection.end);
+      _updateRemoteEditingValue();
+      setState(() {});
     }
   }
 
