@@ -2637,6 +2637,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // ブロック背景がある場合は描画
       final blockStyle = layout.block.style(this, controller);
       final backgroundColor = blockStyle.backgroundColor;
+      final borderRadius = blockStyle.borderRadius;
       // 視覚的な高さ（マージンを除く）: content + padding.vertical
       final visualHeight = layout.height - layout.margin.bottom;
       if (backgroundColor != null) {
@@ -2647,10 +2648,18 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           size.width,
           visualHeight,
         );
-        canvas.drawRect(
-          blockRect,
-          Paint()..color = backgroundColor,
-        );
+        if (borderRadius != null) {
+          final rRect = (borderRadius as BorderRadius).toRRect(blockRect);
+          canvas.drawRRect(
+            rRect,
+            Paint()..color = backgroundColor,
+          );
+        } else {
+          canvas.drawRect(
+            blockRect,
+            Paint()..color = backgroundColor,
+          );
+        }
       }
 
       // ブロックボーダーがある場合は描画
@@ -2663,10 +2672,20 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           size.width,
           visualHeight,
         );
-        border.paint(
-          canvas,
-          blockRect,
-        );
+        if (borderRadius != null) {
+          final rRect = (borderRadius as BorderRadius).toRRect(blockRect);
+          // 角丸ボーダーを描画
+          final paint = Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = border.top.width
+            ..color = border.top.color;
+          canvas.drawRRect(rRect, paint);
+        } else {
+          border.paint(
+            canvas,
+            blockRect,
+          );
+        }
       }
 
       // このブロックの選択を計算
@@ -2930,6 +2949,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // 子ブロック背景を描画
       final childBlockStyle = child.block.style(this, controller);
       final childBackgroundColor = childBlockStyle.backgroundColor;
+      final childBorderRadius = childBlockStyle.borderRadius;
       // 視覚的な高さ（マージンを除く）
       final childVisualHeight = child.height - child.margin.bottom;
       if (childBackgroundColor != null) {
@@ -2939,10 +2959,19 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           size.width - (offset.dx - rootOffset.dx),
           childVisualHeight,
         );
-        canvas.drawRect(
-          childBlockRect,
-          Paint()..color = childBackgroundColor,
-        );
+        if (childBorderRadius != null) {
+          final rRect =
+              (childBorderRadius as BorderRadius).toRRect(childBlockRect);
+          canvas.drawRRect(
+            rRect,
+            Paint()..color = childBackgroundColor,
+          );
+        } else {
+          canvas.drawRect(
+            childBlockRect,
+            Paint()..color = childBackgroundColor,
+          );
+        }
       }
 
       // 子ブロックボーダーを描画
@@ -2954,10 +2983,21 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           size.width - (offset.dx - rootOffset.dx),
           childVisualHeight,
         );
-        childBorder.paint(
-          canvas,
-          childBlockRect,
-        );
+        if (childBorderRadius != null) {
+          final rRect =
+              (childBorderRadius as BorderRadius).toRRect(childBlockRect);
+          // 角丸ボーダーを描画
+          final paint = Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = childBorder.top.width
+            ..color = childBorder.top.color;
+          canvas.drawRRect(rRect, paint);
+        } else {
+          childBorder.paint(
+            canvas,
+            childBlockRect,
+          );
+        }
       }
 
       // 子ブロックのスパン背景装飾を描画
