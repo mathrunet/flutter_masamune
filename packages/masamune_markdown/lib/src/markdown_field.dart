@@ -1365,33 +1365,36 @@ class MarkdownFieldState extends State<MarkdownField>
       selectionAdjuster: _adjustSelectionForLinksAndMentions,
     );
 
-    if (widget.scrollable) {
+    // expandsがtrueかつscrollableの場合、ConstrainedBoxで最小高さを設定して
+    // RenderObjectが親の高さまで拡張され、空のエリアのタップも処理できるようにする
+    if (widget.expands && widget.scrollable) {
+      final scrollViewChild = child;
+      child = LayoutBuilder(
+        builder: (context, constraints) {
+          final minHeight =
+              constraints.maxHeight.isFinite ? constraints.maxHeight : 0.0;
+          return SingleChildScrollView(
+            controller: _scrollController,
+            physics:
+                widget.scrollPhysics ?? const AlwaysScrollableScrollPhysics(),
+            padding: widget.padding,
+            clipBehavior: Clip.none,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: minHeight,
+              ),
+              child: scrollViewChild,
+            ),
+          );
+        },
+      );
+    } else if (widget.scrollable) {
       child = SingleChildScrollView(
         controller: _scrollController,
         physics: widget.scrollPhysics ?? const AlwaysScrollableScrollPhysics(),
         padding: widget.padding,
         // Bouncingスクロール時にオーバースクロール領域でコンテンツがクリップされないようにする
         clipBehavior: Clip.none,
-        child: child,
-      );
-    }
-
-    // expandsがtrueの場合、コンテンツ外の空のエリアをタップしてもフォーカスを取得できるようにする
-    if (widget.expands) {
-      child = GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          debugPrint(
-              "[MarkdownField] Expands area tapped (GestureDetector), requesting focus");
-          if (!_focusNode.hasFocus) {
-            _focusNode.requestFocus();
-          }
-          // テキストの末尾にカーソルを移動
-          final textLength = widget.controller.rawText.length;
-          _selection = TextSelection.collapsed(offset: textLength);
-          _updateRemoteEditingValue();
-          setState(() {});
-        },
         child: child,
       );
     }

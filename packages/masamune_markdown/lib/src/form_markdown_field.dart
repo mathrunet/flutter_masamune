@@ -176,35 +176,31 @@ class FormMarkdownField<TValue> extends FormField<List<MarkdownFieldValue>> {
                       return validator?.call(value);
                     }
                   : null,
-              child: SizedBox(
-                width: double.infinity,
-                height: expands ? double.infinity : null,
-                child: MarkdownField(
-                  enabled: enabled,
-                  enableInteractiveSelection: enableInteractiveSelection,
-                  readOnly: readOnly,
-                  autofocus: autofocus,
-                  controller: state._effectiveController,
-                  focusNode: focusNode,
-                  onTap: onTap,
-                  onTapLink: onTapLink,
-                  onTapMention: onTapMention,
-                  scrollable: scrollable,
-                  padding: style?.padding,
-                  onEditingComplete: onEditingComplete,
-                  onChanged: (value) {
-                    field.didChange(value);
-                    onChanged?.call(value);
-                  },
-                  onSubmitted: onSubmitted?.call,
-                  scrollController: scrollController,
-                  scrollPhysics: scrollPhysics,
-                  textInputAction: textInputAction,
-                  expands: expands,
-                  textCapitalization: textCapitalization,
-                  textAlign: textAlign,
-                  keyboardType: keyboardType,
-                ),
+              child: MarkdownField(
+                enabled: enabled,
+                enableInteractiveSelection: enableInteractiveSelection,
+                readOnly: readOnly,
+                autofocus: autofocus,
+                controller: state._effectiveController,
+                focusNode: focusNode,
+                onTap: onTap,
+                onTapLink: onTapLink,
+                onTapMention: onTapMention,
+                scrollable: scrollable,
+                padding: style?.padding,
+                onEditingComplete: onEditingComplete,
+                onChanged: (value) {
+                  field.didChange(value);
+                  onChanged?.call(value);
+                },
+                onSubmitted: onSubmitted?.call,
+                scrollController: scrollController,
+                scrollPhysics: scrollPhysics,
+                textInputAction: textInputAction,
+                expands: expands,
+                textCapitalization: textCapitalization,
+                textAlign: textAlign,
+                keyboardType: keyboardType,
               ),
             );
           },

@@ -69,6 +69,9 @@ class MarkdownQuoteBlockValue extends MarkdownMultiLineBlockValue {
   bool get canIndent => false;
 
   @override
+  bool get insertBlockOnNewLine => false;
+
+  @override
   bool get maintainIndentOnNewLine => false;
 
   @override
