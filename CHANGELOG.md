@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_markdown` - `v3.5.3`](#masamune_markdown---v353)
+
+---
+
+#### `masamune_markdown` - `v3.5.3`
+
+ - **FIX**: Fix debug log. ([1f2cac1e](https://github.com/mathrunet/flutter_masamune/commit/1f2cac1e73b018ec484c6bfd6258b64c91346314))
+
+
+## 2025-12-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.8.6`](#katana_cli---v386)
  - [`masamune` - `v3.5.6`](#masamune---v356)
  - [`masamune_markdown` - `v3.5.2`](#masamune_markdown---v352)

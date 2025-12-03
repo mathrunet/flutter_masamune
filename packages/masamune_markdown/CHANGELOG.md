@@ -1,3 +1,7 @@
+## 3.5.3
+
+ - **FIX**: Fix debug log. ([1f2cac1e](https://github.com/mathrunet/flutter_masamune/commit/1f2cac1e73b018ec484c6bfd6258b64c91346314))
+
 ## 3.5.2
 
  - **FIX**: Fix for 'expands' bug. ([25e7c667](https://github.com/mathrunet/flutter_masamune/commit/25e7c667b62cca847f59826fa2785190856a4e33))
