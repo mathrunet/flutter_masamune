@@ -1,3 +1,25 @@
+## 3.5.2
+
+ - **FIX**: Fix for 'expands' bug. ([25e7c667](https://github.com/mathrunet/flutter_masamune/commit/25e7c667b62cca847f59826fa2785190856a4e33))
+ - **FIX**: Area problem fixes. ([06286280](https://github.com/mathrunet/flutter_masamune/commit/0628628049b4e36e9c303e3473e06948bf34a8df))
+ - **FIX**: Allowed background rounded corners to be configurable. ([b5c4da1f](https://github.com/mathrunet/flutter_masamune/commit/b5c4da1fcd88c579ad7d5add8c4b5896ee6074f3))
+ - **FIX**: Adjustment of each block. ([144fb2c4](https://github.com/mathrunet/flutter_masamune/commit/144fb2c4b41cc8cdeaa8d18bad7a4df423cd3f53))
+ - **FIX**: Android arrow key support. ([493cffd4](https://github.com/mathrunet/flutter_masamune/commit/493cffd45f68f7f480112dea3aaca1a8d0def4b7))
+ - **FIX**: Deselect when focus is lost. ([bf3b1394](https://github.com/mathrunet/flutter_masamune/commit/bf3b13943cd8681098e7b081b6d5e03cf0b85ad5))
+ - **FIX**: Bug when long-tapping. ([04e87a73](https://github.com/mathrunet/flutter_masamune/commit/04e87a732fde535450f394732692e871768606df))
+ - **FIX**: IME-related fixes. ([464c5441](https://github.com/mathrunet/flutter_masamune/commit/464c5441500cf2080e441242ab42865fc70a6a74))
+ - **FIX**: Add strikethrough on toggle. ([a223648d](https://github.com/mathrunet/flutter_masamune/commit/a223648d47e37d7536207681c6c7e2e9c2ba0bd2))
+ - **FIX**: Fixed a bug with the toggle check. ([18628068](https://github.com/mathrunet/flutter_masamune/commit/1862806815519b4f5590fed02d432b3c050e8544))
+ - **FIX**: Fixed an issue where checkboxes could not be tapped. ([89aaff53](https://github.com/mathrunet/flutter_masamune/commit/89aaff53e06ab7c536ef05cd90f8763ff09b2679))
+ - **FIX**: Fix list style. ([b4843f9e](https://github.com/mathrunet/flutter_masamune/commit/b4843f9edcaa374229086f987a27b3e0b2cca12b))
+ - **FIX**: Correcting numbering in numbered lists. ([99f49b21](https://github.com/mathrunet/flutter_masamune/commit/99f49b21fcfe6d138b7d2cbed4132f0c1fa65091))
+ - **FIX**: Enabled specifying borders and similar properties with styles. ([a51390db](https://github.com/mathrunet/flutter_masamune/commit/a51390dbd7f23693e519ba0b6c6341139cb25d2b))
+ - **FIX**: Bug fix for the indent button. ([f86543fa](https://github.com/mathrunet/flutter_masamune/commit/f86543fafa438147c288683bd69bcbb459d9650c))
+ - **FIX**: Fix for IME confirmation issues. ([aeb4fc57](https://github.com/mathrunet/flutter_masamune/commit/aeb4fc57b7984bae220a83cfb530a5fcc77cc863))
+ - **FIX**: Fix so that tests pass. ([4229d311](https://github.com/mathrunet/flutter_masamune/commit/4229d3114c3711c4073b8dcab95a0deca09fb332))
+ - **FIX**: Bug fixes. ([aa0efc09](https://github.com/mathrunet/flutter_masamune/commit/aa0efc09b3968acfe5875674620d3fddcae26cce))
+ - **FIX**: Fixed an issue on a physical Android device. ([eda06af2](https://github.com/mathrunet/flutter_masamune/commit/eda06af2f0897d98636ef9b68789c453636c76bd))
+
 ## 3.5.1
 
  - Update a dependency to the latest release.

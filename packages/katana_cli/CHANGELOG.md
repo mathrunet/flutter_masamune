@@ -1,3 +1,7 @@
+## 3.8.6
+
+ - **FIX**: Updated multiple package dependencies and changed `katana_cli`'s localization logic. ([f17ffbec](https://github.com/mathrunet/flutter_masamune/commit/f17ffbec302c1f4c46b4db26ad55f2ca978bf0cb))
+
 ## 3.8.5
 
  - Update a dependency to the latest release.
