@@ -20,6 +20,7 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
     this.imageLimit = 256,
     this.indentSpaceCount = 2,
     this.maxIndentLevel = 3,
+    this.showDebugLogs = false,
     this.defaultPrimaryTools = const [
       AddMarkdownPrimaryTools(),
       FontMarkdownPrimaryTools(),
@@ -45,6 +46,11 @@ class MarkdownMasamuneAdapter extends MasamuneAdapter {
       LinkMarkdownInlineTools(),
     ],
   });
+
+  /// Whether to show debug logs.
+  ///
+  /// デバッグログを表示するかどうか。
+  final bool showDebugLogs;
 
   /// Default primary tools for markdown.
   ///

@@ -1141,7 +1141,7 @@ class _LinkSetting {
         }
       }
     } else {
-      debugPrint("Selection is invalid or collapsed");
+      markdownDebugPrint("Selection is invalid or collapsed");
     }
   }
 

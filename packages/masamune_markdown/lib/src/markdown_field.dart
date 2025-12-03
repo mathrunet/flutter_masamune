@@ -416,10 +416,10 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   void _handleFocusChanged() {
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] _handleFocusChanged: hasFocus=${_focusNode.hasFocus}, shouldRestoreFocus=$_shouldRestoreFocusOnLoss");
     if (_focusNode.hasFocus) {
-      debugPrint("[MarkdownField] Opening input connection");
+      markdownDebugPrint("[MarkdownField] Opening input connection");
       _openInputConnection();
       _showCursor = true;
       _cursorBlinkController?.reset();
@@ -432,7 +432,7 @@ class MarkdownFieldState extends State<MarkdownField>
       // Androidでタップ/ロングプレス後にフォーカスが失われる問題を修正
       // フラグが設定されている場合、フォーカスを再取得する
       if (_shouldRestoreFocusOnLoss) {
-        debugPrint("[MarkdownField] Restoring focus due to flag");
+        markdownDebugPrint("[MarkdownField] Restoring focus due to flag");
         _shouldRestoreFocusOnLoss = false;
 
         // 変換状態を完全にクリア
@@ -447,13 +447,13 @@ class MarkdownFieldState extends State<MarkdownField>
         // マイクロタスクでフォーカスを再取得
         Future.microtask(() {
           if (mounted && !_focusNode.hasFocus) {
-            debugPrint("[MarkdownField] Requesting focus in microtask");
+            markdownDebugPrint("[MarkdownField] Requesting focus in microtask");
             _focusNode.requestFocus();
           }
         });
         return;
       }
-      debugPrint("[MarkdownField] Closing input connection");
+      markdownDebugPrint("[MarkdownField] Closing input connection");
       _closeInputConnectionIfNeeded();
       _cursorBlinkController?.stop();
       _showCursor = false;
@@ -461,7 +461,7 @@ class MarkdownFieldState extends State<MarkdownField>
       // フォーカスが完全に失われた場合、選択をクリア（カーソル位置のみに縮小）
       // これにより長押し選択後にフィールド外をタップした場合、選択状態が解除される
       if (!_selection.isCollapsed) {
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] Collapsing selection on focus loss: ${_selection.baseOffset}");
         _selection = TextSelection.collapsed(offset: _selection.baseOffset);
       }
@@ -474,16 +474,16 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   void _openInputConnection() {
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] _openInputConnection called, readOnly=${widget.readOnly}, hasInputConnection=$_hasInputConnection");
     // readonly時は入力接続を開かない
     if (widget.readOnly) {
-      debugPrint("[MarkdownField] readOnly, not opening connection");
+      markdownDebugPrint("[MarkdownField] readOnly, not opening connection");
       return;
     }
 
     if (!_hasInputConnection) {
-      debugPrint("[MarkdownField] Creating new input connection");
+      markdownDebugPrint("[MarkdownField] Creating new input connection");
       final textInputConfiguration = TextInputConfiguration(
         inputType: widget.keyboardType ?? TextInputType.multiline,
         obscureText: widget.obscureText,
@@ -496,10 +496,10 @@ class MarkdownFieldState extends State<MarkdownField>
             : Brightness.light,
       );
       _textInputConnection = TextInput.attach(this, textInputConfiguration);
-      debugPrint("[MarkdownField] Calling show() on new input connection");
+      markdownDebugPrint("[MarkdownField] Calling show() on new input connection");
       _textInputConnection!.show();
     } else {
-      debugPrint("[MarkdownField] Input connection already exists");
+      markdownDebugPrint("[MarkdownField] Input connection already exists");
     }
 
     // 常にIMEを現在の状態に同期する
@@ -717,7 +717,7 @@ class MarkdownFieldState extends State<MarkdownField>
       return;
     }
 
-    debugPrint("[MarkdownField] finishComposing: committing composing text");
+    markdownDebugPrint("[MarkdownField] finishComposing: committing composing text");
 
     // 変換テキストがある場合は確定処理を行う
     if (_composingText != null) {
@@ -744,11 +744,11 @@ class MarkdownFieldState extends State<MarkdownField>
   @override
   void updateEditingValue(TextEditingValue value) {
     // デバッグログ
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] updateEditingValue called: text='${value.text}', selection=${value.selection}, composing=${value.composing}");
 
     if (widget.readOnly) {
-      debugPrint("[MarkdownField] readOnly, returning");
+      markdownDebugPrint("[MarkdownField] readOnly, returning");
       return;
     }
 
@@ -758,7 +758,7 @@ class MarkdownFieldState extends State<MarkdownField>
     final oldText = _composingText ?? widget.controller.rawText;
     final newText = value.text;
 
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] oldText='$oldText' (len=${oldText.length}), newText='$newText' (len=${newText.length})");
 
     // 現在変換中かチェック
@@ -775,7 +775,7 @@ class MarkdownFieldState extends State<MarkdownField>
       final now = DateTime.now().millisecondsSinceEpoch;
       if (now < _ignoreComposingUntil!) {
         if (isComposing || oldText != newText) {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Ignoring IME update during focus restore cooldown");
           _updateRemoteEditingValue();
           return;
@@ -793,14 +793,14 @@ class MarkdownFieldState extends State<MarkdownField>
     if (lengthDiff > 10 && !value.composing.isValid) {
       // テキストが大きく異なり、変換中でない場合はIME同期エラーの可能性
       // 現在の正しいテキストでIMEを再同期
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownField] IME sync error detected: large text difference ($lengthDiff chars). Resyncing...");
       _updateRemoteEditingValue();
       return;
     }
 
     if (oldText != newText) {
-      debugPrint("[MarkdownField] Text changed, isComposing=$isComposing");
+      markdownDebugPrint("[MarkdownField] Text changed, isComposing=$isComposing");
       // テキストが変更された
 
       if (isComposing) {
@@ -848,7 +848,7 @@ class MarkdownFieldState extends State<MarkdownField>
         // 日本語IMEでは、Enter押下はcomposingテキストの「確定」であり「改行」ではない
         // IMEが改行を送ってきた場合は、確定のためのEnterと判断して改行を除去
         if (wasComposing && !isComposing && replacementText.endsWith("\n")) {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Ignoring trailing newline after composing confirmation");
           replacementText =
               replacementText.substring(0, replacementText.length - 1);
@@ -895,7 +895,7 @@ class MarkdownFieldState extends State<MarkdownField>
           if (oldEnd > start) {
             // 削除が必要な場合（composing中の最後の文字を削除した場合）
             // 例: 「あかさは」→「あかさ」で「は」を削除
-            debugPrint(
+            markdownDebugPrint(
                 "[MarkdownField] Composing ended with deletion: deleting from $start to $oldEnd");
             widget.controller.replaceText(start, oldEnd, "");
             // 削除後のテキスト長を超えないようにクランプ
@@ -904,7 +904,7 @@ class MarkdownFieldState extends State<MarkdownField>
             _selection = TextSelection.collapsed(offset: newCursorPos);
           } else {
             // 確定のみで削除なし
-            debugPrint("[MarkdownField] Composing confirmed without change");
+            markdownDebugPrint("[MarkdownField] Composing confirmed without change");
             _selection = value.selection;
           }
           _composingText = null;
@@ -918,7 +918,7 @@ class MarkdownFieldState extends State<MarkdownField>
           // Androidでは IMEが既に削除を実行しているため、
           // 削除をブロックするとコントローラーとIMEの同期が崩れる
 
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Normal text change: start=$start, oldEnd=$oldEnd, newEnd=$newEnd, replacementText='$replacementText'");
 
           // バックスペースでブロックが削除されたかチェック
@@ -926,10 +926,10 @@ class MarkdownFieldState extends State<MarkdownField>
               widget.controller.value?.firstOrNull?.children.length ?? 0;
 
           // 通常のテキスト置換
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Calling replaceText($start, $oldEnd, '$replacementText')");
           widget.controller.replaceText(start, oldEnd, replacementText);
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] After replaceText, controller.rawText='${widget.controller.rawText}'");
 
           final blockCountAfter =
@@ -1039,14 +1039,14 @@ class MarkdownFieldState extends State<MarkdownField>
       case TextInputAction.newline:
         if (!widget.readOnly) {
           final oldOffset = _selection.baseOffset;
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] performAction.newline: oldOffset=$oldOffset");
 
           // 現在のカーソル位置に新しい段落を挿入
           // コントローラー内で正しいカーソル位置 (offset + 1) が設定される
           widget.controller.insertNewLine(oldOffset);
 
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] performAction.newline: after insertNewLine, _selection=${_selection.baseOffset}");
 
           // 改行挿入時に変換状態をクリア
@@ -1233,7 +1233,7 @@ class MarkdownFieldState extends State<MarkdownField>
       onSelectionChanged: widget.readOnly
           ? (_, __) {} // readonly時は選択処理を無効化
           : (selection, cause) {
-              debugPrint(
+              markdownDebugPrint(
                   "[MarkdownField] onSelectionChanged: selection=$selection, cause=$cause");
               final hadFocus = _focusNode.hasFocus;
 
@@ -1273,7 +1273,7 @@ class MarkdownFieldState extends State<MarkdownField>
                   (cause == SelectionChangedCause.tap ||
                       cause == SelectionChangedCause.longPress ||
                       cause == SelectionChangedCause.doubleTap)) {
-                debugPrint(
+                markdownDebugPrint(
                     "[MarkdownField] Deferring IME update due to composing tap");
               } else {
                 _updateRemoteEditingValue();
@@ -1289,25 +1289,25 @@ class MarkdownFieldState extends State<MarkdownField>
               if (cause == SelectionChangedCause.tap ||
                   cause == SelectionChangedCause.longPress ||
                   cause == SelectionChangedCause.doubleTap) {
-                debugPrint(
+                markdownDebugPrint(
                     "[MarkdownField] Setting focus restore flag (hadFocus=$hadFocus, cause=$cause)");
                 _shouldRestoreFocusOnLoss = true;
               }
             },
       onTap: () {
         final attached = _textInputConnection?.attached ?? false;
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] onTap callback, hasFocus=${_focusNode.hasFocus}, hasInputConnection=$_hasInputConnection, attached=$attached");
         _hideContextMenu();
         if (!_focusNode.hasFocus) {
-          debugPrint("[MarkdownField] Requesting focus from onTap");
+          markdownDebugPrint("[MarkdownField] Requesting focus from onTap");
           // First unfocus any current focus, then request focus for this field
           // This helps when another widget (like toolbar) has focus
           FocusManager.instance.primaryFocus?.unfocus();
           // Use a microtask to ensure unfocus completes before requesting focus
           Future.microtask(() {
             if (mounted && !_focusNode.hasFocus) {
-              debugPrint("[MarkdownField] Microtask: requesting focus");
+              markdownDebugPrint("[MarkdownField] Microtask: requesting focus");
               _focusNode.requestFocus();
             }
           });
@@ -1315,7 +1315,7 @@ class MarkdownFieldState extends State<MarkdownField>
           // フォーカスはあるが入力接続がない/attachされていない場合
           // （Androidの戻るボタンでキーボードを閉じた後など）
           // 入力接続を再度開く
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Focus exists but input connection invalid, reopening connection");
           if (_hasInputConnection && !attached) {
             _closeInputConnectionIfNeeded();
@@ -1323,7 +1323,7 @@ class MarkdownFieldState extends State<MarkdownField>
           _openInputConnection();
         } else {
           // 入力接続があるがキーボードが閉じている場合、明示的に表示
-          debugPrint("[MarkdownField] Showing keyboard via show()");
+          markdownDebugPrint("[MarkdownField] Showing keyboard via show()");
           _textInputConnection?.show();
         }
         widget.onTap?.call();
@@ -1338,16 +1338,16 @@ class MarkdownFieldState extends State<MarkdownField>
         widget.onDoubleTap?.call(globalPosition);
       },
       onRequestShowKeyboard: () {
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] onRequestShowKeyboard called, hasInputConnection=$_hasInputConnection");
         if (_textInputConnection != null) {
           // 接続がある場合はキーボードを表示
           final attached = _textInputConnection?.attached ?? false;
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Connection exists, attached=$attached, calling show()");
           if (!attached) {
             // attachされていない場合は再接続
-            debugPrint("[MarkdownField] Connection not attached, reopening");
+            markdownDebugPrint("[MarkdownField] Connection not attached, reopening");
             _closeInputConnectionIfNeeded();
             _openInputConnection();
           } else {
@@ -1355,7 +1355,7 @@ class MarkdownFieldState extends State<MarkdownField>
           }
         } else {
           // 接続がない場合は新しく開く
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] _textInputConnection is null, opening new connection");
           _openInputConnection();
         }
@@ -1416,32 +1416,32 @@ class MarkdownFieldState extends State<MarkdownField>
       return KeyEventResult.ignored;
     }
 
-    debugPrint("[MarkdownField] _handleKeyEvent: ${event.logicalKey}");
+    markdownDebugPrint("[MarkdownField] _handleKeyEvent: ${event.logicalKey}");
 
     // バックスペースキーの処理
     if (event.logicalKey == LogicalKeyboardKey.backspace) {
-      debugPrint("[MarkdownField] Backspace key detected");
+      markdownDebugPrint("[MarkdownField] Backspace key detected");
       _handleBackspace();
       return KeyEventResult.handled;
     }
 
     // Deleteキーの処理
     if (event.logicalKey == LogicalKeyboardKey.delete) {
-      debugPrint("[MarkdownField] Delete key detected");
+      markdownDebugPrint("[MarkdownField] Delete key detected");
       _handleDelete();
       return KeyEventResult.handled;
     }
 
     // 左矢印キーの処理
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      debugPrint("[MarkdownField] Arrow left key detected");
+      markdownDebugPrint("[MarkdownField] Arrow left key detected");
       _handleArrowLeft();
       return KeyEventResult.handled;
     }
 
     // 右矢印キーの処理
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      debugPrint("[MarkdownField] Arrow right key detected");
+      markdownDebugPrint("[MarkdownField] Arrow right key detected");
       _handleArrowRight();
       return KeyEventResult.handled;
     }
@@ -1462,7 +1462,7 @@ class MarkdownFieldState extends State<MarkdownField>
       // カーソル位置から1文字削除
       final cursorPos = _selection.baseOffset;
       if (cursorPos > 0) {
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] Deleting character at position ${cursorPos - 1}");
         widget.controller.replaceText(cursorPos - 1, cursorPos, "");
         // 削除後のテキスト長を取得し、カーソル位置をクランプ
@@ -1478,7 +1478,7 @@ class MarkdownFieldState extends State<MarkdownField>
       // 選択範囲を削除
       final start = _selection.start;
       final end = _selection.end;
-      debugPrint("[MarkdownField] Deleting selection from $start to $end");
+      markdownDebugPrint("[MarkdownField] Deleting selection from $start to $end");
       widget.controller.replaceText(start, end, "");
       // 削除後のテキスト長を取得し、カーソル位置をクランプ
       final newText = widget.controller.rawText;
@@ -1503,7 +1503,7 @@ class MarkdownFieldState extends State<MarkdownField>
       // カーソル位置の後の1文字を削除
       final cursorPos = _selection.baseOffset;
       if (cursorPos < text.length) {
-        debugPrint("[MarkdownField] Deleting character at position $cursorPos");
+        markdownDebugPrint("[MarkdownField] Deleting character at position $cursorPos");
         widget.controller.replaceText(cursorPos, cursorPos + 1, "");
         // 削除後のテキスト長を取得し、カーソル位置をクランプ
         // （空ブロック削除時に複数文字分のrawText長が変わることがあるため）
@@ -3130,7 +3130,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   void handleEvent(PointerEvent event, BoxHitTestEntry entry) {
     assert(debugHandleEvent(event, entry), "");
 
-    debugPrint("[MarkdownField] handleEvent: ${event.runtimeType}");
+    markdownDebugPrint("[MarkdownField] handleEvent: ${event.runtimeType}");
 
     // readonly時はリンク/メンションタップのみ処理し、それ以外はスキップ
     if (_readOnly) {
@@ -3290,10 +3290,10 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapDown(PointerDownEvent event) {
-    debugPrint("[MarkdownField] _handleTapDown called");
+    markdownDebugPrint("[MarkdownField] _handleTapDown called");
     final now = DateTime.now().millisecondsSinceEpoch;
     final position = globalToLocal(event.position);
-    debugPrint("[MarkdownField] _handleTapDown position=$position");
+    markdownDebugPrint("[MarkdownField] _handleTapDown position=$position");
 
     // マーカーのタップをチェック
     for (var i = 0; i < _blockLayouts.length; i++) {
@@ -3310,12 +3310,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
           layout.marker!.width,
           layout.painter.preferredLineHeight,
         );
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] Checking marker[$i]: rect=$markerRect, blockId=${layout.block.id}");
 
         // マーカー領域内でタップされた場合
         if (markerRect.contains(position)) {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Marker[$i] hit! blockId=${layout.block.id}");
           layout.marker!.onTapMarker!();
           return;
@@ -3369,9 +3369,9 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // ロングプレスタイマーを開始
     _longPressTimer?.cancel();
-    debugPrint("[MarkdownField] Starting long press timer (500ms)");
+    markdownDebugPrint("[MarkdownField] Starting long press timer (500ms)");
     _longPressTimer = Timer(_longPressTimeout, () {
-      debugPrint("[MarkdownField] Long press timer fired!");
+      markdownDebugPrint("[MarkdownField] Long press timer fired!");
       _longPressDetected = true;
       _handleLongPressDetected(event.position);
     });
@@ -3804,14 +3804,14 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleTapUp(PointerUpEvent event) {
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] _handleTapUp called, _longPressTimer=${_longPressTimer != null}, _longPressDetected=$_longPressDetected");
     _longPressTimer?.cancel();
     _longPressTimer = null;
 
     // ハンドルドラッグフラグをリセット
     if (_isDraggingStartHandle || _isDraggingEndHandle) {
-      debugPrint("[MarkdownField] Was dragging handle, returning");
+      markdownDebugPrint("[MarkdownField] Was dragging handle, returning");
       _isDraggingStartHandle = false;
       _isDraggingEndHandle = false;
       _isDragSelection = false;
@@ -3820,7 +3820,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // ドラッグ選択中だった場合はタップとして処理しない
     if (_isDragSelection) {
-      debugPrint("[MarkdownField] Was drag selection, returning");
+      markdownDebugPrint("[MarkdownField] Was drag selection, returning");
       _isDragSelection = false;
       _lastTapDownPosition = null;
       return;
@@ -3828,7 +3828,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // スクロールジェスチャー中だった場合はタップとして処理しない
     if (_isScrollGesture) {
-      debugPrint("[MarkdownField] Was scroll gesture, returning");
+      markdownDebugPrint("[MarkdownField] Was scroll gesture, returning");
       _isScrollGesture = false;
       _lastTapDownPosition = null;
       return;
@@ -3836,7 +3836,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // ロングプレスまたはダブルタップが検出された場合、通常のタップとして処理しない
     if (_longPressDetected || _doubleTapDetected) {
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownField] Long press or double tap detected, returning");
       _longPressDetected = false;
       _doubleTapDetected = false;
@@ -3845,23 +3845,23 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     }
 
     if (_lastTapDownPosition == null) {
-      debugPrint("[MarkdownField] _lastTapDownPosition is null, returning");
+      markdownDebugPrint("[MarkdownField] _lastTapDownPosition is null, returning");
       return;
     }
 
     final position = globalToLocal(event.position);
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] position=$position, _lastTapDownPosition=$_lastTapDownPosition");
 
     // ドラッグかチェック（タップダウン位置から離れすぎている）
     if ((position - _lastTapDownPosition!).distance > 10) {
-      debugPrint("[MarkdownField] Too far from tap down, returning");
+      markdownDebugPrint("[MarkdownField] Too far from tap down, returning");
       _lastTapDownPosition = null;
       return;
     }
 
     final textOffset = _getTextOffsetForPosition(position);
-    debugPrint("[MarkdownField] textOffset=$textOffset");
+    markdownDebugPrint("[MarkdownField] textOffset=$textOffset");
 
     _onTap?.call();
 
@@ -3933,7 +3933,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         final textLength = _getPlainText().length;
         // フォーカスがない場合はフォーカスを要求
         if (!_focusNode.hasFocus) {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Expands empty area tapped, requesting focus");
           _focusNode.requestFocus();
         }
@@ -3970,21 +3970,21 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   }
 
   void _handleLongPressDetected(Offset globalPosition) {
-    debugPrint("[MarkdownField] _handleLongPressDetected called");
+    markdownDebugPrint("[MarkdownField] _handleLongPressDetected called");
     final position = globalToLocal(globalPosition);
     final textOffset = _getTextOffsetForPosition(position);
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] Long press textOffset=$textOffset, hasFocus=${_focusNode.hasFocus}");
 
     if (textOffset != null) {
       final needsFocus = !_focusNode.hasFocus;
-      debugPrint("[MarkdownField] needsFocus=$needsFocus");
+      markdownDebugPrint("[MarkdownField] needsFocus=$needsFocus");
       // フォーカスがない場合はフォーカスを要求
       // _handleFocusChangedで入力接続が開かれる
       if (needsFocus) {
-        debugPrint("[MarkdownField] Focus not available, requesting focus");
+        markdownDebugPrint("[MarkdownField] Focus not available, requesting focus");
         _focusNode.requestFocus();
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] After requestFocus, hasFocus=${_focusNode.hasFocus}");
       }
 
@@ -3993,7 +3993,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       final text = _getPlainText();
 
       final wordBoundary = _getWordBoundary(text, textOffset);
-      debugPrint("[MarkdownField] Word boundary: $wordBoundary");
+      markdownDebugPrint("[MarkdownField] Word boundary: $wordBoundary");
 
       _onSelectionChanged(
         TextSelection(
@@ -4006,22 +4006,22 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // Androidでロングプレス後にキーボードが表示されない問題を修正
       // テキストが選択された場合は常にキーボードを表示する
       // （フォーカスがあってもキーボードが閉じている場合があるため）
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownField] Scheduling postFrameCallback to show keyboard");
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] postFrameCallback: hasFocus=${_focusNode.hasFocus}, _onRequestShowKeyboard=${_onRequestShowKeyboard != null}");
         if (_focusNode.hasFocus) {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Explicitly showing keyboard after long press");
           _onRequestShowKeyboard?.call();
         } else {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Focus not acquired in postFrameCallback, not showing keyboard");
         }
       });
     } else {
-      debugPrint("[MarkdownField] textOffset is null, not selecting");
+      markdownDebugPrint("[MarkdownField] textOffset is null, not selecting");
     }
     // 空スペースを押した場合でもonLongPressコールバックを呼び出す
     _onLongPress?.call(globalPosition);
@@ -4095,7 +4095,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     final position = globalToLocal(event.position);
 
     // デバッグログ（スクロール問題の調査）
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownField] _handleDragUpdate: position=$position, _isScrollGesture=$_isScrollGesture, _isDragSelection=$_isDragSelection, _lastTapDownPosition=$_lastTapDownPosition");
 
     // 選択ハンドルのドラッグを処理
@@ -4145,7 +4145,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // 離れすぎた場合はロングプレスをキャンセル
     if (distance > 10) {
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownField] Distance > 10 ($distance), cancelling long press timer");
       _longPressTimer?.cancel();
       _longPressTimer = null;
@@ -4153,12 +4153,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // ドラッグ選択がまだ開始されていない場合
     if (!_isDragSelection) {
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownField] delta=$delta, distance=$distance, dy.abs=${delta.dy.abs()}, dx.abs=${delta.dx.abs()}");
       // 垂直方向の移動が水平方向より大きい場合はスクロールとして扱う
       // 方向チェックを閾値チェックの前に行う（小さな動きでもスクロールを検出）
       if (delta.dy.abs() > delta.dx.abs() && distance > 5) {
-        debugPrint(
+        markdownDebugPrint(
             "[MarkdownField] Detected vertical scroll, setting _isScrollGesture=true, cancelling long press timer");
         _isScrollGesture = true;
         _lastTapDownPosition = null;
@@ -4169,12 +4169,12 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
       // 閾値を超えていない場合は何もしない（スクロールの可能性がある）
       if (distance < _dragSelectionThreshold) {
-        debugPrint("[MarkdownField] Distance below threshold, returning");
+        markdownDebugPrint("[MarkdownField] Distance below threshold, returning");
         return;
       }
 
       // 水平方向の移動が大きい場合はドラッグ選択を開始
-      debugPrint("[MarkdownField] Starting drag selection");
+      markdownDebugPrint("[MarkdownField] Starting drag selection");
       _isDragSelection = true;
     }
 
@@ -4182,13 +4182,13 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
     // ドラッグがテキストエリア内の場合のみ選択を更新
     if (textOffset != null) {
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownField] Updating selection during drag, textOffset=$textOffset");
       if (_selection.isCollapsed) {
         // タップダウン位置から選択を開始
         final downOffset = _getTextOffsetForPosition(_lastTapDownPosition!);
         if (downOffset != null) {
-          debugPrint(
+          markdownDebugPrint(
               "[MarkdownField] Starting selection from $downOffset to $textOffset");
           _onSelectionChanged(
             TextSelection(
@@ -4200,7 +4200,7 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       } else {
         // 選択を拡張
-        debugPrint("[MarkdownField] Extending selection to $textOffset");
+        markdownDebugPrint("[MarkdownField] Extending selection to $textOffset");
         _onSelectionChanged(
           TextSelection(
             baseOffset: _selection.baseOffset,

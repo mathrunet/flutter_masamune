@@ -22,6 +22,7 @@ import "package:masamune/masamune.dart";
 
 part "adapter/markdown_masamune_adapter.dart";
 
+part "src/markdown_debug.dart";
 part "src/markdown_value.dart";
 part "src/markdown_field.dart";
 part "src/markdown_controller.dart";

@@ -3654,22 +3654,22 @@ class MarkdownController extends MasamuneControllerBase<
       MarkdownToggleListBlockValue block, bool? checked) {
     final field = _value.first;
 
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownController] _toggleBlockSingleField: block.id=${block.id}, block.checked=${block.checked}");
 
     // Show all block IDs for debugging
     for (var i = 0; i < field.children.length; i++) {
       final child = field.children[i];
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownController] _toggleBlockSingleField: children[$i].id=${child.id}, type=${child.type}");
     }
 
     // Find the block index in the children list
     final blockIndex = field.children.indexWhere((b) => b.id == block.id);
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownController] _toggleBlockSingleField: found blockIndex=$blockIndex");
     if (blockIndex == -1) {
-      debugPrint(
+      markdownDebugPrint(
           "[MarkdownController] _toggleBlockSingleField: block not found, returning");
       return;
     }
@@ -3677,7 +3677,7 @@ class MarkdownController extends MasamuneControllerBase<
     // Create a new block with toggled checked state
     final newChecked = checked ?? !block.checked;
     final newBlock = block.copyWith(checked: newChecked);
-    debugPrint(
+    markdownDebugPrint(
         "[MarkdownController] _toggleBlockSingleField: toggling to checked=$newChecked");
 
     // Create a new children list with the updated block
