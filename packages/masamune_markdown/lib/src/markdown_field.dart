@@ -496,7 +496,8 @@ class MarkdownFieldState extends State<MarkdownField>
             : Brightness.light,
       );
       _textInputConnection = TextInput.attach(this, textInputConfiguration);
-      markdownDebugPrint("[MarkdownField] Calling show() on new input connection");
+      markdownDebugPrint(
+          "[MarkdownField] Calling show() on new input connection");
       _textInputConnection!.show();
     } else {
       markdownDebugPrint("[MarkdownField] Input connection already exists");
@@ -717,7 +718,8 @@ class MarkdownFieldState extends State<MarkdownField>
       return;
     }
 
-    markdownDebugPrint("[MarkdownField] finishComposing: committing composing text");
+    markdownDebugPrint(
+        "[MarkdownField] finishComposing: committing composing text");
 
     // 変換テキストがある場合は確定処理を行う
     if (_composingText != null) {
@@ -800,7 +802,8 @@ class MarkdownFieldState extends State<MarkdownField>
     }
 
     if (oldText != newText) {
-      markdownDebugPrint("[MarkdownField] Text changed, isComposing=$isComposing");
+      markdownDebugPrint(
+          "[MarkdownField] Text changed, isComposing=$isComposing");
       // テキストが変更された
 
       if (isComposing) {
@@ -904,7 +907,8 @@ class MarkdownFieldState extends State<MarkdownField>
             _selection = TextSelection.collapsed(offset: newCursorPos);
           } else {
             // 確定のみで削除なし
-            markdownDebugPrint("[MarkdownField] Composing confirmed without change");
+            markdownDebugPrint(
+                "[MarkdownField] Composing confirmed without change");
             _selection = value.selection;
           }
           _composingText = null;
@@ -1347,7 +1351,8 @@ class MarkdownFieldState extends State<MarkdownField>
               "[MarkdownField] Connection exists, attached=$attached, calling show()");
           if (!attached) {
             // attachされていない場合は再接続
-            markdownDebugPrint("[MarkdownField] Connection not attached, reopening");
+            markdownDebugPrint(
+                "[MarkdownField] Connection not attached, reopening");
             _closeInputConnectionIfNeeded();
             _openInputConnection();
           } else {
@@ -1478,7 +1483,8 @@ class MarkdownFieldState extends State<MarkdownField>
       // 選択範囲を削除
       final start = _selection.start;
       final end = _selection.end;
-      markdownDebugPrint("[MarkdownField] Deleting selection from $start to $end");
+      markdownDebugPrint(
+          "[MarkdownField] Deleting selection from $start to $end");
       widget.controller.replaceText(start, end, "");
       // 削除後のテキスト長を取得し、カーソル位置をクランプ
       final newText = widget.controller.rawText;
@@ -1503,7 +1509,8 @@ class MarkdownFieldState extends State<MarkdownField>
       // カーソル位置の後の1文字を削除
       final cursorPos = _selection.baseOffset;
       if (cursorPos < text.length) {
-        markdownDebugPrint("[MarkdownField] Deleting character at position $cursorPos");
+        markdownDebugPrint(
+            "[MarkdownField] Deleting character at position $cursorPos");
         widget.controller.replaceText(cursorPos, cursorPos + 1, "");
         // 削除後のテキスト長を取得し、カーソル位置をクランプ
         // （空ブロック削除時に複数文字分のrawText長が変わることがあるため）
@@ -3845,7 +3852,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
     }
 
     if (_lastTapDownPosition == null) {
-      markdownDebugPrint("[MarkdownField] _lastTapDownPosition is null, returning");
+      markdownDebugPrint(
+          "[MarkdownField] _lastTapDownPosition is null, returning");
       return;
     }
 
@@ -3982,7 +3990,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
       // フォーカスがない場合はフォーカスを要求
       // _handleFocusChangedで入力接続が開かれる
       if (needsFocus) {
-        markdownDebugPrint("[MarkdownField] Focus not available, requesting focus");
+        markdownDebugPrint(
+            "[MarkdownField] Focus not available, requesting focus");
         _focusNode.requestFocus();
         markdownDebugPrint(
             "[MarkdownField] After requestFocus, hasFocus=${_focusNode.hasFocus}");
@@ -4169,7 +4178,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
 
       // 閾値を超えていない場合は何もしない（スクロールの可能性がある）
       if (distance < _dragSelectionThreshold) {
-        markdownDebugPrint("[MarkdownField] Distance below threshold, returning");
+        markdownDebugPrint(
+            "[MarkdownField] Distance below threshold, returning");
         return;
       }
 
@@ -4200,7 +4210,8 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
         }
       } else {
         // 選択を拡張
-        markdownDebugPrint("[MarkdownField] Extending selection to $textOffset");
+        markdownDebugPrint(
+            "[MarkdownField] Extending selection to $textOffset");
         _onSelectionChanged(
           TextSelection(
             baseOffset: _selection.baseOffset,
