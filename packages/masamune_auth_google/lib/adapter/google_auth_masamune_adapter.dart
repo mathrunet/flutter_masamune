@@ -7,7 +7,12 @@ class GoogleAuthMasamuneAdapter extends MasamuneAdapter {
   /// Initialize Google sign-in [MasamuneAdapter].
   ///
   /// Googleサインインの初期設定を行う[MasamuneAdapter]。
-  const GoogleAuthMasamuneAdapter();
+  const GoogleAuthMasamuneAdapter({required this.serverClientId});
+
+  /// The server client ID.
+  ///
+  /// サーバーのクライアントID。
+  final String serverClientId;
 
   /// You can retrieve the [GoogleAuthMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -26,6 +31,9 @@ class GoogleAuthMasamuneAdapter extends MasamuneAdapter {
     }
     _primary = adapter;
     Authentication.registerAuthAction(const GoogleAuthAction());
+    GoogleSignIn.instance.initialize(
+      serverClientId: serverClientId,
+    );
   }
 
   @override
