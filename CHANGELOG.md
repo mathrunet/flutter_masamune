@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_auth_google` - `v3.2.0`](#masamune_auth_google---v320)
+ - [`masamune_workflow` - `v3.1.0`](#masamune_workflow---v310)
+
+---
+
+#### `masamune_auth_google` - `v3.2.0`
+
+ - **FEAT**: Implemented changes for the mandatory ServerClientId. ([deb1b8c7](https://github.com/mathrunet/flutter_masamune/commit/deb1b8c703780f4d7147496072093454a89f3fca))
+
+#### `masamune_workflow` - `v3.1.0`
+
+ - **FEAT**: Initial commit. ([8e2b5180](https://github.com/mathrunet/flutter_masamune/commit/8e2b51803f35b867888c3fef66e7e456b7ff6516))
+
+
 ## 2025-12-03
 
 ### Changes

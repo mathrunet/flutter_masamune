@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**: Implemented changes for the mandatory ServerClientId. ([deb1b8c7](https://github.com/mathrunet/flutter_masamune/commit/deb1b8c703780f4d7147496072093454a89f3fca))
+
 ## 3.1.6
 
  - Update a dependency to the latest release.
