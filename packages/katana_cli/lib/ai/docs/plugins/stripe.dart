@@ -80,10 +80,10 @@ $excerpt
       url_scheme: # URLスキーム(例: yourapp://stripe)を記載
 
       # Specify the email provider for use with Stripe's 3D Secure authentication.
-      # Specify `sendgrid` if you use SendGrid or `gmail` if you use Gmail.
+      # Specify `sendgrid` if you use SendGrid.
       # Also, please set up various e-mail settings.
       # Stripeの3Dセキュア認証で利用するためのメールプロバイダーを指定します。
-      # SendGridを利用する場合は`sendgrid`、Gmailを利用する場合は`gmail`を指定してください。
+      # SendGridを利用する場合は`sendgrid`を指定してください。
       # また、各種メールの設定を行ってください。
       email_provider: sendgrid
 

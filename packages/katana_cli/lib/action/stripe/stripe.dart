@@ -35,7 +35,6 @@ class StripeCliAction extends CliCommand with CliActionMixin {
   @override
   Future<void> exec(ExecContext context) async {
     final stripe = context.yaml.getAsMap("stripe");
-    final gmail = context.yaml.getAsMap("gmail");
     final sendgrid = context.yaml.getAsMap("sendgrid");
     final secretKey = stripe.get("secret_key", "");
     final enableConnect = stripe.get("enable_connect", false);
@@ -54,29 +53,6 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       return;
     }
     switch (emailProvider) {
-      case "gmail":
-        final enableGmail = gmail.get("enable", false);
-        final gmailUserId = gmail.get("user_id", "");
-        final gmailUserPassword = gmail.get("user_password", "");
-        if (!enableGmail) {
-          error(
-            "If [stripe]->[email_provider] is `gmail`, please include [gmail]->[enable].",
-          );
-          return;
-        }
-        if (gmailUserId.isEmpty) {
-          error(
-            "If [stripe]->[email_provider] is `gmail`, please include [gmail]->[user_id].",
-          );
-          return;
-        }
-        if (gmailUserPassword.isEmpty) {
-          error(
-            "If [stripe]->[email_provider] is `gmail`, please include [gmail]->[user_password].",
-          );
-          return;
-        }
-        break;
       case "sendgrid":
         final enalbeSendGrid = sendgrid.get("enable", false);
         final sendGridApiKey = sendgrid.get("api_key", "");
@@ -463,17 +439,6 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       functions.functions.add("stripe.Functions.stripeWebhookConnect()");
     }
     switch (emailProvider) {
-      case "gmail":
-        if (!functions.imports
-            .any((e) => e.contains("@mathrunet/masamune_mail_gmail"))) {
-          functions.imports.add(
-              "import * as gmail from \"@mathrunet/masamune_mail_gmail\";");
-        }
-        if (!functions.functions
-            .any((e) => e.startsWith("gmail.Functions.gmail"))) {
-          functions.functions.add("gmail.Functions.gmail()");
-        }
-        break;
       case "sendgrid":
         if (!functions.imports
             .any((e) => e.contains("@mathrunet/masamune_mail_sendgrid"))) {
@@ -502,10 +467,6 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       env["PURCHASE_STRIPE_WEBHOOKCONNECTSECRET"] = webHookConnectSecret!;
     }
     switch (emailProvider) {
-      case "gmail":
-        env["MAIL_GMAIL_ID"] = gmail.get("user_id", "");
-        env["MAIL_GMAIL_PASSWORD"] = gmail.get("user_password", "");
-        break;
       case "sendgrid":
         env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
         break;

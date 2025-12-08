@@ -35,7 +35,6 @@ import "package:katana_cli/action/firebase/terms_and_privacy.dart";
 import "package:katana_cli/action/git/action.dart";
 import "package:katana_cli/action/git/hook.dart";
 import "package:katana_cli/action/git/status_check.dart";
-import "package:katana_cli/action/mail/gmail.dart";
 import "package:katana_cli/action/mail/send_grid.dart";
 import "package:katana_cli/action/purchase/purchase.dart";
 import "package:katana_cli/action/stripe/stripe.dart";
@@ -87,7 +86,6 @@ const _actions = <CliActionMixin>[
   AdsCliAction(),
   PurchaseCliAction(),
   StripeCliAction(),
-  MailGmailCliAction(),
   MailSendGridCliAction(),
   AppGeocodingCliAction(),
   EcosystemCliAction(),

@@ -748,10 +748,10 @@ stripe:
   url_scheme:
 
   # Specify the email provider for use with Stripe's 3D Secure authentication.
-  # Specify `sendgrid` if you use SendGrid or `gmail` if you use Gmail.
+  # Specify `sendgrid` if you use SendGrid.
   # Also, please set up various e-mail settings.
   # Stripeの3Dセキュア認証で利用するためのメールプロバイダーを指定します。
-  # SendGridを利用する場合は`sendgrid`、Gmailを利用する場合は`gmail`を指定してください。
+  # SendGridを利用する場合は`sendgrid`を指定してください。
   # また、各種メールの設定を行ってください。
   email_provider: sendgrid
 
@@ -807,25 +807,6 @@ agora:
       en: Use the camera for video chats.
     microphone:
       en: Use the microphone for video chats.
-
-# Configure Gmail sending settings.
-# Gmailの送信設定を行います。
-gmail:
-  # Set to `true` if you want to use Gmail to send emails.
-  # Gmailによるメール送信を利用する場合は`true`にしてください。
-  enable: false
-
-  # Gmail user ID. Follow the steps below to obtain a Gmail user ID.
-  # 1. Press your icon in the upper right corner of the Google top screen and open "Manage Google Account".
-  # 2. open "Security" on the left side of the screen and open "App Password
-  # GmailのユーザーID。下記の手順で取得します。
-  # 1. Googleのトップ画面の画面右上の自分のアイコンを押下し、「Google アカウントを管理」を開く
-  # 2. 画面左の「セキュリティ」を開き、「アプリ パスワード」を開く
-  user_id:
-
-  # Gmail user password. Enter the password obtained in the above procedure.
-  # Gmailのユーザーパスワード。上記の手順で取得したパスワードを入力します。
-  user_password:
 
 # Configure Sendgrid sending settings.
 # Sendgridの送信設定を行います。

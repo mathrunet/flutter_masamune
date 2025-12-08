@@ -6,32 +6,13 @@
 
 `メール送信`はメールを送信する機能を提供するプラグイン。
 
-SendGridやGmailなどのメールサービスプロバイダーを通じて、バックエンドからメールを送信する機能を提供します。
+SendGridなどのメールサービスプロバイダーを通じて、バックエンドからメールを送信する機能を提供します。
 
 ## 設定方法
 
 ### katana.yamlを使用する場合(推奨)
 
 1. `katana.yaml`に下記の設定を追加。
-
-    **Gmailを使用する場合:**
-
-    ```yaml
-    # katana.yaml
-
-    # Configure Gmail sending settings.
-    # Gmailの送信設定を行います。
-    gmail:
-      # Set to `true` if you want to use Gmail to send emails.
-      # Gmailによるメール送信を利用する場合は`true`にしてください。
-      enable: true
-
-      # Gmail user ID
-      user_id: your_email@gmail.com
-
-      # Gmail user password
-      user_password: your_app_password
-    ```
 
     **SendGridを使用する場合:**
 
@@ -103,7 +84,7 @@ SendGridやGmailなどのメールサービスプロバイダーを通じて、�
 
 ### Cloud Functions経由でメールを送信
 
-このパッケージは、バックエンドを通じてメールを送信するための`FunctionsAction`クラスを提供します。バックエンドでは、SendGrid、Gmail、その他のメールサービスプロバイダーを使用して実際のメール送信ロジックを実装する必要があります。
+このパッケージは、バックエンドを通じてメールを送信するための`FunctionsAction`クラスを提供します。バックエンドでは、SendGrid、その他のメールサービスプロバイダーを使用して実際のメール送信ロジックを実装する必要があります。
 
 #### SendGridの例
 
@@ -131,22 +112,9 @@ Future<void> sendWelcomeEmail(String userEmail) async {
 }
 ```
 
-#### Gmailの例
-
-```dart
-await functions.execute(
-  SendGmailFunctionsAction(
-    from: "noreply@example.com",
-    to: "recipient@example.com",
-    title: "月次レポート",
-    content: "今月のレポートを確認してください。",
-  ),
-);
-```
-
 ### バックエンドの実装
 
-Masamune Functionsバックエンドで`send_grid`と`gmail`アクションを処理する必要があります:
+Masamune Functionsバックエンドで`send_grid`アクションを処理する必要があります:
 
 #### SendGridバックエンドの例
 
@@ -161,25 +129,6 @@ if (action === "send_grid") {
     from: from,
     subject: title,
     text: content,
-  });
-
-  return { success: true };
-}
-```
-
-#### Gmailバックエンドの例
-
-```typescript
-// Cloud Functions
-if (action === "gmail") {
-  const { from, to, title, content } = data;
-
-  // Gmail APIを使用
-  await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: {
-      raw: createMimeMessage(from, to, title, content),
-    },
   });
 
   return { success: true };
@@ -220,7 +169,7 @@ await sendgrid.send({
 
 ### Tips
 
-- APIキー（SendGrid、Gmail OAuth）は環境変数またはシークレットマネージャーを使用して安全に保管してください
+- APIキー（SendGrid）は環境変数またはシークレットマネージャーを使用して安全に保管してください
 - 悪用を防ぐため、バックエンドエンドポイントに検証とレート制限を追加してください
 - 監査目的でメール送信をログに記録し、配信の問題を監視してください
 - 本番環境では送信元アドレスのドメイン認証（SPF、DKIM、DMARC）を適切に設定してください

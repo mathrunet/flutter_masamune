@@ -63,7 +63,7 @@ final masamuneAdapters = <MasamuneAdapter>[
 
 ### Send Email via Cloud Functions
 
-This package provides `FunctionsAction` classes to send emails through your backend. Your backend must implement the actual email sending logic using SendGrid, Gmail, or other email service providers.
+This package provides `FunctionsAction` classes to send emails through your backend. Your backend must implement the actual email sending logic using SendGrid, or other email service providers.
 
 **SendGrid Example**:
 
@@ -91,22 +91,9 @@ Future<void> sendWelcomeEmail(String userEmail) async {
 }
 ```
 
-**Gmail Example**:
-
-```dart
-await functions.execute(
-  SendGmailFunctionsAction(
-    from: "noreply@example.com",
-    to: "recipient@example.com",
-    title: "Monthly Report",
-    content: "Please check the attached report for this month.",
-  ),
-);
-```
-
 ### Backend Implementation
 
-Your Masamune Functions backend must handle the `send_grid` and `gmail` actions:
+Your Masamune Functions backend must handle the `send_grid` actions:
 
 **SendGrid Backend Example**:
 
@@ -127,28 +114,9 @@ if (action === "send_grid") {
 }
 ```
 
-**Gmail Backend Example**:
-
-```typescript
-// Cloud Functions
-if (action === "gmail") {
-  const { from, to, title, content } = data;
-  
-  // Use Gmail API
-  await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: {
-      raw: createMimeMessage(from, to, title, content),
-    },
-  });
-  
-  return { success: true };
-}
-```
-
 ### Tips
 
-- Store API keys (SendGrid, Gmail OAuth) securely using environment variables or secret managers.
+- Store API keys (SendGrid) securely using environment variables or secret managers.
 - Add validation and rate limiting to your backend endpoints to prevent abuse.
 - Log email sends for audit purposes and monitor for delivery issues.
 

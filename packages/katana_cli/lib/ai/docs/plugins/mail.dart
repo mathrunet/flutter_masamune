@@ -42,25 +42,6 @@ SendGridやGmailなどのメールサービスプロバイダーを通じて、�
 
 1. `katana.yaml`に下記の設定を追加。
 
-    **Gmailを使用する場合:**
-
-    ```yaml
-    # katana.yaml
-
-    # Configure Gmail sending settings.
-    # Gmailの送信設定を行います。
-    gmail:
-      # Set to `true` if you want to use Gmail to send emails.
-      # Gmailによるメール送信を利用する場合は`true`にしてください。
-      enable: true
-
-      # Gmail user ID
-      user_id: your_email@gmail.com
-
-      # Gmail user password
-      user_password: your_app_password
-    ```
-
     **SendGridを使用する場合:**
 
     ```yaml
@@ -174,7 +155,7 @@ await functions.execute(
 
 ### バックエンドの実装
 
-Masamune Functionsバックエンドで`send_grid`と`gmail`アクションを処理する必要があります:
+Masamune Functionsバックエンドで`send_grid`アクションを処理する必要があります:
 
 #### SendGridバックエンドの例
 
@@ -189,25 +170,6 @@ if (action === "send_grid") {
     from: from,
     subject: title,
     text: content,
-  });
-
-  return { success: true };
-}
-```
-
-#### Gmailバックエンドの例
-
-```typescript
-// Cloud Functions
-if (action === "gmail") {
-  const { from, to, title, content } = data;
-
-  // Gmail APIを使用
-  await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: {
-      raw: createMimeMessage(from, to, title, content),
-    },
   });
 
   return { success: true };
