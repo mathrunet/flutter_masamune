@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.9.0`](#katana_cli---v390)
+ - [`masamune_mail` - `v3.2.0`](#masamune_mail---v320)
+
+---
+
+#### `katana_cli` - `v3.9.0`
+
+ - **FEAT**: Deleted because Gmail functionality stopped working. ([a8bb6f22](https://github.com/mathrunet/flutter_masamune/commit/a8bb6f22e1f66e68322e3ad9b54bd09bf7a45ddd))
+
+#### `masamune_mail` - `v3.2.0`
+
+ - **FEAT**: Deleted because Gmail functionality stopped working. ([a8bb6f22](https://github.com/mathrunet/flutter_masamune/commit/a8bb6f22e1f66e68322e3ad9b54bd09bf7a45ddd))
+
+
 ## 2025-12-06
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.9.0
+
+ - **FEAT**: Deleted because Gmail functionality stopped working. ([a8bb6f22](https://github.com/mathrunet/flutter_masamune/commit/a8bb6f22e1f66e68322e3ad9b54bd09bf7a45ddd))
+
 ## 3.8.6
 
  - **FIX**: Updated multiple package dependencies and changed `katana_cli`'s localization logic. ([f17ffbec](https://github.com/mathrunet/flutter_masamune/commit/f17ffbec302c1f4c46b4db26ad55f2ca978bf0cb))
