@@ -212,8 +212,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownQuoteBlockValue.createEmpty(initialText: "bbb"),
-          MarkdownParagraphBlockValue.createEmpty(initialText: ""),
+          MarkdownQuoteBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(initialText: "bbb"),
+            MarkdownLineValue.createEmpty(initialText: ""),
+          ]),
         ]).toDebug()
       ],
     );
@@ -226,8 +228,10 @@ void main() {
       [
         MarkdownFieldValue.createEmpty(children: [
           MarkdownParagraphBlockValue.createEmpty(initialText: "aaa"),
-          MarkdownQuoteBlockValue.createEmpty(initialText: "bbb"),
-          MarkdownParagraphBlockValue.createEmpty(initialText: "ccc"),
+          MarkdownQuoteBlockValue.createEmpty(children: [
+            MarkdownLineValue.createEmpty(initialText: "bbb"),
+            MarkdownLineValue.createEmpty(initialText: "ccc"),
+          ]),
         ]).toDebug()
       ],
     );
