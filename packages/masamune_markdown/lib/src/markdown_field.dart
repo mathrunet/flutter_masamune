@@ -470,6 +470,12 @@ class MarkdownFieldState extends State<MarkdownField>
   }
 
   void _handleControllerChanged() {
+    // 非アクティブ化された場合、入力接続を閉じる
+    if (!widget.controller.isActive) {
+      _closeInputConnectionIfNeeded();
+      _cursorBlinkController?.stop();
+      _showCursor = false;
+    }
     setState(() {});
   }
 
@@ -1207,11 +1213,14 @@ class MarkdownFieldState extends State<MarkdownField>
         theme.textSelectionTheme.selectionColor ??
         theme.colorScheme.primary.withValues(alpha: 0.4);
 
-    // readonly時はカーソル・選択を無効化
-    final showCursor =
-        widget.readOnly ? false : (_focusNode.hasFocus && _showCursor);
-    final effectiveSelection =
-        widget.readOnly ? const TextSelection.collapsed(offset: 0) : _selection;
+    // readonly時またはisActive=false時はカーソル・選択を無効化
+    final isActive = widget.controller.isActive;
+    final showCursor = widget.readOnly || !isActive
+        ? false
+        : (_focusNode.hasFocus && _showCursor);
+    final effectiveSelection = widget.readOnly || !isActive
+        ? const TextSelection.collapsed(offset: 0)
+        : _selection;
 
     Widget child = _MarkdownRenderObjectWidget(
       onTapLink: widget.onTapLink,
@@ -1219,8 +1228,8 @@ class MarkdownFieldState extends State<MarkdownField>
       controller: widget.controller,
       focusNode: _focusNode,
       selection: effectiveSelection,
-      composingRegion: widget.readOnly ? null : _composingRegion,
-      composingText: widget.readOnly ? null : _composingText,
+      composingRegion: widget.readOnly || !isActive ? null : _composingRegion,
+      composingText: widget.readOnly || !isActive ? null : _composingText,
       showCursor: showCursor,
       expands: widget.expands,
       style: defaultStyle!,
@@ -1234,8 +1243,8 @@ class MarkdownFieldState extends State<MarkdownField>
       textDirection: widget.textDirection ?? Directionality.of(context),
       textWidthBasis: widget.textWidthBasis,
       textHeightBehavior: widget.textHeightBehavior,
-      onSelectionChanged: widget.readOnly
-          ? (_, __) {} // readonly時は選択処理を無効化
+      onSelectionChanged: widget.readOnly || !isActive
+          ? (_, __) {} // readonly時またはisActive=false時は選択処理を無効化
           : (selection, cause) {
               markdownDebugPrint(
                   "[MarkdownField] onSelectionChanged: selection=$selection, cause=$cause");
@@ -1365,7 +1374,7 @@ class MarkdownFieldState extends State<MarkdownField>
           _openInputConnection();
         }
       },
-      enabled: widget.enabled ?? true,
+      enabled: (widget.enabled ?? true) && isActive,
       readOnly: widget.readOnly,
       selectionAdjuster: _adjustSelectionForLinksAndMentions,
     );
@@ -1404,10 +1413,23 @@ class MarkdownFieldState extends State<MarkdownField>
       );
     }
 
+    // 非アクティブ時のオーバーレイを追加
+    if (!isActive) {
+      child = ColorFiltered(
+        colorFilter: ColorFilter.mode(
+          Colors.black.withValues(alpha: 0.3),
+          BlendMode.srcOver,
+        ),
+        child: IgnorePointer(
+          child: child,
+        ),
+      );
+    }
+
     return Focus(
       focusNode: _focusNode,
       autofocus: widget.autofocus,
-      onKeyEvent: widget.readOnly ? null : _handleKeyEvent,
+      onKeyEvent: widget.readOnly || !isActive ? null : _handleKeyEvent,
       child: child,
     );
   }

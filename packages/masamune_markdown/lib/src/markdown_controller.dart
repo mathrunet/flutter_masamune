@@ -58,6 +58,50 @@ class MarkdownController extends MasamuneControllerBase<
 
   final List<MarkdownFieldValue> _value = [];
 
+  TextSelection? _savedSelection;
+  List<MarkdownCustomTools>? _customTools;
+
+  /// Whether the markdown field is active.
+  ///
+  /// マークダウンフィールドがアクティブかどうか。
+  bool get isActive => _isActive;
+  bool _isActive = true;
+
+  /// Whether custom tools are currently being shown.
+  ///
+  /// カスタムツールが現在表示されているかどうか。
+  bool get isShowingCustomTools => _showingCustomTools;
+  bool _showingCustomTools = false;
+
+  /// The current custom tools list (null if not showing).
+  ///
+  /// 現在のカスタムツールリスト（表示されていない場合はnull）。
+  List<MarkdownCustomTools>? get customTools => _customTools;
+
+  /// Shows custom tools on the toolbar.
+  ///
+  /// Replaces normal tools until [hideCustomTools] is called.
+  /// Even an empty list will update the display (toolbar becomes blank).
+  ///
+  /// ツールバーにカスタムツールを表示します。
+  ///
+  /// [hideCustomTools]が呼び出されるまで通常のツールを置き換えます。
+  /// 空のリストが渡された場合でも表示を更新します（ツールバーは空白になります）。
+  void showCustomTools(List<MarkdownCustomTools> tools) {
+    _customTools = tools;
+    _showingCustomTools = true;
+    notifyListeners();
+  }
+
+  /// Hides custom tools and restores normal toolbar display.
+  ///
+  /// カスタムツールを非表示にし、通常のツールバー表示に戻します。
+  void hideCustomTools() {
+    _showingCustomTools = false;
+    _customTools = null;
+    notifyListeners();
+  }
+
   /// Get the plain text of the markdown controller.
   ///
   /// Indentation is applied.
@@ -178,6 +222,60 @@ class MarkdownController extends MasamuneControllerBase<
   }
 
   MarkdownFieldState? _field;
+
+  /// Activates the markdown field.
+  ///
+  /// When reactivated, the cursor position will be restored.
+  /// If the text has been modified while deactivated, the cursor position
+  /// will be clamped to valid range.
+  ///
+  /// マークダウンフィールドをアクティブにします。
+  ///
+  /// 再アクティブ時にカーソル位置が復元されます。
+  /// 非アクティブ中にテキストが変更されていた場合、カーソル位置は有効な範囲にクランプされます。
+  void activate() {
+    if (_isActive) {
+      return;
+    }
+    _isActive = true;
+    // 保存されたカーソル位置を復元（テキスト長にクランプ）
+    if (_savedSelection != null && _field != null) {
+      final textLength = rawText.length;
+      _field!._selection = TextSelection(
+        baseOffset: _savedSelection!.baseOffset.clamp(0, textLength),
+        extentOffset: _savedSelection!.extentOffset.clamp(0, textLength),
+      );
+    }
+    _savedSelection = null;
+    notifyListeners();
+  }
+
+  /// Deactivates the markdown field.
+  ///
+  /// When deactivated:
+  /// - All selections are cleared
+  /// - The field is slightly darkened
+  /// - User input (tap, selection, text input) is disabled
+  /// - Editing via Controller is still possible
+  /// - The current cursor position is saved for restoration
+  ///
+  /// マークダウンフィールドを非アクティブにします。
+  ///
+  /// 非アクティブ時：
+  /// - すべての選択が解除されます
+  /// - フィールドが少し暗くなります
+  /// - ユーザー入力（タップ、選択、文字入力）が無効になります
+  /// - Controller経由での編集は可能です
+  /// - 現在のカーソル位置は復元用に保存されます
+  void deactivate() {
+    if (!_isActive) {
+      return;
+    }
+    // 現在のカーソル位置を保存
+    _savedSelection = _field?._selection;
+    _isActive = false;
+    notifyListeners();
+  }
 
   /// Import from markdown.
   ///

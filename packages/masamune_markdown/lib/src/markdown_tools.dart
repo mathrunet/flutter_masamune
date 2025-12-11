@@ -425,6 +425,18 @@ abstract class MarkdownInlineTools extends MarkdownTools {
   Future<void> onDeactive(BuildContext context, MarkdownToolRef ref);
 }
 
+/// Base class for markdown custom tools.
+///
+/// マークダウンカスタムツールの基底クラス。
+abstract class MarkdownCustomTools extends MarkdownTools {
+  /// Base class for markdown custom tools.
+  ///
+  /// マークダウンカスタムツールの基底クラス。
+  const MarkdownCustomTools({
+    required super.config,
+  });
+}
+
 /// Base class for markdown property inline tools.
 ///
 /// マークダウンプロパティインラインツールの基底クラス。

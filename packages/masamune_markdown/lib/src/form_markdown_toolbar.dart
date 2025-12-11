@@ -592,6 +592,23 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
     });
   }
 
+  Iterable<Widget> _buildCustomTools(BuildContext context, ThemeData theme) {
+    final customTools = widget.controller.customTools ?? [];
+    return customTools.mapAndRemoveEmpty((e) {
+      if (!e.shown(context, this)) {
+        return null;
+      }
+      return IconButton(
+        onPressed: e.enabled(context, this)
+            ? () {
+                e.onTap(context, this);
+              }
+            : null,
+        icon: e.icon(context, this),
+      );
+    });
+  }
+
   Widget _buildLinkDialog(BuildContext context, ThemeData theme) {
     return Positioned(
       left: 0,
@@ -990,7 +1007,10 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (!(field?.selectInMentionLink ?? false) &&
+                              if (widget.controller.isShowingCustomTools) ...[
+                                ..._buildCustomTools(context, theme),
+                              ] else if (!(field?.selectInMentionLink ??
+                                      false) &&
                                   inlineTools != null) ...[
                                 ..._buildInlineTools(
                                     context, theme, inlineTools),
@@ -1001,7 +1021,9 @@ class FormMarkdownToolbarState extends State<FormMarkdownToolbar>
                           ),
                         ),
                       ),
-                      ..._buildSecondaryTools(context, theme),
+                      if (!widget.controller.isShowingCustomTools) ...[
+                        ..._buildSecondaryTools(context, theme),
+                      ],
                     ],
                   ),
                 ),
