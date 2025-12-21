@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_markdown` - `v3.6.0`](#masamune_markdown---v360)
+ - [`masamune_workflow` - `v3.2.0`](#masamune_workflow---v320)
+
+---
+
+#### `masamune_markdown` - `v3.6.0`
+
+ - **FEAT**: Offers unrestricted control via a controller. ([2054207d](https://github.com/mathrunet/flutter_masamune/commit/2054207dea7b58681551219b78312dc90201e11d))
+
+#### `masamune_workflow` - `v3.2.0`
+
+ - **FEAT**: Add workflow model. ([f86bb38a](https://github.com/mathrunet/flutter_masamune/commit/f86bb38a1aa987a0f2af6ec0877cee0d7246e19f))
+
+
 ## 2025-12-08
 
 ### Changes
