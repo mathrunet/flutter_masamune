@@ -1,11 +1,14 @@
 // ignore: unused_import, unnecessary_import
-import "package:flutter/material.dart";
-// ignore: unused_import, unnecessary_import
+
+// Package imports:
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
-import "package:freezed_annotation/freezed_annotation.dart";
+// Project imports:
 import "package:masamune_workflow/models/workflow_organization.dart";
 import "package:masamune_workflow/models/workflow_project.dart";
+
+// ignore: unused_import, unnecessary_import
 
 part "workflow_page.m.dart";
 part "workflow_page.g.dart";

@@ -27,4 +27,3 @@ part "src/workflow_repeat.dart";
 part "src/workflow_task_status.dart";
 part "src/workflow_role.dart";
 part "src/task_log_phase.dart";
-

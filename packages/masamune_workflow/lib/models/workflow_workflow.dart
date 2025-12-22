@@ -1,11 +1,13 @@
 // ignore: unused_import, unnecessary_import
-import "dart:convert";
 
-// ignore: unused_import, unnecessary_import
+// Package imports:
+import "package:freezed_annotation/freezed_annotation.dart";
 import "package:masamune/masamune.dart";
 
-import "package:freezed_annotation/freezed_annotation.dart";
+// Project imports:
 import "package:masamune_workflow/masamune_workflow.dart";
+
+// ignore: unused_import, unnecessary_import
 
 part "workflow_workflow.m.dart";
 part "workflow_workflow.g.dart";
