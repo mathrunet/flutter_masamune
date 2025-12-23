@@ -13,14 +13,18 @@ part "workflow_organization_member.m.dart";
 part "workflow_organization_member.g.dart";
 part "workflow_organization_member.freezed.dart";
 
-/// Value for model.
+/// Model for workflow organization member.
+///
+/// ワークフロー組織メンバーのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/organization/:organization_id/member")
 abstract class WorkflowOrganizationMemberModel
     with _$WorkflowOrganizationMemberModel {
-  /// Value for model.
+  /// Model for workflow organization member.
+  ///
+  /// ワークフロー組織メンバーのモデル。
   const factory WorkflowOrganizationMemberModel({
     required WorkflowRole role,
     String? userId,

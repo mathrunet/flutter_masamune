@@ -13,13 +13,17 @@ part "workflow_action.m.dart";
 part "workflow_action.g.dart";
 part "workflow_action.freezed.dart";
 
-/// Value for model.
+/// Model for workflow action.
+///
+/// ワークフローアクションのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/action")
 abstract class WorkflowActionModel with _$WorkflowActionModel {
-  /// Value for model.
+  /// Model for workflow action.
+  ///
+  /// ワークフローアクションのモデル。
   const factory WorkflowActionModel({
     @jsonParam required WorkflowActionCommandValue command,
     @refParam WorkflowTaskModelRef task,

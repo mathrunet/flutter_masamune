@@ -10,13 +10,17 @@ part "workflow_plan.m.dart";
 part "workflow_plan.g.dart";
 part "workflow_plan.freezed.dart";
 
-/// Value for model.
+/// Model for workflow plan.
+///
+/// ワークフロープランのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/plan")
 abstract class WorkflowPlanModel with _$WorkflowPlanModel {
-  /// Value for model.
+  /// Model for workflow plan.
+  ///
+  /// ワークフロープランのモデル。
   const factory WorkflowPlanModel({
     @Default(0) double limit,
     @Default(0) double burst,

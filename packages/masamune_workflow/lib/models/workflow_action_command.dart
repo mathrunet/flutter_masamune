@@ -10,12 +10,16 @@ part "workflow_action_command.m.dart";
 part "workflow_action_command.g.dart";
 part "workflow_action_command.freezed.dart";
 
-/// Immutable value.
+/// Immutable value for workflow action command.
+///
+/// ワークフローアクションコマンドのイミュータブルな値。
 @freezed
 @formValue
 @immutable
 abstract class WorkflowActionCommandValue with _$WorkflowActionCommandValue {
-  /// Immutable value.
+  /// Immutable value for workflow action command.
+  ///
+  /// ワークフローアクションコマンドのイミュータブルな値。
   const factory WorkflowActionCommandValue({
     required String command,
     required int index,

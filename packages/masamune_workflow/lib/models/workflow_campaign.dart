@@ -13,13 +13,17 @@ part "workflow_campaign.m.dart";
 part "workflow_campaign.g.dart";
 part "workflow_campaign.freezed.dart";
 
-/// Value for model.
+/// Model for workflow campaign.
+///
+/// ワークフローキャンペーンのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/campaign")
 abstract class WorkflowCampaignModel with _$WorkflowCampaignModel {
-  /// Value for model.
+  /// Model for workflow campaign.
+  ///
+  /// ワークフローキャンペーンのモデル。
   const factory WorkflowCampaignModel({
     @refParam WorkflowOrganizationModelRef organization,
     @Default(0) double limit,

@@ -13,14 +13,18 @@ part "workflow_certificate.m.dart";
 part "workflow_certificate.g.dart";
 part "workflow_certificate.freezed.dart";
 
-/// Value for model.
+/// Model for workflow certificate.
+///
+/// ワークフロー証明書のモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath(
     "plugins/workflow/organization/:organization_id/certificate")
 abstract class WorkflowCertificateModel with _$WorkflowCertificateModel {
-  /// Value for model.
+  /// Model for workflow certificate.
+  ///
+  /// ワークフロー証明書のモデル。
   const factory WorkflowCertificateModel({
     @refParam WorkflowOrganizationModelRef organization,
     String? token,

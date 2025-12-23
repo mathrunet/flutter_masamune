@@ -13,13 +13,17 @@ part "workflow_asset.m.dart";
 part "workflow_asset.g.dart";
 part "workflow_asset.freezed.dart";
 
-/// Value for model.
+/// Model for workflow asset.
+///
+/// ワークフローアセットのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/asset")
 abstract class WorkflowAssetModel with _$WorkflowAssetModel {
-  /// Value for model.
+  /// Model for workflow asset.
+  ///
+  /// ワークフローアセットのモデル。
   const factory WorkflowAssetModel({
     @refParam WorkflowOrganizationModelRef organization,
     String? source,

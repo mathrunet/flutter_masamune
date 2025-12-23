@@ -14,13 +14,17 @@ part "workflow_page.m.dart";
 part "workflow_page.g.dart";
 part "workflow_page.freezed.dart";
 
-/// Value for model.
+/// Model for workflow page.
+///
+/// ワークフローページのモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/page")
 abstract class WorkflowPageModel with _$WorkflowPageModel {
-  /// Value for model.
+  /// Model for workflow page.
+  ///
+  /// ワークフローページのモデル。
   const factory WorkflowPageModel({
     @refParam WorkflowOrganizationModelRef organization,
     @refParam WorkflowProjectModelRef project,

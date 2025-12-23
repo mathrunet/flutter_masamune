@@ -10,13 +10,17 @@ part "workflow_organization.m.dart";
 part "workflow_organization.g.dart";
 part "workflow_organization.freezed.dart";
 
-/// Value for model.
+/// Organization model.
+///
+/// 組織モデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/workflow/organization")
 abstract class WorkflowOrganizationModel with _$WorkflowOrganizationModel {
-  /// Value for model.
+  /// Organization model.
+  ///
+  /// 組織モデル。
   const factory WorkflowOrganizationModel({
     String? name,
     String? description,
