@@ -27,6 +27,7 @@ import "package:katana_cli/ai/docs/plugins/sns_auth.dart";
 import "package:katana_cli/ai/docs/plugins/speech_to_text.dart";
 import "package:katana_cli/ai/docs/plugins/stripe.dart";
 import "package:katana_cli/ai/docs/plugins/text_to_speech.dart";
+import "package:katana_cli/ai/docs/plugins/workflow.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// List of Plugin types.
@@ -62,6 +63,7 @@ const kPluginList = {
   "scheduler": PluginSchedulerMdCliAiCode(),
   "delete_user": PluginDeleteUserMdCliAiCode(),
   "sns_auth": PluginSnsAuthMdCliAiCode(),
+  "workflow": PluginWorkflowMdCliAiCode(),
 };
 
 /// Contents of plugin_usage.md.
