@@ -22,6 +22,7 @@ export "models/workflow_task.dart";
 export "models/workflow_task_log.dart";
 export "models/workflow_usage.dart";
 export "models/workflow_workflow.dart";
+export "models/workflow_address.dart";
 
 part "src/workflow_repeat.dart";
 part "src/workflow_task_status.dart";
