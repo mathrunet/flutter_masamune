@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.9.1`](#katana_cli---v391)
+ - [`masamune_workflow` - `v3.3.0`](#masamune_workflow---v330)
+
+---
+
+#### `katana_cli` - `v3.9.1`
+
+ - **FIX**: Add a workflow plugin. ([20d795b2](https://github.com/mathrunet/flutter_masamune/commit/20d795b2b3b171f8ac5f9a97859168ade64cdb01))
+
+#### `masamune_workflow` - `v3.3.0`
+
+ - **FIX**: Remove unnecessary imports. ([09575b02](https://github.com/mathrunet/flutter_masamune/commit/09575b02ebcd339401d804104e0456e451da6e9a))
+ - **FEAT**: Add Address. ([4f789c8d](https://github.com/mathrunet/flutter_masamune/commit/4f789c8dcf4cc3c0bfe06e403318cc0e8ec0e538))
+ - **DOCS**: Add comment. ([2dc6801a](https://github.com/mathrunet/flutter_masamune/commit/2dc6801a83efd7be486f7cf91317867c728e6b78))
+
+
 ## 2025-12-21
 
 ### Changes

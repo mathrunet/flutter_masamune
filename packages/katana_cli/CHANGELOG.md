@@ -1,3 +1,7 @@
+## 3.9.1
+
+ - **FIX**: Add a workflow plugin. ([20d795b2](https://github.com/mathrunet/flutter_masamune/commit/20d795b2b3b171f8ac5f9a97859168ade64cdb01))
+
 ## 3.9.0
 
  - **FEAT**: Deleted because Gmail functionality stopped working. ([a8bb6f22](https://github.com/mathrunet/flutter_masamune/commit/a8bb6f22e1f66e68322e3ad9b54bd09bf7a45ddd))
