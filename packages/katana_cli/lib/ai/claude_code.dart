@@ -401,266 +401,112 @@ class GitAgentsMarkdownCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-# Masamuneフレームワーク開発ガイド
+# Masamuneフレームワーク開発ガイド v2.0
 
-このドキュメントは、このリポジトリで効率的に開発を行うための包括的なガイドラインです。
+## 🚨 絶対原則（P0）
 
-## 🎯 最重要原則
+### 必ず守るべき鉄則
+1. **日本語応答必須** → 全てのレスポンスは日本語で記述
+2. **katana code必須** → 手動でのファイル作成は絶対禁止
+3. **段階的バリデーション** → 1実装ごとに`flutter analyze && dart run custom_lint`実行
+${availabeBackground ? """4. **katana git使用** → git直接コマンドは使用禁止
+5. **全生成ファイルコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像必須""" : """4. **全生成ファイルコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像必須"""}
 
-### 1. 必ず守るべき鉄則
-1. **日本語での応答** → 全てのレスポンスは日本語で記述
-2. **手動でのファイル作成禁止** → 必ず`katana code`コマンドでテンプレート生成
-3. **段階的な実装とバリデーション** → 1つの実装ごとに必ず`flutter analyze && dart run custom_lint`を実行
-${availabeBackground ? """
-4. **Gitコマンドは使用禁止** → 必ず`katana git`コマンドを使用" : ""}
-5. **生成ファイルは全てコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像を必ず含める
-""" : ""}
-
-### 2. 開発フローの絶対的な順序
+### 開発フローの絶対順序
 ```
 実装 → バリデーション → 修正 → 次の実装
 ```
-この順序を絶対に崩してはいけません。
+この順序を絶対に崩さない。エラーは即座に対処。
 
-## 🤖 ドキュメントおよびツールの活用
+## 🎯 開発フロー（P0）
 
-開発の各フェーズで専門的なサポートを提供するドキュメントやツールが利用可能です。
+### 基本サイクル
+1. `katana code [type] [name]`でテンプレート生成
+2. 実装を記述
+3. `flutter analyze && dart run custom_lint`でバリデーション
+4. エラーがあれば修正して再実行
+5. UI変更時は`katana test update [ClassName]`
+6. 次のコンポーネントへ
 
-### 1. Masamuneフレームワーク相談
+### 新規機能追加フロー
+```bash
+# 1. テンプレート生成
+katana code page [PageName]          # ページ作成
+katana code collection [Name]        # コレクション作成
+katana code document [Name]          # ドキュメント作成
+katana code controller [Name]        # コントローラー作成
+katana code widget [Name]            # ウィジェット作成
+katana code value [Name]             # フォーム値作成
 
-Masamuneフレームワークに関する詳細なドキュメントを提供します。
+# 2. コード生成（Freezed/JsonSerializable）
+katana code generate
 
-- **目的・利用シーン**  
-  - フレームワーク機能の使用方法（Model、Page、Controller、Widget、Form等）
-  - 実装パターンやベストプラクティス
-  - プラグインの使用方法（camera、location、OpenAI、Stripe等）
-  - UIコンポーネント（UniversalUI、KatanaUI、フォームウィジェット）
-  - ModelFieldValueタイプとその使用方法
-  - フレームワーク固有の概念や用語
+# 3. 実装とバリデーション（各コンポーネントごと）
+flutter analyze && dart run custom_lint
 
-- **事前に揃える情報**  
-  - 問題となっているコード断片や設計案。  
-  - 遵守すべきルール・スタイルガイド。
-
-- **AIに求める手順**  
-  1. 現状の課題とMasamune規約の突合。  
-  2. 該当するルール・ドキュメントの紹介。  
-  3. 推奨アプローチや改善案の提示。  
-  4. 注意点や追加で確認すべき項目を整理。
-
-- **成果物とチェック**  
-  - 具体的なドキュメント参照先が示されているか。  
-  - 改善案がMasamuneパターンに合致するか。  
-  - 検討すべき追加事項が挙げられているか。
-
-- **参考リソース・コマンド**  
-  `documents/rules/docs/**`, 既存実装サンプル, Masamune公式リファレンス
-
-### 2. パッケージ選定
-
-有用やパッケージがあるかどうか調査・評価し、導入手順を提示します。
-
-- **目的・利用シーン**  
-  機能実装を効率化するためのMasamuneプラグインや外部Dartパッケージを検討するとき。
-
-- **事前に揃える情報**  
-  - 実装したい機能と制約。  
-  - プラットフォーム要件（モバイル/ウェブ等）。  
-  - セキュリティやメンテナンス要件。
-
-- **AIに求める手順**  
-  1. Masamuneプラグインの有無を確認。  
-  2. `pub.dev` 等で更新頻度やポイントを比較。  
-  3. 導入コストと必要設定を整理。  
-  4. 実装サンプルと注意事項を提示。  
-  5. 候補が無い場合はMasamune標準実装案を提案。
-
-- **成果物とチェック**  
-  - 評価基準（更新頻度・likes等）が明記されているか。  
-  - 導入手順が3ステップ程度で理解できるか。  
-  - サンプルコードが目的に即しているか。
-
-- **参考リソース・コマンド**  
-  `mcp__dart__pub_dev_search`, `mcp__dart__pub`, `documents/rules/docs/plugins/**`, `pubspec.yaml`
-
-### 3. テスト実行・分析
-
-コードに対して適切なテスト実行手順と失敗時の解析方法を提供します。
-
-- **目的・利用シーン**  
-  テストの種類ごとに適切な実行手順・エラー解析を行いたいとき。
-
-- **事前に揃える情報**  
-  - 対象テストの目的（例: ゴールデン更新、回帰確認）。  
-  - テスト対象のパスやタグ。  
-  - 必要な環境設定の有無。
-
-- **AIに求める手順**  
-  1. テスト種別を判定（UI確認・ゴールデン更新・全体テスト等）。  
-  2. 事前準備（差分確認、画像生成先など）の指示。  
-  3. 実行コマンドとログ確認ポイントを提示。  
-  4. 失敗時の原因分類と再試行条件を整理。  
-  5. 成果物（例: ゴールデン画像）の扱い方を示す。
-
-- **成果物とチェック**  
-  - コマンドが状況に合っているか。  
-  - 失敗時のフローが明確か。  
-  - 生成物チェックリストが含まれるか。
-
-- **参考リソース・コマンド**  
-  `katana code debug`, `katana test run`, `katana test update`, テストレポートテンプレート
-
-
-## 3. UI実装支援
-
-画像・Figma・テキスト指示をもとにFlutter/MasamuneでのUI実装手順を提供します。
-
-- **目的・利用シーン**  
-  画像・Figma・テキスト指示をもとにUIをFlutter/Masamuneで実装したいとき。
-
-- **事前に揃える情報**  
-  - デザイン資産（画像URL、Figmaリンク、テキスト仕様）。  
-  - 対象ページやウィジェットの位置。  
-  - デザインの制約（テーマ、ブレークポイント等）。
-
-- **AIに求める手順**  
-  1. デザイン資産から構成要素・レイアウトを抽出。  
-  2. 既存UIとの差分があれば整理。  
-  3. `katana code` など生成手順と実装指針を提示。  
-  4. スタイルや状態管理での注意点を明記。  
-  5. テスト・デバッグ画像の確認方法を示す。
-
-- **成果物とチェック**  
-  - レイアウト構造が明文化されているか。  
-  - コード例がMasamuneの慣習に沿っているか。  
-  - 確認手順（デバッグ/テスト）が含まれるか。
-
-- **参考リソース・コマンド**  
-  デザインツール連携、`katana code page`, `katana code widget`, `documents/rules/docs/ui/**`
-
-## 4. UIデバッグ
-
-UI実装済みの画面とデザイン指示の差分を検出し、修正手順を提供します。
-
-- **目的・利用シーン**  
-  実装済みUIとデザインの差異を検出し、修正点を明確にしたいとき。
-
-- **事前に揃える情報**  
-  - 目標UI資料（画像・Figma・テキスト）。  
-  - 実装を確認できるスクリーンショットやWidgetツリー。  
-  - 再現手順。
-
-- **AIに求める手順**  
-  1. 目標UIと現状を比較する観点を列挙。  
-  2. Widgetツリーやスタイル属性の差異を分析。  
-  3. 問題がない場合は合格声明、ある場合は詳細なフィードバックを提示。  
-  4. 修正手順（コード変更・検証方法）を提案。  
-  5. 追加で取るべきスクリーンショットやテストを案内。
-
-- **成果物とチェック**  
-  - 問題点がカテゴリ別に整理されているか。  
-  - 修正提案が具体的なコード・プロパティに触れているか。  
-  - 検証フローが示されているか。
-
-- **参考リソース・コマンド**  
-  Flutter Inspector, `katana code debug`, デバッグ画像出力手順
-
-## 5. Firebase連携デバッグ
-
-FirebaseとFlutter間の不具合を切り分け、解決策を見つけます。
-
-- **目的・利用シーン**  
-  Firebase（Auth/Firestore/Functions等）とFlutter間の不具合を切り分け、解決策を見つけたいとき。
-
-- **事前に揃える情報**  
-  - 発生しているエラー内容・ログ。  
-  - 該当するFlutterコードとFirebase設定。  
-  - 既に試した対処。
-
-- **AIに求める手順**  
-  1. 初期情報をもとに原因候補を整理。  
-  2. フロント（Dart）側のエラー解析と修正案を提示。  
-  3. Firebase Functionsログ・設定の確認ポイントを示す。  
-  4. Firestoreデータ構造・権限の検証手順をまとめる。  
-  5. 修正後に実施すべき検証と報告内容を提案。
-
-- **成果物とチェック**  
-  - 原因候補が網羅的か（DartとFirebase双方）。  
-  - 修正案に具体的なステップがあるか。  
-  - 再発防止策や検証手順が記載されているか。
-
-- **参考リソース・コマンド**  
-  Firebaseコンソール, `firebase functions:log`, Firestoreデータビューア, `documents/rules/docs/firebase/**`
-
-
-## 🏗️ アーキテクチャ概要
-
-### 設計パターン
-1. **Page-Based Architecture**: `@PagePath`アノテーションによるページ構成
-2. **Model-Driven Data**: Freezedモデル + ModelAdapterパターン
-3. **Scoped State Management**: `ref.app`（アプリ全体） / `ref.page`（ページスコープ）
-4. **Adapter Pattern**: バックエンド切り替え可能（Runtime → Firestore → Local）
-
-### ファイル命名規則
-```
-Pages:       lib/pages/[name].dart      → [Name]Page クラス
-Models:      lib/models/[name].dart     → [Name]Model クラス
-Controllers: lib/controllers/[name].dart → [Name]Controller クラス
-Widgets:     lib/widgets/[name].dart    → [Name] クラス
+# 4. UI更新時のテスト
+katana test update [ClassName1],[ClassName2]
 ```
 
-## 📋 開発タスク別ワークフロー
+### Firebase Functions実装フロー
+```bash
+# 1. Functions生成
+katana code server call [Name]      # 関数直接呼び出し
+katana code server request [Name]   # HTTPリクエスト
+katana code server schedule [Name]  # スケジューラー
+katana code server firestore [Name] # Firestoreトリガー
 
-### 1️⃣ 新規機能追加
+# 2. サーバー側実装
+# firebase/functions/src/[name].tsのprocessメソッド実装
+# Node.js Masamuneパッケージ活用:
+# - masamune_auth: 認証処理
+# - masamune_firestore: データベース操作
+# - masamune_notification: 通知送信
+# - masamune_mail_sendgrid: メール送信
+# - masamune_purchase_stripe: 決済処理
+# - masamune_ai_openai: AI連携
 
-#### 手順
-1. **テンプレート生成**
-   ```bash
-   katana code page [PageName]      # ページ作成
-   katana code collection [Name]    # コレクションモデル作成
-   katana code document [Name]      # ドキュメントモデル作成
-   katana code controller [Name]    # コントローラー作成
-   katana code widget [Name]        # ウィジェット作成
-   katana code value [Name]         # フォーム値作成
-   ```
+# 3. クライアント側実装
+# lib/functions/[name].dartでFunctionsAction/Response定義
+final response = await appFunction.execute(
+  TestFunctionsAction(
+    companyId: "xxx",
+    userId: "yyy",
+  ),
+);
 
-2. **実装（1コンポーネントずつ）**
-   - 実装を記述
-   - 即座にバリデーション実行:
-     ```bash
-     flutter analyze && dart run custom_lint
-     ```
-   - エラーがあれば修正して再実行
+# 4. デプロイ
+katana deploy functions
+```
 
-3. **UI更新時のテスト**
-   ```bash
-   katana test update [ClassName1],[ClassName2]
-   ```
-   - 生成された画像を確認（`documents/test/**/*.png`）
+### katana.yaml設定とkatana apply
+```yaml
+# katana.yaml例
+name: myapp
+package: com.example.myapp
 
-4. **次のコンポーネントへ**
-   - 2-3を繰り返す
+# プラグイン設定（自動インストール）
+firebase:
+  enable: true
+  firestore:
+    enable: true
+  auth:
+    enable: true
+    google: true
+    apple: true
+  functions:
+    enable: true
 
-### 2️⃣ バグ修正・改修
+# プラグイン例
+purchase:
+  enable: true
+  type: stripe
 
-#### 手順
-1. **問題の特定と修正**
-2. **即座にバリデーション**
-   ```bash
-   flutter analyze && dart run custom_lint
-   ```
-3. **UI変更があれば画像更新**
-   ```bash
-   katana test update [影響のあるクラス名]
-   ```
-4. **全体テスト実行**
-   ```bash
-   katana test run
-   ```
+# 適用コマンド（全設定を自動反映）
+katana apply
+```
 
-### 3️⃣ ${availabeBackground ? "コミット前の必須作業" : "完了前の必須作業"}
-
-#### 完全な手順（順序厳守）
+### ${availabeBackground ? "コミット前" : "完了前"}の必須作業
 ```bash
 # 1. コードフォーマット
 dart fix --apply lib && dart format . && flutter pub run import_sorter:main
@@ -668,150 +514,419 @@ dart fix --apply lib && dart format . && flutter pub run import_sorter:main
 # 2. バリデーション（エラー0必須）
 flutter analyze && dart run custom_lint
 
-# 3. UI更新時のみ：ゴールデンテスト更新
+# 3. UI更新時：ゴールデンテスト更新
 katana test update [更新したクラス名]
 
 # 4. 全体テスト実行
 katana test run
-
-# 5. エラーがあれば1から再実行
-
 ${availabeBackground ? """
-# 6. コミット（バックグラウンド実行時のみ）
+# 5. コミット
 katana git commit --message="コミットメッセージ" [ファイル...]
 
-# 7. PR作成または更新（バックグラウンド実行時のみ）
+# 6. PR作成/更新
 katana git pull_request --target="master" --source="branch" --title="タイトル" --body="説明"
-# または既存PRへのコメント
-katana git pull_request_comment --message="コメント" [スクリーンショット...]
-```
 """ : ""}
-
-## 🛠️ 必須コマンドリファレンス
-
-### コード生成・監視
-```bash
-# 手動生成
-katana code generate
 ```
 
-### テスト関連
-```bash
-# ゴールデンテスト更新（UI変更時必須）
-katana test update [ClassName1],[ClassName2]
+## 🛠️ コマンド早見表（P0）
 
-# 全テスト実行
-katana test run
-```
+### 頻出コマンド
+| タスク | コマンド |
+|--------|----------|
+| **ページ作成** | `katana code page [name]` |
+| **モデル作成** | `katana code collection/document [name]` |
+| **コントローラー** | `katana code controller [name]` |
+| **ウィジェット** | `katana code widget [name]` |
+| **フォーム値** | `katana code value [name]` |
+| **Functions作成** | `katana code server call/request/schedule/firestore [name]` |
+| **コード生成** | `katana code generate` |
+| **プラグイン適用** | `katana apply` |
+| **バリデーション** | `flutter analyze && dart run custom_lint` |
+| **フォーマット** | `dart fix --apply lib && dart format .` |
+| **インポート整理** | `flutter pub run import_sorter:main` |
+| **テスト更新** | `katana test update [class]` |
+| **テスト実行** | `katana test run` |
+| **Functions deploy** | `katana deploy functions` |
 
-## 💡 コーディングパターン
-
-### データ読み込み
+### 基本パターンコード
 ```dart
-@override
-Widget build(BuildContext context, PageRef ref) {
-  final model = ref.app.model(TestModel.collection())..load();
-  // モデルの読み込み/変更時にWidgetが再構築される
-}
-```
+// Model読み込み
+final model = ref.app.model(TestModel.collection())..load();
 
-### コントローラー使用
-```dart
+// Document取得
+final doc = ref.app.model(TestModel.document("docId"))..load();
+
+// Controller使用
 final controller = ref.page.controller(TestController.query());
-// ref.page: ページライフサイクルにスコープ
-// ref.app: アプリライフサイクルにスコープ
+
+// Form使用
+final form = ref.page.form(LoginValue.form());
+
+// Functions実行
+final response = await appFunction.execute(TestFunctionsAction());
+
+// ModelFieldValue例
+ModelLocalizedValue({"ja": "日本語", "en": "English"})  // 多言語
+ModelGeoValue(latitude: 35.6762, longitude: 139.6503)  // 位置情報
+ModelSearch(["keyword1", "keyword2"])                   // 検索用
+ModelTimestamp(DateTime.now())                          // タイムスタンプ
 ```
 
-### フォーム
-```dart
-final form = ref.page.form(LoginValue.form(LoginValue(email: "", password: "")));
-// FormTextField, FormButton等と組み合わせて使用
+## 🤖 エージェント選択ガイド（P1）
+
+### 状況別エージェントマトリックス
+| 状況 | エージェント | 目的 |
+|------|-------------|------|
+| **フレームワーク質問** | `masamune_framework_advisor` | 実装方法・ルール確認 |
+| **パッケージ検討** | `package_advisor` | 最適パッケージ選定 |
+| **UI実装** | `ui_builder` | デザインからコード生成 |
+| **UIデバッグ** | `ui_debugger` | デザイン差分検出 |
+| **テスト実行** | `test_runner` | テスト実行・分析 |
+| **Firebase問題** | `firebase_flutter_debugger` | 連携問題解決 |
+
+### 各エージェント概要
+- **masamune_framework_advisor**: Model/Page/Controller/Widget/Form/プラグイン使用方法、ModelFieldValue活用
+- **package_advisor**: Masamuneプラグイン確認、pub.dev検索、npm packages検討
+- **ui_builder**: デザイン資産からUI実装、UniversalUI活用、レスポンシブ対応
+- **ui_debugger**: 実装UIとデザイン比較、差分検出、修正提案
+- **test_runner**: ゴールデンテスト更新、テスト実行、エラー解析
+- **firebase_flutter_debugger**: Auth/Firestore/Functions連携デバッグ、ログ確認
+
+※詳細は`.claude/agents/*.md`を参照
+
+## 🏗️ アーキテクチャ要点（P1）
+
+### 設計パターン
+- **Page-Based**: `@PagePath`アノテーションによるルーティング
+- **Model-Driven**: Freezed + ModelAdapterパターン
+- **Scoped State**: `ref.app`（アプリ全体） / `ref.page`（ページスコープ）
+- **Adapter Pattern**: Runtime → Firestore → Local切替可能
+
+### ファイル規則
+```
+lib/pages/[name].dart        → [Name]Page クラス
+lib/models/[name].dart       → [Name]Model クラス
+lib/controllers/[name].dart  → [Name]Controller クラス
+lib/widgets/[name].dart      → [Name] クラス
+lib/functions/[name].dart    → [Name]FunctionsAction クラス
+firebase/functions/src/[name].ts → process関数実装
 ```
 
-## 📚 設計書・ドキュメント構造
+### ModelFieldValue活用
+| タイプ | 用途 | 例 |
+|--------|------|-----|
+| **ModelLocalizedValue** | 多言語対応 | `{"ja": "日本語", "en": "English"}` |
+| **ModelGeoValue** | 位置情報 | `latitude: 35.6762, longitude: 139.6503` |
+| **ModelSearch** | 検索用キーワード | `["keyword1", "keyword2"]` |
+| **ModelTimestamp** | タイムスタンプ | `DateTime.now()` |
+| **ModelUri** | URI/URL | `Uri.parse("https://example.com")` |
+| **ModelImageUri** | 画像URI | Storage連携、キャッシュ対応 |
+| **ModelVideoUri** | 動画URI | Storage連携、サムネイル対応 |
+| **ModelCounter** | カウンター | インクリメント/デクリメント対応 |
+| **ModelRef** | ドキュメント参照 | 他ドキュメントへのリファレンス |
 
-### 設計書（`documents/rules/designs/`）
-- `design.md`: 全体設計フロー
-- `metadata_design.md`: メタデータ設計
-- `controller_design.md`: コントローラー設計
-- `model_design.md`: モデル設計
-- `plugin_design.md`: プラグイン設計
-- `theme_design.md`: テーマ設計
-- `widget_design.md`: ウィジェット設計
-- `page_design.md`: ページ設計
+## 📚 ドキュメント参照マップ（P2）
 
-### 実装手順（`documents/rules/impls/`）
-- `impl.md`: 実装フロー全体
-- 各コンポーネント別の詳細実装手順
+### 実装時の参照先
+- **全体フロー**: `documents/rules/impls/impl.md`
+- **Model実装**: `documents/rules/docs/model_usage.md`
+- **Page実装**: `documents/rules/impls/page_impl.md`
+- **Widget実装**: `documents/rules/impls/widget_impl.md`
+- **Controller実装**: `documents/rules/impls/controller_impl.md`
+- **Functions実装**: `documents/rules/docs/functions_usage.md`
+- **Form実装**: `documents/rules/docs/form/**`
+- **UI実装**: `documents/rules/docs/katana_ui/**`, `documents/rules/docs/universal_ui/**`
+- **プラグイン**: `documents/rules/docs/plugins/**`
+- **CLI詳細**: `documents/rules/docs/katana_cli.md`
 
-### テスト手順（`documents/rules/tests/`）
-- `test.md`: テスト実装フロー
-- `page_test.md`: ページテスト
-- `model_extension_test.md`: モデル拡張テスト
-- `widget_test.md`: ウィジェットテスト
+### Firebase Functions側の実装
+- **Node.jsパッケージ**: `node_masamune/packages/**`
+- **実装例**: `firebase/functions/src/**`
 
-### 技術ドキュメント（`documents/rules/docs/`）
-- 命名規則、技術スタック、用語集
-- `katana_cli.md`: CLIコマンド詳細
-- フレームワーク各機能の使用方法
-- プラグイン別の詳細ガイド
-- フォーム関連ウィジェットの使用方法
-- UIコンポーネントの使用方法
-- ModelFieldValue各種の使用方法
+## ⚠️ エラー対処表（P1）
 
-## ⚠️ よくあるミスと対処法
+### よくあるエラーと解決策
+| エラー | 原因 | 解決コマンド |
+|--------|------|-------------|
+| **Freezed生成エラー** | 古い生成ファイル | `katana code generate` |
+| **Analyze警告** | フォーマット不適合 | `dart fix --apply lib` |
+| **Custom lint エラー** | ルール違反 | エラー箇所を修正 |
+| **Import順序エラー** | インポート未整理 | `flutter pub run import_sorter:main` |
+| **Test失敗** | ゴールデン不一致 | `katana test update [class]`後に再実行 |
+| **Functions エラー** | 型不一致 | Action/Responseの型定義確認 |
+| **ModelAdapter エラー** | 初期化忘れ | `main.dart`でAdapter設定確認 |
+| **Form validation** | バリデーター未設定 | FormValidatorを適用 |
 
-### ❌ してはいけないこと
-- `git add`, `git commit`の直接実行
-- 手動でのDartファイル作成
-- バリデーションをスキップして次の実装に進む
-- 生成ファイルをコミットし忘れる
-- UI変更後にゴールデンテスト更新を忘れる
+### ❌ 禁止事項
+- git add/commit直接実行
+- 手動Dartファイル作成
+- バリデーションスキップ
+- 生成ファイル(.m.dart等)のコミット忘れ
+- UI変更後のゴールデンテスト更新忘れ
+- 新しいFunctions()インスタンス作成（appFunction使用必須）
 
-### ✅ 必ずすること
-- `katana code`でのテンプレート生成
-- 1実装ごとのバリデーション実行
-${availabeBackground ? """
-- `katana git`コマンドの使用
-- 全ての生成ファイルをコミットに含める
-- PR作成時にスクリーンショットを添付
-""" : ""}
+## 🔧 トラブルシューティング（P2）
 
-## 🔍 デバッグ・トラブルシューティング
+### デバッグ手順
+1. エラーメッセージ確認
+2. 該当箇所修正
+3. `flutter analyze && dart run custom_lint`
+4. 解決しない場合：`dart fix --apply lib`
+5. Functions問題：`firebase functions:log`確認
+6. Firestore問題：Firestoreコンソールでルール/インデックス確認
 
-### エラーが出た場合の対処順序
-1. エラーメッセージを確認
-2. 該当箇所を修正
-3. `flutter analyze && dart run custom_lint`で再確認
-4. それでも解決しない場合は`dart fix --apply lib`を試す
-
-${availabeBackground ? """
-## 📝 コミットメッセージ規則
-
-### 形式
-```
-[種別]: 簡潔な説明
-
-詳細な説明（必要に応じて）
-```
-
-### 種別の例
-- `feat`: 新機能追加
-- `fix`: バグ修正
-- `refactor`: リファクタリング
-- `docs`: ドキュメント更新
-- `test`: テスト追加・修正
-- `chore`: その他の変更
-""" : ""}
-
-## 🚀 効率的な開発のためのTips
+## 💡 効率的な開発Tips（P2）
 
 1. **テスト画像は必ず確認** - UIのズレを見逃さない
 2. **エラーは即座に対処** - 後回しにすると複雑化する
 3. **ドキュメントを参照** - 不明点は`documents/rules/`配下を確認
-${availabeBackground ? """
-4. **小さな単位でコミット** - 機能ごとに細かくコミットする
-""" : ""}
+${availabeBackground ? """4. **小さな単位でコミット** - 機能ごとに細かくコミットする
+5. **PR作成時にスクリーンショット添付** - レビューを効率化""" : """4. **katana applyで環境構築自動化** - 手動設定を避ける"""}
+
+## 📋 よく使う実装パターン（P1）
+
+### 認証フロー実装
+```dart
+// ソーシャルログイン
+await Auth.signIn(GoogleAuthQuery.signIn());
+await Auth.signIn(AppleAuthQuery.signIn());
+
+// メール/パスワード認証
+await Auth.signIn(EmailAndPasswordAuthQuery.signIn(
+  email: "user@example.com",
+  password: "password123",
+));
+
+// サインアウト
+await Auth.signOut();
+
+// ユーザー情報取得
+final user = Auth.userId;  // ユーザーID
+final isSignedIn = Auth.isSignedIn;  // サインイン状態
+```
+
+### Firestoreデータ操作
+```dart
+// Create
+final newModel = TestModel(
+  id: uuid(),
+  name: "Test",
+  createdAt: ModelTimestamp(DateTime.now()),
+);
+await newModel.save();
+
+// Read (Collection)
+final collection = ref.app.model(TestModel.collection())..load();
+for (final item in collection) {
+  print(item.name);
+}
+
+// Update
+model.name = "Updated Name";
+await model.save();
+
+// Delete
+await model.delete();
+
+// Query with Filter
+final query = TestModel.collection().equal("status", "active");
+final filtered = ref.app.model(query)..load();
+```
+
+### ストレージ操作
+```dart
+// 画像アップロード
+final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+if (image != null) {
+  final uri = await Storage.upload(
+    "users/\${Auth.userId}/profile.jpg",
+    File(image.path),
+  );
+  model.profileImage = ModelImageUri(uri);
+  await model.save();
+}
+
+// ファイルダウンロード
+final file = await Storage.download(uri);
+```
+
+### 通知実装
+```dart
+// プッシュ通知送信（Functions側）
+await Notification.send(
+  title: "新着メッセージ",
+  body: "メッセージが届きました",
+  tokens: [userToken],
+  data: {"type": "message", "id": messageId},
+);
+
+// アプリ内通知表示
+ref.page.showSnackBar("保存しました");
+ref.page.showDialog(
+  title: "確認",
+  text: "削除してもよろしいですか？",
+  submitText: "削除",
+  onSubmit: () async {
+    await model.delete();
+  },
+);
+```
+
+### 決済フロー（Stripe）
+```dart
+// 単発購入
+final purchase = ref.app.purchase();
+await purchase.purchase(
+  productId: "product_123",
+  onSuccess: (transaction) {
+    // 購入成功処理
+  },
+);
+
+// サブスクリプション
+await purchase.subscribe(
+  productId: "subscription_monthly",
+  onSuccess: (transaction) {
+    // サブスク開始処理
+  },
+);
+
+// 購入履歴確認
+final purchased = await purchase.isPurchased("product_123");
+```
+
+### リアルタイム同期
+```dart
+// リアルタイム監視
+final model = ref.app.model(
+  TestModel.collection(),
+  listen: true,  // リアルタイム監視ON
+)..load();
+
+// 変更を即座に反映
+model.addListener(() {
+  // データ変更時の処理
+});
+```
+
+## 🌐 マルチプラットフォーム対応（P2）
+
+### UniversalUI使用例
+```dart
+// レスポンシブデザイン
+UniversalColumn(
+  breakpoint: Breakpoint.sm,  // スマホサイズで縦並び
+  children: [
+    // スマホ: 縦並び
+    // タブレット以上: 横並び
+  ],
+);
+
+// プラットフォーム別分岐
+if (UniversalPlatform.isIOS) {
+  // iOS専用処理
+} else if (UniversalPlatform.isAndroid) {
+  // Android専用処理
+} else if (UniversalPlatform.isWeb) {
+  // Web専用処理
+}
+
+// 画面サイズ取得
+final size = MediaQuery.of(context).size;
+final isSmall = size.width < 600;
+```
+
+### フォーム実装
+```dart
+// フォーム定義
+@freezed
+@formValue
+class LoginValue with _\$LoginValue {
+  const factory LoginValue({
+    @Default("") String email,
+    @Default("") String password,
+  }) = _LoginValue;
+}
+
+// フォーム使用
+final form = ref.page.form(LoginValue.form());
+
+FormTextField(
+  form: form,
+  hintText: "メールアドレス",
+  onSaved: (value) => form.value = form.value.copyWith(email: value),
+  validator: FormValidator.email(),
+);
+
+FormButton(
+  form: form,
+  text: "ログイン",
+  onPressed: () async {
+    if (!form.validate()) return;
+    await Auth.signIn(EmailAndPasswordAuthQuery.signIn(
+      email: form.value.email,
+      password: form.value.password,
+    ));
+  },
+);
+```
+
+## 🔄 状態管理パターン（P2）
+
+### Scopedパターン使い分け
+```dart
+// アプリ全体で共有（ref.app）
+final globalSettings = ref.app.watch(SettingsProvider());
+final userProfile = ref.app.model(UserModel.document(Auth.userId));
+
+// ページ内でのみ有効（ref.page）
+final pageController = ref.page.controller(PageController());
+final tempForm = ref.page.form(TempValue.form());
+
+// ウィジェット内での管理（ref.widget）
+final animationController = ref.widget.animation(
+  AnimationController(duration: Duration(seconds: 1)),
+);
+```
+
+### ライフサイクル管理
+```dart
+@override
+void onInit() {
+  super.onInit();
+  // 初期化処理
+  _loadInitialData();
+}
+
+@override
+void onDispose() {
+  // クリーンアップ処理
+  _controller.dispose();
+  super.onDispose();
+}
+```
+
+## ⚡ パフォーマンス最適化（P2）
+
+### 最適化のポイント
+1. **遅延読み込み**: `load()`は必要時のみ実行
+2. **ページネーション**: 大量データは`limitTo()`で分割
+3. **画像最適化**: `ModelImageUri`でキャッシュ活用
+4. **ウィジェット最適化**: `const`コンストラクタ活用
+5. **ビルド最適化**: 不要な再ビルドを避ける
+
+```dart
+// ページネーション例
+final query = TestModel.collection()
+  .orderBy("createdAt", desc: true)
+  .limitTo(20);
+final models = ref.app.model(query)..load();
+
+// 次ページ読み込み
+if (models.canLoadNext) {
+  await models.loadNext();
+}
+```
 
 ## 🎓 学習リソース
 
@@ -819,11 +934,15 @@ ${availabeBackground ? """
 1. このドキュメント（AGENTS.md）
 2. `documents/rules/docs/katana_cli.md` - CLIコマンド一覧
 3. `documents/rules/impls/impl.md` - 実装フロー
-4. 各種設計書・実装手順書
+4. `documents/rules/docs/functions_usage.md` - Functions実装
+5. 各プラグインドキュメント（`documents/rules/docs/plugins/**`）
+6. ModelFieldValueドキュメント（`documents/rules/docs/model_field_value/**`）
+7. UIコンポーネント（`documents/rules/docs/katana_ui/**`, `documents/rules/docs/universal_ui/**`）
 
 ---
 
 **重要**: このドキュメントは定期的に更新されます。開発開始前に最新版を確認してください。
+**バージョン**: 2.0 - Firebase Functions/Node.js Masamune対応版
 """;
   }
 }

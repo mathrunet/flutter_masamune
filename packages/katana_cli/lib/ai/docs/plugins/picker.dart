@@ -268,6 +268,139 @@ class ImagePickerWidget extends PageScopedWidget {
 }
 ```
 
+### モバイルの場合メディアのソースをカメラもしくはライブラリから選択させた後Pickerを起動
+
+1. モーダルを作成
+```bash
+katana code modal 
+```
+
+`select_media_source.dart`ファイルが作成されるので、下記のようにファイルを編集。
+
+```dart
+// modals/select_media_source.dart
+
+/// Modal widget for SelectMediaSource.
+@immutable
+class SelectMediaSourceModal extends Modal {
+  /// Modal widget for SelectMediaSource.
+  const SelectMediaSourceModal({
+    required this.user,
+    required this.mediaRef,
+  });
+
+  /// ユーザー。
+  final UserModelDocument user;
+
+  /// メディアリファレンス。
+  final FormMediaRef mediaRef;
+
+  @override
+  Widget build(BuildContext context, ModalRef ref) {
+    // Describes the structure of the modal.
+    return UniversalColumn(
+      children: [
+        ListTile(
+          tileColor: theme.color.surface,
+          leading: const Icon(Icons.camera),
+          title: Text(l().addMediaByTakingPicturesWithTheCamera),
+          onTap: () async {
+            final userId = appAuth.userId;
+            final picker = appRef.controller(Picker.query());
+            final value = await picker.pickCamera(type: PickerFileType.image);
+            if (value.uri == null || userId == null) {
+              return;
+            }
+            await executeGuarded(
+              context,
+              () async {
+                final uri = await value.uploadToPublic(
+                  userId,
+                  limitSize: profileImageSizeLimit,
+                );
+                await user.save(user.value?.copyWith(
+                  image: ModelImageUri(uri),
+                ));
+                mediaRef.update(uri, FormMediaType.image);
+              },
+              onError: (error, stacktrace) {
+                debugPrint(error.toString());
+              },
+            );
+            ref.close();
+          },
+        ),
+        ListTile(
+          tileColor: theme.color.surface,
+          leading: const Icon(Icons.photo_album),
+          title: Text(l().addMediaFromTheLibrary),
+          onTap: () async {
+            final userId = appAuth.userId;
+            final picker = appRef.controller(Picker.query());
+            final value = await picker.pickSingle(type: PickerFileType.image);
+            if (value.uri == null || userId == null) {
+              return;
+            }
+            await executeGuarded(
+              context,
+              () async {
+                final uri = await value.uploadToPublic(
+                  userId,
+                  limitSize: profileImageSizeLimit,
+                );
+                if (value.uri == null) {
+                  return;
+                }
+                await user.save(user.value?.copyWith(
+                  image: ModelImageUri(uri),
+                ));
+                mediaRef.update(uri, FormMediaType.image);
+              },
+              onError: (error, stacktrace) {
+                debugPrint(error.toString());
+              },
+            );
+            ref.close();
+          },
+        ),
+        ListTile(
+          tileColor: theme.color.surface,
+          title: Text(l().cancel),
+          onTap: () {
+            ref.close();
+          },
+        ),
+      ],
+    );
+  }
+}
+```
+
+3. メディアフォーム内などでモーダルを呼び出す
+
+```dart
+FormMedia(
+  initialValue: form.value.image?.toFormMediaValue(),
+  style: defaultFormStyle.copyWith(width: 192, height: 192),
+  onTap: (mediaRef) {
+    Modal.show(
+      context,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+      modal: SelectMediaSourceModal(
+        user: user,
+        mediaRef: mediaRef,
+      ),
+    );
+  },
+  builder: (context, ref) {
+    return Image(
+      fit: BoxFit.cover,
+      image: ref.toImageProvider(),
+    );
+  },
+),
+```
+
 ### Tips
 
 - 特定のファイル拡張子には`PickerFileType.custom()`を使用します
