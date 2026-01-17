@@ -10,6 +10,8 @@ command:
     branch: master
     # Additionally build a changelog at the root of the workspace.
     workspaceChangelog: true
+    # Do not allow major versioning.
+    allowMajor: false
   bootstrap:
     # It seems so that running "pub get" in parallel has some issues (like
     # https://github.com/dart-lang/pub/issues/3404). Disabling this feature
