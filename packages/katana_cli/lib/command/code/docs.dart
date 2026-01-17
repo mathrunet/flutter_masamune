@@ -27,7 +27,7 @@ class CodeDocsCliCommand extends CliCommand {
     await const TestsAiCode().exec(context);
     await GitAgentsMarkdownCliCode(
       availabeBackground: enableClaudeCodeBackground,
-    ).generateFile("AGENTS.md");
+    ).generateFile(enableClaudeCode ? "CLAUDE.md" : "AGENTS.md");
     if (enableClaudeCode) {
       label("Create agents");
       await const AgentsAiCode().exec(context);

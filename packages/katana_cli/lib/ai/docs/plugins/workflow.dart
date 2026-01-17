@@ -27,12 +27,12 @@ class PluginWorkflowMdCliAiCode extends PluginUsageCliAiCode {
 
   @override
   String body(String baseName, String className) {
-    return r"""
+    return """
 `Workflow`は下記のように利用する。
 
 ## 概要
 
-`masamune_workflow`は、タスク実行のためのワークフロー管理機能を提供するパッケージ。
+$excerpt
 
 組織・プロジェクト・ワークフロー・タスク・アクションの階層構造でワークフローを管理し、Firestoreにデータを保存する。
 
@@ -125,7 +125,7 @@ class MemberManagementPage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     // 組織のメンバー一覧を取得
     final members = ref.app.model(
-      WorkflowOrganizationMemberModel.collection(organizationId),
+      WorkflowOrganizationMemberModel.collection(organizationId: organizationId),
     )..load();
 
     return Scaffold(
@@ -380,7 +380,7 @@ class TaskExecutionPage extends PageScopedWidget {
               itemBuilder: (context, index) {
                 final task = tasks[index];
                 return ListTile(
-                  title: Text("タスク ${task.uid}"),
+                  title: Text("タスク \${task.uid}"),
                   subtitle: Text(_statusToString(task.value?.status)),
                   trailing: _buildStatusIcon(task.value?.status),
                   onTap: () {
@@ -495,16 +495,16 @@ class ActionDetailPage extends PageScopedWidget {
                 children: [
                   // コマンド情報
                   Text(
-                    "コマンド: ${action.value!.command.command}",
+                    "コマンド: \${action.value!.command.command}",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 8),
-                  Text("インデックス: ${action.value!.command.index}"),
+                  Text("インデックス: \${action.value!.command.index}"),
 
                   // ステータス
                   SizedBox(height: 16),
                   Text(
-                    "ステータス: ${action.value!.status}",
+                    "ステータス: \${action.value!.status}",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
 
@@ -620,14 +620,14 @@ class UsagePage extends PageScopedWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "現在の使用量: ${usage.value!.usage}",
+                    "現在の使用量: \${usage.value!.usage}",
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   SizedBox(height: 8),
-                  Text("今月: ${usage.value!.currentMonth}"),
-                  Text("バケット残高: ${usage.value!.bucketBalance}"),
+                  Text("今月: \${usage.value!.currentMonth}"),
+                  Text("バケット残高: \${usage.value!.bucketBalance}"),
                   if (usage.value!.latestPlan != null)
-                    Text("プラン: ${usage.value!.latestPlan}"),
+                    Text("プラン: \${usage.value!.latestPlan}"),
                 ],
               ),
             ),
@@ -1508,8 +1508,8 @@ final errorLogs = action.value?.log
 
 if (errorLogs?.isNotEmpty ?? false) {
   for (final log in errorLogs!) {
-    print("エラー: ${log.message}");
-    print("詳細: ${log.data}");
+    print("エラー: \${log.message}");
+    print("詳細: \${log.data}");
   }
 }
 ```
@@ -1525,16 +1525,16 @@ final usage = ref.app.model(
 )..load();
 
 // 現在の利用量
-print("今月の利用量: ${usage.value?.currentMonth}");
-print("バケット残高: ${usage.value?.bucketBalance}");
+print("今月の利用量: \${usage.value?.currentMonth}");
+print("バケット残高: \${usage.value?.bucketBalance}");
 
 // プラン制限の確認
 final plan = ref.app.model(
   WorkflowPlanModel.document(usage.value?.latestPlan ?? ""),
 )..load();
 
-print("月間制限: ${plan.value?.monthlyLimit}");
-print("バースト容量: ${plan.value?.burstCapacity}");
+print("月間制限: \${plan.value?.monthlyLimit}");
+print("バースト容量: \${plan.value?.burstCapacity}");
 ```
 
 ### Tips - バックエンド実装

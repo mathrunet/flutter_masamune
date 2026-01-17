@@ -25,8 +25,6 @@ class RedirectQueryUsageDocsMdCliAiCode extends CliAiCode {
   @override
   String body(String baseName, String className) {
     return r"""
-# RedirectQueryの使用方法
-
 RedirectQueryは、ページ遷移時に条件に基づいてリダイレクトを制御する機能です。
 ログイン状態、チュートリアル完了状態、ユーザー権限などを判定し、適切なページへ自動的にリダイレクトします。
 
@@ -355,7 +353,7 @@ class ConditionalRedirect extends RedirectQuery {
   @override
   FutureOr<RouteQuery> redirect(BuildContext context, RouteQuery source) async {
     // 特定のページからのみリダイレクト
-    if (source is HomePage) {
+    if (source.path == "home") {
       final now = DateTime.now();
       // 営業時間外の場合
       if (now.hour < 9 || now.hour >= 18) {

@@ -12,6 +12,7 @@ import "package:katana_cli/ai/docs/form_usage.dart";
 import "package:katana_cli/ai/docs/functions_usage.dart";
 import "package:katana_cli/ai/docs/katana_cli.dart";
 import "package:katana_cli/ai/docs/katana_ui_usage.dart";
+import "package:katana_cli/ai/docs/localization_usage.dart";
 import "package:katana_cli/ai/docs/mock_data_usage.dart";
 import "package:katana_cli/ai/docs/modal_usage.dart";
 import "package:katana_cli/ai/docs/model_field_value_usage.dart";
@@ -57,6 +58,7 @@ class DocsAiCode extends CliAiCodeCommand {
         "router_usage": const RouterUsageMdCliAiCode(),
         "redirect_query_usage": const RedirectQueryUsageDocsMdCliAiCode(),
         "theme_usage": const ThemeUsageMdCliAiCode(),
+        "localization_usage": const LocalizationUsageMdCliAiCode(),
         "modal_usage": const ModalUsageMdCliAiCode(),
         "model_field_value_usage": const ModelFieldValueUsageMdCliAiCode(),
         for (final entry in kModelFieldValueList.entries)

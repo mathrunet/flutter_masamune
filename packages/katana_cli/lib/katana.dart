@@ -838,7 +838,7 @@ generative_ai:
   # ClaudeCodeのための設定を行います。
   # [mcp]には、MCPを利用するための設定を行います。
   claude_code:
-    enable: false
+    enable: true
     background: false
     mcp:
       dart:

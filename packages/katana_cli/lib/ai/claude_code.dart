@@ -344,13 +344,28 @@ class GitClaudeSettingsCliCode extends CliCode {
       "Bash(flutter pub:*)",
       "Bash(flutter analyze:*)",
       "Bash(flutter test:*)",
-      "Bash(grep:*)",
       "Bash(mv:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(cd:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(tail:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(awk:*)",
       "Bash(dart run:*)",
       "Bash(katana test:*)",
       "Bash(dart fix:*)",
       "Bash(dart format:*)",
-      "mcp__{servername}"
+      "mcp__dart",
+      "mcp__github",
+      "mcp__notion",
+      "mcp__firebase",
     ],
     "deny": []
   }
@@ -409,7 +424,8 @@ class GitAgentsMarkdownCliCode extends CliCode {
 1. **日本語応答必須** → 全てのレスポンスは日本語で記述
 2. **katana code必須** → 手動でのファイル作成は絶対禁止
 3. **段階的バリデーション** → 1実装ごとに`flutter analyze && dart run custom_lint`実行
-${availabeBackground ? """4. **katana git使用** → git直接コマンドは使用禁止
+${availabeBackground ? """
+4. **katana git使用** → git直接コマンドは使用禁止
 5. **全生成ファイルコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像必須""" : """4. **全生成ファイルコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像必須"""}
 
 ### 開発フローの絶対順序
@@ -566,8 +582,12 @@ final form = ref.page.form(LoginValue.form());
 final response = await appFunction.execute(TestFunctionsAction());
 
 // ModelFieldValue例
-ModelLocalizedValue({"ja": "日本語", "en": "English"})  // 多言語
-ModelGeoValue(latitude: 35.6762, longitude: 139.6503)  // 位置情報
+ModelLocalizedValue(LocalizedValue([
+  LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+  LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+  LocalizedLocaleValue(Locale("fr", "FR"), "Bonjour"),
+]))  // 多言語
+ModelGeoValue(latitude: 35.6762, longitude: 139.6503)   // 位置情報
 ModelSearch(["keyword1", "keyword2"])                   // 検索用
 ModelTimestamp(DateTime.now())                          // タイムスタンプ
 ```
@@ -594,6 +614,127 @@ ModelTimestamp(DateTime.now())                          // タイムスタンプ
 
 ※詳細は`.claude/agents/*.md`を参照
 
+## 🔌 MCPサーバー活用ガイド（P1）
+
+### MCPサーバー概要
+Masamuneフレームワークでは、Claude CodeのMCP（Model Context Protocol）サーバーを積極的に活用して、
+開発効率を大幅に向上させることを推奨します。以下のMCPサーバーを利用可能です。
+
+### 利用可能なMCPサーバー
+
+#### 1. mcp__dart - Dart/Flutter開発支援
+**主な機能**:
+- `pub.dev`パッケージ検索（`mcp__dart__pub_dev_search`）
+- パッケージ管理（`mcp__dart__pub`）
+- Dartエラー解析（`mcp__dart__get_runtime_errors`）
+- ウィジェットツリー取得（`mcp__dart__get_widget_tree`）
+- コード解析（`mcp__dart__analyze_files`）
+- シンボル解決（`mcp__dart__resolve_workspace_symbol`）
+- テスト実行（`mcp__dart__run_tests`）
+- プロジェクト作成（`mcp__dart__create_project`）
+
+**活用シーン**:
+- パッケージ選定時に`package_advisor`エージェントと連携
+- Dartエラーのデバッグ時に`firebase_flutter_debugger`エージェントと連携
+- コード解析やリファクタリング時
+- テストの実行と結果解析
+
+#### 2. mcp__github - GitHub連携機能
+**主な機能**:
+- Issue/PR操作（作成、更新、コメント追加）
+- コード検索（`mcp__github__search_code`）
+- リポジトリ検索（`mcp__github__search_repositories`）
+- ブランチ操作（作成、マージ、削除）
+- ファイル操作（作成、更新、削除）
+- PRレビュー機能（Copilotレビュー含む）
+
+**活用シーン**:
+- 類似実装コードの検索時
+- パッケージ選定時に`package_advisor`エージェントと連携
+- 自動PR作成やIssue管理
+- コードレビューの自動化
+- ベストプラクティスの参照
+
+#### 3. mcp__notion - Notion連携機能
+**主な機能**:
+- Notionページの読み取り・作成・更新
+- データベースクエリとレコード操作
+- コメント管理
+- ユーザー・チーム情報取得
+- ページ移動・複製
+
+**活用シーン**:
+- 仕様書や設計書の参照
+- 要件定義書からの実装生成
+- タスク管理との連携
+- ドキュメント自動生成
+- プロジェクト進捗管理
+
+#### 4. mcp__firebase - Firebase連携機能
+**主な機能**:
+- プロジェクト管理（作成、一覧、設定）
+- アプリ管理（iOS/Android/Web）
+- Firebase初期化（`firebase_init`）
+- セキュリティルール管理
+- Crashlytics分析（エラー解析、レポート生成）
+- 環境設定管理
+
+**活用シーン**:
+- Firebaseプロジェクトのセットアップ
+- Firebase Functionsのデバッグ時に`firebase_flutter_debugger`エージェントと連携
+- Crashlyticsエラー分析とデバッグ
+- セキュリティルールの検証と更新
+- プロジェクト構成の確認
+
+### エージェント別MCPサーバー活用マトリックス
+
+| エージェント | dart | github | notion | firebase | 主な用途 |
+|-------------|------|--------|--------|----------|----------|
+| **package_advisor** | ✓ | ✓ | - | - | pub.dev検索、類似実装検索 |
+| **firebase_flutter_debugger** | ✓ | - | - | ✓ | エラー解析、ログ調査 |
+| **masamune_framework_advisor** | ✓ | ✓ | ✓ | - | ドキュメント参照、実装例検索 |
+| **ui_builder** | - | ✓ | ✓ | - | デザイン仕様参照、UI実装例検索 |
+| **test_runner** | ✓ | - | - | - | テスト実行、エラー解析 |
+| **ui_debugger** | ✓ | - | ✓ | - | ウィジェット解析、デザイン仕様確認 |
+
+### MCPサーバー活用の推奨フロー
+
+1. **プロジェクト開始時**:
+   - `mcp__firebase`でFirebaseプロジェクトを作成・初期化
+   - `mcp__github`でリポジトリ構成を確認
+   - `mcp__notion`で要件定義書を参照
+
+2. **実装時**:
+   - `mcp__dart`でパッケージ検索と依存関係管理
+   - `mcp__github`で類似実装を検索
+   - `mcp__notion`で仕様書を確認しながら実装
+
+3. **デバッグ時**:
+   - `mcp__dart`でエラー解析とウィジェットツリー確認
+   - `mcp__firebase`でCrashlyticsレポート分析
+   - `mcp__github`で既知の問題を検索
+
+4. **テスト・デプロイ時**:
+   - `mcp__dart`でテスト実行
+   - `mcp__github`でPR作成とレビュー
+   - `mcp__firebase`でデプロイ設定確認
+
+### 注意事項
+
+1. **MCPサーバーの優先使用**:
+   - 可能な限りMCPサーバーのツールを使用し、手動操作を避ける
+   - エージェントはMCPサーバーを積極的に活用して効率化を図る
+
+2. **認証情報の管理**:
+   - GitHubトークンは`secrets.yaml`に記載
+   - Firebase認証は`firebase login`コマンドで実施
+   - Notion APIキーは環境変数で管理
+
+3. **パフォーマンス考慮**:
+   - 必要なMCPサーバーのみを使用
+   - 大量のAPI呼び出しは避ける
+   - キャッシュを有効活用
+
 ## 🏗️ アーキテクチャ要点（P1）
 
 ### 設計パターン
@@ -619,6 +760,8 @@ firebase/functions/src/[name].ts → process関数実装
 | **ModelGeoValue** | 位置情報 | `latitude: 35.6762, longitude: 139.6503` |
 | **ModelSearch** | 検索用キーワード | `["keyword1", "keyword2"]` |
 | **ModelTimestamp** | タイムスタンプ | `DateTime.now()` |
+| **ModelDate** | 日付 | `DateTime.now()` |
+| **ModelTime** | 時間 | `DateTime.now()` |
 | **ModelUri** | URI/URL | `Uri.parse("https://example.com")` |
 | **ModelImageUri** | 画像URI | Storage連携、キャッシュ対応 |
 | **ModelVideoUri** | 動画URI | Storage連携、サムネイル対応 |
@@ -655,7 +798,7 @@ firebase/functions/src/[name].ts → process関数実装
 | **Test失敗** | ゴールデン不一致 | `katana test update [class]`後に再実行 |
 | **Functions エラー** | 型不一致 | Action/Responseの型定義確認 |
 | **ModelAdapter エラー** | 初期化忘れ | `main.dart`でAdapter設定確認 |
-| **Form validation** | バリデーター未設定 | FormValidatorを適用 |
+| **Form validation** | バリデーター未設定 | validatorフィールドを適用 |
 
 ### ❌ 禁止事項
 - git add/commit直接実行
@@ -680,7 +823,8 @@ firebase/functions/src/[name].ts → process関数実装
 1. **テスト画像は必ず確認** - UIのズレを見逃さない
 2. **エラーは即座に対処** - 後回しにすると複雑化する
 3. **ドキュメントを参照** - 不明点は`documents/rules/`配下を確認
-${availabeBackground ? """4. **小さな単位でコミット** - 機能ごとに細かくコミットする
+${availabeBackground ? """
+4. **小さな単位でコミット** - 機能ごとに細かくコミットする
 5. **PR作成時にスクリーンショット添付** - レビューを効率化""" : """4. **katana applyで環境構築自動化** - 手動設定を避ける"""}
 
 ## 📋 よく使う実装パターン（P1）
@@ -688,125 +832,175 @@ ${availabeBackground ? """4. **小さな単位でコミット** - 機能ごと�
 ### 認証フロー実装
 ```dart
 // ソーシャルログイン
-await Auth.signIn(GoogleAuthQuery.signIn());
-await Auth.signIn(AppleAuthQuery.signIn());
+await appAuth.signIn(const FirebaseGoogleSignInAuthProvider());
+await appAuth.signIn(const AppleSignInAuthProvider());
 
 // メール/パスワード認証
-await Auth.signIn(EmailAndPasswordAuthQuery.signIn(
+await appAuth.signIn(EmailAndPasswordSignInAuthProvider(
   email: "user@example.com",
   password: "password123",
 ));
 
 // サインアウト
-await Auth.signOut();
+await appAuth.signOut();
 
 // ユーザー情報取得
-final user = Auth.userId;  // ユーザーID
-final isSignedIn = Auth.isSignedIn;  // サインイン状態
+final user = appAuth.userId;  // ユーザーID
+final isSignedIn = appAuth.isSignedIn;  // サインイン状態
 ```
 
 ### Firestoreデータ操作
 ```dart
 // Create
+final collection = ref.app.model(TestModel.collection());
+final id = uuid();
+final document = collection.create(id);
 final newModel = TestModel(
-  id: uuid(),
   name: "Test",
   createdAt: ModelTimestamp(DateTime.now()),
 );
-await newModel.save();
+await document.save(newModel);
 
 // Read (Collection)
-final collection = ref.app.model(TestModel.collection())..load();
-for (final item in collection) {
-  print(item.name);
+final collection = ref.app.model(TestModel.collection().limitTo(100))..load();
+for (final document in collection) {
+  print(document.value?.name ?? "");
 }
 
 // Update
-model.name = "Updated Name";
-await model.save();
+final copiedModel = docment.value?.copyWith(
+  name: "Updated Name",
+) ?? TestModel(
+  name: "Updated Name",
+  createdAt: ModelTimestamp(DateTime.now()),
+);
+await docment.save(copiedModel);
 
 // Delete
-await model.delete();
+await docment.delete();
 
 // Query with Filter
-final query = TestModel.collection().equal("status", "active");
+final query = TestModel.collection().status.equal(StatusEnum.active).limitTo(100);
 final filtered = ref.app.model(query)..load();
 ```
 
 ### ストレージ操作
 ```dart
 // 画像アップロード
-final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-if (image != null) {
-  final uri = await Storage.upload(
-    "users/\${Auth.userId}/profile.jpg",
-    File(image.path),
+final userId = appAuth.userId;
+final user = ref.app.model(UserModel.document(userId));
+await user.load();
+final picker = ref.page.controller(Picker.query());
+final pickedImage = await picker.pickSingle();
+if(pickedImage.uri != null) {
+  final uploadedUri = await pickedImage.uploadToPublic(
+    userId,
+    limitSize: profileImageSizeLimit,
   );
-  model.profileImage = ModelImageUri(uri);
-  await model.save();
+  await user.save(user.value?.copyWith(
+    profileImage:  ModelImageUri(uploadedUri),
+  ));
 }
 
 // ファイルダウンロード
-final file = await Storage.download(uri);
+final storageQuery = StorageQuery(relativeRemotePath);
+final storage = Storage(storageQuery);
+final localFile = await storage.download(relativeLocalPath);
 ```
 
 ### 通知実装
 ```dart
-// プッシュ通知送信（Functions側）
+// プッシュ通知送信
+final pushNotification = appRef.controller(RemoteNotification.query());
+pushNotification.
 await Notification.send(
   title: "新着メッセージ",
-  body: "メッセージが届きました",
-  tokens: [userToken],
-  data: {"type": "message", "id": messageId},
+  text: "メッセージが届きました",
+  target: ModelTokenNotificationTargetQuery(
+    tokens: [userToken]
+  ),
+  link: Uri(path: "/messages/\$messageId"),
+  sound: NotificationSound.defaultSound,
 );
 
 // アプリ内通知表示
-ref.page.showSnackBar("保存しました");
-ref.page.showDialog(
+Modal.confirm(
   title: "確認",
   text: "削除してもよろしいですか？",
   submitText: "削除",
+  cancelText: "キャンセル",
   onSubmit: () async {
     await model.delete();
+  },
+  onCancel: () {
+    context.router.pop();
+  }
+);
+Modal.confirm(
+  title: "完了",
+  text: "削除が完了しました。",
+  submitText: "戻る",
+  onSubmit: () {
+    context.router.pop();
   },
 );
 ```
 
-### 決済フロー（Stripe）
+### 決済フロー（アプリ内課金）
 ```dart
+final purchase = ref.app.controller(Purchase.query());
+// ページ読み込み時に初期化
+ref.page.on(
+  initOrUpdate: () {
+    purchase.initialize();
+  },
+);
 // 単発購入
-final purchase = ref.app.purchase();
-await purchase.purchase(
-  productId: "product_123",
-  onSuccess: (transaction) {
-    // 購入成功処理
-  },
+final comsumableProduct = PurchaseProduct.consumable(
+  productId: "coin_pack_100",              // App Store/Play Consoleと一致させる
+  title: LocalizedValue("100コイン"),
+  amount: 100,
 );
-
 // サブスクリプション
-await purchase.subscribe(
-  productId: "subscription_monthly",
-  onSuccess: (transaction) {
-    // サブスク開始処理
-  },
+final subscriptionProduct = PurchaseProduct.subscription(
+  productId: "premium_monthly",
+  title: LocalizedValue("プレミアム月額プラン"),
+  description: LocalizedValue("すべての機能を利用可能"),
+  period: PurchaseSubscriptionPeriod.month,
 );
+try {
+  await purchase.purchase(
+    product: comsumableProduct // もしくはsubscriptionProduct,
+    onDone: () {
+      print("購入完了！");
+      // 成功ダイアログを表示
+    },
+  );
+} catch (e) {
+  print("購入失敗: \$e");
+  // エラーダイアログを表示
+}
 
 // 購入履歴確認
-final purchased = await purchase.isPurchased("product_123");
+final purchase = ref.app.controller(Purchase.query());
+final product = purchase.products.firstWhereOrNull(
+  (e) => e.productId == "premium_monthly",
+);
+final hasActiveSubscription = product?.value?.active ?? false;
 ```
 
 ### リアルタイム同期
 ```dart
+// リアルタイム監視用のFirestoreModelAdapter
+final modelAdapter = ListenableFirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform
+);
 // リアルタイム監視
 final model = ref.app.model(
-  TestModel.collection(),
-  listen: true,  // リアルタイム監視ON
+  TestModel.collection(
+    adapter: listenableModelAdapter, // リアルタイム監視ON※refが発行されているページは自動的に監視対象に加えられ変更があれば画面が更新される。
+  ),
 )..load();
-
-// 変更を即座に反映
-model.addListener(() {
-  // データ変更時の処理
-});
 ```
 
 ## 🌐 マルチプラットフォーム対応（P2）
@@ -823,22 +1017,23 @@ UniversalColumn(
 );
 
 // プラットフォーム別分岐
-if (UniversalPlatform.isIOS) {
+final platformInfo = PlatformInfo();
+if (platformInfo.isIOS) {
   // iOS専用処理
-} else if (UniversalPlatform.isAndroid) {
+} else if (platformInfo.isAndroid) {
   // Android専用処理
-} else if (UniversalPlatform.isWeb) {
+} else if (platformInfo.isWeb) {
   // Web専用処理
 }
 
 // 画面サイズ取得
-final size = MediaQuery.of(context).size;
+final size = context.mediaQuery.size;
 final isSmall = size.width < 600;
 ```
 
 ### フォーム実装
 ```dart
-// フォーム定義
+// フォーム定義（`katana code value login`で作成）
 @freezed
 @formValue
 class LoginValue with _\$LoginValue {
@@ -855,15 +1050,23 @@ FormTextField(
   form: form,
   hintText: "メールアドレス",
   onSaved: (value) => form.value = form.value.copyWith(email: value),
-  validator: FormValidator.email(),
+  validator: (value) { // ValidationはflutterのTextFormFieldなどと同じ。nullを返せば正常でエラーの場合はエラー文を返す。
+    if(value.isEmpty){
+      return "メールアドレスが入力されていません。";
+    }
+    return null;
+  },
 );
 
 FormButton(
   form: form,
   text: "ログイン",
   onPressed: () async {
-    if (!form.validate()) return;
-    await Auth.signIn(EmailAndPasswordAuthQuery.signIn(
+    final value = form.validate(); // Validationに成功すれば値が返却される。
+    if (value == null){ // nullの場合はvalidationに失敗。
+       return;
+    }
+    await appAuth.signIn(EmailAndPasswordSignInAuthProvider(
       email: form.value.email,
       password: form.value.password,
     ));
@@ -876,34 +1079,18 @@ FormButton(
 ### Scopedパターン使い分け
 ```dart
 // アプリ全体で共有（ref.app）
-final globalSettings = ref.app.watch(SettingsProvider());
 final userProfile = ref.app.model(UserModel.document(Auth.userId));
+final pickerController = ref.app.controller(Picker.query()); // MasamuneパッケージプラグインのコントローラーはcontrollerにControllerQueryを渡す。
 
 // ページ内でのみ有効（ref.page）
-final pageController = ref.page.controller(PageController());
-final tempForm = ref.page.form(TempValue.form());
+final pageController = ref.page.watch(PageController()); // ChangeNotifierを継承したFlutterフレームワーク内のコントローラーはwatchを利用。
+final pushNotificationController = ref.page.controller(PushNotificationController.query()); // `katana code controller xxx`で作成したMasamuneフレームワークのコントローラーはcontrollerにControllerQueryを渡す。
+final tempForm = ref.page.form(TempValue.form()); // フォームはformを利用。
 
 // ウィジェット内での管理（ref.widget）
-final animationController = ref.widget.animation(
+final animationController = ref.widget.watch(
   AnimationController(duration: Duration(seconds: 1)),
 );
-```
-
-### ライフサイクル管理
-```dart
-@override
-void onInit() {
-  super.onInit();
-  // 初期化処理
-  _loadInitialData();
-}
-
-@override
-void onDispose() {
-  // クリーンアップ処理
-  _controller.dispose();
-  super.onDispose();
-}
 ```
 
 ## ⚡ パフォーマンス最適化（P2）
@@ -918,13 +1105,13 @@ void onDispose() {
 ```dart
 // ページネーション例
 final query = TestModel.collection()
-  .orderBy("createdAt", desc: true)
+  .createdAt.orderByDesc()
   .limitTo(20);
 final models = ref.app.model(query)..load();
 
 // 次ページ読み込み
-if (models.canLoadNext) {
-  await models.loadNext();
+if (models.canNext) {
+  await models.next();
 }
 ```
 
