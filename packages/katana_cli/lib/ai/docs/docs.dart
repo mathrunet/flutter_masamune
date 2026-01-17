@@ -22,6 +22,7 @@ import "package:katana_cli/ai/docs/page_types.dart";
 import "package:katana_cli/ai/docs/plugin_usage.dart";
 import "package:katana_cli/ai/docs/pre_commit.dart";
 import "package:katana_cli/ai/docs/primitive_types.dart";
+import "package:katana_cli/ai/docs/redirect_query_usage.dart";
 import "package:katana_cli/ai/docs/router_usage.dart";
 import "package:katana_cli/ai/docs/state_management_usage.dart";
 import "package:katana_cli/ai/docs/storage_usage.dart";
@@ -54,6 +55,7 @@ class DocsAiCode extends CliAiCodeCommand {
         "state_management_usage": const StateManagementUsageMdCliAiCode(),
         "transition_usage": const TransitionUsageMdCliAiCode(),
         "router_usage": const RouterUsageMdCliAiCode(),
+        "redirect_query_usage": const RedirectQueryUsageDocsMdCliAiCode(),
         "theme_usage": const ThemeUsageMdCliAiCode(),
         "modal_usage": const ModalUsageMdCliAiCode(),
         "model_field_value_usage": const ModelFieldValueUsageMdCliAiCode(),
