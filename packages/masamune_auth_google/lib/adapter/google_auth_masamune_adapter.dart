@@ -31,9 +31,11 @@ class GoogleAuthMasamuneAdapter extends MasamuneAdapter {
     }
     _primary = adapter;
     Authentication.registerAuthAction(const GoogleAuthAction());
-    GoogleSignIn.instance.initialize(
-      serverClientId: serverClientId,
-    );
+    if (!kIsWeb) {
+      GoogleSignIn.instance.initialize(
+        serverClientId: serverClientId,
+      );
+    }
   }
 
   @override
