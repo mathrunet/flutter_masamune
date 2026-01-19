@@ -35,6 +35,16 @@ class KatanaFormLabelMdCliAiCode extends FormUsageCliAiCode {
 
 $excerpt
 
+## パッケージのインポート
+
+このコンポーネントを使用するには、以下のパッケージをインポートする必要があります：
+
+```dart
+import 'package:masamune/masamune.dart';
+```
+
+このインポートにより、Masamuneフレームワークが提供するすべてのフォームコンポーネントとユーティリティにアクセスできます。
+
 ## 基本的な利用方法
 
 ```dart

@@ -36,6 +36,16 @@ class KatanaFormEditableToggleBuilderMdCliAiCode extends FormUsageCliAiCode {
 
 $excerpt
 
+## パッケージのインポート
+
+このコンポーネントを使用するには、以下のパッケージをインポートする必要があります：
+
+```dart
+import 'package:masamune/masamune.dart';
+```
+
+このインポートにより、Masamuneフレームワークが提供するすべてのフォームコンポーネントとユーティリティにアクセスできます。
+
 ## 配置方法
 
 `FormEditableToggleBuilder`は他のフォームウィジェットを囲んで使用し、編集モードと表示モードを切り替えます。

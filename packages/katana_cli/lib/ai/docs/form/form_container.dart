@@ -36,6 +36,16 @@ class KatanaFormContainerMdCliAiCode extends FormUsageCliAiCode {
 
 $excerpt
 
+## パッケージのインポート
+
+このコンポーネントを使用するには、以下のパッケージをインポートする必要があります：
+
+```dart
+import 'package:masamune/masamune.dart';
+```
+
+このインポートにより、Masamuneフレームワークが提供するすべてのフォームコンポーネントとユーティリティにアクセスできます。
+
 ## 配置方法
 
 `FormContainer`は他のフォームウィジェットを囲んで使用します。`validator`を使用する場合は、`FormController`を渡す必要があります。
