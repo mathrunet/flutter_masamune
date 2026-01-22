@@ -11,6 +11,7 @@ import "package:katana_cli/katana_cli.dart";
 
 part "screenshot.dart";
 part "build.dart";
+part "asset.dart";
 
 /// Configure settings for the store, including creating screenshots.
 ///
@@ -29,5 +30,6 @@ class StoreCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "screenshot": StoreScreenshotCliCommand(),
         "build": StoreAndroidBuildCliCommand(),
+        "asset": StoreAssetCliCommand(),
       };
 }

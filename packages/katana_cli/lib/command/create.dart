@@ -662,6 +662,8 @@ class ComposeCliCommand extends CliCommand {
     await const TestsAiCode().exec(context);
     label("Create a katana.yaml");
     await const KatanaCliCode(true).generateFile("katana.yaml");
+    label("Create a store.yaml");
+    await const StoreYamlCliCode().generateFile("store.yaml");
     label("Replace LICENSE");
     await const LicenseCliCode().generateFile("LICENSE");
     label("Create a katana_secrets.yaml");
@@ -3824,6 +3826,685 @@ class DartDefinesEnvPropertiesCliCode extends CliCode {
   String body(String path, String baseName, String className) {
     return """
 applicationId=$packageName
+""";
+  }
+}
+
+/// Contents of store.yaml
+///
+/// store.yamlの中身。
+class StoreYamlCliCode extends CliCode {
+  /// Contents of store.yaml
+  ///
+  /// store.yamlの中身。
+  const StoreYamlCliCode();
+
+  @override
+  String get name => "store";
+
+  @override
+  String get prefix => "store";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description => "Define the store.yaml file. store.yamlファイルを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+# Store Asset Generation Settings File
+# ストアアセット生成設定ファイル
+
+# Basic Settings
+# 基本設定
+project_name: "StoreScreenshot"
+output_dir: "documents/store"
+
+# Icon Settings
+# アイコン設定
+icon:
+  foreground:
+    path: "documents/icon_foreground.png"
+    scale: 0.8
+  background:
+    # Pattern 1: Image
+    # パターン1: 画像
+    # path: "./assets/icon_background.png"
+    # Pattern 2: Single Color
+    # パターン2: 単色
+    # color: "#FF6B6B"
+    # Pattern 3: Gradient
+    # パターン3: グラデーション
+    gradient:
+      # Type: linear or radial
+      type: linear
+      # Angle: 0-360 degrees
+      angle: 45
+      colors:
+        - "#2F2F2F"
+        - "#484848"
+
+# Logo Settings
+# ロゴ設定
+logo:
+  # Pattern 1: Image
+  # パターン1: 画像
+  # path: "documents/logo.png"
+  # Pattern 2: Generate from text
+  # パターン2: テキストから生成
+  text: "AppTitle"
+  font_family: "MPlus"
+  font_size: 64
+  color: "#FFFFFF"
+  width: 480
+  height: 64
+
+# Feature Graphic Settings (Google Play Only)
+# フィーチャーグラフィック設定（Google Play用）
+feature_graphic:
+  # Foreground Image.
+  # 前景画像。
+  foreground:
+    # path: "documents/feature_foreground.png"
+  # Icon Overlay.
+  # アイコンをオーバーレイ配置。
+  icon:
+    # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+    align: "bottom-right"
+    path: "documents/icon_foreground.png"
+    scale: 0.016 
+    marginX: 276
+    marginY: 24
+
+  # Logo Overlay.
+  # ロゴをオーバーレイ配置。
+  logo:
+    # Pattern 1: Image path
+    # パターン1: 画像パス
+    # path: "./assets/logo.png"
+    # Pattern 2: Generate from text
+    # パターン2: テキストから生成（pathの代わりに使用）
+    text: "AppTitle"
+    font_family: "MPlus"
+    font_size: 36
+    font_weight: "bold"
+    color: "#FFFFFF"
+    width: 240
+    height: 36
+    align: "bottom-right"
+    scale: 1.0
+    marginX: 24
+    marginY: 24
+  background:
+    gradient:
+      # Type: linear or radial
+      type: linear
+      # Angle: 0-360 degrees
+      angle: 45
+      colors:
+        - "#2F2F2F"
+        - "#484848"
+
+# Screenshot Settings
+# スクリーンショット設定
+screenshots:
+  # Background Settings
+  # 背景設定
+  background:
+    gradient:
+      # Type: linear or radial
+      type: linear
+      # Angle: 0-360 degrees
+      angle: 45
+      colors:
+        - "#2F2F2F"
+        - "#484848"
+
+  # Portrait Screenshot Definitions
+  # スクリーンショット定義（縦向き）
+  portrait:
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 260
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-right"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 520 
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-right"
+        scale: 1.0
+        marginX: 40
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/1.png"
+          en: "documents/screenshots/en/phone/1.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/1.png"
+          en: "documents/screenshots/en/tablet/1.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 260
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-left"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 40
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-left"
+        scale: 1.0
+        marginX: 96
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/2.png"
+          en: "documents/screenshots/en/phone/2.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/2.png"
+          en: "documents/screenshots/en/tablet/2.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 260
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-right"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 520 
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-right"
+        scale: 1.0
+        marginX: 40
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/3.png"
+          en: "documents/screenshots/en/phone/3.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/3.png"
+          en: "documents/screenshots/en/tablet/3.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 320
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-left"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 40
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-left"
+        scale: 1.0
+        marginX: 96
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/4.png"
+          en: "documents/screenshots/en/phone/4.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/4.png"
+          en: "documents/screenshots/en/tablet/4.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 260
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-right"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 520 
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-right"
+        scale: 1.0
+        marginX: 40
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/5.png"
+          en: "documents/screenshots/en/phone/5.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/5.png"
+          en: "documents/screenshots/en/tablet/5.png"
+
+  # Landscape Screenshot Definitions
+  # スクリーンショット定義（横向き）
+  landscape:
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 520
+      text_margin_tablet: 320
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      # layout_pattern: arrangement pattern in landscape mode
+      #   - "text-left" : text on the left, screenshot on the right
+      #   - "text-right" : text on the right, screenshot on the left
+      #   - default (not specified): default top layout
+      layout_pattern: "text-left"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-left"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 40
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-left"
+        scale: 1.0
+        marginX: 96
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/1.png"
+          en: "documents/screenshots/en/phone/1.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/1.png"
+          en: "documents/screenshots/en/tablet/1.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 520
+      text_margin_tablet: 320
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      # layout_pattern: arrangement pattern in landscape mode
+      #   - "text-left" : text on the left, screenshot on the right
+      #   - "text-right" : text on the right, screenshot on the left
+      #   - default (not specified): default top layout
+      layout_pattern: "text-right"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-right"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 520 
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-right"
+        scale: 1.0
+        marginX: 40
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/2.png"
+          en: "documents/screenshots/en/phone/2.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/2.png"
+          en: "documents/screenshots/en/tablet/2.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 520
+      text_margin_tablet: 320
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      # layout_pattern: arrangement pattern in landscape mode
+      #   - "text-left" : text on the left, screenshot on the right
+      #   - "text-right" : text on the right, screenshot on the left
+      #   - default (not specified): default top layout
+      layout_pattern: "text-left"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-left"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 40
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-left"
+        scale: 1.0
+        marginX: 96
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/3.png"
+          en: "documents/screenshots/en/phone/3.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/3.png"
+          en: "documents/screenshots/en/tablet/3.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 520
+      text_margin_tablet: 370
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      # layout_pattern: arrangement pattern in landscape mode
+      #   - "text-left" : text on the left, screenshot on the right
+      #   - "text-right" : text on the right, screenshot on the left
+      #   - default (not specified): default top layout
+      layout_pattern: "text-right"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-right"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 520 
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-right"
+        scale: 1.0
+        marginX: 40
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/4.png"
+          en: "documents/screenshots/en/phone/4.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/4.png"
+          en: "documents/screenshots/en/tablet/4.png"
+
+    - title:
+        ja: "アプリの説明"
+        en: "App Description"
+      font_family:
+        ja: "MPlus"
+        en: "MPlus"
+      font_size: 108
+      text_margin: 520
+      text_margin_tablet: 320
+      text_color: "#000000"
+      text_border:
+        enabled: true
+        width: 12
+        color: "#FFFFFF"
+      # layout_pattern: arrangement pattern in landscape mode
+      #   - "text-left" : text on the left, screenshot on the right
+      #   - "text-right" : text on the right, screenshot on the left
+      #   - default (not specified): default top layout
+      layout_pattern: "text-left"
+      icon:
+        # Placement Position: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-right
+        align: "top-left"
+        path: "documents/icon_foreground.png"
+        scale: 0.036
+        marginX: 40
+        marginY: 40
+      logo:
+        # Pattern 1: Image path
+        # パターン1: 画像パス
+        # path: "./assets/logo.png"
+        # Pattern 2: Generate from text
+        # パターン2: テキストから生成（pathの代わりに使用）
+        text: "AppTitle"
+        font_family: "MPlus"
+        font_size: 64
+        font_weight: "bold"
+        color: "#FFFFFF"
+        width: 480
+        height: 64
+        align: "top-left"
+        scale: 1.0
+        marginX: 96
+        marginY: 40
+      screenshot:
+        phone:
+          ja: "documents/screenshots/ja/phone/5.png"
+          en: "documents/screenshots/en/phone/5.png"
+        tablet:
+          ja: "documents/screenshots/ja/tablet/5.png"
+          en: "documents/screenshots/en/tablet/5.png"
+
+  # デバイスフレーム
+  iphone_frame:
+    path: "/Users/mathru/Documents/github/store_information_generator/assets/frames/iphone.png"
+  ipad_frame:
+    path: "/Users/mathru/Documents/github/store_information_generator/assets/frames/ipad.png"
+  # Size Specifications
+  # サイズ仕様
+  sizes:
+    iphone:
+      name: "iphone-6.9"
+      portrait:
+        width: 1290
+        height: 2796
+      landscape:
+        width: 2796
+        height: 1290
+    ipad:
+      name: "ipad-12.9"
+      portrait:
+        width: 2048
+        height: 2732
+      landscape:
+        width: 2732
+        height: 2048
+
+# Font Settings
+# フォント設定
+fonts:
+  - family: "MPlus"
+    path: "/Users/mathru/Documents/github/store_information_generator/fonts/MPLUSRounded1c-Bold.ttf"
+  - family: "ZCool"
+    path: "/Users/mathru/Documents/github/store_information_generator/fonts/ZCOOLQingKeHuangYou-Regular.ttf"
+  - family: "Jua"
+    path: "./Users/mathru/Documents/github/store_information_generator/fonts/Jua-Regular.ttf"
+
+# Language Settings
+# 言語設定
+locales:
+  - ja
+  - en
+
+# Output Settings
+# 出力設定
+output:
+  format: png
+  quality: 95
+  naming_pattern: "{locale}/{type}/{size}/{index}.png"
 """;
   }
 }
