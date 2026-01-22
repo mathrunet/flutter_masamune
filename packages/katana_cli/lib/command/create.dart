@@ -4460,9 +4460,9 @@ screenshots:
 
   # デバイスフレーム
   iphone_frame:
-    path: "/Users/mathru/Documents/github/store_information_generator/assets/frames/iphone.png"
+    path: "documents/frames/iphone.png"
   ipad_frame:
-    path: "/Users/mathru/Documents/github/store_information_generator/assets/frames/ipad.png"
+    path: "documents/frames/ipad.png"
   # Size Specifications
   # サイズ仕様
   sizes:
@@ -4487,11 +4487,11 @@ screenshots:
 # フォント設定
 fonts:
   - family: "MPlus"
-    path: "/Users/mathru/Documents/github/store_information_generator/fonts/MPLUSRounded1c-Bold.ttf"
+    path: "documents/fonts/MPLUSRounded1c-Bold.ttf"
   - family: "ZCool"
-    path: "/Users/mathru/Documents/github/store_information_generator/fonts/ZCOOLQingKeHuangYou-Regular.ttf"
+    path: "documents/fonts/ZCOOLQingKeHuangYou-Regular.ttf"
   - family: "Jua"
-    path: "./Users/mathru/Documents/github/store_information_generator/fonts/Jua-Regular.ttf"
+    path: "documents/fonts/Jua-Regular.ttf"
 
 # Language Settings
 # 言語設定
