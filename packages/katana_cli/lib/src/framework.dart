@@ -631,7 +631,7 @@ abstract class CliTestableCodeCommand extends CliCodeCommand {
     final trimedPath = CliCode._trimPathPrefix(path);
     final editClassName =
         className.split("/").distinct().join("_").toPascalCase();
-    final dir = Directory(path.replaceAll("/$baseName", ""));
+    final dir = Directory(path.replaceAll(RegExp("/$baseName\$"), ""));
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }

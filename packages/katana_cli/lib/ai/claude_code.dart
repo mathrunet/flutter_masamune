@@ -735,6 +735,159 @@ Masamuneフレームワークでは、Claude CodeのMCP（Model Context Protocol
    - 大量のAPI呼び出しは避ける
    - キャッシュを有効活用
 
+### 📎 URL認識とMCPサーバー自動選択ガイド
+
+開発中にURL（Notion、GitHub、Firebase等）が提示された場合、以下のフローでMCPサーバーを活用して情報を取得します。
+
+#### 1. URL形式による自動判別
+
+| URL形式 | 対象サービス | 使用MCPサーバー | 主な取得情報 |
+|---------|-------------|----------------|-------------|
+| `https://www.notion.so/...` | Notion | `mcp__notion` | ページ内容、データベース、仕様書 |
+| `https://github.com/[org]/[repo]...` | GitHub | `mcp__github` | リポジトリ情報、Issue、PR、コード |
+| `https://console.firebase.google.com/...` | Firebase | `mcp__firebase` | プロジェクト設定、Crashlytics |
+| `https://firebase.google.com/...` | Firebase Docs | WebFetch | 公式ドキュメント |
+
+#### 2. URL別の処理フロー
+
+##### Notion URL（`https://www.notion.so/...`）の場合
+
+**目的**: 仕様書、設計書、要件定義書の内容を取得して実装に反映
+
+**処理手順**:
+1. URLからページIDまたはデータベースIDを抽出
+2. `mcp__notion__API-retrieve-a-page`でページ内容を取得
+3. データベースの場合は`mcp__notion__API-query-data-source`でレコード一覧を取得
+4. 取得した情報を実装仕様として解釈
+5. 必要に応じて`katana code`コマンドでテンプレート生成
+
+**活用例**:
+```
+ユーザー: 「このNotion仕様書を元に実装してください https://www.notion.so/xxx...」
+
+処理フロー:
+1. mcp__notion__API-retrieve-a-page でページ内容取得
+2. 仕様内容を分析（画面構成、データモデル、機能要件）
+3. katana code page [PageName] でページテンプレート生成
+4. katana code collection [ModelName] でモデル生成
+5. 仕様に沿った実装
+```
+
+##### GitHub URL（`https://github.com/...`）の場合
+
+**目的**: リポジトリの実装例、Issue、PRの内容を参照
+
+**処理手順**:
+1. URLの種類を判別（リポジトリ/Issue/PR/ファイル/コード検索）
+2. 適切なMCPツールを選択：
+   - リポジトリ: `mcp__github__search_repositories`
+   - Issue: `mcp__github__issue_read`
+   - PR: `mcp__github__pull_request_read`
+   - ファイル: `mcp__github__get_file_contents`
+   - コード検索: `mcp__github__search_code`
+3. 取得した情報を実装の参考にする
+
+**活用例**:
+```
+ユーザー: 「このリポジトリの実装を参考にして https://github.com/mathrunet/flutter_masamune」
+
+処理フロー:
+1. mcp__github__get_file_contents で対象ファイル取得
+2. mcp__github__search_code で類似実装検索
+3. ベストプラクティスを抽出
+4. Masamuneフレームワークの規約に沿って実装
+```
+
+##### Firebase URL（`https://console.firebase.google.com/...`）の場合
+
+**目的**: Firebaseプロジェクトの設定確認、Crashlyticsエラー分析
+
+**処理手順**:
+1. URLからプロジェクトID、画面種別を抽出
+2. 画面種別に応じた処理：
+   - プロジェクト設定: `mcp__firebase-mcp-server__firebase_get_project`
+   - Crashlytics: `mcp__firebase-mcp-server__crashlytics_get_issue`
+   - セキュリティルール: `mcp__firebase-mcp-server__firebase_get_security_rules`
+3. 取得した情報を元にデバッグや設定変更を提案
+
+**活用例**:
+```
+ユーザー: 「このCrashlyticsエラーを解決して https://console.firebase.google.com/project/xxx/crashlytics」
+
+処理フロー:
+1. mcp__firebase-mcp-server__crashlytics_get_issue でエラーレポート取得
+2. スタックトレースを分析
+3. 該当コード箇所を特定
+4. 修正案を提案
+5. flutter analyze && dart run custom_lint で検証
+```
+
+#### 3. 複数URL提示時の処理
+
+複数のURLが同時に提示された場合、以下の優先順位で処理：
+
+1. **Notion URL（仕様書）** - 実装の大本となる情報
+2. **GitHub URL（実装例）** - 実装パターンの参考
+3. **Firebase URL（環境設定）** - インフラ・デバッグ情報
+
+**処理例**:
+```
+ユーザー:
+「Notion仕様書: https://www.notion.so/xxx
+ 参考実装: https://github.com/yyy
+ で機能を実装してください」
+
+処理フロー:
+1. mcp__notion__API-retrieve-a-page で仕様書内容取得
+2. mcp__github__search_code で参考実装検索
+3. 仕様と参考を統合した実装計画を作成
+4. katana codeコマンドで順次実装
+```
+
+#### 4. MCPサーバーツール選択の判断基準
+
+URL提示時に使用するMCPツールの選択基準：
+
+| 状況 | 選択すべきツール | 理由 |
+|------|----------------|------|
+| Notionページ全体が必要 | `mcp__notion__API-retrieve-a-page` | ページ全体のコンテンツ取得 |
+| Notionデータベース検索 | `mcp__notion__API-query-data-source` | フィルタ・ソート可能 |
+| GitHub特定ファイル | `mcp__github__get_file_contents` | 直接ファイル内容取得 |
+| GitHub実装パターン検索 | `mcp__github__search_code` | コードベース全体から検索 |
+| FirebaseプロジェクトID不明 | `mcp__firebase-mcp-server__firebase_list_projects` | プロジェクト一覧から特定 |
+| Crashlyticsエラー分析 | `mcp__firebase-mcp-server__crashlytics_get_issue` | エラー詳細分析 |
+
+#### 5. エラーハンドリング
+
+URL処理時のエラー対処：
+
+**Notion URLエラー**:
+- ページが見つからない → ページIDの再確認、アクセス権限確認
+- データベースが空 → データベース構造のみ参照して実装
+
+**GitHub URLエラー**:
+- リポジトリがプライベート → 公開リポジトリでの代替検索
+- ファイルが存在しない → ブランチ・パス確認
+
+**Firebase URLエラー**:
+- プロジェクトアクセス不可 → `firebase login`で再認証
+- Crashlyticsデータなし → 手動でのログ確認を提案
+
+#### 6. URL活用のベストプラクティス
+
+1. **URL提示時の追加情報**:
+   - Notion: 「仕様書の○○セクションを参照」等の具体的な指示
+   - GitHub: 「この実装パターンを参考に」等の活用方法
+   - Firebase: 「このエラーを解決」等の目的明記
+
+2. **MCPサーバーの効率的な使用**:
+   - 必要最小限の情報取得（ページ全体ではなく必要部分のみ）
+   - キャッシュ活用（同じURLへの複数回アクセスを避ける）
+
+3. **セキュリティ考慮**:
+   - プライベート情報を含むURLの取り扱いに注意
+   - 認証トークンは環境変数・secrets.yamlで管理
+
 ## 🏗️ アーキテクチャ要点（P1）
 
 ### 設計パターン
