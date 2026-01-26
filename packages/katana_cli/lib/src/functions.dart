@@ -7,11 +7,11 @@ import "package:katana_cli/katana_cli.dart";
 /// Class for specifying Functions of Firebase Functions.
 ///
 /// Firebase FunctionsのFunctionを指定するためのクラス。
-class Fuctions {
+class Functions {
   /// Class for specifying Functions of Firebase Functions.
   ///
   /// Firebase FunctionsのFunctionを指定するためのクラス。
-  Fuctions();
+  Functions();
 
   static final _functionRegExp = RegExp(
     r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",

@@ -467,6 +467,74 @@ ${showAllConfig ? """
   scheduler:
     enable: false
     time: 
+  
+  # Describes the configuration for managing workflows that handle various tasks.
+  # Firebase Functions are required.
+  # 様々なタスクを管理するワークフローを管理するための設定を記述します。
+  # Firebase Functionsの利用が必須です。
+  workflow:
+    enable: false
+
+    # Workflow for creating asset data.
+    # アセットデータの作成を行うワークフロー。
+    # Generate speech from text using Google Text-To-Speech.
+    # Google Text-To-Speechを使用してテキストから音声を生成します。
+    generate_audio_with_google_tts:
+      enable: false
+    # Generate images from prompts using Google Gemini (NanoBanana).
+    # Google Gemini（NanoBanana）を使用してプロンプトから画像を生成します。
+    generate_image_with_gemini:
+      enable: false
+
+    # Marketing workflow.
+    # マーケティングを行うワークフロー。
+    # Conduct market research with DeepResearch and analyze market conditions.
+    # DeepResearchで市場調査を行い、市場の状況を分析します。
+    research_market:
+      enable: false
+    # Collect data from the App Store.
+    # App Storeからデータを収集します。
+    collect_from_app_store:
+      enable: false
+    # Collect data from the Google Play Console.
+    # Google Play Consoleからデータを収集します。
+    collect_from_google_play_console:
+      enable: false
+    # Collect data from Firebase Analytics.
+    # Firebase Analyticsからデータを収集します。
+    collect_from_firebase_analytics:
+      enable: false
+    # Analyze marketing data obtained from various stores and Analytics platforms.
+    # 各種ストアやAnalyticsから取得したマーケティングデータを分析します。
+    analyze_marketing_data:
+      enable: false
+    # Analyze the overall structure of GitHub and create a file list.
+    # GitHubの全体の構造を分析し、ファイルリストを作成します。
+    analyze_github:
+      enable: false
+    # Generate data for report creation based on analyzed market research results, marketing data, and GitHub data.
+    # 解析した市場調査結果、マーケティングデータ、Githubのデータを元にレポートを作成するためのデータを生成します。
+    analyze_market_research:
+      enable: false
+    # Generate a PDF from the analyzed report data.
+    # 解析したレポートデータを元にPDFを生成します。
+    generate_marketing_pdf:
+      enable: false
+    # Generate a markdown from the analyzed report data.
+    # 解析したレポートデータを元にMarkdownを生成します。
+    generate_marketing_markdown:
+      enable: false
+    
+    # Sales workflow.
+    # セールスを行うワークフロー。
+    # Collect contact information from developers from the Google Play Console and App Store.
+    # Google Play ConsoleとApp Storeから開発者の連絡先情報を収集します。
+    collect_google_play_developers:
+      enable: false
+    # Collect contact information from developers from the App Store.
+    # App Storeから開発者の連絡先情報を収集します。
+    collect_app_store_developers:
+      enable: false
 """ : ""}
 
 ${showAllConfig ? """
@@ -536,11 +604,6 @@ github:
       team_id: 
 
 ${showAllConfig ? """
-  # `[issue_template]` sets whether to create an Issue template that makes it easy to request from claude code.
-  # [issue_template]には、claude codeに依頼しやすいようなIssueテンプレートを作成するかどうかを設定します。
-  issue_template:
-    enable: false
-  
   # Enable status check.
   # status checkを有効にします。
   status_check:

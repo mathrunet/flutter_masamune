@@ -150,7 +150,7 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     }
     await gradle.save();
     label("Add firebase functions");
-    final functions = Fuctions();
+    final functions = Functions();
     await functions.load();
     if (!functions.imports
         .any((e) => e.contains("@mathrunet/masamune_agora"))) {
