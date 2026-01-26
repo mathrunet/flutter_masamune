@@ -58,15 +58,16 @@ class PreCommitMdCliAiCode extends CliAiCode {
 
     5. 1〜4のステップでエラーやWarningが発生した場合は、再度1からステップをやり直す。エラーやWarningがなくなるまで繰り返す。
 
-    6. エラーがなくなったら下記のコマンドを実施してCI用のゴールデンテスト用の画像を更新する。
-        - **重要**: このコマンドはDocker使用のため時間がかかります。コミット直前に1度だけ実行してください。
-        - 各種UIが更新されているにも関わらずこのステップが実行されない場合はCI側の`katana test run`でエラーになります。
+    6. **Claudeでコミットする場合のみ**、エラーがなくなったら下記のコマンドを実施してCI用のゴールデンテスト画像を生成する。
+        - **重要**: このコマンドはDocker使用のため非常に時間がかかります。Claudeでコミット作業を行う直前に1度だけ実行してください。
+        - **注意**: CI環境（`katana test run`）と同一条件で画像を生成するためDocker環境が必要です。
+        - 各種UIが更新されているにも関わらずこのステップが実行されない場合はCI内の`katana test run`でエラーになります。
 
         ```bash
         katana test build [テスト対象のクラス名],[テスト対象のクラス名],...
         ```
 
-        - 出力先: `documents/test/**/*.png`
+        - 出力先: `documents/test/**/*.png`（CI環境と同一条件の画像）
         - 例:
             ```bash
             katana test build TestPage,TestWidget,TestModel
