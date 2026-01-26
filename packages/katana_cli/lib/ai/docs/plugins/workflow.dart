@@ -50,13 +50,65 @@ $excerpt
 
 ## 設定方法
 
-1. パッケージをプロジェクトに追加。
+1. `katana.yaml`にワークフロー設定を追加。
 
-    ```bash
-    flutter pub add masamune_workflow
+    使用したい機能の`enable`を`true`にしてください。
+
+    ```yaml
+    firebase:
+      project_id: your_project_id
+      firestore:
+        enable: true
+      functions:
+        enable: true
+
+      workflow:
+        # アセット生成機能
+        generate_audio_with_google_tts:
+          enable: false
+        generate_image_with_gemini:
+          enable: false
+
+        # マーケティング分析機能
+        research_market:
+          enable: false
+        collect_from_app_store:
+          enable: false
+        collect_from_google_play_console:
+          enable: false
+        collect_from_firebase_analytics:
+          enable: false
+        analyze_marketing_data:
+          enable: false
+        analyze_github:
+          enable: false
+        analyze_market_research:
+          enable: false
+        generate_marketing_pdf:
+          enable: false
+        generate_marketing_markdown:
+          enable: false
+
+        # セールス機能
+        collect_google_play_developers:
+          enable: false
+        collect_app_store_developers:
+          enable: false
     ```
 
-2. 利用するファイルでインポート。
+2. `katana apply`コマンドを実行して設定を自動適用。
+
+    ```bash
+    katana apply
+    ```
+
+    このコマンドにより以下が自動実行されます:
+    - Flutter側に`masamune_workflow`パッケージを追加
+    - NPM側に有効化されたワークフロー用パッケージを追加
+    - Firebase Functionsの`index.ts`を自動更新（importsとfunctionsを追加）
+    - Firebase Functionsのデプロイをリクエスト
+
+3. 利用するファイルでインポート。
 
     ```dart
     import 'package:masamune_workflow/masamune_workflow.dart';
@@ -783,85 +835,83 @@ RuntimeModelAdapter(
 
 ### Firebase Functionsの設定
 
-1. **パッケージのインストール**
+ワークフロー機能は`katana apply`コマンドで自動設定されます。手動設定は不要です。
 
-```bash
-cd functions
-npm install --save masamune_workflow
-npm install --save masamune_workflow_asset  # 画像・音声生成機能を使う場合
-npm install --save masamune_workflow_marketing  # マーケティング分析機能を使う場合
-npm install --save masamune_workflow_sales  # セールスデータ収集機能を使う場合
-```
+**自動設定の内容:**
 
-2. **index.tsの設定例**
+1. **パッケージの自動追加**
+   - `masamune_workflow`（基本機能、常に追加）
+   - 有効化されたワークフロー機能に応じて以下を自動追加:
+     - `masamune_workflow_asset`（画像・音声生成機能）
+     - `masamune_workflow_marketing`（マーケティング分析機能）
+     - `masamune_workflow_sales`（セールスデータ収集機能）
+
+2. **index.tsの自動更新**
+   - インポート文の自動追加
+   - 関数エクスポートの自動追加
+   - 基本ワークフロー機能（`workflowScheduler`、`taskScheduler`、`taskCleaner`、`asset`）を常に追加
+   - 有効化された各ワークフロー機能の関数を追加
+
+**自動生成されるindex.tsの例:**
+
+以下は全ての機能を有効化した場合の例です（参考用）。
 
 ```typescript
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions/v2";
 
-// 基本ワークフロー機能
-import {
-  asset,
-  taskScheduler,
-  taskCleaner,
-  workflowScheduler,
-} from "masamune_workflow/functions";
+// 基本ワークフロー機能（自動追加）
+import * as workflow from "@mathrunet/masamune_workflow";
 
-// アセット生成機能
-import {
-  generateImageWithGemini,
-  generateAudioWithGoogleTTS,
-} from "masamune_workflow_asset/functions";
+// アセット生成機能（自動追加）
+import * as workflow_asset from "@mathrunet/masamune_workflow_asset";
 
-// マーケティング分析機能
-import {
-  collectFromGooglePlayConsole,
-  collectFromAppStore,
-  collectFromFirebaseAnalytics,
-  analyzeMarketingData,
-  generateMarketingPdf,
-  analyzeGithubInit,
-  analyzeGithubProcess,
-  analyzeGithubSummary,
-  researchMarket,
-  analyzeMarketResearch,
-} from "masamune_workflow_marketing/functions";
+// マーケティング分析機能（自動追加）
+import * as workflow_marketing from "@mathrunet/masamune_workflow_marketing";
 
-// セールス機能
-import {
-  collectGooglePlayDevelopers,
-  collectAppStoreDevelopers,
-} from "masamune_workflow_sales/functions";
+// セールス機能（自動追加）
+import * as workflow_sales from "@mathrunet/masamune_workflow_sales";
 
 // Firebase Admin初期化
 admin.initializeApp();
 
-// 基本機能のエクスポート
-exports.asset = asset;
-exports.task_scheduler = taskScheduler;
-exports.task_cleaner = taskCleaner;
-exports.workflow_scheduler = workflowScheduler;
+// Masamune
+const m = workflow.Masamune();
 
-// アセット生成機能のエクスポート
-exports.generate_image_with_gemini = generateImageWithGemini;
-exports.generate_audio_with_google_tts = generateAudioWithGoogleTTS;
-
-// マーケティング機能のエクスポート
-exports.collect_from_google_play_console = collectFromGooglePlayConsole;
-exports.collect_from_app_store = collectFromAppStore;
-exports.collect_from_firebase_analytics = collectFromFirebaseAnalytics;
-exports.analyze_marketing_data = analyzeMarketingData;
-exports.generate_marketing_pdf = generateMarketingPdf;
-exports.analyze_github_init = analyzeGithubInit;
-exports.analyze_github_process = analyzeGithubProcess;
-exports.analyze_github_summary = analyzeGithubSummary;
-exports.research_market = researchMarket;
-exports.analyze_market_research = analyzeMarketResearch;
-
-// セールス機能のエクスポート
-exports.collect_google_play_developers = collectGooglePlayDevelopers;
-exports.collect_app_store_developers = collectAppStoreDevelopers;
+// 関数のデプロイ（自動エクスポート）
+m.deploy(
+  exports,
+  ["us-central1"],
+  [
+    // 基本ワークフロー機能
+    workflow.Functions.workflowScheduler(),
+    workflow.Functions.taskScheduler(),
+    workflow.Functions.taskCleaner(),
+    workflow.Functions.asset(),
+    // アセット生成機能
+    workflow_asset.Functions.generateImageWithGemini(),
+    workflow_asset.Functions.generateAudioWithGoogleTTS(),
+    // マーケティング分析機能
+    workflow_marketing.Functions.researchMarket(),
+    workflow_marketing.Functions.collectFromAppStore(),
+    workflow_marketing.Functions.collectFromGooglePlayConsole(),
+    workflow_marketing.Functions.collectFromFirebaseAnalytics(),
+    workflow_marketing.Functions.analyzeMarketingData(),
+    workflow_marketing.Functions.analyzeGithub(),
+    workflow_marketing.Functions.analyzeMarketResearch(),
+    workflow_marketing.Functions.generateMarketingPdf(),
+    workflow_marketing.Functions.generateMarketingMarkdown(),
+    // セールス機能
+    workflow_sales.Functions.collectGooglePlayDevelopers(),
+    workflow_sales.Functions.collectAppStoreDevelopers(),
+  ],
+);
 ```
+
+**注意:**
+- 上記は参考例です。実際には`katana.yaml`で有効化した機能のみが追加されます。
+- `index.ts`を手動で編集する必要はありません。`katana apply`が自動的に更新します。
+- 既存の`index.ts`に他のFunctionsがある場合、それらは保持されます。
 
 ### 基本ワークフロー機能 (masamune_workflow)
 
