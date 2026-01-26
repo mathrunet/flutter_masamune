@@ -18,10 +18,10 @@ class GitAgentsMarkdownCliCode extends CliCode {
   final bool availabeBackground;
 
   @override
-  String get name => "AGENTS";
+  String get name => "CLAUDE";
 
   @override
-  String get prefix => "AGENTS";
+  String get prefix => "CLAUDE";
 
   @override
   String get directory => "";
