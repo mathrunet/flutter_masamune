@@ -17,10 +17,7 @@ Future<void> buildWeb(
   required String appName,
   required int defaultIncrementNumber,
 }) async {
-  final github = context.yaml.getAsMap("github");
   final secretGithub = context.secrets.getAsMap("github");
-  final claudeCode = github.getAsMap("claude_code");
-  final build = claudeCode.get("build", "");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   final gitDir = await findGitDirectory(Directory.current);
@@ -30,7 +27,6 @@ Future<void> buildWeb(
   final webCode = GithubActionsWebCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
-    buildOnClaudeCode: build.contains("web"),
   );
 
   var hostingYamlFile =
@@ -75,7 +71,6 @@ class GithubActionsWebCliCode extends CliCode {
   const GithubActionsWebCliCode({
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
-    this.buildOnClaudeCode = false,
   });
 
   /// Working Directory.
@@ -87,11 +82,6 @@ class GithubActionsWebCliCode extends CliCode {
   ///
   /// インクリメント番号。
   final int defaultIncrementNumber;
-
-  /// Whether to build on claude code.
-  ///
-  /// claude codeでビルドを行うかどうか。
-  final bool buildOnClaudeCode;
 
   @override
   String get name => "build_web";
@@ -133,19 +123,6 @@ class GithubActionsWebCliCode extends CliCode {
 name: WebProductionWorkflow
 
 on:
-${buildOnClaudeCode ? """
-  # This workflow runs when there is a pull_request on the main, master, develop branch.
-  # main, master, develop branch に pull_request があったらこの workflow が走る。
-  pull_request:
-    branches:
-      - main
-      - master
-      - develop
-    types:
-      - opened
-      - reopened
-      - synchronize
-""" : ""} 
   # This workflow runs when there is a push on the publish branch.
   # publish branch に push があったらこの workflow が走る。
   push:

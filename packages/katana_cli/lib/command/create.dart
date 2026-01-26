@@ -658,7 +658,7 @@ class ComposeCliCommand extends CliCommand {
     await const DesignsAiCode().exec(context);
     await const ImplsAiCode().exec(context);
     await const DocsAiCode().exec(context);
-    await const GitAgentsMarkdownCliCode().generateFile("AGENTS.md");
+    await const GitAgentsMarkdownCliCode().generateFile("CLAUDE.md");
     await const TestsAiCode().exec(context);
     label("Create a katana.yaml");
     await const KatanaCliCode(true).generateFile("katana.yaml");

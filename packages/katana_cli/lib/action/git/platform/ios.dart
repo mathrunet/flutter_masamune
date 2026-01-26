@@ -24,8 +24,6 @@ Future<void> buildIOS(
   final issuerId = ios.get("issuer_id", "");
   final teamId = ios.get("team_id", "");
   final secretGithub = context.secrets.getAsMap("github");
-  final claudeCode = github.getAsMap("claude_code");
-  final build = claudeCode.get("build", "");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   if (issuerId.isEmpty) {
@@ -175,7 +173,6 @@ Future<void> buildIOS(
   final iosCode = GithubActionsIOSCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
-    buildOnClaudeCode: build.contains("ios"),
   );
   await iosCode.generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
@@ -299,7 +296,6 @@ class GithubActionsIOSCliCode extends CliCode {
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
     this.slackWebhookURL,
-    this.buildOnClaudeCode = false,
   });
 
   /// Working Directory.
@@ -316,11 +312,6 @@ class GithubActionsIOSCliCode extends CliCode {
   ///
   /// Slack通知を利用する場合Incoming webhookのURLを記載。
   final String? slackWebhookURL;
-
-  /// Whether to build on claude code.
-  ///
-  /// claude codeでビルドを行うかどうか。
-  final bool buildOnClaudeCode;
 
   @override
   String get name => "build_ios";
@@ -376,19 +367,6 @@ class GithubActionsIOSCliCode extends CliCode {
 name: IOSProductionWorkflow
 
 on:
-${buildOnClaudeCode ? """
-  # This workflow runs when there is a pull_request on the main, master, develop branch.
-  # main, master, develop branch に pull_request があったらこの workflow が走る。
-  pull_request:
-    branches:
-      - main
-      - master
-      - develop
-    types:
-      - opened
-      - reopened
-      - synchronize
-""" : ""} 
   # This workflow runs when there is a push on the publish branch.
   # publish branch に push があったらこの workflow が走る。
   push:

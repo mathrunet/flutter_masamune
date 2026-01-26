@@ -378,7 +378,7 @@ final form = ref.page.form(LoginValue.form(LoginValue(email: "", password: "")))
 ## 🎓 学習リソース
 
 ### 優先順位
-1. このドキュメント（AGENTS.md）
+1. このドキュメント（CLAUDE.md）
 2. `documents/rules/docs/katana_cli.md` - CLIコマンド一覧
 3. `documents/rules/impls/impl.md` - 実装フロー
 4. 各種設計書・実装手順書

@@ -2,7 +2,6 @@ library;
 
 // Project imports:
 import "package:katana_cli/action/git/status_check.dart";
-import "package:katana_cli/ai/claude_code.dart";
 import "package:katana_cli/katana_cli.dart";
 
 part "submodule.dart";

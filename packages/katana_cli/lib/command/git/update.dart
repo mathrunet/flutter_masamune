@@ -8,7 +8,6 @@ part of "git.dart";
 ///
 /// 実行する順番で並べてください。
 const _actions = <CliActionMixin>[
-  GitClaudeCodeCliAction(),
   GitStatusCheckCliAction(),
 ];
 

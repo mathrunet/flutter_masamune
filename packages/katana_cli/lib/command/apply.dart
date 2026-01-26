@@ -38,7 +38,6 @@ import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/action/mail/send_grid.dart";
 import "package:katana_cli/action/purchase/purchase.dart";
 import "package:katana_cli/action/stripe/stripe.dart";
-import "package:katana_cli/ai/claude_code.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Action to be performed.
@@ -67,7 +66,6 @@ const _actions = <CliActionMixin>[
   FirebaseTermsAndPrivacyCliAction(),
   FirebaseFirestoreCliAction(),
   GitActionCliAction(),
-  GitClaudeCodeCliAction(),
   GitStatusCheckCliAction(),
   GitPreCommitCliAction(),
   AppOpenAICliAction(),
