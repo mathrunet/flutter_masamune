@@ -31,8 +31,7 @@ class TestDebugCliCommand extends CliCommand {
       [
         flutter,
         "test",
-        "--update-goldens",
-        "--dart-define=CI=true",
+        "--dart-define=CI=false",
         "--dart-define-from-file=dart_defines/dev.env",
         if (target.isNotEmpty) ...[
           "--plain-name",

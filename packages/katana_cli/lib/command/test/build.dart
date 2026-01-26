@@ -1,20 +1,20 @@
 part of "test.dart";
 
-/// This command will update the golden test images.
+/// Update images for CI golden tests.
 ///
-/// ゴールデンテストの画像更新を行います。
-class TestUpdateCliCommand extends CliCommand {
-  /// This command will update the golden test images.
+/// ゴールデンテストのCI向けの画像更新を行います。
+class TestBuildCliCommand extends CliCommand {
+  /// Update images for CI golden tests.
   ///
-  /// ゴールデンテストの画像更新を行います。
-  const TestUpdateCliCommand();
+  /// ゴールデンテストのCI向けの画像更新を行います。
+  const TestBuildCliCommand();
 
   @override
   String get description =>
-      "Update the golden test images. ゴールデンテストの画像更新を行います。";
+      "Update images for CI golden tests. ゴールデンテストのCI向けの画像更新を行います。";
 
   @override
-  String? get example => "katana test update";
+  String? get example => "katana test build";
 
   @override
   Future<void> exec(ExecContext context) async {

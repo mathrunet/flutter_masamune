@@ -102,7 +102,7 @@ Masamuneフレームワークに関する詳細なドキュメントを提供し
   - 生成物チェックリストが含まれるか。
 
 - **参考リソース・コマンド**  
-  `katana code debug`, `katana test run`, `katana test update`, テストレポートテンプレート
+  `katana code debug`, `katana test debug`, `katana test update`, テストレポートテンプレート
 
 
 ## 3. UI実装支援
@@ -249,7 +249,7 @@ Widgets:     lib/widgets/[name].dart    → [Name] クラス
    ```
 4. **全体テスト実行**
    ```bash
-   katana test run
+   katana test debug
    ```
 
 ### 3️⃣ 完了前の必須作業
@@ -266,7 +266,7 @@ flutter analyze && dart run custom_lint
 katana test update [更新したクラス名]
 
 # 4. 全体テスト実行
-katana test run
+katana test debug
 
 # 5. エラーがあれば1から再実行
 
@@ -286,7 +286,7 @@ katana code generate
 katana test update [ClassName1],[ClassName2]
 
 # 全テスト実行
-katana test run
+katana test debug
 ```
 
 ## 💡 コーディングパターン

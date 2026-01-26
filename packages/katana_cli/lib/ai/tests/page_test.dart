@@ -127,26 +127,26 @@ class PageTestMdCliAiCode extends CliAiCode {
     ### 開発中の素早いUI確認
     - 下記のコマンドで素早くUI確認用の画像ファイルを生成できます（推奨）。
         ```bash
-        katana code debug [Page名],[Page名],...
+        katana code update [Page名],[Page名],...
         ```
         - 出力先: `documents/debugs/**/*.png`
         - 特徴: 数秒で完了、頻繁な確認に最適
         - 例:
             ```bash
-            katana code debug MemoPage,MemoDetailPage
+            katana code update MemoPage,MemoDetailPage
             ```
 
     ### コミット前の最終確認（⚠️時間がかかる）
     - コミット前の最終確認時のみ、下記のコマンドでゴールデンテスト用の画像ファイルを生成します。
     - **注意**: Docker使用のため時間がかかります。完了直前に1度だけ実行してください。
         ```bash
-        katana test update [Page名],[Page名],...
+        katana test build [Page名],[Page名],...
         ```
         - 出力先: `documents/test/**/*.png`
         - 特徴: Docker使用で時間がかかる、コミット前に1度だけ実行
         - 例:
             ```bash
-            katana test update MemoPage,MemoDetailPage
+            katana test build MemoPage,MemoDetailPage
             ```
 
 - FlutterやMasamuneの実装方法の詳細や細かい制約については`documents/rules/**/*.md`を参照

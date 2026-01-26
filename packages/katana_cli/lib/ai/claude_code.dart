@@ -236,7 +236,7 @@ flutter analyze && dart run custom_lint
 katana test update [更新したクラス名]
 
 # 4. 全体テスト実行
-katana test run
+katana test debug
 ${availabeBackground ? """
 # 5. コミット
 katana git commit --message="コミットメッセージ" [ファイル...]
@@ -263,7 +263,7 @@ katana git pull_request --target="master" --source="branch" --title="タイト�
 | **フォーマット** | `dart fix --apply lib && dart format .` |
 | **インポート整理** | `flutter pub run import_sorter:main` |
 | **テスト更新** | `katana test update [class]` |
-| **テスト実行** | `katana test run` |
+| **テスト実行** | `katana test debug` |
 | **Functions deploy** | `katana deploy functions` |
 
 ### 基本パターンコード

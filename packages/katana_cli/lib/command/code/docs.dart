@@ -29,13 +29,9 @@ class CodeDocsCliCommand extends CliCommand {
       availabeBackground: enableClaudeCodeBackground,
     ).generateFile(enableClaudeCode ? "CLAUDE.md" : "CLAUDE.md");
     if (enableClaudeCode) {
-      label("Create agents");
-      await const AgentsAiCode().exec(context);
       label("Create settings.local.json");
       await const GitClaudeSettingsCliCode()
           .generateFile("settings.local.json");
-      label("Create .mcp.json");
-      await const McpMcpCode().exec(context);
     }
   }
 }

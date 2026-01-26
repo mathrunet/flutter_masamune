@@ -10,6 +10,7 @@ part "update.dart";
 part "run.dart";
 part "debug.dart";
 part "coverage.dart";
+part "build.dart";
 
 /// Providing test commands.
 ///
@@ -29,6 +30,7 @@ class TestCliCommand extends CliCommandGroup {
         "run": TestRunCliCommand(),
         "debug": TestDebugCliCommand(),
         "coverage": TestCoverageCliCommand(),
+        "build": TestBuildCliCommand(),
       };
 }
 
