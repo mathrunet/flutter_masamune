@@ -327,19 +327,19 @@ export const validateIosPurchase = functions.https.onCall(async (data, context) 
 
 ### ユーザー権限の確認
 
-購入モデルをクエリしてユーザーアクセスを確認します:
+`Purchase`コントローラーから現在のプロダクトの状態を取得してユーザーアクセスを確認します:
 
 ```dart
 class PremiumFeaturePage extends PageScopedWidget {
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final purchaseUser = ref.app.model(
-      PurchaseUserModel.document(userId: currentUserId),
-    )..load();
+    final purchase = ref.app.controller(Purchase.query());
+    final product = purchase.products.firstWhereOrNull(
+      (e) => e.productId == "premium_monthly",
+    );
+    final hasActiveSubscription = product?.value?.active ?? false;
 
-    final hasPremium = purchaseUser.value?.hasPremiumAccess ?? false;
-
-    return hasPremium
+    return hasActiveSubscription
         ? PremiumContent()
         : UpgradePrompt();
   }

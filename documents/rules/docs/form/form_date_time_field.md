@@ -6,6 +6,16 @@
 
 `DateTimeField`のMasamuneフレームワーク版。`DatePicker`や`TimePicker`のモーダルで選択した日時を値として設定することができるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することで日時の値を管理可能。日付範囲制限などの機能を備えています。
 
+## パッケージのインポート
+
+このコンポーネントを使用するには、以下のパッケージをインポートする必要があります：
+
+```dart
+import 'package:masamune/masamune.dart';
+```
+
+このインポートにより、Masamuneフレームワークが提供するすべてのフォームコンポーネントとユーティリティにアクセスできます。
+
 ## 配置方法
 
 `FormController`を使用する場合は、`FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡します。

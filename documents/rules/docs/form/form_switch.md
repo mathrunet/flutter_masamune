@@ -6,6 +6,16 @@
 
 `Switch`のMasamuneフレームワーク版。トグルスイッチを表示し切り替えるフォームフィールド。`FormStyle`で共通したデザインを適用可能。また`FormController`を利用することでスイッチの値を管理可能。ラベル付きスイッチ、カスタムデザインなどの機能を備えています。
 
+## パッケージのインポート
+
+このコンポーネントを使用するには、以下のパッケージをインポートする必要があります：
+
+```dart
+import 'package:masamune/masamune.dart';
+```
+
+このインポートにより、Masamuneフレームワークが提供するすべてのフォームコンポーネントとユーティリティにアクセスできます。
+
 ## 配置方法
 
 `FormController`を使用する場合は、`FormController.key`を与えた`Form`配下に配置するか、`form`パラメータに`FormController`を渡します。

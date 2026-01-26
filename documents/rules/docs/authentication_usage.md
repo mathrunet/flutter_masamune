@@ -190,6 +190,8 @@ class LoginPage extends PageScopedWidget {
 
 ### ログアウト
 
+ログアウトでは、認証情報のクリアと画面遷移を行います。アプリ全体のリセットが必要な場合は`context.restartApp()`を使用することを推奨します。
+
 ```dart
 class ProfilePage extends PageScopedWidget {
   @override
@@ -205,10 +207,28 @@ class ProfilePage extends PageScopedWidget {
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () async {
+                // 基本的なログアウト処理
                 await appAuth.signOut();
                 context.navigator.pop();
               },
               child: Text("ログアウト"),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                // restartAppを使用した安全なログアウトとアプリリセット
+                // すべての状態とメモリ上のデータがクリアされ、初期画面から再スタート
+                await context.restartApp(
+                  onRestart: () async {
+                    // ログアウト処理をリスタート時に実行
+                    await appAuth.signOut();
+                  },
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: Text("ログアウトしてアプリをリセット"),
             ),
           ],
         ),
@@ -216,6 +236,26 @@ class ProfilePage extends PageScopedWidget {
     );
   }
 }
+```
+
+**推奨される実装方法**:
+
+通常のログアウトでは`await appAuth.signOut()`と画面遷移で十分ですが、以下のような場合は`context.restartApp()`の使用を推奨します：
+
+- キャッシュされた認証情報を完全にクリアしたい場合
+- メモリ上のユーザーデータをすべてリセットしたい場合
+- 複数のページで保持している状態を一括でクリアしたい場合
+- ログアウト後に初期画面へ確実に遷移させたい場合
+
+```dart
+// 推奨される安全なログアウト実装
+await context.restartApp(
+  onRestart: () async {
+    // リスタート時にログアウト処理を実行
+    await appAuth.signOut();
+    // 必要に応じて追加のクリーンアップ処理
+  },
+);
 ```
 
 ### パスワードリセット
@@ -380,9 +420,9 @@ class ChangePasswordPage extends PageScopedWidget {
 }
 ```
 
-### 再認証
+### 再認証とアカウント削除
 
-アカウント削除やセキュリティが必要な操作の前に、再認証が必要になる場合があります。
+アカウント削除やセキュリティが必要な操作の前に、再認証が必要になる場合があります。アカウント削除後は`context.restartApp()`を使用してアプリを完全にリセットすることを強く推奨します。
 
 ```dart
 class DeleteAccountPage extends PageScopedWidget {
@@ -411,24 +451,29 @@ class DeleteAccountPage extends PageScopedWidget {
               form: form,
               onPressed: () async {
                 try {
-                  // 再認証
+                  // 再認証（セキュリティ確認）
                   await appAuth.reauth(
                     EmailAndPasswordAuthQuery.reauth(
                       password: form.value.password,
                     ),
                   );
 
-                  // アカウント削除
-                  await appAuth.delete();
-
-                  context.navigator.pop();
+                  // アカウント削除とアプリのリセット
+                  // restartAppを使用することで、削除後のクリーンな状態を保証
+                  await context.restartApp(
+                    onRestart: () async {
+                      // リスタート時にアカウント削除を実行
+                      await appAuth.delete();
+                      // 削除後、アプリは初期状態（ログイン画面など）から再開
+                    },
+                  );
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("削除に失敗しました: $e")),
                   );
                 }
               },
-              child: Text("削除"),
+              child: Text("アカウントを削除"),
             ),
           ],
         ),
@@ -437,6 +482,108 @@ class DeleteAccountPage extends PageScopedWidget {
   }
 }
 ```
+
+**重要な注意事項**:
+
+アカウント削除時に`context.restartApp()`を使用する理由：
+
+- 削除したユーザーのデータがメモリに残らないことを保証
+- すべての認証状態とキャッシュを完全にクリア
+- アプリが確実にログイン画面から再スタート
+- 削除後のセキュリティと整合性を確保
+
+### Firebase認証を使用したアカウント削除
+
+Firebase Authenticationを使用している場合、`masamune_auth_firebase`パッケージを利用することで、サーバーサイドでのユーザーデータ完全削除も実現できます。
+
+```dart
+import 'package:masamune_auth_firebase/masamune_auth_firebase.dart';
+
+class FirebaseDeleteAccountPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final form = ref.page.form(ReAuthValue.form(ReAuthValue(
+      password: "",
+    )));
+
+    return Scaffold(
+      appBar: AppBar(title: Text("Firebaseアカウント削除")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text("アカウントを完全に削除します"),
+            SizedBox(height: 16),
+            FormTextField(
+              form: form,
+              obscureText: true,
+              name: "password",
+              hintText: "パスワードで確認",
+            ),
+            SizedBox(height: 24),
+            FormButton(
+              form: form,
+              onPressed: () async {
+                try {
+                  // 1. 再認証
+                  await appAuth.reauth(
+                    EmailAndPasswordAuthQuery.reauth(
+                      password: form.value.password,
+                    ),
+                  );
+
+                  // 2. Firebase Cloud Functions経由でサーバーサイド削除
+                  // FirebaseDeleteUserFunctionsActionを使用する場合
+                  // 事前にAuthActionとして設定しておく必要があります
+
+                  // 3. クライアントサイドで削除とアプリリセット
+                  await context.restartApp(
+                    onRestart: () async {
+                      // Firebase Authからユーザーを削除
+                      await appAuth.delete();
+
+                      // 追加のクリーンアップ処理があれば実行
+                      // 例: ローカルキャッシュのクリア
+                      // 例: プッシュ通知トークンの削除
+                    },
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("削除に失敗しました: $e")),
+                  );
+                }
+              },
+              child: Text("Firebaseアカウントを完全削除"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+**Firebase削除の追加設定**:
+
+`masamune_auth_firebase`を使用してCloud Functions経由でサーバーサイド削除を行う場合、以下の設定が必要です：
+
+```dart
+// lib/main.dart または adapter.dart
+
+import 'package:katana_auth_firebase/katana_auth_firebase.dart';
+import 'package:masamune_auth_firebase/masamune_auth_firebase.dart';
+
+// Firebase AuthAdapterにActionsを追加
+final authAdapter = FirebaseAuthAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  authActions: [
+    // Cloud Functions経由でのユーザー削除アクション
+    FirebaseDeleteUserFunctionsAction(),
+  ],
+);
+```
+
+これにより、`appAuth.delete()`実行時に自動的にCloud Functions経由でのサーバーサイド削除も行われます。
 
 ## メールリンク認証
 

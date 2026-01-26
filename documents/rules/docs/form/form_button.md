@@ -6,6 +6,16 @@
 
 `ElevatedButton`、`FilledButton`、`OutlinedButton`、`TextButton`のMasamuneフレームワーク版。`FormStyle`で共通したデザインを適用可能。また`FormController`と連携してフォームの送信等を行うことができます。勿論通常のボタンとしても利用可能です。アイコン表示、カスタムデザインなどの機能を備えています。
 
+## パッケージのインポート
+
+このコンポーネントを使用するには、以下のパッケージをインポートする必要があります：
+
+```dart
+import 'package:masamune/masamune.dart';
+```
+
+このインポートにより、Masamuneフレームワークが提供するすべてのフォームコンポーネントとユーティリティにアクセスできます。
+
 ## 基本的な利用方法
 
 ```dart

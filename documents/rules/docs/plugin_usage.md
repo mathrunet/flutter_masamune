@@ -34,3 +34,4 @@
 | `scheduler | スケジューラー | `スケジューラー`は指定した時間にFirestoreのドキュメントをコピーしたり、削除したりする仕組みを提供する機能。 | Usage(`documents/rules/plugins/scheduler.md`) |
 | `delete_user | ユーザー削除機能 | `ユーザー削除機能`はFirebase Authenticationのユーザーアカウントをバックエンドから安全に削除する機能。 | Usage(`documents/rules/plugins/delete_user.md`) |
 | `sns_auth | SNSログイン機能 | `SNSログイン機能`はApple、Google、GitHub、FacebookなどのSNSアカウントを使ってFirebase Authenticationにサインインする機能。 | Usage(`documents/rules/plugins/sns_auth.md`) |
+| `workflow | Workflow | `Workflow`はワークフローを管理する機能を提供するプラグイン。 | Usage(`documents/rules/plugins/workflow.md`) |

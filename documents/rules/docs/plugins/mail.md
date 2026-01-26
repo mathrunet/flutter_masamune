@@ -6,7 +6,7 @@
 
 `メール送信`はメールを送信する機能を提供するプラグイン。
 
-SendGridなどのメールサービスプロバイダーを通じて、バックエンドからメールを送信する機能を提供します。
+SendGridやGmailなどのメールサービスプロバイダーを通じて、バックエンドからメールを送信する機能を提供します。
 
 ## 設定方法
 
@@ -84,7 +84,7 @@ SendGridなどのメールサービスプロバイダーを通じて、バック
 
 ### Cloud Functions経由でメールを送信
 
-このパッケージは、バックエンドを通じてメールを送信するための`FunctionsAction`クラスを提供します。バックエンドでは、SendGrid、その他のメールサービスプロバイダーを使用して実際のメール送信ロジックを実装する必要があります。
+このパッケージは、バックエンドを通じてメールを送信するための`FunctionsAction`クラスを提供します。バックエンドでは、SendGrid、Gmail、その他のメールサービスプロバイダーを使用して実際のメール送信ロジックを実装する必要があります。
 
 #### SendGridの例
 
@@ -110,6 +110,19 @@ Future<void> sendWelcomeEmail(String userEmail) async {
     print("メール送信失敗: $e");
   }
 }
+```
+
+#### Gmailの例
+
+```dart
+await functions.execute(
+  SendGmailFunctionsAction(
+    from: "noreply@example.com",
+    to: "recipient@example.com",
+    title: "月次レポート",
+    content: "今月のレポートを確認してください。",
+  ),
+);
 ```
 
 ### バックエンドの実装
@@ -169,7 +182,7 @@ await sendgrid.send({
 
 ### Tips
 
-- APIキー（SendGrid）は環境変数またはシークレットマネージャーを使用して安全に保管してください
+- APIキー（SendGrid、Gmail OAuth）は環境変数またはシークレットマネージャーを使用して安全に保管してください
 - 悪用を防ぐため、バックエンドエンドポイントに検証とレート制限を追加してください
 - 監査目的でメール送信をログに記録し、配信の問題を監視してください
 - 本番環境では送信元アドレスのドメイン認証（SPF、DKIM、DMARC）を適切に設定してください
