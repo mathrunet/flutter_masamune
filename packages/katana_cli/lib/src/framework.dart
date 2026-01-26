@@ -850,6 +850,66 @@ Future<void> addFlutterImport(
   }
 }
 
+/// Add npm imports by giving [packages].
+///
+/// If it has already been added, it will not be added.
+///
+/// [packages]を与えてnpmのimportを追加します。
+///
+/// すでに追加されている場合は、追加されません。
+Future<void> addNpmImport(
+  List<String> packages, {
+  bool development = false,
+  String npmCommand = "npm",
+}) async {
+  final addPackages = <String>[];
+  final packageJsonFile = File("firebase/functions/package.json");
+  final packageJson = jsonDecodeAsMap(await packageJsonFile.readAsString());
+  if (development) {
+    final dependencies = packageJson.getAsMap("devDependencies");
+    for (final package in packages) {
+      if (dependencies.containsKey(package)) {
+        continue;
+      }
+      addPackages.add(package);
+    }
+    if (addPackages.isNotEmpty) {
+      await command(
+        "Import packages.",
+        [
+          npmCommand,
+          "install",
+          "--save-dev",
+          ...addPackages,
+        ],
+        runInShell: true,
+        workingDirectory: "firebase/functions",
+      );
+    }
+  } else {
+    final dependencies = packageJson.getAsMap("dependencies");
+    for (final package in packages) {
+      if (dependencies.containsKey(package)) {
+        continue;
+      }
+      addPackages.add(package);
+    }
+    if (addPackages.isNotEmpty) {
+      await command(
+        "Import packages.",
+        [
+          npmCommand,
+          "install",
+          "--save",
+          ...addPackages,
+        ],
+        runInShell: true,
+        workingDirectory: "firebase/functions",
+      );
+    }
+  }
+}
+
 /// Get the Flutter version.
 ///
 /// Flutterのバージョンを取得します。

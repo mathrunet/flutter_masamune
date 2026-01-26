@@ -60,6 +60,11 @@ class FirebaseWorkflowCliAction extends CliCommand with CliActionMixin {
     await addFlutterImport(
       [
         "masamune_workflow",
+      ],
+    );
+    await addNpmImport(
+      [
+        "masamune_workflow",
         ...packages.map((e) => e.id),
       ],
     );
