@@ -28,10 +28,5 @@ class CodeDocsCliCommand extends CliCommand {
     await GitAgentsMarkdownCliCode(
       availabeBackground: enableClaudeCodeBackground,
     ).generateFile(enableClaudeCode ? "CLAUDE.md" : "CLAUDE.md");
-    if (enableClaudeCode) {
-      label("Create settings.local.json");
-      await const GitClaudeSettingsCliCode()
-          .generateFile("settings.local.json");
-    }
   }
 }
