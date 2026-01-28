@@ -45,6 +45,17 @@ class CodeViewTabCliCommand extends CliTestableCodeCommand {
     }
     final existsMain = File("lib/main.dart").existsSync();
     label("Create a tab template in `$directory/$path.dart`.");
+    final parentPath = path.parentPath();
+    if (parentPath.isNotEmpty) {
+      final parentDir = Directory("$directory/$parentPath");
+      if (!parentDir.existsSync()) {
+        await parentDir.create(recursive: true);
+      }
+      final parentTestDir = Directory("$testDirectory/$parentPath");
+      if (!parentTestDir.existsSync()) {
+        await parentTestDir.create(recursive: true);
+      }
+    }
     await generateDartCode(
       "$directory/$path",
       path,
