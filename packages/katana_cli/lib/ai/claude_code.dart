@@ -867,7 +867,7 @@ executeGuarded(
       context,
       submitText: l().close,
       title: l().complete,
-      text: l().$(l().$(l().edit).of.$(l().post)).hasBeenCompleted,
+      text: l().\$(l().\$(l().edit).of.\$(l().post)).hasBeenCompleted,
       onSubmit: () {
         context.router.pop();
       },
@@ -879,7 +879,7 @@ executeGuarded(
       context,
       submitText: l().close,
       title: l().error,
-      text: l().$(l().$(l().edit).of.$(l().post)).hasFailed,
+      text: l().\$(l().\$(l().edit).of.\$(l().post)).hasFailed,
     );
   },
 );
