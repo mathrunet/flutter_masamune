@@ -46,6 +46,39 @@ $excerpt
                     └── アクション（Action）
 ```
 
+## データ継承とその理由
+
+### なぜ各階層でIDを継承するのか
+
+タスク作成時に組織ID・プロジェクトIDを継承する理由：
+
+1. **権限チェック**: タスク実行時に組織/プロジェクトレベルの権限を確認
+2. **使用量追跡**: 組織/プロジェクト単位でのAPI使用量を計算
+3. **フィルタリング**: 組織/プロジェクト別のタスク一覧表示
+4. **課金処理**: 組織単位での課金管理
+
+### 継承フロー図
+
+```
+組織（設定：APIキー、制限値）
+  ↓ 継承
+プロジェクト（設定：サービスアカウント、環境変数）
+  ↓ 継承
+ワークフロー（設定：アクション配列、プロンプト）
+  ↓ 継承
+タスク（実行：継承した設定で各アクションを実行）
+```
+
+### タスク作成時の継承関係
+
+| フィールド | 継承元 | 目的 |
+|-----------|--------|------|
+| `organization` | ワークフロー | 権限管理、組織別フィルタリング |
+| `project` | ワークフロー | プロジェクト別分析 |
+| `actions` | ワークフロー | 実行するアクション定義 |
+| `prompt` | ワークフロー | タスク固有のプロンプト |
+| `materials` | ワークフロー | アクション実行に必要な素材 |
+
 **注意**: このパッケージはアダプターを使用しません。データモデルのみを提供します。
 
 ## 設定方法
@@ -634,6 +667,208 @@ WorkflowActionCommandValue(
 )
 ```
 
+## アクション実行の詳細
+
+### 実行順序と依存関係
+
+1. **アクションの実行順序**: `WorkflowActionCommandValue.index`の昇順で順次実行
+2. **データの受け渡し**: 前のアクションの`results`を次のアクションが参照可能
+3. **エラー処理**: 1つのアクションが失敗すると、タスク全体が`failed`になり、残りのアクションは実行されない
+
+### アクション実行フロー
+
+```
+タスクステータス: waiting
+    ↓
+タスクステータス: running（taskSchedulerによって開始）
+    ↓
+アクション1実行（index: 0）
+    ├─成功→ results保存 → アクション2へ
+    └─失敗→ タスクステータス: failed（処理中断）
+    ↓
+アクション2実行（index: 1）
+    ├─成功→ results保存 → アクション3へ
+    └─失敗→ タスクステータス: failed（処理中断）
+    ↓
+全アクション完了
+    ↓
+タスクステータス: completed
+```
+
+### アクションログの構造
+
+各アクションは`WorkflowTaskLogValue`の配列でログを記録：
+
+| フェーズ | 記録タイミング | 用途 |
+|----------|--------------|------|
+| `start` | アクション開始時 | 開始時刻記録 |
+| `info` | 処理中 | 進捗状況記録 |
+| `warning` | 警告発生時 | 非致命的な問題記録 |
+| `error` | エラー発生時 | エラー詳細記録 |
+| `end` | アクション完了時 | 終了時刻、結果記録 |
+
+## アクション間のデータ受け渡し
+
+### データフローの3つの要素
+
+#### 1. materials（素材）
+ワークフロー定義時に設定する静的な素材データ。全アクションから参照可能。
+
+```dart
+// ワークフロー定義時
+materials: {
+  "images": ["gs://bucket/product1.jpg"],
+  "documents": ["gs://bucket/spec.pdf"],
+}
+```
+
+#### 2. assets（成果物）
+アクション実行結果として生成される成果物。Firestoreの`plugins/workflow/asset`に保存される。
+
+```typescript
+// アクション実行結果
+{
+  "assets": {
+    "generatedImage": {
+      "url": "gs://bucket/generated/image.png",
+      "public_url": "https://storage.googleapis.com/...",
+      "content_type": "image/png"
+    }
+  }
+}
+```
+
+#### 3. results（結果）
+アクション実行のメタデータと結果データ。次のアクションが参照可能。
+
+```typescript
+{
+  "results": {
+    "imageGeneration": {
+      "inputTokens": 100,
+      "outputTokens": 50,
+      "cost": 0.005,
+      "generatedText": "生成された説明文..."
+    }
+  }
+}
+```
+
+### アクション間のデータ受け渡しパターン
+
+#### パターン1: assetsを次のアクションで参照
+
+アクション1で生成した画像を、アクション2で使用する例：
+
+```dart
+final workflow = WorkflowWorkflowModel(
+  name: "画像加工ワークフロー",
+  actions: [
+    // アクション1: 画像生成
+    WorkflowActionCommandValue(
+      command: "generate_image_with_gemini",
+      index: 0,
+      data: {
+        "prompt": "美しい風景",
+      },
+    ),
+    // アクション2: 生成した画像を取得して加工
+    // ※バックエンド側で前のアクションのassetsを自動的に参照可能
+    WorkflowActionCommandValue(
+      command: "process_image",
+      index: 1,
+      data: {
+        // 前のアクションのassets.generatedImageを参照
+        "input_asset_key": "generatedImage",
+      },
+    ),
+  ],
+);
+```
+
+#### パターン2: resultsを次のアクションのパラメータに利用
+
+マーケティング分析の例（バックエンド実装）：
+
+```typescript
+// Firebase Functions側での実装例
+export const analyze_marketing_data = Functions.action({
+  process: async (context) => {
+    // 前のアクションのresultsを取得
+    const previousActions = await context.task.getPreviousActions();
+    const googlePlayData = previousActions[0]?.results?.googlePlayData;
+    const analyticsData = previousActions[1]?.results?.analyticsData;
+
+    // 統合分析
+    const analysis = await analyzeData(googlePlayData, analyticsData);
+
+    return {
+      results: {
+        marketingAnalysis: analysis,
+      },
+    };
+  },
+});
+```
+
+#### パターン3: materialsとassetsの組み合わせ
+
+```dart
+final workflow = WorkflowWorkflowModel(
+  name: "商品説明生成",
+  materials: {
+    "images": ["gs://bucket/product1.jpg"],  // 事前に用意した素材
+  },
+  actions: [
+    // アクション1: 商品画像から特徴抽出
+    WorkflowActionCommandValue(
+      command: "generate_text_from_multimodal",
+      index: 0,
+      data: {
+        "prompt": "商品の特徴を箇条書きで抽出",
+      },
+      // materials.imagesを自動参照
+    ),
+    // アクション2: 抽出した特徴を元に音声ナレーション生成
+    WorkflowActionCommandValue(
+      command: "generate_audio_with_google_tts",
+      index: 1,
+      data: {
+        // 前のアクションのresults.textGeneration.generatedTextを参照
+        "use_previous_text": true,
+      },
+    ),
+  ],
+);
+```
+
+### データ参照の実装詳細
+
+バックエンド側（Firebase Functions）では、以下のようにアクション間のデータを参照：
+
+```typescript
+// 現在のアクションから前のアクションのデータにアクセス
+const context = {
+  task: {
+    // タスクに設定されたmaterials
+    materials: task.materials,
+
+    // 前のアクションの結果を取得
+    getPreviousActions: async () => {
+      return task.actions.filter(a => a.index < currentAction.index);
+    },
+
+    // 前のアクションのassetsを取得
+    getPreviousAssets: async () => {
+      const previousAction = task.actions[currentAction.index - 1];
+      return previousAction?.assets;
+    },
+  },
+};
+```
+
+**注意**: 具体的な実装はバックエンドのアクションハンドラーによって異なります。上記はconceptual exampleです。
+
 **WorkflowTaskLogValue:**
 
 ```dart
@@ -745,6 +980,42 @@ class AssetListPage extends PageScopedWidget {
 | `WorkflowPageModel` | `plugins/workflow/page` | ページ |
 | `WorkflowAddressModel` | `plugins/workflow/address` | アドレス |
 
+## モデル間の関係図
+
+### 階層構造とRefPath参照
+
+```
+WorkflowOrganizationModel（組織）
+  ├── WorkflowOrganizationMemberModel（サブコレクション：組織メンバー）
+  ├── WorkflowUsageModel（サブコレクション：使用量）
+  ├── WorkflowCertificateModel（サブコレクション：証明書）
+  │
+  └─RefPath参照→ WorkflowProjectModel（プロジェクト）
+      │
+      └─RefPath参照→ WorkflowWorkflowModel（ワークフロー）
+          │
+          └─RefPath参照→ WorkflowTaskModel（タスク）
+              │
+              └─配列→ WorkflowActionModel（アクション）
+```
+
+**凡例**:
+- `├──`: サブコレクション（親の削除で自動削除される）
+- `─RefPath参照→`: RefPathによる参照（親が削除されても残る）
+- `─配列→`: ドキュメント内の配列として保存
+
+### サブコレクション vs ルートコレクション + RefPath
+
+| パターン | Firestoreパス | 使用ケース | 例 |
+|----------|--------------|-----------|-----|
+| **サブコレクション** | `parent/:id/child` | 親と密結合、親削除で自動削除が必要 | 組織メンバー、使用量 |
+| **ルートコレクション + RefPath** | `child`（RefPathフィールド保持） | 横断検索が必要、複数の親を持つ可能性 | プロジェクト、ワークフロー、タスク |
+
+この設計により、以下が可能になります：
+- プロジェクトを異なる組織間で移動
+- タスクの横断検索（全組織のタスクを一覧表示）
+- 柔軟な権限管理（RefPathを使った条件付きアクセス）
+
 ## 列挙型一覧
 
 ### WorkflowRepeat
@@ -807,6 +1078,79 @@ class AssetListPage extends PageScopedWidget {
 | `action` | `String?` | 関連アクション |
 | `phase` | `TaskLogPhase?` | ログフェーズ |
 | `data` | `Map<String, dynamic>?` | ログデータ |
+
+## 参照パス（RefPath）について
+
+### RefPathとは
+
+`RefPath`は、Firestoreドキュメント間の参照を型安全に管理するためのMasamuneフレームワークの仕組みです。FirestoreのReference型をラップし、型安全性と使いやすさを提供します。
+
+### RefPath型の一覧
+
+| RefPath型 | 参照先 | 使用例 |
+|----------|--------|--------|
+| `WorkflowOrganizationModelRefPath` | 組織ドキュメント | プロジェクト、メンバー、タスク等が組織を参照 |
+| `WorkflowProjectModelRefPath` | プロジェクトドキュメント | ワークフロー、タスク等がプロジェクトを参照 |
+| `WorkflowWorkflowModelRefPath` | ワークフロードキュメント | タスクがワークフローを参照 |
+
+### RefPathの役割と利点
+
+1. **型安全性**: コンパイル時に誤った参照を検出
+   ```dart
+   // ❌ コンパイルエラー: 型が一致しない
+   project.organization = WorkflowProjectModelRefPath(projectId);
+
+   // ✅ 正しい: 適切な型を使用
+   project.organization = WorkflowOrganizationModelRefPath(organizationId);
+   ```
+
+2. **クエリフィルタリング**: 特定の親に属するドキュメントを効率的に取得
+   ```dart
+   // 特定組織のプロジェクトのみ取得
+   final projects = ref.app.model(
+     WorkflowProjectModel.collection()
+       .organization.equal(WorkflowOrganizationModelRefPath(organizationId))
+   );
+   ```
+
+3. **データ整合性**: 親子関係の明確化と整合性チェック
+   ```dart
+   // タスク作成時に親の存在を確認
+   if (workflow.value == null) {
+     throw Exception("ワークフローが存在しません");
+   }
+   ```
+
+4. **権限管理**: Firestoreセキュリティルールでの参照チェック
+   ```javascript
+   // Firestoreセキュリティルール例
+   match /plugins/workflow/task/{taskId} {
+     allow read: if request.auth.uid ==
+       get(resource.data.organization).data.ownerId;
+   }
+   ```
+
+### RefPathの実装パターン
+
+```dart
+// 1. RefPath作成
+final orgRef = WorkflowOrganizationModelRefPath(organizationId);
+
+// 2. モデルに設定
+final project = WorkflowProjectModel(
+  name: "新プロジェクト",
+  organization: orgRef,  // RefPathを設定
+);
+
+// 3. RefPathを使ったフィルタリング
+final projects = ref.app.model(
+  WorkflowProjectModel.collection()
+    .organization.equal(orgRef)  // 同じ組織のプロジェクトのみ
+);
+
+// 4. RefPathからIDを取得
+final orgId = project.organization?.id;  // 組織IDを取得
+```
 
 ## Tips
 
