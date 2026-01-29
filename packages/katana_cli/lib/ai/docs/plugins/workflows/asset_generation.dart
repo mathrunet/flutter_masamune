@@ -357,7 +357,7 @@ final workflow = WorkflowWorkflowModel(
       command: "generate_text_from_multimodal",
       index: 0,
       data: {
-        "prompt": """
+        "prompt": r"""
 提供された画像、動画、音声レビューを基に、以下の要素を含む商品説明文を作成してください：
 
 1. 商品の主要な特徴（画像から読み取れる内容）
@@ -366,7 +366,7 @@ final workflow = WorkflowWorkflowModel(
 4. 商品のメリットとユニークセリングポイント
 
 文体：親しみやすく、購買意欲を高める内容
-文字数：800-1200文字程度
+文字数：800-1200文字程度"""
 """,
         "system_prompt": "あなたはECサイトの商品説明文を作成する専門のコピーライターです。",
         "output_format": "markdown",
@@ -454,7 +454,7 @@ final workflow = WorkflowWorkflowModel(
       command: "generate_text_from_multimodal",
       index: 0,
       data: {
-        "prompt": """
+        "prompt": r"""
 提供された画像を順番に見て、BGMの雰囲気も考慮しながら、
 これらを繋げた物語を創作してください。
 
