@@ -26,26 +26,26 @@
 2. `Model`の`toTile`拡張メソッドのUI確認
     - `Model`の`toTile`拡張メソッドのテストを新しく作成した場合や`Model`の`toTile`拡張メソッドの更新を行った場合の確認方法。
 
-    ### 開発中の素早いUI確認
-    - 下記のコマンドで素早くUI確認用の画像ファイルを生成できます（推奨）。
+    ### 開発中のゴールデンテスト画像更新
+    - 下記のコマンドでゴールデンテスト用の画像ファイルを更新します（開発中、頻繁に実行）。
         ```bash
-        katana code update [Model名],[Model名],...
+        katana test update [Model名],[Model名],...
         ```
-        - 出力先: `documents/debugs/**/*.png`
-        - 特徴: 数秒で完了、頻繁な確認に最適
+        - 出力先: `documents/test/**/*.png`
+        - 特徴: 通常実行、開発中に頻繁に更新
         - 例:
             ```bash
-            katana code update MemoModel,UserModel
+            katana test update MemoModel,UserModel
             ```
 
-    ### コミット前の最終確認（⚠️時間がかかる）
-    - コミット前の最終確認時のみ、下記のコマンドでゴールデンテスト用の画像ファイルを生成します。
-    - **注意**: Docker使用のため時間がかかります。完了直前に1度だけ実行してください。
+    ### コミット前のCI用画像作成（⚠️時間がかかる・Claudeでのコミット時のみ）
+    - **Claudeでコミットする時のみ**、コミット直前に下記のコマンドでCI用の画像ファイルを生成します。
+    - **注意**: Docker使用のため時間がかかります。CI環境と同一条件で画像を生成し、`katana test run`で使用される画像と一致させます。
         ```bash
         katana test build [Model名],[Model名],...
         ```
         - 出力先: `documents/test/**/*.png`
-        - 特徴: Docker使用で時間がかかる、コミット前に1度だけ実行
+        - 特徴: Docker使用で時間がかかる、Claudeでのコミット直前に1度だけ実行
         - 例:
             ```bash
             katana test build MemoModel,UserModel

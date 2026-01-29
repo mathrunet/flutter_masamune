@@ -28,10 +28,10 @@ import "package:katana_cli/ai/docs/plugins/speech_to_text.dart";
 import "package:katana_cli/ai/docs/plugins/stripe.dart";
 import "package:katana_cli/ai/docs/plugins/text_to_speech.dart";
 import "package:katana_cli/ai/docs/plugins/workflow.dart";
-import "package:katana_cli/ai/docs/plugins/workflows/basic_workflow.dart";
-import "package:katana_cli/ai/docs/plugins/workflows/sales_functions.dart";
 import "package:katana_cli/ai/docs/plugins/workflows/asset_generation.dart";
+import "package:katana_cli/ai/docs/plugins/workflows/basic_workflow.dart";
 import "package:katana_cli/ai/docs/plugins/workflows/marketing_analytics.dart";
+import "package:katana_cli/ai/docs/plugins/workflows/sales_functions.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// List of Plugin types.

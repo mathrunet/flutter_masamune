@@ -1,48 +1,7 @@
-// Project imports:
-import "package:katana_cli/ai/docs/plugin_usage.dart";
+# セールス機能
 
-/// Class for generating sales feature documentation
-///
-/// This class provides detailed documentation on the collection of developer information from Google Play and the App Store,
-/// which is a sales feature of Masamune Workflow.
-///
-/// セールス機能のドキュメントを生成するクラス
-///
-/// このクラスでは、Masamune Workflowのセールス機能である
-/// Google PlayとApp Storeの開発者情報収集に関する詳細なドキュメントを提供します。
-class PluginWorkflowSalesFunctionsCliAiCode extends PluginUsageCliAiCode {
-  /// Class for generating sales feature documentation
-  ///
-  /// This class provides detailed documentation on the collection of developer information from Google Play and the App Store,
-  /// which is a sales feature of Masamune Workflow.
-  ///
-  /// セールス機能のドキュメントを生成するクラス
-  ///
-  /// このクラスでは、Masamune Workflowのセールス機能である
-  /// Google PlayとApp Storeの開発者情報収集に関する詳細なドキュメントを提供します。
-  const PluginWorkflowSalesFunctionsCliAiCode();
-
-  @override
-  String get name => "セールス機能";
-
-  @override
-  String get description =>
-      "Masamune Workflowのセールス機能（Google Play/App Store開発者情報収集）に関する詳細ドキュメント";
-
-  @override
-  String get directory => "docs/plugins/workflows";
-
-  @override
-  String get excerpt =>
-      "このドキュメントでは、Masamune Workflowのセールス機能である開発者情報収集について詳しく説明します。\nGoogle PlayとApp Storeから開発者の連絡先情報を収集し、ビジネス開発やパートナーシップの機会を創出します。";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String body(String baseName, String className) {
-    return """
-$excerpt
+このドキュメントでは、Masamune Workflowのセールス機能である開発者情報収集について詳しく説明します。
+Google PlayとApp Storeから開発者の連絡先情報を収集し、ビジネス開発やパートナーシップの機会を創出します。
 
 ## 概要
 
@@ -434,7 +393,7 @@ task.watch(
         ...appStoreDevs.where((dev) => dev["email"] != null),
       ];
 
-      print("連絡可能な開発者数: \${contactableDevs.length}");
+      print("連絡可能な開発者数: ${contactableDevs.length}");
 
       // CSVエクスポートなどの処理
       await exportToCSV(contactableDevs);
@@ -471,10 +430,10 @@ final task = await runWorkflow(competitorAnalysis.uid);
 final competitors = task.response["googlePlayDevelopers"]["developers"];
 
 for (final competitor in competitors) {
-  print("開発者: \${competitor['developerName']}");
-  print("アプリ数: \${competitor['apps'].length}");
-  print("主要カテゴリ: \${_analyzeCategories(competitor['apps'])}");
-  print("平均評価: \${_calculateAverageRating(competitor['apps'])}");
+  print("開発者: ${competitor['developerName']}");
+  print("アプリ数: ${competitor['apps'].length}");
+  print("主要カテゴリ: ${_analyzeCategories(competitor['apps'])}");
+  print("平均評価: ${_calculateAverageRating(competitor['apps'])}");
 }
 ```
 
@@ -641,11 +600,11 @@ try {
         print("ネットワーク接続を確認してください");
         break;
       default:
-        print("予期しないエラー: \${action.error}");
+        print("予期しないエラー: ${action.error}");
     }
   }
 } catch (e) {
-  print("実行エラー: \$e");
+  print("実行エラー: $e");
 }
 ```
 
@@ -659,6 +618,3 @@ try {
 - [メインワークフローに戻る](../workflow.dart)
 - [マーケティング分析機能](marketing_analytics.dart) - 収集データの分析
 - [基本ワークフロー機能](basic_workflow.dart) - スケジューラーとタスク管理
-""";
-  }
-}

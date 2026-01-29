@@ -1,48 +1,6 @@
-// Project imports:
-import "package:katana_cli/ai/docs/plugin_usage.dart";
+# 基本ワークフロー機能
 
-/// A class that generates documentation for basic workflow features.
-///
-/// This class provides detailed documentation on Masamune Workflow's core functionalities:
-/// the scheduler and asset management.
-///
-/// 基本ワークフロー機能のドキュメントを生成するクラス
-///
-/// このクラスでは、Masamune Workflowの基本機能である
-/// スケジューラーとアセット管理に関する詳細なドキュメントを提供します。
-class PluginWorkflowBasicCliAiCode extends PluginUsageCliAiCode {
-  /// A class that generates documentation for basic workflow features.
-  ///
-  /// This class provides detailed documentation on Masamune Workflow's core functionalities:
-  /// the scheduler and asset management.
-  ///
-  /// 基本ワークフロー機能のドキュメントを生成するクラス
-  ///
-  /// このクラスでは、Masamune Workflowの基本機能である
-  /// スケジューラーとアセット管理に関する詳細なドキュメントを提供します。
-  const PluginWorkflowBasicCliAiCode();
-
-  @override
-  String get name => "基本ワークフロー機能";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String get description =>
-      "Masamune Workflowの基本機能（スケジューラー、アセット管理）に関する詳細ドキュメント";
-
-  @override
-  String get directory => "docs/plugins/workflows";
-
-  @override
-  String get excerpt =>
-      "このドキュメントでは、Masamune Workflowの基本機能であるスケジューラーとアセット管理について詳しく説明します。";
-
-  @override
-  String body(String baseName, String className) {
-    return """
-$excerpt
+このドキュメントでは、Masamune Workflowの基本機能であるスケジューラーとアセット管理について詳しく説明します。
 
 ## スケジューラー機能
 
@@ -129,7 +87,7 @@ ref.app.model(TaskModel.document("task_id")).watch(
         print("タスク完了");
         break;
       case TaskStatus.error:
-        print("エラー発生: \${task.value?.error}");
+        print("エラー発生: ${task.value?.error}");
         break;
     }
   },
@@ -263,7 +221,7 @@ ref.app.model(WorkflowModel.collection()).documents.watch(
       if (workflow.value?.lastError != null) {
         // エラー通知
         NotificationService.send(
-          "ワークフローエラー: \${workflow.value?.name}",
+          "ワークフローエラー: ${workflow.value?.name}",
           workflow.value?.lastError,
         );
       }
@@ -295,7 +253,7 @@ try {
   } else if (e.toString().contains("permission denied")) {
     print("アクセス権限がありません");
   } else {
-    print("予期しないエラー: \$e");
+    print("予期しないエラー: $e");
   }
 }
 ```
@@ -357,6 +315,3 @@ try {
 - [アセット生成機能](asset_generation.dart) - 画像・音声・テキストの生成
 - [マーケティング分析機能](marketing_analytics.dart) - データ分析とレポート生成
 - [メインドキュメントに戻る](../workflow.dart)
-""";
-  }
-}

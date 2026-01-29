@@ -1,50 +1,7 @@
-// Project imports:
-import "package:katana_cli/ai/docs/plugin_usage.dart";
+# マーケティング分析機能
 
-/// Class for generating marketing analytics feature documentation
-///
-/// This class provides detailed documentation on the marketing data collection and analysis features
-/// of Masamune Workflow, including app store data collection, Firebase Analytics integration,
-/// GitHub repository analysis, and market research.
-///
-/// マーケティング分析機能のドキュメントを生成するクラス
-///
-/// このクラスでは、Masamune Workflowのマーケティングデータ収集・分析機能に関する詳細なドキュメントを提供します。
-/// アプリストアデータ収集、Firebase Analytics連携、GitHub解析、市場調査などの機能を含みます。
-class PluginWorkflowMarketingAnalyticsCliAiCode extends PluginUsageCliAiCode {
-  /// Class for generating marketing analytics feature documentation
-  ///
-  /// This class provides detailed documentation on the marketing data collection and analysis features
-  /// of Masamune Workflow, including app store data collection, Firebase Analytics integration,
-  /// GitHub repository analysis, and market research.
-  ///
-  /// マーケティング分析機能のドキュメントを生成するクラス
-  ///
-  /// このクラスでは、Masamune Workflowのマーケティングデータ収集・分析機能に関する詳細なドキュメントを提供します。
-  /// アプリストアデータ収集、Firebase Analytics連携、GitHub解析、市場調査などの機能を含みます。
-  const PluginWorkflowMarketingAnalyticsCliAiCode();
-
-  @override
-  String get name => "マーケティング分析機能";
-
-  @override
-  String get description =>
-      "Masamune Workflowのマーケティング分析機能（データ収集、AI分析、GitHub解析、市場調査）に関する詳細ドキュメント";
-
-  @override
-  String get directory => "docs/plugins/workflows";
-
-  @override
-  String get excerpt =>
-      "このドキュメントでは、Masamune Workflowのマーケティング分析機能について詳しく説明します。\nアプリストアやFirebase Analyticsからのデータ収集、AIによる分析、GitHub活動の解析、市場調査などの機能を提供します。";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String body(String baseName, String className) {
-    return """
-$excerpt
+このドキュメントでは、Masamune Workflowのマーケティング分析機能について詳しく説明します。
+アプリストアやFirebase Analyticsからのデータ収集、AIによる分析、GitHub活動の解析、市場調査などの機能を提供します。
 
 ## 概要
 
@@ -180,9 +137,9 @@ final action = await ref.app.model(
 
 // 収集データの処理
 final data = action.response["data"];
-print("総インストール数: \${data['installs']['total']}");
-print("平均評価: \${data['ratings']['average']}");
-print("総収益: \${data['revenue']['total']} \${data['revenue']['currency']}");
+print("総インストール数: ${data['installs']['total']}");
+print("平均評価: ${data['ratings']['average']}");
+print("総収益: ${data['revenue']['total']} ${data['revenue']['currency']}");
 ```
 
 ### collect_from_app_store
@@ -435,7 +392,7 @@ final reportAction = await ref.app.model(
 
 // 生成されたレポートのURL取得
 final reportUrl = reportAction.response["report"]["url"];
-print("レポートURL: \$reportUrl");
+print("レポートURL: $reportUrl");
 ```
 
 ## GitHub解析機能
@@ -575,7 +532,7 @@ task.watch(
 
       // 活発な開発者の特定
       final topContributors = analysis["activity"]["most_active_contributors"];
-      print("トップコントリビューター: \${topContributors[0]['username']}");
+      print("トップコントリビューター: ${topContributors[0]['username']}");
     }
   },
 );
@@ -792,11 +749,11 @@ try {
         print("指定期間のデータは利用できません");
         break;
       default:
-        print("予期しないエラー: \${action.error}");
+        print("予期しないエラー: ${action.error}");
     }
   }
 } catch (e) {
-  print("実行エラー: \$e");
+  print("実行エラー: $e");
   // エラーログの記録
   await logError(e);
 }
@@ -930,14 +887,14 @@ class CompetitorMonitor {
       // 重要な変更を検出
       if (data["major_update"]) {
         await notifyProductTeam(
-          "競合アプリ \${package} が大型アップデートをリリース",
+          "競合アプリ ${package} が大型アップデートをリリース",
           data["update_details"]
         );
       }
 
       if (data["rating_change"] > 0.3) {
         await notifyMarketingTeam(
-          "競合アプリ \${package} の評価が大幅に変動",
+          "競合アプリ ${package} の評価が大幅に変動",
           data["rating_analysis"]
         );
       }
@@ -958,7 +915,7 @@ class ABTestAnalyzer {
   ) async {
     // Firebase Analyticsからテストデータ取得
     final testData = await collectFirebaseData(
-      events: ["ab_test_\${testId}"],
+      events: ["ab_test_${testId}"],
       startDate: startDate,
       endDate: endDate,
     );
@@ -988,6 +945,3 @@ class ABTestAnalyzer {
 - [アセット生成機能](asset_generation.dart) - マーケティング素材の自動生成
 - [基本ワークフロー機能](basic_workflow.dart) - スケジューラーとタスク管理
 - [セールス機能](sales_functions.dart) - リード獲得と営業支援
-""";
-  }
-}

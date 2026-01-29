@@ -35,3 +35,10 @@
 | `delete_user | ユーザー削除機能 | `ユーザー削除機能`はFirebase Authenticationのユーザーアカウントをバックエンドから安全に削除する機能。 | Usage(`documents/rules/plugins/delete_user.md`) |
 | `sns_auth | SNSログイン機能 | `SNSログイン機能`はApple、Google、GitHub、FacebookなどのSNSアカウントを使ってFirebase Authenticationにサインインする機能。 | Usage(`documents/rules/plugins/sns_auth.md`) |
 | `workflow | Workflow | `Workflow`はワークフローを管理する機能を提供するプラグイン。 | Usage(`documents/rules/plugins/workflow.md`) |
+| `workflows/basic_workflow | 基本ワークフロー機能 | このドキュメントでは、Masamune Workflowの基本機能であるスケジューラーとアセット管理について詳しく説明します。 | Usage(`documents/rules/plugins/workflows_basic_workflow.md`) |
+| `workflows/sales_functions | セールス機能 | このドキュメントでは、Masamune Workflowのセールス機能である開発者情報収集について詳しく説明します。
+Google PlayとApp Storeから開発者の連絡先情報を収集し、ビジネス開発やパートナーシップの機会を創出します。 | Usage(`documents/rules/plugins/workflows_sales_functions.md`) |
+| `workflows/asset_generation | アセット生成機能 | このドキュメントでは、Masamune Workflowのアセット生成機能について詳しく説明します。
+Gemini APIを使用した画像生成、Google Text-to-Speechによる音声生成、マルチモーダル入力からのテキスト生成などの機能を提供します。 | Usage(`documents/rules/plugins/workflows_asset_generation.md`) |
+| `workflows/marketing_analytics | マーケティング分析機能 | このドキュメントでは、Masamune Workflowのマーケティング分析機能について詳しく説明します。
+アプリストアやFirebase Analyticsからのデータ収集、AIによる分析、GitHub活動の解析、市場調査などの機能を提供します。 | Usage(`documents/rules/plugins/workflows_marketing_analytics.md`) |

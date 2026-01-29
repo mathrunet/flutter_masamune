@@ -1,48 +1,7 @@
-// Project imports:
-import "package:katana_cli/ai/docs/plugin_usage.dart";
+# アセット生成機能
 
-/// Class for generating asset generation feature documentation
-///
-/// This class provides detailed documentation on the asset generation features of Masamune Workflow,
-/// including image generation, audio generation, and multimodal text generation.
-///
-/// アセット生成機能のドキュメントを生成するクラス
-///
-/// このクラスでは、Masamune Workflowのアセット生成機能（画像、音声、マルチモーダルテキスト生成）に関する
-/// 詳細なドキュメントを提供します。
-class PluginWorkflowAssetGenerationCliAiCode extends PluginUsageCliAiCode {
-  /// Class for generating asset generation feature documentation
-  ///
-  /// This class provides detailed documentation on the asset generation features of Masamune Workflow,
-  /// including image generation, audio generation, and multimodal text generation.
-  ///
-  /// アセット生成機能のドキュメントを生成するクラス
-  ///
-  /// このクラスでは、Masamune Workflowのアセット生成機能（画像、音声、マルチモーダルテキスト生成）に関する
-  /// 詳細なドキュメントを提供します。
-  const PluginWorkflowAssetGenerationCliAiCode();
-
-  @override
-  String get name => "アセット生成機能";
-
-  @override
-  String get description =>
-      "Masamune Workflowのアセット生成機能（画像生成、音声生成、マルチモーダルテキスト生成）に関する詳細ドキュメント";
-
-  @override
-  String get directory => "docs/plugins/workflows";
-
-  @override
-  String get excerpt =>
-      "このドキュメントでは、Masamune Workflowのアセット生成機能について詳しく説明します。\nGemini APIを使用した画像生成、Google Text-to-Speechによる音声生成、マルチモーダル入力からのテキスト生成などの機能を提供します。";
-
-  @override
-  String get globs => "*";
-
-  @override
-  String body(String baseName, String className) {
-    return """
-$excerpt
+このドキュメントでは、Masamune Workflowのアセット生成機能について詳しく説明します。
+Gemini APIを使用した画像生成、Google Text-to-Speechによる音声生成、マルチモーダル入力からのテキスト生成などの機能を提供します。
 
 ## 概要
 
@@ -358,7 +317,7 @@ final workflow = WorkflowWorkflowModel(
       command: "generate_text_from_multimodal",
       index: 0,
       data: {
-        "prompt": \"\"\"
+        "prompt": """
 提供された画像、動画、音声レビューを基に、以下の要素を含む商品説明文を作成してください：
 
 1. 商品の主要な特徴（画像から読み取れる内容）
@@ -367,7 +326,7 @@ final workflow = WorkflowWorkflowModel(
 4. 商品のメリットとユニークセリングポイント
 
 文体：親しみやすく、購買意欲を高める内容
-文字数：800-1200文字程度\"\"\",
+文字数：800-1200文字程度""",
         "system_prompt": "あなたはECサイトの商品説明文を作成する専門のコピーライターです。",
         "output_format": "markdown",
         "max_tokens": 2000,
@@ -402,7 +361,7 @@ final workflow = WorkflowWorkflowModel(
       command: "generate_text_from_multimodal",
       index: 0,
       data: {
-        "prompt": \"\"\"
+        "prompt": """
 プレゼンテーション資料を分析し、以下の形式でレポートを作成してください：
 
 # プレゼンテーション分析レポート
@@ -422,7 +381,7 @@ final workflow = WorkflowWorkflowModel(
 ## 4. 改善提案
 - プレゼンテーションの強化ポイント
 - 追加すべき要素
-\"\"\",
+""",
         "output_format": "markdown",
         "max_tokens": 4096,
         "temperature": 0.5
@@ -454,7 +413,7 @@ final workflow = WorkflowWorkflowModel(
       command: "generate_text_from_multimodal",
       index: 0,
       data: {
-        "prompt": \"\"\"
+        "prompt": """
 提供された画像を順番に見て、BGMの雰囲気も考慮しながら、
 これらを繋げた物語を創作してください。
 
@@ -463,7 +422,7 @@ final workflow = WorkflowWorkflowModel(
 - 長さ：2000文字程度
 - 各画像をシーンとして必ず含める
 - BGMの雰囲気を文章に反映させる
-\"\"\",
+""",
         "system_prompt": "あなたは創造的な物語作家です。",
         "output_format": "text",
         "max_tokens": 3000,
@@ -479,8 +438,8 @@ final workflow = WorkflowWorkflowModel(
 ### Gemini API料金体系
 
 **Gemini 2.0 Flash Experimental**（推奨）
-- 入力トークン: \$0.075 / 1M トークン
-- 出力トークン: \$0.30 / 1M トークン
+- 入力トークン: $0.075 / 1M トークン
+- 出力トークン: $0.30 / 1M トークン
 - 無料枠: 月間150万トークン
 
 **マルチモーダル入力のトークン換算**
@@ -492,10 +451,10 @@ final workflow = WorkflowWorkflowModel(
 
 | 音声タイプ | 料金（100万文字） |
 |-----------|------------------|
-| Standard | \$4.00 |
-| WaveNet | \$16.00 |
-| Neural2 | \$16.00 |
-| Studio | \$160.00 |
+| Standard | $4.00 |
+| WaveNet | $16.00 |
+| Neural2 | $16.00 |
+| Studio | $160.00 |
 
 ### コスト最適化のヒント
 
@@ -548,11 +507,11 @@ try {
         print("コンテンツが安全性フィルタによりブロックされました。");
         break;
       default:
-        print("予期しないエラー: \${action.error}");
+        print("予期しないエラー: ${action.error}");
     }
   }
 } catch (e) {
-  print("実行エラー: \$e");
+  print("実行エラー: $e");
 }
 ```
 
@@ -640,6 +599,3 @@ class AssetValidator {
 - [マーケティング分析機能](marketing_analytics.dart) - 生成アセットの効果測定
 - [基本ワークフロー機能](basic_workflow.dart) - スケジューラーとタスク管理
 - [セールス機能](sales_functions.dart) - ビジネス開発支援
-""";
-  }
-}
