@@ -68,6 +68,8 @@ $excerpt
           enable: false
         generate_image_with_gemini:
           enable: false
+        generate_text_from_multimodal:
+          enable: false
 
         # マーケティング分析機能
         research_market:
@@ -1042,6 +1044,231 @@ m.deploy(
   }
 }
 ```
+
+#### マルチモーダル入力からテキスト生成 - generate_text_from_multimodal
+
+画像、動画、音声、ドキュメントなど複数のメディアファイルを総合的に分析し、Gemini APIを使用してテキストを生成します。`action.materials`フィールドにメディア素材を配置し、プロンプトと組み合わせて高度なテキスト生成が可能です。
+
+**アクションID**: `generate_text_from_multimodal`
+
+##### action.materialsフィールド
+
+メディア素材は`action.materials`フィールドに配置します：
+
+| フィールド | 型 | 説明 |
+|----------|-----|------|
+| images | string[] | 画像ファイルのgs:// URLリスト |
+| videos | string[] | 動画ファイルのgs:// URLリスト |
+| audio | string[] | 音声ファイルのgs:// URLリスト |
+| documents | string[] | ドキュメントファイルのgs:// URLリスト |
+
+##### パラメータ (ActionCommand.data)
+
+| パラメータ | 型 | 必須 | 説明 |
+|-----------|-----|------|------|
+| prompt | string | ✓ | メイン生成プロンプト |
+| system_prompt | string | | システムインストラクション |
+| output_format | string | | 出力形式 ("text" または "markdown"、デフォルト: "text") |
+| max_tokens | number | | 最大トークン数（デフォルト: 8192） |
+| temperature | number | | 生成温度（0.0-2.0、デフォルト: 0.7） |
+| model | string | | Geminiモデル（デフォルト: gemini-2.0-flash-exp） |
+| region | string | | GCPリージョン（デフォルト: us-central1） |
+
+##### サポートされているメディア形式
+
+| カテゴリ | サポート形式 |
+|---------|------------|
+| 画像 | JPEG, PNG, GIF, WebP, BMP |
+| 動画 | MP4, MPEG, MOV, AVI, FLV, MPG, WebM, WMV, 3GPP |
+| 音声 | WAV, MP3, MPEG, AIFF, AAC, OGG, FLAC |
+| ドキュメント | PDF, TXT, Markdown |
+
+##### レスポンス
+
+```typescript
+{
+  "results": {
+    "textGeneration": {
+      "files": [{
+        "path": "generated-texts/xxx.txt",
+        "content_type": "text/plain",
+        "size": 1024
+      }],
+      "generatedText": "生成されたテキスト内容...",
+      "inputTokens": 500,
+      "outputTokens": 300,
+      "cost": 0.0225,
+      "processedMaterials": {
+        "images": 2,
+        "videos": 1,
+        "audio": 1,
+        "documents": 1
+      }
+    }
+  },
+  "assets": {
+    "generatedText": {
+      "url": "gs://bucket/generated-texts/xxx.txt",
+      "public_url": "https://storage.googleapis.com/...",
+      "content_type": "text/plain"
+    }
+  }
+}
+```
+
+##### 実装例
+
+**商品説明文生成ワークフロー**：
+
+```dart
+final workflow = WorkflowWorkflowModel(
+  name: "商品説明文生成",
+  prompt: "商品画像と動画から魅力的な説明文を作成",
+  materials: {
+    "images": [
+      "gs://bucket/products/product-photo1.jpg",
+      "gs://bucket/products/product-photo2.jpg",
+      "gs://bucket/products/product-photo3.jpg"
+    ],
+    "videos": [
+      "gs://bucket/products/demo-video.mp4"
+    ],
+    "audio": [
+      "gs://bucket/products/customer-review.mp3"
+    ]
+  },
+  actions: [
+    WorkflowActionCommandValue(
+      command: "generate_text_from_multimodal",
+      index: 0,
+      data: {
+        "prompt": \"\"\"
+提供された画像、動画、音声レビューを基に、以下の要素を含む商品説明文を作成してください：
+
+1. 商品の主要な特徴（画像から読み取れる内容）
+2. 使用方法とデモンストレーション（動画の内容）
+3. 実際のユーザーの声（音声レビューの要約）
+4. 商品のメリットとユニークセリングポイント
+
+文体：親しみやすく、購買意欲を高める内容
+文字数：800-1200文字程度
+\"\"\",
+        "system_prompt": "あなたはECサイトの商品説明文を作成する専門のコピーライターです。視覚的要素と音声情報を総合的に分析し、魅力的な商品説明を作成してください。",
+        "output_format": "markdown",
+        "max_tokens": 2000,
+        "temperature": 0.8
+      }
+    )
+  ]
+);
+```
+
+**マルチメディアコンテンツ分析ワークフロー**：
+
+```dart
+final workflow = WorkflowWorkflowModel(
+  name: "プレゼンテーション資料分析",
+  prompt: "プレゼン資料の総合分析レポート作成",
+  materials: {
+    "images": [
+      "gs://bucket/presentation/slide1.png",
+      "gs://bucket/presentation/slide2.png",
+      "gs://bucket/presentation/slide3.png"
+    ],
+    "videos": [
+      "gs://bucket/presentation/demo.mp4"
+    ],
+    "documents": [
+      "gs://bucket/presentation/notes.pdf"
+    ]
+  },
+  actions: [
+    WorkflowActionCommandValue(
+      command: "generate_text_from_multimodal",
+      index: 0,
+      data: {
+        "prompt": \"\"\"
+プレゼンテーション資料を分析し、以下の形式でレポートを作成してください：
+
+# プレゼンテーション分析レポート
+
+## 1. 概要
+- プレゼンの主題とメッセージ
+- ターゲット・オーディエンス
+
+## 2. スライド内容の要約
+- 各スライドの主要ポイント
+- 視覚的要素の効果
+
+## 3. デモンストレーション内容
+- 動画で示された機能や特徴
+- デモの有効性評価
+
+## 4. 改善提案
+- プレゼンテーションの強化ポイント
+- 追加すべき要素
+\"\"\",
+        "output_format": "markdown",
+        "max_tokens": 4096,
+        "temperature": 0.5
+      }
+    )
+  ]
+);
+```
+
+**ストーリー生成ワークフロー**：
+
+```dart
+final workflow = WorkflowWorkflowModel(
+  name: "ビジュアルストーリー作成",
+  prompt: "画像と音楽からストーリーを生成",
+  materials: {
+    "images": [
+      "gs://bucket/story/scene1.jpg",
+      "gs://bucket/story/scene2.jpg",
+      "gs://bucket/story/scene3.jpg",
+      "gs://bucket/story/scene4.jpg"
+    ],
+    "audio": [
+      "gs://bucket/story/bgm.mp3"
+    ]
+  },
+  actions: [
+    WorkflowActionCommandValue(
+      command: "generate_text_from_multimodal",
+      index: 0,
+      data: {
+        "prompt": \"\"\"
+提供された画像を順番に見て、BGMの雰囲気も考慮しながら、
+これらを繋げた物語を創作してください。
+
+- ジャンル：ファンタジー
+- 文体：小説風
+- 長さ：2000文字程度
+- 各画像をシーンとして必ず含める
+- BGMの雰囲気を文章に反映させる
+\"\"\",
+        "system_prompt": "あなたは創造的な物語作家です。視覚的要素と音楽から感じる雰囲気を統合し、読者を引き込む物語を創作してください。",
+        "output_format": "text",
+        "max_tokens": 3000,
+        "temperature": 0.9
+      }
+    )
+  ]
+);
+```
+
+##### コスト計算
+
+Gemini 2.0 Flash Experimentalの料金体系：
+- 入力トークン: \$0.075 / 1M トークン
+- 出力トークン: \$0.30 / 1M トークン
+
+マルチモーダル入力の場合、メディアファイルはトークンに変換されます：
+- 画像: 約258トークン/画像（1024x1024の場合）
+- 動画: フレーム数×258トークン（サンプリングレートによる）
+- 音声: 約25トークン/秒
 
 ### マーケティング分析機能 (masamune_workflow_marketing)
 

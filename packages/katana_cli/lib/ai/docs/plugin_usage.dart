@@ -28,6 +28,8 @@ import "package:katana_cli/ai/docs/plugins/speech_to_text.dart";
 import "package:katana_cli/ai/docs/plugins/stripe.dart";
 import "package:katana_cli/ai/docs/plugins/text_to_speech.dart";
 import "package:katana_cli/ai/docs/plugins/workflow.dart";
+import "package:katana_cli/ai/docs/plugins/workflows/basic_workflow.dart";
+import "package:katana_cli/ai/docs/plugins/workflows/sales_functions.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// List of Plugin types.
@@ -64,6 +66,8 @@ const kPluginList = {
   "delete_user": PluginDeleteUserMdCliAiCode(),
   "sns_auth": PluginSnsAuthMdCliAiCode(),
   "workflow": PluginWorkflowMdCliAiCode(),
+  "workflows/basic_workflow": PluginWorkflowBasicCliAiCode(),
+  "workflows/sales_functions": PluginWorkflowSalesFunctionsCliAiCode(),
 };
 
 /// Contents of plugin_usage.md.
