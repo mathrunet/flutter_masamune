@@ -239,7 +239,7 @@ ModelTimestamp(DateTime.now())                          // タイムスタンプ
 - **test_runner**: ゴールデンテスト更新、テスト実行、エラー解析
 - **firebase_flutter_debugger**: Auth/Firestore/Functions連携デバッグ、ログ確認
 
-※詳細は`.claude/agents/*.md`を参照
+※詳細は`~/.claude/agents/*.md`を参照
 
 ## 🔌 MCPサーバー活用ガイド（P1）
 
@@ -850,6 +850,37 @@ FormButton(
       email: form.value.email,
       password: form.value.password,
     ));
+  },
+);
+```
+
+## 非同期処理の待機
+```dart
+// ローディングインジケータを表示しながら非同期処理を実行
+executeGuarded(
+  context,
+  () async {
+    // 長時間の非同期処理
+
+    // 途中や完了時にモーダルを表示可能
+    Modal.alert(
+      context,
+      submitText: l().close,
+      title: l().complete,
+      text: l().$(l().$(l().edit).of.$(l().post)).hasBeenCompleted,
+      onSubmit: () {
+        context.router.pop();
+      },
+    );
+  },
+  // エラーがあったときは処理が中断されこちらが実行される
+  onError: (error, stacktrace) {
+    Modal.alert(
+      context,
+      submitText: l().close,
+      title: l().error,
+      text: l().$(l().$(l().edit).of.$(l().post)).hasFailed,
+    );
   },
 );
 ```
