@@ -2696,6 +2696,17 @@ localize:
     pt_PT: "Site oficial"
     ru_RU: "Официальный сайт"
     id_ID: "Situs web resmi"
+  - key: "Subscription registration is not available with guest login. Please log out, log in again with a method other than guest login, and try again."
+    ja_JP: "ゲストログインでのサブスクリプション登録はできません。\n\n一旦ログアウトし、ゲストログイン以外の方法で再度ログインした後お試しください。"
+    en_US: "Subscription registration is not available with guest login.\n\nPlease log out, log in again with a method other than guest login, and try again."
+    zh_CN: "无法使用访客登录进行订阅注册。\n\n请先注销，然后使用除访客登录以外的其他方法重新登录，然后再试一次。"
+    ko_KR: "게스트 로그인으로는 구독 등록할 수 없습니다.\n\n로그아웃 후 게스트 로그인 이외의 방법으로 다시 로그인한 후 다시 시도해 주세요."
+    es_ES: "El registro de suscripción no está disponible con inicio de sesión de invitado.\n\nCierre sesión, vuelva a iniciar sesión con un método diferente a inicio de sesión de invitado e intente nuevamente."
+    fr_FR: "L'inscription à la souscription n'est pas disponible avec la connexion invitée.\n\nVeuillez vous déconnecter, vous reconnecter avec un método autre que la connexion invitée, puis réessayer."
+    de_DE: "Die Abonierung registrierung ist mit Gastanmeldung nicht möglich.\n\nBitte melden Sie sich ab, melden Sie sich erneut mit einem anderen Verfahren als Gastanmeldung an und versuchen Sie es erneut."
+    pt_PT: "O registro de subscrição não está disponível com login de convidado.\n\nSaia, faça login novamente com um método diferente de login de convidado e tente novamente."
+    ru_RU: "Регистрация подписки недоступна при гостевом входе.\n\nПожалуйста, выйдите из системы, войдите снова с помощью метода, отличного от гостевого входа, и попробуйте снова."
+    id_ID: "Pendaftaran langganan tidak tersedia dengan login tamu.\n\nSilakan keluar, masuk lagi dengan metode yang berbeda dari login tamu, dan coba lagi."
 """;
 
 /// Contents of localize.app.yaml.
