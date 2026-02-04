@@ -24,6 +24,10 @@ class CodeZipCliCommand extends CliCommand {
     await encoder.checkAndAddDirectory(
       "./",
       [
+        r"\windows/",
+        r"\macos/",
+        r"\linux/",
+        r"\android/build/",
         r"\.fvm/",
         r"\.class$",
         r"\.log$",
