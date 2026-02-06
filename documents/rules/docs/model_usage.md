@@ -411,6 +411,7 @@ final value = appRef.model(AnyModel.value())..load();
   if(countAggregation.loading != null) {
     await countAggregation.loading;
   }
+  // 読み込み後、CollectionModel自体が更新されるため`ref.app.model`などで更新通知をListenしていると自動で画面更新される仕組み。
   final count = countAggregation.value; // int?型
   ```
 
@@ -426,6 +427,7 @@ final value = appRef.model(AnyModel.value())..load();
   if(sumAggregation.loading != null) {
     await sumAggregation.loading;
   }
+  // 読み込み後、CollectionModel自体が更新されるため`ref.app.model`などで更新通知をListenしていると自動で画面更新される仕組み。
   final sum = sumAggregation.value; // double?型
   ```
 
@@ -441,5 +443,6 @@ final value = appRef.model(AnyModel.value())..load();
   if(averageAggregation.loading != null) {
     await averageAggregation.loading;
   }
+  // 読み込み後、CollectionModel自体が更新されるため`ref.app.model`などで更新通知をListenしていると自動で画面更新される仕組み。
   final average = averageAggregation.value; // double?型
   ```
