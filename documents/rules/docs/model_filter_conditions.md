@@ -34,3 +34,11 @@ final filteredCollection = ref.app.model(
 | `.[DataFieldName].orderByAsc()` | `Collection`を[DataFieldName]をキーとして昇順でソート |
 | `.[DataFieldName].orderByDesc()` | `Collection`を[DataFieldName]をキーとして降順でソート |
 | `.[DataFieldName].limitTo(value)` | `Collection`を[value]件に制限 |
+
+## 特殊なフィルター条件
+
+| Conditions | Summary |
+| --- | --- |
+| `.collectionGroup()` | 該当コレクションをコレクショングループとして取得。`CollectionModelPath`の最後の階層をコレクショングループのグループ名として扱う。※[DataFieldName]を指定せずそのまま利用可能 |
+| `.notifyDocumentChanges()` | 通常はコレクションのを更新通知はコレクションへのデータの追加・削除時のみとなっているが、これを利用することでドキュメントの内容が変更されたときにも通知を受け取ることができる。※[DataFieldName]を指定せずそのまま利用可能 |
+| `.reset()` | それまでメソッドチェインされたフィルター条件をリセット。さらにその後のメソッドチェインで追加されたものは条件として有効。※[DataFieldName]を指定せずそのまま利用可能 |

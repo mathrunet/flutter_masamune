@@ -421,6 +421,54 @@ final value = appRef.model(AnyModel.value())..load();
   final deleteDocument = collection.firstWhereOrNull((document) => document.value?.title.contains("test") ?? false);
   await deleteDocument?.delete();
   ```
+
+### 集計（Aggregate）
+
+- `Collection`のデータを集計する場合は`aggregate`メソッドを実行する。
+- 集計にはいくつか種類があり`ModelAggregateQuery`を利用して集計方法を指定する。
+
+#### カウント（Count）
+
+- コレクションで取得できるすべてのドキュメント数を取得する。
+
+  ```dart
+  final countAggregation = appRef.model(AnyModel.collection()).aggregate(ModelAggregateQuery.count())..load();
+  // 読み込み中は`countAggregation.loading`が非nullとなるのでそれを待つ。
+  if(countAggregation.loading != null) {
+    await countAggregation.loading;
+  }
+  final count = countAggregation.value; // int?型
+  ```
+
+#### 合計（Sum）
+
+- コレクションで取得できるすべてのドキュメントの指定したフィールドの合計値を取得する。
+- `sum`メソッドの引数には集計を行う対象のフィールド名を指定する。
+  - `AnyModelKeys`に定義されたモデルのフィールド名がEnumで定義されているのでそれを利用してフィールド名をタイプセーフに取得可能。
+
+  ```dart
+  final sumAggregation = appRef.model(AnyModel.collection()).aggregate(ModelAggregateQuery.sum(AnyModelKeys.content.name))..load();
+  // 読み込み中は`sumAggregation.loading`が非nullとなるのでそれを待つ。
+  if(sumAggregation.loading != null) {
+    await sumAggregation.loading;
+  }
+  final sum = sumAggregation.value; // double?型
+  ```
+
+#### 平均（Average）
+
+- コレクションで取得できるすべてのドキュメントの指定したフィールドの平均値を取得する。
+- `average`メソッドの引数には集計を行う対象のフィールド名を指定する。
+  - `AnyModelKeys`に定義されたモデルのフィールド名がEnumで定義されているのでそれを利用してフィールド名をタイプセーフに取得可能。
+
+  ```dart
+  final averageAggregation = appRef.model(AnyModel.collection()).aggregate(ModelAggregateQuery.average(AnyModelKeys.content.name))..load();
+  // 読み込み中は`averageAggregation.loading`が非nullとなるのでそれを待つ。
+  if(averageAggregation.loading != null) {
+    await averageAggregation.loading;
+  }
+  final average = averageAggregation.value; // double?型
+  ```
 """;
   }
 }
