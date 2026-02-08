@@ -114,6 +114,94 @@ class ThemeUsageMdCliAiCode extends CliAiCode {
     ```
 
 - 取得可能なフォントは`fonts/`フォルダー以下に配置されたフォントファイルが対象。自動生成時にフォルダ構成に応じてコードが生成される。
+
+# テーマモードの固定設定
+
+- ダークモード/ライトモードを固定、またはシステム設定に従うかを指定できます。
+
+## ダークモード固定
+
+- アプリを常にダークモードで表示する場合は以下のように設定します。
+
+    ```dart
+    @appTheme
+    final theme = AppThemeData(
+      // ダークモード固定
+      themeMode: ThemeMode.dark,
+      brightness: Brightness.dark,
+      statusBarBrightnessOnAndroid: Brightness.dark,
+      statusBarBrightnessOnIOS: Brightness.dark,
+
+      // ダークモード用のカラー設定
+      background: Color(0xFF212121),
+      onBackground: Color(0xFFF7F7F7),
+      surface: Color(0xFF474747),
+      onSurface: Color(0xFFF7F7F7),
+      primary: Color(0xFF2196F3),
+      onPrimary: Color(0xFFF7F7F7),
+      // ... その他のカラー設定
+    );
+    ```
+
+## ライトモード固定
+
+- アプリを常にライトモードで表示する場合は以下のように設定します。
+
+    ```dart
+    @appTheme
+    final theme = AppThemeData(
+      // ライトモード固定
+      themeMode: ThemeMode.light,
+      brightness: Brightness.light,
+      statusBarBrightnessOnAndroid: Brightness.light,
+      statusBarBrightnessOnIOS: Brightness.light,
+
+      // ライトモード用のカラー設定
+      background: Color(0xFFF7F7F7),
+      onBackground: Color(0xFF212121),
+      surface: Color(0xFFE7E7E7),
+      onSurface: Color(0xFF212121),
+      primary: Color(0xFF2196F3),
+      onPrimary: Color(0xFFF7F7F7),
+      // ... その他のカラー設定
+    );
+    ```
+
+## システム設定に従う（デフォルト）
+
+- システムの設定（ダークモード/ライトモード）に従う場合は、`themeMode`、`brightness`、`statusBarBrightnessOnAndroid`、`statusBarBrightnessOnIOS`を設定しません。
+
+    ```dart
+    @appTheme
+    final theme = AppThemeData(
+      // themeMode、brightness、statusBarBrightnessは設定しない
+      // システムの設定に応じて自動的に切り替わる
+
+      primary: Color(0xFF2196F3),
+      onPrimary: Color(0xFFF7F7F7),
+      // ... その他のカラー設定
+    );
+    ```
+
+## ステータスバーの設定について
+
+- **statusBarBrightnessOnAndroid**: Androidのステータスバーアイコンの明度
+  - `Brightness.dark`: 暗いアイコン（明るい背景用）
+  - `Brightness.light`: 明るいアイコン（暗い背景用）
+
+- **statusBarBrightnessOnIOS**: iOSのステータスバーの明度
+  - `Brightness.dark`: 暗いステータスバー（白いアイコン）
+  - `Brightness.light`: 明るいステータスバー（黒いアイコン）
+  - **注意**: iOSでは内部で逆のbrightnessに変換されるため、期待する表示と同じ値を指定してください。
+
+## テーマ設定パラメータ
+
+| パラメータ | 説明 | 値 |
+| --- | --- | --- |
+| `themeMode` | テーマモードを指定 | `ThemeMode.dark`, `ThemeMode.light`, `ThemeMode.system` |
+| `brightness` | アプリ全体の明度 | `Brightness.dark`, `Brightness.light` |
+| `statusBarBrightnessOnAndroid` | Androidステータスバーの明度 | `Brightness.dark`, `Brightness.light` |
+| `statusBarBrightnessOnIOS` | iOSステータスバーの明度（逆変換される） | `Brightness.dark`, `Brightness.light` |
 """;
   }
 }
