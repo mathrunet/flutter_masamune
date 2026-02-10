@@ -42,3 +42,186 @@ Google PlayとApp Storeから開発者の連絡先情報を収集し、ビジネ
 Gemini APIを使用した画像生成、Google Text-to-Speechによる音声生成、マルチモーダル入力からのテキスト生成などの機能を提供します。 | Usage(`documents/rules/plugins/workflows_asset_generation.md`) |
 | `workflows/marketing_analytics | マーケティング分析機能 | このドキュメントでは、Masamune Workflowのマーケティング分析機能について詳しく説明します。
 アプリストアやFirebase Analyticsからのデータ収集、AIによる分析、GitHub活動の解析、市場調査などの機能を提供します。 | Usage(`documents/rules/plugins/workflows_marketing_analytics.md`) |
+
+## プラグインコントローラーの共通利用方法
+
+多くのプラグインには専用のコントローラーが用意されており、これらは全て共通のパターンで利用できます。
+
+### 基本的な取得方法
+
+プラグインのコントローラーは、一般的なコントローラーと同様に`query`メソッドを使用して取得します。詳細な状態管理については[状態管理の利用方法](state_management_usage.md)を参照してください。
+
+#### Model、Controller、RedirectQuery内での利用
+
+```dart
+// プラグインコントローラーの取得
+final purchaseController = appRef.controller(Purchase.query());
+final locationController = appRef.controller(Location.query());
+```
+
+#### Page・Widget内での利用
+
+```dart
+// アプリケーション全体で状態を保持
+final purchaseController = ref.app.controller(Purchase.query());
+final locationController = ref.app.controller(Location.query());
+
+// ページ内でのみ状態を保持
+final speechController = ref.page.controller(SpeechToText.query());
+```
+
+### プラグインコントローラーのライフサイクル
+
+ほとんどのプラグインコントローラーは以下のライフサイクルメソッドを提供しています：
+
+#### 1. 初期化（Initialize）
+
+```dart
+// 初期化（権限チェックを含む場合あり）
+await locationController.initialize();
+await purchaseController.initialize();
+```
+
+#### 2. データ読み込み（Load/Reload）
+
+```dart
+// 初回読み込み
+await locationController.load();
+
+// データの再読み込み
+await locationController.reload();
+```
+
+#### 3. リスニング（Listen/Unlisten）
+
+```dart
+// 位置情報の継続的な監視開始
+await locationController.listen(
+  updateInterval: Duration(seconds: 5),
+);
+
+// 監視の停止
+await locationController.unlisten();
+```
+
+#### 4. リスナー登録による変更通知
+
+```dart
+// コントローラーの状態変更を監視
+locationController.addListener(() {
+  // 位置情報が更新された時の処理
+  final currentLocation = locationController.value;
+});
+```
+
+### 代表的なプラグインコントローラーの使用例
+
+#### 位置情報（Location）
+
+```dart
+// 取得と初期化
+final location = ref.app.controller(Location.query());
+await location.initialize();
+
+// 現在位置を1回取得
+await location.load();
+final currentLocation = location.value;
+
+// 継続的な位置情報監視
+await location.listen(
+  updateInterval: Duration(seconds: 10),
+);
+```
+
+#### アプリ内課金（Purchase）
+
+```dart
+// 取得と初期化
+final purchase = ref.app.controller(Purchase.query());
+await purchase.initialize();
+await purchase.load();
+
+// 商品の購入
+final product = purchase.products.firstWhere(
+  (p) => p.productId == "premium_upgrade",
+);
+await product.purchase();
+```
+
+#### インタースティシャル広告（GoogleAdInterstitial）
+
+```dart
+// コントローラーの取得
+final interstitial = ref.page.controller(
+  GoogleAdInterstitial.query(adUnitId: "ca-app-pub-xxxx/yyyy"),
+);
+
+// 広告の事前ロード
+await interstitial.load();
+
+// 広告の表示
+try {
+  await interstitial.show(
+    onAdClicked: () {
+      print("Interstitial clicked.");
+    },
+  );
+} on GoogleAdsNoFillError catch (e) {
+  // 広告が利用できない場合の処理
+  print("No ad available");
+}
+```
+
+#### リワード広告（GoogleAdRewarded）
+
+```dart
+// コントローラーの取得
+final rewarded = ref.page.controller(GoogleAdRewarded.query());
+
+// 広告のロードと表示
+await rewarded.load();
+await rewarded.show(
+  onEarnedReward: (amount, type) async {
+    // ユーザーに報酬を付与
+    await grantReward(amount, type);
+  },
+);
+```
+
+### ウィジェットベースのプラグイン
+
+一部のプラグインはコントローラーではなく、ウィジェットとして直接使用します：
+
+#### バナー広告（GoogleBannerAd）
+
+```dart
+// ウィジェットツリーに直接配置
+GoogleBannerAd(
+  size: GoogleBannerAdSize.banner,
+  adUnitId: "ca-app-pub-xxxx/yyyy", // 省略時はdefaultAdUnitIdを使用
+  onAdClicked: () {
+    print("Banner clicked.");
+  },
+);
+```
+
+#### ネイティブ広告（GoogleNativeAd）
+
+```dart
+// ウィジェットツリーに直接配置
+GoogleNativeAd(
+  templateType: GoogleNativeAdTemplateType.medium,
+  backgroundColor: Colors.white,
+  cornerRadius: 8.0,
+);
+```
+
+### 利用時の注意事項
+
+1. **初期化の必要性**: ほとんどのプラグインコントローラーは使用前に`initialize()`を呼ぶ必要があります
+2. **権限の確認**: 位置情報、カメラなど一部のプラグインは権限チェックが含まれます
+3. **リソース管理**: `listen()`を使用した場合は、不要になったら必ず`unlisten()`を呼び出してください
+4. **スコープの選択**: アプリ全体で共有する場合は`ref.app`、ページ内のみで使用する場合は`ref.page`を使用してください
+5. **エラーハンドリング**: 広告系のプラグインでは`GoogleAdsNoFillError`などの特定のエラーを適切に処理してください
+
+※ 各プラグインの詳細な使用方法については、上記テーブルの「Usage」列にあるリンクから個別のドキュメントを参照してください。

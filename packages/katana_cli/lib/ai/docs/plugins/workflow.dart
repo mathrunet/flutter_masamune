@@ -1068,370 +1068,24 @@ Future<bool> canExecuteWorkflow(String userId, double estimatedCost) async {
 }
 ```
 
-### サブスクリプションプラン管理
+### サブスクリプション管理
 
-組織の利用量に基づいて、適切なサブスクリプションプランを選択・管理できます。
+サブスクリプションと課金管理は`masamune_purchase`プラグインを使用します。Workflowプランの設定例は上記の「masamune_purchaseとの統合」セクションを参照してください。
 
-#### WorkflowPlanModelの詳細
+プランの利用上限や機能制限は、PurchaseProductのメタデータとして定義し、WorkflowUsageCheckerクラスで利用量チェックを行います。
 
-`WorkflowPlanModel`はサブスクリプションプランの定義を管理し、利用量制限と課金体系を設定します。
 
-| フィールド | 型 | 説明 |
-|-----------|---|------|
-| `name` | `String` | プラン名（Free/Starter/Professional/Enterprise） |
-| `monthlyLimit` | `double` | 月間利用上限（USD） |
-| `monthlyPrice` | `double` | 月額料金（USD） |
-| `yearlyPrice` | `double?` | 年額料金（USD）、割引適用 |
-| `tokenLimit` | `int?` | 月間トークン上限 |
-| `apiLimits` | `Map<String, int>?` | API別の呼び出し上限 |
-| `burstCapacity` | `double` | バースト容量（一時的な超過許容量USD） |
-| `features` | `List<String>?` | 利用可能機能のリスト |
-| `supportLevel` | `String?` | サポートレベル（basic/priority/dedicated） |
 
-#### 標準サブスクリプションプラン
 
-| プラン | 月額 | 年額 | トークン制限 | API制限 | 特徴 |
-|--------|------|------|------------|---------|------|
-| **Free** | \$0 | \$0 | 1,000トークン/月 | 基本APIのみ<br>10回/日 | 個人開発向け<br>基本機能のみ |
-| **Starter** | \$29 | \$290<br>(17%割引) | 100万トークン/月 | 全API<br>100回/日 | スモールビジネス向け<br>全機能利用可能 |
-| **Professional** | \$99 | \$990<br>(17%割引) | 500万トークン/月 | 全API<br>1000回/日 | 中規模ビジネス向け<br>優先サポート |
-| **Enterprise** | カスタム | カスタム | 無制限 | 無制限<br>SLA保証 | 大規模組織向け<br>専任サポート |
-
-#### プランアップグレードの実装例
-
-```dart
-class PlanManagementPage extends PageScopedWidget {
-  const PlanManagementPage({required this.organizationId});
-
-  final String organizationId;
-
-  @override
-  Widget build(BuildContext context, PageRef ref) {
-    // 現在の使用量を取得
-    final usage = ref.app.model(
-      WorkflowUsageModel.document(organizationId),
-    )..load();
-
-    // 利用可能なプラン一覧を取得
-    final availablePlans = ref.app.model(
-      WorkflowPlanModel.collection(),
-    )..load();
-
-    // 現在のプラン詳細を取得
-    final currentPlan = usage.value?.latestPlan != null
-        ? ref.app.model(
-            WorkflowPlanModel.document(usage.value!.latestPlan!),
-          )..load()
-        : null;
-
-    return Scaffold(
-      appBar: AppBar(title: Text("プラン管理")),
-      body: Column(
-        children: [
-          // 現在のプラン情報
-          if (currentPlan?.value != null)
-            Card(
-              margin: EdgeInsets.all(16),
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "現在のプラン: \${currentPlan!.value!.name}",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Text("月額: \${currentPlan.value!.monthlyPrice} USD"),
-                    Text("利用上限: \${currentPlan.value!.monthlyLimit}/月"),
-
-                    // 使用量と残量
-                    if (usage.value != null) ...[
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("今月の使用量:"),
-                          Text(
-                            "\${usage.value!.currentMonth.toStringAsFixed(2)} USD",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: usage.value!.currentMonth >
-                                      currentPlan.value!.monthlyLimit * 0.8
-                                  ? Colors.orange
-                                  : Colors.green,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("残量:"),
-                          Text(
-                            "\${(currentPlan.value!.monthlyLimit - usage.value!.currentMonth).toStringAsFixed(2)} USD",
-                          ),
-                        ],
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ),
-
-          // アップグレード推奨の表示
-          if (usage.value != null && currentPlan?.value != null &&
-              usage.value!.currentMonth > currentPlan.value!.monthlyLimit * 0.8)
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.orange[50],
-                border: Border.all(color: Colors.orange),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.trending_up, color: Colors.orange),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "プランのアップグレードを推奨",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "現在の使用量が上限の80%を超えています。",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-          // 利用可能なプラン一覧
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: availablePlans.length,
-              itemBuilder: (context, index) {
-                final plan = availablePlans[index];
-                final isCurrentPlan = plan.uid == usage.value?.latestPlan;
-
-                return Card(
-                  margin: EdgeInsets.only(bottom: 12),
-                  elevation: isCurrentPlan ? 4 : 1,
-                  color: isCurrentPlan ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
-                  child: ListTile(
-                    title: Text(
-                      plan.value?.name ?? "",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: isCurrentPlan ? Theme.of(context).primaryColor : null,
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("月額: \${plan.value?.monthlyPrice ?? 0} USD"),
-                        Text("上限: \${plan.value?.monthlyLimit ?? 0}/月 USD"),
-                        if (plan.value?.tokenLimit != null)
-                          Text("トークン: \${plan.value!.tokenLimit}個/月"),
-                        if (plan.value?.features != null)
-                          Wrap(
-                            spacing: 4,
-                            children: plan.value!.features!
-                                .map((f) => Chip(
-                                      label: Text(f, style: TextStyle(fontSize: 10)),
-                                      padding: EdgeInsets.zero,
-                                      visualDensity: VisualDensity.compact,
-                                    ))
-                                .toList(),
-                          ),
-                      ],
-                    ),
-                    trailing: isCurrentPlan
-                        ? Chip(
-                            label: Text("現在のプラン"),
-                            backgroundColor: Theme.of(context).primaryColor,
-                            labelStyle: TextStyle(color: Colors.white),
-                          )
-                        : ElevatedButton(
-                            onPressed: () async {
-                              // プラン変更の確認ダイアログ
-                              final confirm = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text("プラン変更の確認"),
-                                  content: Text(
-                                    "\${plan.value?.name}プランに変更しますか？\n"
-                                    "月額: \${plan.value?.monthlyPrice ?? 0} USD",
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(false),
-                                      child: Text("キャンセル"),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () => Navigator.of(context).pop(true),
-                                      child: Text("変更する"),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (confirm == true) {
-                                // プラン変更の実行
-                                await usage.save(
-                                  usage.value!.copyWith(
-                                    latestPlan: plan.uid,
-                                    autoRenewalEnabled: true,
-                                    nextBillingDate: DateTime.now().add(Duration(days: 30)),
-                                  ),
-                                );
-
-                                // 成功通知
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("プランを変更しました"),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                              }
-                            },
-                            child: Text("変更"),
-                          ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // 年間プランの割引案内
-          Container(
-            padding: EdgeInsets.all(16),
-            color: Colors.blue[50],
-            child: Row(
-              children: [
-                Icon(Icons.savings, color: Colors.blue),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    "年間プランなら17%お得！年払いに切り替えると2ヶ月分が無料になります。",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-```
-
-#### 請求書とコスト監視
-
-```dart
-// 月次請求書の自動生成
-class InvoiceGenerator {
-  static Future<void> generateMonthlyInvoice(String organizationId) async {
-    final usage = await WorkflowUsageModel.document(organizationId).load();
-    final plan = await WorkflowPlanModel.document(usage.latestPlan ?? "").load();
-
-    final invoice = WorkflowInvoiceModel(
-      organizationId: organizationId,
-      invoiceNumber: "INV-\${DateTime.now().millisecondsSinceEpoch}",
-      issueDate: DateTime.now(),
-      dueDate: DateTime.now().add(Duration(days: 30)),
-      amount: usage.currentMonth,
-      planName: plan.name,
-      items: usage.costBreakdown ?? {},
-      tax: usage.currentMonth * 0.1, // 10%税金
-      totalAmount: usage.currentMonth * 1.1,
-      status: InvoiceStatus.issued,
-    );
-
-    await invoice.save();
-  }
-}
-
-// 使用量監視とアラート
-class UsageMonitor {
-  static Future<void> checkUsageThreshold(String organizationId) async {
-    final usage = await WorkflowUsageModel.document(organizationId).load();
-    final plan = await WorkflowPlanModel.document(usage.latestPlan ?? "").load();
-
-    final usagePercentage = (usage.currentMonth / plan.monthlyLimit) * 100;
-
-    if (usagePercentage >= 90) {
-      // 90%超過：緊急アラート
-      await sendUrgentAlert(organizationId, "使用量が上限の90%を超えました");
-    } else if (usagePercentage >= 80) {
-      // 80%超過：警告
-      await sendWarningAlert(organizationId, "使用量が上限の80%を超えました");
-    } else if (usagePercentage >= 50) {
-      // 50%超過：情報通知
-      await sendInfoNotification(organizationId, "使用量が上限の50%を超えました");
-    }
-  }
-}
-```
-
-### ユーザーベース課金システムの詳細実装
-
-組織の利用量は組織単位で記録されますが、課金はユーザー単位で行われます。ユーザーが複数組織を所有している場合、全組織の合計利用量がリミットチェックの対象となります。
-
-#### WorkflowUserSubscriptionModel（新規）
-
-ユーザー単位のサブスクリプションを管理する新しいモデルです。
-
-| フィールド | 型 | 説明 |
-|-----------|---|------|
-| `userId` | `String` | ユーザーID |
-| `planId` | `String` | 選択されたプランID（WorkflowPlanModelへの参照） |
-| `monthlyLimit` | `double` | 月間利用上限（USD） |
-| `currentMonthUsage` | `double` | 当月の合計利用量（全所有組織分、USD） |
-| `creditBalance` | `double` | クレジット残高（前払い分、USD） |
-| `billingCycle` | `String` | 課金周期（monthly/yearly） |
-| `nextBillingDate` | `DateTime?` | 次回課金日 |
-| `status` | `SubscriptionStatus` | サブスクリプション状態（active/paused/cancelled） |
-| `autoRenewal` | `bool` | 自動更新フラグ |
-
-```dart
-// WorkflowUserSubscriptionModelの実装例
-@freezed
-@CollectionModelPath("plugins/workflow/user/:user_id/subscription")
-abstract class WorkflowUserSubscriptionModel
-    with _\$WorkflowUserSubscriptionModel
-    implements DocumentBase<WorkflowUserSubscriptionModel> {
-  const factory WorkflowUserSubscriptionModel({
-    required String userId,
-    required String planId,
-    @Default(100.0) double monthlyLimit,
-    @Default(0.0) double currentMonthUsage,
-    @Default(0.0) double creditBalance,
-    @Default("monthly") String billingCycle,
-    DateTime? nextBillingDate,
-    @Default(SubscriptionStatus.active) SubscriptionStatus status,
-    @Default(true) bool autoRenewal,
-  }) = _WorkflowUserSubscriptionModel;
-}
-```
-
-#### ユーザー・組織・利用量の関係図
+#### ユーザー・組織・利用量・課金の関係
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │  User（ユーザー）                                    │
-│  └─ WorkflowUserSubscriptionModel                   │
-│     ├─ planId: "professional"                       │
-│     ├─ monthlyLimit: \$100                           │
-│     └─ currentMonthUsage: \$95（全組織合計）          │
+│  └─ PurchaseSubscriptionModel (from purchase)       │
+│     ├─ productId: "workflow_professional"           │
+│     ├─ status: active                               │
+│     └─ metadata: {monthlyLimit: 100}                │
 └─────────────────────────────────────────────────────┘
          │
          ├─────────owns─────────┬──────────owns──────┐
@@ -1445,18 +1099,18 @@ abstract class WorkflowUserSubscriptionModel
          ↓                     ↓                      ↓
 ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
 │WorkflowUsageModel│  │WorkflowUsageModel│  │WorkflowUsageModel│
-│currentMonth: \$45 │  │currentMonth: \$30 │  │currentMonth: \$20 │
+│currentMonth: $45 │  │currentMonth: $30 │  │currentMonth: $20 │
 └──────────────────┘  └──────────────────┘  └──────────────────┘
 ```
 
-#### オーナー組織の合計利用量チェックの実装
+#### Purchase統合での利用量チェック実装
 
 ```dart
-class UserUsageAggregator {
+class WorkflowUsageChecker {
   final String userId;
   final PageRef ref;
 
-  UserUsageAggregator({
+  WorkflowUsageChecker({
     required this.userId,
     required this.ref,
   });
@@ -1485,30 +1139,38 @@ class UserUsageAggregator {
     return totalUsage;
   }
 
-  /// 新規アクションの実行可否を判定
+  /// Purchaseプラグインと連携した利用制限チェック
   Future<UsageLimitResult> checkLimit(double estimatedCost) async {
-    // ユーザーのサブスクリプション情報を取得
-    final subscription = await ref.app.model(
-      WorkflowUserSubscriptionModel.document(userId),
-    )..load();
+    // Purchaseコントローラーからサブスクリプション情報を取得
+    final purchase = ref.app.controller(Purchase.query());
 
-    if (subscription.value == null) {
+    // Workflowのサブスクリプションを検索
+    final subscription = purchase.subscriptions.firstWhereOrNull(
+      (s) => s.isActive && s.productId.contains("workflow"),
+    );
+
+    if (subscription == null) {
       return UsageLimitResult(
         allowed: false,
-        reason: "サブスクリプションが見つかりません",
+        reason: "有効なWorkflowサブスクリプションがありません",
       );
     }
 
+    // プロダクトメタデータから利用上限を取得
+    final product = purchase.products.firstWhereOrNull(
+      (p) => p.productId == subscription.productId,
+    );
+
+    final monthlyLimit = double.tryParse(
+      product?.metadata["monthlyLimit"] ?? "0"
+    ) ?? 0;
+
+    final burstCapacity = double.tryParse(
+      product?.metadata["burstCapacity"] ?? "0"
+    ) ?? 0;
+
     // 現在の合計利用量を取得
     final currentTotal = await getTotalUsage();
-
-    // プラン情報を取得
-    final plan = await ref.app.model(
-      WorkflowPlanModel.document(subscription.value!.planId),
-    )..load();
-
-    final monthlyLimit = plan.value?.monthlyLimit ?? 0;
-    final burstCapacity = plan.value?.burstCapacity ?? 0;
     final totalLimit = monthlyLimit + burstCapacity;
 
     // 新規アクションを含めた合計をチェック
@@ -1558,195 +1220,162 @@ class UsageLimitResult {
 }
 ```
 
-#### Firebase Functionsでのバックエンド実装
+#### Workflowプラン商品の設定例
 
-```typescript
-// functions/src/usage/limit-checker.ts
+```dart
+// Purchaseプラグインで定義する商品
+class WorkflowProducts {
+  static const free = PurchaseProduct(
+    productId: "workflow_free",
+    price: 0,
+    title: "Workflow Free",
+    description: "基本的なワークフロー機能",
+    metadata: {
+      "monthlyLimit": "10",      // $10/月
+      "burstCapacity": "0",
+      "aiTokens": "100000",
+      "storageGB": "1",
+    },
+  );
 
-import * as admin from 'firebase-admin';
+  static const starter = PurchaseProduct(
+    productId: "workflow_starter",
+    price: 19.99,
+    title: "Workflow Starter",
+    description: "小規模プロジェクト向け",
+    metadata: {
+      "monthlyLimit": "50",      // $50/月
+      "burstCapacity": "10",     // +$10のバースト
+      "aiTokens": "1000000",
+      "storageGB": "10",
+    },
+  );
 
-export interface LimitCheckRequest {
-  userId: string;
-  organizationId: string;
-  estimatedCost: number;
-  actionType: string;
+  static const professional = PurchaseProduct(
+    productId: "workflow_professional",
+    price: 49.99,
+    title: "Workflow Professional",
+    description: "プロフェッショナル向け",
+    metadata: {
+      "monthlyLimit": "200",     // $200/月
+      "burstCapacity": "50",     // +$50のバースト
+      "aiTokens": "5000000",
+      "storageGB": "50",
+    },
+  );
 }
+```
 
-export interface LimitCheckResponse {
-  allowed: boolean;
-  currentTotal: number;
-  limit: number;
-  remainingQuota: number;
-  message: string;
-}
+#### 実装例：プラン選択と購入フロー
 
-/**
- * ユーザーの利用量制限をチェックし、アクションの実行可否を判定
- */
-export async function checkUserUsageLimit(
-  request: LimitCheckRequest
-): Promise<LimitCheckResponse> {
-  const db = admin.firestore();
-  const { userId, estimatedCost } = request;
+```dart
+class WorkflowSubscriptionPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final purchase = ref.app.controller(Purchase.query());
+    final userId = ref.userId;
 
-  try {
-    // 1. ユーザーのサブスクリプション情報を取得
-    const subscriptionDoc = await db
-      .collection('plugins/workflow/user')
-      .doc(userId)
-      .collection('subscription')
-      .doc('current')
-      .get();
+    // Workflow関連の商品のみフィルタリング
+    final workflowProducts = purchase.products.where(
+      (p) => p.productId.startsWith("workflow_"),
+    ).toList();
 
-    if (!subscriptionDoc.exists) {
-      return {
-        allowed: false,
-        currentTotal: 0,
-        limit: 0,
-        remainingQuota: 0,
-        message: 'No active subscription found',
-      };
-    }
-
-    const subscription = subscriptionDoc.data()!;
-    const planId = subscription.planId;
-
-    // 2. プラン情報を取得
-    const planDoc = await db
-      .collection('plugins/workflow/plan')
-      .doc(planId)
-      .get();
-
-    const plan = planDoc.data()!;
-    const monthlyLimit = plan.monthlyLimit || 100;
-    const burstCapacity = plan.burstCapacity || 20;
-    const totalLimit = monthlyLimit + burstCapacity;
-
-    // 3. ユーザーが所有する全組織を取得
-    const orgsSnapshot = await db
-      .collection('plugins/workflow/organization')
-      .where('ownerId', '==', userId)
-      .get();
-
-    // 4. 各組織の当月利用量を集計
-    let currentTotal = 0;
-    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
-
-    for (const orgDoc of orgsSnapshot.docs) {
-      const orgId = orgDoc.id;
-
-      const usageDoc = await db
-        .collection('plugins/workflow/organization')
-        .doc(orgId)
-        .collection('usage')
-        .doc(orgId)
-        .get();
-
-      if (usageDoc.exists) {
-        const usage = usageDoc.data()!;
-        if (usage.currentMonth === currentMonth) {
-          currentTotal += usage.usage || 0;
-        }
-      }
-    }
-
-    // 5. 制限チェック
-    const projectedTotal = currentTotal + estimatedCost;
-    const allowed = projectedTotal <= totalLimit;
-    const remainingQuota = Math.max(0, totalLimit - currentTotal);
-
-    // 6. ユーザーのサブスクリプションに現在の合計を更新
-    await subscriptionDoc.ref.update({
-      currentMonthUsage: currentTotal,
-      lastCheckTime: admin.firestore.FieldValue.serverTimestamp(),
-    });
-
-    return {
-      allowed,
-      currentTotal,
-      limit: totalLimit,
-      remainingQuota,
-      message: allowed
-        ? `Usage allowed. Remaining quota: \${remainingQuota.toFixed(2)} USD`
-        : `Usage limit exceeded. Current: \${currentTotal.toFixed(2)}, Limit: \${totalLimit.toFixed(2)}`,
-    };
-  } catch (error) {
-    console.error('Error checking usage limit:', error);
-    throw new Error('Failed to check usage limit');
-  }
-}
-
-/**
- * 組織の利用量を記録し、オーナーの合計を更新
- */
-export async function recordOrganizationUsage(
-  organizationId: string,
-  cost: number,
-  actionType: string
-): Promise<void> {
-  const db = admin.firestore();
-  const currentMonth = new Date().toISOString().slice(0, 7);
-
-  try {
-    // 1. 組織情報を取得してオーナーを特定
-    const orgDoc = await db
-      .collection('plugins/workflow/organization')
-      .doc(organizationId)
-      .get();
-
-    if (!orgDoc.exists) {
-      throw new Error('Organization not found');
-    }
-
-    const ownerId = orgDoc.data()!.ownerId;
-
-    // 2. リミットチェック
-    const limitCheck = await checkUserUsageLimit({
-      userId: ownerId,
-      organizationId,
-      estimatedCost: cost,
-      actionType,
-    });
-
-    if (!limitCheck.allowed) {
-      throw new Error(limitCheck.message);
-    }
-
-    // 3. 組織の利用量を更新
-    const usageRef = db
-      .collection('plugins/workflow/organization')
-      .doc(organizationId)
-      .collection('usage')
-      .doc(organizationId);
-
-    await usageRef.set(
-      {
-        organization: orgDoc.ref,
-        usage: admin.firestore.FieldValue.increment(cost),
-        currentMonth,
-        lastActionType: actionType,
-        lastActionCost: cost,
-        lastActionTime: admin.firestore.FieldValue.serverTimestamp(),
-        ownerId,
-      },
-      { merge: true }
+    // 現在のサブスクリプション
+    final currentSubscription = purchase.subscriptions.firstWhereOrNull(
+      (s) => s.isActive && s.productId.contains("workflow"),
     );
 
-    // 4. 利用履歴を記録
-    await db
-      .collection('plugins/workflow/usage_history')
-      .add({
-        organizationId,
-        ownerId,
-        cost,
-        actionType,
-        month: currentMonth,
-        timestamp: admin.firestore.FieldValue.serverTimestamp(),
-      });
+    return Scaffold(
+      appBar: AppBar(title: Text("Workflowプラン")),
+      body: Column(
+        children: [
+          // 現在のプラン表示
+          if (currentSubscription != null)
+            Card(
+              child: ListTile(
+                title: Text("現在のプラン"),
+                subtitle: Text(currentSubscription.productId),
+                trailing: TextButton(
+                  onPressed: () => _showUsageDetails(context, ref),
+                  child: Text("利用状況"),
+                ),
+              ),
+            ),
 
-  } catch (error) {
-    console.error('Error recording usage:', error);
-    throw error;
+          // プラン一覧
+          Expanded(
+            child: ListView.builder(
+              itemCount: workflowProducts.length,
+              itemBuilder: (context, index) {
+                final product = workflowProducts[index];
+                final isCurrentPlan = currentSubscription?.productId == product.productId;
+
+                return Card(
+                  color: isCurrentPlan ? Colors.blue.shade50 : null,
+                  child: ListTile(
+                    title: Text(product.title),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(product.description),
+                        Text("月額: \$${product.price}"),
+                        Text("利用上限: \$${product.metadata['monthlyLimit']}/月"),
+                        if (product.metadata['burstCapacity'] != "0")
+                          Text("バースト: +\$${product.metadata['burstCapacity']}"),
+                      ],
+                    ),
+                    trailing: isCurrentPlan
+                      ? Chip(label: Text("現在のプラン"))
+                      : ElevatedButton(
+                          onPressed: () => _purchasePlan(purchase, product),
+                          child: Text("選択"),
+                        ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _purchasePlan(Purchase purchase, PurchaseProduct product) async {
+    try {
+      await purchase.purchase(product);
+      // 購入成功後の処理
+    } catch (e) {
+      // エラー処理
+    }
+  }
+
+  Future<void> _showUsageDetails(BuildContext context, PageRef ref) async {
+    final checker = WorkflowUsageChecker(
+      userId: ref.userId,
+      ref: ref,
+    );
+
+    final totalUsage = await checker.getTotalUsage();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("利用状況"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("今月の利用額: \$${totalUsage.toStringAsFixed(2)}"),
+            // 詳細表示
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("閉じる"),
+          ),
+        ],
+      ),
+    );
   }
 }
 ```
@@ -1798,11 +1427,8 @@ class AssetListPage extends PageScopedWidget {
 | `WorkflowWorkflowModel` | `plugins/workflow/workflow` | ワークフロー定義 |
 | `WorkflowTaskModel` | `plugins/workflow/task` | タスク |
 | `WorkflowActionModel` | `plugins/workflow/action` | アクション |
-| `WorkflowUsageModel` | `plugins/workflow/organization/:id/usage` | **使用量管理**<br>・`usage`: 累積使用量(USD)<br>・`currentMonth`: 今月の使用量(USD)<br>・`bucketBalance`: 繰越残高(USD)<br>・`costBreakdown`: API別コスト内訳<br>・`ownerId`: 組織オーナーID<br>・`autoRenewalEnabled`: 自動更新フラグ |
-| `WorkflowUserSubscriptionModel` | `plugins/workflow/user/:user_id/subscription` | **ユーザーサブスクリプション**（新規）<br>・`userId`: ユーザーID<br>・`planId`: プランID<br>・`monthlyLimit`: 月間上限(USD)<br>・`currentMonthUsage`: 全組織合計使用量(USD)<br>・`creditBalance`: クレジット残高<br>・`status`: サブスクリプション状態 |
+| `WorkflowUsageModel` | `plugins/workflow/organization/:id/usage` | **使用量管理**<br>・`usage`: 累積使用量(USD)<br>・`currentMonth`: 今月の使用量(USD)<br>・`costBreakdown`: API別コスト内訳<br>・`ownerId`: 組織オーナーID |
 | `WorkflowCampaignModel` | `plugins/workflow/campaign` | キャンペーン |
-| `WorkflowPlanModel` | `plugins/workflow/plan` | **サブスクリプションプラン**<br>・`name`: プラン名<br>・`monthlyLimit`: 月間上限(USD)<br>・`monthlyPrice`: 月額料金(USD)<br>・`tokenLimit`: トークン制限<br>・`burstCapacity`: バースト容量 |
-| `WorkflowInvoiceModel` | `plugins/workflow/organization/:id/invoice` | **請求書**<br>・`invoiceNumber`: 請求書番号<br>・`amount`: 請求額(USD)<br>・`status`: 発行状態<br>・`dueDate`: 支払期限 |
 | `WorkflowCertificateModel` | `plugins/workflow/organization/:id/certificate` | 証明書 |
 | `WorkflowAssetModel` | `plugins/workflow/asset` | アセット |
 | `WorkflowPageModel` | `plugins/workflow/page` | ページ |

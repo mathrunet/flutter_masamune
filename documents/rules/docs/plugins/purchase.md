@@ -346,6 +346,178 @@ class PremiumFeaturePage extends PageScopedWidget {
 }
 ```
 
+### 購入後のチェック方法
+
+購入完了後、各商品タイプごとに異なる方法で購入状態を確認できます。`Purchase`コントローラーから`PurchaseProduct`を取得し、その`value`プロパティ（`PurchaseProductValue`型）から実データにアクセスします。
+
+#### 基本的なチェックパターン
+
+```dart
+final purchase = ref.app.controller(Purchase.query());
+final product = purchase.products.firstWhereOrNull(
+  (e) => e.productId == "target_product_id",
+);
+```
+
+#### 消費型（Consumable）のチェック
+
+消費型アイテムは、ウォレット（ジェム・コインなど）の残高を`amount`プロパティで確認します：
+
+```dart
+// 消費型プロダクトの残高確認
+final coinsProduct = purchase.products.firstWhereOrNull(
+  (e) => e.productId == "coin_pack_100",
+);
+final currentCoins = coinsProduct?.value?.amount ?? 0.0;
+
+// 使用可能かチェック
+if (currentCoins >= requiredCoins) {
+  // 十分な残高がある
+  await performAction();
+}
+
+// モデルから直接確認する場合
+final userDoc = ref.app.model(
+  PurchaseUserModel.document(userId),
+)..load();
+final walletAmount = userDoc.value?.value ?? 0.0;
+```
+
+**データ保存先**: `PurchaseUserModel`ドキュメント（`plugins/iap/user/{userId}`）の`value`フィールド
+
+#### 非消費型（Non-Consumable）のチェック
+
+非消費型アイテムは、機能がアンロックされているかを`active`プロパティで確認します：
+
+```dart
+// 非消費型プロダクトの購入状態確認
+final unlockProduct = purchase.products.firstWhereOrNull(
+  (e) => e.productId == "lifetime_unlock",
+);
+final isUnlocked = unlockProduct?.value?.active ?? false;
+
+if (isUnlocked) {
+  // 機能がアンロックされている
+  return PremiumContent();
+} else {
+  // まだ購入されていない
+  return PurchasePrompt();
+}
+
+// モデルから直接確認する場合
+final userDoc = ref.app.model(
+  PurchaseUserModel.document(userId),
+)..load();
+// productIdがcamelCaseに変換される（例: lifetime_unlock → lifetimeUnlock）
+final isUnlocked = userDoc.value?.lifetimeUnlock ?? false;
+```
+
+**データ保存先**: `PurchaseUserModel`ドキュメントの`{productId}`フィールド（camelCase変換）
+
+#### サブスクリプション（Subscription）のチェック
+
+サブスクリプションは、現在有効期限内かどうかを`active`プロパティで確認します：
+
+```dart
+// サブスクリプションのアクティブ状態確認
+final subscriptionProduct = purchase.products.firstWhereOrNull(
+  (e) => e.productId == "premium_monthly",
+);
+final isActive = subscriptionProduct?.value?.active ?? false;
+
+if (isActive) {
+  // サブスクリプションが有効
+  return PremiumFeatures();
+} else {
+  // サブスクリプションが無効または期限切れ
+  return SubscriptionPrompt();
+}
+
+// モデルから詳細情報を取得する場合
+final subscriptions = ref.app.model(
+  PurchaseSubscriptionModel.collection()
+    .userId.equal(currentUserId),
+)..load();
+
+// アクティブなサブスクリプションをフィルター
+final activeSubscription = subscriptions.firstWhereOrNull(
+  (doc) =>
+    doc.value?.productId == "premium_monthly" &&
+    doc.value?.expired == false,
+);
+
+if (activeSubscription != null) {
+  // 有効期限を取得（ミリ秒単位のUnixタイムスタンプ）
+  final expiryDate = DateTime.fromMillisecondsSinceEpoch(
+    activeSubscription.value?.expiredTime ?? 0,
+  );
+  print("有効期限: $expiryDate");
+}
+```
+
+**データ保存先**: `PurchaseSubscriptionModel`コレクション（`plugins/iap/subscription/{subscriptionId}`）
+
+#### 複数商品の一括チェック
+
+```dart
+// すべてのプロダクトを読み込み
+final purchase = ref.app.controller(Purchase.query());
+await purchase.load();
+
+// 各商品タイプをチェック
+for (final product in purchase.products) {
+  switch (product.type) {
+    case PurchaseProductType.consumable:
+      final amount = product.value?.amount ?? 0.0;
+      print("${product.productId}: 残高 $amount");
+      break;
+    case PurchaseProductType.nonConsumable:
+      final active = product.value?.active ?? false;
+      print("${product.productId}: ${active ? "購入済み" : "未購入"}");
+      break;
+    case PurchaseProductType.subscription:
+      final active = product.value?.active ?? false;
+      print("${product.productId}: ${active ? "アクティブ" : "非アクティブ"}");
+      break;
+  }
+}
+```
+
+#### リアルタイム監視
+
+`ListenableFirestoreModelAdapter`を使用することで、購入状態の変更をリアルタイムで監視できます：
+
+```dart
+// サブスクリプション状態をリアルタイム監視
+final subscriptions = ref.app.model(
+  PurchaseSubscriptionModel.collection(
+    adapter: ListenableFirestoreModelAdapter(),
+  ).userId.equal(currentUserId),
+)..load();
+
+// UIは自動的に更新される
+subscriptions.addListener(() {
+  // 状態変更時の処理
+  final active = subscriptions.any(
+    (doc) => !doc.value!.expired && doc.value!.productId == "premium_monthly",
+  );
+  print("サブスクリプション状態が変更: $active");
+});
+```
+
+#### デバッグ用の強制購入状態
+
+テスト時には`debugForcePurchased`を使用して、実際に購入せずに購入済み状態をシミュレートできます：
+
+```dart
+PurchaseProduct.subscription(
+  productId: "premium_monthly",
+  price: 980,
+  expiredPeriod: Duration(days: 30),
+  debugForcePurchased: true, // 常に購入済みとして扱う
+)
+```
+
 ### カスタムデリゲート
 
 購入ライフサイクルイベント用のデリゲートを提供します:

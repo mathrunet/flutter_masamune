@@ -856,7 +856,38 @@ WorkflowTaskLogValue(
 
 ### 使用量・プランの管理
 
-組織の使用量やキャンペーン、プランを管理します。
+組織の使用量をドルベースで管理し、サブスクリプションプランによる制限を設定できます。
+
+#### WorkflowUsageModelの詳細
+
+`WorkflowUsageModel`は組織のAI・サーバー利用料をドルベースで追跡し、各種APIの使用量を詳細に記録します。
+
+| フィールド | 型 | 説明 |
+|-----------|---|------|
+| `usage` | `double` | 累積使用量（USD） |
+| `currentMonth` | `double` | 今月の使用量（USD） |
+| `bucketBalance` | `double` | 繰越可能な残高（USD）、未使用分を翌月に繰り越し |
+| `latestPlan` | `String?` | 現在のプランID（WorkflowPlanModelへの参照） |
+| `costBreakdown` | `Map<String, double>?` | API別コスト内訳 |
+| `tokenUsageBreakdown` | `Map<String, int>?` | トークン使用量内訳 |
+| `lastBillingDate` | `DateTime?` | 最終請求日 |
+| `nextBillingDate` | `DateTime?` | 次回請求日 |
+| `autoRenewalEnabled` | `bool` | 自動更新フラグ |
+
+#### コスト計算の仕組み
+
+各アクションの実行時に以下の料金が自動的に`usage`フィールドに加算されます：
+
+**AI系サービス**
+- **Gemini 2.0 Flash**: 入力 $0.075/1Mトークン、出力 $0.30/1Mトークン
+- **Google TTS**: $0.000004/文字（約 $4/100万文字）
+- **画像生成**: 約 $0.005-0.02/画像（解像度による）
+- **動画生成**: 約 $0.10-0.50/分（品質による）
+
+**インフラコスト**
+- **Cloud Storage**: $0.026/GB/月
+- **Firebase Functions**: $0.0000025/GB-秒 + $0.40/100万呼び出し
+- **Firestore**: 読み取り $0.036/10万件、書き込み $0.108/10万件
 
 ```dart
 class UsagePage extends PageScopedWidget {
@@ -871,6 +902,13 @@ class UsagePage extends PageScopedWidget {
       WorkflowUsageModel.document(organizationId),
     )..load();
 
+    // 現在のプラン情報を取得
+    final plan = usage.value?.latestPlan != null
+        ? ref.app.model(
+            WorkflowPlanModel.document(usage.value!.latestPlan!),
+          )..load()
+        : null;
+
     return Scaffold(
       appBar: AppBar(title: Text("使用量")),
       body: usage.value == null
@@ -880,19 +918,808 @@ class UsagePage extends PageScopedWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // 累積使用量（ドル表示）
                   Text(
-                    "現在の使用量: ${usage.value!.usage}",
+                    "累積使用量: ${usage.value!.usage.toStringAsFixed(2)}",
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   SizedBox(height: 8),
-                  Text("今月: ${usage.value!.currentMonth}"),
-                  Text("バケット残高: ${usage.value!.bucketBalance}"),
-                  if (usage.value!.latestPlan != null)
-                    Text("プラン: ${usage.value!.latestPlan}"),
+
+                  // 今月の使用量（ドル表示）
+                  Text("今月の使用量: ${usage.value!.currentMonth.toStringAsFixed(2)} USD"),
+
+                  // バケット残高（繰越可能額）
+                  Text("繰越残高: ${usage.value!.bucketBalance.toStringAsFixed(2)} USD"),
+
+                  // プラン情報と使用率
+                  if (plan?.value != null) ...[
+                    Divider(),
+                    Text("現在のプラン: ${plan!.value!.name}"),
+                    Text("月額上限: ${plan.value!.monthlyLimit.toStringAsFixed(2)} USD"),
+
+                    // 使用率のプログレスバー
+                    LinearProgressIndicator(
+                      value: usage.value!.currentMonth / plan.value!.monthlyLimit,
+                      backgroundColor: Colors.grey[300],
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        usage.value!.currentMonth > plan.value!.monthlyLimit * 0.8
+                            ? Colors.red // 80%超過で赤
+                            : Colors.blue,
+                      ),
+                    ),
+                    Text(
+                      "使用率: ${((usage.value!.currentMonth / plan.value!.monthlyLimit) * 100).toStringAsFixed(1)}%",
+                    ),
+                  ],
+
+                  // API別コスト内訳
+                  if (usage.value!.costBreakdown != null) ...[
+                    Divider(),
+                    Text("コスト内訳:", style: Theme.of(context).textTheme.titleMedium),
+                    ...usage.value!.costBreakdown!.entries.map((entry) =>
+                      Padding(
+                        padding: EdgeInsets.only(left: 16, top: 4),
+                        child: Text("${entry.key}: ${entry.value.toStringAsFixed(4)}"),
+                      ),
+                    ),
+                  ],
+
+                  // 使用量アラート
+                  if (plan?.value != null &&
+                      usage.value!.currentMonth > plan.value!.monthlyLimit * 0.8)
+                    Card(
+                      color: Colors.orange[100],
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            Icon(Icons.warning, color: Colors.orange),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                "月間使用量の80%を超過しています。プランのアップグレードをご検討ください。",
+                                style: TextStyle(color: Colors.orange[900]),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
     );
+  }
+}
+```
+
+#### ユーザーベース課金システムの重要な注意点
+
+**課金の仕組み**：
+- **組織の所有者**：各組織には`ownerId`フィールドがあり、作成したユーザーがオーナーとなります
+- **課金の主体**：組織単位で利用量は記録されますが、実際の課金はユーザーに対して行われます
+- **リミットチェック**：ユーザーが所有する全組織の合計利用量がチェック対象となります
+
+```dart
+// リミットチェックの実際の流れ
+// 例：ユーザーAが3つの組織を所有している場合
+
+// 1. ユーザーAのサブスクリプション
+// プラン: Professional（月額$99、上限$100）
+
+// 2. 所有組織と利用量
+// Organization1（ownerId: userA） → 今月の利用量: $45
+// Organization2（ownerId: userA） → 今月の利用量: $30
+// Organization3（ownerId: userA） → 今月の利用量: $20
+
+// 3. 合計利用量チェック
+// 合計: $45 + $30 + $20 = $95 （上限$100以内でOK）
+
+// 4. 新規アクション実行時のチェック
+Future<bool> canExecuteWorkflow(String userId, double estimatedCost) async {
+  // ユーザーが所有する全組織の利用量を集計
+  final ownedOrgs = await WorkflowOrganizationModel.collection()
+    .ownerId.equal(userId)
+    .load();
+
+  double totalUsage = 0;
+  for (final org in ownedOrgs) {
+    final usage = await WorkflowUsageModel.document(org.id).load();
+    totalUsage += usage.value?.currentMonth ?? 0;
+  }
+
+  // ユーザーのプラン上限と比較
+  final userSubscription = await WorkflowUserSubscriptionModel
+    .document(userId)
+    .load();
+
+  final limit = userSubscription.value?.monthlyLimit ?? 0;
+
+  // 新規アクションを含めた合計が制限内かチェック
+  return (totalUsage + estimatedCost) <= limit;
+}
+```
+
+### サブスクリプションプラン管理
+
+組織の利用量に基づいて、適切なサブスクリプションプランを選択・管理できます。
+
+#### WorkflowPlanModelの詳細
+
+`WorkflowPlanModel`はサブスクリプションプランの定義を管理し、利用量制限と課金体系を設定します。
+
+| フィールド | 型 | 説明 |
+|-----------|---|------|
+| `name` | `String` | プラン名（Free/Starter/Professional/Enterprise） |
+| `monthlyLimit` | `double` | 月間利用上限（USD） |
+| `monthlyPrice` | `double` | 月額料金（USD） |
+| `yearlyPrice` | `double?` | 年額料金（USD）、割引適用 |
+| `tokenLimit` | `int?` | 月間トークン上限 |
+| `apiLimits` | `Map<String, int>?` | API別の呼び出し上限 |
+| `burstCapacity` | `double` | バースト容量（一時的な超過許容量USD） |
+| `features` | `List<String>?` | 利用可能機能のリスト |
+| `supportLevel` | `String?` | サポートレベル（basic/priority/dedicated） |
+
+#### 標準サブスクリプションプラン
+
+| プラン | 月額 | 年額 | トークン制限 | API制限 | 特徴 |
+|--------|------|------|------------|---------|------|
+| **Free** | $0 | $0 | 1,000トークン/月 | 基本APIのみ<br>10回/日 | 個人開発向け<br>基本機能のみ |
+| **Starter** | $29 | $290<br>(17%割引) | 100万トークン/月 | 全API<br>100回/日 | スモールビジネス向け<br>全機能利用可能 |
+| **Professional** | $99 | $990<br>(17%割引) | 500万トークン/月 | 全API<br>1000回/日 | 中規模ビジネス向け<br>優先サポート |
+| **Enterprise** | カスタム | カスタム | 無制限 | 無制限<br>SLA保証 | 大規模組織向け<br>専任サポート |
+
+#### プランアップグレードの実装例
+
+```dart
+class PlanManagementPage extends PageScopedWidget {
+  const PlanManagementPage({required this.organizationId});
+
+  final String organizationId;
+
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    // 現在の使用量を取得
+    final usage = ref.app.model(
+      WorkflowUsageModel.document(organizationId),
+    )..load();
+
+    // 利用可能なプラン一覧を取得
+    final availablePlans = ref.app.model(
+      WorkflowPlanModel.collection(),
+    )..load();
+
+    // 現在のプラン詳細を取得
+    final currentPlan = usage.value?.latestPlan != null
+        ? ref.app.model(
+            WorkflowPlanModel.document(usage.value!.latestPlan!),
+          )..load()
+        : null;
+
+    return Scaffold(
+      appBar: AppBar(title: Text("プラン管理")),
+      body: Column(
+        children: [
+          // 現在のプラン情報
+          if (currentPlan?.value != null)
+            Card(
+              margin: EdgeInsets.all(16),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "現在のプラン: ${currentPlan!.value!.name}",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text("月額: ${currentPlan.value!.monthlyPrice} USD"),
+                    Text("利用上限: ${currentPlan.value!.monthlyLimit}/月"),
+
+                    // 使用量と残量
+                    if (usage.value != null) ...[
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("今月の使用量:"),
+                          Text(
+                            "${usage.value!.currentMonth.toStringAsFixed(2)} USD",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: usage.value!.currentMonth >
+                                      currentPlan.value!.monthlyLimit * 0.8
+                                  ? Colors.orange
+                                  : Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("残量:"),
+                          Text(
+                            "${(currentPlan.value!.monthlyLimit - usage.value!.currentMonth).toStringAsFixed(2)} USD",
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+
+          // アップグレード推奨の表示
+          if (usage.value != null && currentPlan?.value != null &&
+              usage.value!.currentMonth > currentPlan.value!.monthlyLimit * 0.8)
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.orange[50],
+                border: Border.all(color: Colors.orange),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.trending_up, color: Colors.orange),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "プランのアップグレードを推奨",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "現在の使用量が上限の80%を超えています。",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // 利用可能なプラン一覧
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.all(16),
+              itemCount: availablePlans.length,
+              itemBuilder: (context, index) {
+                final plan = availablePlans[index];
+                final isCurrentPlan = plan.uid == usage.value?.latestPlan;
+
+                return Card(
+                  margin: EdgeInsets.only(bottom: 12),
+                  elevation: isCurrentPlan ? 4 : 1,
+                  color: isCurrentPlan ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+                  child: ListTile(
+                    title: Text(
+                      plan.value?.name ?? "",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: isCurrentPlan ? Theme.of(context).primaryColor : null,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("月額: ${plan.value?.monthlyPrice ?? 0} USD"),
+                        Text("上限: ${plan.value?.monthlyLimit ?? 0}/月 USD"),
+                        if (plan.value?.tokenLimit != null)
+                          Text("トークン: ${plan.value!.tokenLimit}個/月"),
+                        if (plan.value?.features != null)
+                          Wrap(
+                            spacing: 4,
+                            children: plan.value!.features!
+                                .map((f) => Chip(
+                                      label: Text(f, style: TextStyle(fontSize: 10)),
+                                      padding: EdgeInsets.zero,
+                                      visualDensity: VisualDensity.compact,
+                                    ))
+                                .toList(),
+                          ),
+                      ],
+                    ),
+                    trailing: isCurrentPlan
+                        ? Chip(
+                            label: Text("現在のプラン"),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            labelStyle: TextStyle(color: Colors.white),
+                          )
+                        : ElevatedButton(
+                            onPressed: () async {
+                              // プラン変更の確認ダイアログ
+                              final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("プラン変更の確認"),
+                                  content: Text(
+                                    "${plan.value?.name}プランに変更しますか？
+"
+                                    "月額: ${plan.value?.monthlyPrice ?? 0} USD",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(false),
+                                      child: Text("キャンセル"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () => Navigator.of(context).pop(true),
+                                      child: Text("変更する"),
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (confirm == true) {
+                                // プラン変更の実行
+                                await usage.save(
+                                  usage.value!.copyWith(
+                                    latestPlan: plan.uid,
+                                    autoRenewalEnabled: true,
+                                    nextBillingDate: DateTime.now().add(Duration(days: 30)),
+                                  ),
+                                );
+
+                                // 成功通知
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("プランを変更しました"),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text("変更"),
+                          ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // 年間プランの割引案内
+          Container(
+            padding: EdgeInsets.all(16),
+            color: Colors.blue[50],
+            child: Row(
+              children: [
+                Icon(Icons.savings, color: Colors.blue),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    "年間プランなら17%お得！年払いに切り替えると2ヶ月分が無料になります。",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+#### 請求書とコスト監視
+
+```dart
+// 月次請求書の自動生成
+class InvoiceGenerator {
+  static Future<void> generateMonthlyInvoice(String organizationId) async {
+    final usage = await WorkflowUsageModel.document(organizationId).load();
+    final plan = await WorkflowPlanModel.document(usage.latestPlan ?? "").load();
+
+    final invoice = WorkflowInvoiceModel(
+      organizationId: organizationId,
+      invoiceNumber: "INV-${DateTime.now().millisecondsSinceEpoch}",
+      issueDate: DateTime.now(),
+      dueDate: DateTime.now().add(Duration(days: 30)),
+      amount: usage.currentMonth,
+      planName: plan.name,
+      items: usage.costBreakdown ?? {},
+      tax: usage.currentMonth * 0.1, // 10%税金
+      totalAmount: usage.currentMonth * 1.1,
+      status: InvoiceStatus.issued,
+    );
+
+    await invoice.save();
+  }
+}
+
+// 使用量監視とアラート
+class UsageMonitor {
+  static Future<void> checkUsageThreshold(String organizationId) async {
+    final usage = await WorkflowUsageModel.document(organizationId).load();
+    final plan = await WorkflowPlanModel.document(usage.latestPlan ?? "").load();
+
+    final usagePercentage = (usage.currentMonth / plan.monthlyLimit) * 100;
+
+    if (usagePercentage >= 90) {
+      // 90%超過：緊急アラート
+      await sendUrgentAlert(organizationId, "使用量が上限の90%を超えました");
+    } else if (usagePercentage >= 80) {
+      // 80%超過：警告
+      await sendWarningAlert(organizationId, "使用量が上限の80%を超えました");
+    } else if (usagePercentage >= 50) {
+      // 50%超過：情報通知
+      await sendInfoNotification(organizationId, "使用量が上限の50%を超えました");
+    }
+  }
+}
+```
+
+### ユーザーベース課金システムの詳細実装
+
+組織の利用量は組織単位で記録されますが、課金はユーザー単位で行われます。ユーザーが複数組織を所有している場合、全組織の合計利用量がリミットチェックの対象となります。
+
+#### WorkflowUserSubscriptionModel（新規）
+
+ユーザー単位のサブスクリプションを管理する新しいモデルです。
+
+| フィールド | 型 | 説明 |
+|-----------|---|------|
+| `userId` | `String` | ユーザーID |
+| `planId` | `String` | 選択されたプランID（WorkflowPlanModelへの参照） |
+| `monthlyLimit` | `double` | 月間利用上限（USD） |
+| `currentMonthUsage` | `double` | 当月の合計利用量（全所有組織分、USD） |
+| `creditBalance` | `double` | クレジット残高（前払い分、USD） |
+| `billingCycle` | `String` | 課金周期（monthly/yearly） |
+| `nextBillingDate` | `DateTime?` | 次回課金日 |
+| `status` | `SubscriptionStatus` | サブスクリプション状態（active/paused/cancelled） |
+| `autoRenewal` | `bool` | 自動更新フラグ |
+
+```dart
+// WorkflowUserSubscriptionModelの実装例
+@freezed
+@CollectionModelPath("plugins/workflow/user/:user_id/subscription")
+abstract class WorkflowUserSubscriptionModel
+    with _$WorkflowUserSubscriptionModel
+    implements DocumentBase<WorkflowUserSubscriptionModel> {
+  const factory WorkflowUserSubscriptionModel({
+    required String userId,
+    required String planId,
+    @Default(100.0) double monthlyLimit,
+    @Default(0.0) double currentMonthUsage,
+    @Default(0.0) double creditBalance,
+    @Default("monthly") String billingCycle,
+    DateTime? nextBillingDate,
+    @Default(SubscriptionStatus.active) SubscriptionStatus status,
+    @Default(true) bool autoRenewal,
+  }) = _WorkflowUserSubscriptionModel;
+}
+```
+
+#### ユーザー・組織・利用量の関係図
+
+```
+┌─────────────────────────────────────────────────────┐
+│  User（ユーザー）                                    │
+│  └─ WorkflowUserSubscriptionModel                   │
+│     ├─ planId: "professional"                       │
+│     ├─ monthlyLimit: $100                           │
+│     └─ currentMonthUsage: $95（全組織合計）          │
+└─────────────────────────────────────────────────────┘
+         │
+         ├─────────owns─────────┬──────────owns──────┐
+         ↓                      ↓                    ↓
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│  Organization1   │  │  Organization2   │  │  Organization3   │
+│  ownerId: userA  │  │  ownerId: userA  │  │  ownerId: userA  │
+└──────────────────┘  └──────────────────┘  └──────────────────┘
+         │                     │                      │
+      has usage             has usage             has usage
+         ↓                     ↓                      ↓
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│WorkflowUsageModel│  │WorkflowUsageModel│  │WorkflowUsageModel│
+│currentMonth: $45 │  │currentMonth: $30 │  │currentMonth: $20 │
+└──────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+#### オーナー組織の合計利用量チェックの実装
+
+```dart
+class UserUsageAggregator {
+  final String userId;
+  final PageRef ref;
+
+  UserUsageAggregator({
+    required this.userId,
+    required this.ref,
+  });
+
+  /// ユーザーが所有する全組織の合計利用量を取得
+  Future<double> getTotalUsage() async {
+    // 1. ユーザーが所有する全組織を取得
+    final organizations = await ref.app.model(
+      WorkflowOrganizationModel.collection()
+        .ownerId.equal(userId),
+    )..load();
+
+    double totalUsage = 0.0;
+
+    // 2. 各組織の利用量を集計
+    for (final org in organizations) {
+      final usage = await ref.app.model(
+        WorkflowUsageModel.document(org.uid),
+      )..load();
+
+      if (usage.value != null) {
+        totalUsage += usage.value!.currentMonth;
+      }
+    }
+
+    return totalUsage;
+  }
+
+  /// 新規アクションの実行可否を判定
+  Future<UsageLimitResult> checkLimit(double estimatedCost) async {
+    // ユーザーのサブスクリプション情報を取得
+    final subscription = await ref.app.model(
+      WorkflowUserSubscriptionModel.document(userId),
+    )..load();
+
+    if (subscription.value == null) {
+      return UsageLimitResult(
+        allowed: false,
+        reason: "サブスクリプションが見つかりません",
+      );
+    }
+
+    // 現在の合計利用量を取得
+    final currentTotal = await getTotalUsage();
+
+    // プラン情報を取得
+    final plan = await ref.app.model(
+      WorkflowPlanModel.document(subscription.value!.planId),
+    )..load();
+
+    final monthlyLimit = plan.value?.monthlyLimit ?? 0;
+    final burstCapacity = plan.value?.burstCapacity ?? 0;
+    final totalLimit = monthlyLimit + burstCapacity;
+
+    // 新規アクションを含めた合計をチェック
+    final projectedTotal = currentTotal + estimatedCost;
+
+    if (projectedTotal <= monthlyLimit) {
+      return UsageLimitResult(
+        allowed: true,
+        remainingInPlan: monthlyLimit - projectedTotal,
+        usagePercentage: (projectedTotal / monthlyLimit) * 100,
+      );
+    } else if (projectedTotal <= totalLimit) {
+      return UsageLimitResult(
+        allowed: true,
+        usingBurstCapacity: true,
+        burstUsed: projectedTotal - monthlyLimit,
+        reason: "バースト容量を使用します",
+      );
+    } else {
+      return UsageLimitResult(
+        allowed: false,
+        exceeded: projectedTotal - totalLimit,
+        reason: "月間利用上限を超過します",
+      );
+    }
+  }
+}
+
+class UsageLimitResult {
+  final bool allowed;
+  final String? reason;
+  final double? remainingInPlan;
+  final double? usagePercentage;
+  final bool usingBurstCapacity;
+  final double? burstUsed;
+  final double? exceeded;
+
+  UsageLimitResult({
+    required this.allowed,
+    this.reason,
+    this.remainingInPlan,
+    this.usagePercentage,
+    this.usingBurstCapacity = false,
+    this.burstUsed,
+    this.exceeded,
+  });
+}
+```
+
+#### Firebase Functionsでのバックエンド実装
+
+```typescript
+// functions/src/usage/limit-checker.ts
+
+import * as admin from 'firebase-admin';
+
+export interface LimitCheckRequest {
+  userId: string;
+  organizationId: string;
+  estimatedCost: number;
+  actionType: string;
+}
+
+export interface LimitCheckResponse {
+  allowed: boolean;
+  currentTotal: number;
+  limit: number;
+  remainingQuota: number;
+  message: string;
+}
+
+/**
+ * ユーザーの利用量制限をチェックし、アクションの実行可否を判定
+ */
+export async function checkUserUsageLimit(
+  request: LimitCheckRequest
+): Promise<LimitCheckResponse> {
+  const db = admin.firestore();
+  const { userId, estimatedCost } = request;
+
+  try {
+    // 1. ユーザーのサブスクリプション情報を取得
+    const subscriptionDoc = await db
+      .collection('plugins/workflow/user')
+      .doc(userId)
+      .collection('subscription')
+      .doc('current')
+      .get();
+
+    if (!subscriptionDoc.exists) {
+      return {
+        allowed: false,
+        currentTotal: 0,
+        limit: 0,
+        remainingQuota: 0,
+        message: 'No active subscription found',
+      };
+    }
+
+    const subscription = subscriptionDoc.data()!;
+    const planId = subscription.planId;
+
+    // 2. プラン情報を取得
+    const planDoc = await db
+      .collection('plugins/workflow/plan')
+      .doc(planId)
+      .get();
+
+    const plan = planDoc.data()!;
+    const monthlyLimit = plan.monthlyLimit || 100;
+    const burstCapacity = plan.burstCapacity || 20;
+    const totalLimit = monthlyLimit + burstCapacity;
+
+    // 3. ユーザーが所有する全組織を取得
+    const orgsSnapshot = await db
+      .collection('plugins/workflow/organization')
+      .where('ownerId', '==', userId)
+      .get();
+
+    // 4. 各組織の当月利用量を集計
+    let currentTotal = 0;
+    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+
+    for (const orgDoc of orgsSnapshot.docs) {
+      const orgId = orgDoc.id;
+
+      const usageDoc = await db
+        .collection('plugins/workflow/organization')
+        .doc(orgId)
+        .collection('usage')
+        .doc(orgId)
+        .get();
+
+      if (usageDoc.exists) {
+        const usage = usageDoc.data()!;
+        if (usage.currentMonth === currentMonth) {
+          currentTotal += usage.usage || 0;
+        }
+      }
+    }
+
+    // 5. 制限チェック
+    const projectedTotal = currentTotal + estimatedCost;
+    const allowed = projectedTotal <= totalLimit;
+    const remainingQuota = Math.max(0, totalLimit - currentTotal);
+
+    // 6. ユーザーのサブスクリプションに現在の合計を更新
+    await subscriptionDoc.ref.update({
+      currentMonthUsage: currentTotal,
+      lastCheckTime: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    return {
+      allowed,
+      currentTotal,
+      limit: totalLimit,
+      remainingQuota,
+      message: allowed
+        ? `Usage allowed. Remaining quota: ${remainingQuota.toFixed(2)} USD`
+        : `Usage limit exceeded. Current: ${currentTotal.toFixed(2)}, Limit: ${totalLimit.toFixed(2)}`,
+    };
+  } catch (error) {
+    console.error('Error checking usage limit:', error);
+    throw new Error('Failed to check usage limit');
+  }
+}
+
+/**
+ * 組織の利用量を記録し、オーナーの合計を更新
+ */
+export async function recordOrganizationUsage(
+  organizationId: string,
+  cost: number,
+  actionType: string
+): Promise<void> {
+  const db = admin.firestore();
+  const currentMonth = new Date().toISOString().slice(0, 7);
+
+  try {
+    // 1. 組織情報を取得してオーナーを特定
+    const orgDoc = await db
+      .collection('plugins/workflow/organization')
+      .doc(organizationId)
+      .get();
+
+    if (!orgDoc.exists) {
+      throw new Error('Organization not found');
+    }
+
+    const ownerId = orgDoc.data()!.ownerId;
+
+    // 2. リミットチェック
+    const limitCheck = await checkUserUsageLimit({
+      userId: ownerId,
+      organizationId,
+      estimatedCost: cost,
+      actionType,
+    });
+
+    if (!limitCheck.allowed) {
+      throw new Error(limitCheck.message);
+    }
+
+    // 3. 組織の利用量を更新
+    const usageRef = db
+      .collection('plugins/workflow/organization')
+      .doc(organizationId)
+      .collection('usage')
+      .doc(organizationId);
+
+    await usageRef.set(
+      {
+        organization: orgDoc.ref,
+        usage: admin.firestore.FieldValue.increment(cost),
+        currentMonth,
+        lastActionType: actionType,
+        lastActionCost: cost,
+        lastActionTime: admin.firestore.FieldValue.serverTimestamp(),
+        ownerId,
+      },
+      { merge: true }
+    );
+
+    // 4. 利用履歴を記録
+    await db
+      .collection('plugins/workflow/usage_history')
+      .add({
+        organizationId,
+        ownerId,
+        cost,
+        actionType,
+        month: currentMonth,
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      });
+
+  } catch (error) {
+    console.error('Error recording usage:', error);
+    throw error;
   }
 }
 ```
@@ -938,15 +1765,17 @@ class AssetListPage extends PageScopedWidget {
 
 | モデル名 | Firestoreパス | 説明 |
 |---------|--------------|------|
-| `WorkflowOrganizationModel` | `plugins/workflow/organization` | 組織 |
+| `WorkflowOrganizationModel` | `plugins/workflow/organization` | **組織**<br>・`ownerId`: 所有ユーザーID（課金主体） |
 | `WorkflowOrganizationMemberModel` | `plugins/workflow/organization/:id/member` | 組織メンバー |
 | `WorkflowProjectModel` | `plugins/workflow/project` | プロジェクト |
 | `WorkflowWorkflowModel` | `plugins/workflow/workflow` | ワークフロー定義 |
 | `WorkflowTaskModel` | `plugins/workflow/task` | タスク |
 | `WorkflowActionModel` | `plugins/workflow/action` | アクション |
-| `WorkflowUsageModel` | `plugins/workflow/organization/:id/usage` | 使用量 |
+| `WorkflowUsageModel` | `plugins/workflow/organization/:id/usage` | **使用量管理**<br>・`usage`: 累積使用量(USD)<br>・`currentMonth`: 今月の使用量(USD)<br>・`bucketBalance`: 繰越残高(USD)<br>・`costBreakdown`: API別コスト内訳<br>・`ownerId`: 組織オーナーID<br>・`autoRenewalEnabled`: 自動更新フラグ |
+| `WorkflowUserSubscriptionModel` | `plugins/workflow/user/:user_id/subscription` | **ユーザーサブスクリプション**（新規）<br>・`userId`: ユーザーID<br>・`planId`: プランID<br>・`monthlyLimit`: 月間上限(USD)<br>・`currentMonthUsage`: 全組織合計使用量(USD)<br>・`creditBalance`: クレジット残高<br>・`status`: サブスクリプション状態 |
 | `WorkflowCampaignModel` | `plugins/workflow/campaign` | キャンペーン |
-| `WorkflowPlanModel` | `plugins/workflow/plan` | プラン |
+| `WorkflowPlanModel` | `plugins/workflow/plan` | **サブスクリプションプラン**<br>・`name`: プラン名<br>・`monthlyLimit`: 月間上限(USD)<br>・`monthlyPrice`: 月額料金(USD)<br>・`tokenLimit`: トークン制限<br>・`burstCapacity`: バースト容量 |
+| `WorkflowInvoiceModel` | `plugins/workflow/organization/:id/invoice` | **請求書**<br>・`invoiceNumber`: 請求書番号<br>・`amount`: 請求額(USD)<br>・`status`: 発行状態<br>・`dueDate`: 支払期限 |
 | `WorkflowCertificateModel` | `plugins/workflow/organization/:id/certificate` | 証明書 |
 | `WorkflowAssetModel` | `plugins/workflow/asset` | アセット |
 | `WorkflowPageModel` | `plugins/workflow/page` | ページ |
@@ -2147,10 +2976,287 @@ print("バースト容量: ${plan.value?.burstCapacity}");
 
 - **並列実行**: `analyze_github_process`のように、大量データ処理は並列実行で高速化
 
-- **コスト管理**:
-  - Gemini API: 入力/出力トークンに基づく課金
-  - Google TTS: 文字数に基づく課金
-  - Firebase Functions: 実行時間とメモリに基づく課金
+- **コスト管理とベストプラクティス**:
+
+  **API料金体系の詳細**:
+  - **Gemini 2.0 Flash**:
+    - 入力: $0.075/1Mトークン（日本語は1文字約2トークン）
+    - 出力: $0.30/1Mトークン
+    - 例: 1000文字入力→2000文字出力 = $0.00075のコスト
+
+  - **Google TTS**:
+    - 標準音声: $0.000004/文字（約$4/100万文字）
+    - WaveNet音声: $0.000016/文字（約$16/100万文字）
+    - Neural2音声: $0.000016/文字（約$16/100万文字）
+
+  - **Firebase インフラ**:
+    - Functions: $0.0000025/GB-秒 + $0.40/100万呼び出し
+    - Firestore: 読み取り$0.036/10万、書き込み$0.108/10万、削除$0.012/10万
+    - Storage: $0.026/GB/月（保存）+ $0.12/GB（ダウンロード）
+
+  **コスト最適化のベストプラクティス**:
+
+  1. **トークン使用量の最適化**:
+     ```dart
+     // 非効率な例（冗長なプロンプト）
+     final prompt = """
+     あなたは優秀なAIアシスタントです。以下のテキストを要約してください。
+     重要な点を抜き出して、わかりやすく説明してください。
+     ${longText}
+     """; // 不要な説明でトークンを消費
+
+     // 効率的な例（簡潔なプロンプト）
+     final prompt = "要約: ${longText}"; // 必要最小限
+     ```
+
+  2. **レスポンスキャッシュの活用**:
+     ```dart
+     // 同じ入力に対する結果をキャッシュ
+     class CachedWorkflowAction {
+       static final _cache = <String, dynamic>{};
+
+       static Future<dynamic> execute(String prompt) async {
+         final cacheKey = prompt.hashCode.toString();
+
+         if (_cache.containsKey(cacheKey)) {
+           return _cache[cacheKey]; // キャッシュから返す（コスト$0）
+         }
+
+         final result = await WorkflowAction.execute(prompt);
+         _cache[cacheKey] = result;
+         return result;
+       }
+     }
+     ```
+
+  3. **バッチ処理の実装**:
+     ```dart
+     // 個別処理（非効率）- 各リクエストで課金
+     for (final item in items) {
+       await processItem(item); // 100アイテム = 100回の課金
+     }
+
+     // バッチ処理（効率的）- まとめて処理
+     await processBatch(items); // 100アイテム = 1回の課金
+     ```
+
+  4. **使用量モニタリングと自動制限**:
+     ```dart
+     class CostController {
+       static Future<bool> canExecute(String organizationId, double estimatedCost) async {
+         final usage = await WorkflowUsageModel.document(organizationId).load();
+         final plan = await WorkflowPlanModel.document(usage.latestPlan ?? "").load();
+
+         // 月間上限の90%を超えたら高コストアクションを制限
+         if (usage.currentMonth > plan.monthlyLimit * 0.9) {
+           if (estimatedCost > 1.0) { // $1以上のアクションを制限
+             throw Exception("月間使用量上限に近づいています。高コストアクションは制限されています。");
+           }
+         }
+
+         // 日次制限のチェック
+         final dailyLimit = plan.monthlyLimit / 30;
+         final todayUsage = await getTodayUsage(organizationId);
+
+         if (todayUsage + estimatedCost > dailyLimit) {
+           throw Exception("本日の使用量上限を超過します。");
+         }
+
+         return true;
+       }
+     }
+     ```
+
+  5. **プロバイダー別コスト比較**:
+     | サービス | Google | OpenAI | Amazon | 自社ホスト |
+     |---------|--------|--------|---------|-----------|
+     | テキスト生成 | Gemini Flash<br>$0.075/1M入力 | GPT-4<br>$30/1M入力 | Claude<br>$15/1M入力 | Llama<br>インフラコストのみ |
+     | 音声生成 | Google TTS<br>$4/1M文字 | OpenAI TTS<br>$15/1M文字 | Polly<br>$4/1M文字 | - |
+     | 画像生成 | - | DALL-E 3<br>$0.04/画像 | - | Stable Diffusion<br>$0.005/画像 |
+
+  6. **請求書の自動化とコスト分析**:
+     ```dart
+     // 部門別コスト配分
+     class CostAllocation {
+       static Future<Map<String, double>> analyzeMonthlyCost(String organizationId) async {
+         final usage = await WorkflowUsageModel.document(organizationId).load();
+
+         return {
+           "AI生成": usage.costBreakdown?["gemini"] ?? 0.0,
+           "音声": usage.costBreakdown?["tts"] ?? 0.0,
+           "ストレージ": usage.costBreakdown?["storage"] ?? 0.0,
+           "処理": usage.costBreakdown?["functions"] ?? 0.0,
+         };
+       }
+     }
+     ```
+
+  7. **複数組織を持つユーザーのコスト管理**:
+     ```dart
+     // 組織別コスト配分と予算管理
+     class MultiOrgCostManager {
+       final String userId;
+       final PageRef ref;
+
+       MultiOrgCostManager({
+         required this.userId,
+         required this.ref,
+       });
+
+       /// 組織別の利用量内訳を取得
+       Future<Map<String, OrgUsageDetail>> getOrganizationBreakdown() async {
+         final organizations = await ref.app.model(
+           WorkflowOrganizationModel.collection()
+             .ownerId.equal(userId),
+         )..load();
+
+         final breakdown = <String, OrgUsageDetail>{};
+
+         for (final org in organizations) {
+           final usage = await ref.app.model(
+             WorkflowUsageModel.document(org.uid),
+           )..load();
+
+           if (usage.value != null) {
+             breakdown[org.uid] = OrgUsageDetail(
+               organizationName: org.value?.name ?? "Unknown",
+               currentMonthUsage: usage.value!.currentMonth,
+               percentage: 0.0, // 後で計算
+               costBreakdown: usage.value!.costBreakdown ?? {},
+             );
+           }
+         }
+
+         // 合計に対する割合を計算
+         final total = breakdown.values
+             .fold(0.0, (sum, detail) => sum + detail.currentMonthUsage);
+
+         for (final entry in breakdown.entries) {
+           entry.value.percentage =
+             total > 0 ? (entry.value.currentMonthUsage / total) * 100 : 0;
+         }
+
+         return breakdown;
+       }
+
+       /// 組織ごとの予算を設定
+       Future<void> setOrganizationBudget(
+         String organizationId,
+         double monthlyBudget,
+       ) async {
+         // 組織の使用量モデルに予算フィールドを追加
+         final usage = await ref.app.model(
+           WorkflowUsageModel.document(organizationId),
+         )..load();
+
+         await usage.save(
+           usage.value!.copyWith(
+             monthlyBudget: monthlyBudget,
+             budgetAlertThreshold: monthlyBudget * 0.8, // 80%でアラート
+           ),
+         );
+       }
+
+       /// コスト最適化の提案を生成
+       Future<List<CostOptimizationSuggestion>> generateSuggestions() async {
+         final suggestions = <CostOptimizationSuggestion>[];
+         final breakdown = await getOrganizationBreakdown();
+
+         for (final entry in breakdown.entries) {
+           final detail = entry.value;
+
+           // 高コストAPIの使用を検出
+           if (detail.costBreakdown["gemini"] != null &&
+               detail.costBreakdown["gemini"]! > detail.currentMonthUsage * 0.7) {
+             suggestions.add(
+               CostOptimizationSuggestion(
+                 organizationId: entry.key,
+                 type: "API_OPTIMIZATION",
+                 message: "${detail.organizationName}はAI生成コストが70%以上です。"
+                         "プロンプトの最適化やキャッシュの活用を検討してください。",
+                 potentialSaving: detail.costBreakdown["gemini"]! * 0.2,
+               ),
+             );
+           }
+
+           // 未使用の組織を検出
+           if (detail.currentMonthUsage < 0.01) {
+             suggestions.add(
+               CostOptimizationSuggestion(
+                 organizationId: entry.key,
+                 type: "UNUSED_ORGANIZATION",
+                 message: "${detail.organizationName}はほとんど使用されていません。"
+                         "削除または統合を検討してください。",
+                 potentialSaving: 0,
+               ),
+             );
+           }
+         }
+
+         return suggestions;
+       }
+     }
+
+     class OrgUsageDetail {
+       final String organizationName;
+       final double currentMonthUsage;
+       double percentage;
+       final Map<String, double> costBreakdown;
+
+       OrgUsageDetail({
+         required this.organizationName,
+         required this.currentMonthUsage,
+         required this.percentage,
+         required this.costBreakdown,
+       });
+     }
+
+     class CostOptimizationSuggestion {
+       final String organizationId;
+       final String type;
+       final String message;
+       final double potentialSaving;
+
+       CostOptimizationSuggestion({
+         required this.organizationId,
+         required this.type,
+         required this.message,
+         required this.potentialSaving,
+       });
+     }
+     ```
+
+  8. **組織間での利用量バランシング**:
+     ```dart
+     // 組織間で利用量を最適配分
+     class UsageBalancer {
+       /// 利用量が少ない組織に処理を振り分ける
+       static Future<String> selectOptimalOrganization(
+         String userId,
+         double estimatedCost,
+       ) async {
+         final orgs = await WorkflowOrganizationModel.collection()
+           .ownerId.equal(userId)
+           .load();
+
+         String optimalOrgId = "";
+         double lowestUsage = double.infinity;
+
+         for (final org in orgs) {
+           final usage = await WorkflowUsageModel.document(org.uid).load();
+           final currentUsage = usage.value?.currentMonth ?? 0;
+
+           // 予算に余裕がある組織を選択
+           if (currentUsage < lowestUsage) {
+             lowestUsage = currentUsage;
+             optimalOrgId = org.uid;
+           }
+         }
+
+         return optimalOrgId;
+       }
+     }
+     ```
 
 - **セキュリティ**:
   - 認証情報は必ず暗号化して保存
