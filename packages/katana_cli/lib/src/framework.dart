@@ -428,6 +428,11 @@ abstract class CliCode {
   /// 実際の本体コードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
   String body(String path, String baseName, String className);
 
+  /// Filter the code.
+  ///
+  /// コードをフィルタリングします。
+  String filter(String value) => value;
+
   /// Generate Dart code in [path].
   ///
   /// You can edit the data inside with [filter].
@@ -452,7 +457,8 @@ abstract class CliCode {
     final output = _removeCodeSnippetValue(
       "${import(trimedPath, baseName, editClassName)}\n${header(trimedPath, baseName, editClassName)}\n${body(trimedPath, baseName, editClassName)}",
     );
-    await File("$path.$ext").writeAsString(filter?.call(output) ?? output);
+    await File("$path.$ext")
+        .writeAsString(this.filter.call(filter?.call(output) ?? output));
   }
 
   /// Create a specific file in [directory]/[fileName].
@@ -475,7 +481,7 @@ abstract class CliCode {
     final output =
         "${import("", "", "")}${header("", "", "")}${body("", "", "")}";
     await File("${directory.isNotEmpty ? "$directory/" : ""}$fileName")
-        .writeAsString(filter?.call(output) ?? output);
+        .writeAsString(this.filter.call(filter?.call(output) ?? output));
   }
 
   static String _trimPathPrefix(String path) {
