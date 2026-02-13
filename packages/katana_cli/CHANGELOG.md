@@ -1,3 +1,33 @@
+## 3.10.0
+
+ - **REFACTOR**: streamline CLAUDE.md and update MCP server usage guidelines. ([43bef95c](https://github.com/mathrunet/flutter_masamune/commit/43bef95c675171f5bbe519098b10034d91f6a616))
+ - **REFACTOR**: Rename AGENTS references to CLAUDE in GitAgentsMarkdownCliCode class. ([e7c79bbc](https://github.com/mathrunet/flutter_masamune/commit/e7c79bbce7e4c9ea768b57ea098382cb0af3b4f4))
+ - **REFACTOR**: Remove GitClaudeSettingsCliCode and related settings.local.json generation. ([e65c94bb](https://github.com/mathrunet/flutter_masamune/commit/e65c94bbb77ceb8ab7adc81464904b59930046c8))
+ - **REFACTOR**: Update testing commands and documentation for consistency. ([5a2e74f5](https://github.com/mathrunet/flutter_masamune/commit/5a2e74f51588aef00ec02ee82dec1ccae30e0024))
+ - **REFACTOR**: Rename AGENTS.md to CLAUDE.md and remove unused Claude Code AI agent functionality. ([7f4489d7](https://github.com/mathrunet/flutter_masamune/commit/7f4489d73b3d0d90d22ae7d72a169b6db0982ffe))
+ - **REFACTOR**: Update asset paths in create.dart for consistency and portability. ([a05814fa](https://github.com/mathrunet/flutter_masamune/commit/a05814fa63a0a6ed839b569e9217156b8a3aa4b1))
+ - **FIX**: escape dollar signs in workflow-related strings. ([bfc5754b](https://github.com/mathrunet/flutter_masamune/commit/bfc5754b2095190eb9019dea33197ffe55d4b11a))
+ - **FIX**: AIドキュメントにTheme利用方法のガイドを追加. ([a22a3865](https://github.com/mathrunet/flutter_masamune/commit/a22a386510f5aaa3e00a9ec050d8a315d6e6253f))
+ - **FIX**: add new localized keys for "Region" and "Language". ([cac3f73d](https://github.com/mathrunet/flutter_masamune/commit/cac3f73dc12c328551ae16c9b23150ad3968979b))
+ - **FIX**: add guest login subscription registration messages in multiple languages. ([02dc8312](https://github.com/mathrunet/flutter_masamune/commit/02dc8312802a1e392447fd793b0a5b53ebe8b4ed))
+ - **FIX**(claude_code): escape dollar signs in completion messages. ([c1c8db5b](https://github.com/mathrunet/flutter_masamune/commit/c1c8db5b43c2bf700cac3cff4a79fb1f4dfefd0c))
+ - **FIX**: プラグインドキュメント生成機能を追加. ([e985a9c9](https://github.com/mathrunet/flutter_masamune/commit/e985a9c9341abd4168a4be23059b6d647c45bfc5))
+ - **FIX**: Enhance template generation by creating parent directories for code views. ([64ecd88f](https://github.com/mathrunet/flutter_masamune/commit/64ecd88fc8a64454955c996f70e7bf14834adc68))
+ - **FIX**: Introduce Firebase workflow configuration and related actions. ([86b0741a](https://github.com/mathrunet/flutter_masamune/commit/86b0741addb25a80663ace60af76b67b018dbee1))
+ - **FIX**: Add store.yaml generation and asset creation command. ([c6fdf4a6](https://github.com/mathrunet/flutter_masamune/commit/c6fdf4a64f50ba3b11e83a28e4d7ad510a1e75ff))
+ - **FEAT**(katana_cli): add CLAUDE.md generator for AI agent integration. ([6afd8f36](https://github.com/mathrunet/flutter_masamune/commit/6afd8f36890d15be47860e330da11a8787e20fe5))
+ - **DOCS**(plugins): Workflowプラグインドキュメントとプラグイン一覧を追加. ([de9fd138](https://github.com/mathrunet/flutter_masamune/commit/de9fd138f6e7c101dc798feaaa36fdf0c9d45c44))
+ - **DOCS**: Enhance purchase and workflow documentation for usage tracking and subscription management. ([288861f3](https://github.com/mathrunet/flutter_masamune/commit/288861f3b50c7009c2d3687244c5eb8a2c919af3))
+ - **DOCS**: Add comments to clarify CollectionModel update mechanism. ([46afad65](https://github.com/mathrunet/flutter_masamune/commit/46afad6515889b45a89c9170df110b583563a3f6))
+ - **DOCS**: Enhance model filter conditions and usage documentation. ([4c956c58](https://github.com/mathrunet/flutter_masamune/commit/4c956c589d69130ced05aa276559ee87cada52d3))
+ - **DOCS**: Add detailed documentation for new workflow features including basic workflows, sales functions, and asset generation. ([ca4ba4dc](https://github.com/mathrunet/flutter_masamune/commit/ca4ba4dc8952554053fb15d9e90f525bd3d8b95e))
+ - **DOCS**(katana_cli): Add workflow plugin documentation for AI code generation. ([c451cb17](https://github.com/mathrunet/flutter_masamune/commit/c451cb177a7840d242bbac855077d54609eb4101))
+ - **DOCS**: Add documentation for new workflow features including basic workflows and sales functions. ([4c6d7466](https://github.com/mathrunet/flutter_masamune/commit/4c6d746617f7eb93a752d8d04526ff95dd6ec00f))
+ - **DOCS**: Update pre-commit and testing documentation for CI image generation. ([01e49657](https://github.com/mathrunet/flutter_masamune/commit/01e4965722f63b5f29cdddf8fd0f92000c2abf2d))
+ - **DOCS**: Enhance workflow configuration documentation and automate Firebase setup. ([bfe79304](https://github.com/mathrunet/flutter_masamune/commit/bfe79304cd4c6428caaa849f686eef5f5f15b7f5))
+ - **DOCS**: Add comprehensive guide for URL recognition and MCP server selection in Claude Code. ([f1043227](https://github.com/mathrunet/flutter_masamune/commit/f10432275db13af534ca7cd30091153d4f1c834f))
+ - **DOCS**(cli): フォームコンポーネントAIドキュメントを追加. ([6fd709f3](https://github.com/mathrunet/flutter_masamune/commit/6fd709f39ffc090eef55e52779bbaf2167ec8b3e))
+
 ## 3.9.1
 
  - **FIX**: Add a workflow plugin. ([20d795b2](https://github.com/mathrunet/flutter_masamune/commit/20d795b2b3b171f8ac5f9a97859168ade64cdb01))
