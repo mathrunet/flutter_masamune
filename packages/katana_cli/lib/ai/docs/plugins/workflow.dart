@@ -1099,7 +1099,7 @@ Future<bool> canExecuteWorkflow(String userId, double estimatedCost) async {
          ↓                     ↓                      ↓
 ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
 │WorkflowUsageModel│  │WorkflowUsageModel│  │WorkflowUsageModel│
-│currentMonth: $45 │  │currentMonth: $30 │  │currentMonth: $20 │
+│currentMonth: \$45 │  │currentMonth: \$30 │  │currentMonth: \$20 │
 └──────────────────┘  └──────────────────┘  └──────────────────┘
 ```
 
@@ -1231,7 +1231,7 @@ class WorkflowProducts {
     title: "Workflow Free",
     description: "基本的なワークフロー機能",
     metadata: {
-      "monthlyLimit": "10",      // $10/月
+      "monthlyLimit": "10",      // \$10/月
       "burstCapacity": "0",
       "aiTokens": "100000",
       "storageGB": "1",
@@ -1244,8 +1244,8 @@ class WorkflowProducts {
     title: "Workflow Starter",
     description: "小規模プロジェクト向け",
     metadata: {
-      "monthlyLimit": "50",      // $50/月
-      "burstCapacity": "10",     // +$10のバースト
+      "monthlyLimit": "50",      // \$50/月
+      "burstCapacity": "10",     // +\$10のバースト
       "aiTokens": "1000000",
       "storageGB": "10",
     },
@@ -1257,8 +1257,8 @@ class WorkflowProducts {
     title: "Workflow Professional",
     description: "プロフェッショナル向け",
     metadata: {
-      "monthlyLimit": "200",     // $200/月
-      "burstCapacity": "50",     // +$50のバースト
+      "monthlyLimit": "200",     // \$200/月
+      "burstCapacity": "50",     // +\$50のバースト
       "aiTokens": "5000000",
       "storageGB": "50",
     },
@@ -1318,10 +1318,10 @@ class WorkflowSubscriptionPage extends PageScopedWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(product.description),
-                        Text("月額: \$${product.price}"),
-                        Text("利用上限: \$${product.metadata['monthlyLimit']}/月"),
+                        Text("月額: \${product.price}"),
+                        Text("利用上限: \${product.metadata['monthlyLimit']}/月"),
                         if (product.metadata['burstCapacity'] != "0")
-                          Text("バースト: +\$${product.metadata['burstCapacity']}"),
+                          Text("バースト: +\${product.metadata['burstCapacity']}"),
                       ],
                     ),
                     trailing: isCurrentPlan
@@ -1364,7 +1364,7 @@ class WorkflowSubscriptionPage extends PageScopedWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("今月の利用額: \$${totalUsage.toStringAsFixed(2)}"),
+            Text("今月の利用額: \${totalUsage.toStringAsFixed(2)}"),
             // 詳細表示
           ],
         ),
