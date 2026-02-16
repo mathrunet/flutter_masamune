@@ -54,7 +54,7 @@ extension DartTypeExtensions on DartType {
 
 /// Extension method of [InterfaceType].
 ///
-/// [InterfaceType]の拡張メソッド。
+/// [InterfaceType]の拡張メソッドです。
 extension InterfaceTypeExtensions on InterfaceType {
   /// Get this type and all its supertypes.
   ///
