@@ -15,6 +15,46 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_builder` - `v3.2.3`](#katana_builder---v323)
+ - [`katana_localization_builder` - `v3.2.3`](#katana_localization_builder---v323)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.2.4`](#masamune_model_firebase_data_connect_builder---v324)
+ - [`katana_router_builder` - `v3.1.4`](#katana_router_builder---v314)
+ - [`masamune_model_docs_builder` - `v3.2.4`](#masamune_model_docs_builder---v324)
+ - [`masamune_builder` - `v3.1.4`](#masamune_builder---v314)
+ - [`katana_theme_builder` - `v3.1.3`](#katana_theme_builder---v313)
+ - [`masamune_model_firestore_builder` - `v3.2.4`](#masamune_model_firestore_builder---v324)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_localization_builder` - `v3.2.3`
+ - `masamune_model_firebase_data_connect_builder` - `v3.2.4`
+ - `katana_router_builder` - `v3.1.4`
+ - `masamune_model_docs_builder` - `v3.2.4`
+ - `masamune_builder` - `v3.1.4`
+ - `katana_theme_builder` - `v3.1.3`
+ - `masamune_model_firestore_builder` - `v3.2.4`
+
+---
+
+#### `katana_builder` - `v3.2.3`
+
+ - **FIX**: Version up. ([c4640e40](https://github.com/mathrunet/flutter_masamune/commit/c4640e40e1f1c48d03117c1a0b824c528066fbb6))
+
+
+## 2026-02-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.10.1`](#katana_cli---v3101)
 
 ---

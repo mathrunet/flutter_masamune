@@ -1,3 +1,7 @@
+## 3.2.3
+
+ - **FIX**: Version up. ([c4640e40](https://github.com/mathrunet/flutter_masamune/commit/c4640e40e1f1c48d03117c1a0b824c528066fbb6))
+
 ## 3.2.2
 
  - Update a dependency to the latest release.
