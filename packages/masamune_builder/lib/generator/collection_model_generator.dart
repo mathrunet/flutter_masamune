@@ -16,7 +16,7 @@ class CollectionModelGenerator
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is ClassElement2) {
+    if (element is ClassElement) {
       if (!_freezedChecker.hasAnnotationOfExact(element)) {
         throw InvalidGenerationSourceError(
           "The `@freezed` annotation is required to use `@CollectionModelPath()` or `@DocumentModelPath()`.",

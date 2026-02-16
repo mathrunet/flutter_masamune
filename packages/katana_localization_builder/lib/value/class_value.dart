@@ -22,7 +22,7 @@ class ClassValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement2 element;
+  final ClassElement element;
 
   /// Class Name.
   ///

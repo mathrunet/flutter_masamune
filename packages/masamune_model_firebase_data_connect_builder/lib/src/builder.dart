@@ -126,7 +126,7 @@ generate:
     for (final annotatedElement
         in libraryReader.annotatedWith(_firebaseDataConnectChecker)) {
       final element = annotatedElement.element;
-      if (element is! ClassElement2) {
+      if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@FirebaseDataConnect()` can only be used on classes.",
           element: element,

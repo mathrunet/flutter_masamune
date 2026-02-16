@@ -145,7 +145,7 @@ class _MasamuneModelFirestoreBuilder extends Builder {
       for (final annotatedElement
           in libraryReader.annotatedWith(_documentModelPathChecker)) {
         final element = annotatedElement.element;
-        if (element is! ClassElement2) {
+        if (element is! ClassElement) {
           throw InvalidGenerationSourceError(
             "`@DocumentModelPath()` can only be used on classes.",
             element: element,
@@ -175,7 +175,7 @@ class _MasamuneModelFirestoreBuilder extends Builder {
       for (final annotatedElement
           in libraryReader.annotatedWith(_collectionModelPathChecker)) {
         final element = annotatedElement.element;
-        if (element is! ClassElement2) {
+        if (element is! ClassElement) {
           throw InvalidGenerationSourceError(
             "`@CollectionModelPath()` can only be used on classes.",
             element: element,

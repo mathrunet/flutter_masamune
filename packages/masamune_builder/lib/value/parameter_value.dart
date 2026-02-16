@@ -69,7 +69,7 @@ class ParamaterValue {
   ReferenceValue? _parseReferenceValue(
       FormalParameterElement element, InterfaceType type) {
     String? referenceAdapter;
-    for (final meta in element.metadata2.annotations) {
+    for (final meta in element.metadata.annotations) {
       final source = meta.toSource();
       final adapterMatch = _adapterRegExp.firstMatch(source);
       if (adapterMatch != null) {

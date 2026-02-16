@@ -19,7 +19,7 @@ class AdapterGenerator
     BuildStep buildStep,
   ) async {
     try {
-      if (element is! ClassElement2) {
+      if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@FirebaseDataConnectAdapter()` can only be used on classes.",
           element: element,
@@ -41,7 +41,7 @@ class AdapterGenerator
         );
         for (final annotatedElement in lib.annotatedWith(_typeChecker)) {
           final element = annotatedElement.element;
-          if (element is! ClassElement2) {
+          if (element is! ClassElement) {
             continue;
           }
           final modelAnnotationValue =

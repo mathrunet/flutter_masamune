@@ -20,7 +20,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is! TopLevelVariableElement2) {
+    if (element is! TopLevelVariableElement) {
       throw InvalidGenerationSourceError(
         "`@AppRoute()` should only be given to top-level fields.\n"
         "```\n"
@@ -48,12 +48,12 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
       );
       for (final annotatedElement in lib.annotatedWith(_typeChecker)) {
         final element = annotatedElement.element;
-        if (element is! ClassElement2) {
+        if (element is! ClassElement) {
           continue;
         }
         final annotation = annotatedElement.annotation;
         final path = annotation.read("path").stringValue.trimString("/");
-        for (final field in element.fields2) {
+        for (final field in element.fields) {
           if (_pageRouteQueryChecker.hasAnnotationOfExact(field)) {
             if (!field.isStatic || !field.isConst) {
               throw InvalidGenerationSourceError(
@@ -66,12 +66,12 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
               continue;
             }
             if (!export.containsKey(library!)) {
-              export[library] = [element.name3 ?? ""];
+              export[library] = [element.name ?? ""];
             } else {
-              export[library]!.add(element.name3 ?? "");
+              export[library]!.add(element.name ?? "");
             }
             if (!import.containsKey(library)) {
-              final meta = element.metadata2.annotations.first;
+              final meta = element.metadata.annotations.first;
               final obj = meta.computeConstantValue()!;
               final name = obj.getField("name")?.toStringValue();
               String value;
@@ -88,7 +88,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
                 QueryValue(
                   library: library,
                   path: path,
-                  query: "${import[library]}.${element.name3}.${field.name3}",
+                  query: "${import[library]}.${element.name}.${field.name}",
                   element: element,
                 ),
               );
@@ -97,7 +97,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
                 QueryValue(
                   library: library,
                   path: path,
-                  query: "${import[library]}.${element.name3}.${field.name3}",
+                  query: "${import[library]}.${element.name}.${field.name}",
                   element: element,
                 ),
               );
@@ -144,8 +144,8 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
     );
   }
 
-  String? _getImportLibrary(LibraryElement2 element) {
-    final path = element.library2.toString();
+  String? _getImportLibrary(LibraryElement element) {
+    final path = element.library.toString();
     final match = _regExp.firstMatch(path);
     if (match == null) {
       return null;

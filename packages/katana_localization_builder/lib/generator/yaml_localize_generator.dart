@@ -16,7 +16,7 @@ class YamlLocalizeGenerator extends GeneratorForAnnotation<YamlLocalize> {
     BuildStep buildStep,
   ) async {
     try {
-      if (element is! ClassElement2) {
+      if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@YamlLocalize()` can only be used on classes.",
           element: element,

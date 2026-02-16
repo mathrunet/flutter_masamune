@@ -15,7 +15,7 @@ dependencies:
   dart_style: ^3.0.0
   code_builder: ^4.10.1
   source_gen: ^3.0.0
-  analyzer: ^7.0.0
+  analyzer: ^8.0.0
   yaml: ^3.1.2
   glob: ^2.1.2
 

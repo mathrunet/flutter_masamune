@@ -17,7 +17,7 @@ class GoogleSpreadSheetLocalizeGenerator
     BuildStep buildStep,
   ) async {
     try {
-      if (element is! ClassElement2) {
+      if (element is! ClassElement) {
         throw InvalidGenerationSourceError(
           "`@GoogleSpreadSheetLocalize()` can only be used on classes.",
           element: element,

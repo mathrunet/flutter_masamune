@@ -17,7 +17,7 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is! TopLevelVariableElement2) {
+    if (element is! TopLevelVariableElement) {
       throw InvalidGenerationSourceError(
         "`@AppTheme()` should only be given to top-level fields.\n"
         "```\n"

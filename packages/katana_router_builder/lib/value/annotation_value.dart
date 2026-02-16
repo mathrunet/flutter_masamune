@@ -18,7 +18,7 @@ class AnnotationValue {
   AnnotationValue(this.element, this.annotationType) {
     final matcher = TypeChecker.typeNamed(annotationType);
 
-    for (final meta in element.metadata2.annotations) {
+    for (final meta in element.metadata.annotations) {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
@@ -100,7 +100,7 @@ class AnnotationValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final ClassElement2 element;
+  final ClassElement element;
 
   /// Annotation Type
   ///

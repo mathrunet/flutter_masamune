@@ -15,7 +15,7 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (element is! ClassElement2) {
+    if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@DocumentModelPath()` can only be used on classes.",
         element: element,

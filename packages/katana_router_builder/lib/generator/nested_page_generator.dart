@@ -15,7 +15,7 @@ class HiddenPageGenerator extends GeneratorForAnnotation<HiddenPage> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! ClassElement2) {
+    if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         "`@HiddenPage()` can only be used on classes.",
         element: element,

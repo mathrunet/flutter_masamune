@@ -32,5 +32,5 @@ class QueryValue {
   /// Class elements for queries.
   ///
   /// クエリー用のクラスエレメント。
-  final ClassElement2 element;
+  final ClassElement element;
 }
