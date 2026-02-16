@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.10.1`](#katana_cli---v3101)
+
+---
+
+#### `katana_cli` - `v3.10.1`
+
+ - **REFACTOR**: remove deprecated '-legacy' flag from PKCS12 export command. ([5d4ceea3](https://github.com/mathrunet/flutter_masamune/commit/5d4ceea3b421ae035f0e20d4e6b8e99c9b77761c))
+ - **FIX**: Add specification management commands for katana_cli. ([a4b68d63](https://github.com/mathrunet/flutter_masamune/commit/a4b68d6388699043054dca060aa9fe5ef057234a))
+
+
 ## 2026-02-13
 
 ### Changes
