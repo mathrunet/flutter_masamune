@@ -310,7 +310,7 @@ packages:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "3.2.2"
+    version: "3.2.3"
   katana_router_annotation:
     dependency: "direct main"
     description:
