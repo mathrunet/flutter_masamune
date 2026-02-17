@@ -15,6 +15,57 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization_builder` - `v3.2.4`](#katana_localization_builder---v324)
+ - [`katana_router_builder` - `v3.1.5`](#katana_router_builder---v315)
+ - [`katana_theme_builder` - `v3.1.4`](#katana_theme_builder---v314)
+ - [`masamune_builder` - `v3.1.5`](#masamune_builder---v315)
+ - [`masamune_model_docs_builder` - `v3.2.5`](#masamune_model_docs_builder---v325)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.2.5`](#masamune_model_firebase_data_connect_builder---v325)
+ - [`masamune_model_firestore_builder` - `v3.2.5`](#masamune_model_firestore_builder---v325)
+
+---
+
+#### `katana_localization_builder` - `v3.2.4`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+#### `katana_router_builder` - `v3.1.5`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+#### `katana_theme_builder` - `v3.1.4`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+#### `masamune_builder` - `v3.1.5`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+#### `masamune_model_docs_builder` - `v3.2.5`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+#### `masamune_model_firebase_data_connect_builder` - `v3.2.5`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+#### `masamune_model_firestore_builder` - `v3.2.5`
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
+
+## 2026-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_lints` - `v3.1.2`](#masamune_lints---v312)
  - [`masamune_test` - `v3.3.7`](#masamune_test---v337)
 

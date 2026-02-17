@@ -1,3 +1,7 @@
+## 3.2.5
+
+ - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))
+
 ## 3.2.4
 
  - Update a dependency to the latest release.
