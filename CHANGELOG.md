@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_lints` - `v3.1.2`](#masamune_lints---v312)
+ - [`masamune_test` - `v3.3.7`](#masamune_test---v337)
+
+---
+
+#### `masamune_lints` - `v3.1.2`
+
+ - **FIX**: update test dependency version in masamune_lints and masamune_test packages. ([4e6fcbc2](https://github.com/mathrunet/flutter_masamune/commit/4e6fcbc23ec57de297ece3b76b5e7dd0d64d71c5))
+
+#### `masamune_test` - `v3.3.7`
+
+ - **FIX**: update test dependency version in masamune_lints and masamune_test packages. ([4e6fcbc2](https://github.com/mathrunet/flutter_masamune/commit/4e6fcbc23ec57de297ece3b76b5e7dd0d64d71c5))
+
+
 ## 2026-02-16
 
 ### Changes

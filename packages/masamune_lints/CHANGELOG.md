@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**: update test dependency version in masamune_lints and masamune_test packages. ([4e6fcbc2](https://github.com/mathrunet/flutter_masamune/commit/4e6fcbc23ec57de297ece3b76b5e7dd0d64d71c5))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

@@ -1,6 +1,6 @@
 name: masamune_test
 description: This package is designed to test the Masamune framework.
-version: 3.3.6
+version: 3.3.7
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_test
 
