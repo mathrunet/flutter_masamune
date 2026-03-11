@@ -513,8 +513,8 @@ $document
     if (!gitignores.any((e) => e.startsWith(".maestra/results/"))) {
       gitignores.add(".maestra/results/");
     }
-    if (!gitignores.any((e) => e.startsWith(".maestra/.build/"))) {
-      gitignores.add(".maestra/.build/");
+    if (!gitignores.any((e) => e.startsWith(".maestra/.builds/"))) {
+      gitignores.add(".maestra/.builds/");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
@@ -1008,8 +1008,8 @@ $document
     if (!gitignores.any((e) => e.startsWith(".maestra/results/"))) {
       gitignores.add(".maestra/results/");
     }
-    if (!gitignores.any((e) => e.startsWith(".maestra/.build/"))) {
-      gitignores.add(".maestra/.build/");
+    if (!gitignores.any((e) => e.startsWith(".maestra/.builds/"))) {
+      gitignores.add(".maestra/.builds/");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
