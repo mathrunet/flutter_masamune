@@ -516,6 +516,9 @@ $document
     if (!gitignores.any((e) => e.startsWith(".maestra/.builds/"))) {
       gitignores.add(".maestra/.builds/");
     }
+    if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
+      gitignores.add(".tmp/**/*");
+    }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
     await command(
@@ -1010,6 +1013,9 @@ $document
     }
     if (!gitignores.any((e) => e.startsWith(".maestra/.builds/"))) {
       gitignores.add(".maestra/.builds/");
+    }
+    if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
+      gitignores.add(".tmp/**/*");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
