@@ -510,6 +510,12 @@ $document
     if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
       gitignores.add(".mcp.json");
     }
+    if (!gitignores.any((e) => e.startsWith(".maestra/results/"))) {
+      gitignores.add(".maestra/results/");
+    }
+    if (!gitignores.any((e) => e.startsWith(".maestra/.build/"))) {
+      gitignores.add(".maestra/.build/");
+    }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
     await command(
@@ -609,16 +615,6 @@ class ComposeCliCommand extends CliCommand {
       ],
     );
     await command(
-      "Import packages.",
-      [
-        flutter,
-        "pub",
-        "add",
-        ...importPackages,
-        ...allOptionsImportPackage,
-      ],
-    );
-    await command(
       "Import dev packages.",
       [
         flutter,
@@ -627,6 +623,16 @@ class ComposeCliCommand extends CliCommand {
         "--dev",
         ...importDevPackages,
         "import_sorter",
+      ],
+    );
+    await command(
+      "Import packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        ...importPackages,
+        ...allOptionsImportPackage,
       ],
     );
     label("Replace lib/main.dart");
@@ -998,6 +1004,12 @@ $document
     }
     if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
       gitignores.add(".mcp.json");
+    }
+    if (!gitignores.any((e) => e.startsWith(".maestra/results/"))) {
+      gitignores.add(".maestra/results/");
+    }
+    if (!gitignores.any((e) => e.startsWith(".maestra/.build/"))) {
+      gitignores.add(".maestra/.build/");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
