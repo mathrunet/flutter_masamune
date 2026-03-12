@@ -1578,7 +1578,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
             ),
           ),
           listTileTheme: theme.listTileTheme.copyWith(
-            tileColor: color.background,
+            tileColor: color.scaffoldBackgroundColor,
             selectedTileColor: color.primary,
             iconColor: color.onBackground,
             textColor: color.onBackground,
@@ -1774,7 +1774,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
             deleteIconColor: color.onSurface,
           ),
           listTileTheme: theme.listTileTheme.copyWith(
-            tileColor: color.background,
+            tileColor: color.scaffoldBackgroundColor,
             selectedTileColor: color.primary,
             iconColor: color.onBackground,
             textColor: color.onBackground,
