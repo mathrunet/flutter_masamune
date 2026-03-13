@@ -1578,6 +1578,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
             ),
           ),
           listTileTheme: theme.listTileTheme.copyWith(
+            // TODO: ここで色を変更できるようにする
             tileColor: color.scaffoldBackgroundColor,
             selectedTileColor: color.primary,
             iconColor: color.onBackground,
