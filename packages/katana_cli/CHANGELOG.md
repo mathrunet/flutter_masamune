@@ -1,3 +1,10 @@
+## 3.10.2
+
+ - **REFACTOR**: remove deprecated specification commands and related files. ([c4ccc316](https://github.com/mathrunet/flutter_masamune/commit/c4ccc316b0142fd28a5acb53e181d54bd85bf46f))
+ - **FIX**: add .tmp directory to .gitignore. ([d07813c2](https://github.com/mathrunet/flutter_masamune/commit/d07813c234e390df6ed5a60ab6739a8406dbe671))
+ - **FIX**: correct .gitignore entries for Maestra build directories. ([ad2abd17](https://github.com/mathrunet/flutter_masamune/commit/ad2abd175f89c961a52004d997ce2911cd5d5178))
+ - **FIX**: update .gitignore entries for Maestra results and build directories. ([6b94b474](https://github.com/mathrunet/flutter_masamune/commit/6b94b4749ebb2673b9112abaf1625bdefac09f0e))
+
 ## 3.10.1
 
  - **REFACTOR**: remove deprecated '-legacy' flag from PKCS12 export command. ([5d4ceea3](https://github.com/mathrunet/flutter_masamune/commit/5d4ceea3b421ae035f0e20d4e6b8e99c9b77761c))
