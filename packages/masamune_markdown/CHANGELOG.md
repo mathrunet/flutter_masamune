@@ -1,3 +1,7 @@
+## 3.6.1
+
+ - Update a dependency to the latest release.
+
 ## 3.6.0
 
  - **FEAT**: Offers unrestricted control via a controller. ([2054207d](https://github.com/mathrunet/flutter_masamune/commit/2054207dea7b58681551219b78312dc90201e11d))

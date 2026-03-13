@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**: add TODO for color customization in listTileTheme. ([0fc61164](https://github.com/mathrunet/flutter_masamune/commit/0fc6116477eaf3ef4b31a369c82fe82212d8bdc6))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

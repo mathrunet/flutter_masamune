@@ -1,3 +1,7 @@
+## 3.5.7
+
+ - Update a dependency to the latest release.
+
 ## 3.5.6
 
  - **FIX**: Enabled initial configuration of the adapter during testing. ([1a0bc0b0](https://github.com/mathrunet/flutter_masamune/commit/1a0bc0b05a038e46568d2ab9da1da0f789ff3181))

@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FEAT**: Deleted because Gmail functionality stopped working. ([a8bb6f22](https://github.com/mathrunet/flutter_masamune/commit/a8bb6f22e1f66e68322e3ad9b54bd09bf7a45ddd))
