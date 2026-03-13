@@ -29,6 +29,7 @@ final flavors = [
   "dev",
   "stg",
   "prod",
+  "test",
 ];
 
 /// Package to import.
@@ -2249,6 +2250,12 @@ class LaunchCliCode extends CliCode {
       "request": "launch",
       "type": "dart",
       "args": ["--dart-define-from-file=dart_defines/prod.env", "--web-port=5555", "--release"]
+    },
+    {
+      "name": "Test",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--dart-define-from-file=dart_defines/test.env", "--web-port=5555"]
     }
   ]
 }
@@ -2356,6 +2363,11 @@ class TasksCliCode extends CliCode {
             "label": "flavor_prod",
             "type": "shell",
             "command": "katana flavor prod",
+        },
+        {
+            "label": "flavor_test",
+            "type": "shell",
+            "command": "katana flavor test",
         }
     ]
 }

@@ -9,6 +9,7 @@ import "package:katana_cli/katana_cli.dart";
 part "prod.dart";
 part "stg.dart";
 part "dev.dart";
+part "test.dart";
 
 /// Providing flavor commands.
 ///
@@ -28,5 +29,6 @@ class FlavorCliCommand extends CliCommandGroup {
         "dev": FlavorDevCliCommand(),
         "stg": FlavorStgCliCommand(),
         "prod": FlavorProdCliCommand(),
+        "test": FlavorTestCliCommand(),
       };
 }
