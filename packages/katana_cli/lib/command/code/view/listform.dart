@@ -92,7 +92,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}EditPageQuery = _\
         }
       },
     );
-    await generateDartTestCode("$testDirectory/$path", path);
+    // await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override

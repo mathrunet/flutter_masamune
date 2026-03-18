@@ -11,11 +11,6 @@ import "package:image/src/formats/ico_encoder.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
-import "package:katana_cli/ai/claude_code.dart";
-import "package:katana_cli/ai/designs/designs.dart";
-import "package:katana_cli/ai/docs/docs.dart";
-import "package:katana_cli/ai/impls/impls.dart";
-import "package:katana_cli/ai/tests/tests.dart";
 import "package:katana_cli/katana.dart";
 import "package:katana_cli/katana_cli.dart";
 import "package:katana_cli/localize.dart";
@@ -511,11 +506,8 @@ $document
     if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
       gitignores.add(".mcp.json");
     }
-    if (!gitignores.any((e) => e.startsWith(".maestra/results/"))) {
-      gitignores.add(".maestra/results/");
-    }
-    if (!gitignores.any((e) => e.startsWith(".maestra/.builds/"))) {
-      gitignores.add(".maestra/.builds/");
+    if (!gitignores.any((e) => e.startsWith(".kiwame/impls/results/"))) {
+      gitignores.add(".kiwame/impls/results/");
     }
     if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
       gitignores.add(".tmp/**/*");
@@ -664,12 +656,6 @@ class ComposeCliCommand extends CliCommand {
       await file.value.generateFile(file.key);
     }
     await const CodeSnippetsCliGroup().generateFiles();
-    label("Generate file for Cursor AI");
-    await const DesignsAiCode().exec(context);
-    await const ImplsAiCode().exec(context);
-    await const DocsAiCode().exec(context);
-    await const GitAgentsMarkdownCliCode().generateFile("CLAUDE.md");
-    await const TestsAiCode().exec(context);
     label("Create a katana.yaml");
     await const KatanaCliCode(true).generateFile("katana.yaml");
     label("Create a store.yaml");
@@ -1009,11 +995,8 @@ $document
     if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
       gitignores.add(".mcp.json");
     }
-    if (!gitignores.any((e) => e.startsWith(".maestra/results/"))) {
-      gitignores.add(".maestra/results/");
-    }
-    if (!gitignores.any((e) => e.startsWith(".maestra/.builds/"))) {
-      gitignores.add(".maestra/.builds/");
+    if (!gitignores.any((e) => e.startsWith(".kiwame/impls/results/"))) {
+      gitignores.add(".kiwame/impls/results/");
     }
     if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
       gitignores.add(".tmp/**/*");

@@ -80,7 +80,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${p
         }
       },
     );
-    await generateDartTestCode("$testDirectory/$path", path);
+    // await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override

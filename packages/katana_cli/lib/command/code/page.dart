@@ -50,10 +50,10 @@ class CodePageCliCommand extends CliTestableCodeCommand {
       if (!parentDir.existsSync()) {
         await parentDir.create(recursive: true);
       }
-      final parentTestDir = Directory("$testDirectory/$parentPath");
-      if (!parentTestDir.existsSync()) {
-        await parentTestDir.create(recursive: true);
-      }
+      // final parentTestDir = Directory("$testDirectory/$parentPath");
+      // if (!parentTestDir.existsSync()) {
+      //   await parentTestDir.create(recursive: true);
+      // }
     }
     await generateDartCode(
       "$directory/$path",
@@ -79,7 +79,7 @@ typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${p
         }
       },
     );
-    await generateDartTestCode("$testDirectory/$path", path);
+    // await generateDartTestCode("$testDirectory/$path", path);
   }
 
   @override
