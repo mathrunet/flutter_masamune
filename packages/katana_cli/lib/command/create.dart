@@ -512,6 +512,9 @@ $document
     if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
       gitignores.add(".tmp/**/*");
     }
+    if (!gitignores.any((e) => e.startsWith("private_keys/"))) {
+      gitignores.add("private_keys/");
+    }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
     await command(
@@ -1001,6 +1004,9 @@ $document
     if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
       gitignores.add(".tmp/**/*");
     }
+    if (!gitignores.any((e) => e.startsWith("private_keys/"))) {
+      gitignores.add("private_keys/");
+    }
     await gitignore.writeAsString(gitignores.join("\n"));
     await Future.delayed(const Duration(seconds: 5));
     await command(
@@ -1152,6 +1158,9 @@ class PackageCliCommand extends CliCommand {
     }
     if (!gitignores.any((e) => e.startsWith("/android/app/.cxx/"))) {
       gitignores.add("/android/app/.cxx/");
+    }
+    if (!gitignores.any((e) => e.startsWith("private_keys/"))) {
+      gitignores.add("private_keys/");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     label("Rewrite `pubspec.yaml`.");
