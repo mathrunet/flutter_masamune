@@ -1008,6 +1008,12 @@ $document
       gitignores.add("private_keys/");
     }
     await gitignore.writeAsString(gitignores.join("\n"));
+    label("Create firebase-debug.log symlink to /dev/null");
+    final firebaseDebugLog = File("firebase-debug.log");
+    if (firebaseDebugLog.existsSync()) {
+      await firebaseDebugLog.delete();
+    }
+    await Link("firebase-debug.log").create("/dev/null");
     await Future.delayed(const Duration(seconds: 5));
     await command(
       "Run the project's build_runner to generate code.",
