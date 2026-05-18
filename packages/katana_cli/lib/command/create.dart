@@ -506,8 +506,8 @@ $document
     if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
       gitignores.add(".mcp.json");
     }
-    if (!gitignores.any((e) => e.startsWith(".kiwame/impls/results/"))) {
-      gitignores.add(".kiwame/impls/results/");
+    if (!gitignores.any((e) => e.startsWith(".kiwame/impl/results/"))) {
+      gitignores.add(".kiwame/impl/results/");
     }
     if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
       gitignores.add(".tmp/**/*");
@@ -998,8 +998,8 @@ $document
     if (!gitignores.any((e) => e.startsWith(".mcp.json"))) {
       gitignores.add(".mcp.json");
     }
-    if (!gitignores.any((e) => e.startsWith(".kiwame/impls/results/"))) {
-      gitignores.add(".kiwame/impls/results/");
+    if (!gitignores.any((e) => e.startsWith(".kiwame/impl/results/"))) {
+      gitignores.add(".kiwame/impl/results/");
     }
     if (!gitignores.any((e) => e.startsWith(".tmp/**/*"))) {
       gitignores.add(".tmp/**/*");
