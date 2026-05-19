@@ -26,6 +26,10 @@ import "package:shared_preferences/shared_preferences.dart";
 import "package:firebase_auth/firebase_auth.dart" as firebase_auth
     show AuthProvider;
 
+// Project imports:
+import "src/cross_origin_isolated.dart"
+    if (dart.library.js_interop) "src/cross_origin_isolated_web.dart";
+
 export "package:katana_auth/katana_auth.dart";
 export "package:katana_firebase/katana_firebase.dart";
 

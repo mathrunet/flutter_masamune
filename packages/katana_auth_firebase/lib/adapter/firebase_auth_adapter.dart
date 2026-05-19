@@ -445,6 +445,25 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }) async {
     try {
       await _initialize();
+      if (kIsWeb && isCrossOriginIsolated) {
+        try {
+          // Finalize a redirect-based sign-in initiated before the page
+          // navigated away. No-op when no redirect is pending.
+          // A timeout guards against the auth helper iframe stalling under
+          // cross-origin isolation, which would otherwise block routing.
+          debugPrint("[katana_auth_firebase] getRedirectResult: start");
+          final result = await database
+              .getRedirectResult()
+              .timeout(const Duration(seconds: 12));
+          debugPrint(
+            "[katana_auth_firebase] getRedirectResult: done user=${result.user?.uid}",
+          );
+        } catch (e) {
+          debugPrint(
+            "[katana_auth_firebase] getRedirectResult: failed ($e)",
+          );
+        }
+      }
       User? user = database.currentUser;
       user ??= await database.idTokenChanges().first;
       if (user != null) {
@@ -698,12 +717,24 @@ class FirebaseAuthAdapter extends AuthAdapter {
       final authProvider = provider.authProvider();
       if (_user != null) {
         if (kIsWeb) {
+          // Under cross-origin isolation (e.g. Wasm builds) popup sign-in is
+          // broken by COOP, so a redirect-based flow is used instead. The page
+          // navigates away here and the result is finalized by
+          // `getRedirectResult` within `tryRestoreAuth` on the next launch.
+          if (isCrossOriginIsolated) {
+            await _user!.linkWithRedirect(authProvider);
+            return;
+          }
           userCredential = await _user!.linkWithPopup(authProvider);
         } else {
           userCredential = await _user!.linkWithProvider(authProvider);
         }
       } else {
         if (kIsWeb) {
+          if (isCrossOriginIsolated) {
+            await database.signInWithRedirect(authProvider);
+            return;
+          }
           userCredential = await database.signInWithPopup(authProvider);
         } else {
           userCredential = await database.signInWithProvider(authProvider);
@@ -849,6 +880,12 @@ class FirebaseAuthAdapter extends AuthAdapter {
       late UserCredential userCredential;
       final authProvider = provider.authProvider();
       if (kIsWeb) {
+        // See the redirect handling in [signIn]. The page navigates away here
+        // when cross-origin isolated.
+        if (isCrossOriginIsolated) {
+          await _user!.reauthenticateWithRedirect(authProvider);
+          return true;
+        }
         userCredential = await _user!.reauthenticateWithPopup(authProvider);
       } else {
         userCredential = await _user!.reauthenticateWithProvider(authProvider);
