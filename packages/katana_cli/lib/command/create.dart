@@ -2070,6 +2070,7 @@ analyzer:
   plugins:
     - custom_lint
   exclude:
+    - "build/**"
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.theme.dart"
