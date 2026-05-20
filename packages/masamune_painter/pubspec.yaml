@@ -15,7 +15,7 @@ dependencies:
   katana: ^3.4.0
   masamune: ^3.5.8
   image_painter: ^0.7.1
-  font_awesome_flutter: ^10.8.0
+  font_awesome_flutter: ^11.0.0
   flutter_colorpicker: ^1.1.0
   http: ^1.2.2
   shared_preferences: ^2.5.3
