@@ -282,7 +282,9 @@ class GridBuilder<T> extends StatelessWidget {
       addAutomaticKeepAlives: addAutomaticKeepAlives,
       addRepaintBoundaries: addRepaintBoundaries,
       addSemanticIndexes: addSemanticIndexes,
-      cacheExtent: cacheExtent,
+      scrollCacheExtent: cacheExtent != null
+          ? ScrollCacheExtent.pixels(cacheExtent ?? 0.0)
+          : null,
       semanticChildCount: semanticChildCount,
       dragStartBehavior: dragStartBehavior,
       keyboardDismissBehavior: keyboardDismissBehavior,

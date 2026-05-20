@@ -1279,6 +1279,9 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
       _textInputConnection = null;
     }
   }
+
+  @override
+  bool onFocusReceived() => false;
 }
 
 class _SuggestionsBoxController {

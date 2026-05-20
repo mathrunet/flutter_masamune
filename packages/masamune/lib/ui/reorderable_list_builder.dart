@@ -362,7 +362,7 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
     return ReorderableListView.builder(
       scrollDirection: widget.scrollDirection,
       reverse: widget.reverse,
-      onReorder: _reorder,
+      onReorderItem: _reorder,
       primary: widget.primary,
       physics: widget.physics,
       shrinkWrap: widget.shrinkWrap,
@@ -370,7 +370,9 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
       itemExtent: widget.itemExtent,
       itemBuilder: _builder,
       itemCount: widget._length,
-      cacheExtent: widget.cacheExtent,
+      scrollCacheExtent: widget.cacheExtent != null
+          ? ScrollCacheExtent.pixels(widget.cacheExtent ?? 0.0)
+          : null,
       dragStartBehavior: widget.dragStartBehavior,
       keyboardDismissBehavior: widget.keyboardDismissBehavior,
       restorationId: widget.restorationId,
@@ -379,11 +381,12 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
   }
 
   void _exchange(int oldPosition, int newPosition) {
-    if (oldPosition >= newPosition) {
-      _source.insert(newPosition, _source.removeAt(oldPosition));
-    } else {
-      _source.insert(newPosition - 1, _source.removeAt(oldPosition));
-    }
+    _source.insert(newPosition, _source.removeAt(oldPosition));
+    // if (oldPosition >= newPosition) {
+    //   _source.insert(newPosition, _source.removeAt(oldPosition));
+    // } else {
+    //   _source.insert(newPosition - 1, _source.removeAt(oldPosition));
+    // }
   }
 
   void _reorder(int oldPosition, int newPosition) {

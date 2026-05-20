@@ -310,7 +310,9 @@ class UniversalListView extends StatelessWidget {
                 shrinkWrap: shrinkWrap,
                 center: center,
                 anchor: anchor,
-                cacheExtent: cacheExtent,
+                scrollCacheExtent: cacheExtent != null
+                    ? ScrollCacheExtent.pixels(cacheExtent ?? 0.0)
+                    : null,
                 semanticChildCount: semanticChildCount,
                 dragStartBehavior: dragStartBehavior,
                 keyboardDismissBehavior: keyboardDismissBehavior,
