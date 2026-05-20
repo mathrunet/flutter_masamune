@@ -1,3 +1,7 @@
+## 3.2.3
+
+ - **FIX**: update cache extent handling in list and grid builders. ([2ae1eef2](https://github.com/mathrunet/flutter_masamune/commit/2ae1eef2b12b80b910a65430bdf211134e35c514))
+
 ## 3.2.2
 
  - **FIX**: Enabled dummy display for buttons. ([9f80dc41](https://github.com/mathrunet/flutter_masamune/commit/9f80dc41353730fc1d79f7beb862032a25da0b95))

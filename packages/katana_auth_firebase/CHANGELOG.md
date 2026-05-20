@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**(katana_auth_firebase): implement cross-origin isolation handling for web authentication. ([6e1a5257](https://github.com/mathrunet/flutter_masamune/commit/6e1a525770339d56b48beb91a59ebe2ab4b729e6))
+
 ## 3.2.1
 
  - Update a dependency to the latest release.

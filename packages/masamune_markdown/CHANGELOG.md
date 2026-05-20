@@ -1,3 +1,7 @@
+## 3.6.2
+
+ - **FIX**: enhance markdown debugging and selection handling. ([4a6adb78](https://github.com/mathrunet/flutter_masamune/commit/4a6adb78f2918c30d55e54856e98fa79e7a5574b))
+
 ## 3.6.1
 
  - Update a dependency to the latest release.

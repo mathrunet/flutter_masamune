@@ -1,3 +1,13 @@
+## 3.11.0
+
+ - **FIX**(katana_cli): update gitignore patterns in create and zip commands. ([33abbe56](https://github.com/mathrunet/flutter_masamune/commit/33abbe56d308cb1df889476029a918749d216268))
+ - **FIX**: add create command with flavor and package config. ([fd1491c2](https://github.com/mathrunet/flutter_masamune/commit/fd1491c2ee6aa4c156d81ba869409bec0a447db5))
+ - **FIX**: remove obsolete AI design and documentation files. ([8219585b](https://github.com/mathrunet/flutter_masamune/commit/8219585bba4affc66454b4aed794ebc605c4d912))
+ - **FIX**: add create command and flavor management. ([102d8e5f](https://github.com/mathrunet/flutter_masamune/commit/102d8e5ff135fc02a6710a2c14ae51e3074a16f5))
+ - **FEAT**(katana_cli): update zip command to include additional ignore patterns. ([7f59206c](https://github.com/mathrunet/flutter_masamune/commit/7f59206c7e811cd12e3023808a00eab73b2463ba))
+ - **FEAT**(katana_cli): add create command implementation. ([cc5746cc](https://github.com/mathrunet/flutter_masamune/commit/cc5746cc78389efa8d170bd2964e249dc9bfc547))
+ - **FEAT**: add Test Flavor CLI command. ([6ebb7dc1](https://github.com/mathrunet/flutter_masamune/commit/6ebb7dc183c89b7a5f796228714f38af954ada2c))
+
 ## 3.10.2
 
  - **REFACTOR**: remove deprecated specification commands and related files. ([c4ccc316](https://github.com/mathrunet/flutter_masamune/commit/c4ccc316b0142fd28a5acb53e181d54bd85bf46f))
