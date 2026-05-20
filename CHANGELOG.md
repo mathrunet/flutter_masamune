@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.11.1`](#katana_cli---v3111)
+
+---
+
+#### `katana_cli` - `v3.11.1`
+
+ - **FIX**(katana_cli): update analyzer exclude patterns in create.dart. ([2bbd57da](https://github.com/mathrunet/flutter_masamune/commit/2bbd57da8441c234a35c60bd2d17946d595d6cdc))
+
+
+## 2026-05-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth_firebase` - `v3.3.0`](#katana_auth_firebase---v330)
  - [`katana_cli` - `v3.11.0`](#katana_cli---v3110)
  - [`katana_form` - `v3.2.3`](#katana_form---v323)

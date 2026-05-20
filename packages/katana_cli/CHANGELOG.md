@@ -1,3 +1,7 @@
+## 3.11.1
+
+ - **FIX**(katana_cli): update analyzer exclude patterns in create.dart. ([2bbd57da](https://github.com/mathrunet/flutter_masamune/commit/2bbd57da8441c234a35c60bd2d17946d595d6cdc))
+
 ## 3.11.0
 
  - **FIX**(katana_cli): update gitignore patterns in create and zip commands. ([33abbe56](https://github.com/mathrunet/flutter_masamune/commit/33abbe56d308cb1df889476029a918749d216268))
