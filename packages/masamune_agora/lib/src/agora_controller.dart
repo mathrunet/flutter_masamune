@@ -277,6 +277,20 @@ class AgoraController
 
   bool _enableVideo = true;
 
+  /// Returns `true` if virtual background (background blur) is enabled.
+  ///
+  /// Virtual Backgroundが有効な場合`true`を返します。
+  bool get virtualBackgroundEnabled => _virtualBackgroundEnabled;
+  bool _virtualBackgroundEnabled = false;
+
+  /// Get the current blur degree of the virtual background.
+  ///
+  /// Virtual Backgroundの現在のぼかしレベルを取得します。
+  BackgroundBlurDegree get virtualBackgroundBlurDegree =>
+      _virtualBackgroundBlurDegree;
+  BackgroundBlurDegree _virtualBackgroundBlurDegree =
+      BackgroundBlurDegree.blurDegreeMedium;
+
   /// If you want to use a custom video source, set it to `true`.
   ///
   /// カスタムビデオソースを利用する場合は`true`に設定してください。
@@ -435,6 +449,7 @@ class AgoraController
       );
     }
     _disposed = true;
+    _virtualBackgroundEnabled = false;
     _release();
   }
 
@@ -451,6 +466,9 @@ class AgoraController
   /// You can specify that a recording or screenshot be taken when the connection is established with [enableRecordingOnConnect] or [enableScreenCaptureOnConnect].
   /// If not specified, the settings of [AgoraMasamuneAdapter.enableRecordingByDefault] and [AgoraMasamuneAdapter.enableScreenCaptureByDefault] are followed.
   ///
+  /// You can enable virtual background (background blur) on connection by setting [enableVirtualBackgroundOnConnect] to `true`.
+  /// The blur degree can be specified with [virtualBackgroundBlurDegree].
+  ///
   /// You can specify the type of communication by specifying [channelProfile] or [clientRole].
   ///
   /// 新規にチャンネルに接続します。
@@ -466,6 +484,9 @@ class AgoraController
   /// [enableRecordingOnConnect]や[enableScreenCaptureOnConnect]で接続が完了したときに録画やスクリーンショットの撮影を指定することができます。
   /// 指定されない場合は、[AgoraMasamuneAdapter.enableRecordingByDefault]や[AgoraMasamuneAdapter.enableScreenCaptureByDefault]の設定に従います。
   ///
+  /// [enableVirtualBackgroundOnConnect]を`true`に設定することで、接続時にVirtual Background（背景ぼかし）を有効化できます。
+  /// ぼかしのレベルは[virtualBackgroundBlurDegree]で指定できます。
+  ///
   /// [channelProfile]や[clientRole]を指定して、通信のタイプを指定することができます。
   Future<void> connect({
     required String userName,
@@ -475,6 +496,9 @@ class AgoraController
     bool enableVideo = true,
     bool? enableRecordingOnConnect,
     bool? enableScreenCaptureOnConnect,
+    bool enableVirtualBackgroundOnConnect = false,
+    BackgroundBlurDegree virtualBackgroundBlurDegree =
+        BackgroundBlurDegree.blurDegreeMedium,
     ChannelProfileType channelProfile =
         ChannelProfileType.channelProfileLiveBroadcasting,
     ClientRoleType clientRole = ClientRoleType.clientRoleBroadcaster,
@@ -496,6 +520,8 @@ class AgoraController
       userName: userName,
       enableRecordingOnConnect: enableRecordingOnConnect,
       enableScreenCaptureOnConnect: enableScreenCaptureOnConnect,
+      enableVirtualBackgroundOnConnect: enableVirtualBackgroundOnConnect,
+      virtualBackgroundBlurDegree: virtualBackgroundBlurDegree,
     );
   }
 
@@ -503,6 +529,9 @@ class AgoraController
     required String userName,
     bool? enableRecordingOnConnect,
     bool? enableScreenCaptureOnConnect,
+    bool enableVirtualBackgroundOnConnect = false,
+    BackgroundBlurDegree virtualBackgroundBlurDegree =
+        BackgroundBlurDegree.blurDegreeMedium,
   }) async {
     if (_connectingCompleter != null) {
       return connecting;
@@ -592,6 +621,11 @@ class AgoraController
                       ChannelProfileType.channelProfileLiveBroadcasting &&
                   clientRole == ClientRoleType.clientRoleBroadcaster) {
                 await startRecording();
+              }
+              if (enableVirtualBackgroundOnConnect) {
+                await enableVirtualBackground(
+                  blurDegree: virtualBackgroundBlurDegree,
+                );
               }
             } else {
               if (data.channel != connection.channelId) {
@@ -815,6 +849,10 @@ class AgoraController
     }
     _reconnectCompleter = Completer();
     try {
+      // Save current virtual background settings
+      final savedVirtualBgEnabled = _virtualBackgroundEnabled;
+      final savedVirtualBgBlurDegree = _virtualBackgroundBlurDegree;
+
       await disconnect();
       _token = null;
       await _release();
@@ -830,6 +868,12 @@ class AgoraController
         enableCustomVideoSource: _enableCustomVideoSource,
         onReceivedDataStream: _onReceivedDataStream,
       );
+
+      // Restore virtual background settings
+      if (savedVirtualBgEnabled) {
+        await enableVirtualBackground(blurDegree: savedVirtualBgBlurDegree);
+      }
+
       _reconnectCompleter?.complete();
       _reconnectCompleter = null;
     } catch (e, stacktrace) {
@@ -1353,6 +1397,100 @@ class AgoraController
       _recordingAudio = null;
       rethrow;
     }
+  }
+
+  /// Enable virtual background (background blur).
+  ///
+  /// Specify the blur level with [blurDegree].
+  /// The default is [BackgroundBlurDegree.blurDegreeMedium].
+  ///
+  /// You must call this method after calling [connect].
+  ///
+  /// Virtual Background（背景ぼかし）を有効化します。
+  ///
+  /// [blurDegree]でぼかしのレベルを指定します。
+  /// デフォルトは[BackgroundBlurDegree.blurDegreeMedium]です。
+  ///
+  /// [connect]を呼び出した後にこのメソッドを呼び出す必要があります。
+  Future<void> enableVirtualBackground({
+    BackgroundBlurDegree blurDegree = BackgroundBlurDegree.blurDegreeMedium,
+  }) async {
+    if (_engine == null) {
+      throw Exception(
+        "The engine is not initialized. [connect] the engine first.",
+      );
+    }
+    if (_virtualBackgroundEnabled &&
+        _virtualBackgroundBlurDegree == blurDegree) {
+      return; // Already enabled with the same blur degree
+    }
+
+    // Configure VirtualBackgroundSource
+    final virtualBackgroundSource = VirtualBackgroundSource(
+      backgroundSourceType: BackgroundSourceType.backgroundBlur,
+      blurDegree: blurDegree,
+    );
+
+    // Configure SegmentationProperty (AI-based segmentation)
+    const segmentationProperty = SegmentationProperty(
+      modelType: SegModelType.segModelAi,
+      greenCapacity: 0.5,
+    );
+
+    await _engine?.enableVirtualBackground(
+      enabled: true,
+      backgroundSource: virtualBackgroundSource,
+      segproperty: segmentationProperty,
+    );
+
+    _virtualBackgroundEnabled = true;
+    _virtualBackgroundBlurDegree = blurDegree;
+    notifyListeners();
+  }
+
+  /// Disable virtual background (background blur).
+  ///
+  /// You must call this method after calling [connect].
+  ///
+  /// Virtual Background（背景ぼかし）を無効化します。
+  ///
+  /// [connect]を呼び出した後にこのメソッドを呼び出す必要があります。
+  Future<void> disableVirtualBackground() async {
+    if (_engine == null) {
+      throw Exception(
+        "The engine is not initialized. [connect] the engine first.",
+      );
+    }
+    if (!_virtualBackgroundEnabled) {
+      return; // Already disabled
+    }
+
+    await _engine?.enableVirtualBackground(
+      enabled: false,
+      backgroundSource: const VirtualBackgroundSource(),
+      segproperty: const SegmentationProperty(),
+    );
+
+    _virtualBackgroundEnabled = false;
+    notifyListeners();
+  }
+
+  /// Change the blur degree of the virtual background.
+  ///
+  /// You must call [enableVirtualBackground] first before calling this method.
+  ///
+  /// Virtual Backgroundのぼかしレベルを変更します。
+  ///
+  /// このメソッドを呼び出す前に[enableVirtualBackground]を呼び出す必要があります。
+  Future<void> setVirtualBackgroundBlurDegree(
+    BackgroundBlurDegree blurDegree,
+  ) async {
+    if (!_virtualBackgroundEnabled) {
+      throw Exception(
+        "Virtual background is not enabled. Call [enableVirtualBackground] first.",
+      );
+    }
+    await enableVirtualBackground(blurDegree: blurDegree);
   }
 
   Future<void> _onUserJoined({
