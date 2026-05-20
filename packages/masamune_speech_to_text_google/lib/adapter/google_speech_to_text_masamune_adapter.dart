@@ -69,6 +69,10 @@ class GoogleSpeechToTextMasamuneAdapter
       throw Exception("Audio stream is null");
     }
     final responseStream = speechToText.endlessStream;
+    final locals = [
+      (locale ?? defaultLocale).toLanguageTag(),
+      const Locale("en", "US").toLanguageTag(),
+    ].distinct();
 
     speechToText.endlessStreamingRecognize(
       StreamingRecognitionConfigV2(
@@ -78,10 +82,7 @@ class GoogleSpeechToTextMasamuneAdapter
             enableSpokenPunctuation: true,
           ),
           model: RecognitionModelV2.long,
-          languageCodes: [
-            (locale ?? defaultLocale).toLanguageTag(),
-            const Locale("en", "US").toLanguageTag(),
-          ],
+          languageCodes: locals,
           explicitDecodingConfig: ExplicitDecodingConfig(
             encoding: ExplicitDecodingConfig_AudioEncoding.LINEAR16,
             sampleRateHertz: 16000,
@@ -104,6 +105,7 @@ class GoogleSpeechToTextMasamuneAdapter
           return;
         }
         final transcript = alternative.transcript;
+        debugPrint(transcript);
         final isFinal = result.isFinal;
         onResult?.call(transcript, isFinal);
       },
