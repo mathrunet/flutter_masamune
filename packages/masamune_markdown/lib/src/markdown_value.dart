@@ -651,6 +651,11 @@ abstract class MarkdownBlockValue extends MarkdownValue {
   /// 改行時に型を保持するかどうかを確認します。
   bool get maintainTypeOnNewLine => false;
 
+  /// Check if the block can be selected.
+  ///
+  /// ブロックが選択可能かどうかを確認します。
+  bool get canSelect => true;
+
   @override
   DynamicMap toJson() {
     return {
@@ -725,6 +730,20 @@ abstract class MarkdownBlockValue extends MarkdownValue {
     return [];
   }
 
+  /// Builds the raw text content for this block.
+  ///
+  /// Override this method in custom blocks to provide text content
+  /// that will be included in the controller's rawText.
+  /// By default, returns null which means no text is added to rawText.
+  ///
+  /// このブロックのrawテキストコンテンツを構築します。
+  /// カスタムブロックでこのメソッドをオーバーライドして、
+  /// コントローラーのrawTextに含めるテキストを提供します。
+  /// デフォルトではnullを返し、rawTextにテキストは追加されません。
+  String? buildRawText() {
+    return null;
+  }
+
   @override
   MarkdownBlockValue copyWith({
     String? id,
@@ -752,6 +771,16 @@ abstract class MarkdownBlockValue extends MarkdownValue {
 
   @override
   StringBuffer _textBuilder(StringBuffer buffer, {bool indent = true}) {
+    final text = buildRawText();
+    if (text != null) {
+      if (indent) {
+        final space = " " *
+            this.indent *
+            MarkdownMasamuneAdapter.primary.indentSpaceCount;
+        buffer.write(space);
+      }
+      buffer.write(text);
+    }
     return buffer;
   }
 }

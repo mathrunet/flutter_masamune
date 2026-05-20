@@ -4,7 +4,8 @@ part of "package:masamune_markdown/masamune_markdown.dart";
 ///
 /// デバッグメッセージを [MarkdownMasamuneAdapter.showDebugLogs] が true のときのみ出力します。
 void markdownDebugPrint(String message) {
-  if (MarkdownMasamuneAdapter.primary.showDebugLogs) {
-    debugPrint(message);
-  }
+  // TODO: デバッグ後に元に戻す
+  // if (MarkdownMasamuneAdapter.primary.showDebugLogs) {
+  debugPrint(message);
+  // }
 }

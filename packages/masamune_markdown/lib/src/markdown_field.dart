@@ -760,6 +760,34 @@ class MarkdownFieldState extends State<MarkdownField>
       return;
     }
 
+    // canSelect=falseブロックが選択/カーソル中の場合、テキスト変更を無視
+    // 削除はキーイベント（_handleDelete/_handleBackspace）で処理される
+    markdownDebugPrint(
+        "[updateEditingValue] Checking canSelect=false at selection.start=${_selection.start}");
+    final blockInfoForCheck = _getBlockInfoAt(_selection.start);
+    markdownDebugPrint(
+        "[updateEditingValue] blockInfoForCheck: ${blockInfoForCheck != null ? 'found (type=${blockInfoForCheck.block.type}, canSelect=${blockInfoForCheck.block.canSelect}, range=${blockInfoForCheck.start}-${blockInfoForCheck.end})' : 'null'}");
+    if (blockInfoForCheck != null && !blockInfoForCheck.block.canSelect) {
+      final blockStart = blockInfoForCheck.start;
+      final blockEnd = blockInfoForCheck.end;
+      final oldText = widget.controller.rawText;
+      final newText = value.text;
+      markdownDebugPrint(
+          "[updateEditingValue] canSelect=false block found, oldText='$oldText', newText='$newText', selection=$_selection, blockRange=[$blockStart, $blockEnd]");
+      // テキストに何らかの変更があれば無視（削除はキーイベントで処理）
+      if (oldText != newText) {
+        // カーソルがcanSelect=falseブロック内にある場合も無視
+        // (通常はonSelectionChangedで全選択に調整されるが、念のため)
+        if (_selection.isCollapsed ||
+            (_selection.start == blockStart && _selection.end == blockEnd)) {
+          markdownDebugPrint(
+              "[MarkdownField] canSelect=false block selected/cursor, ignoring text change via updateEditingValue");
+          _updateRemoteEditingValue();
+          return;
+        }
+      }
+    }
+
     // 実際の現在のテキストを取得
     // IME変換中は_composingTextが利用可能な場合はそれを使用
     // そうでない場合はコントローラーのテキストを使用
@@ -1273,8 +1301,33 @@ class MarkdownFieldState extends State<MarkdownField>
                 _composingRegion = null;
               }
 
+              // canSelect=falseブロック内のタップ/ドラッグをチェック
+              // カーソル（collapsed selection）の場合、ブロック全体を選択
+              var adjustedSelection = selection;
+              markdownDebugPrint(
+                  "[MarkdownField] Checking canSelect: selection.isCollapsed=${selection.isCollapsed}, cause=$cause, baseOffset=${selection.baseOffset}");
+              if (selection.isCollapsed &&
+                  (cause == SelectionChangedCause.tap ||
+                      cause == SelectionChangedCause.longPress)) {
+                final blockInfo = _getBlockInfoAt(selection.baseOffset);
+                markdownDebugPrint(
+                    "[MarkdownField] blockInfo: ${blockInfo != null ? 'found (type=${blockInfo.block.type}, canSelect=${blockInfo.block.canSelect}, range=${blockInfo.start}-${blockInfo.end})' : 'null'}");
+                if (blockInfo != null && !blockInfo.block.canSelect) {
+                  // canSelect=falseブロック内にカーソルがある場合、
+                  // ブロック全体を選択に変更
+                  markdownDebugPrint(
+                      "[MarkdownField] canSelect=false block tapped, selecting entire block: ${blockInfo.start}-${blockInfo.end}");
+                  adjustedSelection = TextSelection(
+                    baseOffset: blockInfo.start,
+                    extentOffset: blockInfo.end,
+                  );
+                }
+              }
+              markdownDebugPrint(
+                  "[MarkdownField] Final selection: $adjustedSelection");
+
               setState(() {
-                _selection = selection;
+                _selection = adjustedSelection;
                 _cursorBlinkController?.reset();
                 _cursorBlinkController?.repeat();
               });
@@ -1507,6 +1560,27 @@ class MarkdownFieldState extends State<MarkdownField>
       final end = _selection.end;
       markdownDebugPrint(
           "[MarkdownField] Deleting selection from $start to $end");
+
+      // canSelect=falseブロックが全選択されている場合、ブロック自体を削除
+      final blockInfo = _getBlockInfoAt(start);
+      if (blockInfo != null &&
+          !blockInfo.block.canSelect &&
+          start == blockInfo.start &&
+          end == blockInfo.end) {
+        // ブロックを直接削除
+        final deleted = _deleteBlockAt(start);
+        if (deleted) {
+          // 削除後のテキスト長を取得し、カーソル位置をクランプ
+          final newText = widget.controller.rawText;
+          final newCursorPos = start.clamp(0, newText.length);
+          _selection = TextSelection.collapsed(offset: newCursorPos);
+          _updateRemoteEditingValue();
+          widget.onChanged?.call(widget.controller.value ?? []);
+          setState(() {});
+          return;
+        }
+      }
+
       widget.controller.replaceText(start, end, "");
       // 削除後のテキスト長を取得し、カーソル位置をクランプ
       final newText = widget.controller.rawText;
@@ -1553,16 +1627,53 @@ class MarkdownFieldState extends State<MarkdownField>
   ///
   /// 左矢印キーの押下を処理します。
   void _handleArrowLeft() {
+    // 現在canSelect=falseブロックを全選択中の場合
+    if (!_selection.isCollapsed) {
+      final blockInfo = _getBlockInfoAt(_selection.start);
+      if (blockInfo != null && !blockInfo.block.canSelect) {
+        // 前のブロック末尾へ移動
+        final blockStart = blockInfo.start;
+        if (blockStart > 0) {
+          // 前の位置がcanSelect=falseブロックかチェック
+          final prevBlockInfo = _getBlockInfoAt(blockStart - 1);
+          if (prevBlockInfo != null && !prevBlockInfo.block.canSelect) {
+            // 前のブロックも全選択
+            _selection = TextSelection(
+              baseOffset: prevBlockInfo.start,
+              extentOffset: prevBlockInfo.end,
+            );
+          } else {
+            _selection = TextSelection.collapsed(offset: blockStart - 1);
+          }
+        } else {
+          _selection = const TextSelection.collapsed(offset: 0);
+        }
+        _updateRemoteEditingValue();
+        setState(() {});
+        return;
+      }
+    }
+
     if (_selection.isCollapsed) {
       // カーソルを1文字左に移動
       final cursorPos = _selection.baseOffset;
       if (cursorPos > 0) {
-        _selection = TextSelection.collapsed(offset: cursorPos - 1);
+        final newPos = cursorPos - 1;
+        // 新しい位置がcanSelect=falseブロック内なら全選択
+        final blockInfo = _getBlockInfoAt(newPos);
+        if (blockInfo != null && !blockInfo.block.canSelect) {
+          _selection = TextSelection(
+            baseOffset: blockInfo.start,
+            extentOffset: blockInfo.end,
+          );
+        } else {
+          _selection = TextSelection.collapsed(offset: newPos);
+        }
         _updateRemoteEditingValue();
         setState(() {});
       }
     } else {
-      // 選択範囲がある場合、選択の開始位置にカーソルを移動
+      // 通常の選択範囲がある場合、選択の開始位置へ
       _selection = TextSelection.collapsed(offset: _selection.start);
       _updateRemoteEditingValue();
       setState(() {});
@@ -1574,20 +1685,222 @@ class MarkdownFieldState extends State<MarkdownField>
   /// 右矢印キーの押下を処理します。
   void _handleArrowRight() {
     final text = widget.controller.rawText;
+
+    // 現在canSelect=falseブロックを全選択中の場合
+    if (!_selection.isCollapsed) {
+      final blockInfo = _getBlockInfoAt(_selection.start);
+      if (blockInfo != null && !blockInfo.block.canSelect) {
+        // 次のブロック先頭へ移動
+        final blockEnd = blockInfo.end;
+        final nextPos = blockEnd + 1; // +1 for newline
+        if (nextPos <= text.length) {
+          // 次の位置がcanSelect=falseブロックかチェック
+          final nextBlockInfo = _getBlockInfoAt(nextPos);
+          if (nextBlockInfo != null && !nextBlockInfo.block.canSelect) {
+            // 次のブロックも全選択
+            _selection = TextSelection(
+              baseOffset: nextBlockInfo.start,
+              extentOffset: nextBlockInfo.end,
+            );
+          } else {
+            _selection = TextSelection.collapsed(offset: nextPos);
+          }
+        } else {
+          // ドキュメントの末尾
+          _selection = TextSelection.collapsed(offset: text.length);
+        }
+        _updateRemoteEditingValue();
+        setState(() {});
+        return;
+      }
+    }
+
     if (_selection.isCollapsed) {
       // カーソルを1文字右に移動
       final cursorPos = _selection.baseOffset;
       if (cursorPos < text.length) {
-        _selection = TextSelection.collapsed(offset: cursorPos + 1);
+        final newPos = cursorPos + 1;
+        // 新しい位置がcanSelect=falseブロック内なら全選択
+        final blockInfo = _getBlockInfoAt(newPos);
+        if (blockInfo != null && !blockInfo.block.canSelect) {
+          _selection = TextSelection(
+            baseOffset: blockInfo.start,
+            extentOffset: blockInfo.end,
+          );
+        } else {
+          _selection = TextSelection.collapsed(offset: newPos);
+        }
         _updateRemoteEditingValue();
         setState(() {});
       }
     } else {
-      // 選択範囲がある場合、選択の終了位置にカーソルを移動
+      // 通常の選択範囲がある場合、選択の終了位置へ
       _selection = TextSelection.collapsed(offset: _selection.end);
       _updateRemoteEditingValue();
       setState(() {});
     }
+  }
+
+  /// 指定されたテキストオフセットにあるブロック情報を取得
+  ///
+  /// Returns the block and its text range at the given text offset.
+  ({MarkdownBlockValue block, int start, int end})? _getBlockInfoAt(
+      int textOffset) {
+    final value = widget.controller.value;
+    if (value == null || value.isEmpty) {
+      markdownDebugPrint(
+          "[_getBlockInfoAt] value is null or empty, returning null");
+      return null;
+    }
+
+    markdownDebugPrint(
+        "[_getBlockInfoAt] Looking for textOffset=$textOffset, rawText='${widget.controller.rawText}' (len=${widget.controller.rawText.length})");
+
+    var currentOffset = 0;
+    for (final field in value) {
+      for (var blockIndex = 0;
+          blockIndex < field.children.length;
+          blockIndex++) {
+        final block = field.children[blockIndex];
+        final lines = block.extractLines();
+        if (lines == null) {
+          markdownDebugPrint(
+              "[_getBlockInfoAt] Block $blockIndex (${block.type}): extractLines=null, skipping");
+          continue;
+        }
+
+        int blockLength;
+        if (lines.isEmpty) {
+          // extractLines()が空の場合（カスタムブロック等）、buildRawText()から長さを取得
+          // buildRawText()がnullの場合はtoMarkdown()にフォールバック
+          final rawText = block.buildRawText();
+          if (rawText != null) {
+            blockLength = rawText.length;
+            markdownDebugPrint(
+                "[_getBlockInfoAt] Block $blockIndex (${block.type}): extractLines=[], buildRawText='$rawText' (len=$blockLength), canSelect=${block.canSelect}");
+          } else {
+            final markdown = block.toMarkdown();
+            blockLength = markdown.length;
+            markdownDebugPrint(
+                "[_getBlockInfoAt] Block $blockIndex (${block.type}): extractLines=[], toMarkdown='$markdown' (len=$blockLength), canSelect=${block.canSelect}");
+          }
+        } else {
+          // 通常のブロック：extractLines()からテキスト長を計算
+          final blockText = StringBuffer();
+          for (var j = 0; j < lines.length; j++) {
+            final line = lines[j];
+            for (final span in line.children) {
+              blockText.write(span.value);
+            }
+            if (j < lines.length - 1) {
+              blockText.writeln();
+            }
+          }
+          blockLength = blockText.toString().length;
+          markdownDebugPrint(
+              "[_getBlockInfoAt] Block $blockIndex (${block.type}): extractLines=${lines.length} lines, text='${blockText.toString()}' (len=$blockLength), canSelect=${block.canSelect}");
+        }
+
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        markdownDebugPrint(
+            "[_getBlockInfoAt] Block $blockIndex: range=[$blockStart, $blockEnd], textOffset=$textOffset, inRange=${textOffset >= blockStart && textOffset <= blockEnd}");
+
+        // テキストオフセットがこのブロック内にある場合
+        if (textOffset >= blockStart && textOffset <= blockEnd) {
+          markdownDebugPrint(
+              "[_getBlockInfoAt] Found block at offset $textOffset: ${block.type}, range=[$blockStart, $blockEnd]");
+          return (block: block, start: blockStart, end: blockEnd);
+        }
+
+        currentOffset = blockEnd + 1; // +1 for newline between blocks
+      }
+    }
+
+    markdownDebugPrint(
+        "[_getBlockInfoAt] No block found at offset $textOffset");
+    return null;
+  }
+
+  /// Delete a block at the specified text offset.
+  ///
+  /// 指定されたテキストオフセットにあるブロックを削除します。
+  bool _deleteBlockAt(int textOffset) {
+    final value = widget.controller.value;
+    if (value == null || value.isEmpty) {
+      return false;
+    }
+
+    var currentOffset = 0;
+    for (var fieldIndex = 0; fieldIndex < value.length; fieldIndex++) {
+      final field = value[fieldIndex];
+      final blocks = List<MarkdownBlockValue>.from(field.children);
+
+      for (var blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
+        final block = blocks[blockIndex];
+        final lines = block.extractLines();
+        if (lines == null) {
+          continue;
+        }
+
+        int blockLength;
+        if (lines.isEmpty) {
+          // extractLines()が空の場合（カスタムブロック等）、buildRawText()から長さを取得
+          // buildRawText()がnullの場合はtoMarkdown()にフォールバック
+          final rawText = block.buildRawText();
+          if (rawText != null) {
+            blockLength = rawText.length;
+          } else {
+            blockLength = block.toMarkdown().length;
+          }
+        } else {
+          // 通常のブロック：extractLines()からテキスト長を計算
+          final blockText = StringBuffer();
+          for (var j = 0; j < lines.length; j++) {
+            final line = lines[j];
+            for (final span in line.children) {
+              blockText.write(span.value);
+            }
+            if (j < lines.length - 1) {
+              blockText.writeln();
+            }
+          }
+          blockLength = blockText.toString().length;
+        }
+
+        final blockStart = currentOffset;
+        final blockEnd = currentOffset + blockLength;
+
+        if (textOffset >= blockStart && textOffset <= blockEnd) {
+          // このブロックを削除
+          if (blocks.length > 1) {
+            blocks.removeAt(blockIndex);
+            final newField = MarkdownFieldValue(
+              id: field.id,
+              children: blocks,
+            );
+            value[fieldIndex] = newField;
+            widget.controller.notifySelectionChanged();
+            return true;
+          } else {
+            // 最後のブロックの場合は空のブロックに置き換え
+            blocks[blockIndex] = MarkdownBlockValue.createEmpty();
+            final newField = MarkdownFieldValue(
+              id: field.id,
+              children: blocks,
+            );
+            value[fieldIndex] = newField;
+            widget.controller.notifySelectionChanged();
+            return true;
+          }
+        }
+
+        currentOffset = blockEnd + 1; // +1 for newline between blocks
+      }
+    }
+
+    return false;
   }
 
   String _getPlainText() {
@@ -1952,6 +2265,9 @@ class MarkdownFieldState extends State<MarkdownField>
 
     return null;
   }
+
+  @override
+  bool onFocusReceived() => false;
 }
 
 /// Internal RenderObjectWidget for markdown editing.
@@ -3228,6 +3544,15 @@ class _RenderMarkdownEditor extends RenderBox implements RenderContext {
   int? _getTextOffsetForPosition(Offset position) {
     final layouts = _blockLayouts;
     var currentTextOffset = 0;
+
+    // デバッグ: 各ブロックのレイアウト情報を表示
+    markdownDebugPrint(
+        "[_getTextOffsetForPosition] position=$position, numLayouts=${layouts.length}");
+    for (var i = 0; i < layouts.length; i++) {
+      final layout = layouts[i];
+      markdownDebugPrint(
+          "[_getTextOffsetForPosition] Layout $i: type=${layout.block.type}, textOffset=${layout.textOffset}, textLength=${layout.textLength}, canSelect=${layout.block.canSelect}");
+    }
 
     // Always check x bounds to prevent out-of-bounds taps
     if (position.dx < 0 || position.dx > size.width) {
