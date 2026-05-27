@@ -287,7 +287,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
       );
       unawaited(
         openSslBase64Result.stdout.forEach((e) {
-          final text = utf8.decoder.convert(e);
+          final text = const Utf8Decoder(allowMalformed: true).convert(e);
           keyHash += text;
           stdout.add(e);
         }),

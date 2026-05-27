@@ -751,7 +751,7 @@ Future<String> command(
     );
     unawaited(
       process.stderr.forEach((e) {
-        final line = utf8.decoder.convert(e);
+        final line = const Utf8Decoder(allowMalformed: true).convert(e);
         err = true;
         res += line;
         stderr.add(e);
@@ -759,7 +759,7 @@ Future<String> command(
     );
     unawaited(
       process.stdout.forEach((e) {
-        final line = utf8.decoder.convert(e);
+        final line = const Utf8Decoder(allowMalformed: true).convert(e);
         res += line;
         stdout.add(e);
         action.call(process, line);
@@ -1029,7 +1029,7 @@ extension ProcessExtensions on Future<Process> {
     var err = false;
     unawaited(
       process.stderr.forEach((e) {
-        final line = utf8.decoder.convert(e);
+        final line = const Utf8Decoder(allowMalformed: true).convert(e);
         err = true;
         res += line;
         stderr.add(e);
@@ -1037,7 +1037,7 @@ extension ProcessExtensions on Future<Process> {
     );
     unawaited(
       process.stdout.forEach((e) {
-        final line = utf8.decoder.convert(e);
+        final line = const Utf8Decoder(allowMalformed: true).convert(e);
         res += line;
         stdout.add(e);
       }),
