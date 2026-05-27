@@ -22,7 +22,11 @@ class BulletedListAddMarkdownBlockTools
           "Bulleted List",
         ),
       ]),
-      icon: FontAwesomeIcons.listUl,
+      icon: IconData(
+        0xf0ca,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

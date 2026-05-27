@@ -21,7 +21,11 @@ class ParagraphAlignPropertyPainterInlineTools
           "Paragraph Align",
         ),
       ]),
-      icon: FontAwesomeIcons.paragraph,
+      icon: IconData(
+        0xf1dd,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.blockTools = const [
       ParagraphAlignLeftTextPainterBlockTools(),

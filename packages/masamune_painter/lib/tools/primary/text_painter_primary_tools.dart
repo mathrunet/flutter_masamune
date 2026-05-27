@@ -23,7 +23,11 @@ class TextPainterPrimaryTools
           "Text",
         ),
       ]),
-      icon: FontAwesomeIcons.font,
+      icon: IconData(
+        0xf031,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.inlineTools = const [
       TextPainterInlineTools(),

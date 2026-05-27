@@ -20,7 +20,11 @@ class LinePropertyPainterInlineTools extends PainterInlinePrimaryTools {
           "Line",
         ),
       ]),
-      icon: FontAwesomeIcons.line,
+      icon: IconData(
+        0xf3c0,
+        fontFamily: "FontAwesomeBrands",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.blockTools = const [
       Solid1pxLinePainterBlockTools(),

@@ -20,7 +20,11 @@ class ShapePainterPrimaryTools extends PainterPrimaryTools {
           "Shape",
         ),
       ]),
-      icon: FontAwesomeIcons.shapes,
+      icon: IconData(
+        0xf61f,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.inlineTools = const [
       BackPainterInlineTools(),

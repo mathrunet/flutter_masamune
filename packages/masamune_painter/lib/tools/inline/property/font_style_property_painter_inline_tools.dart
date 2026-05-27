@@ -20,7 +20,11 @@ class FontStylePropertyPainterInlineTools extends PainterInlinePrimaryTools {
           "Font Style",
         ),
       ]),
-      icon: FontAwesomeIcons.font,
+      icon: IconData(
+        0xf031,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.blockTools = const [
       StyleNormalFontPainterBlockTools(),

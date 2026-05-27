@@ -20,7 +20,11 @@ class FontSizePropertyPainterInlineTools extends PainterInlinePrimaryTools {
           "Font Size",
         ),
       ]),
-      icon: FontAwesomeIcons.font,
+      icon: IconData(
+        0xf031,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.blockTools = const [
       Size10pxFontPainterBlockTools(),

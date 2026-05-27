@@ -218,5 +218,5 @@ class MediaPaintingValue extends PaintingValue {
   }
 
   @override
-  Widget get icon => const Icon(FontAwesomeIcons.image);
+  Widget get icon => Icon(FontAwesomeIcons.image.data);
 }

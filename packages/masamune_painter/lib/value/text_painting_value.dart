@@ -236,5 +236,5 @@ class TextPaintingValue extends PaintingValue {
   }
 
   @override
-  Widget get icon => const Icon(FontAwesomeIcons.font);
+  Widget get icon => Icon(FontAwesomeIcons.font.data);
 }

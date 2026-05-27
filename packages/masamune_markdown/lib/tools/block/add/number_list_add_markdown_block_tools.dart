@@ -21,7 +21,11 @@ class NumberListAddMarkdownBlockTools
           "Numbered List",
         ),
       ]),
-      icon: FontAwesomeIcons.listOl,
+      icon: IconData(
+        0xf0cb,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

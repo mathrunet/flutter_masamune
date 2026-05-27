@@ -21,7 +21,11 @@ class Headline3ExchangeMarkdownBlockTools
           "Heading 3",
         ),
       ]),
-      icon: FontAwesomeIcons.heading,
+      icon: IconData(
+        0xf1dc,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

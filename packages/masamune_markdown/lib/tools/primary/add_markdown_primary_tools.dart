@@ -20,7 +20,11 @@ class AddMarkdownPrimaryTools extends MarkdownPrimaryTools {
           "Add Block",
         ),
       ]),
-      icon: FontAwesomeIcons.plus,
+      icon: IconData(
+        0x2b,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
     this.tools = const [
       TextAddMarkdownBlockTools(),

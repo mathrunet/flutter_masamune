@@ -20,7 +20,11 @@ class SelectPainterInlineTools extends PainterInlineTools {
           "Select",
         ),
       ]),
-      icon: FontAwesomeIcons.arrowPointer,
+      icon: IconData(
+        0xf245,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

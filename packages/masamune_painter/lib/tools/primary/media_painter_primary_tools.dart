@@ -24,7 +24,11 @@ class MediaPainterPrimaryTools
           "Media",
         ),
       ]),
-      icon: FontAwesomeIcons.image,
+      icon: IconData(
+        0xf03e,
+        fontFamily: "FontAwesomeRegular",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

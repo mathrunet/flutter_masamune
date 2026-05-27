@@ -21,7 +21,11 @@ class ToggleListAddMarkdownBlockTools
           "Toggle List",
         ),
       ]),
-      icon: FontAwesomeIcons.listCheck,
+      icon: IconData(
+        0xf0ae,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

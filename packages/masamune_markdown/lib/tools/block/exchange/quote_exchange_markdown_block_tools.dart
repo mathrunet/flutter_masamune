@@ -21,7 +21,11 @@ class QuoteExchangeMarkdownBlockTools
           "Quote",
         ),
       ]),
-      icon: FontAwesomeIcons.quoteLeft,
+      icon: IconData(
+        0xf10d,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

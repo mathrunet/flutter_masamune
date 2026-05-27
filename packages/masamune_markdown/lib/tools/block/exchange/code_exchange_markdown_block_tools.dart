@@ -21,7 +21,11 @@ class CodeExchangeMarkdownBlockTools
           "Code",
         ),
       ]),
-      icon: FontAwesomeIcons.code,
+      icon: IconData(
+        0xf121,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 

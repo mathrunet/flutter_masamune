@@ -23,7 +23,11 @@ class MentionMarkdownPrimaryTools
           "Mention",
         ),
       ]),
-      icon: FontAwesomeIcons.at,
+      icon: IconData(
+        0x40,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 
