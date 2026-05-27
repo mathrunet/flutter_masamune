@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **FIX**(future_indicator): improve route removal logic in FutureIndicatorExtensions. ([02be324b](https://github.com/mathrunet/flutter_masamune/commit/02be324bc469b1114d6c8f23e51d933ec9ebd866))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FEAT**(agora_controller): add virtual background functionality with blur degree control. ([d5bf8b63](https://github.com/mathrunet/flutter_masamune/commit/d5bf8b638d44e0e3fb7c7c524c7124e33f9cdabd))

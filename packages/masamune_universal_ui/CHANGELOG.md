@@ -1,3 +1,7 @@
+## 3.2.10
+
+ - Update a dependency to the latest release.
+
 ## 3.2.9
 
  - **FIX**: update cache extent handling in list and grid builders. ([2ae1eef2](https://github.com/mathrunet/flutter_masamune/commit/2ae1eef2b12b80b910a65430bdf211134e35c514))
