@@ -44,9 +44,24 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
           () {
             completer?.complete();
             completer = null;
-            if (route != null) {
-              navigator.removeRoute(route!);
-              route = null;
+            final removingRoute = route;
+            route = null;
+            if (removingRoute == null) {
+              return;
+            }
+            if (!navigator.mounted) {
+              return;
+            }
+            if (!removingRoute.isActive) {
+              return;
+            }
+            try {
+              navigator.removeRoute(removingRoute);
+            } catch (_) {
+              // The route was already removed from the navigator history
+              // (e.g. by an intervening pop or page disposal) before this
+              // callback fired. Swallow the resulting StateError so that the
+              // surrounding Future continues to complete normally.
             }
           },
         ),
