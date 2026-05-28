@@ -2024,7 +2024,6 @@ linter:
     prefer_if_elements_to_conditional_expressions: true
     always_put_required_named_parameters_first: true
     avoid_equals_and_hash_code_on_mutable_classes: true
-    use_if_null_to_convert_nulls_to_bools: true
     missing_whitespace_between_adjacent_strings: true
     leading_newlines_in_multiline_strings: true
     deprecated_member_use_from_same_package: true
@@ -2088,7 +2087,6 @@ analyzer:
     always_put_control_body_on_new_line: error
     prefer_asserts_with_message: error
     leading_newlines_in_multiline_strings: error
-    use_if_null_to_convert_nulls_to_bools: error
     missing_whitespace_between_adjacent_strings: error
     prefer_if_elements_to_conditional_expressions: error
     do_not_use_environment: error
