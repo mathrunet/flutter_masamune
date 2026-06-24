@@ -616,9 +616,7 @@ ${enableLogger && firebaseAppId.isNotEmpty ? """
       # シンボルのFirebase Crashlyticsへのアップロード。
       - name: Upload dSYM to Firebase Crashlytics
         run: |
-          curl -sL https://firebase.tools | bash
-          firebase crashlytics:symbols:upload --app=$firebaseAppId ./build/ios/Runner.xcarchive/dSYMs
-        timeout-minutes: 10
+          ./build/ios/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols -gsp ./ios/Runner/GoogleService-Info.plist -p ios ./build/ios/Runner.xcarchive/dSYMs
 
 """ : ""}
       # Delete cache.
