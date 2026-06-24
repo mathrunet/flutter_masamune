@@ -26,6 +26,10 @@ Future<void> buildIOS(
   final secretGithub = context.secrets.getAsMap("github");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
+  final firebase = context.yaml.getAsMap("firebase");
+  final projectId = firebase.get("project_id", "");
+  final logger = firebase.getAsMap("logger");
+  final enableLogger = logger.get("enable", false) && projectId.isNotEmpty;
   if (issuerId.isEmpty) {
     error(
       "The item [github]->[action]->[ios]->[issuer_id] is missing. Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.",
@@ -173,6 +177,7 @@ Future<void> buildIOS(
   final iosCode = GithubActionsIOSCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
+    enableLogger: enableLogger,
   );
   await iosCode.generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
@@ -296,6 +301,7 @@ class GithubActionsIOSCliCode extends CliCode {
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
     this.slackWebhookURL,
+    this.enableLogger = false,
   });
 
   /// Working Directory.
@@ -312,6 +318,11 @@ class GithubActionsIOSCliCode extends CliCode {
   ///
   /// Slack通知を利用する場合Incoming webhookのURLを記載。
   final String? slackWebhookURL;
+
+  /// Enable Firebase Logger.
+  ///
+  /// Firebase Loggerを有効にします。
+  final bool enableLogger;
 
   @override
   String get name => "build_ios";
@@ -552,6 +563,15 @@ jobs:
         run: xcrun altool --upload-app --type ios -f \$IPA_PATH --apiKey \$IOS_API_KEY_ID --apiIssuer \$IOS_API_ISSUER_ID
         timeout-minutes: 30
 
+${enableLogger ? """
+      # Upload symbols to Firebase Crashlytics.
+      # シンボルのFirebase Crashlyticsへのアップロード。
+      - name: Upload dSYM to Firebase Crashlytics
+        run: |
+          ./ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ./ios/Runner/GoogleService-Info.plist -p ios ./build/ios/archive/Runner.xcarchive/dSYMs
+        timeout-minutes: 10
+
+""" : ""}
       # Delete cache.
       # キャッシュの削除。
       - name: Clean up keychain and provisioning profile
