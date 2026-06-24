@@ -73,6 +73,47 @@ Future<void> buildIOS(
     );
     return;
   }
+  String? firebaseAppId;
+  if (enableLogger) {
+    final googleServicePlist = await find(
+      Directory("ios"),
+      RegExp(r"GoogleService-Info.plist$"),
+    );
+    if (googleServicePlist == null) {
+      error(
+        "Cannot find the `GoogleService-Info.plist` file, please download the file from Firebase and place it under the IOS folder. `GoogleService-Info.plist`ファイルが見つかりません。Firebaseからファイルをダウンロードしiosフォルダ以下に配置してください。",
+      );
+      return;
+    }
+    final googleServiceDocument =
+        XmlDocument.parse(await googleServicePlist.readAsString());
+    final googleServiceDict =
+        googleServiceDocument.findAllElements("dict").firstOrNull;
+    if (googleServiceDict == null) {
+      error(
+        "Could not find `dict` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+      );
+      return;
+    }
+    final googleAppIdNode = googleServiceDict.children.firstWhereOrNull((p0) {
+      return p0 is XmlElement &&
+          p0.name.toString() == "key" &&
+          p0.innerText == "GOOGLE_APP_ID";
+    });
+    if (googleAppIdNode == null) {
+      error(
+        "Could not find `GOOGLE_APP_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+      );
+      return;
+    }
+    firebaseAppId = googleAppIdNode.nextElementSibling?.innerText;
+    if (firebaseAppId.isEmpty) {
+      error(
+        "Could not find `GOOGLE_APP_ID` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+      );
+      return;
+    }
+  }
   label("Edit project.pbxproj");
   final xcode = XCode();
   await xcode.load();
@@ -178,6 +219,7 @@ Future<void> buildIOS(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
     enableLogger: enableLogger,
+    firebaseAppId: firebaseAppId,
   );
   await iosCode.generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
@@ -302,6 +344,7 @@ class GithubActionsIOSCliCode extends CliCode {
     this.defaultIncrementNumber = 0,
     this.slackWebhookURL,
     this.enableLogger = false,
+    this.firebaseAppId,
   });
 
   /// Working Directory.
@@ -323,6 +366,11 @@ class GithubActionsIOSCliCode extends CliCode {
   ///
   /// Firebase Loggerを有効にします。
   final bool enableLogger;
+
+  /// Firebase App ID.
+  ///
+  /// Firebase App ID。
+  final String? firebaseAppId;
 
   @override
   String get name => "build_ios";
@@ -563,12 +611,13 @@ jobs:
         run: xcrun altool --upload-app --type ios -f \$IPA_PATH --apiKey \$IOS_API_KEY_ID --apiIssuer \$IOS_API_ISSUER_ID
         timeout-minutes: 30
 
-${enableLogger ? """
+${enableLogger && firebaseAppId.isNotEmpty ? """
       # Upload symbols to Firebase Crashlytics.
       # シンボルのFirebase Crashlyticsへのアップロード。
       - name: Upload dSYM to Firebase Crashlytics
         run: |
-          ./ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ./ios/Runner/GoogleService-Info.plist -p ios ./build/ios/archive/Runner.xcarchive/dSYMs
+          curl -sL https://firebase.tools | bash
+          firebase crashlytics:symbols:upload --app=$firebaseAppId ./build/ios/Runner.xcarchive/dSYMs
         timeout-minutes: 10
 
 """ : ""}
