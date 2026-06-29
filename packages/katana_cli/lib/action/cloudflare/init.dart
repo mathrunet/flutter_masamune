@@ -78,9 +78,9 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     }
 
     if (enabledWorkers) {
-      final workersDir = Directory("cloudflare/src/workers");
-      if (!workersDir.existsSync()) {
-        await workersDir.create();
+      final functionsDir = Directory("cloudflare/src/functions");
+      if (!functionsDir.existsSync()) {
+        await functionsDir.create();
       }
       if (!workerIndexFile.existsSync()) {
         await const CloudflareIndexCliCode().generateFile("index.ts");
