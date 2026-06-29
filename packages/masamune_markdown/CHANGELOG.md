@@ -1,3 +1,7 @@
+## 3.6.5
+
+ - **FIX**: standardize icon formatting in markdown and painter tools. ([fb1b486c](https://github.com/mathrunet/flutter_masamune/commit/fb1b486c23bc362622ff2b4a82013fda53ef613b))
+
 ## 3.6.4
 
  - **REFACTOR**: replace FontAwesomeIcons with IconData for improved icon handling in masamune_markdown and masamune_painter packages. ([9114c5d7](https://github.com/mathrunet/flutter_masamune/commit/9114c5d7853b181b76958cab6d4b09970f69ee89))

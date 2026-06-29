@@ -1,3 +1,8 @@
+## 3.12.1
+
+ - **REFACTOR**(katana_cli): rename workers directory to functions in Cloudflare initialization. ([292bb093](https://github.com/mathrunet/flutter_masamune/commit/292bb0936b99adda640844c780c4ec979d70e283))
+ - **FIX**(katana_cli): update comments to reflect 'functions' directory in Cloudflare init. ([aa9525c7](https://github.com/mathrunet/flutter_masamune/commit/aa9525c7424ba2636ec52aa0a94ec43f7f79426a))
+
 ## 3.12.0
 
  - **REFACTOR**(katana_cli): remove deprecated linter and analyzer rules in create.dart. ([2d435c6c](https://github.com/mathrunet/flutter_masamune/commit/2d435c6c7ee23dcb88ac0e9cc0545c0009450f7d))

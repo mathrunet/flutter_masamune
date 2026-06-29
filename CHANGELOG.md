@@ -15,6 +15,38 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.12.1`](#katana_cli---v3121)
+ - [`masamune_markdown` - `v3.6.5`](#masamune_markdown---v365)
+ - [`masamune_painter` - `v3.3.13`](#masamune_painter---v3313)
+
+---
+
+#### `katana_cli` - `v3.12.1`
+
+ - **REFACTOR**(katana_cli): rename workers directory to functions in Cloudflare initialization. ([292bb093](https://github.com/mathrunet/flutter_masamune/commit/292bb0936b99adda640844c780c4ec979d70e283))
+ - **FIX**(katana_cli): update comments to reflect 'functions' directory in Cloudflare init. ([aa9525c7](https://github.com/mathrunet/flutter_masamune/commit/aa9525c7424ba2636ec52aa0a94ec43f7f79426a))
+
+#### `masamune_markdown` - `v3.6.5`
+
+ - **FIX**: standardize icon formatting in markdown and painter tools. ([fb1b486c](https://github.com/mathrunet/flutter_masamune/commit/fb1b486c23bc362622ff2b4a82013fda53ef613b))
+
+#### `masamune_painter` - `v3.3.13`
+
+ - **FIX**: standardize icon formatting in markdown and painter tools. ([fb1b486c](https://github.com/mathrunet/flutter_masamune/commit/fb1b486c23bc362622ff2b4a82013fda53ef613b))
+
+
+## 2026-06-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.12.0`](#katana_cli---v3120)
  - [`masamune_markdown` - `v3.6.4`](#masamune_markdown---v364)
  - [`masamune_painter` - `v3.3.12`](#masamune_painter---v3312)
