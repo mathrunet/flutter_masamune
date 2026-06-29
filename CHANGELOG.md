@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-06-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.12.0`](#katana_cli---v3120)
+ - [`masamune_markdown` - `v3.6.4`](#masamune_markdown---v364)
+ - [`masamune_painter` - `v3.3.12`](#masamune_painter---v3312)
+
+---
+
+#### `katana_cli` - `v3.12.0`
+
+ - **REFACTOR**(katana_cli): remove deprecated linter and analyzer rules in create.dart. ([2d435c6c](https://github.com/mathrunet/flutter_masamune/commit/2d435c6c7ee23dcb88ac0e9cc0545c0009450f7d))
+ - **FIX**(katana_cli): update Firebase Crashlytics symbol upload command for iOS. ([cfdf36aa](https://github.com/mathrunet/flutter_masamune/commit/cfdf36aae510eb1aeb2ee452f9585847dbc6ba4b))
+ - **FIX**(katana_cli): add Firebase Logger support in iOS build process. ([c3cedbf2](https://github.com/mathrunet/flutter_masamune/commit/c3cedbf2110c466fe6fd9f1b2171da00687a8556))
+ - **FIX**(katana_cli): update .gitignore patterns to include nested results directories. ([20505e9a](https://github.com/mathrunet/flutter_masamune/commit/20505e9ae7bde526464fff685bc4deccd7b1d367))
+ - **FIX**: use Utf8Decoder with allowMalformed option for better error handling in keystore and framework. ([6c3f47ea](https://github.com/mathrunet/flutter_masamune/commit/6c3f47ea915718baf0ef830d8fbc063d107b7e05))
+ - **FEAT**(katana_cli): add Cloudflare configuration and integration. ([1fe78b14](https://github.com/mathrunet/flutter_masamune/commit/1fe78b14ba954cd7fc9c4027180f83720e9ec7cf))
+ - **FEAT**(katana_cli): enhance iOS build process with Firebase App ID retrieval. ([08299fbd](https://github.com/mathrunet/flutter_masamune/commit/08299fbd354490089a4ec79767cf9ffd0ade0d43))
+
+#### `masamune_markdown` - `v3.6.4`
+
+ - **REFACTOR**: replace FontAwesomeIcons with IconData for improved icon handling in masamune_markdown and masamune_painter packages. ([9114c5d7](https://github.com/mathrunet/flutter_masamune/commit/9114c5d7853b181b76958cab6d4b09970f69ee89))
+
+#### `masamune_painter` - `v3.3.12`
+
+ - **REFACTOR**: replace FontAwesomeIcons with IconData for improved icon handling in masamune_markdown and masamune_painter packages. ([9114c5d7](https://github.com/mathrunet/flutter_masamune/commit/9114c5d7853b181b76958cab6d4b09970f69ee89))
+
+
 ## 2026-05-27
 
 ### Changes

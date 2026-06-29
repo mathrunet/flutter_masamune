@@ -1,9 +1,11 @@
 // Dart imports:
 import "dart:io";
 
+// Package imports:
+import "package:yaml/yaml.dart";
+
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
-import "package:yaml/yaml.dart";
 
 /// Cloudflare initial configuration.
 ///

@@ -1,3 +1,7 @@
+## 3.3.12
+
+ - **REFACTOR**: replace FontAwesomeIcons with IconData for improved icon handling in masamune_markdown and masamune_painter packages. ([9114c5d7](https://github.com/mathrunet/flutter_masamune/commit/9114c5d7853b181b76958cab6d4b09970f69ee89))
+
 ## 3.3.11
 
  - Update a dependency to the latest release.
