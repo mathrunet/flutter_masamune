@@ -78,7 +78,7 @@ class CodeServerFirestoreTriggeredCliCommand extends CliTestableCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune";
+import * as m from "@mathrunet/masamune_firebase";
 import * as functions from "firebase-functions/v2";
 
 """;

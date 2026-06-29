@@ -23,6 +23,7 @@ import "package:katana_cli/action/app/privacy_manifests.dart";
 import "package:katana_cli/action/app/speech_to_text.dart";
 import "package:katana_cli/action/app/spread_sheet.dart";
 import "package:katana_cli/action/app/text_to_speech.dart";
+import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/ecosystem/ecosystem.dart";
 import "package:katana_cli/action/firebase/algolia.dart";
 import "package:katana_cli/action/firebase/authentication.dart";
@@ -58,6 +59,7 @@ const _actions = <CliActionMixin>[
   AppIconCliAction(),
   AppDeeplinkCliAction(),
   AppPrivacyManifestsCliAction(),
+  CloudflareInitCliAction(),
   FirebaseInitCliAction(),
   FirebaseAuthenticationCliAction(),
   FirebaseSchedulerCliAction(),

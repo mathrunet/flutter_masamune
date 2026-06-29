@@ -1,4 +1,5 @@
 // Project imports:
+import "package:katana_cli/action/cloudflare/deploy.dart";
 import "package:katana_cli/action/firebase/deploy.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -11,6 +12,7 @@ import "package:katana_cli/katana_cli.dart";
 /// 実行する順番で並べてください。
 const _actions = <CliActionMixin>[
   FirebaseDeployCliAction(),
+  CloudflareDeployCliAction(),
 ];
 
 /// Deployment process.

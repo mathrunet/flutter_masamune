@@ -9,6 +9,7 @@ import "package:katana_cli/katana_cli.dart";
 part "request.dart";
 part "schedule.dart";
 part "call.dart";
+part "worker.dart";
 part "firestore_triggered.dart";
 
 /// Create a code template for Firebase Functions.
@@ -22,11 +23,12 @@ class CodeServerCliCommand extends CliCommandGroup {
 
   @override
   String get groupDescription =>
-      "Create a code template for Firebase Functions. Firebase Functions用コードテンプレートを作成します。";
+      "Create a code template for Firebase Functions and Cloudflare Workers. Firebase FunctionsやCloudflare Workers用のコードテンプレートを作成します。";
 
   @override
   Map<String, CliCommand> get commands => const {
         "call": CodeServerCallCliCommand(),
+        "worker": CodeServerWorkerCliCommand(),
         "request": CodeServerRequestCliCommand(),
         "schedule": CodeServerScheduleCliCommand(),
         "firestore": CodeServerFirestoreTriggeredCliCommand(),

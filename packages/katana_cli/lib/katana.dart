@@ -234,6 +234,20 @@ ${showAllConfig ? """
     enable: false
 """ : ""}
 
+# Configure Cloudflare settings.
+# Cloudflareの設定を行います。
+cloudflare:
+
+  # Enable Cloudflare Workers.
+  # Cloudflare Workersを有効にします。
+  workers:
+    enable: false
+
+  # Enable Cloudflare Pages.
+  # Cloudflare Pagesを有効にします。
+  pages:
+    enable: false
+
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。
 firebase:
