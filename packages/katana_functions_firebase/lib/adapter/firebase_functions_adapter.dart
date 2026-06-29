@@ -12,7 +12,7 @@ part of "/katana_functions_firebase.dart";
 ///
 /// Firebase Functionsを利用してサーバー側の処理を返すためのアダプター。
 ///
-/// npmの`@mathrunet/masamune`を利用することでサーバー側の実装を簡略化することができます。
+/// npmの`@mathrunet/masamune_firebase`を利用することでサーバー側の実装を簡略化することができます。
 ///
 /// 基本的にデフォルトの[FirebaseFunctions.instance]が利用されますが、アダプターの作成時に[functions]を渡すことで指定された認証データベースを利用することが可能です。
 ///
@@ -22,7 +22,7 @@ part of "/katana_functions_firebase.dart";
 class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Adapter to return server-side processing using Firebase Functions.
   ///
-  /// The server-side implementation can be simplified by using `@mathrunet/mathamune` in npm.
+  /// The server-side implementation can be simplified by using `@mathrunet/masamune_firebase` in npm.
   ///
   /// Basically, the default [FirebaseFunctions.instance] is used, but it is possible to use a specified authentication database by passing [functions] when creating the adapter.
   ///
@@ -32,7 +32,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   ///
   /// Firebase Functionsを利用してサーバー側の処理を返すためのアダプター。
   ///
-  /// npmの`@mathrunet/masamune`を利用することでサーバー側の実装を簡略化することができます。
+  /// npmの`@mathrunet/masamune_firebase`を利用することでサーバー側の実装を簡略化することができます。
   ///
   /// 基本的にデフォルトの[FirebaseFunctions.instance]が利用されますが、アダプターの作成時に[functions]を渡すことで指定された認証データベースを利用することが可能です。
   ///
