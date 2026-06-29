@@ -479,5 +479,5 @@ class MarkdownToolLabelConfig {
   /// Icon for the tool.
   ///
   /// ツールのアイコン。
-  final IconData  icon;
+  final IconData icon;
 }

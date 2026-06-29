@@ -25,7 +25,7 @@ class Headline2ExchangeMarkdownBlockTools
         0xf1dc,
         fontFamily: "FontAwesomeSolid",
         fontPackage: "font_awesome_flutter",
-      ),  
+      ),
     ),
   });
 

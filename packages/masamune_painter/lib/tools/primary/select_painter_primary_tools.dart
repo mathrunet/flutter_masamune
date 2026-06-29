@@ -20,7 +20,7 @@ class SelectPainterPrimaryTools extends PainterPrimaryTools {
           "Select",
         ),
       ]),
-      icon:  IconData(
+      icon: IconData(
         0xf245,
         fontFamily: "FontAwesomeSolid",
         fontPackage: "font_awesome_flutter",

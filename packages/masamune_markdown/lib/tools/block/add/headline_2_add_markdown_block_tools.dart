@@ -22,10 +22,10 @@ class Headline2AddMarkdownBlockTools
         ),
       ]),
       icon: IconData(
-          0xf1dc,
-          fontFamily: "FontAwesomeSolid",
-          fontPackage: "font_awesome_flutter",
-        ),
+        0xf1dc,
+        fontFamily: "FontAwesomeSolid",
+        fontPackage: "font_awesome_flutter",
+      ),
     ),
   });
 
