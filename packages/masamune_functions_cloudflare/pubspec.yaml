@@ -1,0 +1,21 @@
+name: masamune_functions_cloudflare
+description: Masamune framework package for connecting to Cloudflare Workers. Authentication uses Masamune Auth Plugin.
+version: 3.0.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_functions_cloudflare
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  masamune: ^3.5.9
+
+dev_dependencies:
+  test: ^1.25.0
+  katana_test: ^3.1.0
+  flutter_lints: ^6.0.0
+  import_sorter: ^4.6.0
