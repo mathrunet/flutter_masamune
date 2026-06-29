@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-06-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_functions_firebase` - `v3.1.2`](#katana_functions_firebase---v312)
+ - [`masamune_functions_cloudflare` - `v3.1.0`](#masamune_functions_cloudflare---v310)
+ - [`masamune_model_cloudflare_kv` - `v3.1.0`](#masamune_model_cloudflare_kv---v310)
+ - [`masamune_model_tidb` - `v3.1.0`](#masamune_model_tidb---v310)
+ - [`masamune_model_turso` - `v3.3.0`](#masamune_model_turso---v330)
+ - [`masamune_storage_cloudflare` - `v3.1.0`](#masamune_storage_cloudflare---v310)
+
+---
+
+#### `katana_functions_firebase` - `v3.1.2`
+
+ - **DOCS**(firebase_functions_adapter): update npm package reference in comments to 'masamune_firebase'. ([3520abcc](https://github.com/mathrunet/flutter_masamune/commit/3520abcc88c6c8beea4760a708d9a3bdcfad6368))
+
+#### `masamune_functions_cloudflare` - `v3.1.0`
+
+ - **FEAT**(masamune_functions_cloudflare): initialize Cloudflare functions package. ([2ea294d2](https://github.com/mathrunet/flutter_masamune/commit/2ea294d21b9ecc7cfc3dc187b485669759e2cb9e))
+
+#### `masamune_model_cloudflare_kv` - `v3.1.0`
+
+ - **FEAT**(masamune_functions_cloudflare): initialize Cloudflare functions package. ([2ea294d2](https://github.com/mathrunet/flutter_masamune/commit/2ea294d21b9ecc7cfc3dc187b485669759e2cb9e))
+
+#### `masamune_model_tidb` - `v3.1.0`
+
+ - **FEAT**(masamune_functions_cloudflare): initialize Cloudflare functions package. ([2ea294d2](https://github.com/mathrunet/flutter_masamune/commit/2ea294d21b9ecc7cfc3dc187b485669759e2cb9e))
+
+#### `masamune_model_turso` - `v3.3.0`
+
+ - **FEAT**(masamune_functions_cloudflare): initialize Cloudflare functions package. ([2ea294d2](https://github.com/mathrunet/flutter_masamune/commit/2ea294d21b9ecc7cfc3dc187b485669759e2cb9e))
+
+#### `masamune_storage_cloudflare` - `v3.1.0`
+
+ - **FEAT**(masamune_functions_cloudflare): initialize Cloudflare functions package. ([2ea294d2](https://github.com/mathrunet/flutter_masamune/commit/2ea294d21b9ecc7cfc3dc187b485669759e2cb9e))
+
+
 ## 2026-06-29
 
 ### Changes

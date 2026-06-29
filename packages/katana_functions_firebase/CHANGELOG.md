@@ -1,3 +1,7 @@
+## 3.1.2
+
+ - **DOCS**(firebase_functions_adapter): update npm package reference in comments to 'masamune_firebase'. ([3520abcc](https://github.com/mathrunet/flutter_masamune/commit/3520abcc88c6c8beea4760a708d9a3bdcfad6368))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

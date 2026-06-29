@@ -1,6 +1,6 @@
 name: masamune_storage_cloudflare
 description: Masamune plugin package that includes a storage adapter to retrieve data from Cloudflare R2.
-version: 3.0.0
+version: 3.1.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_storage_cloudflare
 
