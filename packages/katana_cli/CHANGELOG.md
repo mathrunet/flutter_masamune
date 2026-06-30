@@ -1,3 +1,7 @@
+## 3.12.2
+
+ - **FIX**(cloudflare): enable Firebase Authentication in Cloudflare Workers. ([21834514](https://github.com/mathrunet/flutter_masamune/commit/2183451450b899ebfe40c42a4f397229e963d0e9))
+
 ## 3.12.1
 
  - **REFACTOR**(katana_cli): rename workers directory to functions in Cloudflare initialization. ([292bb093](https://github.com/mathrunet/flutter_masamune/commit/292bb0936b99adda640844c780c4ec979d70e283))

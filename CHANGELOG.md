@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.12.2`](#katana_cli---v3122)
+ - [`masamune_functions_cloudflare` - `v3.2.0`](#masamune_functions_cloudflare---v320)
+
+---
+
+#### `katana_cli` - `v3.12.2`
+
+ - **FIX**(cloudflare): enable Firebase Authentication in Cloudflare Workers. ([21834514](https://github.com/mathrunet/flutter_masamune/commit/2183451450b899ebfe40c42a4f397229e963d0e9))
+
+#### `masamune_functions_cloudflare` - `v3.2.0`
+
+ - **FEAT**(cloudflare_functions_adapter): enhance API request handling with dynamic headers. ([dea64ebf](https://github.com/mathrunet/flutter_masamune/commit/dea64ebf27bd76154940a586bc719b2a56c096fd))
+
+
+## 2026-06-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_functions_firebase` - `v3.1.2`](#katana_functions_firebase---v312)
  - [`masamune_functions_cloudflare` - `v3.1.0`](#masamune_functions_cloudflare---v310)
  - [`masamune_model_cloudflare_kv` - `v3.1.0`](#masamune_model_cloudflare_kv---v310)
