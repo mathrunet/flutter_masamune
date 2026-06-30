@@ -9,6 +9,8 @@
 library;
 
 // Flutter imports:
+import "dart:convert";
+
 import "package:flutter/widgets.dart";
 
 // Package imports:

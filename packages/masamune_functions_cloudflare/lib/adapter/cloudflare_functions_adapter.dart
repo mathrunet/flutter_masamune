@@ -48,16 +48,71 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
   @override
   final String endpoint;
 
+  Future<Map<String, String>> get _headers async {
+    final token = await authAdapter.accessToken();
+    return {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      if (token?.token != null) "Authorization": "Bearer ${token?.token}",
+    };
+  }
+
   @override
   Future<TResponse> execute<TResponse>(
       FunctionsAction<TResponse> action) async {
     try {
       return await action.execute((map) async {
-        try {} catch (e) {
+        try {
+          final headers = <String, String>{
+            ...(await action.headers ?? {}),
+            ...await _headers,
+          };
+          switch (action.method ?? ApiMethod.get) {
+            case ApiMethod.get:
+              final res = await Api.get(
+                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                headers: headers,
+              );
+              if (!res.statusCode.toString().startsWith("2")) {
+                throw Exception("Failed to get: ${res.statusCode}");
+              }
+              return jsonDecodeAsMap(res.body);
+            case ApiMethod.post:
+              final res = await Api.post(
+                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                headers: headers,
+                body: jsonEncode(map ?? {}),
+              );
+              if (!res.statusCode.toString().startsWith("2")) {
+                throw Exception("Failed to post: ${res.statusCode}");
+              }
+              return jsonDecodeAsMap(res.body);
+            case ApiMethod.put:
+              final res = await Api.put(
+                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                headers: headers,
+                body: jsonEncode(map ?? {}),
+              );
+              if (!res.statusCode.toString().startsWith("2")) {
+                throw Exception("Failed to put: ${res.statusCode}");
+              }
+              return jsonDecodeAsMap(res.body);
+            case ApiMethod.delete:
+              final res = await Api.delete(
+                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                headers: headers,
+              );
+              if (!res.statusCode.toString().startsWith("2")) {
+                throw Exception("Failed to delete: ${res.statusCode}");
+              }
+              return jsonDecodeAsMap(res.body);
+            default:
+              throw Exception("Method not supported: ${action.method}");
+          }
+        } catch (e) {
           debugPrint(e.toString());
           rethrow;
         }
-        return {};
       });
     } catch (e) {
       debugPrint(e.toString());
