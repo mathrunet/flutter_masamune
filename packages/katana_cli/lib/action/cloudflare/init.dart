@@ -38,6 +38,9 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final workers = cloudflare.getAsMap("workers");
     final enabledWorkers = workers.get("enable", false);
+    final enableFirebaseAuth = workers.get("enable_firebase_auth", false);
+    final firebase = context.yaml.getAsMap("firebase");
+    final firebaseProjectId = firebase.get("project_id", "");
     final pages = cloudflare.getAsMap("pages");
     final enabledPages = pages.get("enable", false);
     final pubspec = File("pubspec.yaml");
@@ -46,6 +49,12 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     if ((enabledWorkers || enabledPages) && projectId.isEmpty) {
       error(
           "Project ID is not specified. Please enter [project_id] in `katana.yaml`.");
+      return;
+    }
+    if (enableFirebaseAuth && firebaseProjectId.isEmpty) {
+      error(
+        "Firebase project ID is not specified. Please enter [project_id] in `katana.yaml`.",
+      );
       return;
     }
     final workerIndexFile = File("cloudflare/src/index.ts");
@@ -83,7 +92,9 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
         await functionsDir.create();
       }
       if (!workerIndexFile.existsSync()) {
-        await const CloudflareIndexCliCode().generateFile("index.ts");
+        await CloudflareWorkersIndexCliCode(
+          firebaseProjectId: enableFirebaseAuth ? firebaseProjectId : null,
+        ).generateFile("index.ts");
       }
       await command(
         "Package installation.",
@@ -100,7 +111,7 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     }
     if (enabledPages) {
       if (!pagesIndexFile.existsSync()) {
-        await const CloudflareHostingIndexCliCode().generateFile("index.html");
+        await const CloudflarePagesIndexCliCode().generateFile("index.html");
       }
     }
   }
@@ -109,11 +120,20 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
 /// Cloudflare Workers index.ts codebase.
 ///
 /// Cloudflare Workersのindex.tsのコードベース。
-class CloudflareIndexCliCode extends CliCode {
+class CloudflareWorkersIndexCliCode extends CliCode {
   /// Cloudflare Workers index.ts codebase.
   ///
   /// Cloudflare Workersのindex.tsのコードベース。
-  const CloudflareIndexCliCode();
+  const CloudflareWorkersIndexCliCode({
+    this.firebaseProjectId,
+  });
+
+  /// Firebase project ID.
+  /// This is required to enable Firebase Authentication.
+  ///
+  /// FirebaseのプロジェクトID。
+  /// これを渡すとFirebase Authenticationを有効にします。
+  final String? firebaseProjectId;
 
   @override
   String get name => "index";
@@ -148,7 +168,13 @@ import * as m from "@mathrunet/masamune_cloudflare";
 //
 // Workersに追加する機能を[m.Functions.xxxx]を定義してください。
 export default m.deploy([
-]);
+${firebaseProjectId != null ? """
+], {
+    auth: new m.FirebaseAuthAdapter({
+        projectId: "$firebaseProjectId",
+    }),
+}
+""" : "]);"}
 """;
   }
 }
@@ -156,11 +182,11 @@ export default m.deploy([
 /// Cloudflare Pages index.html codebase.
 ///
 /// Cloudflare Pagesのindex.htmlのコードベース。
-class CloudflareHostingIndexCliCode extends CliCode {
+class CloudflarePagesIndexCliCode extends CliCode {
   /// Cloudflare Pages index.html codebase.
   ///
   /// Cloudflare Pagesのindex.htmlのコードベース。
-  const CloudflareHostingIndexCliCode();
+  const CloudflarePagesIndexCliCode();
 
   @override
   String get name => "index";

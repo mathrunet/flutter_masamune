@@ -239,9 +239,12 @@ ${showAllConfig ? """
 cloudflare:
 
   # Enable Cloudflare Workers.
+  # To use Firebase Authentication with Workers, please set `[enable_firebase_auth]` to `true`.
   # Cloudflare Workersを有効にします。
+  # WorkersでFirebase Authenticationを使用する場合は[enable_firebase_auth]を`true`にしてください。
   workers:
-    enable: false
+    enable: true
+    enable_firebase_auth: true
 
   # Enable Cloudflare Pages.
   # Cloudflare Pagesを有効にします。
