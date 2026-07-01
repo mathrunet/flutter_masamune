@@ -250,6 +250,26 @@ cloudflare:
   # Cloudflare Pagesを有効にします。
   pages:
     enable: false
+  
+  # If you want to use TursoDB via Workers, set [enable] to `true`.
+  # Specify the Turso Organization and Group in [organization] and [group].
+  # For [platform_api_token], enter your Turso Platform API Token.
+  # The Platform API Token can be obtained by following the steps below:
+  # 1. Go to `https://app.turso.tech/mathru/settings/api-tokens`
+  # 2. Click the `Create Token` button
+  # 3. Specify a `name` and be sure to specify a `Group`.
+  # Workersを通してTrusoDBを使いたい場合は[enable]を`true`にしてください。
+  # TursoのOrganizationとGroupを[organization]と[group]に指定します。
+  # [platform_api_token]にはTursoのPlatform API Tokenを記載してください。
+  # Platform API Tokenは下記の手順で取得可能です。
+  # 1. `https://app.turso.tech/mathru/settings/api-tokens`にアクセス
+  # 2. `Create Token`ボタンをクリック
+  # 3. `name`を指定し、`Group`を必ず指定します。
+  turso:
+    enable: false
+    organization:
+    group:
+    platform_api_token: 
 
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。

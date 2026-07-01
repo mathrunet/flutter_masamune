@@ -27,5 +27,5 @@ class Config {
   /// MinSdk version at Firebase for Android.
   ///
   /// AndroidのFirebase時のMinSdkバージョン。
-  static const int firebaseMinSdkVersion = 23;
+  static const int firebaseMinSdkVersion = 24;
 }

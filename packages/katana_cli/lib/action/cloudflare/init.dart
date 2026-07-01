@@ -61,6 +61,7 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final pagesIndexFile = File("cloudflare/public/index.html");
     final wranglerJsonc = File("cloudflare/wrangler.jsonc");
     final cloudflareDir = Directory("cloudflare");
+    final workerRulesFile = File("cloudflare/src/rules.json");
     if (!cloudflareDir.existsSync()) {
       await cloudflareDir.create();
     }
@@ -96,6 +97,9 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
           firebaseProjectId: enableFirebaseAuth ? firebaseProjectId : null,
         ).generateFile("index.ts");
       }
+      if (!workerRulesFile.existsSync()) {
+        await const CloudflareWorkersRulesCliCode().generateFile("rules.json");
+      }
       await command(
         "Package installation.",
         [
@@ -107,6 +111,11 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
         ],
         workingDirectory: "cloudflare",
         runInShell: true,
+      );
+      await addFlutterImport(
+        [
+          "masamune_functions_cloudflare",
+        ],
       );
     }
     if (enabledPages) {
@@ -152,7 +161,7 @@ class CloudflareWorkersIndexCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 import * as m from "@mathrunet/masamune_cloudflare";
-
+import rules from "./rules.json";
 """;
   }
 
@@ -170,11 +179,16 @@ import * as m from "@mathrunet/masamune_cloudflare";
 export default m.deploy([
 ${firebaseProjectId != null ? """
 ], {
+    rules: rules as m.RulesConfig,
     auth: new m.FirebaseAuthAdapter({
         projectId: "$firebaseProjectId",
     }),
 }
-""" : "]);"}
+""" : """
+], {
+    rules: rules as m.RulesConfig,
+});
+"""}
 """;
   }
 }
@@ -224,6 +238,51 @@ class CloudflarePagesIndexCliCode extends CliCode {
 	<body>
 	</body>
 </html>
+""";
+  }
+}
+
+/// Cloudflare Workers rules.json codebase.
+///
+/// Cloudflare Workersのrules.jsonのコードベース。
+class CloudflareWorkersRulesCliCode extends CliCode {
+  /// Cloudflare Workers rules.json codebase.
+  ///
+  /// Cloudflare Workersのrules.jsonのコードベース。
+  const CloudflareWorkersRulesCliCode();
+
+  @override
+  String get name => "rules";
+
+  @override
+  String get prefix => "rules";
+
+  @override
+  String get directory => "cloudflare/src";
+
+  @override
+  String get description =>
+      "Define the code for rules.json in Cloudflare Workers. Cloudflare Workersのrules.jsonのコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+{
+  "version": "1",
+  "rules": {
+  }
+}
 """;
   }
 }

@@ -394,7 +394,7 @@ class GradleAndroid {
     required this.compileOptions,
     required this.compileSdkVersion,
     required this.defaultConfig,
-    required this.kotlinOptions,
+    // required this.kotlinOptions,
     required this.sourceSets,
     this.namespace,
     this.ndkVersion,
@@ -420,7 +420,7 @@ class GradleAndroid {
       compileSdkVersion: compileSdkVersion,
       defaultConfig: GradleAndroidDefaultConfig._load(region),
       buildToolsVersion: buildToolsVersion,
-      kotlinOptions: GradleAndroidKotlinOptions._load(region),
+      // kotlinOptions: GradleAndroidKotlinOptions._load(region),
       ndkVersion: ndkVersion,
       sourceSets: GradleAndroidSourceSet._load(region),
     );
@@ -458,7 +458,7 @@ class GradleAndroid {
   /// Kotlin option settings.
   ///
   /// Kotlinのオプション設定。
-  GradleAndroidKotlinOptions kotlinOptions;
+  // GradleAndroidKotlinOptions kotlinOptions;
 
   /// Source setting.
   ///
@@ -482,7 +482,7 @@ class GradleAndroid {
 
   @override
   String toString() {
-    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
+    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
   }
 }
 
@@ -553,37 +553,37 @@ class GradleAndroidCompileOptions {
 /// Kotlin option settings.
 ///
 /// Kotlinのオプション設定。
-class GradleAndroidKotlinOptions {
-  /// Kotlin option settings.
-  ///
-  /// Kotlinのオプション設定。
-  GradleAndroidKotlinOptions({
-    required this.jvmTarget,
-  });
+// class GradleAndroidKotlinOptions {
+//   /// Kotlin option settings.
+//   ///
+//   /// Kotlinのオプション設定。
+//   GradleAndroidKotlinOptions({
+//     required this.jvmTarget,
+//   });
 
-  factory GradleAndroidKotlinOptions._load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'().-]+)")
-            .firstMatch(region)
-            ?.group(1) ??
-        "'1.8'";
-    return GradleAndroidKotlinOptions(
-      jvmTarget: jvmTarget,
-    );
-  }
+//   factory GradleAndroidKotlinOptions._load(String content) {
+//     final region = _regExp.firstMatch(content)?.group(1) ?? "";
+//     final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'().-]+)")
+//             .firstMatch(region)
+//             ?.group(1) ??
+//         '"1.8"';
+//     return GradleAndroidKotlinOptions(
+//       jvmTarget: jvmTarget,
+//     );
+//   }
 
-  static final _regExp = RegExp(r"kotlinOptions {([\s\S]+?)}");
+//   static final _regExp = RegExp(r"kotlinOptions {([\s\S]+?)}");
 
-  /// Setting of `jvmTarget`.
-  ///
-  /// `jvmTarget`の設定。
-  String jvmTarget;
+//   /// Setting of `jvmTarget`.
+//   ///
+//   /// `jvmTarget`の設定。
+//   String jvmTarget;
 
-  @override
-  String toString() {
-    return "    kotlinOptions {\n        jvmTarget = $jvmTarget\n    }\n";
-  }
-}
+//   @override
+//   String toString() {
+//     return "    kotlinOptions {\n        jvmTarget = $jvmTarget\n    }\n";
+//   }
+// }
 
 /// Source setting.
 ///
