@@ -61,6 +61,31 @@ void main() {
     expect(delete.toMap(), isEmpty);
   });
 
+  test("TursoModelAdapter saves through POST without a preflight GET.",
+      () async {
+    final functionsAdapter = _RecordingFunctionsAdapter();
+    final adapter = TursoModelAdapter(functionsAdapter: functionsAdapter);
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/user/user_1"),
+    );
+
+    await adapter.saveDocument(query, {
+      "name": "Alice",
+      "age": 20,
+    });
+
+    expect(functionsAdapter.actions, hasLength(1));
+    final action = functionsAdapter.actions.single;
+    expect(action, isA<TursoPostModelFunctionsAction>());
+    expect(action, isNot(isA<TursoGetModelFunctionsAction>()));
+    final post = action as TursoPostModelFunctionsAction;
+    expect(post.path, "turso/database/test/user");
+    expect(post.indexKey, isNull);
+    expect(post.value["id"], "user_1");
+    expect(post.value["name"], "Alice");
+    expect(post.value["age"], 20);
+  });
+
   test("TursoQueryPayload converts supported model filters.", () {
     final payload = TursoQueryPayload.fromFilters(const [
       ModelQueryFilter.equal(key: "name", value: "Alice"),
@@ -144,4 +169,21 @@ void main() {
     expect(response.scopes.single.readMode, "direct");
     expect(response.scopes.single.writeMode, "functions");
   });
+}
+
+class _RecordingFunctionsAdapter extends FunctionsAdapter {
+  _RecordingFunctionsAdapter();
+
+  final List<FunctionsAction<dynamic>> actions = [];
+
+  @override
+  String get endpoint => "";
+
+  @override
+  Future<TResponse> execute<TResponse>(
+    FunctionsAction<TResponse> action,
+  ) {
+    actions.add(action);
+    return action.execute((_) async => {"data": []});
+  }
 }

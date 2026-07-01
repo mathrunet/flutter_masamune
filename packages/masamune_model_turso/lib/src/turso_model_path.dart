@@ -17,13 +17,9 @@ class TursoModelPath {
   /// Create from document query.
   ///
   /// ドキュメントクエリーから作成します。
-  factory TursoModelPath.fromDocumentQuery(
-    ModelAdapterDocumentQuery query, {
-    required String defaultDatabase,
-  }) {
+  factory TursoModelPath.fromDocumentQuery(ModelAdapterDocumentQuery query) {
     return TursoModelPath._parse(
       query.query.path,
-      defaultDatabase: defaultDatabase,
       document: true,
     );
   }
@@ -32,19 +28,15 @@ class TursoModelPath {
   ///
   /// コレクションクエリーから作成します。
   factory TursoModelPath.fromCollectionQuery(
-    ModelAdapterCollectionQuery query, {
-    required String defaultDatabase,
-  }) {
+      ModelAdapterCollectionQuery query) {
     return TursoModelPath._parse(
       query.query.path,
-      defaultDatabase: defaultDatabase,
       document: false,
     );
   }
 
   factory TursoModelPath._parse(
     String path, {
-    required String defaultDatabase,
     required bool document,
   }) {
     final segments = path.trimQuery().trimString("/").split("/");
@@ -61,19 +53,6 @@ class TursoModelPath {
         database: _validateLogicalName(segments[1], "database"),
         table: _validateIdentifier(segments[2], "table"),
         indexKey: document ? _validateIndexKey(segments[3]) : null,
-      );
-    }
-    if (document && segments.length == 2) {
-      return TursoModelPath(
-        database: _validateLogicalName(defaultDatabase, "database"),
-        table: _validateIdentifier(segments[0], "table"),
-        indexKey: _validateIndexKey(segments[1]),
-      );
-    }
-    if (!document && segments.length == 1) {
-      return TursoModelPath(
-        database: _validateLogicalName(defaultDatabase, "database"),
-        table: _validateIdentifier(segments[0], "table"),
       );
     }
     throw ArgumentError.value(

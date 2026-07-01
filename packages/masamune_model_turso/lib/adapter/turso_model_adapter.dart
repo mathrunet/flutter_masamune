@@ -14,12 +14,10 @@ class TursoModelAdapter extends ModelAdapter {
   ///
   /// Tursoを利用できるようにしたモデルアダプター。
   const TursoModelAdapter({
+    this.useDirectClient = true,
     FunctionsAdapter? functionsAdapter,
-    this.database = "main",
-    this.useDirectClient = false,
-    this.tokenTtlSeconds = 600,
+    this.tokenTtlSeconds = 3600,
     NoSqlDatabase? cachedRuntimeDatabase,
-    this.vectorConverter = const PassVectorConverter(),
   })  : _functionsAdapter = functionsAdapter,
         _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
@@ -31,11 +29,6 @@ class TursoModelAdapter extends ModelAdapter {
   }
 
   final FunctionsAdapter? _functionsAdapter;
-
-  /// Database ID.
-  ///
-  /// データベースID。
-  final String database;
 
   /// Whether to use direct client access.
   ///
@@ -62,7 +55,7 @@ class TursoModelAdapter extends ModelAdapter {
   static final NoSqlDatabase sharedRuntimeDatabase = NoSqlDatabase();
 
   @override
-  final VectorConverter vectorConverter;
+  VectorConverter get vectorConverter => const PassVectorConverter();
 
   bool get _directEnabled => useDirectClient;
 
@@ -81,10 +74,7 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    final path = TursoModelPath.fromDocumentQuery(
-      query,
-      defaultDatabase: database,
-    );
+    final path = TursoModelPath.fromDocumentQuery(query);
     if (_directEnabled) {
       await _withDirectClient(
         database: path.database,
@@ -164,10 +154,7 @@ class TursoModelAdapter extends ModelAdapter {
       throw UnsupportedError(
           "TursoModelAdapter supports only count aggregate.");
     }
-    final path = TursoModelPath.fromCollectionQuery(
-      query,
-      defaultDatabase: database,
-    );
+    final path = TursoModelPath.fromCollectionQuery(query);
     final payload = TursoQueryPayload.fromFilters(query.query.filters);
     Object? count;
     if (_directEnabled) {
@@ -214,10 +201,7 @@ class TursoModelAdapter extends ModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
       ModelAdapterCollectionQuery query) async {
-    final path = TursoModelPath.fromCollectionQuery(
-      query,
-      defaultDatabase: database,
-    );
+    final path = TursoModelPath.fromCollectionQuery(query);
     final payload = TursoQueryPayload.fromFilters(query.query.filters);
     final data = _directEnabled
         ? await _loadCollectionDirect(path, payload)
@@ -228,10 +212,7 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
-    final path = TursoModelPath.fromDocumentQuery(
-      query,
-      defaultDatabase: database,
-    );
+    final path = TursoModelPath.fromDocumentQuery(query);
     final data = _directEnabled
         ? await _loadDocumentDirect(path)
         : await _loadDocumentFunctions(path);
@@ -267,10 +248,7 @@ class TursoModelAdapter extends ModelAdapter {
   @override
   Future<void> saveDocument(
       ModelAdapterDocumentQuery query, DynamicMap value) async {
-    final path = TursoModelPath.fromDocumentQuery(
-      query,
-      defaultDatabase: database,
-    );
+    final path = TursoModelPath.fromDocumentQuery(query);
     final row = _buildSaveRow(path, value);
     if (_directEnabled) {
       await _saveDocumentDirect(path, row);
@@ -383,22 +361,11 @@ class TursoModelAdapter extends ModelAdapter {
 
   Future<void> _saveDocumentFunctions(
       TursoModelPath path, DynamicMap row) async {
-    final exists = (await _loadDocumentFunctions(path)).isNotEmpty;
-    if (exists) {
-      await functionsAdapter.execute(TursoPutModelFunctionsAction(
-        database: path.database,
-        table: path.table,
-        indexKey: path.indexKey,
-        value: row,
-      ));
-    } else {
-      await functionsAdapter.execute(TursoPostModelFunctionsAction(
-        database: path.database,
-        table: path.table,
-        indexKey: path.indexKey,
-        value: row,
-      ));
-    }
+    await functionsAdapter.execute(TursoPostModelFunctionsAction(
+      database: path.database,
+      table: path.table,
+      value: row,
+    ));
   }
 
   Future<void> _runOperations(
@@ -414,9 +381,8 @@ class TursoModelAdapter extends ModelAdapter {
       }
       return;
     }
-    final operationDatabases = operations
-        .map((operation) => operation.path(defaultDatabase: database).database)
-        .toSet();
+    final operationDatabases =
+        operations.map((operation) => operation.path().database).toSet();
     if (operationDatabases.length > 1) {
       throw UnsupportedError(
           "TursoModelAdapter does not support direct batch operations across multiple databases.");
@@ -424,7 +390,7 @@ class TursoModelAdapter extends ModelAdapter {
     final operationDatabase = operationDatabases.single;
     final scopes = operations
         .map((operation) => TursoTokenScope(
-              table: operation.path(defaultDatabase: database).table,
+              table: operation.path().table,
               operations: const ["write"],
             ))
         .toList();
@@ -434,7 +400,7 @@ class TursoModelAdapter extends ModelAdapter {
       functionsFallback: (_) => _runOperationsFunctions(operations),
       callback: (client) async {
         for (final operation in operations.whereType<_TursoSaveOperation>()) {
-          final path = operation.path(defaultDatabase: database);
+          final path = operation.path();
           await _ensureSchema(
               client, path.table, _buildSaveRow(path, operation.value));
         }
@@ -587,7 +553,6 @@ class TursoModelAdapter extends ModelAdapter {
   int get hashCode {
     return runtimeType.hashCode ^
         functionsAdapter.hashCode ^
-        database.hashCode ^
         useDirectClient.hashCode ^
         cachedRuntimeDatabase.hashCode;
   }
@@ -614,7 +579,7 @@ class TursoModelBatchRef extends ModelBatchRef {
 }
 
 abstract class _TursoOperation {
-  TursoModelPath path({required String defaultDatabase});
+  TursoModelPath path();
 
   Future<void> run(TursoModelAdapter adapter);
 
@@ -635,9 +600,8 @@ class _TursoSaveOperation extends _TursoOperation {
   final DynamicMap value;
 
   @override
-  TursoModelPath path({required String defaultDatabase}) {
-    return TursoModelPath.fromDocumentQuery(query,
-        defaultDatabase: defaultDatabase);
+  TursoModelPath path() {
+    return TursoModelPath.fromDocumentQuery(query);
   }
 
   @override
@@ -647,7 +611,7 @@ class _TursoSaveOperation extends _TursoOperation {
 
   @override
   Future<void> runFunctions(TursoModelAdapter adapter) async {
-    final path = this.path(defaultDatabase: adapter.database);
+    final path = this.path();
     await adapter._saveDocumentFunctions(
       path,
       adapter._buildSaveRow(path, value),
@@ -657,7 +621,7 @@ class _TursoSaveOperation extends _TursoOperation {
 
   @override
   Future<void> runDirect(TursoModelAdapter adapter, LibsqlClient client) async {
-    final path = this.path(defaultDatabase: adapter.database);
+    final path = this.path();
     final row = adapter._buildSaveRow(path, value);
     final insert = _buildTursoInsertSql(path.table, row);
     await client.execute(insert.sql, positional: insert.args);
@@ -669,7 +633,7 @@ class _TursoSaveOperation extends _TursoOperation {
     TursoModelAdapter adapter,
     dynamic transaction,
   ) async {
-    final path = this.path(defaultDatabase: adapter.database);
+    final path = this.path();
     final row = adapter._buildSaveRow(path, value);
     final insert = _buildTursoInsertSql(path.table, row);
     await transaction.execute(insert.sql, positional: insert.args);
@@ -683,9 +647,8 @@ class _TursoDeleteOperation extends _TursoOperation {
   final ModelAdapterDocumentQuery query;
 
   @override
-  TursoModelPath path({required String defaultDatabase}) {
-    return TursoModelPath.fromDocumentQuery(query,
-        defaultDatabase: defaultDatabase);
+  TursoModelPath path() {
+    return TursoModelPath.fromDocumentQuery(query);
   }
 
   @override
@@ -695,7 +658,7 @@ class _TursoDeleteOperation extends _TursoOperation {
 
   @override
   Future<void> runFunctions(TursoModelAdapter adapter) async {
-    final path = this.path(defaultDatabase: adapter.database);
+    final path = this.path();
     await adapter.functionsAdapter.execute(TursoDeleteModelFunctionsAction(
       database: path.database,
       table: path.table,
@@ -706,7 +669,7 @@ class _TursoDeleteOperation extends _TursoOperation {
 
   @override
   Future<void> runDirect(TursoModelAdapter adapter, LibsqlClient client) async {
-    final path = this.path(defaultDatabase: adapter.database);
+    final path = this.path();
     await client.execute(
       "DELETE FROM ${_quoteTursoIdentifier(path.table)} "
       "WHERE ${_quoteTursoIdentifier("id")} = ?",
@@ -720,7 +683,7 @@ class _TursoDeleteOperation extends _TursoOperation {
     TursoModelAdapter adapter,
     dynamic transaction,
   ) async {
-    final path = this.path(defaultDatabase: adapter.database);
+    final path = this.path();
     await transaction.execute(
       "DELETE FROM ${_quoteTursoIdentifier(path.table)} "
       "WHERE ${_quoteTursoIdentifier("id")} = ?",
