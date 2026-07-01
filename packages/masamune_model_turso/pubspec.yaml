@@ -16,7 +16,7 @@ dependencies:
 
   katana: ^3.4.0
   masamune: ^3.5.9
-  libsql_dart: ^0.8.0
+  libsql_dart: ^0.9.0
 
 dev_dependencies:
   test: ^1.25.0
