@@ -17,54 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.73"
-  algolia_client_core:
-    dependency: "direct main"
-    description:
-      name: algolia_client_core
-      sha256: cf6a1611160d0d0d03a969eb1a73bfb182a39ab1eed343d904d99c15c821619f
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.51.1"
-  algolia_client_insights:
-    dependency: "direct main"
-    description:
-      name: algolia_client_insights
-      sha256: e4fc53e7648e582ace88d63924cd73263b937cac39a39086f29583da005d935e
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.51.0"
-  algolia_client_search:
-    dependency: "direct main"
-    description:
-      name: algolia_client_search
-      sha256: "97872b4c487e204b0ee7d58229e82f4f79f4123ec42d21aaa7c0ce590fcf1248"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.49.2"
-  algolia_helper_flutter:
-    dependency: "direct main"
-    description:
-      name: algolia_helper_flutter
-      sha256: "863c474255ab888da01546b56272e6fa5c2f6b7b020c78749fa562bdfaea91ad"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
-  algolia_insights:
-    dependency: transitive
-    description:
-      name: algolia_insights
-      sha256: cf7ee87ba68fb2627343be79871710c0e033573dd34e67f576f353a65173cb41
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  algoliasearch:
-    dependency: "direct main"
-    description:
-      name: algoliasearch
-      sha256: "76e64c5582f30c63f9771c3888d81b3a514222765e3b88ceec3f808e677f8431"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.49.2"
   analyzer:
     dependency: transitive
     description:
@@ -73,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "12.1.0"
-  archive:
-    dependency: transitive
-    description:
-      name: archive
-      sha256: a96e8b390886ee8abb49b7bd3ac8df6f451c621619f52a26e815fdcf568959ff
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.9"
   args:
     dependency: transitive
     description:
@@ -113,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  build_cli_annotations:
+    dependency: transitive
+    description:
+      name: build_cli_annotations
+      sha256: b59d2769769efd6c9ff6d4c4cede0be115a566afc591705c2040b707534b1172
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   characters:
     dependency: transitive
     description:
@@ -201,22 +153,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  dio:
-    dependency: transitive
-    description:
-      name: dio
-      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.7.0"
-  dio_web_adapter:
-    dependency: transitive
-    description:
-      name: dio_web_adapter
-      sha256: "33259a9276d6cea88774a0000cfae0d861003497755969c92faa223108620dc8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   encrypt:
     dependency: transitive
     description:
@@ -302,6 +238,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_rust_bridge:
+    dependency: transitive
+    description:
+      name: flutter_rust_bridge
+      sha256: b416ff56002789e636244fb4cc449f587656eff995e5a7169457eb0593fcaddb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.10.0"
   flutter_svg:
     dependency: transitive
     description:
@@ -320,6 +264,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      sha256: c2e2d632dd9b8a2b7751117abcfc2b4888ecfe181bd9fca7170d9ef02e595fe2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.4"
   frontend_server_client:
     dependency: transitive
     description:
@@ -336,14 +288,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  hive:
-    dependency: transitive
-    description:
-      name: hive
-      sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.3"
   http:
     dependency: transitive
     description:
@@ -404,10 +348,10 @@ packages:
     dependency: transitive
     description:
       name: json_annotation
-      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      sha256: "2a743920d81b7910627f68ee2c9ac1fc0bfee32b9fc3403587d7c6791ca12f80"
       url: "https://pub.dev"
     source: hosted
-    version: "4.9.0"
+    version: "4.12.0"
   katana:
     dependency: "direct main"
     description:
@@ -479,7 +423,7 @@ packages:
     source: path
     version: "3.5.2"
   katana_model_firestore:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../katana_model_firestore"
       relative: true
@@ -586,6 +530,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  libsql_dart:
+    dependency: "direct main"
+    description:
+      name: libsql_dart
+      sha256: f4b7abcdf63f1305681b743a9f1ed2f05f2a5ef5af7ede110ce17183e64ebc5e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0"
   lints:
     dependency: transitive
     description:
@@ -792,14 +744,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
-  posix:
-    dependency: transitive
-    description:
-      name: posix
-      sha256: "185ef7606574f789b40f289c233efa52e96dead518aed988e040a10737febb07"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.5.0"
   pub_semver:
     dependency: transitive
     description:
@@ -816,14 +760,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.28.0"
   shared_preferences:
     dependency: transitive
     description:

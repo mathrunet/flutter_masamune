@@ -36,6 +36,108 @@ For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
 
+# Usage
+
+`TursoModelAdapter` supports Cloudflare Workers access and direct Turso access
+with a scoped short-lived token.
+
+```dart
+final adapter = TursoModelAdapter(
+  functionsAdapter: CloudflareFunctionsAdapter(
+    endpoint: "https://example.workers.dev",
+  ),
+  database: "main",
+);
+```
+
+Use the following path format:
+
+```text
+database/<database_id>/<table_id>/<document_id>
+database/<database_id>/<table_id>
+```
+
+Simple Masamune paths are also accepted and resolved with `database`.
+
+```text
+users/user_1
+users
+```
+
+## Direct Turso access
+
+Set `useDirectClient`. The adapter requests a token through
+`/turso/token/database/{database}`, then connects to Turso with `libsql_dart`.
+
+```dart
+final adapter = TursoModelAdapter(
+  functionsAdapter: CloudflareFunctionsAdapter(
+    endpoint: "https://example.workers.dev",
+  ),
+  useDirectClient: true,
+);
+```
+
+The adapter always uses the URL resolved by the Workers token endpoint. This
+supports direct access to dynamically created databases and prevents clients
+from pinning a fixed database URL.
+
+When direct access is enabled, client-side rules checks are not performed. The
+short-lived database token is resolved by the Workers backend. The adapter sends
+table `targets` only when it needs table-level Masamune rules to decide whether
+reads or writes must fall back to FunctionsActions.
+
+If the token response includes `readMode: "functions"`, reads are sent through
+`TursoGetModelFunctionsAction` instead of direct `libsql_dart` access. If it
+includes `writeMode: "functions"`, saves, deletes, batches, and transactions are
+sent through the Turso FunctionsActions.
+
+When both read and write are functions-only, the backend can omit `token`,
+`expiresAt`, and `url`. The adapter follows the returned modes and uses the
+FunctionsActions without opening a direct libSQL connection.
+
+Workers fallback requests use path-based Turso endpoints:
+
+```text
+/turso/database/main/users/user_1
+/turso/database/main/users?where=[{"type":"equalTo","key":"name","value":"Alice"}]
+/turso/token/database/main
+```
+
+## Supported queries
+
+Collection load converts supported `ModelQueryFilter` values to Turso SQL or
+Workers request conditions.
+
+- `equalTo`
+- `notEqualTo`
+- `lessThan`
+- `lessThanOrEqualTo`
+- `greaterThan`
+- `greaterThanOrEqualTo`
+- `whereIn`
+- `whereNotIn`
+- `isNull`
+- `isNotNull`
+- `like`
+- `orderByAsc`
+- `orderByDesc`
+- `limit`
+
+`geoHash`, `nearest`, `and`, `or`, and `raw` are not supported in the first
+implementation. `arrayContains` and `arrayContainsAny` are rejected by direct
+SQL and Workers SQL until JSON1 behavior is fixed across both paths.
+
+## Schema migration
+
+On direct save, the adapter creates the table if needed and adds missing
+columns. Existing column type changes, field renames, field deletions, primary
+key changes, unique constraints, and foreign keys are not automatically
+migrated.
+
+Workers access delegates database/table creation and additive migration to
+`@mathrunet/masamune_cloudflare_turso`.
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!
