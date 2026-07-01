@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.13.1`](#katana_cli---v3131)
+ - [`masamune_model_turso` - `v3.4.1`](#masamune_model_turso---v341)
+
+---
+
+#### `katana_cli` - `v3.13.1`
+
+ - **FIX**(cloudflare): add Flutter import for masamune_model_turso. ([90376b1d](https://github.com/mathrunet/flutter_masamune/commit/90376b1dba69132dfeb2ea07cc02f1fed1e661c9))
+
+#### `masamune_model_turso` - `v3.4.1`
+
+ - **REFACTOR**(turso): simplify TursoModelAdapter and improve path handling. ([6cd2c61e](https://github.com/mathrunet/flutter_masamune/commit/6cd2c61e540c43a01e201eb1d33fe9b7789b3fe1))
+
+
+## 2026-07-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.13.0`](#katana_cli---v3130)
  - [`masamune_model_turso` - `v3.4.0`](#masamune_model_turso---v340)
 

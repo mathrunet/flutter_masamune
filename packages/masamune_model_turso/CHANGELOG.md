@@ -1,3 +1,7 @@
+## 3.4.1
+
+ - **REFACTOR**(turso): simplify TursoModelAdapter and improve path handling. ([6cd2c61e](https://github.com/mathrunet/flutter_masamune/commit/6cd2c61e540c43a01e201eb1d33fe9b7789b3fe1))
+
 ## 3.4.0
 
  - **FEAT**(turso): implement TursoModelAdapter with direct access and CRUD actions. ([50ffa9b4](https://github.com/mathrunet/flutter_masamune/commit/50ffa9b44072f390f2df8a0c0153533887a86f34))

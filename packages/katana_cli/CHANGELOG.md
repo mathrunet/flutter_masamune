@@ -1,3 +1,7 @@
+## 3.13.1
+
+ - **FIX**(cloudflare): add Flutter import for masamune_model_turso. ([90376b1d](https://github.com/mathrunet/flutter_masamune/commit/90376b1dba69132dfeb2ea07cc02f1fed1e661c9))
+
 ## 3.13.0
 
  - **FIX**(cloudflare): implement CloudflareTursoCliAction for Turso deployment. ([ba7c48df](https://github.com/mathrunet/flutter_masamune/commit/ba7c48df11f0e47a00a144937b214743b0e3f71c))
