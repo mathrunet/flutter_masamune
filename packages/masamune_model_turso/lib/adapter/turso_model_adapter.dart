@@ -1,5 +1,21 @@
 part of "/masamune_model_turso.dart";
 
+const _fallbackTokenResponse = TursoTokenFunctionsActionResponse(
+  token: "",
+  expiresAt: 0,
+  readMode: "functions",
+  writeMode: "functions",
+);
+
+const _tursoRetryDelays = [
+  Duration(milliseconds: 250),
+  Duration(milliseconds: 500),
+  Duration(seconds: 1),
+  Duration(seconds: 2),
+  Duration(seconds: 4),
+  Duration(seconds: 8),
+];
+
 /// A model adapter that enables the use of Turso.
 ///
 /// It can access Turso through Cloudflare Workers, or directly through a
@@ -17,6 +33,7 @@ class TursoModelAdapter extends ModelAdapter {
     this.useDirectClient = true,
     FunctionsAdapter? functionsAdapter,
     this.tokenTtlSeconds = 3600,
+    this.retryDelays = _tursoRetryDelays,
     NoSqlDatabase? cachedRuntimeDatabase,
   })  : _functionsAdapter = functionsAdapter,
         _cachedRuntimeDatabase = cachedRuntimeDatabase;
@@ -39,6 +56,11 @@ class TursoModelAdapter extends ModelAdapter {
   ///
   /// トークンの有効秒数。
   final int tokenTtlSeconds;
+
+  /// Retry delays for transient Turso direct connection errors.
+  ///
+  /// Turso直接接続の一時的なエラーに対するリトライ間隔。
+  final List<Duration> retryDelays;
 
   /// Local cache database.
   ///
@@ -175,10 +197,18 @@ class TursoModelAdapter extends ModelAdapter {
         },
         callback: (client) async {
           final where = _buildTursoWhereSql(where: payload.where);
-          final rows = await client.query(
-            "SELECT COUNT(*) AS count FROM ${_quoteTursoIdentifier(path.table)}${where.sql}",
-            positional: where.args,
-          );
+          final List<Map<String, dynamic>> rows;
+          try {
+            rows = await client.query(
+              "SELECT COUNT(*) AS count FROM ${_quoteTursoIdentifier(path.table)}${where.sql}",
+              positional: where.args,
+            );
+          } catch (error) {
+            if (_isTursoMissingTableError(error)) {
+              return 0;
+            }
+            rethrow;
+          }
           return rows.firstOrNull?["count"] ?? 0;
         },
       );
@@ -288,12 +318,20 @@ class TursoModelAdapter extends ModelAdapter {
       functionsFallback: (_) => _loadCollectionFunctions(path, payload),
       callback: (client) async {
         final where = _buildTursoWhereSql(where: payload.where);
-        final rows = await client.query(
-          "SELECT * FROM ${_quoteTursoIdentifier(path.table)}"
-          "${where.sql}${_buildTursoOrderSql(payload.orderBy)}"
-          "${_buildTursoLimitSql(payload.limit)}",
-          positional: where.args,
-        );
+        final List<Map<String, dynamic>> rows;
+        try {
+          rows = await client.query(
+            "SELECT * FROM ${_quoteTursoIdentifier(path.table)}"
+            "${where.sql}${_buildTursoOrderSql(payload.orderBy)}"
+            "${_buildTursoLimitSql(payload.limit)}",
+            positional: where.args,
+          );
+        } catch (error) {
+          if (_isTursoMissingTableError(error)) {
+            return <String, DynamicMap>{};
+          }
+          rethrow;
+        }
         return Map.fromEntries(rows.map((row) {
           final decoded = _decodeTursoRow(row);
           return MapEntry(decoded.get("id", ""), decoded);
@@ -324,11 +362,19 @@ class TursoModelAdapter extends ModelAdapter {
       ],
       functionsFallback: (_) => _loadDocumentFunctions(path),
       callback: (client) async {
-        final rows = await client.query(
-          "SELECT * FROM ${_quoteTursoIdentifier(path.table)} "
-          "WHERE ${_quoteTursoIdentifier("id")} = ? LIMIT 1",
-          positional: [path.indexKey],
-        );
+        final List<Map<String, dynamic>> rows;
+        try {
+          rows = await client.query(
+            "SELECT * FROM ${_quoteTursoIdentifier(path.table)} "
+            "WHERE ${_quoteTursoIdentifier("id")} = ? LIMIT 1",
+            positional: [path.indexKey],
+          );
+        } catch (error) {
+          if (_isTursoMissingTableError(error)) {
+            return <String, dynamic>{};
+          }
+          rethrow;
+        }
         return rows.isEmpty ? <String, dynamic>{} : _decodeTursoRow(rows.first);
       },
     );
@@ -437,11 +483,23 @@ class TursoModelAdapter extends ModelAdapter {
     Future<T> Function(TursoTokenFunctionsActionResponse token)?
         functionsFallback,
   }) async {
-    final token = await functionsAdapter.execute(TursoTokenFunctionsAction(
-      database: database,
-      targets: _mergeScopes(scopes),
-      ttlSeconds: tokenTtlSeconds,
-    ));
+    final TursoTokenFunctionsActionResponse token;
+    try {
+      token = await _retryTursoTransient(() {
+        return functionsAdapter.execute(TursoTokenFunctionsAction(
+          database: database,
+          targets: _mergeScopes(scopes),
+          ttlSeconds: tokenTtlSeconds,
+        ));
+      });
+    } catch (error) {
+      if (functionsFallback != null && _isTursoDirectFallbackError(error)) {
+        return await _retryTursoTransient(
+          () => functionsFallback(_fallbackTokenResponse),
+        );
+      }
+      rethrow;
+    }
     if (_requiresRead(scopes) && token.readMode != "direct") {
       if (token.readMode == "functions" && functionsFallback != null) {
         return await functionsFallback(token);
@@ -461,13 +519,43 @@ class TursoModelAdapter extends ModelAdapter {
       throw StateError(
           "Token response url is required for direct Turso access.");
     }
-    final client = LibsqlClient.remote(url, authToken: token.token);
-    await client.connect();
     try {
-      return await callback(client);
-    } finally {
-      await client.dispose();
+      return await _retryTursoTransient(() async {
+        final client = LibsqlClient.remote(url, authToken: token.token);
+        await client.connect();
+        try {
+          return await callback(client);
+        } finally {
+          await client.dispose();
+        }
+      });
+    } catch (error) {
+      if (functionsFallback != null && _isTursoDirectFallbackError(error)) {
+        return await _retryTursoTransient(
+          () => functionsFallback(token),
+        );
+      }
+      rethrow;
     }
+  }
+
+  Future<T> _retryTursoTransient<T>(Future<T> Function() callback) async {
+    Object? lastError;
+    StackTrace? lastStackTrace;
+    for (var attempt = 0; attempt <= retryDelays.length; attempt++) {
+      try {
+        return await callback();
+      } catch (error, stackTrace) {
+        lastError = error;
+        lastStackTrace = stackTrace;
+        if (!_isTursoDirectFallbackError(error) ||
+            attempt == retryDelays.length) {
+          rethrow;
+        }
+        await Future<void>.delayed(retryDelays[attempt]);
+      }
+    }
+    Error.throwWithStackTrace(lastError!, lastStackTrace!);
   }
 
   bool _requiresWrite(List<TursoTokenScope> scopes) {
@@ -479,6 +567,25 @@ class TursoModelAdapter extends ModelAdapter {
   bool _requiresRead(List<TursoTokenScope> scopes) {
     return scopes.any((scope) => scope.operations
         .any((operation) => operation == "read" || operation == "get"));
+  }
+
+  bool _isTursoDirectFallbackError(Object error) {
+    if (_isTursoMissingTableError(error)) {
+      return false;
+    }
+    final message = error.toString();
+    return RegExp(r"(?:Failed to post:?|status=?|status: )\s*(500|502|503|504)")
+            .hasMatch(message) ||
+        message.contains("no route configured for host") ||
+        message.contains("Bad Gateway") ||
+        message.contains("Service Unavailable") ||
+        message.contains("Gateway Timeout");
+  }
+
+  bool _isTursoMissingTableError(Object error) {
+    final message = error.toString();
+    return message.contains("no such table") ||
+        message.contains("SQLITE_UNKNOWN");
   }
 
   List<TursoTokenScope> _mergeScopes(List<TursoTokenScope> scopes) {
@@ -554,6 +661,7 @@ class TursoModelAdapter extends ModelAdapter {
     return runtimeType.hashCode ^
         functionsAdapter.hashCode ^
         useDirectClient.hashCode ^
+        retryDelays.hashCode ^
         cachedRuntimeDatabase.hashCode;
   }
 }

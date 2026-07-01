@@ -64,7 +64,10 @@ void main() {
   test("TursoModelAdapter saves through POST without a preflight GET.",
       () async {
     final functionsAdapter = _RecordingFunctionsAdapter();
-    final adapter = TursoModelAdapter(functionsAdapter: functionsAdapter);
+    final adapter = TursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: functionsAdapter,
+    );
     const query = ModelAdapterDocumentQuery(
       query: DocumentModelQuery("database/test/user/user_1"),
     );
@@ -84,6 +87,34 @@ void main() {
     expect(post.value["id"], "user_1");
     expect(post.value["name"], "Alice");
     expect(post.value["age"], 20);
+  });
+
+  test("TursoModelAdapter falls back to POST when direct token fails.",
+      () async {
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      tokenError: Exception("Failed to post: 500"),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      retryDelays: const [],
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/user/user_1"),
+    );
+
+    await adapter.saveDocument(query, {
+      "name": "Alice",
+      "age": 20,
+    });
+
+    expect(
+      functionsAdapter.actions.whereType<TursoTokenFunctionsAction>(),
+      hasLength(1),
+    );
+    expect(functionsAdapter.actions.last, isA<TursoPostModelFunctionsAction>());
+    final post = functionsAdapter.actions.last as TursoPostModelFunctionsAction;
+    expect(post.path, "turso/database/test/user");
+    expect(post.value["id"], "user_1");
   });
 
   test("TursoQueryPayload converts supported model filters.", () {
@@ -172,7 +203,11 @@ void main() {
 }
 
 class _RecordingFunctionsAdapter extends FunctionsAdapter {
-  _RecordingFunctionsAdapter();
+  _RecordingFunctionsAdapter({
+    this.tokenError,
+  });
+
+  final Object? tokenError;
 
   final List<FunctionsAction<dynamic>> actions = [];
 
@@ -184,6 +219,10 @@ class _RecordingFunctionsAdapter extends FunctionsAdapter {
     FunctionsAction<TResponse> action,
   ) {
     actions.add(action);
+    final tokenError = this.tokenError;
+    if (action is TursoTokenFunctionsAction && tokenError != null) {
+      throw tokenError;
+    }
     return action.execute((_) async => {"data": []});
   }
 }
