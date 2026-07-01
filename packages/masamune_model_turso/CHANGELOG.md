@@ -1,3 +1,7 @@
+## 3.4.2
+
+ - **FIX**(turso): enhance TursoModelAdapter with retry logic and fallback handling. ([4f5fb7b5](https://github.com/mathrunet/flutter_masamune/commit/4f5fb7b5b5511e12dcaa88f8b1fb71b1a76a65f5))
+
 ## 3.4.1
 
  - **REFACTOR**(turso): simplify TursoModelAdapter and improve path handling. ([6cd2c61e](https://github.com/mathrunet/flutter_masamune/commit/6cd2c61e540c43a01e201eb1d33fe9b7789b3fe1))

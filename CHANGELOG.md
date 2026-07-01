@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_model_turso` - `v3.4.2`](#masamune_model_turso---v342)
+
+---
+
+#### `masamune_model_turso` - `v3.4.2`
+
+ - **FIX**(turso): enhance TursoModelAdapter with retry logic and fallback handling. ([4f5fb7b5](https://github.com/mathrunet/flutter_masamune/commit/4f5fb7b5b5511e12dcaa88f8b1fb71b1a76a65f5))
+
+
+## 2026-07-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.13.1`](#katana_cli---v3131)
  - [`masamune_model_turso` - `v3.4.1`](#masamune_model_turso---v341)
 
