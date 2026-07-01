@@ -68,6 +68,11 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    await addFlutterImport(
+      [
+        "masamune_model_turso",
+      ],
+    );
     label("Add Cloudflare Workers functions");
     final source = await indexFile.readAsString();
     final updated = _updateTursoFunctions(
