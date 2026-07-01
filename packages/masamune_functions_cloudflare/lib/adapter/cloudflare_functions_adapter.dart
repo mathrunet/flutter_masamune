@@ -101,6 +101,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
               final res = await Api.delete(
                 "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
                 headers: headers,
+                body: map == null || map.isEmpty ? null : jsonEncode(map),
               );
               if (!res.statusCode.toString().startsWith("2")) {
                 throw Exception("Failed to delete: ${res.statusCode}");
