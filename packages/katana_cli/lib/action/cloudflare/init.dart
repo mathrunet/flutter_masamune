@@ -100,6 +100,7 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
       if (!workerRulesFile.existsSync()) {
         await const CloudflareWorkersRulesCliCode().generateFile("rules.json");
       }
+      await const CloudflareWranglerCliCode().generateFile("wrangler.jsonc");
       await command(
         "Package installation.",
         [
@@ -282,6 +283,97 @@ class CloudflareWorkersRulesCliCode extends CliCode {
   "version": "1",
   "rules": {
   }
+}
+""";
+  }
+}
+
+/// Cloudflare Wrangler.jsonc codebase.
+///
+/// Cloudflare Wrangler.jsoncのコードベース。
+class CloudflareWranglerCliCode extends CliCode {
+  /// Cloudflare Wrangler.jsonc codebase.
+  ///
+  /// Cloudflare Wrangler.jsoncのコードベース。
+  const CloudflareWranglerCliCode();
+
+  @override
+  String get name => "wrangler";
+
+  @override
+  String get prefix => "wrangler";
+
+  @override
+  String get directory => "cloudflare";
+
+  @override
+  String get description =>
+      "Define the code for wrangler.jsonc in Cloudflare. Cloudflareのwrangler.jsoncのコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "cloudflaretest",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-06-29",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		// The path to the directory containing the `index.html` file to be served at `/`
+		"directory": "./public"
+	},
+	"observability": {
+		"logs": {
+			"enabled": true,
+			"invocation_logs": true
+		},
+		"traces": {
+			"enabled": true
+		}
+	},
+	"upload_source_maps": true
+	/**
+	 * Smart Placement
+	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+	 */
+	// "placement": {  "mode": "smart" }
+	/**
+	 * Bindings
+	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
+	 * databases, object storage, AI inference, real-time communication and more.
+	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
+	 */
+	/**
+	 * Environment Variables
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+	 * Note: Use secrets to store sensitive data.
+	 * https://developers.cloudflare.com/workers/configuration/secrets/
+	 */
+	// "vars": {  "MY_VARIABLE": "production_value" }
+	/**
+	 * Service Bindings (communicate between multiple Workers)
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+	 */
+	// "services": [  {   "binding": "MY_SERVICE",   "service": "my-service"  } ]
 }
 """;
   }
