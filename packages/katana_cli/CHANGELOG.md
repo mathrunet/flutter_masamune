@@ -1,3 +1,8 @@
+## 3.13.0
+
+ - **FIX**(cloudflare): implement CloudflareTursoCliAction for Turso deployment. ([ba7c48df](https://github.com/mathrunet/flutter_masamune/commit/ba7c48df11f0e47a00a144937b214743b0e3f71c))
+ - **FEAT**(cloudflare): add TursoDB deployment support and update Firebase SDK version. ([957461bb](https://github.com/mathrunet/flutter_masamune/commit/957461bb996e7ab23b9c6f54a1bd38a51e370da2))
+
 ## 3.12.2
 
  - **FIX**(cloudflare): enable Firebase Authentication in Cloudflare Workers. ([21834514](https://github.com/mathrunet/flutter_masamune/commit/2183451450b899ebfe40c42a4f397229e963d0e9))

@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.13.0`](#katana_cli---v3130)
+ - [`masamune_model_turso` - `v3.4.0`](#masamune_model_turso---v340)
+
+---
+
+#### `katana_cli` - `v3.13.0`
+
+ - **FIX**(cloudflare): implement CloudflareTursoCliAction for Turso deployment. ([ba7c48df](https://github.com/mathrunet/flutter_masamune/commit/ba7c48df11f0e47a00a144937b214743b0e3f71c))
+ - **FEAT**(cloudflare): add TursoDB deployment support and update Firebase SDK version. ([957461bb](https://github.com/mathrunet/flutter_masamune/commit/957461bb996e7ab23b9c6f54a1bd38a51e370da2))
+
+#### `masamune_model_turso` - `v3.4.0`
+
+ - **FEAT**(turso): implement TursoModelAdapter with direct access and CRUD actions. ([50ffa9b4](https://github.com/mathrunet/flutter_masamune/commit/50ffa9b44072f390f2df8a0c0153533887a86f34))
+
+
 ## 2026-06-30
 
 ### Changes

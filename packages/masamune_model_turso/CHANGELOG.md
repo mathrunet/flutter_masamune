@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**(turso): implement TursoModelAdapter with direct access and CRUD actions. ([50ffa9b4](https://github.com/mathrunet/flutter_masamune/commit/50ffa9b44072f390f2df8a0c0153533887a86f34))
+
 ## 3.3.1
 
  - **FEAT**: Implement `TursoModelAdapter`, Turso FunctionsActions, direct libSQL access, scoped token requests, additive table migration, and SQL query conversion.

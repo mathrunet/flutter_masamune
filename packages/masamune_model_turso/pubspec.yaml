@@ -1,6 +1,6 @@
 name: masamune_model_turso
 description: Masamune plugin package that includes a model adapter to retrieve data from Turso.
-version: 3.3.1
+version: 3.4.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_turso
 
