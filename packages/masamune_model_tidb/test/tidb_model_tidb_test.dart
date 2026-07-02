@@ -42,6 +42,7 @@ void main() {
       indexKey: "user_1",
       value: {
         "name": "Alice",
+        "isActive": true,
         kUidFieldKey: "ignored",
         kTimeFieldKey: 1000,
       },
@@ -55,6 +56,7 @@ void main() {
       ],
       value: {
         "name": "Alice",
+        "isActive": false,
         kUidFieldKey: "ignored",
         kTimeFieldKey: 1000,
       },
@@ -67,14 +69,14 @@ void main() {
 
     expect(post.path, "tidb/database/main/users/user_1");
     expect(post.toMap(), {
-      "value": {"name": "Alice"},
+      "value": {"name": "Alice", "isActive": true},
     });
     expect(put.path, "tidb/database/main/users/user_1");
     expect(put.toMap(), {
       "where": [
         {"type": "equalTo", "key": "id", "value": "user_1"},
       ],
-      "value": {"name": "Alice"},
+      "value": {"name": "Alice", "isActive": false},
     });
     expect(delete.path, "tidb/database/main/users/user_1");
     expect(delete.toMap(), isEmpty);
@@ -93,6 +95,7 @@ void main() {
     await adapter.saveDocument(query, {
       "name": "Alice",
       "age": 20,
+      "isActive": true,
       kUidFieldKey: "ignored",
       kTimeFieldKey: 1000,
     });
@@ -107,6 +110,7 @@ void main() {
     expect(post.value["id"], "user_1");
     expect(post.value["name"], "Alice");
     expect(post.value["age"], 20);
+    expect(post.value["isActive"], true);
     expect(post.value.containsKey(kUidFieldKey), false);
     expect(post.value.containsKey(kTimeFieldKey), false);
   });
@@ -117,6 +121,7 @@ void main() {
         {
           "id": "user_1",
           "name": "Alice",
+          "isActive": 0,
           "updated_at": 1234,
         },
       ],
@@ -136,8 +141,10 @@ void main() {
 
     expect(document[kUidFieldKey], "user_1");
     expect(document[kTimeFieldKey], 1234);
+    expect(document["isActive"], false);
     expect(collection["user_1"]?[kUidFieldKey], "user_1");
     expect(collection["user_1"]?[kTimeFieldKey], 1234);
+    expect(collection["user_1"]?["isActive"], false);
   });
 
   test("TidbModelAdapter preloads references with one whereIn query.",

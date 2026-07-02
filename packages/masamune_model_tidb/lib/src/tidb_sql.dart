@@ -20,9 +20,6 @@ DynamicMap _sanitizeTidbSaveValue(DynamicMap value) {
 }
 
 Object? _encodeTidbSaveValue(Object? value) {
-  if (value is bool) {
-    return value ? 1 : 0;
-  }
   if (value is Iterable) {
     return value.map(_encodeTidbSaveValue).toList();
   }
@@ -64,6 +61,11 @@ DynamicMap _decodeTidbRow(Map<String, dynamic> row) {
   final result = <String, dynamic>{};
   for (final entry in row.entries) {
     final value = entry.value;
+    final boolValue = _decodeTidbBooleanValue(entry.key, value);
+    if (boolValue != null) {
+      result[entry.key] = boolValue;
+      continue;
+    }
     if (value is String &&
         ((value.startsWith("{") && value.endsWith("}")) ||
             (value.startsWith("[") && value.endsWith("]")))) {
@@ -85,4 +87,25 @@ DynamicMap _decodeTidbRow(Map<String, dynamic> row) {
     result[kTimeFieldKey] = updatedAt;
   }
   return result;
+}
+
+bool? _decodeTidbBooleanValue(String key, Object? value) {
+  if (!_isTidbBooleanKey(key)) {
+    return null;
+  }
+  if (value is bool) {
+    return value;
+  }
+  if (value is num && (value == 0 || value == 1)) {
+    return value == 1;
+  }
+  if (value is String && (value == "0" || value == "1")) {
+    return value == "1";
+  }
+  return null;
+}
+
+bool _isTidbBooleanKey(String key) {
+  return RegExp(r"^(?:is[A-Z_]|has[A-Z_]|can[A-Z_]|should[A-Z_]|active$)")
+      .hasMatch(key);
 }
