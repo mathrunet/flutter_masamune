@@ -84,7 +84,6 @@ void main() {
       () async {
     final functionsAdapter = _RecordingFunctionsAdapter();
     final adapter = TidbModelAdapter(
-      useDirectClient: false,
       functionsAdapter: functionsAdapter,
     );
     const query = ModelAdapterDocumentQuery(
@@ -112,34 +111,6 @@ void main() {
     expect(post.value.containsKey(kTimeFieldKey), false);
   });
 
-  test("TidbModelAdapter falls back to POST when direct token fails.",
-      () async {
-    final functionsAdapter = _RecordingFunctionsAdapter(
-      tokenError: Exception("Failed to post: 500"),
-    );
-    final adapter = TidbModelAdapter(
-      functionsAdapter: functionsAdapter,
-      retryDelays: const [],
-    );
-    const query = ModelAdapterDocumentQuery(
-      query: DocumentModelQuery("database/test/user/user_1"),
-    );
-
-    await adapter.saveDocument(query, {
-      "name": "Alice",
-      "age": 20,
-    });
-
-    expect(
-      functionsAdapter.actions.whereType<TidbTokenFunctionsAction>(),
-      hasLength(1),
-    );
-    expect(functionsAdapter.actions.last, isA<TidbPostModelFunctionsAction>());
-    final post = functionsAdapter.actions.last as TidbPostModelFunctionsAction;
-    expect(post.path, "tidb/database/test/user");
-    expect(post.value["id"], "user_1");
-  });
-
   test("TidbModelAdapter restores uid and time fields on load.", () async {
     final functionsAdapter = _RecordingFunctionsAdapter(
       responseData: const [
@@ -151,7 +122,6 @@ void main() {
       ],
     );
     final adapter = TidbModelAdapter(
-      useDirectClient: false,
       functionsAdapter: functionsAdapter,
     );
     const documentQuery = ModelAdapterDocumentQuery(
@@ -188,7 +158,6 @@ void main() {
       },
     );
     final adapter = TidbModelAdapter(
-      useDirectClient: false,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
     );
@@ -251,7 +220,6 @@ void main() {
       },
     );
     final adapter = TidbModelAdapter(
-      useDirectClient: false,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
     );
@@ -292,90 +260,13 @@ void main() {
     expect(payload.orderBy.single["descending"], true);
     expect(payload.limit, 20);
   });
-
-  test("TidbTokenFunctionsAction serializes scope.", () {
-    const action = TidbTokenFunctionsAction(
-      database: "main",
-      targets: [
-        TidbTokenScope(table: "users", operations: ["read", "write"]),
-      ],
-    );
-
-    final map = action.toMap()!;
-    expect(action.path, "tidb/token/database/main");
-    expect(map["ttlSeconds"], 600);
-    expect(map["targets"], [
-      {
-        "table": "users",
-        "operations": ["read", "write"],
-      }
-    ]);
-    expect(map.containsKey("scope"), false);
-  });
-
-  test("TidbTokenFunctionsAction serializes database operations.", () {
-    const action = TidbTokenFunctionsAction(
-      database: "main",
-      operations: ["read"],
-      targets: [],
-    );
-
-    expect(action.toMap(), {
-      "operations": ["read"],
-      "ttlSeconds": 600,
-    });
-  });
-
-  test("TidbTokenFunctionsAction deserializes resolved connection.", () {
-    const action = TidbTokenFunctionsAction(
-      database: "main",
-      targets: [
-        TidbTokenScope(table: "users", operations: ["read"]),
-      ],
-    );
-
-    final response = action.toResponse({
-      "token": "scoped-token",
-      "expiresAt": 1760000000,
-      "host": "gateway01.ap-northeast-1.prod.aws.tidbcloud.com",
-      "port": 4000,
-      "database": "main",
-      "username": "client_read",
-      "readMode": "direct",
-      "writeMode": "functions",
-      "targets": [
-        {
-          "table": "users",
-          "operations": ["read", "write"],
-          "readMode": "direct",
-          "writeMode": "functions",
-        }
-      ],
-    });
-
-    expect(response.token, "scoped-token");
-    expect(response.expiresAt, 1760000000);
-    expect(response.host, "gateway01.ap-northeast-1.prod.aws.tidbcloud.com");
-    expect(response.port, 4000);
-    expect(response.database, "main");
-    expect(response.username, "client_read");
-    expect(response.readMode, "direct");
-    expect(response.writeMode, "functions");
-    expect(response.scopes.single.table, "users");
-    expect(response.scopes.single.operations, ["read", "write"]);
-    expect(response.scopes.single.readMode, "direct");
-    expect(response.scopes.single.writeMode, "functions");
-  });
 }
 
 class _RecordingFunctionsAdapter extends FunctionsAdapter {
   _RecordingFunctionsAdapter({
-    this.tokenError,
     this.responseData = const [],
     this.responseForAction,
   });
-
-  final Object? tokenError;
 
   final Object? responseData;
 
@@ -391,10 +282,6 @@ class _RecordingFunctionsAdapter extends FunctionsAdapter {
     FunctionsAction<TResponse> action,
   ) {
     actions.add(action);
-    final tokenError = this.tokenError;
-    if (action is TidbTokenFunctionsAction && tokenError != null) {
-      throw tokenError;
-    }
     return action.execute((_) async => {
           "data": responseForAction?.call(action) ?? responseData,
         });

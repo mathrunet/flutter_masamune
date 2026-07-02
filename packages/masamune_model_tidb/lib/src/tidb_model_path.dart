@@ -27,8 +27,7 @@ class TidbModelPath {
   /// Create from collection query.
   ///
   /// コレクションクエリーから作成します。
-  factory TidbModelPath.fromCollectionQuery(
-      ModelAdapterCollectionQuery query) {
+  factory TidbModelPath.fromCollectionQuery(ModelAdapterCollectionQuery query) {
     return TidbModelPath._parse(
       query.query.path,
       document: false,
