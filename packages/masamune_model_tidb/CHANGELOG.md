@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FIX**(tidb): remove direct client access and unused token management. ([c1450f24](https://github.com/mathrunet/flutter_masamune/commit/c1450f24cd1eaf2a3a852f76c243768fc02676bc))
+ - **FEAT**(tidb): implement CRUD operations and token management for TiDB. ([76d7e629](https://github.com/mathrunet/flutter_masamune/commit/76d7e629c70d665179ed286a1251fbbba5be89b7))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

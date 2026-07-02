@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(cloudflare): implement Cloudflare KV document management actions. ([df271498](https://github.com/mathrunet/flutter_masamune/commit/df2714983f794b3e598773e9f106e06510e75a46))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

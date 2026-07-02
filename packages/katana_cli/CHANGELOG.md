@@ -1,3 +1,8 @@
+## 3.13.3
+
+ - **REFACTOR**(tidb): simplify secret loading and remove unused methods. ([b9cd5353](https://github.com/mathrunet/flutter_masamune/commit/b9cd535306b3a10aad4dd7e8ea85b8b81c9342e7))
+ - **FIX**(cloudflare): add support for Cloudflare KV and TiDB deployment. ([35fdefd5](https://github.com/mathrunet/flutter_masamune/commit/35fdefd56ba1457fa35d462303e7ccc792957b01))
+
 ## 3.13.2
 
  - **FIX**(cloudflare): add Cloudflare Wrangler configuration generation. ([aa6ea4ba](https://github.com/mathrunet/flutter_masamune/commit/aa6ea4ba6bfa5af1c210e07e912b52b6238c557f))

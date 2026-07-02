@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.13.3`](#katana_cli---v3133)
+ - [`masamune_model_cloudflare_kv` - `v3.2.0`](#masamune_model_cloudflare_kv---v320)
+ - [`masamune_model_tidb` - `v3.2.0`](#masamune_model_tidb---v320)
+
+---
+
+#### `katana_cli` - `v3.13.3`
+
+ - **REFACTOR**(tidb): simplify secret loading and remove unused methods. ([b9cd5353](https://github.com/mathrunet/flutter_masamune/commit/b9cd535306b3a10aad4dd7e8ea85b8b81c9342e7))
+ - **FIX**(cloudflare): add support for Cloudflare KV and TiDB deployment. ([35fdefd5](https://github.com/mathrunet/flutter_masamune/commit/35fdefd56ba1457fa35d462303e7ccc792957b01))
+
+#### `masamune_model_cloudflare_kv` - `v3.2.0`
+
+ - **FEAT**(cloudflare): implement Cloudflare KV document management actions. ([df271498](https://github.com/mathrunet/flutter_masamune/commit/df2714983f794b3e598773e9f106e06510e75a46))
+
+#### `masamune_model_tidb` - `v3.2.0`
+
+ - **FIX**(tidb): remove direct client access and unused token management. ([c1450f24](https://github.com/mathrunet/flutter_masamune/commit/c1450f24cd1eaf2a3a852f76c243768fc02676bc))
+ - **FEAT**(tidb): implement CRUD operations and token management for TiDB. ([76d7e629](https://github.com/mathrunet/flutter_masamune/commit/76d7e629c70d665179ed286a1251fbbba5be89b7))
+
+
+## 2026-07-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.13.2`](#katana_cli---v3132)
  - [`katana_model` - `v3.6.0`](#katana_model---v360)
  - [`masamune_model_turso` - `v3.4.3`](#masamune_model_turso---v343)
