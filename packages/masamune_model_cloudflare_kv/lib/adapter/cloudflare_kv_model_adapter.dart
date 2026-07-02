@@ -32,119 +32,127 @@ class CloudflareKVModelAdapter extends ModelAdapter {
   VectorConverter get vectorConverter => const PassVectorConverter();
 
   @override
-  // TODO: implement availableListen
-  bool get availableListen => throw UnimplementedError();
+  bool get availableListen => false;
 
   @override
   Future<void> clearAll() {
-    // TODO: implement clearAll
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   Future<void> clearCache() {
-    // TODO: implement clearCache
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
-  Future<void> deleteDocument(ModelAdapterDocumentQuery query) {
-    // TODO: implement deleteDocument
-    throw UnimplementedError();
+  Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+    await functionsAdapter.execute(CloudflareKvDeleteDocumentFunctionsAction(
+      key: query.query.path,
+    ));
   }
 
   @override
   void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
-    // TODO: implement deleteOnBatch
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   void deleteOnTransaction(
       ModelTransactionRef ref, ModelAdapterDocumentQuery query) {
-    // TODO: implement deleteOnTransaction
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
-  void disposeCollection(ModelAdapterCollectionQuery query) {
-    // TODO: implement disposeCollection
-  }
+  void disposeCollection(ModelAdapterCollectionQuery query) {}
 
   @override
-  void disposeDocument(ModelAdapterDocumentQuery query) {
-    // TODO: implement disposeDocument
-  }
+  void disposeDocument(ModelAdapterDocumentQuery query) {}
 
   @override
   Future<List<StreamSubscription<dynamic>>> listenCollection(
       ModelAdapterCollectionQuery query) {
-    // TODO: implement listenCollection
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   Future<List<StreamSubscription<dynamic>>> listenDocument(
       ModelAdapterDocumentQuery query) {
-    // TODO: implement listenDocument
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   Future<T?> loadAggregation<T>(ModelAdapterCollectionQuery query,
       ModelAggregateQuery<AsyncAggregateValue<dynamic>> aggregateQuery) {
-    // TODO: implement loadAggregation
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   Future<Map<String, DynamicMap>> loadCollection(
-      ModelAdapterCollectionQuery query) {
-    // TODO: implement loadCollection
-    throw UnimplementedError();
+      ModelAdapterCollectionQuery query) async {
+    final res =
+        await functionsAdapter.execute(CloudflareKvGetCollectionFunctionsAction(
+      key: query.query.path,
+    ));
+    return res.data.map((key, value) {
+      if (value is DynamicMap) {
+        return MapEntry(key, ModelFieldValue.fromMap(value));
+      }
+      if (value is Map) {
+        return MapEntry(
+          key,
+          ModelFieldValue.fromMap(Map<String, dynamic>.from(value)),
+        );
+      }
+      return MapEntry(key, <String, dynamic>{});
+    });
   }
 
   @override
-  Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) {
-    // TODO: implement loadDocument
-    throw UnimplementedError();
+  Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    final res =
+        await functionsAdapter.execute(CloudflareKvGetDocumentFunctionsAction(
+      key: query.query.path,
+    ));
+    return ModelFieldValue.fromMap(res.data);
   }
 
   @override
   FutureOr<DynamicMap> loadOnTransaction(
       ModelTransactionRef ref, ModelAdapterDocumentQuery query) {
-    // TODO: implement loadOnTransaction
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   FutureOr<void> runBatch(
       FutureOr<void> Function(ModelBatchRef ref) batch, int splitLength) {
-    // TODO: implement runBatch
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   FutureOr<void> runTransaction(
       FutureOr<void> Function(ModelTransactionRef ref) transaction) {
-    // TODO: implement runTransaction
-    throw UnimplementedError();
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
-  Future<void> saveDocument(ModelAdapterDocumentQuery query, DynamicMap value) {
-    // TODO: implement saveDocument
-    throw UnimplementedError();
+  Future<void> saveDocument(
+      ModelAdapterDocumentQuery query, DynamicMap value) async {
+    await functionsAdapter.execute(CloudflareKvPutDocumentFunctionsAction(
+      key: query.query.path,
+      value: ModelFieldValue.toMap(value),
+    ));
   }
 
   @override
   void saveOnBatch(
       ModelBatchRef ref, ModelAdapterDocumentQuery query, DynamicMap value) {
-    // TODO: implement saveOnBatch
+    throw UnsupportedError("This function is not available.");
   }
 
   @override
   void saveOnTransaction(ModelTransactionRef ref,
       ModelAdapterDocumentQuery query, DynamicMap value) {
-    // TODO: implement saveOnTransaction
+    throw UnsupportedError("This function is not available.");
   }
 
   @override

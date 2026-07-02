@@ -36,6 +36,46 @@ For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
 
+# Usage
+
+`CloudflareKVModelAdapter` handles a Cloudflare KV value as a single Masamune
+document, similar to Firebase Remote Config.
+
+```dart
+final adapter = CloudflareKVModelAdapter(
+  functionsAdapter: FunctionsAdapter.primary,
+);
+
+final config = DocumentModelQuery(
+  "config/app",
+  adapter: adapter,
+);
+```
+
+The model path is used as the KV key without conversion. Values are saved as a
+JSON object string through Cloudflare Workers.
+
+```text
+key: config/app
+value: {"maintenance":false,"version":12}
+```
+
+`loadCollection` is supported only as a Remote Config compatible pseudo
+collection. It returns the loaded document as `__default__`.
+
+```dart
+{
+  "__default__": {
+    "maintenance": false,
+    "version": 12,
+  }
+}
+```
+
+Listening, aggregation, batch, and transactions are not supported. Cloudflare KV
+is eventually consistent, so use Turso or TiDB for data that requires immediate
+consistency or frequent writes.
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!

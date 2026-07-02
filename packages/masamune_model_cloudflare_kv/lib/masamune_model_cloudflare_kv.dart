@@ -15,3 +15,7 @@ import "dart:async";
 import "package:masamune/masamune.dart";
 
 part "adapter/cloudflare_kv_model_adapter.dart";
+part "actions/cloudflare_kv_delete_document_functions_action.dart";
+part "actions/cloudflare_kv_get_collection_functions_action.dart";
+part "actions/cloudflare_kv_get_document_functions_action.dart";
+part "actions/cloudflare_kv_put_document_functions_action.dart";
