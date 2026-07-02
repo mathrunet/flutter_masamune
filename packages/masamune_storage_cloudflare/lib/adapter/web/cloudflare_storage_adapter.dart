@@ -2,43 +2,37 @@ part of "web.dart";
 
 /// [StorageAdapter] for handling files with Cloudflare R2.
 ///
-/// [download] is not available on web platforms.
-///
-/// You can use `https://firebasestorage.googleapis.com/v0/b/storageBucket/o/remoteRelativePath?alt=media` with [fetchPublicURI].
-///
-/// It is possible to obtain temporary tokens and perform read/write operations by using it in conjunction with `@mathrunet/masamune_cloudflare_cloudflare`.
-///
 /// Cloudflare R2でファイルを扱うための[StorageAdapter]。
-///
-/// Webのプラットフォームでは[download]が利用できません。
-///
-/// [fetchPublicURI]で`https://firebasestorage.googleapis.com/v0/b/storageBucket/o/remoteRelativePath?alt=media`が利用可能です。
-///
-/// `@mathrunet/masamune_cloudflare_cloudflare`と併用して、一時トークンの取得や読み書きを行うことが可能です。
 @immutable
 class CloudflareStorageAdapter extends StorageAdapter {
   /// [StorageAdapter] for handling files with Cloudflare R2.
   ///
-  /// [download] is not available on web platforms.
-  ///
-  /// You can use `https://firebasestorage.googleapis.com/v0/b/storageBucket/o/remoteRelativePath?alt=media` with [fetchPublicURI].
-  ///
-  /// It is possible to obtain temporary tokens and perform read/write operations by using it in conjunction with `@mathrunet/masamune_cloudflare_cloudflare`.
-  ///
   /// Cloudflare R2でファイルを扱うための[StorageAdapter]。
-  ///
-  /// Webのプラットフォームでは[download]が利用できません。
-  ///
-  /// [fetchPublicURI]で`https://firebasestorage.googleapis.com/v0/b/storageBucket/o/remoteRelativePath?alt=media`が利用可能です。
-  ///
-  /// `@mathrunet/masamune_cloudflare_cloudflare`と併用して、一時トークンの取得や読み書きを行うことが可能です。
   const CloudflareStorageAdapter({
+    required this.publicBaseUrl,
     FunctionsAdapter? functionsAdapter,
+    this.action = "storage_cloudflare",
+    this.downloadUrlExpiresIn = const Duration(hours: 1),
   }) : _functionsAdapter = functionsAdapter;
 
-  /// Functions adapter for obtaining and reading/writing temporary tokens.
+  /// Public base URL configured in Cloudflare R2.
   ///
-  /// トークンの取得や読み書きを行うためのFunctionsアダプター。
+  /// Cloudflare R2で設定した公開ベースURL。
+  final String publicBaseUrl;
+
+  /// Worker action route.
+  ///
+  /// Workerのアクションルート。
+  final String action;
+
+  /// Limited download URL expiration.
+  ///
+  /// 限定ダウンロードURLの有効期限。
+  final Duration downloadUrlExpiresIn;
+
+  /// Functions adapter for reading and writing R2 objects through Workers.
+  ///
+  /// Workers経由でR2オブジェクトを読み書きするためのFunctionsアダプター。
   FunctionsAdapter get functionsAdapter {
     return _functionsAdapter ?? FunctionsAdapter.primary;
   }
@@ -46,43 +40,110 @@ class CloudflareStorageAdapter extends StorageAdapter {
   final FunctionsAdapter? _functionsAdapter;
 
   @override
-  Future<void> delete(String remoteRelativePathOrId) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete(String remoteRelativePathOrId) async {
+    final response = await _execute(
+      remoteRelativePathOrId,
+      CloudflareStorageOperation.delete,
+    );
+    if (response.status >= 400) {
+      throw Exception("Failed to delete: ${response.status}");
+    }
   }
 
   @override
-  Future<LocalFile> download(String remoteRelativePathOrId,
-      [String? localRelativePath]) {
-    // TODO: implement download
-    throw UnimplementedError();
+  Future<LocalFile> download(
+    String remoteRelativePathOrId, [
+    String? localRelativePath,
+  ]) async {
+    final response = await _execute(
+      remoteRelativePathOrId,
+      CloudflareStorageOperation.get,
+    );
+    if (response.status >= 400) {
+      throw Exception("Failed to download: ${response.status}");
+    }
+    final bytes = response.binary;
+    if (bytes == null) {
+      throw Exception("Downloaded data is empty.");
+    }
+    return LocalFile(bytes: bytes);
   }
 
   @override
-  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) {
-    // TODO: implement fetchDownloadURI
-    throw UnimplementedError();
+  Future<Uri> fetchDownloadURI(String remoteRelativePathOrId) async {
+    final response = await _execute(
+      remoteRelativePathOrId,
+      CloudflareStorageOperation.downloadUrl,
+    );
+    final uri = response.meta?.get("downloadUri", "") ?? "";
+    if (uri.isEmpty) {
+      throw Exception("Download URI is empty.");
+    }
+    return Uri.parse(uri);
   }
 
   @override
-  Future<Uri> fetchPublicURI(String remoteRelativePathOrId) {
-    // TODO: implement fetchPublicURI
-    throw UnimplementedError();
+  Future<Uri> fetchPublicURI(String remoteRelativePathOrId) async {
+    return Uri.parse(
+      "${publicBaseUrl.trimQuery().trimString("/")}/${_normalizePath(remoteRelativePathOrId)}",
+    );
   }
 
   @override
-  Future<RemoteFile> upload(String localFullPath, String remoteRelativePathOrId,
-      {String? mimeType}) {
-    // TODO: implement upload
-    throw UnimplementedError();
+  Future<RemoteFile> upload(
+    String localFullPath,
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
+    assert(localFullPath.isNotEmpty, "Path is empty.");
+    if (localFullPath.startsWith("http")) {
+      return RemoteFile(path: Uri.parse(localFullPath));
+    }
+    throw UnsupportedError(
+        "Uploading local files by path is not supported on web.");
   }
 
   @override
   Future<RemoteFile> uploadWithBytes(
-      Uint8List uploadFileByte, String remoteRelativePathOrId,
-      {String? mimeType}) {
-    // TODO: implement uploadWithBytes
-    throw UnimplementedError();
+    Uint8List uploadFileByte,
+    String remoteRelativePathOrId, {
+    String? mimeType,
+  }) async {
+    assert(uploadFileByte.isNotEmpty, "Bytes is empty.");
+    final response = await _execute(
+      remoteRelativePathOrId,
+      CloudflareStorageOperation.put,
+      binary: uploadFileByte,
+      meta: {
+        if (mimeType != null) "contentType": mimeType,
+      },
+    );
+    if (response.status >= 400) {
+      throw Exception("Failed to upload: ${response.status}");
+    }
+    return RemoteFile(path: await fetchPublicURI(remoteRelativePathOrId));
+  }
+
+  Future<CloudflareStorageFunctionsActionResponse> _execute(
+    String remoteRelativePathOrId,
+    CloudflareStorageOperation operation, {
+    Uint8List? binary,
+    DynamicMap? meta,
+  }) {
+    return functionsAdapter.execute(
+      CloudflareStorageFunctionsAction(
+        action: action,
+        storagePath: _normalizePath(remoteRelativePathOrId),
+        operation: operation,
+        binary: binary,
+        meta: meta,
+        expiresIn: downloadUrlExpiresIn.inSeconds,
+      ),
+    );
+  }
+
+  String _normalizePath(String path) {
+    return path.trimQuery().trimString("/");
   }
 
   @override
@@ -90,6 +151,9 @@ class CloudflareStorageAdapter extends StorageAdapter {
 
   @override
   int get hashCode {
-    return functionsAdapter.hashCode;
+    return publicBaseUrl.hashCode ^
+        action.hashCode ^
+        downloadUrlExpiresIn.hashCode ^
+        functionsAdapter.hashCode;
   }
 }

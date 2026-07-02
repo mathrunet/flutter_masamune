@@ -8,6 +8,7 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
+export "src/cloudflare_storage_functions_action.dart";
 export "adapter/others/others.dart"
     if (dart.library.io) "adapter/others/others.dart"
     if (dart.library.js) "adapter/web/web.dart"

@@ -36,6 +36,37 @@ For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
 
+# Usage
+
+Set `CloudflareFunctionsAdapter` as the functions adapter and use
+`CloudflareStorageAdapter` in the same way as other Masamune storage adapters.
+
+```dart
+return FunctionsAdapterScope(
+  adapter: const CloudflareFunctionsAdapter(
+    endpoint: "https://example-worker.example.workers.dev",
+  ),
+  child: StorageAdapterScope(
+    adapter: const CloudflareStorageAdapter(
+      publicBaseUrl: "https://assets.example.com",
+    ),
+    child: const App(),
+  ),
+);
+```
+
+The storage path is used as the Cloudflare R2 object key.
+
+```dart
+final storage = Storage(
+  const StorageQuery("images/profile.jpg", mimeType: "image/jpeg"),
+);
+await storage.uploadWithBytes(bytes);
+
+final publicUri = await storage.fetchPublicURI();
+final limitedUri = await storage.fetchDownloadURI();
+```
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!
