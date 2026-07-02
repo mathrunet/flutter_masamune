@@ -509,6 +509,11 @@ mixin ModelRefLoaderMixin<T> implements DocumentBase<T> {
       if (tmpValue == null) {
         continue;
       }
+      await build._preloadReferences(
+        val: tmpValue,
+        forceReload: _reloadingCompleter != null,
+        loaderModelQuery: modelQuery,
+      );
       tmpValue = await build._build(
         val: tmpValue,
         forceReload: _reloadingCompleter != null,
@@ -671,13 +676,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     if (ref == null) {
       return val;
     }
-    final modelQuery = DocumentModelQuery(
-      ref.modelQuery.path,
-      adapter: adapter ?? loaderModelQuery.adapter,
-      accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
-      validationQueries:
-          validationQueries ?? loaderModelQuery.validationQueries,
-    );
+    final modelQuery = _toDocumentModelQuery(ref, loaderModelQuery);
     if (cacheList.containsKey(modelQuery)) {
       final doc = cacheList[modelQuery];
       if (doc is ModelRefMixin<TResult>) {
@@ -699,6 +698,34 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     }
     onDidLoad(modelQuery, doc);
     return value(val, doc);
+  }
+
+  @override
+  Iterable<DocumentModelQuery> _referenceQueries({
+    required TSource? val,
+    required DocumentModelQuery loaderModelQuery,
+  }) sync* {
+    if (val == null) {
+      return;
+    }
+    final ref = modelRef(val);
+    if (ref == null) {
+      return;
+    }
+    yield _toDocumentModelQuery(ref, loaderModelQuery);
+  }
+
+  DocumentModelQuery _toDocumentModelQuery(
+    ModelRefBase ref,
+    DocumentModelQuery loaderModelQuery,
+  ) {
+    return DocumentModelQuery(
+      ref.modelQuery.path,
+      adapter: adapter ?? loaderModelQuery.adapter,
+      accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
+      validationQueries:
+          validationQueries ?? loaderModelQuery.validationQueries,
+    );
   }
 }
 
@@ -853,13 +880,7 @@ class ModelRefListBuilder<TSource, TResult>
       if (ref == null) {
         continue;
       }
-      final modelQuery = DocumentModelQuery(
-        ref.modelQuery.path,
-        adapter: adapter ?? loaderModelQuery.adapter,
-        accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
-        validationQueries:
-            validationQueries ?? loaderModelQuery.validationQueries,
-      );
+      final modelQuery = _toDocumentModelQuery(ref, loaderModelQuery);
       if (cacheList.containsKey(modelQuery)) {
         final doc = cacheList[modelQuery];
         if (doc is ModelRefMixin<TResult>) {
@@ -884,6 +905,39 @@ class ModelRefListBuilder<TSource, TResult>
       res.add(doc);
     }
     return value(val, res);
+  }
+
+  @override
+  Iterable<DocumentModelQuery> _referenceQueries({
+    required TSource? val,
+    required DocumentModelQuery loaderModelQuery,
+  }) sync* {
+    if (val == null) {
+      return;
+    }
+    final refs = modelRef(val);
+    if (refs == null) {
+      return;
+    }
+    for (final ref in refs) {
+      if (ref == null) {
+        continue;
+      }
+      yield _toDocumentModelQuery(ref, loaderModelQuery);
+    }
+  }
+
+  DocumentModelQuery _toDocumentModelQuery(
+    ModelRefBase ref,
+    DocumentModelQuery loaderModelQuery,
+  ) {
+    return DocumentModelQuery(
+      ref.modelQuery.path,
+      adapter: adapter ?? loaderModelQuery.adapter,
+      accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
+      validationQueries:
+          validationQueries ?? loaderModelQuery.validationQueries,
+    );
   }
 }
 
@@ -1040,13 +1094,7 @@ class ModelRefMapBuilder<TSource, TResult>
       if (val == null) {
         continue;
       }
-      final modelQuery = DocumentModelQuery(
-        val.modelQuery.path,
-        adapter: adapter ?? loaderModelQuery.adapter,
-        accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
-        validationQueries:
-            validationQueries ?? loaderModelQuery.validationQueries,
-      );
+      final modelQuery = _toDocumentModelQuery(val, loaderModelQuery);
       if (cacheList.containsKey(modelQuery)) {
         final doc = cacheList[modelQuery];
         if (doc is ModelRefMixin<TResult>) {
@@ -1072,6 +1120,39 @@ class ModelRefMapBuilder<TSource, TResult>
     }
     return value(val, res);
   }
+
+  @override
+  Iterable<DocumentModelQuery> _referenceQueries({
+    required TSource? val,
+    required DocumentModelQuery loaderModelQuery,
+  }) sync* {
+    if (val == null) {
+      return;
+    }
+    final refs = modelRef(val);
+    if (refs == null) {
+      return;
+    }
+    for (final ref in refs.values) {
+      if (ref == null) {
+        continue;
+      }
+      yield _toDocumentModelQuery(ref, loaderModelQuery);
+    }
+  }
+
+  DocumentModelQuery _toDocumentModelQuery(
+    ModelRefBase ref,
+    DocumentModelQuery loaderModelQuery,
+  ) {
+    return DocumentModelQuery(
+      ref.modelQuery.path,
+      adapter: adapter ?? loaderModelQuery.adapter,
+      accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
+      validationQueries:
+          validationQueries ?? loaderModelQuery.validationQueries,
+    );
+  }
 }
 
 /// Base class for defining [ModelRefBuilder].
@@ -1091,6 +1172,37 @@ abstract class ModelRefBuilderBase<TSource> {
   ///
   /// 実際の定義は[ModelRefBuilder]を利用します。
   const ModelRefBuilderBase();
+
+  Future<void> _preloadReferences({
+    required TSource? val,
+    required bool forceReload,
+    required DocumentModelQuery loaderModelQuery,
+  }) async {
+    final queries = _referenceQueries(
+      val: val,
+      loaderModelQuery: loaderModelQuery,
+    );
+    final grouped = <ModelAdapter, List<ModelAdapterDocumentQuery>>{};
+    for (final query in queries) {
+      final adapter = query.adapter;
+      grouped.putIfAbsent(adapter, () => <ModelAdapterDocumentQuery>[]).add(
+            ModelAdapterDocumentQuery(
+              query: query,
+              listen: false,
+              reload: forceReload,
+              reference: true,
+            ),
+          );
+    }
+    for (final entry in grouped.entries) {
+      await entry.key.preloadReferences(entry.value);
+    }
+  }
+
+  Iterable<DocumentModelQuery> _referenceQueries({
+    required TSource? val,
+    required DocumentModelQuery loaderModelQuery,
+  });
 
   Future<TSource?> _build({
     required TSource? val,

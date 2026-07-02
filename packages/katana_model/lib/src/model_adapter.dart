@@ -103,6 +103,22 @@ abstract class ModelAdapter {
     ModelAdapterCollectionQuery query,
   );
 
+  /// Preloads documents referenced by [ModelRefBase].
+  ///
+  /// The default implementation does nothing. Adapters with batch loading
+  /// support can override this and cache the referenced documents so that
+  /// subsequent [loadDocument] calls can reuse them.
+  ///
+  /// [ModelRefBase]で参照されたドキュメントを事前読込します。
+  ///
+  /// デフォルト実装では何もしません。バッチ読込に対応するアダプターでは
+  /// ここを上書きし、後続の[loadDocument]で再利用できるようにキャッシュします。
+  Future<void> preloadReferences(
+    Iterable<ModelAdapterDocumentQuery> queries,
+  ) {
+    return Future.value();
+  }
+
   /// Aggregate queries against data collections to retrieve data.
   ///
   /// Pass [query] to the platform configured in the adapter to specify a collection and [aggregateQuery] to specify an aggregate query.
