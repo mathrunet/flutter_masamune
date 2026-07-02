@@ -1,8 +1,10 @@
 // Copyright (c) 2025 mathru. All rights reserved.
 
 // Package imports:
-import "package:masamune_storage_cloudflare/masamune_storage_cloudflare.dart";
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_storage_cloudflare/masamune_storage_cloudflare.dart";
 
 void main() {
   test("fetchPublicURI builds a Cloudflare R2 public URL", () async {
