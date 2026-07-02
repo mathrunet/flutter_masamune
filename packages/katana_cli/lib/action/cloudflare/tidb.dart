@@ -1,7 +1,6 @@
 // Dart imports:
 import "dart:async";
 import "dart:io";
-import "dart:math";
 
 // Package imports:
 import "package:yaml/yaml.dart";
@@ -59,7 +58,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       return;
     }
 
-    final secrets = await _loadOrCreateSecrets(context, connectionUrl);
+    final secrets = await _loadOrCreateSecrets(connectionUrl);
     await addFlutterImport(["masamune_model_tidb"]);
     label("Add Cloudflare Workers functions");
     final source = await indexFile.readAsString();
@@ -86,10 +85,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     await _putWranglerSecrets(wrangler: wrangler, secrets: secrets);
   }
 
-  Future<Map<String, String>> _loadOrCreateSecrets(
-    ExecContext context,
-    String connectionUrl,
-  ) async {
+  Future<Map<String, String>> _loadOrCreateSecrets(String connectionUrl) async {
     final file = File("katana_secrets.yaml");
     final root = file.existsSync()
         ? Map<String, dynamic>.from(
@@ -98,37 +94,10 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         : <String, dynamic>{};
     final cloudflare = _map(root, "cloudflare");
     final tidb = _map(cloudflare, "tidb");
-    final projectId = _projectId(context);
     tidb["connection_url"] = connectionUrl;
-    tidb["jwt_issuer"] = _string(tidb["jwt_issuer"]) ?? "$projectId-tidb-auth";
-    tidb["jwt_kid"] = _string(tidb["jwt_kid"]) ??
-        "tidb-key-${DateTime.now().toIso8601String().substring(0, 10).replaceAll("-", "")}-${_randomToken(6)}";
-    tidb["jwt_private_key_pem"] =
-        _string(tidb["jwt_private_key_pem"]) ?? await _generatePrivateKeyPem();
-    final usernamePrefix = _tidbCloudUsernamePrefix(connectionUrl);
-    tidb["direct_read_username"] = _applyTidbCloudUsernamePrefix(
-      _string(tidb["direct_read_username"]) ?? "${projectId}_tidb_read",
-      usernamePrefix,
-    );
-    tidb["direct_write_username"] = _applyTidbCloudUsernamePrefix(
-      _string(tidb["direct_write_username"]) ?? "${projectId}_tidb_write",
-      usernamePrefix,
-    );
-    tidb["direct_read_write_username"] = _applyTidbCloudUsernamePrefix(
-      _string(tidb["direct_read_write_username"]) ??
-          "${projectId}_tidb_read_write",
-      usernamePrefix,
-    );
     await file.writeAsString(YamlWriter().write(root));
     return {
       "TIDB_CONNECTION_URL": tidb["connection_url"] as String,
-      "TIDB_JWT_ISSUER": tidb["jwt_issuer"] as String,
-      "TIDB_JWT_KID": tidb["jwt_kid"] as String,
-      "TIDB_JWT_PRIVATE_KEY_PEM": tidb["jwt_private_key_pem"] as String,
-      "TIDB_DIRECT_READ_USERNAME": tidb["direct_read_username"] as String,
-      "TIDB_DIRECT_WRITE_USERNAME": tidb["direct_write_username"] as String,
-      "TIDB_DIRECT_READ_WRITE_USERNAME":
-          tidb["direct_read_write_username"] as String,
     };
   }
 
@@ -140,85 +109,14 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     return parent[key] = <String, dynamic>{};
   }
 
-  String? _string(Object? value) {
-    if (value is String && value.isNotEmpty) {
-      return value;
-    }
-    return null;
-  }
-
-  String _projectId(ExecContext context) {
-    final firebaseProjectId =
-        context.yaml.getAsMap("firebase").get("project_id", "");
-    final base = firebaseProjectId.isNotEmpty
-        ? firebaseProjectId
-        : Directory.current.path.split(Platform.pathSeparator).last;
-    return base
-        .toLowerCase()
-        .replaceAll(RegExp(r"[^a-z0-9_]+"), "_")
-        .replaceAll(RegExp(r"_+"), "_")
-        .trimString("_");
-  }
-
-  String? _tidbCloudUsernamePrefix(String connectionUrl) {
-    final uri = Uri.tryParse(connectionUrl);
-    final userInfo = uri?.userInfo;
-    if (userInfo == null || userInfo.isEmpty) {
-      return null;
-    }
-    final username = Uri.decodeComponent(userInfo.split(":").first);
-    final separator = username.indexOf(".");
-    if (separator <= 0) {
-      return null;
-    }
-    return username.substring(0, separator);
-  }
-
-  String _applyTidbCloudUsernamePrefix(String username, String? prefix) {
-    if (prefix == null || prefix.isEmpty || username.contains(".")) {
-      return username;
-    }
-    return "$prefix.$username";
-  }
-
-  String _randomToken(int length) {
-    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-    final random = Random.secure();
-    return String.fromCharCodes(
-      List.generate(
-          length, (_) => chars.codeUnitAt(random.nextInt(chars.length))),
-    );
-  }
-
-  Future<String> _generatePrivateKeyPem() async {
-    final result = await Process.run(
-      "openssl",
-      ["genpkey", "-algorithm", "RSA", "-pkeyopt", "rsa_keygen_bits:2048"],
-      runInShell: true,
-    );
-    if (result.exitCode != 0) {
-      throw Exception(
-        "Failed to generate TiDB JWT private key. Please install openssl.",
-      );
-    }
-    return (result.stdout as String).trim();
-  }
-
   String? _updateTidbFunctions(String source) {
     const tidbFunction = """
     tidb.Functions.tidb(),""";
-    const tidbTokenFunction = """
-    tidb.Functions.tidbToken(),""";
     var updated = _ensureTidbImport(source);
     updated = _replaceFunction(updated, "tidb.Functions.tidb", tidbFunction);
-    updated = _replaceFunction(
-      updated,
-      "tidb.Functions.tidbToken",
-      tidbTokenFunction,
-    );
+    updated = _replaceFunction(updated, "tidb.Functions.tidb" "Token", "");
     final functions = <String>[
       if (!updated.contains("tidb.Functions.tidb(")) tidbFunction,
-      if (!updated.contains("tidb.Functions.tidbToken(")) tidbTokenFunction,
     ];
     if (functions.isEmpty) {
       return updated;
