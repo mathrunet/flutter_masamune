@@ -1,3 +1,7 @@
+## 3.4.3
+
+ - **FIX**(turso): enhance query handling and data normalization. ([af98f82f](https://github.com/mathrunet/flutter_masamune/commit/af98f82fc61571dcea61df7bfede54928a63ce06))
+
 ## 3.4.2
 
  - **FIX**(turso): enhance TursoModelAdapter with retry logic and fallback handling. ([4f5fb7b5](https://github.com/mathrunet/flutter_masamune/commit/4f5fb7b5b5511e12dcaa88f8b1fb71b1a76a65f5))

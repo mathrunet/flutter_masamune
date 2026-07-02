@@ -1,3 +1,7 @@
+## 3.6.6
+
+ - Update a dependency to the latest release.
+
 ## 3.6.5
 
  - **FIX**: standardize icon formatting in markdown and painter tools. ([fb1b486c](https://github.com/mathrunet/flutter_masamune/commit/fb1b486c23bc362622ff2b4a82013fda53ef613b))

@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FEAT**(cloudflare_functions_adapter): enhance API request handling with dynamic headers. ([dea64ebf](https://github.com/mathrunet/flutter_masamune/commit/dea64ebf27bd76154940a586bc719b2a56c096fd))

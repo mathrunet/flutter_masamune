@@ -1,3 +1,7 @@
+## 3.13.2
+
+ - **FIX**(cloudflare): add Cloudflare Wrangler configuration generation. ([aa6ea4ba](https://github.com/mathrunet/flutter_masamune/commit/aa6ea4ba6bfa5af1c210e07e912b52b6238c557f))
+
 ## 3.13.1
 
  - **FIX**(cloudflare): add Flutter import for masamune_model_turso. ([90376b1d](https://github.com/mathrunet/flutter_masamune/commit/90376b1dba69132dfeb2ea07cc02f1fed1e661c9))

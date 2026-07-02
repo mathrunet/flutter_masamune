@@ -1,3 +1,7 @@
+## 3.6.0
+
+ - **FEAT**(model): add preloadReferences method and refactor reference query handling. ([1b41839d](https://github.com/mathrunet/flutter_masamune/commit/1b41839d0ca9e0e6a200251f98054cb4e71f087f))
+
 ## 3.5.2
 
  - **FIX**: Apply reload to next. ([24d58728](https://github.com/mathrunet/flutter_masamune/commit/24d587282dc4ae9538b1a6bf11d2f55a2a913d4e))
