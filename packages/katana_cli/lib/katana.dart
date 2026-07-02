@@ -250,6 +250,15 @@ cloudflare:
   # Cloudflare Pagesを有効にします。
   pages:
     enable: false
+
+  # If you want to use Cloudflare KV via Workers, set [enable] to `true`.
+  # Specify the KV binding name in [binding] and the KV namespace ID in [namespace_id].
+  # Workersを通してCloudflare KVを使いたい場合は[enable]を`true`にしてください。
+  # [binding]にはKVのbinding名、[namespace_id]にはKV namespace IDを指定します。
+  kv:
+    enable: false
+    binding: MASAMUNE_KV
+    namespace_id:
   
   # If you want to use TursoDB via Workers, set [enable] to `true`.
   # Specify the Turso Organization and Group in [organization] and [group].
@@ -270,6 +279,14 @@ cloudflare:
     organization:
     group:
     platform_api_token: 
+
+  # If you want to use TiDB via Workers, set [enable] to `true`.
+  # Specify the TiDB Connection URL in [connection_url].
+  # Workersを通してTiDBを使いたい場合は[enable]を`true`にしてください。
+  # [connection_url]にはTiDBのConnection URLを記載してください。
+  tidb:
+    enable: false
+    connection_url:
 
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。
