@@ -77,8 +77,9 @@ class TursoGetModelFunctionsAction
   @override
   String get path {
     final params = <String, String>{
-      if (where.isNotEmpty) "where": jsonEncode(where),
-      if (orderBy.isNotEmpty) "orderBy": jsonEncode(orderBy),
+      if (where.isNotEmpty) "where": jsonEncode(_normalizeTursoWhere(where)),
+      if (orderBy.isNotEmpty)
+        "orderBy": jsonEncode(_normalizeTursoOrderBy(orderBy)),
       if (limit != null) "limit": limit!.toString(),
       if (count) "count": "true",
     };

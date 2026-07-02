@@ -45,7 +45,7 @@ class TursoQueryPayload {
           }
           where.add({
             "type": filter.type.name,
-            "key": key,
+            "key": _toTursoColumnKey(key),
             if (filter.value != null) "value": _encodeTursoValue(filter.value),
           });
         case ModelQueryFilterType.orderByAsc:
@@ -54,7 +54,7 @@ class TursoQueryPayload {
             throw UnsupportedError("Turso order key is empty: ${filter.type}");
           }
           orderBy.add({
-            "key": key,
+            "key": _toTursoColumnKey(key),
             "descending": filter.type == ModelQueryFilterType.orderByDesc,
           });
         case ModelQueryFilterType.limit:

@@ -58,7 +58,7 @@ class TursoPostModelFunctionsAction
   @override
   DynamicMap? toMap() {
     return {
-      "value": value,
+      "value": _sanitizeTursoSaveValue(value),
     };
   }
 

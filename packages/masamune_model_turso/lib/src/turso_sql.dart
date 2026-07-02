@@ -27,21 +27,94 @@ String _quoteTursoIdentifier(String value) {
   return "\"$value\"";
 }
 
+String _toTursoColumnKey(String key) {
+  switch (key) {
+    case kUidFieldKey:
+      return "id";
+    case kTimeFieldKey:
+      return "updated_at";
+    default:
+      return key;
+  }
+}
+
+DynamicMap _sanitizeTursoSaveValue(DynamicMap value) {
+  return Map.fromEntries(
+    value.entries.where((entry) => !entry.key.startsWith("@")).map(
+        (entry) => MapEntry(entry.key, _encodeTursoSaveValue(entry.value))),
+  );
+}
+
+Object? _encodeTursoSaveValue(Object? value) {
+  if (value is bool) {
+    return value ? 1 : 0;
+  }
+  if (value is Iterable) {
+    return value.map(_encodeTursoSaveValue).toList();
+  }
+  if (value is Map) {
+    return value.map(
+      (key, val) => MapEntry(key.toString(), _encodeTursoSaveValue(val)),
+    );
+  }
+  return value;
+}
+
+Set<String> _extractTursoBoolFields(DynamicMap value) {
+  return value.entries
+      .where((entry) => !entry.key.startsWith("@") && entry.value is bool)
+      .map((entry) => entry.key)
+      .toSet();
+}
+
+List<DynamicMap> _normalizeTursoWhere(List<DynamicMap> where) {
+  return where.map((condition) {
+    final key = condition.get("key", "");
+    if (key.isEmpty) {
+      return condition;
+    }
+    return {
+      ...condition,
+      "key": _toTursoColumnKey(key),
+    };
+  }).toList();
+}
+
+List<DynamicMap> _normalizeTursoOrderBy(List<DynamicMap> orderBy) {
+  return orderBy.map((order) {
+    final key = order.get("key", "");
+    if (key.isEmpty) {
+      return order;
+    }
+    return {
+      ...order,
+      "key": _toTursoColumnKey(key),
+    };
+  }).toList();
+}
+
 Object? _encodeTursoSqlValue(Object? value) {
   final encoded = _encodeTursoValue(value);
-  if (encoded == null ||
-      encoded is String ||
-      encoded is num ||
-      encoded is bool) {
+  if (encoded is bool) {
+    return encoded ? 1 : 0;
+  }
+  if (encoded == null || encoded is String || encoded is num) {
     return encoded;
   }
   return jsonEncode(encoded);
 }
 
-DynamicMap _decodeTursoRow(Map<String, dynamic> row) {
+DynamicMap _decodeTursoRow(
+  Map<String, dynamic> row, {
+  Set<String> boolFields = const {},
+}) {
   final result = <String, dynamic>{};
   for (final entry in row.entries) {
     final value = entry.value;
+    if (boolFields.contains(entry.key)) {
+      result[entry.key] = _decodeTursoBoolValue(value);
+      continue;
+    }
     if (value is String &&
         ((value.startsWith("{") && value.endsWith("}")) ||
             (value.startsWith("[") && value.endsWith("]")))) {
@@ -54,7 +127,28 @@ DynamicMap _decodeTursoRow(Map<String, dynamic> row) {
     }
     result[entry.key] = value;
   }
+  final id = result["id"];
+  if (id != null) {
+    result[kUidFieldKey] = id;
+  }
+  final updatedAt = result["updated_at"];
+  if (updatedAt != null) {
+    result[kTimeFieldKey] = updatedAt;
+  }
   return result;
+}
+
+Object? _decodeTursoBoolValue(Object? value) {
+  if (value is bool) {
+    return value;
+  }
+  if (value is num) {
+    return value != 0;
+  }
+  if (value is String) {
+    return value.toLowerCase() == "true" || value == "1";
+  }
+  return value;
 }
 
 _TursoWhereSql _buildTursoWhereSql({
@@ -68,7 +162,7 @@ _TursoWhereSql _buildTursoWhereSql({
     args.add(indexKey);
   }
   for (final condition in where) {
-    final key = condition.get("key", "");
+    final key = _toTursoColumnKey(condition.get("key", ""));
     final type = condition.get("type", "equalTo");
     final column = _quoteTursoIdentifier(key);
     switch (type) {
@@ -125,7 +219,7 @@ String _buildTursoOrderSql(List<DynamicMap> orderBy) {
     return "";
   }
   return " ORDER BY ${orderBy.map((order) {
-    final key = order.get("key", "");
+    final key = _toTursoColumnKey(order.get("key", ""));
     final descending = order.get("descending", false);
     return "${_quoteTursoIdentifier(key)} ${descending ? "DESC" : "ASC"}";
   }).join(", ")}";

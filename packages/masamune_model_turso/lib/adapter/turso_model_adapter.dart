@@ -16,6 +16,10 @@ const _tursoRetryDelays = [
   Duration(seconds: 8),
 ];
 
+const _tursoSchemaTable = "__masamune_turso_schema";
+
+final Map<String, Set<String>> _tursoBoolFieldsCache = {};
+
 /// A model adapter that enables the use of Turso.
 ///
 /// It can access Turso through Cloudflare Workers, or directly through a
@@ -242,6 +246,12 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    if (query.reference && !query.reload) {
+      final cached = await cachedRuntimeDatabase.loadDocument(query);
+      if (cached != null) {
+        return cached;
+      }
+    }
     final path = TursoModelPath.fromDocumentQuery(query);
     final data = _directEnabled
         ? await _loadDocumentDirect(path)
@@ -280,8 +290,10 @@ class TursoModelAdapter extends ModelAdapter {
       ModelAdapterDocumentQuery query, DynamicMap value) async {
     final path = TursoModelPath.fromDocumentQuery(query);
     final row = _buildSaveRow(path, value);
+    final boolFields = _extractTursoBoolFields(value);
+    _cacheTursoBoolFields(path.table, boolFields);
     if (_directEnabled) {
-      await _saveDocumentDirect(path, row);
+      await _saveDocumentDirect(path, row, boolFields);
     } else {
       await _saveDocumentFunctions(path, row);
     }
@@ -314,10 +326,12 @@ class TursoModelAdapter extends ModelAdapter {
       database: path.database,
       scopes: [
         TursoTokenScope(table: path.table, operations: const ["read"]),
+        const TursoTokenScope(table: _tursoSchemaTable, operations: ["read"]),
       ],
       functionsFallback: (_) => _loadCollectionFunctions(path, payload),
       callback: (client) async {
         final where = _buildTursoWhereSql(where: payload.where);
+        final boolFields = await _loadTursoBoolFields(client, path.table);
         final List<Map<String, dynamic>> rows;
         try {
           rows = await client.query(
@@ -333,7 +347,7 @@ class TursoModelAdapter extends ModelAdapter {
           rethrow;
         }
         return Map.fromEntries(rows.map((row) {
-          final decoded = _decodeTursoRow(row);
+          final decoded = _decodeTursoRow(row, boolFields: boolFields);
           return MapEntry(decoded.get("id", ""), decoded);
         }).where((entry) => entry.key.isNotEmpty));
       },
@@ -351,7 +365,7 @@ class TursoModelAdapter extends ModelAdapter {
       orderBy: payload.orderBy,
       limit: payload.limit,
     ));
-    return _rowsToMap(res.data);
+    return _rowsToMap(res.data, table: path.table);
   }
 
   Future<DynamicMap> _loadDocumentDirect(TursoModelPath path) async {
@@ -359,9 +373,11 @@ class TursoModelAdapter extends ModelAdapter {
       database: path.database,
       scopes: [
         TursoTokenScope(table: path.table, operations: const ["read"]),
+        const TursoTokenScope(table: _tursoSchemaTable, operations: ["read"]),
       ],
       functionsFallback: (_) => _loadDocumentFunctions(path),
       callback: (client) async {
+        final boolFields = await _loadTursoBoolFields(client, path.table);
         final List<Map<String, dynamic>> rows;
         try {
           rows = await client.query(
@@ -375,7 +391,9 @@ class TursoModelAdapter extends ModelAdapter {
           }
           rethrow;
         }
-        return rows.isEmpty ? <String, dynamic>{} : _decodeTursoRow(rows.first);
+        return rows.isEmpty
+            ? <String, dynamic>{}
+            : _decodeTursoRow(rows.first, boolFields: boolFields);
       },
     );
   }
@@ -386,19 +404,168 @@ class TursoModelAdapter extends ModelAdapter {
       table: path.table,
       indexKey: path.indexKey,
     ));
-    final rows = _rowsToList(res.data);
+    final rows = _rowsToList(res.data, table: path.table);
     return rows.isEmpty ? <String, dynamic>{} : rows.first;
   }
 
-  Future<void> _saveDocumentDirect(TursoModelPath path, DynamicMap row) async {
+  @override
+  Future<void> preloadReferences(
+    Iterable<ModelAdapterDocumentQuery> queries,
+  ) async {
+    final grouped = <String, Map<String, Set<String>>>{};
+    for (final query in queries) {
+      final TursoModelPath path;
+      try {
+        path = TursoModelPath.fromDocumentQuery(query);
+      } catch (_) {
+        continue;
+      }
+      final indexKey = path.indexKey;
+      if (indexKey == null || indexKey.isEmpty) {
+        continue;
+      }
+      grouped
+          .putIfAbsent(path.database, () => <String, Set<String>>{})
+          .putIfAbsent(path.table, () => <String>{})
+          .add(indexKey);
+    }
+    if (grouped.isEmpty) {
+      return;
+    }
+    if (_directEnabled) {
+      await _preloadReferencesDirect(grouped);
+    } else {
+      await _preloadReferencesFunctions(grouped);
+    }
+  }
+
+  Future<Map<String, Map<String, Map<String, DynamicMap>>>>
+      _preloadReferencesDirect(
+    Map<String, Map<String, Set<String>>> grouped,
+  ) async {
+    final result = <String, Map<String, Map<String, DynamicMap>>>{};
+    for (final databaseEntry in grouped.entries) {
+      final database = databaseEntry.key;
+      final tables = databaseEntry.value;
+      final loaded = await _withDirectClient(
+        database: database,
+        scopes: [
+          ...tables.keys.map((table) => TursoTokenScope(
+                table: table,
+                operations: const ["read"],
+              )),
+          const TursoTokenScope(
+            table: _tursoSchemaTable,
+            operations: ["read"],
+          ),
+        ],
+        functionsFallback: (_) => _preloadReferencesFunctions({
+          database: tables,
+        }),
+        callback: (client) async {
+          final databaseResult = <String, Map<String, DynamicMap>>{};
+          for (final tableEntry in tables.entries) {
+            final table = tableEntry.key;
+            final ids = tableEntry.value.toList();
+            if (ids.isEmpty) {
+              continue;
+            }
+            try {
+              final boolFields = await _loadTursoBoolFields(client, table);
+              final rows = await client.query(
+                "SELECT * FROM ${_quoteTursoIdentifier(table)} "
+                "WHERE ${_quoteTursoIdentifier("id")} IN (${ids.map((_) => "?").join(", ")})",
+                positional: ids,
+              );
+              databaseResult[table] = Map.fromEntries(rows.map((row) {
+                final decoded = _decodeTursoRow(row, boolFields: boolFields);
+                return MapEntry(decoded.get("id", ""), decoded);
+              }).where((entry) => entry.key.isNotEmpty));
+            } catch (error) {
+              if (_isTursoMissingTableError(error)) {
+                databaseResult[table] = <String, DynamicMap>{};
+                continue;
+              }
+              rethrow;
+            }
+          }
+          return {database: databaseResult};
+        },
+      );
+      result.addAll(loaded);
+      await _syncPreloadedReferences(database, loaded[database] ?? {});
+    }
+    return result;
+  }
+
+  Future<Map<String, Map<String, Map<String, DynamicMap>>>>
+      _preloadReferencesFunctions(
+    Map<String, Map<String, Set<String>>> grouped,
+  ) async {
+    final result = <String, Map<String, Map<String, DynamicMap>>>{};
+    for (final databaseEntry in grouped.entries) {
+      final database = databaseEntry.key;
+      final databaseResult = <String, Map<String, DynamicMap>>{};
+      for (final tableEntry in databaseEntry.value.entries) {
+        final table = tableEntry.key;
+        final ids = tableEntry.value.toList();
+        if (ids.isEmpty) {
+          continue;
+        }
+        final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
+          database: database,
+          table: table,
+          where: [
+            {
+              "type": ModelQueryFilterType.whereIn.name,
+              "key": "id",
+              "value": ids,
+            },
+          ],
+        ));
+        databaseResult[table] = _rowsToMap(res.data, table: table);
+      }
+      result[database] = databaseResult;
+      await _syncPreloadedReferences(database, databaseResult);
+    }
+    return result;
+  }
+
+  Future<void> _syncPreloadedReferences(
+    String database,
+    Map<String, Map<String, DynamicMap>> tables,
+  ) async {
+    for (final tableEntry in tables.entries) {
+      final rows = tableEntry.value;
+      if (rows.isEmpty) {
+        continue;
+      }
+      await cachedRuntimeDatabase.syncCollection(
+        ModelAdapterCollectionQuery(
+          query: CollectionModelQuery(
+            "database/$database/${tableEntry.key}",
+            adapter: this,
+          ),
+        ),
+        rows,
+      );
+    }
+  }
+
+  Future<void> _saveDocumentDirect(
+    TursoModelPath path,
+    DynamicMap row,
+    Set<String> boolFields,
+  ) async {
     await _withDirectClient(
       database: path.database,
       scopes: [
         TursoTokenScope(table: path.table, operations: const ["write"]),
+        const TursoTokenScope(table: _tursoSchemaTable, operations: ["write"]),
       ],
       functionsFallback: (_) => _saveDocumentFunctions(path, row),
       callback: (client) async {
-        await _ensureSchema(client, path.table, row);
+        await _ensureSchema(client, path.table, row, boolFields);
         final insert = _buildTursoInsertSql(path.table, row);
         await client.execute(insert.sql, positional: insert.args);
       },
@@ -439,7 +606,9 @@ class TursoModelAdapter extends ModelAdapter {
               table: operation.path().table,
               operations: const ["write"],
             ))
-        .toList();
+        .toList()
+      ..add(const TursoTokenScope(
+          table: _tursoSchemaTable, operations: ["write"]));
     await _withDirectClient(
       database: operationDatabase,
       scopes: scopes,
@@ -447,8 +616,14 @@ class TursoModelAdapter extends ModelAdapter {
       callback: (client) async {
         for (final operation in operations.whereType<_TursoSaveOperation>()) {
           final path = operation.path();
+          final boolFields = _extractTursoBoolFields(operation.value);
+          _cacheTursoBoolFields(path.table, boolFields);
           await _ensureSchema(
-              client, path.table, _buildSaveRow(path, operation.value));
+            client,
+            path.table,
+            _buildSaveRow(path, operation.value),
+            boolFields,
+          );
         }
         if (transaction) {
           final dynamic tx = await client.transaction();
@@ -605,8 +780,10 @@ class TursoModelAdapter extends ModelAdapter {
 
   DynamicMap _buildSaveRow(TursoModelPath path, DynamicMap value) {
     final now = DateTime.now().millisecondsSinceEpoch;
+    final sanitizedValue = _sanitizeTursoSaveValue(value);
     return {
-      ...value.map((key, val) => MapEntry(key, _encodeTursoValue(val))),
+      ...sanitizedValue
+          .map((key, val) => MapEntry(key, _encodeTursoValue(val))),
       "id": path.indexKey,
       "created_at": value["created_at"] ?? now,
       "updated_at": now,
@@ -617,9 +794,12 @@ class TursoModelAdapter extends ModelAdapter {
     LibsqlClient client,
     String table,
     DynamicMap row,
+    Set<String> boolFields,
   ) async {
     final create = _buildTursoCreateTableSql(table, row);
     await client.execute(create.sql);
+    await _ensureTursoSchemaTable(client);
+    await _saveTursoBoolFields(client, table, boolFields);
     final current = await client
         .query("PRAGMA table_info(${_quoteTursoIdentifier(table)})");
     final columns = current.map((row) => row.get("name", "")).toSet();
@@ -634,21 +814,94 @@ class TursoModelAdapter extends ModelAdapter {
     }
   }
 
-  List<DynamicMap> _rowsToList(Object? data) {
+  List<DynamicMap> _rowsToList(Object? data, {String? table}) {
+    final boolFields = table == null
+        ? const <String>{}
+        : _tursoBoolFieldsCache[table] ?? const <String>{};
     if (data is List) {
       return data
           .whereType<Map>()
-          .map((row) => _decodeTursoRow(Map<String, dynamic>.from(row)))
+          .map((row) => _decodeTursoRow(
+                Map<String, dynamic>.from(row),
+                boolFields: boolFields,
+              ))
           .toList();
     }
     if (data is Map) {
-      return [_decodeTursoRow(Map<String, dynamic>.from(data))];
+      return [
+        _decodeTursoRow(
+          Map<String, dynamic>.from(data),
+          boolFields: boolFields,
+        )
+      ];
     }
     return [];
   }
 
-  Map<String, DynamicMap> _rowsToMap(Object? data) {
-    return Map.fromEntries(_rowsToList(data).map((row) {
+  Future<void> _ensureTursoSchemaTable(LibsqlClient client) async {
+    await client.execute(
+      "CREATE TABLE IF NOT EXISTS ${_quoteTursoIdentifier(_tursoSchemaTable)} ( "
+      "id TEXT PRIMARY KEY, "
+      "table_name TEXT, "
+      "column_name TEXT, "
+      "value_type TEXT, "
+      "updated_at INTEGER"
+      " )",
+    );
+  }
+
+  Future<void> _saveTursoBoolFields(
+    LibsqlClient client,
+    String table,
+    Set<String> boolFields,
+  ) async {
+    if (boolFields.isEmpty) {
+      return;
+    }
+    final now = DateTime.now().millisecondsSinceEpoch;
+    for (final field in boolFields) {
+      await client.execute(
+        "INSERT OR REPLACE INTO ${_quoteTursoIdentifier(_tursoSchemaTable)} "
+        "(id, table_name, column_name, value_type, updated_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        positional: ["$table:$field", table, field, "bool", now],
+      );
+    }
+  }
+
+  Future<Set<String>> _loadTursoBoolFields(
+    LibsqlClient client,
+    String table,
+  ) async {
+    try {
+      final rows = await client.query(
+        "SELECT column_name FROM ${_quoteTursoIdentifier(_tursoSchemaTable)} "
+        "WHERE table_name = ? AND value_type = ?",
+        positional: [table, "bool"],
+      );
+      final fields = rows
+          .map((row) => row.get("column_name", ""))
+          .where((field) => field.isNotEmpty)
+          .toSet();
+      _cacheTursoBoolFields(table, fields);
+      return fields;
+    } catch (_) {
+      return _tursoBoolFieldsCache[table] ?? const {};
+    }
+  }
+
+  void _cacheTursoBoolFields(String table, Set<String> fields) {
+    if (fields.isEmpty) {
+      return;
+    }
+    _tursoBoolFieldsCache[table] = {
+      ...?_tursoBoolFieldsCache[table],
+      ...fields,
+    };
+  }
+
+  Map<String, DynamicMap> _rowsToMap(Object? data, {String? table}) {
+    return Map.fromEntries(_rowsToList(data, table: table).map((row) {
       return MapEntry(row.get("id", ""), row);
     }).where((entry) => entry.key.isNotEmpty));
   }

@@ -64,8 +64,8 @@ class TursoPutModelFunctionsAction
   @override
   DynamicMap? toMap() {
     return {
-      if (where.isNotEmpty) "where": where,
-      "value": value,
+      if (where.isNotEmpty) "where": _normalizeTursoWhere(where),
+      "value": _sanitizeTursoSaveValue(value),
     };
   }
 
