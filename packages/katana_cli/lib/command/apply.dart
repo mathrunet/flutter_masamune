@@ -25,6 +25,7 @@ import "package:katana_cli/action/app/spread_sheet.dart";
 import "package:katana_cli/action/app/text_to_speech.dart";
 import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/cloudflare/kv.dart";
+import "package:katana_cli/action/cloudflare/storage.dart";
 import "package:katana_cli/action/cloudflare/tidb.dart";
 import "package:katana_cli/action/cloudflare/turso.dart";
 import "package:katana_cli/action/ecosystem/ecosystem.dart";
@@ -64,6 +65,7 @@ const _actions = <CliActionMixin>[
   AppPrivacyManifestsCliAction(),
   CloudflareInitCliAction(),
   CloudflareKvCliAction(),
+  CloudflareStorageCliAction(),
   CloudflareTursoCliAction(),
   CloudflareTidbCliAction(),
   FirebaseInitCliAction(),

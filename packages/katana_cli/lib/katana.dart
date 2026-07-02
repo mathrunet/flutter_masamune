@@ -259,6 +259,20 @@ cloudflare:
     enable: false
     binding: MASAMUNE_KV
     namespace_id:
+
+  # If you want to use Cloudflare R2 Storage via Workers, set [enable] to `true`.
+  # Specify the R2 binding name in [binding], the R2 bucket name in [bucket_name], and the public R2/custom domain in [public_base_url].
+  # [download_url_secret] is used to sign limited download URLs.
+  # Workersを通してCloudflare R2 Storageを使いたい場合は[enable]を`true`にしてください。
+  # [binding]にはR2のbinding名、[bucket_name]にはR2 bucket名、[public_base_url]には公開R2/custom domainを指定します。
+  # [download_url_secret]は限定ダウンロードURLの署名に利用します。
+  storage:
+    enable: false
+    binding: R2_BUCKET
+    bucket_name:
+    preview_bucket_name:
+    public_base_url:
+    download_url_secret:
   
   # If you want to use TursoDB via Workers, set [enable] to `true`.
   # Specify the Turso Organization and Group in [organization] and [group].

@@ -282,6 +282,10 @@ class CloudflareWorkersRulesCliCode extends CliCode {
 {
   "version": "1",
   "rules": {
+    "database": {
+    },
+    "storage": {
+    }
   }
 }
 """;
