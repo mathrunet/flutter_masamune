@@ -1,6 +1,12 @@
 // Dart imports:
 import "dart:async";
+import "dart:convert";
 import "dart:io";
+import "dart:math";
+
+// Package imports:
+import "package:yaml/yaml.dart";
+import "package:yaml_writer/yaml_writer.dart";
 
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
@@ -36,7 +42,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final bucketName = storage.get("bucket_name", "");
     final previewBucketName = storage.get("preview_bucket_name", "");
     final publicBaseUrl = storage.get("public_base_url", "");
-    final downloadUrlSecret = storage.get("download_url_secret", "");
+    final configuredDownloadUrlSecret = storage.get("download_url_secret", "");
     if (binding.isEmpty) {
       error(
         "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[binding].",
@@ -55,12 +61,8 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    if (downloadUrlSecret.isEmpty) {
-      error(
-        "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[download_url_secret].",
-      );
-      return;
-    }
+    final downloadUrlSecret =
+        await _loadOrCreateDownloadUrlSecret(configuredDownloadUrlSecret);
     final cloudflareDir = Directory("cloudflare");
     if (!cloudflareDir.existsSync()) {
       error(
@@ -121,6 +123,40 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       key: "STORAGE_DOWNLOAD_URL_SECRET",
       value: downloadUrlSecret,
     );
+  }
+
+  Future<String> _loadOrCreateDownloadUrlSecret(String configuredSecret) async {
+    final file = File("katana_secrets.yaml");
+    final root = file.existsSync()
+        ? Map<String, dynamic>.from(
+            modifize(loadYaml(await file.readAsString())) as Map? ?? {},
+          )
+        : <String, dynamic>{};
+    final cloudflare = _map(root, "cloudflare");
+    final storage = _map(cloudflare, "storage");
+    final storedSecret = storage["download_url_secret"];
+    final secret = configuredSecret.isNotEmpty
+        ? configuredSecret
+        : storedSecret is String && storedSecret.isNotEmpty
+            ? storedSecret
+            : _generateDownloadUrlSecret();
+    storage["download_url_secret"] = secret;
+    await file.writeAsString(YamlWriter().write(root));
+    return secret;
+  }
+
+  Map<String, dynamic> _map(Map<String, dynamic> parent, String key) {
+    final value = parent[key];
+    if (value is Map) {
+      return parent[key] = Map<String, dynamic>.from(value);
+    }
+    return parent[key] = <String, dynamic>{};
+  }
+
+  String _generateDownloadUrlSecret() {
+    final random = Random.secure();
+    final bytes = List<int>.generate(48, (_) => random.nextInt(256));
+    return base64UrlEncode(bytes);
   }
 
   String? _updateStorageFunctions(
@@ -306,9 +342,9 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final r2Buckets = """
 \t"r2_buckets": [
 $bucket
-\t]""";
+\t],""";
     final r2Pattern = RegExp(
-      r'"r2_buckets"\s*:\s*\[[\s\S]*?\]',
+      r'"r2_buckets"\s*:\s*\[[\s\S]*?\],?',
       multiLine: true,
     );
     if (r2Pattern.hasMatch(source)) {

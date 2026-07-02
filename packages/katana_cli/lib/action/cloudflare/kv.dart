@@ -270,9 +270,9 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
     final kvNamespaces = """
 \t"kv_namespaces": [
 $namespace
-\t]""";
+\t],""";
     final kvPattern = RegExp(
-      r'"kv_namespaces"\s*:\s*\[[\s\S]*?\]',
+      r'"kv_namespaces"\s*:\s*\[[\s\S]*?\],?',
       multiLine: true,
     );
     if (kvPattern.hasMatch(source)) {
