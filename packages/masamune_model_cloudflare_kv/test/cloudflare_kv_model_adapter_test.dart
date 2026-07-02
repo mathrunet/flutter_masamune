@@ -1,6 +1,9 @@
+// Package imports:
 import "package:masamune/masamune.dart";
-import "package:masamune_model_cloudflare_kv/masamune_model_cloudflare_kv.dart";
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_model_cloudflare_kv/masamune_model_cloudflare_kv.dart";
 
 void main() {
   test("loads a document by using the model path as the KV key", () async {
