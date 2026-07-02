@@ -15,6 +15,43 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.13.4`](#katana_cli---v3134)
+ - [`masamune_model_cloudflare_kv` - `v3.2.1`](#masamune_model_cloudflare_kv---v321)
+ - [`masamune_model_tidb` - `v3.2.1`](#masamune_model_tidb---v321)
+ - [`masamune_storage_cloudflare` - `v3.2.0`](#masamune_storage_cloudflare---v320)
+
+---
+
+#### `katana_cli` - `v3.13.4`
+
+ - **FIX**(cloudflare): update Cloudflare configuration and enhance storage functionality. ([e1b63339](https://github.com/mathrunet/flutter_masamune/commit/e1b633391520f3face73495e53da39285972113b))
+ - **FIX**(cloudflare): add support for Cloudflare R2 Storage. ([a503926a](https://github.com/mathrunet/flutter_masamune/commit/a503926a2d4bed1bcdc37abc0f236d4dd4493ec9))
+
+#### `masamune_model_cloudflare_kv` - `v3.2.1`
+
+ - **FIX**(tests): reorder import statements in cloudflare_kv_model_adapter_test.dart. ([ffa7f523](https://github.com/mathrunet/flutter_masamune/commit/ffa7f523a087ba5533a8f66e24175ee8b1a889fe))
+
+#### `masamune_model_tidb` - `v3.2.1`
+
+ - **FIX**(tidb): enhance boolean value handling in TiDB model. ([d34e8260](https://github.com/mathrunet/flutter_masamune/commit/d34e8260481ff71e65cec4d52a956e62b4ece713))
+
+#### `masamune_storage_cloudflare` - `v3.2.0`
+
+ - **FEAT**(cloudflare): enhance Cloudflare R2 storage adapter functionality. ([d0f50b9f](https://github.com/mathrunet/flutter_masamune/commit/d0f50b9f4b22a1013d162bf00d70d4b6d9f6af92))
+
+
+## 2026-07-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.13.3`](#katana_cli---v3133)
  - [`masamune_model_cloudflare_kv` - `v3.2.0`](#masamune_model_cloudflare_kv---v320)
  - [`masamune_model_tidb` - `v3.2.0`](#masamune_model_tidb---v320)

@@ -1,3 +1,8 @@
+## 3.13.4
+
+ - **FIX**(cloudflare): update Cloudflare configuration and enhance storage functionality. ([e1b63339](https://github.com/mathrunet/flutter_masamune/commit/e1b633391520f3face73495e53da39285972113b))
+ - **FIX**(cloudflare): add support for Cloudflare R2 Storage. ([a503926a](https://github.com/mathrunet/flutter_masamune/commit/a503926a2d4bed1bcdc37abc0f236d4dd4493ec9))
+
 ## 3.13.3
 
  - **REFACTOR**(tidb): simplify secret loading and remove unused methods. ([b9cd5353](https://github.com/mathrunet/flutter_masamune/commit/b9cd535306b3a10aad4dd7e8ea85b8b81c9342e7))

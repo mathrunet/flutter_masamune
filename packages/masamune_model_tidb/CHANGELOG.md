@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **FIX**(tidb): enhance boolean value handling in TiDB model. ([d34e8260](https://github.com/mathrunet/flutter_masamune/commit/d34e8260481ff71e65cec4d52a956e62b4ece713))
+
 ## 3.2.0
 
  - **FIX**(tidb): remove direct client access and unused token management. ([c1450f24](https://github.com/mathrunet/flutter_masamune/commit/c1450f24cd1eaf2a3a852f76c243768fc02676bc))
