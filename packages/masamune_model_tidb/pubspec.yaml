@@ -16,6 +16,7 @@ dependencies:
 
   katana: ^3.4.0
   masamune: ^3.5.10
+  mysql_client_plus: ^0.0.30
 
 dev_dependencies:
   test: ^1.25.0

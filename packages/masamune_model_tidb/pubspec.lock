@@ -17,54 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.73"
-  algolia_client_core:
-    dependency: "direct main"
-    description:
-      name: algolia_client_core
-      sha256: cf6a1611160d0d0d03a969eb1a73bfb182a39ab1eed343d904d99c15c821619f
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.51.1"
-  algolia_client_insights:
-    dependency: "direct main"
-    description:
-      name: algolia_client_insights
-      sha256: e4fc53e7648e582ace88d63924cd73263b937cac39a39086f29583da005d935e
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.51.0"
-  algolia_client_search:
-    dependency: "direct main"
-    description:
-      name: algolia_client_search
-      sha256: "97872b4c487e204b0ee7d58229e82f4f79f4123ec42d21aaa7c0ce590fcf1248"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.49.2"
-  algolia_helper_flutter:
-    dependency: "direct main"
-    description:
-      name: algolia_helper_flutter
-      sha256: "863c474255ab888da01546b56272e6fa5c2f6b7b020c78749fa562bdfaea91ad"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
-  algolia_insights:
-    dependency: transitive
-    description:
-      name: algolia_insights
-      sha256: cf7ee87ba68fb2627343be79871710c0e033573dd34e67f576f353a65173cb41
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  algoliasearch:
-    dependency: "direct main"
-    description:
-      name: algoliasearch
-      sha256: "76e64c5582f30c63f9771c3888d81b3a514222765e3b88ceec3f808e677f8431"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.49.2"
   analyzer:
     dependency: transitive
     description:
@@ -73,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "12.1.0"
-  archive:
-    dependency: transitive
-    description:
-      name: archive
-      sha256: a96e8b390886ee8abb49b7bd3ac8df6f451c621619f52a26e815fdcf568959ff
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.9"
   args:
     dependency: transitive
     description:
@@ -113,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      sha256: "389da2ec2c16283c8787e0adaede82b1842102f8c8aae2f49003a766c5c6b3d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.3"
   characters:
     dependency: transitive
     description:
@@ -201,22 +153,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  dio:
-    dependency: transitive
-    description:
-      name: dio
-      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.7.0"
-  dio_web_adapter:
-    dependency: transitive
-    description:
-      name: dio_web_adapter
-      sha256: "33259a9276d6cea88774a0000cfae0d861003497755969c92faa223108620dc8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   encrypt:
     dependency: transitive
     description:
@@ -336,14 +272,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  hive:
-    dependency: transitive
-    description:
-      name: hive
-      sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.3"
   http:
     dependency: transitive
     description:
@@ -400,14 +328,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.1"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.9.0"
   katana:
     dependency: "direct main"
     description:
@@ -477,21 +397,21 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "3.5.2"
+    version: "3.6.0"
   katana_model_firestore:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../katana_model_firestore"
       relative: true
     source: path
-    version: "3.3.3"
+    version: "3.3.4"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "3.3.2"
+    version: "3.3.3"
   katana_platform_info:
     dependency: "direct overridden"
     description:
@@ -608,7 +528,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.5.9"
+    version: "3.5.10"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -648,6 +568,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  mysql_client_plus:
+    dependency: "direct main"
+    description:
+      name: mysql_client_plus
+      sha256: c36ec420598c1c263ec97a4ac5b26ccec19f44ab85eb1de9775dbbae843e226d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.30"
   node_preamble:
     dependency: transitive
     description:
@@ -792,14 +720,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
-  posix:
-    dependency: transitive
-    description:
-      name: posix
-      sha256: "185ef7606574f789b40f289c233efa52e96dead518aed988e040a10737febb07"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.5.0"
   pub_semver:
     dependency: transitive
     description:
@@ -816,14 +736,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.28.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -1021,6 +933,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      sha256: a97ce2013f240b2f3807bcbaf218765b6f301c3eff91092bcfa23a039e7dd151
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   typed_data:
     dependency: transitive
     description:
