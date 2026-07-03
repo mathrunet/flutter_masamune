@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.13.5`](#katana_cli---v3135)
+ - [`masamune_storage_cloudflare` - `v3.2.1`](#masamune_storage_cloudflare---v321)
+
+---
+
+#### `katana_cli` - `v3.13.5`
+
+ - **FIX**(schedule): enhance server code generation for Firebase and Cloudflare. ([8f0ddc3e](https://github.com/mathrunet/flutter_masamune/commit/8f0ddc3ebe3d01321bfb9c848734ed72da03590a))
+
+#### `masamune_storage_cloudflare` - `v3.2.1`
+
+ - **REFACTOR**(cloudflare): reorganize import statements for clarity. ([f8ef3bc8](https://github.com/mathrunet/flutter_masamune/commit/f8ef3bc8c4638124fdecf905545e03175871828f))
+
+
 ## 2026-07-02
 
 ### Changes

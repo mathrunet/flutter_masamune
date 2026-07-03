@@ -1,3 +1,7 @@
+## 3.13.5
+
+ - **FIX**(schedule): enhance server code generation for Firebase and Cloudflare. ([8f0ddc3e](https://github.com/mathrunet/flutter_masamune/commit/8f0ddc3ebe3d01321bfb9c848734ed72da03590a))
+
 ## 3.13.4
 
  - **FIX**(cloudflare): update Cloudflare configuration and enhance storage functionality. ([e1b63339](https://github.com/mathrunet/flutter_masamune/commit/e1b633391520f3face73495e53da39285972113b))

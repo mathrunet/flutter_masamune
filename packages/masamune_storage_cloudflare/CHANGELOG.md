@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **REFACTOR**(cloudflare): reorganize import statements for clarity. ([f8ef3bc8](https://github.com/mathrunet/flutter_masamune/commit/f8ef3bc8c4638124fdecf905545e03175871828f))
+
 ## 3.2.0
 
  - **FEAT**(cloudflare): enhance Cloudflare R2 storage adapter functionality. ([d0f50b9f](https://github.com/mathrunet/flutter_masamune/commit/d0f50b9f4b22a1013d162bf00d70d4b6d9f6af92))
