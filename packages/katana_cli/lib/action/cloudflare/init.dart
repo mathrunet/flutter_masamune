@@ -45,7 +45,10 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final enabledPages = pages.get("enable", false);
     final pubspec = File("pubspec.yaml");
     final pubspecs = loadYaml(await pubspec.readAsString()) as Map;
-    final projectId = pubspecs.get("name", "");
+    final projectIdFromPubspec = pubspecs.get("name", "");
+    final projectIdFromYaml = cloudflare.get("project_id", "");
+    final projectId =
+        projectIdFromYaml.isEmpty ? projectIdFromPubspec : projectIdFromYaml;
     if ((enabledWorkers || enabledPages) && projectId.isEmpty) {
       error(
           "Project ID is not specified. Please enter [project_id] in `katana.yaml`.");
