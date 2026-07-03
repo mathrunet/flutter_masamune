@@ -303,6 +303,17 @@ cloudflare:
     bucket_name:
     public_base_url:
 
+  # Enable Firebase Messaging via Workers.
+  # Specify ChannelNotificationId for Android in [channel_id].
+  # Specify an image path in [android_notification_icon] to set a notification icon for Android for whiteout.
+  # Workers経由でのFirebase Messagingを有効にします。
+  # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
+  # [android_notification_icon]に画像パスを指定するとAndroid用の白抜き用の通知アイコンを設定できます。
+  messaging:
+    enable: true
+    channel_id: masamune_firebase_messaging_channel
+    android_notification_icon: 
+
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。
 firebase:
@@ -524,7 +535,7 @@ ${showAllConfig ? """
   # [android_notification_icon]に画像パスを指定するとAndroid用の白抜き用の通知アイコンを設定できます。
   messaging:
     enable: false
-    channel_id: 
+    channel_id: masamune_firebase_messaging_channel
     android_notification_icon: 
 
 ${showAllConfig ? """
