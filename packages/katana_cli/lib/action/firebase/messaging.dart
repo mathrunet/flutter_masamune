@@ -6,6 +6,7 @@ import "package:image/image.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -433,7 +434,13 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     if (!swFile.existsSync()) {
       await swFile.writeAsString("console.log('Empty');");
     }
-    if (Directory("firebase/functions").existsSync()) {
+    // Cloudflare Workersが有効な場合はFunctionsをCloudflare側に設定する。
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enableCloudflareWorkers =
+        cloudflare.getAsMap("workers").get("enable", false);
+    if (enableCloudflareWorkers) {
+      await _execCloudflare(context, messaging);
+    } else if (Directory("firebase/functions").existsSync()) {
       label("Add firebase functions");
       final functions = Functions();
       await functions.load();
@@ -458,6 +465,76 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       //   ],
       //   workingDirectory: "firebase",
       // );
+    }
+  }
+
+  Future<void> _execCloudflare(
+    ExecContext context,
+    Map messaging,
+  ) async {
+    final bin = context.yaml.getAsMap("bin");
+    final npm = bin.get("npm", "npm");
+    final wrangler = bin.get("wrangler", "wrangler");
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enableTurso = cloudflare.getAsMap("turso").get("enable", false);
+    final serviceAccount = messaging.get("service_account", "");
+    final cloudflareDir = Directory("cloudflare");
+    if (!cloudflareDir.existsSync()) {
+      error(
+        "The directory `cloudflare` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+      );
+      return;
+    }
+    label("Add Cloudflare Workers functions");
+    // Tursoが有効な場合はコレクション/ドキュメントターゲットの解決用に
+    // TursoDatabaseAdapterを注入する。
+    final sendNotificationFunction = enableTurso
+        ? """
+    notification.Functions.sendNotification({
+        database: new turso.TursoDatabaseAdapter({}),
+    }),"""
+        : "    notification.Functions.sendNotification(),";
+    if (enableTurso) {
+      final tursoImported = await applyCloudflareWorkersFunctions(
+        alias: "turso",
+        package: "@mathrunet/masamune_cloudflare_turso",
+        functions: {},
+      );
+      if (!tursoImported) {
+        return;
+      }
+    }
+    final applied = await applyCloudflareWorkersFunctions(
+      alias: "notification",
+      package: "@mathrunet/masamune_cloudflare_notification",
+      functions: {
+        "notification.Functions.sendNotification": sendNotificationFunction,
+      },
+    );
+    if (!applied) {
+      return;
+    }
+    await command(
+      "Package installation.",
+      [
+        npm,
+        "install",
+        "@mathrunet/masamune_cloudflare_notification",
+        if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
+      ],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    if (serviceAccount.isNotEmpty) {
+      await putWranglerSecret(
+        wrangler: wrangler,
+        name: "GOOGLE_SERVICE_ACCOUNT",
+        value: serviceAccount,
+      );
+    } else {
+      label(
+        "Please set the `GOOGLE_SERVICE_ACCOUNT` secret manually with `wrangler secret put GOOGLE_SERVICE_ACCOUNT` in the `cloudflare` directory, or specify [firebase]->[messaging]->[service_account] in katana.yaml.",
+      );
     }
   }
 }

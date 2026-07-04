@@ -9,6 +9,7 @@ import "dart:io";
 import "package:xml/xml.dart";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
@@ -51,6 +52,10 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final region = function.get("region", "");
     final enableGooglePlay = googlePlay.get("enable", false);
     final enableAppStore = appStore.get("enable", false);
+    // Cloudflare Workersが有効な場合はFunctionsをCloudflare側に設定する。
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enableCloudflareWorkers =
+        cloudflare.getAsMap("workers").get("enable", false);
     late final String androidServiceAccountEmail;
     late final String androidServiceAccountPrivateKey;
     if (enableGooglePlay) {
@@ -77,7 +82,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         );
         return;
       }
-      if (googlePlayPubsubTopic.isEmpty) {
+      // Cloudflare版のwebhookはHTTP pushサブスクリプションで受けるためトピックIDは不要。
+      if (!enableCloudflareWorkers && googlePlayPubsubTopic.isEmpty) {
         error(
           "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it. "
           "Set the topic ID you set in Pubsub.",
@@ -94,43 +100,56 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       }
     }
     if (enableAppStore || enableGooglePlay) {
-      if (!enableFunctions) {
-        error(
-          "The item [firebase]->[functions]->[enable] is false. Please set it to true.",
-        );
-        return;
-      }
-      if (projectId.isEmpty) {
-        error(
-          "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
-        );
-        return;
-      }
-      if (region.isEmpty) {
-        error(
-          "The item [firebase]->[functions]->[region] is missing. Please provide the region for the configuration.",
-        );
-        return;
-      }
-      final firebaseDir = Directory("firebase");
-      if (!firebaseDir.existsSync()) {
-        error(
-          "The directory `firebase` does not exist. Initialize Firebase by executing Firebase init.",
-        );
-        return;
-      }
-      final functionsDir = Directory("firebase/functions");
-      if (!functionsDir.existsSync()) {
-        error(
-          "The directory `firebase/functions` does not exist. Initialize Firebase by executing Firebase init.",
-        );
-        return;
+      if (enableCloudflareWorkers) {
+        final cloudflareDir = Directory("cloudflare");
+        if (!cloudflareDir.existsSync()) {
+          error(
+            "The directory `cloudflare` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+          );
+          return;
+        }
+      } else {
+        if (!enableFunctions) {
+          error(
+            "The item [firebase]->[functions]->[enable] is false. Please set it to true.",
+          );
+          return;
+        }
+        if (projectId.isEmpty) {
+          error(
+            "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
+          );
+          return;
+        }
+        if (region.isEmpty) {
+          error(
+            "The item [firebase]->[functions]->[region] is missing. Please provide the region for the configuration.",
+          );
+          return;
+        }
+        final firebaseDir = Directory("firebase");
+        if (!firebaseDir.existsSync()) {
+          error(
+            "The directory `firebase` does not exist. Initialize Firebase by executing Firebase init.",
+          );
+          return;
+        }
+        final functionsDir = Directory("firebase/functions");
+        if (!functionsDir.existsSync()) {
+          error(
+            "The directory `firebase/functions` does not exist. Initialize Firebase by executing Firebase init.",
+          );
+          return;
+        }
       }
     }
     await addFlutterImport(
       [
         "masamune_purchase_mobile",
-        if (projectId.isNotEmpty) "katana_functions_firebase",
+        if (enableCloudflareWorkers)
+          "masamune_functions_cloudflare"
+        else if (projectId.isNotEmpty)
+          "katana_functions_firebase",
       ],
     );
     if (enableAppStore) {
@@ -257,7 +276,18 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
       );
     }
-    if (enableAppStore || enableGooglePlay) {
+    if (enableCloudflareWorkers && (enableAppStore || enableGooglePlay)) {
+      await _execCloudflare(
+        context,
+        enableGooglePlay: enableGooglePlay,
+        enableAppStore: enableAppStore,
+        androidServiceAccountEmail:
+            enableGooglePlay ? androidServiceAccountEmail : "",
+        androidServiceAccountPrivateKey:
+            enableGooglePlay ? androidServiceAccountPrivateKey : "",
+        appStoreSharedSecret: appStoreSharedSecret,
+      );
+    } else if (enableAppStore || enableGooglePlay) {
       label("Add firebase functions");
       final functions = Functions();
       await functions.load();
@@ -333,6 +363,106 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       //   ],
       //   workingDirectory: "firebase",
       // );
+    }
+  }
+
+  Future<void> _execCloudflare(
+    ExecContext context, {
+    required bool enableGooglePlay,
+    required bool enableAppStore,
+    required String androidServiceAccountEmail,
+    required String androidServiceAccountPrivateKey,
+    required String appStoreSharedSecret,
+  }) async {
+    final bin = context.yaml.getAsMap("bin");
+    final npm = bin.get("npm", "npm");
+    final wrangler = bin.get("wrangler", "wrangler");
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enableTurso = cloudflare.getAsMap("turso").get("enable", false);
+    label("Add Cloudflare Workers functions");
+    // Tursoが有効な場合はウォレット・アンロック・サブスクリプションの保存用に
+    // TursoDatabaseAdapterを注入する。
+    final options =
+        enableTurso ? "{ database: new turso.TursoDatabaseAdapter({}) }" : "";
+    if (enableTurso) {
+      final tursoImported = await applyCloudflareWorkersFunctions(
+        alias: "turso",
+        package: "@mathrunet/masamune_cloudflare_turso",
+        functions: {},
+      );
+      if (!tursoImported) {
+        return;
+      }
+    }
+    final applied = await applyCloudflareWorkersFunctions(
+      alias: "purchase",
+      package: "@mathrunet/masamune_cloudflare_purchase",
+      functions: {
+        if (enableAppStore) ...{
+          "purchase.Functions.consumableVerifyIOS":
+              "    purchase.Functions.consumableVerifyIOS($options),",
+          "purchase.Functions.nonconsumableVerifyIOS":
+              "    purchase.Functions.nonconsumableVerifyIOS($options),",
+          "purchase.Functions.subscriptionVerifyIOS":
+              "    purchase.Functions.subscriptionVerifyIOS($options),",
+          "purchase.Functions.purchaseWebhookIOS":
+              "    purchase.Functions.purchaseWebhookIOS($options),",
+        },
+        if (enableGooglePlay) ...{
+          "purchase.Functions.consumableVerifyAndroid":
+              "    purchase.Functions.consumableVerifyAndroid($options),",
+          "purchase.Functions.nonconsumableVerifyAndroid":
+              "    purchase.Functions.nonconsumableVerifyAndroid($options),",
+          "purchase.Functions.subscriptionVerifyAndroid":
+              "    purchase.Functions.subscriptionVerifyAndroid($options),",
+          "purchase.Functions.purchaseWebhookAndroid":
+              "    purchase.Functions.purchaseWebhookAndroid($options),",
+        },
+      },
+    );
+    if (!applied) {
+      return;
+    }
+    await command(
+      "Package installation.",
+      [
+        npm,
+        "install",
+        "@mathrunet/masamune_cloudflare_purchase",
+        if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
+      ],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    await putWranglerSecret(
+      wrangler: wrangler,
+      name: "PURCHASE_SUBSCRIPTIONPATH",
+      value: "plugins/iap/subscription",
+    );
+    if (enableGooglePlay) {
+      await putWranglerSecret(
+        wrangler: wrangler,
+        name: "PURCHASE_ANDROID_SERVICEACCOUNT_EMAIL",
+        value: androidServiceAccountEmail,
+      );
+      await putWranglerSecret(
+        wrangler: wrangler,
+        name: "PURCHASE_ANDROID_SERVICEACCOUNT_PRIVATE_KEY",
+        value: androidServiceAccountPrivateKey.replaceAll("\n", "\\n"),
+      );
+      label(
+        "Set the Google Play Pub/Sub push subscription endpoint to `https://<your-workers-domain>/purchase_webhook_android`.",
+      );
+    }
+    if (enableAppStore) {
+      await putWranglerSecret(
+        wrangler: wrangler,
+        name: "PURCHASE_IOS_SHAREDSECRET",
+        value: appStoreSharedSecret,
+      );
+      label(
+        "Set the App Store Server Notification URL to `https://<your-workers-domain>/purchase_webhook_ios`.",
+      );
     }
   }
 }

@@ -2,6 +2,7 @@
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -31,15 +32,23 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
   @override
   Future<void> exec(ExecContext context) async {
     final sendgrid = context.yaml.getAsMap("sendgrid");
-    final firebase = context.yaml.getAsMap("firebase");
-    final projectId = firebase.get("project_id", "");
     final sendGridApiKey = sendgrid.get("api_key", "");
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enableCloudflareWorkers =
+        cloudflare.getAsMap("workers").get("enable", false);
     if (sendGridApiKey.isEmpty) {
       error(
         "If [sendgrid]->[enable] is enabled, please include [sendgrid]->[api_key].",
       );
       return;
     }
+    // Cloudflare Workersが有効な場合はCloudflare側に設定する。
+    if (enableCloudflareWorkers) {
+      await _execCloudflare(context, sendGridApiKey);
+      return;
+    }
+    final firebase = context.yaml.getAsMap("firebase");
+    final projectId = firebase.get("project_id", "");
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -85,15 +94,53 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
     env["MAIL_SENDGRID_APIKEY"] = sendgrid.get("api_key", "");
     await env.save();
     context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
-    // await command(
-    //   "Deploy firebase functions.",
-    //   [
-    //     firebaseCommand,
-    //     "deploy",
-    //     "--only",
-    //     "functions",
-    //   ],
-    //   workingDirectory: "firebase",
-    // );
+  }
+
+  Future<void> _execCloudflare(
+    ExecContext context,
+    String sendGridApiKey,
+  ) async {
+    final bin = context.yaml.getAsMap("bin");
+    final npm = bin.get("npm", "npm");
+    final wrangler = bin.get("wrangler", "wrangler");
+    final cloudflareDir = Directory("cloudflare");
+    if (!cloudflareDir.existsSync()) {
+      error(
+        "The directory `cloudflare` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+      );
+      return;
+    }
+    await addFlutterImport(
+      [
+        "masamune_mail",
+        "masamune_functions_cloudflare",
+      ],
+    );
+    label("Add Cloudflare Workers functions");
+    final applied = await applyCloudflareWorkersFunctions(
+      alias: "sendgrid",
+      package: "@mathrunet/masamune_cloudflare_mail_sendgrid",
+      functions: {
+        "sendgrid.Functions.sendGrid": "    sendgrid.Functions.sendGrid(),",
+      },
+    );
+    if (!applied) {
+      return;
+    }
+    await command(
+      "Package installation.",
+      [
+        npm,
+        "install",
+        "@mathrunet/masamune_cloudflare_mail_sendgrid",
+      ],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    await putWranglerSecret(
+      wrangler: wrangler,
+      name: "MAIL_SENDGRID_APIKEY",
+      value: sendGridApiKey,
+    );
   }
 }

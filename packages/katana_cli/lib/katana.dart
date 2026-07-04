@@ -243,8 +243,10 @@ cloudflare:
 
   # Enable Cloudflare Workers.
   # To use Firebase Authentication with Workers, please set `[enable_firebase_auth]` to `true`.
+  # When this is set to `true`, server functions (geocoding, sendgrid, purchase, notification, etc.) are configured and deployed to Cloudflare Workers instead of Firebase Functions, even if [firebase]->[functions]->[enable] is `true`.
   # Cloudflare Workersを有効にします。
   # WorkersでFirebase Authenticationを使用する場合は[enable_firebase_auth]を`true`にしてください。
+  # これを`true`にした場合、[firebase]->[functions]->[enable]が`true`であっても、サーバー関数（geocoding、sendgrid、purchase、notificationなど）はFirebase FunctionsではなくCloudflare Workersに設定・デプロイされます。
   workers:
     enable: false
     enable_firebase_auth: true

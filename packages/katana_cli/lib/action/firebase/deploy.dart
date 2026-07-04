@@ -52,7 +52,13 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
     final enableFirestore = firestore.get("enable", false);
     final firestorePrimaryRemoteIndex =
         firestore.get("primary_remote_index", false);
-    final enableFunctions = firebase.getAsMap("functions").get("enable", false);
+    // Cloudflare Workersが有効な場合はFunctionsのデプロイ先をCloudflareに優先する。
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enableCloudflareWorkers =
+        cloudflare.getAsMap("workers").get("enable", false);
+    final enableFunctions =
+        firebase.getAsMap("functions").get("enable", false) &&
+            !enableCloudflareWorkers;
     final enableDataConnect =
         firebase.getAsMap("dataconnect").get("enable", false);
     if (projectId.isEmpty) {
