@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.14.0`](#katana_cli---v3140)
+
+---
+
+#### `katana_cli` - `v3.14.0`
+
+ - **FIX**(messaging): enable Firebase Messaging configuration in katana.dart. ([e3845b49](https://github.com/mathrunet/flutter_masamune/commit/e3845b4965a707b07ac5df7e82c98aebc69ac14e))
+ - **FIX**(cloudflare): update Cloudflare configuration and improve project ID handling. ([a6bc6eb0](https://github.com/mathrunet/flutter_masamune/commit/a6bc6eb028ab0fa15679668302aeee8a8543223f))
+ - **FEAT**(cloudflare): integrate Cloudflare Workers support across various actions. ([6da90479](https://github.com/mathrunet/flutter_masamune/commit/6da90479d3c0601c2769fdf49cca62d6627d4860))
+
+
 ## 2026-07-03
 
 ### Changes

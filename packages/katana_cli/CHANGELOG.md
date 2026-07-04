@@ -1,3 +1,9 @@
+## 3.14.0
+
+ - **FIX**(messaging): enable Firebase Messaging configuration in katana.dart. ([e3845b49](https://github.com/mathrunet/flutter_masamune/commit/e3845b4965a707b07ac5df7e82c98aebc69ac14e))
+ - **FIX**(cloudflare): update Cloudflare configuration and improve project ID handling. ([a6bc6eb0](https://github.com/mathrunet/flutter_masamune/commit/a6bc6eb028ab0fa15679668302aeee8a8543223f))
+ - **FEAT**(cloudflare): integrate Cloudflare Workers support across various actions. ([6da90479](https://github.com/mathrunet/flutter_masamune/commit/6da90479d3c0601c2769fdf49cca62d6627d4860))
+
 ## 3.13.5
 
  - **FIX**(schedule): enhance server code generation for Firebase and Cloudflare. ([8f0ddc3e](https://github.com/mathrunet/flutter_masamune/commit/8f0ddc3ebe3d01321bfb9c848734ed72da03590a))
