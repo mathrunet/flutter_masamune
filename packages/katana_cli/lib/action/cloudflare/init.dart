@@ -103,7 +103,9 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
       if (!workerRulesFile.existsSync()) {
         await const CloudflareWorkersRulesCliCode().generateFile("rules.json");
       }
-      await const CloudflareWranglerCliCode().generateFile("wrangler.jsonc");
+      await CloudflareWranglerCliCode(
+        projectId: projectId,
+      ).generateFile("wrangler.jsonc");
       await command(
         "Package installation.",
         [
@@ -302,7 +304,16 @@ class CloudflareWranglerCliCode extends CliCode {
   /// Cloudflare Wrangler.jsonc codebase.
   ///
   /// Cloudflare Wrangler.jsoncのコードベース。
-  const CloudflareWranglerCliCode();
+  const CloudflareWranglerCliCode({
+    required this.projectId,
+  });
+
+  /// Project ID.
+  /// This is required to set the project ID in wrangler.jsonc.
+  ///
+  /// CloudflareのプロジェクトID。
+  /// wrangler.jsoncにプロジェクトIDを設定するために必要です。
+  final String projectId;
 
   @override
   String get name => "wrangler";
@@ -330,14 +341,14 @@ class CloudflareWranglerCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
+    return """
 /**
  * For more details on how to configure Wrangler, refer to:
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "cloudflaretest",
+	"\$schema": "node_modules/wrangler/config-schema.json",
+	"name": "$projectId",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-06-29",
 	"compatibility_flags": [

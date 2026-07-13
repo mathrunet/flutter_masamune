@@ -308,6 +308,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
     await addFlutterImport(
       [
         "masamune_location",
+        if (enableGoogleMap) "masamune_location_google",
       ],
     );
   }
