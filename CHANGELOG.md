@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.14.1`](#katana_cli---v3141)
+
+---
+
+#### `katana_cli` - `v3.14.1`
+
+ - **FIX**(cloudflare): enhance Cloudflare Wrangler configuration with project ID support. ([f38a6733](https://github.com/mathrunet/flutter_masamune/commit/f38a673353726f7c01eac8b99fabaa30f25dfcec))
+
+
 ## 2026-07-04
 
 ### Changes

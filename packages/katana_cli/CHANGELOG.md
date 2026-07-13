@@ -1,3 +1,7 @@
+## 3.14.1
+
+ - **FIX**(cloudflare): enhance Cloudflare Wrangler configuration with project ID support. ([f38a6733](https://github.com/mathrunet/flutter_masamune/commit/f38a673353726f7c01eac8b99fabaa30f25dfcec))
+
 ## 3.14.0
 
  - **FIX**(messaging): enable Firebase Messaging configuration in katana.dart. ([e3845b49](https://github.com/mathrunet/flutter_masamune/commit/e3845b4965a707b07ac5df7e82c98aebc69ac14e))
