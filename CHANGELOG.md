@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.15.0`](#katana_cli---v3150)
+
+---
+
+#### `katana_cli` - `v3.15.0`
+
+ - **FEAT**(android): synchronize AndroidManifest placeholders with Gradle configuration. ([f39666df](https://github.com/mathrunet/flutter_masamune/commit/f39666df21b3d7b6bbad29d129340eb8dd8440e4))
+
+
 ## 2026-07-13
 
 ### Changes

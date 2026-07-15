@@ -1,3 +1,7 @@
+## 3.15.0
+
+ - **FEAT**(android): synchronize AndroidManifest placeholders with Gradle configuration. ([f39666df](https://github.com/mathrunet/flutter_masamune/commit/f39666df21b3d7b6bbad29d129340eb8dd8440e4))
+
 ## 3.14.1
 
  - **FIX**(cloudflare): enhance Cloudflare Wrangler configuration with project ID support. ([f38a6733](https://github.com/mathrunet/flutter_masamune/commit/f38a673353726f7c01eac8b99fabaa30f25dfcec))
