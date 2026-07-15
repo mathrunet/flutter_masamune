@@ -36,10 +36,14 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final wrangler = bin.get("wrangler", "wrangler");
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final tidb = cloudflare.getAsMap("tidb");
-    final connectionUrl = tidb.get("connection_url", "");
+    final secretTidb = context.secrets.getAsMap("cloudflare").getAsMap("tidb");
+    final secretConnectionUrl = secretTidb.get("connection_url", "");
+    final connectionUrl = secretConnectionUrl.isNotEmpty
+        ? secretConnectionUrl
+        : tidb.get("connection_url", "");
     if (connectionUrl.isEmpty) {
       error(
-        "If [cloudflare]->[tidb]->[enable] is enabled, please include [cloudflare]->[tidb]->[connection_url].",
+        "If [cloudflare]->[tidb]->[enable] is enabled, please include [cloudflare]->[tidb]->[connection_url] in `katana_secrets.yaml` or `katana.yaml`.",
       );
       return;
     }

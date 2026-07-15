@@ -88,6 +88,21 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
         await workerIndexFile.delete();
         await pagesIndexFile.delete();
       }
+      label("Rewrite `.gitignore`.");
+      final gitignore = File("cloudflare/.gitignore");
+      if (!gitignore.existsSync()) {
+        error("Cannot find `cloudflare/.gitignore`. Project is broken.");
+        return;
+      }
+      final gitignores = await gitignore.readAsLines();
+      if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+        if (!gitignores.any((e) => e.startsWith("*-*-*.json"))) {
+          gitignores.add("*-*-*.json");
+        }
+      } else {
+        gitignores.removeWhere((e) => e.startsWith("*-*-*.json"));
+      }
+      await gitignore.writeAsString(gitignores.join("\n"));
     }
 
     if (enabledWorkers) {

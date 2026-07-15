@@ -33,9 +33,14 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final wrangler = bin.get("wrangler", "wrangler");
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final turso = cloudflare.getAsMap("turso");
+    final secretTurso =
+        context.secrets.getAsMap("cloudflare").getAsMap("turso");
     final organization = turso.get("organization", "");
     final group = turso.get("group", "");
-    final platformApiToken = turso.get("platform_api_token", "");
+    final secretPlatformApiToken = secretTurso.get("platform_api_token", "");
+    final platformApiToken = secretPlatformApiToken.isNotEmpty
+        ? secretPlatformApiToken
+        : turso.get("platform_api_token", "");
     if (organization.isEmpty) {
       error(
         "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[organization].",
@@ -50,7 +55,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     }
     if (platformApiToken.isEmpty) {
       error(
-        "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[platform_api_token].",
+        "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[platform_api_token] in `katana_secrets.yaml` or `katana.yaml`.",
       );
       return;
     }
@@ -293,6 +298,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     turso.Functions.$name({
         organization: "$organization",
         group: "$group",
+        autoCreateDatabase: true,
     }),""";
   }
 

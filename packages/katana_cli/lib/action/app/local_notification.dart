@@ -51,16 +51,13 @@ class AppLocalNotificationCliAction extends CliCommand with CliActionMixin {
     label("Edit build.gradle.");
     final gradle = AppGradle();
     await gradle.load();
-    final compileOptions = GradleAndroidCompileOptions(
-      sourceCompatibility: "JavaVersion.VERSION_11",
-      targetCompatibility: "JavaVersion.VERSION_11",
-      coreLibraryDesugaringEnabled: true,
-    );
-    gradle.android?.compileOptions = compileOptions;
     final defaultConfig = gradle.android?.defaultConfig;
     if (defaultConfig == null) {
       throw Exception("defaultConfig is not found. Please check build.gradle.");
     }
+    gradle.android!.compileOptions
+      ..ensureMinimumJavaVersion(11)
+      ..coreLibraryDesugaringEnabled = true;
     defaultConfig.multiDexEnabled = "true";
     if (!gradle.dependencies.any((e) =>
         e.group == "coreLibraryDesugaring" &&

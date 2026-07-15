@@ -51,12 +51,18 @@ class EcosystemCliAction extends CliCommand with CliActionMixin {
         final purchase = context.yaml.getAsMap("purchase");
         final googlePlay = purchase.getAsMap("google_play");
         final appStore = purchase.getAsMap("app_store");
+        final secretAppStore =
+            context.secrets.getAsMap("purchase").getAsMap("app_store");
         final googlePlayClientId = googlePlay.get("oauth_client_id", "");
         final googlePlayClientSecret =
             googlePlay.get("oauth_client_secret", "");
         final googlePlayRefreshToken = googlePlay.get("refresh_token", "");
         final googlePlayPubsubTopic = googlePlay.get("pubsub_topic", "");
-        final appStoreSharedSecret = appStore.get("shared_secret", "");
+        final secretAppStoreSharedSecret =
+            secretAppStore.get("shared_secret", "");
+        final appStoreSharedSecret = secretAppStoreSharedSecret.isNotEmpty
+            ? secretAppStoreSharedSecret
+            : appStore.get("shared_secret", "");
         final firebase = context.yaml.getAsMap("firebase");
         final projectId = firebase.get("project_id", "");
         final function = firebase.getAsMap("functions");
@@ -92,7 +98,7 @@ class EcosystemCliAction extends CliCommand with CliActionMixin {
         if (enableAppStore) {
           if (appStoreSharedSecret.isEmpty) {
             error(
-              "The item [purchase]->[app_store]->[shared_secret] is empty. Please set it.",
+              "The item [purchase]->[app_store]->[shared_secret] is empty. Please set it in `katana_secrets.yaml` or `katana.yaml`.",
             );
             return;
           }

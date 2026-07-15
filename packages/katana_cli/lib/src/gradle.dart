@@ -412,7 +412,7 @@ class GradleAndroid {
     final buildToolsVersion =
         RegExp("buildToolsVersion = (.+)").firstMatch(region)?.group(1);
     final ndkVersion = RegExp("ndkVersion = (.+)").firstMatch(region)?.group(1);
-    return GradleAndroid(
+    final data = GradleAndroid(
       namespace: namespace,
       buildTypes: GradleAndroidBuildTypes._load(region),
       signingConfigs: GradleAndroidSigningConfigs._load(region),
@@ -424,6 +424,8 @@ class GradleAndroid {
       ndkVersion: ndkVersion,
       sourceSets: GradleAndroidSourceSet._load(region),
     );
+    data._buildFeatures = _GradleAndroidBuildFeatures._load(region);
+    return data;
   }
 
   static String _save(String content, GradleAndroid data) {
@@ -455,6 +457,8 @@ class GradleAndroid {
   /// コンパイルオプション設定。
   GradleAndroidCompileOptions compileOptions;
 
+  _GradleAndroidBuildFeatures? _buildFeatures;
+
   /// Kotlin option settings.
   ///
   /// Kotlinのオプション設定。
@@ -482,7 +486,56 @@ class GradleAndroid {
 
   @override
   String toString() {
-    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
+    if (defaultConfig.resValues.isNotEmpty) {
+      _buildFeatures ??= _GradleAndroidBuildFeatures();
+      _buildFeatures!.resValues = true;
+    }
+    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n${_buildFeatures != null ? "$_buildFeatures\n\n" : ""}${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
+  }
+}
+
+class _GradleAndroidBuildFeatures {
+  _GradleAndroidBuildFeatures([this._rawContent = ""]);
+
+  static _GradleAndroidBuildFeatures? _load(String content) {
+    final rawContent = _regExp.firstMatch(content)?.group(1);
+    if (rawContent == null) {
+      return null;
+    }
+    return _GradleAndroidBuildFeatures(rawContent);
+  }
+
+  static final _regExp = RegExp(
+    r"^[ \t]{4}buildFeatures\s*\{([\s\S]*?)^[ \t]{4}\}",
+    multiLine: true,
+  );
+  static final _resValuesRegExp = RegExp(
+    r"^([ \t]*)resValues\s*=\s*(true|false)([ \t]*(?://.*)?)$",
+    multiLine: true,
+  );
+
+  String _rawContent;
+
+  set resValues(bool value) {
+    if (_resValuesRegExp.hasMatch(_rawContent)) {
+      _rawContent = _rawContent.replaceFirstMapped(
+        _resValuesRegExp,
+        (match) => "${match.group(1)}resValues = $value${match.group(3) ?? ""}",
+      );
+      return;
+    }
+    if (_rawContent.isEmpty) {
+      _rawContent = "\n        resValues = $value\n";
+    } else if (_rawContent.endsWith("\n")) {
+      _rawContent = "$_rawContent        resValues = $value\n";
+    } else {
+      _rawContent = "$_rawContent\n        resValues = $value\n";
+    }
+  }
+
+  @override
+  String toString() {
+    return "    buildFeatures {$_rawContent    }";
   }
 }
 
@@ -501,16 +554,14 @@ class GradleAndroidCompileOptions {
 
   factory GradleAndroidCompileOptions._load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final sourceCompatibility =
-        RegExp("sourceCompatibility = ([a-zA-Z0-9_\"'.-]+)")
-                .firstMatch(region)
-                ?.group(1) ??
-            "";
-    final targetCompatibility =
-        RegExp("targetCompatibility = ([a-zA-Z0-9_\"'.-]+)")
-                .firstMatch(region)
-                ?.group(1) ??
-            "";
+    final sourceCompatibility = RegExp(r"sourceCompatibility\s*=\s*(.+)")
+            .firstMatch(region)
+            ?.group(1) ??
+        "";
+    final targetCompatibility = RegExp(r"targetCompatibility\s*=\s*(.+)")
+            .firstMatch(region)
+            ?.group(1) ??
+        "";
     final coreLibraryDesugaringEnabledString =
         RegExp("isCoreLibraryDesugaringEnabled = ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
@@ -543,6 +594,54 @@ class GradleAndroidCompileOptions {
   ///
   /// `coreLibraryDesugaringEnabled`のデータ。
   bool? coreLibraryDesugaringEnabled;
+
+  /// Raises Java compatibility values below [minimumVersion].
+  ///
+  /// 未設定または[minimumVersion]未満のJava互換性だけを引き上げます。
+  void ensureMinimumJavaVersion(int minimumVersion) {
+    sourceCompatibility =
+        _ensureMinimumJavaVersion(sourceCompatibility, minimumVersion);
+    targetCompatibility =
+        _ensureMinimumJavaVersion(targetCompatibility, minimumVersion);
+  }
+
+  static String _ensureMinimumJavaVersion(String value, int minimumVersion) {
+    if (value.isEmpty) {
+      return "JavaVersion.VERSION_$minimumVersion";
+    }
+    final version = _parseJavaVersion(value);
+    if (version != null && version < minimumVersion) {
+      return "JavaVersion.VERSION_$minimumVersion";
+    }
+    return value;
+  }
+
+  static int? _parseJavaVersion(String value) {
+    final javaVersion = RegExp(r"JavaVersion\.VERSION_(?:1_)?(\d+)")
+        .firstMatch(value)
+        ?.group(1);
+    if (javaVersion != null) {
+      return int.tryParse(javaVersion);
+    }
+    final toVersion = RegExp(
+      "JavaVersion\\.toVersion\\(\\s*[\"']?(\\d+(?:\\.\\d+)?)[\"']?\\s*\\)",
+    ).firstMatch(value)?.group(1);
+    if (toVersion != null) {
+      return _parseJavaVersionNumber(toVersion);
+    }
+    final literal = RegExp("^[\"']?(\\d+(?:\\.\\d+)?)[\"']?\$")
+        .firstMatch(value.trim())
+        ?.group(1);
+    return literal == null ? null : _parseJavaVersionNumber(literal);
+  }
+
+  static int? _parseJavaVersionNumber(String value) {
+    final parts = value.split(".");
+    if (parts.length == 2 && parts.first == "1") {
+      return int.tryParse(parts.last);
+    }
+    return int.tryParse(value);
+  }
 
   @override
   String toString() {

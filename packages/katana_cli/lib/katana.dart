@@ -259,6 +259,7 @@ cloudflare:
   # If you want to use TursoDB via Workers, set [enable] to `true`.
   # Specify the Turso Organization and Group in [organization] and [group].
   # For [platform_api_token], enter your Turso Platform API Token.
+  # If [platform_api_token] is also set in `katana_secrets.yaml`, the non-empty secret value takes precedence.
   # The Platform API Token can be obtained by following the steps below:
   # 1. Go to `https://app.turso.tech/mathru/settings/api-tokens`
   # 2. Click the `Create Token` button
@@ -266,6 +267,7 @@ cloudflare:
   # Workersを通してTrusoDBを使いたい場合は[enable]を`true`にしてください。
   # TursoのOrganizationとGroupを[organization]と[group]に指定します。
   # [platform_api_token]にはTursoのPlatform API Tokenを記載してください。
+  # `katana_secrets.yaml`にも[platform_api_token]を設定した場合は、空でないSecrets側の値が優先されます。
   # Platform API Tokenは下記の手順で取得可能です。
   # 1. `https://app.turso.tech/mathru/settings/api-tokens`にアクセス
   # 2. `Create Token`ボタンをクリック
@@ -278,8 +280,10 @@ cloudflare:
 
   # If you want to use TiDB via Workers, set [enable] to `true`.
   # Specify the TiDB Connection URL in [connection_url].
+  # If [connection_url] is also set in `katana_secrets.yaml`, the non-empty secret value takes precedence.
   # Workersを通してTiDBを使いたい場合は[enable]を`true`にしてください。
   # [connection_url]にはTiDBのConnection URLを記載してください。
+  # `katana_secrets.yaml`にも[connection_url]を設定した場合は、空でないSecrets側の値が優先されます。
   tidb:
     enable: false
     connection_url:
@@ -308,13 +312,36 @@ cloudflare:
   # Enable Firebase Messaging via Workers.
   # Specify ChannelNotificationId for Android in [channel_id].
   # Specify an image path in [android_notification_icon] to set a notification icon for Android for whiteout.
+  # In [service_account], specify the Firebase Admin SDK service account JSON as a string, or leave empty to auto-discover.
+  # Auto-discovery order:
+  #   1. `cloudflare/` directory: place a service account JSON file directly under it (recommended for Messaging).
+  #   2. `android/` directory: reuse the Purchase service account JSON if it belongs to the same Firebase project.
+  # How to create the service account JSON:
+  #   1. Open Firebase Console -> Project settings -> Service accounts tab.
+  #   2. Click "Generate new private key" to download the JSON (this is the Firebase Admin SDK service account).
+  #   3. Place the JSON under `cloudflare/` (recommended) or `android/`, or paste the JSON string into [service_account].
+  # Required IAM roles (automatically granted to the Firebase Admin SDK service account):
+  #   - `roles/firebasecloudmessaging.admin` (Firebase Cloud Messaging API Admin)
+  #   - `roles/iam.serviceAccountTokenCreator` (for OAuth token generation)
   # Workers経由でのFirebase Messagingを有効にします。
   # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
   # [android_notification_icon]に画像パスを指定するとAndroid用の白抜き用の通知アイコンを設定できます。
+  # [service_account]にはFirebase Admin SDKのサービスアカウントJSONを文字列で指定するか、空にして自動探索させます。
+  # 自動探索の優先順位:
+  #   1. `cloudflare/`直下: サービスアカウントJSONファイルを配置（Messaging専用として推奨）。
+  #   2. `android/`直下: 同一FirebaseプロジェクトのPurchase用JSONを流用可能。
+  # サービスアカウントJSONの作成手順:
+  #   1. Firebase Console -> プロジェクトの設定 -> サービスアカウントタブを開く。
+  #   2. 「新しい秘密鍵の生成」からJSONをダウンロード（Firebase Admin SDK用のサービスアカウント）。
+  #   3. `cloudflare/`（推奨）または`android/`にJSONを配置するか、[service_account]にJSON文字列を直接記載。
+  # 必要なIAM権限（Firebase Admin SDK用サービスアカウントには自動付与される）:
+  #   - `roles/firebasecloudmessaging.admin`（Firebase Cloud Messaging API管理者）
+  #   - `roles/iam.serviceAccountTokenCreator`（OAuthトークン発行用）
   messaging:
     enable: true
     channel_id: masamune_firebase_messaging_channel
-    android_notification_icon: 
+    android_notification_icon:
+    service_account:
 
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。
@@ -826,10 +853,12 @@ purchase:
   # Follow the steps below to configure the settings.
   # 1. Register your tax information and bank account to activate [Subscription]->[Paid Apps] in the AppStore.
   # 2. Get it from [AppStore]->[App Info]->[Shared Secret for App] and put it in `shared_secret`.
+  # If [shared_secret] is also set in `katana_secrets.yaml`, the non-empty secret value takes precedence.
   # AppStoreの課金を行う場合の設定を行います。
   # 下記の手順で設定を行います。
   # 1. AppStoreの[契約]->[有料App]をアクティブにするように税務情報や銀行口座を登録します。
   # 2. AppStoreの[アプリ]->[App情報]->[App用共有シークレット]から取得して`shared_secret`に記載します。
+  # `katana_secrets.yaml`にも[shared_secret]を設定した場合は、空でないSecrets側の値が優先されます。
   app_store:
     enable: false
     shared_secret: 
@@ -962,6 +991,27 @@ generative_ai:
 ///
 /// katana_secrets.yamlの中身。
 String katanaSecretsYamlCode() => """
+# Describe Cloudflare secret information.
+# Cloudflareのシークレット情報を記述します。
+cloudflare:
+  turso:
+    # Turso Platform API Token. This non-empty value takes precedence over `katana.yaml`.
+    # TursoのPlatform API Token。空でない場合は`katana.yaml`より優先されます。
+    platform_api_token:
+
+  tidb:
+    # TiDB Connection URL. This non-empty value takes precedence over `katana.yaml`.
+    # TiDBのConnection URL。空でない場合は`katana.yaml`より優先されます。
+    connection_url:
+
+# Describe purchase secret information.
+# 課金のシークレット情報を記述します。
+purchase:
+  app_store:
+    # App Store shared secret. This non-empty value takes precedence over `katana.yaml`.
+    # App Store共有シークレット。空でない場合は`katana.yaml`より優先されます。
+    shared_secret:
+
 # Describe Github secret information.
 # Githubのシークレット情報を記述します。
 github:

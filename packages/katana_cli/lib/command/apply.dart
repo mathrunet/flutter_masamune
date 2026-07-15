@@ -45,6 +45,7 @@ import "package:katana_cli/action/mail/send_grid.dart";
 import "package:katana_cli/action/purchase/purchase.dart";
 import "package:katana_cli/action/stripe/stripe.dart";
 import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/src/android_manifest.dart";
 
 /// Action to be performed.
 ///
@@ -99,7 +100,34 @@ const _actions = <CliActionMixin>[
   MailSendGridCliAction(),
   AppGeocodingCliAction(),
   EcosystemCliAction(),
+  AndroidManifestPlaceholderFinalizeCliAction(),
 ];
+
+/// Synchronizes Dart define placeholders in AndroidManifest with Gradle.
+///
+/// AndroidManifestのDart defineプレースホルダーをGradleと同期します。
+class AndroidManifestPlaceholderFinalizeCliAction extends CliCommand
+    with CliActionMixin {
+  /// Synchronizes Dart define placeholders in AndroidManifest with Gradle.
+  ///
+  /// AndroidManifestのDart defineプレースホルダーをGradleと同期します。
+  const AndroidManifestPlaceholderFinalizeCliAction();
+
+  @override
+  String get description =>
+      "Synchronize AndroidManifest Dart define placeholders with Gradle. AndroidManifestのDart defineプレースホルダーをGradleと同期します。";
+
+  @override
+  bool checkEnabled(ExecContext context) =>
+      const AndroidManifestPlaceholderSynchronizer().hasFiles;
+
+  @override
+  Future<void> exec(ExecContext context) async {
+    const synchronizer = AndroidManifestPlaceholderSynchronizer();
+    label("Synchronize AndroidManifest Dart define placeholders.");
+    await synchronizer.apply();
+  }
+}
 
 /// Reflect the settings in katana.yaml in the application project.
 ///

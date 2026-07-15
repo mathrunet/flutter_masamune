@@ -477,7 +477,9 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final wrangler = bin.get("wrangler", "wrangler");
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final enableTurso = cloudflare.getAsMap("turso").get("enable", false);
-    final serviceAccount = messaging.get("service_account", "");
+    final serviceAccount = await _resolveServiceAccountJson(
+      messaging.get("service_account", ""),
+    );
     final cloudflareDir = Directory("cloudflare");
     if (!cloudflareDir.existsSync()) {
       error(
@@ -491,7 +493,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final sendNotificationFunction = enableTurso
         ? """
     notification.Functions.sendNotification({
-        database: new turso.TursoDatabaseAdapter({}),
+        database: new turso.TursoDatabaseAdapter(),
     }),"""
         : "    notification.Functions.sendNotification(),";
     if (enableTurso) {
@@ -533,8 +535,49 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       );
     } else {
       label(
-        "Please set the `GOOGLE_SERVICE_ACCOUNT` secret manually with `wrangler secret put GOOGLE_SERVICE_ACCOUNT` in the `cloudflare` directory, or specify [firebase]->[messaging]->[service_account] in katana.yaml.",
+        "Service account JSON was not found. Please place a Firebase Admin SDK service account JSON under the `cloudflare/` directory (recommended) or the `android/` directory, specify [cloudflare]->[messaging]->[service_account] in katana.yaml, or set the secret manually with `wrangler secret put GOOGLE_SERVICE_ACCOUNT` in the `cloudflare` directory.",
       );
     }
+  }
+
+  /// Resolves the Firebase Admin SDK service account JSON string.
+  ///
+  /// Priority:
+  ///   1. [yamlValue] (raw JSON string written in katana.yaml).
+  ///   2. First JSON file under `cloudflare/` whose `type` field is `service_account`.
+  ///   3. First JSON file under `android/` whose `type` field is `service_account`
+  ///      (shared with Purchase).
+  ///
+  /// Returns an empty string if none of them match.
+  Future<String> _resolveServiceAccountJson(String yamlValue) async {
+    if (yamlValue.isNotEmpty) {
+      return yamlValue;
+    }
+    final jsonNamePattern = RegExp(r"^([a-z0-9_-]+)\.json$");
+    for (final dirName in ["cloudflare", "android"]) {
+      final root = Directory(dirName);
+      if (!root.existsSync()) {
+        continue;
+      }
+      await for (final entity in root.list(recursive: false)) {
+        if (entity is! File) {
+          continue;
+        }
+        final name = entity.path.trimQuery().last();
+        if (!jsonNamePattern.hasMatch(name)) {
+          continue;
+        }
+        try {
+          final content = await entity.readAsString();
+          final map = content.toJsonMap();
+          if (map.get("type", "") == "service_account") {
+            return content;
+          }
+        } catch (_) {
+          continue;
+        }
+      }
+    }
+    return "";
   }
 }
