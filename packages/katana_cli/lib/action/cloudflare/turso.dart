@@ -1,8 +1,8 @@
 // Dart imports:
-import "dart:async";
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process for Turso.
@@ -41,6 +41,8 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final platformApiToken = secretPlatformApiToken.isNotEmpty
         ? secretPlatformApiToken
         : turso.get("platform_api_token", "");
+    final serverTokenTtl = turso.get("server_token_ttl", 3600);
+    final rotateLegacyTokens = turso.get("rotate_legacy_tokens", false);
     if (organization.isEmpty) {
       error(
         "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[organization].",
@@ -56,6 +58,12 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     if (platformApiToken.isEmpty) {
       error(
         "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[platform_api_token] in `katana_secrets.yaml` or `katana.yaml`.",
+      );
+      return;
+    }
+    if (serverTokenTtl <= 60) {
+      error(
+        "[cloudflare]->[turso]->[server_token_ttl] must be an integer greater than 60.",
       );
       return;
     }
@@ -84,6 +92,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       source,
       organization: organization,
       group: group,
+      serverTokenTtl: serverTokenTtl,
     );
     if (updated == null) {
       return;
@@ -99,26 +108,42 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       workingDirectory: "cloudflare",
       runInShell: true,
     );
-    await _putWranglerSecret(
+    await putWranglerSecret(
       wrangler: wrangler,
-      platformApiToken: platformApiToken,
+      name: "TURSO_PLATFORM_API_TOKEN",
+      value: platformApiToken,
     );
+    await putWranglerSecret(
+      wrangler: wrangler,
+      name: "TURSO_SERVER_TOKEN_TTL_SECONDS",
+      value: serverTokenTtl.toString(),
+    );
+    if (rotateLegacyTokens) {
+      await _rotateLegacyTokens(
+        organization: organization,
+        group: group,
+        platformApiToken: platformApiToken,
+      );
+    }
   }
 
   String? _updateTursoFunctions(
     String source, {
     required String organization,
     required String group,
+    required int serverTokenTtl,
   }) {
     final tursoFunction = _tursoFunction(
       "turso",
       organization: organization,
       group: group,
+      serverTokenTtl: serverTokenTtl,
     );
     final tursoTokenFunction = _tursoFunction(
       "tursoToken",
       organization: organization,
       group: group,
+      serverTokenTtl: serverTokenTtl,
     );
     var updated = _ensureTursoImport(source);
     updated = _replaceFunction(updated, "turso.Functions.turso", tursoFunction);
@@ -293,38 +318,41 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     String name, {
     required String organization,
     required String group,
+    required int serverTokenTtl,
   }) {
     return """
     turso.Functions.$name({
         organization: "$organization",
         group: "$group",
         autoCreateDatabase: true,
+        serverTokenTtlSeconds: $serverTokenTtl,
     }),""";
   }
 
-  Future<void> _putWranglerSecret({
-    required String wrangler,
+  Future<void> _rotateLegacyTokens({
+    required String organization,
+    required String group,
     required String platformApiToken,
   }) async {
-    label("Set Cloudflare Workers secret.");
-    final process = await Process.start(
-      wrangler,
-      [
-        "secret",
-        "put",
-        "TURSO_PLATFORM_API_TOKEN",
-      ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
+    label("Rotate legacy Turso group tokens.");
+    final client = HttpClient();
+    final request = await client.postUrl(
+      Uri.parse(
+        "https://api.turso.tech/v1/organizations/"
+        "${Uri.encodeComponent(organization)}/groups/"
+        "${Uri.encodeComponent(group)}/auth/rotate",
+      ),
     );
-    unawaited(stdout.addStream(process.stdout));
-    unawaited(stderr.addStream(process.stderr));
-    process.stdin.writeln(platformApiToken);
-    await process.stdin.close();
-    final exitCode = await process.exitCode;
-    if (exitCode != 0) {
+    request.headers
+      ..set(HttpHeaders.authorizationHeader, "Bearer $platformApiToken")
+      ..set(HttpHeaders.contentTypeHeader, "application/json");
+    request.write("{}");
+    final response = await request.close();
+    await response.drain<void>();
+    client.close();
+    if (response.statusCode < 200 || response.statusCode >= 300) {
       throw Exception(
-        "An error has occurred. Please check the log above for details.",
+        "Failed to rotate Turso legacy tokens: ${response.statusCode}.",
       );
     }
   }

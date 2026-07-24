@@ -1,3 +1,7 @@
+## 3.16.0
+
+ - **FEAT**(cloudflare): add secure Turso token rotation controls and two-stage TiDB Data Service cutover.
+
 ## 3.15.0
 
  - **FEAT**(android): synchronize AndroidManifest placeholders with Gradle configuration. ([f39666df](https://github.com/mathrunet/flutter_masamune/commit/f39666df21b3d7b6bbad29d129340eb8dd8440e4))
@@ -1838,4 +1842,3 @@
  - **FEAT**: Basic template added. ([5b3091a3](https://github.com/mathrunet/flutter_masamune/commit/5b3091a3cf959fe75cf73893400edc53aaa32cb3))
  - **FEAT**: Organize commands and create code commands. ([0f64f538](https://github.com/mathrunet/flutter_masamune/commit/0f64f538e7b5376e61da4eee6d69717eeb6dcee0))
  - **FEAT**: Initial commit. ([a50d51ae](https://github.com/mathrunet/flutter_masamune/commit/a50d51ae62b5bb9f4a4571301ec88d8b9b97412c))
-

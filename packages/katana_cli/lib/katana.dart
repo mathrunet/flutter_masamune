@@ -276,7 +276,11 @@ cloudflare:
     enable: false
     organization:
     group:
-    platform_api_token: 
+    platform_api_token:
+    # Lifetime in seconds for server-side full-access tokens. Tokens are refreshed 60 seconds before expiry.
+    server_token_ttl: 3600
+    # Explicitly invalidate all legacy group tokens once. This is destructive and defaults to false.
+    rotate_legacy_tokens: false
 
   # If you want to use TiDB via Workers, set [enable] to `true`.
   # Specify the TiDB Connection URL in [connection_url].
@@ -286,7 +290,22 @@ cloudflare:
   # `katana_secrets.yaml`にも[connection_url]を設定した場合は、空でないSecrets側の値が優先されます。
   tidb:
     enable: false
+    # "direct" (default) or "data_service".
+    mode: direct
     connection_url:
+    data_service:
+      project_id:
+      cluster_id:
+      app_id:
+      app_name: masamune
+      directory: tidb/data_service
+      rate_limit_rpm: 1000
+      max_scan_rows: 1000
+      restrict_mysql: true
+      github:
+        repository:
+        branch: main
+        directory: /tidb/data_service
 
   # If you want to use Cloudflare KV via Workers, set [enable] to `true`.
   # Specify the KV binding name in [binding] and the KV namespace ID in [namespace_id].
@@ -1003,6 +1022,23 @@ cloudflare:
     # TiDB Connection URL. This non-empty value takes precedence over `katana.yaml`.
     # TiDBのConnection URL。空でない場合は`katana.yaml`より優先されます。
     connection_url:
+    # Organization API key used only by `katana apply`.
+    management_api:
+      public_key:
+      private_key:
+    # Data API key generated for Cloudflare Workers.
+    data_service:
+      app_id:
+      api_key_id:
+      region:
+      public_key:
+      private_key:
+    # Two-stage public endpoint cutover state. Managed automatically.
+    cutover:
+      manifest_hash:
+      baseline_worker_deployment_id:
+      worker_deployment_id:
+      state:
 
 # Describe purchase secret information.
 # 課金のシークレット情報を記述します。

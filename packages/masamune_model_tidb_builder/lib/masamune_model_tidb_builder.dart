@@ -1,0 +1,26 @@
+// Copyright (c) 2025 mathru. All rights reserved.
+
+/// Builder for TiDB Data Service Configuration as Code.
+library;
+
+import "dart:async";
+import "dart:convert";
+import "dart:io";
+
+import "package:analyzer/dart/element/element.dart";
+import "package:build/build.dart";
+import "package:masamune_model_tidb_annotation/masamune_model_tidb_annotation.dart";
+import "package:source_gen/source_gen.dart";
+
+import "src/endpoint_spec.dart";
+import "src/rules_reader.dart";
+
+export "src/endpoint_spec.dart";
+export "src/rules_reader.dart";
+
+part "src/builder.dart";
+
+/// Creates the TiDB Data Service aggregate builder.
+Builder masamuneModelTidbBuilderFactory(BuilderOptions options) {
+  return _MasamuneModelTidbBuilder();
+}

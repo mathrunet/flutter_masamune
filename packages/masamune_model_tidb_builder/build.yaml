@@ -1,0 +1,24 @@
+builders:
+  masamune_model_tidb_builder:
+    import: "package:masamune_model_tidb_builder/masamune_model_tidb_builder.dart"
+    builder_factories: ["masamuneModelTidbBuilderFactory"]
+    build_extensions: {".dart": [".tidb_data_service"]}
+    auto_apply: all_packages
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+
+targets:
+  $default:
+    builders:
+      masamune_model_tidb_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
