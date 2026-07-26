@@ -1,3 +1,7 @@
+## 3.1.6
+
+ - **FIX**(masamune_builder): update parameter type handling in code generation. ([d54bffc9](https://github.com/mathrunet/flutter_masamune/commit/d54bffc9105fefb9a265da16d929a41a7875b47b))
+
 ## 3.1.5
 
  - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))

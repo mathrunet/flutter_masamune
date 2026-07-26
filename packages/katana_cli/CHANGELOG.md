@@ -1,3 +1,7 @@
+## 3.17.0
+
+ - **FEAT**(cloudflare): add secure TiDB Data Service setup. ([dc32c8c9](https://github.com/mathrunet/flutter_masamune/commit/dc32c8c96dde192fc5355b0d1cedb3ef99ad8925))
+
 ## 3.16.0
 
  - **FEAT**(cloudflare): add secure Turso token rotation controls and two-stage TiDB Data Service cutover.

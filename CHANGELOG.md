@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.17.0`](#katana_cli---v3170)
+ - [`masamune_builder` - `v3.1.6`](#masamune_builder---v316)
+ - [`masamune_model_tidb_annotation` - `v1.1.0`](#masamune_model_tidb_annotation---v110)
+ - [`masamune_model_tidb_builder` - `v1.1.0`](#masamune_model_tidb_builder---v110)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.2.6`](#masamune_model_firebase_data_connect_builder---v326)
+ - [`masamune_model_docs_builder` - `v3.2.6`](#masamune_model_docs_builder---v326)
+ - [`masamune_model_firestore_builder` - `v3.2.6`](#masamune_model_firestore_builder---v326)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_firebase_data_connect_builder` - `v3.2.6`
+ - `masamune_model_docs_builder` - `v3.2.6`
+ - `masamune_model_firestore_builder` - `v3.2.6`
+
+---
+
+#### `katana_cli` - `v3.17.0`
+
+ - **FEAT**(cloudflare): add secure TiDB Data Service setup. ([dc32c8c9](https://github.com/mathrunet/flutter_masamune/commit/dc32c8c96dde192fc5355b0d1cedb3ef99ad8925))
+
+#### `masamune_builder` - `v3.1.6`
+
+ - **FIX**(masamune_builder): update parameter type handling in code generation. ([d54bffc9](https://github.com/mathrunet/flutter_masamune/commit/d54bffc9105fefb9a265da16d929a41a7875b47b))
+
+#### `masamune_model_tidb_annotation` - `v1.1.0`
+
+ - **FEAT**(tidb): enhance TidbDataService with server-owned schema support. ([2945670f](https://github.com/mathrunet/flutter_masamune/commit/2945670fcda4dbb29f351d128ee7ffde2b2a61dd))
+ - **FEAT**(cloudflare): add secure TiDB Data Service setup. ([dc32c8c9](https://github.com/mathrunet/flutter_masamune/commit/dc32c8c96dde192fc5355b0d1cedb3ef99ad8925))
+
+#### `masamune_model_tidb_builder` - `v1.1.0`
+
+ - **FEAT**(tidb): enhance TidbDataService with server-owned schema support. ([2945670f](https://github.com/mathrunet/flutter_masamune/commit/2945670fcda4dbb29f351d128ee7ffde2b2a61dd))
+ - **FEAT**(cloudflare): add secure TiDB Data Service setup. ([dc32c8c9](https://github.com/mathrunet/flutter_masamune/commit/dc32c8c96dde192fc5355b0d1cedb3ef99ad8925))
+
+
 ## 2026-07-16
 
 ### Changes
