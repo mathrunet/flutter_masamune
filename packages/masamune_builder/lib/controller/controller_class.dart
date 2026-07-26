@@ -30,7 +30,7 @@ List<Spec> controllerClass(
                     (p) => p
                       ..required = param.element.isRequired
                       ..named = true
-                      ..type = Reference(param.type.aliasName)
+                      ..type = Reference(param.typeName)
                       ..name = param.name
                       ..defaultTo = param.element.defaultValueCode != null
                           ? Code(param.element.defaultValueCode!)
@@ -91,7 +91,7 @@ List<Spec> controllerClass(
               (f) => f
                 ..name = param.name
                 ..modifier = FieldModifier.final$
-                ..type = Reference(param.type.aliasName),
+                ..type = Reference(param.typeName),
             );
           })
         ])

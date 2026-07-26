@@ -24,7 +24,10 @@ class ParamaterValue {
   /// [element]にパラメーターエレメントを指定します。
   ParamaterValue(this.element) {
     name = element.displayName;
-    type = element.type as InterfaceType;
+    dartType = element.type;
+    if (dartType is InterfaceType) {
+      type = dartType as InterfaceType;
+    }
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
     isVector = _vectorParamChecker.hasAnnotationOfExact(element);
@@ -164,6 +167,16 @@ class ParamaterValue {
   ///
   /// パラメーターのタイプ。
   late final InterfaceType type;
+
+  /// Raw analyzer type, including function types.
+  ///
+  /// 関数型を含むAnalyzer上のパラメータータイプ。
+  late final DartType dartType;
+
+  /// Source representation of the parameter type.
+  ///
+  /// パラメータータイプのソース表現。
+  String get typeName => dartType.getDisplayString();
 
   /// Name of parameter.
   ///

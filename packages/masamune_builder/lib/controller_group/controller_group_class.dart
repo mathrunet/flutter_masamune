@@ -26,7 +26,7 @@ List<Spec> controllerGroupClass(
               ..returns = Reference("_\$_${model.name}Query")
               ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
-                  final type = param.type.aliasName;
+                  final type = param.typeName;
                   final nullable = type.endsWith("?");
                   final functionType = nullable
                       ? "${type.trimStringRight("?")} Function()?"
@@ -92,7 +92,7 @@ List<Spec> controllerGroupClass(
               ..type = const Reference("String"),
           ),
           ...model.parameters.map((param) {
-            final type = param.type.aliasName;
+            final type = param.typeName;
             final nullable = type.endsWith("?");
             final functionType = nullable
                 ? "${type.trimStringRight("?")} Function()?"
@@ -119,7 +119,7 @@ List<Spec> controllerGroupClass(
               ])
               ..returns = Reference("${model.name} Function()")
               ..body = Code(
-                "return () => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}${param.type.aliasName.endsWith("?") ? "?" : ""}.call()").join(",")});",
+                "return () => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}${param.typeName.endsWith("?") ? "?" : ""}.call()").join(",")});",
               ),
           ),
           Method(

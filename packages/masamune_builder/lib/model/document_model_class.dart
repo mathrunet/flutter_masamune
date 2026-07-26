@@ -196,7 +196,7 @@ List<Spec> documentModelClass(
                 ])
                 ..body = Code(
                   searchable.map((e) {
-                    if (e.type.aliasName.endsWith("?")) {
+                    if (e.typeName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
                       return "value.${e.name}.toString()";
@@ -220,7 +220,7 @@ List<Spec> documentModelClass(
                 ])
                 ..body = Code(
                   vectorSearchable.map((e) {
-                    if (e.type.aliasName.endsWith("?")) {
+                    if (e.typeName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
                       return "value.${e.name}.toString()";
@@ -434,7 +434,7 @@ List<Spec> documentModelClass(
                   ])
                   ..body = Code(
                     searchable.map((e) {
-                      if (e.type.aliasName.endsWith("?")) {
+                      if (e.typeName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {
                         return "value.${e.name}.toString()";
@@ -458,7 +458,7 @@ List<Spec> documentModelClass(
                   ])
                   ..body = Code(
                     vectorSearchable.map((e) {
-                      if (e.type.aliasName.endsWith("?")) {
+                      if (e.typeName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {
                         return "value.${e.name}.toString()";

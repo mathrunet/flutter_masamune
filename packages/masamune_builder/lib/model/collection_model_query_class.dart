@@ -9,15 +9,15 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   } else if (param.type.isDartCoreBool) {
     return "BooleanModelQuerySelector<$queryClass>";
   } else if (param.type.isDartCoreEnum || param.type.element is EnumElement) {
-    final typeName = param.type.aliasName.trimStringRight("?");
+    final typeName = param.typeName.trimStringRight("?");
     return "ValueModelQuerySelector<$typeName, $queryClass>";
   } else if (param.type.isDartCoreList) {
     final generics =
-        param.type.typeArguments.firstOrNull?.aliasName ?? "dynamic";
+        param.type.typeArguments.firstOrNull?.getDisplayString() ?? "dynamic";
     return "ListModelQuerySelector<$generics, $queryClass>";
   } else if (param.type.isDartCoreMap) {
     final generics = RegExp("Map<([^>]+),([^>]+)>")
-            .firstMatch(param.type.aliasName)
+            .firstMatch(param.typeName)
             ?.group(2)
             ?.trim() ??
         "dynamic";
@@ -25,7 +25,7 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   } else if (reference != null) {
     return "ModelRefModelQuerySelector<${reference.modelType}, $queryClass>";
   } else {
-    final typeName = param.type.aliasName.trimStringRight("?");
+    final typeName = param.typeName.trimStringRight("?");
     for (final tmp in MasamuneType.values) {
       if (!tmp.regExp.hasMatch(typeName)) {
         continue;
@@ -208,7 +208,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..body = Code(
                   searchable.map((e) {
-                    if (e.type.aliasName.endsWith("?")) {
+                    if (e.typeName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
                       return "value.${e.name}.toString()";
@@ -232,7 +232,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..body = Code(
                   vectorSearchable.map((e) {
-                    if (e.type.aliasName.endsWith("?")) {
+                    if (e.typeName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
                       return "value.${e.name}.toString()";
@@ -805,7 +805,7 @@ List<Spec> collectionModelQueryClass(
                   ])
                   ..body = Code(
                     searchable.map((e) {
-                      if (e.type.aliasName.endsWith("?")) {
+                      if (e.typeName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {
                         return "value.${e.name}.toString()";
@@ -829,7 +829,7 @@ List<Spec> collectionModelQueryClass(
                   ])
                   ..body = Code(
                     vectorSearchable.map((e) {
-                      if (e.type.aliasName.endsWith("?")) {
+                      if (e.typeName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {
                         return "value.${e.name}.toString()";

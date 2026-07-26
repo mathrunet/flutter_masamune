@@ -205,8 +205,7 @@ class QueryConditionValue {
             ..name = "${key ?? ""}${type.toPascalCase()}"
             ..required = true
             ..named = true
-            ..type =
-                Reference("List<${parameter?.type.aliasName ?? "Object?"}>"),
+            ..type = Reference("List<${parameter?.typeName ?? "Object?"}>"),
         );
       case "like":
         return Parameter(
@@ -246,7 +245,7 @@ class QueryConditionValue {
             ..name = "${key ?? ""}${type.toPascalCase()}"
             ..required = true
             ..named = true
-            ..type = Reference(parameter?.type.aliasName ?? "Object?"),
+            ..type = Reference(parameter?.typeName ?? "Object?"),
         );
     }
   }
