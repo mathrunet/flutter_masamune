@@ -1,7 +1,11 @@
+// Dart imports:
 import "dart:convert";
 
-import "package:masamune_model_tidb_builder/masamune_model_tidb_builder.dart";
+// Package imports:
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_model_tidb_builder/masamune_model_tidb_builder.dart";
 
 void main() {
   const table = TidbTableSpec(

@@ -1,5 +1,7 @@
+// Dart imports:
 import "dart:convert";
 
+// Project imports:
 import "rules_reader.dart";
 
 /// A column generated from a Masamune model field.

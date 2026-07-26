@@ -1,5 +1,8 @@
-import "package:masamune_model_tidb_annotation/masamune_model_tidb_annotation.dart";
+// Package imports:
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_model_tidb_annotation/masamune_model_tidb_annotation.dart";
 
 void main() {
   test("uses stable Data Service defaults", () {
