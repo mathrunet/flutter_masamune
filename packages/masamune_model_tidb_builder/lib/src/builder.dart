@@ -7,11 +7,13 @@ const _documentModelPathChecker = TypeChecker.typeNamed(DocumentModelPath);
 class _BuilderEntry {
   const _BuilderEntry({
     required this.tables,
+    required this.customEndpoints,
     required this.dataServiceDirPath,
     required this.rulesJsonPath,
   });
 
   final List<TidbTableSpec> tables;
+  final List<TidbCustomEndpointSpec> customEndpoints;
   final String dataServiceDirPath;
   final String rulesJsonPath;
 }
@@ -26,6 +28,7 @@ class _MasamuneModelTidbBuilder extends Builder {
     }
     final library = await buildStep.resolver.libraryFor(buildStep.inputId);
     final tables = <TidbTableSpec>[];
+    final customEndpoints = <TidbCustomEndpointSpec>[];
     String? dataServiceDirPath;
     String? rulesJsonPath;
     for (final annotated
@@ -59,8 +62,44 @@ class _MasamuneModelTidbBuilder extends Builder {
       tables.add(TidbTableSpec(
         database: database,
         table: table,
-        columns: _columns(element),
+        columns: [
+          ..._columns(element),
+          ..._readColumns(annotation.read("extraColumns")),
+        ],
       ));
+      tables.addAll(
+        annotation.read("additionalTables").listValue.map((value) {
+          final table = ConstantReader(value);
+          return TidbTableSpec(
+            database: table.read("database").stringValue.trim(),
+            table: table.read("table").stringValue.trim(),
+            columns: _readColumns(table.read("columns")),
+          );
+        }),
+      );
+      customEndpoints.addAll(
+        annotation.read("customEndpoints").listValue.map((value) {
+          final endpoint = ConstantReader(value);
+          return TidbCustomEndpointSpec(
+            name: endpoint.read("name").stringValue.trim(),
+            path: endpoint.read("path").stringValue.trim(),
+            sql: endpoint.read("sql").stringValue,
+            method: endpoint.read("method").stringValue.trim(),
+            parameters:
+                endpoint.read("parameters").listValue.map((parameterValue) {
+              final parameter = ConstantReader(parameterValue);
+              return TidbCustomEndpointParameterSpec(
+                name: parameter.read("name").stringValue.trim(),
+                type: parameter.read("type").stringValue.trim(),
+                required: parameter.read("required").boolValue,
+                defaultValue: parameter.read("defaultValue").stringValue,
+              );
+            }).toList(),
+            timeoutMilliseconds: endpoint.read("timeoutMilliseconds").intValue,
+            rowLimit: endpoint.read("rowLimit").intValue,
+          );
+        }),
+      );
     }
     final key = buildStep.inputId.toString();
     if (tables.isEmpty) {
@@ -68,6 +107,7 @@ class _MasamuneModelTidbBuilder extends Builder {
     } else {
       _entries[key] = _BuilderEntry(
         tables: tables,
+        customEndpoints: customEndpoints,
         dataServiceDirPath: dataServiceDirPath!,
         rulesJsonPath: rulesJsonPath!,
       );
@@ -90,9 +130,22 @@ class _MasamuneModelTidbBuilder extends Builder {
       );
     }
     final tableMap = <String, TidbTableSpec>{};
+    final customEndpointMap = <String, TidbCustomEndpointSpec>{};
     for (final entry in entries) {
       for (final table in entry.tables) {
         tableMap["${table.database}\u0000${table.table}"] = table;
+      }
+      for (final endpoint in entry.customEndpoints) {
+        final previous = customEndpointMap[endpoint.name];
+        if (previous != null &&
+            (previous.path != endpoint.path ||
+                previous.method != endpoint.method ||
+                previous.sql != endpoint.sql)) {
+          throw StateError(
+            "Conflicting TiDB custom endpoint `${endpoint.name}`.",
+          );
+        }
+        customEndpointMap[endpoint.name] = endpoint;
       }
     }
     final root = Directory.current;
@@ -100,6 +153,7 @@ class _MasamuneModelTidbBuilder extends Builder {
     final rulesFile = File(_safeProjectPath(root, rulesPath));
     final artifacts = TidbEndpointSpec.generate(
       tables: tableMap.values.toList(),
+      customEndpoints: customEndpointMap.values.toList(),
       rules: TidbRulesReader.fromFile(rulesFile),
     );
     _cleanPreviouslyGenerated(output, artifacts.files.keys.toSet());
@@ -219,11 +273,37 @@ class _MasamuneModelTidbBuilder extends Builder {
     return constructors.first.formalParameters
         .where((parameter) => parameter.name != "key")
         .map((parameter) => TidbColumnSpec(
-              name: parameter.name!,
+              name: _columnName(parameter),
               sqlType: _sqlType(parameter.type.getDisplayString()),
               required: parameter.isRequired,
             ))
         .toList();
+  }
+
+  String _columnName(FormalParameterElement parameter) {
+    for (final annotation in parameter.metadata.annotations) {
+      final value = annotation.computeConstantValue();
+      final typeName = value?.type?.element?.name;
+      if (typeName != "JsonKey") {
+        continue;
+      }
+      final name = value?.getField("name")?.toStringValue()?.trim();
+      if (name != null && name.isNotEmpty) {
+        return name;
+      }
+    }
+    return parameter.name!;
+  }
+
+  List<TidbColumnSpec> _readColumns(ConstantReader reader) {
+    return reader.listValue.map((value) {
+      final column = ConstantReader(value);
+      return TidbColumnSpec(
+        name: column.read("name").stringValue.trim(),
+        sqlType: column.read("sqlType").stringValue.trim(),
+        required: column.read("required").boolValue,
+      );
+    }).toList();
   }
 
   String _sqlType(String dartType) {
@@ -240,11 +320,13 @@ class _MasamuneModelTidbBuilder extends Builder {
     if (type == "bool") {
       return "TINYINT(1)";
     }
-    if (type == "DateTime" ||
-        type == "ModelTimestamp" ||
+    if (type == "DateTime") {
+      return "TEXT";
+    }
+    if (type == "ModelTimestamp" ||
         type == "ModelDate" ||
         type == "ModelTime") {
-      return "BIGINT";
+      return "JSON";
     }
     if (type.startsWith("List<") ||
         type.startsWith("Map<") ||

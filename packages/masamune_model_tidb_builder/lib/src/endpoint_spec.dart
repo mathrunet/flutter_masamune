@@ -40,6 +40,64 @@ class TidbTableSpec {
   final List<TidbColumnSpec> columns;
 }
 
+/// A parameter accepted by a custom Data Service endpoint.
+class TidbCustomEndpointParameterSpec {
+  /// Creates a custom endpoint parameter.
+  const TidbCustomEndpointParameterSpec({
+    required this.name,
+    this.type = "string",
+    this.required = true,
+    this.defaultValue = "",
+  });
+
+  /// Parameter name.
+  final String name;
+
+  /// Data Service parameter type.
+  final String type;
+
+  /// Whether callers must provide the value.
+  final bool required;
+
+  /// Default value.
+  final String defaultValue;
+}
+
+/// A server-only custom SQL endpoint.
+class TidbCustomEndpointSpec {
+  /// Creates a custom endpoint specification.
+  const TidbCustomEndpointSpec({
+    required this.name,
+    required this.path,
+    required this.sql,
+    this.method = "POST",
+    this.parameters = const [],
+    this.timeoutMilliseconds = 30000,
+    this.rowLimit = 2000,
+  });
+
+  /// Stable manifest key.
+  final String name;
+
+  /// Endpoint path.
+  final String path;
+
+  /// SQL source.
+  final String sql;
+
+  /// HTTP method.
+  final String method;
+
+  /// Endpoint parameters.
+  final List<TidbCustomEndpointParameterSpec> parameters;
+
+  /// Endpoint timeout.
+  final int timeoutMilliseconds;
+
+  /// Maximum returned or affected rows.
+  final int rowLimit;
+}
+
 /// Complete output of the TiDB Data Service generator.
 class TidbGeneratedArtifacts {
   /// Creates generated artifacts.
@@ -55,6 +113,7 @@ class TidbEndpointSpec {
   static TidbGeneratedArtifacts generate({
     required List<TidbTableSpec> tables,
     required TidbRulesReader rules,
+    List<TidbCustomEndpointSpec> customEndpoints = const [],
     String appId = "",
     String appName = "masamune",
     String clusterId = "0",
@@ -63,6 +122,7 @@ class TidbEndpointSpec {
         "${a.database}.${a.table}".compareTo("${b.database}.${b.table}"));
     final endpointConfigs = <Map<String, dynamic>>[];
     final manifestTables = <String, dynamic>{};
+    final manifestCustomEndpoints = <String, dynamic>{};
     final files = <String, String>{};
     final schema = StringBuffer(
       "-- GENERATED CODE - DO NOT MODIFY BY HAND.\n"
@@ -167,6 +227,89 @@ class TidbEndpointSpec {
       };
     }
 
+    final customNames = <String>{};
+    final customPaths = <String>{};
+    for (final endpoint in customEndpoints) {
+      _validateIdentifier(endpoint.name, "custom endpoint name");
+      if (!customNames.add(endpoint.name)) {
+        throw ArgumentError("Duplicate custom endpoint name: ${endpoint.name}");
+      }
+      final method = endpoint.method.toUpperCase();
+      if (method != "GET" && method != "POST") {
+        throw ArgumentError(
+          "Custom endpoint method must be GET or POST: $method",
+        );
+      }
+      if (!endpoint.path.startsWith("/") ||
+          endpoint.path.contains("..") ||
+          endpoint.path.split("/").where((part) => part.isNotEmpty).isEmpty) {
+        throw ArgumentError(
+          "Custom endpoint path must be an absolute Data Service path.",
+        );
+      }
+      final pathKey = "$method ${endpoint.path}";
+      if (!customPaths.add(pathKey)) {
+        throw ArgumentError("Duplicate custom endpoint path: $pathKey");
+      }
+      if (endpoint.sql.trim().isEmpty) {
+        throw ArgumentError(
+          "Custom endpoint SQL must not be empty: ${endpoint.name}",
+        );
+      }
+      if (endpoint.timeoutMilliseconds < 1 || endpoint.rowLimit < 1) {
+        throw ArgumentError(
+          "Custom endpoint timeout and row limit must be positive.",
+        );
+      }
+      final parameterNames = <String>{};
+      for (final parameter in endpoint.parameters) {
+        _validateIdentifier(parameter.name, "custom endpoint parameter");
+        if (!parameterNames.add(parameter.name)) {
+          throw ArgumentError(
+            "Duplicate parameter `${parameter.name}` in ${endpoint.name}.",
+          );
+        }
+      }
+      final sqlFile = "sql/$method-custom-${endpoint.name}.sql";
+      endpointConfigs.add({
+        "name": endpoint.name,
+        "description": "Generated server-only custom endpoint.",
+        "method": method,
+        "endpoint": endpoint.path,
+        "data_source": {
+          "cluster_id": int.tryParse(clusterId) ?? clusterId,
+        },
+        "params": endpoint.parameters
+            .map(
+              (parameter) => _parameter(
+                parameter.name,
+                type: parameter.type,
+                required: parameter.required,
+                defaultValue: parameter.defaultValue,
+              ),
+            )
+            .toList(),
+        "settings": {
+          "timeout": endpoint.timeoutMilliseconds,
+          "row_limit": endpoint.rowLimit,
+          "enable_pagination": 0,
+          "cache_enabled": 0,
+          "cache_ttl": 30,
+        },
+        "tag": "MasamuneServer",
+        "batch_operation": 0,
+        "sql_file": sqlFile,
+        "type": "sql_endpoint",
+        "return_type": "json",
+      });
+      files["http_endpoints/$sqlFile"] =
+          endpoint.sql.endsWith("\n") ? endpoint.sql : "${endpoint.sql}\n";
+      manifestCustomEndpoints[endpoint.name] = {
+        "path": endpoint.path,
+        "method": method,
+      };
+    }
+
     files["data_sources/cluster.json"] = _json([
       {"cluster_id": int.tryParse(clusterId) ?? clusterId},
     ]);
@@ -182,6 +325,7 @@ class TidbEndpointSpec {
     files["__generated_manifest.json"] = _json({
       "version": "1",
       "tables": manifestTables,
+      "custom_endpoints": manifestCustomEndpoints,
       "generated_files": [...files.keys, "__generated_manifest.json"]..sort(),
     });
     return TidbGeneratedArtifacts(files);
