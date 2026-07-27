@@ -49,6 +49,21 @@ void main() {
       output.files["__masamune/schema.sql"],
       contains("`id` VARCHAR(255) PRIMARY KEY"),
     );
+    final upsert = config.cast<Map<String, dynamic>>().singleWhere(
+          (item) => item["endpoint"] == "/main/users/upsert",
+        );
+    expect(
+      (upsert["params"] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .every((parameter) => parameter["type"] == "string"),
+      isTrue,
+    );
+    expect(
+      output.files["http_endpoints/sql/POST-main-users-upsert.sql"],
+      contains(
+        r"CAST(NULLIF(${score}, '__MASAMUNE_NULL__') AS SIGNED)",
+      ),
+    );
   });
 
   test("omits only operations explicitly denied by rules.json", () {

@@ -403,7 +403,9 @@ class TidbEndpointSpec {
         .map((column) => _parameter(
               column.name,
               required: true,
-              type: _parameterType(column.sqlType),
+              // Mutation parameters use string sentinels so nullable columns
+              // and empty strings are not rejected as missing by Data Service.
+              type: "string",
             ))
         .toList();
   }
@@ -449,13 +451,13 @@ class TidbEndpointSpec {
     if (operation == "update") {
       final updated = columns
           .where((column) => column.name != "id" && column.name != "created_at")
-          .map((column) => "`${column.name}` = \${${column.name}}")
+          .map((column) => "`${column.name}` = ${_mutationValue(column)}")
           .join(",\n  ");
       return "$prefix"
           "UPDATE `${table.table}` SET\n  $updated\nWHERE `id` = \${id};\n";
     }
     final names = columns.map((column) => "`${column.name}`").join(", ");
-    final values = columns.map((column) => "\${${column.name}}").join(", ");
+    final values = columns.map(_mutationValue).join(", ");
     final updates = columns
         .where((column) => column.name != "id" && column.name != "created_at")
         .map((column) => "`${column.name}` = VALUES(`${column.name}`)")
@@ -463,6 +465,30 @@ class TidbEndpointSpec {
     return "$prefix"
         "INSERT INTO `${table.table}` ($names) VALUES ($values)\n"
         "ON DUPLICATE KEY UPDATE $updates;\n";
+  }
+
+  static String _mutationValue(TidbColumnSpec column) {
+    const nullValue = "__MASAMUNE_NULL__";
+    const emptyValue = "__MASAMUNE_EMPTY__";
+    final parameter = "\${${column.name}}";
+    if (column.sqlType.startsWith("BIGINT") ||
+        column.sqlType.startsWith("TINYINT")) {
+      return "CAST(NULLIF($parameter, '$nullValue') AS SIGNED)";
+    }
+    if (column.sqlType.startsWith("DOUBLE")) {
+      return "CAST(NULLIF($parameter, '$nullValue') AS DECIMAL(65, 30))";
+    }
+    if (column.sqlType == "JSON") {
+      return "NULLIF("
+          "CAST(CASE WHEN $parameter = '$nullValue' "
+          "THEN 'null' ELSE $parameter END AS JSON), "
+          "CAST('null' AS JSON) "
+          ")";
+    }
+    return "CASE "
+        "WHEN $parameter = '$nullValue' THEN NULL "
+        "WHEN $parameter = '$emptyValue' THEN '' "
+        "ELSE $parameter END";
   }
 
   static String _filterSql(List<TidbColumnSpec> columns) {
@@ -522,16 +548,6 @@ class TidbEndpointSpec {
     }
     return "  `${column.name}` ${column.sqlType}"
         "${column.required ? " NOT NULL" : ""}";
-  }
-
-  static String _parameterType(String sqlType) {
-    if (sqlType.startsWith("BIGINT") || sqlType.startsWith("TINYINT")) {
-      return "integer";
-    }
-    if (sqlType.startsWith("DOUBLE")) {
-      return "number";
-    }
-    return "string";
   }
 
   static String _endpointPath(
