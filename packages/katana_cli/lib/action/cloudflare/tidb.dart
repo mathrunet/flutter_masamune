@@ -11,6 +11,8 @@ import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/cloudflare/tidb_data_service_api.dart";
 import "package:katana_cli/katana_cli.dart";
 
+const _managedEndpointTags = {"Masamune", "MasamuneServer"};
+
 /// Cloudflare deployment process for TiDB.
 ///
 /// Cloudflare用のTiDBのデプロイ処理を行います。
@@ -73,7 +75,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
 
   Future<void> _applyDirect(
     ExecContext context,
-    dynamic tidb, {
+    Map tidb, {
     required String npm,
     required String wrangler,
   }) async {
@@ -110,12 +112,14 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
 
   Future<void> _applyDataService(
     ExecContext context,
-    dynamic tidb, {
+    Map tidb, {
     required String npm,
     required String wrangler,
   }) async {
-    final config = tidb.getAsMap("data_service");
-    final directory = config.get("directory", "tidb/data_service").toString();
+    final config = Map<String, dynamic>.from(
+      tidb["data_service"] as Map,
+    );
+    final directory = config["directory"]?.toString() ?? "tidb/data_service";
     final manifestFile = File("$directory/__generated_manifest.json");
     if (!manifestFile.existsSync()) {
       error(
@@ -127,23 +131,25 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final manifestText = await manifestFile.readAsString();
     final manifest = _decodeMap(manifestText, manifestFile.path);
     final manifestHash = _stableHash(manifestText);
-    final projectId = config.get("project_id", "").toString().trim();
-    final clusterId = config.get("cluster_id", "").toString().trim();
-    final appName = config.get("app_name", "masamune").toString().trim();
-    final rateLimit = config.get("rate_limit_rpm", 1000);
-    final maxScanRows = config.get("max_scan_rows", 1000);
-    final restrictMysql = config.get("restrict_mysql", true) == true;
+    final projectId = config["project_id"]?.toString().trim() ?? "";
+    final clusterId = config["cluster_id"]?.toString().trim() ?? "";
+    final appName = config["app_name"]?.toString().trim() ?? "masamune";
+    final rateLimit =
+        int.tryParse(config["rate_limit_rpm"]?.toString() ?? "") ?? 1000;
+    final maxScanRows =
+        int.tryParse(config["max_scan_rows"]?.toString() ?? "") ?? 1000;
+    final restrictMysql = config["restrict_mysql"] != false;
     if (projectId.isEmpty || clusterId.isEmpty || appName.isEmpty) {
       error(
         "Data Service mode requires project_id, cluster_id, and app_name.",
       );
       return;
     }
-    if (rateLimit is! int || rateLimit < 1 || rateLimit > 1000) {
+    if (rateLimit < 1 || rateLimit > 1000) {
       error("rate_limit_rpm must be between 1 and 1000.");
       return;
     }
-    if (maxScanRows is! int || maxScanRows < 1 || maxScanRows > 1999) {
+    if (maxScanRows < 1 || maxScanRows > 1999) {
       error("max_scan_rows must be between 1 and 1999.");
       return;
     }
@@ -167,6 +173,11 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final previousHash = cutover["manifest_hash"]?.toString();
     final state = cutover["state"]?.toString();
     if (restrictMysql && state == "complete" && previousHash == manifestHash) {
+      if (secretTidb.containsKey("connection_url")) {
+        secretTidb.remove("connection_url");
+        _nested(secrets, ["cloudflare"])["tidb"] = secretTidb;
+        await _saveSecretsRoot(secrets);
+      }
       label("TiDB Data Service-only cutover is already complete.");
       return;
     }
@@ -182,6 +193,33 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         );
         return;
       }
+      final api = TidbCloudManagementApi(
+        publicKey: managementPublic,
+        privateKey: managementPrivate,
+      );
+      try {
+        await _applyAdditiveSchema(
+          api,
+          appId: dataService["app_id"].toString(),
+          clusterId: clusterId,
+          region: dataService["region"].toString(),
+          directory: directory,
+          dataService: dataService,
+        );
+        await _upsertManagedEndpoints(
+          api,
+          appId: dataService["app_id"].toString(),
+          clusterId: clusterId,
+          directory: directory,
+        );
+        await _deployAndWait(
+          api,
+          dataService["app_id"].toString(),
+          "Synchronize Masamune endpoints before cutover.",
+        );
+      } finally {
+        api.close();
+      }
       await _finishCutover(
         wrangler: wrangler,
         clusterId: clusterId,
@@ -192,6 +230,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       );
       cutover["state"] = "complete";
       cutover["worker_deployment_id"] = deployed;
+      secretTidb.remove("connection_url");
+      _nested(secrets, ["cloudflare"])["tidb"] = secretTidb;
       await _saveSecretsRoot(secrets);
       return;
     }
@@ -214,7 +254,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         projectId: projectId,
         clusterId: clusterId,
       );
-      var appId = config.get("app_id", "").toString().trim();
+      var appId = config["app_id"]?.toString().trim() ?? "";
       if (appId.isEmpty) {
         appId = dataService["app_id"]?.toString() ?? "";
       }
@@ -238,14 +278,15 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       await _applyAdditiveSchema(
         api,
         appId: appId,
+        clusterId: clusterId,
         region: region,
         directory: directory,
         dataService: dataService,
-        manifest: manifest,
       );
       await _upsertManagedEndpoints(
         api,
         appId: appId,
+        clusterId: clusterId,
         directory: directory,
       );
       await _deployAndWait(api, appId, "Deploy Masamune endpoints.");
@@ -303,25 +344,21 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     required String projectId,
     required String clusterId,
   }) async {
-    final response = await api.starter(
-      "GET",
-      "clusters",
-      query: {
-        "pageSize": "100",
-        "filter": 'projectId="$projectId" AND clusterId="$clusterId"',
-      },
-    );
-    final clusters = _listOfMaps(response["clusters"]);
-    final cluster = clusters
-        .where(
-          (item) =>
-              item["clusterId"]?.toString() == clusterId ||
-              (item["name"]?.toString().endsWith("/$clusterId") ?? false),
-        )
-        .firstOrNull;
-    if (cluster == null) {
+    final cluster = await api.starter("GET", "clusters/$clusterId");
+    final resolvedClusterId = cluster["clusterId"]?.toString() ??
+        cluster["name"]?.toString().split("/").last;
+    if (resolvedClusterId != clusterId) {
       throw StateError(
         "Cluster $clusterId is not a supported Starter cluster.",
+      );
+    }
+    final labels = _mapValue(cluster["labels"]);
+    final resolvedProjectId = labels["tidb.cloud/project"]?.toString() ??
+        cluster["projectId"]?.toString();
+    if (resolvedProjectId != null && resolvedProjectId != projectId) {
+      throw StateError(
+        "Cluster $clusterId belongs to project $resolvedProjectId, "
+        "not $projectId.",
       );
     }
     final state = cluster["state"]?.toString().toUpperCase();
@@ -408,6 +445,18 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final publicKey = dataService["public_key"]?.toString() ?? "";
     final privateKey = dataService["private_key"]?.toString() ?? "";
     if (publicKey.isNotEmpty && privateKey.isNotEmpty) {
+      final apiKeyId = dataService["api_key_id"]?.toString() ?? "";
+      if (apiKeyId.isNotEmpty) {
+        await api.dataService(
+          "PATCH",
+          "dataApps/$appId/apiKeys/$apiKeyId",
+          body: {
+            "description": "Masamune Cloudflare Workers",
+            "role": "READ_AND_WRITE",
+            "rateLimitRpm": rateLimit,
+          },
+        );
+      }
       return;
     }
     final listed = await api.dataService(
@@ -441,84 +490,102 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   Future<void> _applyAdditiveSchema(
     TidbCloudManagementApi api, {
     required String appId,
+    required String clusterId,
     required String region,
     required String directory,
     required Map<String, dynamic> dataService,
-    required Map<String, dynamic> manifest,
   }) async {
     final schema = File("$directory/__masamune/schema.sql");
     if (!schema.existsSync()) {
       throw StateError("Generated additive schema.sql was not found.");
     }
-    label("Apply additive TiDB schema through /system/query.");
-    await _setSystemQuery(api, appId: appId, enabled: true);
-    await _deployAndWait(api, appId, "Enable schema endpoint.");
+    final source = await schema.readAsString();
+    final marker = RegExp(
+      r"CREATE DATABASE IF NOT EXISTS `([A-Za-z0-9_]+)`;\s*"
+      r"USE `\1`;\s*",
+    );
+    final matches = marker.allMatches(source).toList();
+    if (matches.isEmpty) {
+      throw StateError("Generated additive schema contains no database.");
+    }
+    final statements = <String, StringBuffer>{};
+    for (var index = 0; index < matches.length; index++) {
+      final match = matches[index];
+      final database = match.group(1)!;
+      final end =
+          index + 1 < matches.length ? matches[index + 1].start : source.length;
+      statements
+          .putIfAbsent(database, StringBuffer.new)
+          .writeln(source.substring(match.end, end).trim());
+    }
+
+    label(
+        "Apply additive TiDB schema through temporary Data Service endpoints.");
+    final endpoints = <({String name, String path})>[];
     Object? failure;
     try {
-      await callTidbDataEndpoint(
-        region: region,
-        appId: appId,
-        path: "/system/query",
-        publicKey: dataService["public_key"].toString(),
-        privateKey: dataService["private_key"].toString(),
-        method: "POST",
-        body: {"sql": await schema.readAsString()},
-      );
-      for (final rawTable in _mapValue(manifest["tables"]).values) {
-        final table = _mapValue(rawTable);
-        final database = table["database"]?.toString() ?? "";
-        final tableName = table["table"]?.toString() ?? "";
-        if (!_sqlIdentifier.hasMatch(database) ||
-            !_sqlIdentifier.hasMatch(tableName)) {
-          throw StateError("Generated manifest contains an invalid table.");
+      for (final entry in statements.entries) {
+        final database = entry.key;
+        final path = "/__masamune/bootstrap_$database";
+        final created = await _createManagedEndpoint(
+          api,
+          appId,
+          {
+            "displayName": "Masamune schema bootstrap $database",
+            "description": "Temporary additive schema endpoint.",
+            "path": path,
+            "method": "POST",
+            "clusterId": clusterId,
+            "params": const [],
+            "settings": {
+              "timeout": 60000,
+              "rowLimit": 1,
+              "paginationEnabled": false,
+              "cacheEnabled": false,
+            },
+            "tag": "MasamuneServer",
+            "batchOperation": false,
+            "sqlTemplate": "CREATE DATABASE IF NOT EXISTS `$database`;\n"
+                "USE `$database`;\n${entry.value}",
+          },
+        );
+        final name = created["name"]?.toString() ?? "";
+        if (name.isEmpty) {
+          throw StateError("Temporary schema endpoint name was not returned.");
         }
+        endpoints.add((name: name, path: path));
+      }
+      await _deployAndWait(api, appId, "Apply additive Masamune schema.");
+      for (final endpoint in endpoints) {
         await callTidbDataEndpoint(
           region: region,
           appId: appId,
-          path: "/system/query",
+          path: endpoint.path,
           publicKey: dataService["public_key"].toString(),
           privateKey: dataService["private_key"].toString(),
           method: "POST",
-          body: {
-            "sql": "USE `$database`; "
-                "SELECT 1 FROM `$tableName` LIMIT 0;",
-          },
+          body: const <String, dynamic>{},
         );
       }
     } on Object catch (exception) {
       failure = exception;
     } finally {
-      await _setSystemQuery(api, appId: appId, enabled: false);
-      await _deployAndWait(api, appId, "Disable schema endpoint.");
+      for (final endpoint in endpoints) {
+        await api.dataService("DELETE", endpoint.name);
+      }
+      if (endpoints.isNotEmpty) {
+        await _deployAndWait(api, appId, "Remove schema bootstrap endpoints.");
+      }
     }
     if (failure != null) {
       throw failure;
     }
   }
 
-  Future<void> _setSystemQuery(
-    TidbCloudManagementApi api, {
-    required String appId,
-    required bool enabled,
-  }) {
-    return api.dataService(
-      "PATCH",
-      "dataApps/$appId/systemEndpointConfig",
-      body: {
-        "items": [
-          {
-            "type": "system-data",
-            "key": "POST:/system/query",
-            "enabled": enabled,
-          },
-        ],
-      },
-    ).then((_) {});
-  }
-
   Future<void> _upsertManagedEndpoints(
     TidbCloudManagementApi api, {
     required String appId,
+    required String clusterId,
     required String directory,
   }) async {
     label("Upsert generated TiDB Data Service endpoints.");
@@ -542,7 +609,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       final path = item["endpoint"].toString();
       desired.add("$method:$path");
       final current = existing["$method:$path"];
-      if (current != null && current["tag"] != "Masamune") {
+      if (current != null && !_managedEndpointTags.contains(current["tag"])) {
         throw StateError(
           "Endpoint collision with a non-Masamune endpoint: $method $path",
         );
@@ -553,36 +620,56 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       final body = _managementEndpointBody(
         item,
         await sqlFile.readAsString(),
+        clusterId,
       );
-      if (current == null) {
-        await api.dataService(
-          "POST",
-          "dataApps/$appId/endpoints",
-          body: body,
-        );
-      } else {
-        await api.dataService(
-          "PATCH",
-          current["name"].toString(),
-          body: body,
+      try {
+        if (current == null) {
+          await _createManagedEndpoint(api, appId, body);
+        } else if (!_endpointMatches(current, body)) {
+          await api.dataService("DELETE", current["name"].toString());
+          await Future<void>.delayed(const Duration(seconds: 1));
+          await _createManagedEndpoint(api, appId, body);
+        }
+      } on Object catch (exception) {
+        throw StateError(
+          "Failed to upsert generated endpoint $method $path: $exception",
         );
       }
     }
     for (final entry in existing.entries) {
       final current = entry.value;
-      if (current["tag"] != "Masamune" || desired.contains(entry.key)) {
+      if (!_managedEndpointTags.contains(current["tag"]) ||
+          desired.contains(entry.key)) {
         continue;
       }
-      if (current["status"]?.toString().toLowerCase() == "draft") {
-        await api.dataService("DELETE", current["name"].toString());
-        continue;
-      }
-      throw StateError(
-        "A deployed Masamune endpoint is no longer generated: ${entry.key}. "
-        "Remove it through the official GitHub CaC integration before "
-        "continuing the public-endpoint cutover.",
-      );
+      await api.dataService("DELETE", current["name"].toString());
     }
+  }
+
+  Future<Map<String, dynamic>> _createManagedEndpoint(
+    TidbCloudManagementApi api,
+    String appId,
+    Map<String, dynamic> body,
+  ) async {
+    for (var attempt = 0; attempt < 5; attempt++) {
+      try {
+        return await api.dataService(
+          "POST",
+          "dataApps/$appId/endpoints",
+          body: body,
+        );
+      } on HttpException catch (exception) {
+        if (attempt == 4 ||
+            !exception.message.contains(
+              "runtime error: invalid memory address or nil pointer dereference",
+            )) {
+          rethrow;
+        }
+        await Future<void>.delayed(const Duration(seconds: 2));
+      }
+    }
+    throw StateError(
+        "TiDB Data Service endpoint creation retry was exhausted.");
   }
 
   Future<List<Map<String, dynamic>>> _listDataServicePages(
@@ -608,25 +695,72 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     return items;
   }
 
+  bool _endpointMatches(
+    Map<String, dynamic> current,
+    Map<String, dynamic> desired,
+  ) {
+    Map<String, dynamic> comparable(Map<String, dynamic> endpoint) {
+      final settings = _mapValue(endpoint["settings"]);
+      final cacheEnabled = settings["cacheEnabled"] == true;
+      return {
+        for (final key in [
+          "displayName",
+          "description",
+          "path",
+          "method",
+          "clusterId",
+          "tag",
+          "batchOperation",
+          "sqlTemplate",
+        ])
+          key: endpoint[key],
+        "params": [
+          for (final raw in endpoint["params"] as List? ?? const [])
+            {
+              for (final key in [
+                "name",
+                "type",
+                "required",
+                "defaultValue",
+                "description",
+              ])
+                key: _mapValue(raw)[key],
+            },
+        ],
+        "settings": {
+          for (final key in [
+            "timeout",
+            "rowLimit",
+            "paginationEnabled",
+            "cacheEnabled",
+          ])
+            key: settings[key],
+          if (cacheEnabled) "cacheTtl": settings["cacheTtl"],
+        },
+      };
+    }
+
+    return jsonEncode(comparable(current)) == jsonEncode(comparable(desired));
+  }
+
   Map<String, dynamic> _managementEndpointBody(
     Map<String, dynamic> item,
     String sql,
+    String clusterId,
   ) {
     final settings = _mapValue(item["settings"]);
-    final source = _mapValue(item["data_source"]);
+    final cacheEnabled = settings["cache_enabled"] == 1;
     return {
       "displayName": item["name"],
       "description": item["description"],
       "path": item["endpoint"],
       "method": item["method"],
-      "clusterId": source["cluster_id"].toString(),
+      "clusterId": clusterId,
       "params": [
         for (final raw in item["params"] as List? ?? const [])
           {
             "name": _mapValue(raw)["name"],
-            "type": _mapValue(raw)["type"] == "boolean"
-                ? "bool"
-                : _mapValue(raw)["type"],
+            "type": _mapValue(raw)["type"],
             "required": _mapValue(raw)["required"] == 1,
             "defaultValue": _mapValue(raw)["default"]?.toString() ?? "",
             "description": _mapValue(raw)["description"] ?? "",
@@ -636,10 +770,10 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         "timeout": settings["timeout"] ?? 30000,
         "rowLimit": settings["row_limit"] ?? 2000,
         "paginationEnabled": settings["enable_pagination"] == 1,
-        "cacheEnabled": settings["cache_enabled"] == 1,
-        "cacheTtl": settings["cache_ttl"] ?? 30,
+        "cacheEnabled": cacheEnabled,
+        if (cacheEnabled) "cacheTtl": settings["cache_ttl"] ?? 30,
       },
-      "tag": "Masamune",
+      "tag": item["tag"] ?? "Masamune",
       "batchOperation": item["batch_operation"] == 1,
       "sqlTemplate": sql,
     };
@@ -816,9 +950,15 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     if (tables.isEmpty) {
       throw StateError("The generated manifest contains no tables.");
     }
-    final first = _mapValue(tables.values.first);
-    final endpoints = _mapValue(first["endpoints"]);
-    final list = _mapValue(endpoints["list"]);
+    final list = tables.values
+        .map(_mapValue)
+        .map((table) => _mapValue(_mapValue(table["endpoints"])["list"]))
+        .firstWhere(
+          (endpoint) =>
+              endpoint["path"] is String &&
+              endpoint["path"].toString().isNotEmpty,
+          orElse: () => const <String, dynamic>{},
+        );
     if (list["path"] is! String || list["path"].toString().isEmpty) {
       throw StateError(
         "At least one generated list endpoint is required for the cutover smoke test.",
@@ -852,16 +992,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       );
       var disabled = false;
       for (var attempt = 0; attempt < 10; attempt++) {
-        final response = await api.starter(
-          "GET",
-          "clusters",
-          query: {
-            "pageSize": "100",
-            "filter": 'clusterId="$clusterId"',
-          },
-        );
-        final cluster = _listOfMaps(response["clusters"]).firstOrNull;
-        final endpoints = _mapValue(cluster?["endpoints"]);
+        final cluster = await api.starter("GET", "clusters/$clusterId");
+        final endpoints = _mapValue(cluster["endpoints"]);
         final public = _mapValue(endpoints["public"]);
         if (public["disabled"] == true) {
           disabled = true;
@@ -877,18 +1009,37 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     } finally {
       api.close();
     }
-    final deleted = await Process.run(
+    final listed = await Process.run(
       wrangler,
-      ["secret", "delete", "TIDB_CONNECTION_URL", "--force"],
+      ["secret", "list", "--format", "json"],
       workingDirectory: "cloudflare",
       runInShell: true,
     );
-    if (deleted.exitCode != 0 &&
-        !deleted.stderr.toString().toLowerCase().contains("not found")) {
+    if (listed.exitCode != 0) {
       throw StateError(
-        "The public endpoint was disabled, but TIDB_CONNECTION_URL could "
-        "not be deleted: ${deleted.stderr}",
+        "The public endpoint was disabled, but Worker secrets could not "
+        "be listed: ${listed.stderr}",
       );
+    }
+    final workerSecrets = jsonDecode(listed.stdout.toString());
+    final hasDirectSecret = workerSecrets is List &&
+        workerSecrets.any(
+          (item) =>
+              item is Map && item["name"]?.toString() == "TIDB_CONNECTION_URL",
+        );
+    if (hasDirectSecret) {
+      final deleted = await Process.run(
+        wrangler,
+        ["secret", "delete", "TIDB_CONNECTION_URL"],
+        workingDirectory: "cloudflare",
+        runInShell: true,
+      );
+      if (deleted.exitCode != 0) {
+        throw StateError(
+          "The public endpoint was disabled, but TIDB_CONNECTION_URL could "
+          "not be deleted: ${deleted.stderr}",
+        );
+      }
     }
     label("TiDB Data Service-only cutover completed.");
   }
@@ -955,6 +1106,4 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   List<Map<String, dynamic>> _listOfMaps(dynamic value) {
     return value is List ? value.map(_mapValue).toList() : const [];
   }
-
-  static final _sqlIdentifier = RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$");
 }

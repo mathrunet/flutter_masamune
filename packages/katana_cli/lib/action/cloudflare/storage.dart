@@ -43,6 +43,22 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final previewBucketName = storage.get("preview_bucket_name", "");
     final publicBaseUrl = storage.get("public_base_url", "");
     final configuredDownloadUrlSecret = storage.get("download_url_secret", "");
+    final backup = storage.getAsMap("backup");
+    final backupEnabled = backup.get("enable", false);
+    final backupBinding = backup.get("binding", "R2_BACKUP_BUCKET");
+    final backupBucketName = backup.get("bucket_name", "");
+    final backupPreviewBucketName = backup.get("preview_bucket_name", "");
+    final backupQueueName = backup.get(
+      "queue_name",
+      bucketName.isEmpty ? "" : "$bucketName-backup",
+    );
+    final backupMaxBatchSize = backup.get("max_batch_size", 10);
+    final backupMaxBatchTimeout = backup.get("max_batch_timeout", 5);
+    final backupMaxRetries = backup.get("max_retries", 3);
+    final backupDeadLetterQueue = backup.get(
+      "dead_letter_queue",
+      backupQueueName.isEmpty ? "" : "$backupQueueName-dlq",
+    );
     if (binding.isEmpty) {
       error(
         "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[binding].",
@@ -60,6 +76,40 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
         "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[public_base_url].",
       );
       return;
+    }
+    if (backupEnabled) {
+      if (backupBinding.isEmpty) {
+        error(
+          "If [cloudflare]->[storage]->[backup]->[enable] is enabled, please include [binding].",
+        );
+        return;
+      }
+      if (backupBucketName.isEmpty) {
+        error(
+          "If [cloudflare]->[storage]->[backup]->[enable] is enabled, please include [bucket_name]. Create it with `wrangler r2 bucket create <bucket_name>`.",
+        );
+        return;
+      }
+      if (backupQueueName.isEmpty) {
+        error(
+          "If [cloudflare]->[storage]->[backup]->[enable] is enabled, please include [queue_name].",
+        );
+        return;
+      }
+      if (binding == backupBinding || bucketName == backupBucketName) {
+        error(
+          "Cloudflare R2 backup must use a different binding and bucket from the source storage.",
+        );
+        return;
+      }
+      if (backupMaxBatchSize <= 0 ||
+          backupMaxBatchTimeout < 0 ||
+          backupMaxRetries < 0) {
+        error(
+          "Cloudflare R2 backup queue settings must be non-negative, and [max_batch_size] must be greater than zero.",
+        );
+        return;
+      }
     }
     final downloadUrlSecret =
         await _loadOrCreateDownloadUrlSecret(configuredDownloadUrlSecret);
@@ -90,19 +140,37 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final updated = _updateStorageFunctions(
       source,
       binding: binding,
+      bucketName: bucketName,
       publicBaseUrl: publicBaseUrl,
+      backupEnabled: backupEnabled,
+      backupBinding: backupBinding,
     );
     if (updated == null) {
       return;
     }
     await indexFile.writeAsString(updated);
     label("Add Cloudflare R2 bucket binding");
-    await wranglerFile.writeAsString(_updateWranglerR2Bucket(
+    var wranglerSource = _updateWranglerR2Bucket(
       await wranglerFile.readAsString(),
       binding: binding,
       bucketName: bucketName,
       previewBucketName: previewBucketName,
-    ));
+      backupEnabled: backupEnabled,
+      backupBinding: backupBinding,
+      backupBucketName: backupBucketName,
+      backupPreviewBucketName: backupPreviewBucketName,
+    );
+    if (backupEnabled) {
+      wranglerSource = _updateWranglerQueueConsumer(
+        wranglerSource,
+        queueName: backupQueueName,
+        maxBatchSize: backupMaxBatchSize,
+        maxBatchTimeout: backupMaxBatchTimeout,
+        maxRetries: backupMaxRetries,
+        deadLetterQueue: backupDeadLetterQueue,
+      );
+    }
+    await wranglerFile.writeAsString(wranglerSource);
     await command(
       "Package installation.",
       [
@@ -123,6 +191,20 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       key: "STORAGE_DOWNLOAD_URL_SECRET",
       value: downloadUrlSecret,
     );
+    if (backupEnabled) {
+      await _ensureQueue(wrangler: wrangler, queueName: backupQueueName);
+      if (backupDeadLetterQueue.isNotEmpty) {
+        await _ensureQueue(
+          wrangler: wrangler,
+          queueName: backupDeadLetterQueue,
+        );
+      }
+      await _ensureR2CreateNotification(
+        wrangler: wrangler,
+        bucketName: bucketName,
+        queueName: backupQueueName,
+      );
+    }
   }
 
   Future<String> _loadOrCreateDownloadUrlSecret(String configuredSecret) async {
@@ -162,7 +244,10 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
   String? _updateStorageFunctions(
     String source, {
     required String binding,
+    required String bucketName,
     required String publicBaseUrl,
+    required bool backupEnabled,
+    required String backupBinding,
   }) {
     final storageFunction = """
     storage.Functions.storageCloudflare({
@@ -175,6 +260,36 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       "storage.Functions.storageCloudflare",
       storageFunction,
     );
+    final backupFunction = backupEnabled
+        ? """
+    storage.Functions.storageCloudflareBackup({
+        sourceBucketBindingName: "$binding",
+        backupBucketBindingName: "$backupBinding",
+        sourceBucketName: "$bucketName",
+    }),"""
+        : "";
+    updated = _replaceFunction(
+      updated,
+      "storage.Functions.storageCloudflareBackup",
+      backupFunction,
+    );
+    if (backupEnabled &&
+        !updated.contains("storage.Functions.storageCloudflareBackup(")) {
+      final deployFunctions = _findDeployFunctions(updated);
+      if (deployFunctions == null) {
+        error(
+          "Could not find `m.deploy([` in `cloudflare/src/index.ts`. Please check the Cloudflare Workers entrypoint.",
+        );
+        return null;
+      }
+      final insert =
+          "${_needsLeadingComma(updated, deployFunctions) ? "," : ""}\n$backupFunction";
+      updated = updated.replaceRange(
+        deployFunctions.end,
+        deployFunctions.end,
+        insert,
+      );
+    }
     if (updated.contains("storage.Functions.storageCloudflare(")) {
       return updated;
     }
@@ -333,37 +448,190 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     required String binding,
     required String bucketName,
     required String previewBucketName,
+    required bool backupEnabled,
+    required String backupBinding,
+    required String backupBucketName,
+    required String backupPreviewBucketName,
   }) {
-    final bucket = _r2Bucket(
-      binding: binding,
-      bucketName: bucketName,
-      previewBucketName: previewBucketName,
+    final buckets = <String, String>{
+      binding: _r2Bucket(
+        binding: binding,
+        bucketName: bucketName,
+        previewBucketName: previewBucketName,
+      ),
+      if (backupEnabled)
+        backupBinding: _r2Bucket(
+          binding: backupBinding,
+          bucketName: backupBucketName,
+          previewBucketName: backupPreviewBucketName,
+        ),
+    };
+    final updated = _upsertObjectArray(
+      source,
+      propertyName: "r2_buckets",
+      identityName: "binding",
+      replacements: buckets,
+      propertyIndent: "\t",
+      objectIndent: "\t\t",
     );
+    if (updated != null) {
+      return updated;
+    }
     final r2Buckets = """
 \t"r2_buckets": [
-$bucket
+${buckets.values.join(",\n")}
 \t],""";
-    final r2Pattern = RegExp(
-      r'"r2_buckets"\s*:\s*\[[\s\S]*?\],?',
-      multiLine: true,
+    return _insertTopLevelProperty(source, r2Buckets);
+  }
+
+  String _updateWranglerQueueConsumer(
+    String source, {
+    required String queueName,
+    required int maxBatchSize,
+    required int maxBatchTimeout,
+    required int maxRetries,
+    required String deadLetterQueue,
+  }) {
+    final consumer = """
+\t\t\t{
+\t\t\t\t"queue": "$queueName",
+\t\t\t\t"max_batch_size": $maxBatchSize,
+\t\t\t\t"max_batch_timeout": $maxBatchTimeout,
+\t\t\t\t"max_retries": $maxRetries,
+\t\t\t\t"max_concurrency": 1${deadLetterQueue.isEmpty ? "" : ","}
+${deadLetterQueue.isEmpty ? "" : '\t\t\t\t"dead_letter_queue": "$deadLetterQueue"'}
+\t\t\t}""";
+    final updated = _upsertObjectArray(
+      source,
+      propertyName: "consumers",
+      identityName: "queue",
+      replacements: {queueName: consumer},
+      propertyIndent: "\t\t",
+      objectIndent: "\t\t\t",
     );
-    if (r2Pattern.hasMatch(source)) {
-      return source.replaceFirst(r2Pattern, r2Buckets);
+    if (updated != null) {
+      return updated;
     }
+    final queuesPattern = RegExp(r'"queues"\s*:\s*\{');
+    final queuesMatch = queuesPattern.firstMatch(source);
+    if (queuesMatch != null) {
+      final open = source.indexOf("{", queuesMatch.start);
+      final close = _findClosing(source, open, "{", "}");
+      if (close >= 0) {
+        return source.replaceRange(
+          close,
+          close,
+          """
+${_objectNeedsLeadingComma(source, open + 1, close) ? "," : ""}
+\t\t"consumers": [
+$consumer
+\t\t]
+\t""",
+        );
+      }
+    }
+    return _insertTopLevelProperty(
+      source,
+      """
+\t"queues": {
+\t\t"consumers": [
+$consumer
+\t\t]
+\t},""",
+    );
+  }
+
+  String? _upsertObjectArray(
+    String source, {
+    required String propertyName,
+    required String identityName,
+    required Map<String, String> replacements,
+    required String propertyIndent,
+    required String objectIndent,
+  }) {
+    final propertyPattern = RegExp('"$propertyName"\\s*:\\s*\\[');
+    final propertyMatch = propertyPattern.firstMatch(source);
+    if (propertyMatch == null) {
+      return null;
+    }
+    final open = source.indexOf("[", propertyMatch.start);
+    final close = _findClosing(source, open, "[", "]");
+    if (close < 0) {
+      return null;
+    }
+    final objects = <String>[];
+    var cursor = open + 1;
+    while (cursor < close) {
+      final objectOpen = source.indexOf("{", cursor);
+      if (objectOpen < 0 || objectOpen >= close) {
+        break;
+      }
+      final objectClose = _findClosing(source, objectOpen, "{", "}");
+      if (objectClose < 0 || objectClose > close) {
+        break;
+      }
+      objects.add(source.substring(objectOpen, objectClose + 1).trim());
+      cursor = objectClose + 1;
+    }
+    final pending = Map<String, String>.from(replacements);
+    final identityPattern = RegExp(
+      '"$identityName"\\s*:\\s*"([^"]+)"',
+    );
+    final output = <String>[];
+    for (final object in objects) {
+      final identity = identityPattern.firstMatch(object)?.group(1);
+      if (identity != null && pending.containsKey(identity)) {
+        output.add(pending.remove(identity)!);
+      } else {
+        output.add(_indentObject(object, objectIndent));
+      }
+    }
+    output.addAll(pending.values);
+    final replacement = """
+"$propertyName": [
+${output.join(",\n")}
+$propertyIndent]""";
+    return source.replaceRange(
+      propertyMatch.start,
+      close + 1,
+      replacement,
+    );
+  }
+
+  String _indentObject(String object, String indent) {
+    final lines = object.split("\n");
+    return lines.map((line) => "$indent${line.trimLeft()}").join("\n");
+  }
+
+  bool _objectNeedsLeadingComma(String source, int start, int end) {
+    for (var i = end - 1; i >= start; i--) {
+      final char = source[i];
+      if (char.trim().isEmpty) {
+        continue;
+      }
+      return char != ",";
+    }
+    return false;
+  }
+
+  String _insertTopLevelProperty(String source, String property) {
     final uploadSourceMaps = RegExp(r'"upload_source_maps"\s*:\s*true,?');
     if (uploadSourceMaps.hasMatch(source)) {
       return source.replaceFirstMapped(uploadSourceMaps, (match) {
-        return '${match.group(0)!.replaceAll(RegExp(r",$"), "")},\n$r2Buckets';
+        return '${match.group(0)!.replaceAll(RegExp(r",$"), "")},\n$property';
       });
     }
     final lastBrace = source.lastIndexOf("}");
     if (lastBrace < 0) {
       return source;
     }
+    final rootOpen = source.indexOf("{");
+    final needsComma = rootOpen >= 0 &&
+        _objectNeedsLeadingComma(source, rootOpen + 1, lastBrace);
     return source.replaceRange(
       lastBrace,
       lastBrace,
-      "\t,\n$r2Buckets\n",
+      "${needsComma ? "," : ""}\n$property\n",
     );
   }
 
@@ -378,6 +646,86 @@ $bucket
 \t\t\t"bucket_name": "$bucketName"${previewBucketName.isEmpty ? "" : ","}
 ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucketName"'}
 \t\t}""";
+  }
+
+  Future<void> _ensureQueue({
+    required String wrangler,
+    required String queueName,
+  }) async {
+    label("Ensure Cloudflare Queue `$queueName`.");
+    final result = await Process.run(
+      wrangler,
+      ["queues", "create", queueName],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final output = "${result.stdout}\n${result.stderr}";
+    if (output.trim().isNotEmpty) {
+      stdout.write(output);
+    }
+    if (result.exitCode == 0) {
+      return;
+    }
+    final normalized = output.toLowerCase();
+    if (normalized.contains("already exists") ||
+        normalized.contains("already been taken")) {
+      return;
+    }
+    throw Exception("Failed to create Cloudflare Queue `$queueName`.");
+  }
+
+  Future<void> _ensureR2CreateNotification({
+    required String wrangler,
+    required String bucketName,
+    required String queueName,
+  }) async {
+    label("Ensure Cloudflare R2 object-create notification.");
+    final list = await Process.run(
+      wrangler,
+      ["r2", "bucket", "notification", "list", bucketName],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final listOutput = "${list.stdout}\n${list.stderr}";
+    if (list.exitCode != 0) {
+      stdout.write(listOutput);
+      throw Exception(
+        "Failed to list Cloudflare R2 notifications for `$bucketName`.",
+      );
+    }
+    final normalizedListOutput = listOutput.toLowerCase();
+    if (listOutput.contains(queueName) &&
+        (normalizedListOutput.contains("object-create") ||
+            normalizedListOutput.contains("managed by katana: r2 backup"))) {
+      return;
+    }
+    final create = await Process.run(
+      wrangler,
+      [
+        "r2",
+        "bucket",
+        "notification",
+        "create",
+        bucketName,
+        "--event-type",
+        "object-create",
+        "--queue",
+        queueName,
+        "--description",
+        "Managed by katana: R2 backup",
+      ],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final createOutput = "${create.stdout}\n${create.stderr}";
+    if (createOutput.trim().isNotEmpty) {
+      stdout.write(createOutput);
+    }
+    if (create.exitCode != 0) {
+      throw Exception(
+        "Failed to create the R2 object-create notification. Remove or update any overlapping notification rule, then run `katana apply` again.",
+      );
+    }
   }
 
   Future<void> _putWranglerSecret({
