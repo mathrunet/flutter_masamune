@@ -1,3 +1,7 @@
+## 3.17.1
+
+ - **FIX**(tidb): implement TiDB apply CLI tool and enhance Cloudflare storage backup functionality. ([8f453563](https://github.com/mathrunet/flutter_masamune/commit/8f453563eaa06d258fddbab0aced955646f5c329))
+
 ## 3.17.0
 
  - **FEAT**(cloudflare): add secure TiDB Data Service setup. ([dc32c8c9](https://github.com/mathrunet/flutter_masamune/commit/dc32c8c96dde192fc5355b0d1cedb3ef99ad8925))

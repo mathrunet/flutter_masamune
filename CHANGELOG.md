@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.17.1`](#katana_cli---v3171)
+ - [`masamune_model_tidb_annotation` - `v1.1.1`](#masamune_model_tidb_annotation---v111)
+ - [`masamune_model_tidb_builder` - `v1.1.1`](#masamune_model_tidb_builder---v111)
+
+---
+
+#### `katana_cli` - `v3.17.1`
+
+ - **FIX**(tidb): implement TiDB apply CLI tool and enhance Cloudflare storage backup functionality. ([8f453563](https://github.com/mathrunet/flutter_masamune/commit/8f453563eaa06d258fddbab0aced955646f5c329))
+
+#### `masamune_model_tidb_annotation` - `v1.1.1`
+
+ - **REFACTOR**(imports): organize import statements across multiple files. ([8cc591cb](https://github.com/mathrunet/flutter_masamune/commit/8cc591cb83e8d0c926ba724e4ca5b55ec0c508b2))
+
+#### `masamune_model_tidb_builder` - `v1.1.1`
+
+ - **REFACTOR**(tidb): improve parameter handling in SQL generation. ([105d44d6](https://github.com/mathrunet/flutter_masamune/commit/105d44d6456cc0ba8a3ea2d9493fbdd7151efa03))
+ - **REFACTOR**(imports): organize import statements across multiple files. ([8cc591cb](https://github.com/mathrunet/flutter_masamune/commit/8cc591cb83e8d0c926ba724e4ca5b55ec0c508b2))
+
+
 ## 2026-07-26
 
 ### Changes

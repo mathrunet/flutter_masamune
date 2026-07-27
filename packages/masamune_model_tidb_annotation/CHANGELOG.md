@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - **REFACTOR**(imports): organize import statements across multiple files. ([8cc591cb](https://github.com/mathrunet/flutter_masamune/commit/8cc591cb83e8d0c926ba724e4ca5b55ec0c508b2))
+
 ## 1.1.0
 
  - **FEAT**(tidb): enhance TidbDataService with server-owned schema support. ([2945670f](https://github.com/mathrunet/flutter_masamune/commit/2945670fcda4dbb29f351d128ee7ffde2b2a61dd))
