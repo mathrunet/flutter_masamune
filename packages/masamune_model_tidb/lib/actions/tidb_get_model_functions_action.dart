@@ -25,13 +25,14 @@ class TidbGetModelFunctionsAction
   TidbGetModelFunctionsAction({
     required this.database,
     required this.table,
+    String? prefix,
     this.indexKey,
     this.where = const [],
     this.orderBy = const [],
     this.limit,
     this.count = false,
     this.action = "tidb",
-  });
+  }) : _prefix = prefix;
 
   /// Database ID.
   ///
@@ -42,6 +43,11 @@ class TidbGetModelFunctionsAction
   ///
   /// テーブル名。
   final String table;
+
+  /// Prefix added to the physical database name.
+  String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
+
+  final String? _prefix;
 
   /// Document ID.
   ///
@@ -77,6 +83,7 @@ class TidbGetModelFunctionsAction
   @override
   String get path {
     final params = <String, String>{
+      if (prefix != null) "prefix": prefix!,
       if (where.isNotEmpty) "where": jsonEncode(_normalizeTidbWhere(where)),
       if (orderBy.isNotEmpty)
         "orderBy": jsonEncode(_normalizeTidbOrderBy(orderBy)),

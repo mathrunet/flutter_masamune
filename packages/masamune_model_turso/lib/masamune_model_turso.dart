@@ -23,6 +23,7 @@ part "actions/turso_post_model_functions_action.dart";
 part "actions/turso_put_model_functions_action.dart";
 part "actions/turso_token_functions_action.dart";
 part "adapter/turso_model_adapter.dart";
+part "src/turso_database_prefix.dart";
 part "src/turso_model_path.dart";
 part "src/turso_query.dart";
 part "src/turso_sql.dart";

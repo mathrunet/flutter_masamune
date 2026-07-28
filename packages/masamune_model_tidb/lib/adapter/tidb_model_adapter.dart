@@ -13,8 +13,10 @@ class TidbModelAdapter extends ModelAdapter {
   /// Tidbを利用できるようにしたモデルアダプター。
   const TidbModelAdapter({
     FunctionsAdapter? functionsAdapter,
+    String? prefix,
     NoSqlDatabase? cachedRuntimeDatabase,
   })  : _functionsAdapter = functionsAdapter,
+        _prefix = prefix,
         _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
   /// Functions adapter for obtaining tokens and using Workers CRUD.
@@ -25,6 +27,16 @@ class TidbModelAdapter extends ModelAdapter {
   }
 
   final FunctionsAdapter? _functionsAdapter;
+
+  /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に追加するプレフィックス。
+  String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
+
+  final String? _prefix;
+
+  String? get _cachePrefix =>
+      prefix == null ? null : "__database_prefix__/$prefix";
 
   /// Local cache database.
   ///
@@ -62,9 +74,10 @@ class TidbModelAdapter extends ModelAdapter {
     await functionsAdapter.execute(TidbDeleteModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       indexKey: path.indexKey,
     ));
-    await cachedRuntimeDatabase.deleteDocument(query);
+    await cachedRuntimeDatabase.deleteDocument(query, prefix: _cachePrefix);
   }
 
   @override
@@ -86,12 +99,12 @@ class TidbModelAdapter extends ModelAdapter {
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    cachedRuntimeDatabase.removeCollectionListener(query);
+    cachedRuntimeDatabase.removeCollectionListener(query, prefix: _cachePrefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    cachedRuntimeDatabase.removeDocumentListener(query);
+    cachedRuntimeDatabase.removeDocumentListener(query, prefix: _cachePrefix);
   }
 
   @override
@@ -119,6 +132,7 @@ class TidbModelAdapter extends ModelAdapter {
     final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       where: payload.where,
       count: true,
     ));
@@ -136,21 +150,30 @@ class TidbModelAdapter extends ModelAdapter {
     final path = TidbModelPath.fromCollectionQuery(query);
     final payload = TidbQueryPayload.fromFilters(query.query.filters);
     final data = await _loadCollectionFunctions(path, payload);
-    await cachedRuntimeDatabase.syncCollection(query, data);
+    await cachedRuntimeDatabase.syncCollection(
+      query,
+      data,
+      prefix: _cachePrefix,
+    );
     return data;
   }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     if (query.reference && !query.reload) {
-      final cached = await cachedRuntimeDatabase.loadDocument(query);
+      final cached =
+          await cachedRuntimeDatabase.loadDocument(query, prefix: _cachePrefix);
       if (cached != null) {
         return cached;
       }
     }
     final path = TidbModelPath.fromDocumentQuery(query);
     final data = await _loadDocumentFunctions(path);
-    await cachedRuntimeDatabase.syncDocument(query, data);
+    await cachedRuntimeDatabase.syncDocument(
+      query,
+      data,
+      prefix: _cachePrefix,
+    );
     return data;
   }
 
@@ -185,7 +208,11 @@ class TidbModelAdapter extends ModelAdapter {
     final path = TidbModelPath.fromDocumentQuery(query);
     final row = _buildSaveRow(path, value);
     await _saveDocumentFunctions(path, row);
-    await cachedRuntimeDatabase.saveDocument(query, value);
+    await cachedRuntimeDatabase.saveDocument(
+      query,
+      value,
+      prefix: _cachePrefix,
+    );
   }
 
   @override
@@ -213,6 +240,7 @@ class TidbModelAdapter extends ModelAdapter {
     final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       where: payload.where,
       orderBy: payload.orderBy,
       limit: payload.limit,
@@ -224,6 +252,7 @@ class TidbModelAdapter extends ModelAdapter {
     final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       indexKey: path.indexKey,
     ));
     final rows = _rowsToList(res.data, table: path.table);
@@ -274,6 +303,7 @@ class TidbModelAdapter extends ModelAdapter {
         final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
           database: database,
           table: table,
+          prefix: prefix,
           where: [
             {
               "type": ModelQueryFilterType.whereIn.name,
@@ -307,6 +337,7 @@ class TidbModelAdapter extends ModelAdapter {
           ),
         ),
         rows,
+        prefix: _cachePrefix,
       );
     }
   }
@@ -316,6 +347,7 @@ class TidbModelAdapter extends ModelAdapter {
     await functionsAdapter.execute(TidbPostModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       value: row,
     ));
   }
@@ -379,6 +411,7 @@ class TidbModelAdapter extends ModelAdapter {
   int get hashCode {
     return runtimeType.hashCode ^
         functionsAdapter.hashCode ^
+        prefix.hashCode ^
         cachedRuntimeDatabase.hashCode;
   }
 }
@@ -434,7 +467,8 @@ class _TidbSaveOperation extends _TidbOperation {
       path,
       adapter._buildSaveRow(path, value),
     );
-    await adapter.cachedRuntimeDatabase.saveDocument(query, value);
+    await adapter.cachedRuntimeDatabase
+        .saveDocument(query, value, prefix: adapter._cachePrefix);
   }
 }
 
@@ -459,8 +493,10 @@ class _TidbDeleteOperation extends _TidbOperation {
     await adapter.functionsAdapter.execute(TidbDeleteModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: adapter.prefix,
       indexKey: path.indexKey,
     ));
-    await adapter.cachedRuntimeDatabase.deleteDocument(query);
+    await adapter.cachedRuntimeDatabase
+        .deleteDocument(query, prefix: adapter._cachePrefix);
   }
 }

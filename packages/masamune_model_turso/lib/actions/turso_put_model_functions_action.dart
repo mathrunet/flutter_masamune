@@ -12,10 +12,11 @@ class TursoPutModelFunctionsAction
     required this.database,
     required this.table,
     required this.value,
+    String? prefix,
     this.indexKey,
     this.where = const [],
     this.action = "turso",
-  });
+  }) : _prefix = prefix;
 
   /// Database ID.
   ///
@@ -26,6 +27,11 @@ class TursoPutModelFunctionsAction
   ///
   /// テーブル名。
   final String table;
+
+  /// Prefix added to the physical database name.
+  String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
+
+  final String? _prefix;
 
   /// Document ID.
   ///
@@ -64,6 +70,7 @@ class TursoPutModelFunctionsAction
   @override
   DynamicMap? toMap() {
     return {
+      if (prefix != null) "prefix": prefix,
       if (where.isNotEmpty) "where": _normalizeTursoWhere(where),
       "value": _sanitizeTursoSaveValue(value),
     };

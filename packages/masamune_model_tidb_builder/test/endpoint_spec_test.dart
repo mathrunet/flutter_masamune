@@ -98,6 +98,46 @@ void main() {
     expect(operations, contains("/main/users/update"));
   });
 
+  test("uses the logical database for prefixed table rules", () {
+    const prefixed = TidbTableSpec(
+      database: "dev_main",
+      rulesDatabase: "main",
+      table: "users",
+      columns: [
+        TidbColumnSpec(name: "name", sqlType: "TEXT", required: true),
+      ],
+    );
+    final output = TidbEndpointSpec.generate(
+      tables: [prefixed],
+      rules: const TidbRulesReader({
+        "rules": {
+          "database": {
+            "main/users": {
+              "read": "deny",
+            },
+          },
+        },
+      }),
+    );
+    final config = jsonDecode(
+      output.files["http_endpoints/config.json"]!,
+    ) as List<dynamic>;
+    final operations = config
+        .map((dynamic item) =>
+            (item as Map<String, dynamic>)["endpoint"] as String)
+        .toList();
+
+    expect(operations, isNot(contains("/dev_main/users/get")));
+    expect(operations, contains("/dev_main/users/upsert"));
+    final manifest = jsonDecode(
+      output.files["__generated_manifest.json"]!,
+    ) as Map<String, dynamic>;
+    expect(
+      manifest["tables"],
+      contains("dev_main\u0000users"),
+    );
+  });
+
   test("generates server-only custom SQL endpoints and manifest entries", () {
     final output = TidbEndpointSpec.generate(
       tables: [table],

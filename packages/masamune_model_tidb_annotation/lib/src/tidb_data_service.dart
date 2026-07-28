@@ -16,6 +16,7 @@ class TidbDataService {
     this.database = "main",
     this.dataServiceDirPath = "tidb/data_service",
     this.rulesJsonPath = "cloudflare/src/rules.json",
+    this.prefixes = const [],
     this.extraColumns = const [],
     this.additionalTables = const [],
     this.customEndpoints = const [],
@@ -35,6 +36,11 @@ class TidbDataService {
   ///
   /// Cloudflare rulesファイルのパス。
   final String rulesJsonPath;
+
+  /// Database prefixes generated in addition to the unprefixed database.
+  ///
+  /// プレフィックスなしのデータベースに加えて生成するDBプレフィックス。
+  final List<String> prefixes;
 
   /// Server-owned columns that are not exposed by the Flutter model.
   final List<TidbDataServiceColumn> extraColumns;

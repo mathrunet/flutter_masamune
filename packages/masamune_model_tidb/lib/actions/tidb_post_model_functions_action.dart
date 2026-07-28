@@ -12,9 +12,10 @@ class TidbPostModelFunctionsAction
     required this.database,
     required this.table,
     required this.value,
+    String? prefix,
     this.indexKey,
     this.action = "tidb",
-  });
+  }) : _prefix = prefix;
 
   /// Database ID.
   ///
@@ -25,6 +26,11 @@ class TidbPostModelFunctionsAction
   ///
   /// テーブル名。
   final String table;
+
+  /// Prefix added to the physical database name.
+  String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
+
+  final String? _prefix;
 
   /// Document ID.
   ///
@@ -58,6 +64,7 @@ class TidbPostModelFunctionsAction
   @override
   DynamicMap? toMap() {
     return {
+      if (prefix != null) "prefix": prefix,
       "value": _sanitizeTidbSaveValue(value),
     };
   }

@@ -53,6 +53,23 @@ database/<database>/<table>/<document_id>
 The adapter sends all reads and writes to the Workers CRUD endpoint. It does not
 open direct MySQL/TiDB TCP connections from Flutter clients.
 
+## Separate development and production databases
+
+Pass `prefix` to select a prefixed physical database while keeping model paths
+unchanged.
+
+```dart
+final developmentAdapter = TidbModelAdapter(
+  prefix: "dev___", // Normalized to "dev_".
+);
+```
+
+For `database/main/users`, this adapter connects to `dev_main.users`. A null,
+empty, or underscore-only prefix connects to the existing `main.users`.
+Trailing underscores are removed before exactly one underscore is appended.
+Rules continue to use the logical path `main/users`, and local caches are
+separated by prefix.
+
 # Katana CLI
 
 Enable TiDB in `katana.yaml` and run `katana apply`.
@@ -80,7 +97,8 @@ The root password in `connection_url` is used only by the Workers backend and is
 not returned to the Flutter client.
 
 TiDB databases are not created automatically. Create the database in TiDB Cloud
-before using it. Tables and missing columns are created automatically on save.
+before using it. This includes prefixed direct-mode databases such as
+`dev_main`. Tables and missing columns are created automatically on save.
 
 # GitHub Sponsors
 

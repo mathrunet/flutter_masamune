@@ -59,24 +59,25 @@ class _MasamuneModelTidbBuilder extends Builder {
           element: element,
         );
       }
-      tables.add(TidbTableSpec(
+      final prefixes = _readPrefixes(annotation.read("prefixes"), element);
+      final modelTable = TidbTableSpec(
         database: database,
         table: table,
         columns: [
           ..._columns(element),
           ..._readColumns(annotation.read("extraColumns")),
         ],
-      ));
-      tables.addAll(
-        annotation.read("additionalTables").listValue.map((value) {
-          final table = ConstantReader(value);
-          return TidbTableSpec(
-            database: table.read("database").stringValue.trim(),
-            table: table.read("table").stringValue.trim(),
-            columns: _readColumns(table.read("columns")),
-          );
-        }),
       );
+      tables.addAll(_withDatabasePrefixes(modelTable, prefixes));
+      for (final value in annotation.read("additionalTables").listValue) {
+        final table = ConstantReader(value);
+        final additionalTable = TidbTableSpec(
+          database: table.read("database").stringValue.trim(),
+          table: table.read("table").stringValue.trim(),
+          columns: _readColumns(table.read("columns")),
+        );
+        tables.addAll(_withDatabasePrefixes(additionalTable, prefixes));
+      }
       customEndpoints.addAll(
         annotation.read("customEndpoints").listValue.map((value) {
           final endpoint = ConstantReader(value);
@@ -116,6 +117,51 @@ class _MasamuneModelTidbBuilder extends Builder {
       return;
     }
     _generateAggregate();
+  }
+
+  List<String> _readPrefixes(
+    ConstantReader reader,
+    ClassElement element,
+  ) {
+    final prefixes = <String>{};
+    for (final value in reader.listValue) {
+      final raw = value.toStringValue();
+      final normalized = _normalizePrefix(raw);
+      if (normalized == null) {
+        continue;
+      }
+      final databasePrefix = normalized.substring(0, normalized.length - 1);
+      if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(databasePrefix)) {
+        throw InvalidGenerationSourceError(
+          "TiDB Data Service prefixes must be valid identifiers: $raw",
+          element: element,
+        );
+      }
+      prefixes.add(normalized);
+    }
+    return prefixes.toList();
+  }
+
+  List<TidbTableSpec> _withDatabasePrefixes(
+    TidbTableSpec table,
+    List<String> prefixes,
+  ) {
+    return [
+      table,
+      for (final prefix in prefixes)
+        TidbTableSpec(
+          database: "$prefix${table.database}",
+          rulesDatabase: table.database,
+          table: table.table,
+          columns: table.columns,
+        ),
+    ];
+  }
+
+  String? _normalizePrefix(String? value) {
+    var normalized = value?.trim() ?? "";
+    normalized = normalized.replaceFirst(RegExp(r"_+$"), "");
+    return normalized.isEmpty ? null : "${normalized}_";
   }
 
   void _generateAggregate() {

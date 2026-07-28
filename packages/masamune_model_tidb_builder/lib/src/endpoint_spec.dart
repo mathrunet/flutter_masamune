@@ -30,10 +30,14 @@ class TidbTableSpec {
     required this.database,
     required this.table,
     required this.columns,
+    this.rulesDatabase,
   });
 
   /// Database name.
   final String database;
+
+  /// Logical database name used to evaluate rules.
+  final String? rulesDatabase;
 
   /// Table name.
   final String table;
@@ -151,23 +155,24 @@ class TidbEndpointSpec {
       schema.writeln();
 
       final operations = <String, Map<String, String>>{};
+      final rulesDatabase = table.rulesDatabase ?? table.database;
       final readDenied = rules.isExplicitlyDenied(
-        table.database,
+        rulesDatabase,
         table.table,
         TidbRulesOperation.get,
       );
       final createDenied = rules.isExplicitlyDenied(
-        table.database,
+        rulesDatabase,
         table.table,
         TidbRulesOperation.create,
       );
       final updateDenied = rules.isExplicitlyDenied(
-        table.database,
+        rulesDatabase,
         table.table,
         TidbRulesOperation.update,
       );
       final deleteDenied = rules.isExplicitlyDenied(
-        table.database,
+        rulesDatabase,
         table.table,
         TidbRulesOperation.delete,
       );

@@ -46,7 +46,6 @@ final adapter = TursoModelAdapter(
   functionsAdapter: CloudflareFunctionsAdapter(
     endpoint: "https://example.workers.dev",
   ),
-  database: "main",
 );
 ```
 
@@ -57,12 +56,24 @@ database/<database_id>/<table_id>/<document_id>
 database/<database_id>/<table_id>
 ```
 
-Simple Masamune paths are also accepted and resolved with `database`.
+## Separate development and production databases
 
-```text
-users/user_1
-users
+Pass `prefix` to separate the physical database without changing model paths.
+The adapter trims trailing underscores and adds exactly one underscore.
+
+```dart
+final developmentAdapter = TursoModelAdapter(
+  prefix: "dev", // Normalized to "dev_".
+  functionsAdapter: cloudflareFunctionsAdapter,
+);
 ```
+
+For `database/main/users`, the adapter above uses the physical database
+`dev_main`. A null, empty, or underscore-only prefix keeps the existing
+database name `main`, so production data does not require migration. Rules are
+evaluated against the logical path `main/users`; only database connection and
+token issuance use the physical name. Local caches are also separated by
+prefix.
 
 ## Direct Turso access
 

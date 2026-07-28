@@ -25,13 +25,14 @@ class TursoGetModelFunctionsAction
   TursoGetModelFunctionsAction({
     required this.database,
     required this.table,
+    String? prefix,
     this.indexKey,
     this.where = const [],
     this.orderBy = const [],
     this.limit,
     this.count = false,
     this.action = "turso",
-  });
+  }) : _prefix = prefix;
 
   /// Database ID.
   ///
@@ -42,6 +43,11 @@ class TursoGetModelFunctionsAction
   ///
   /// テーブル名。
   final String table;
+
+  /// Prefix added to the physical database name.
+  String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
+
+  final String? _prefix;
 
   /// Document ID.
   ///
@@ -77,6 +83,7 @@ class TursoGetModelFunctionsAction
   @override
   String get path {
     final params = <String, String>{
+      if (prefix != null) "prefix": prefix!,
       if (where.isNotEmpty) "where": jsonEncode(_normalizeTursoWhere(where)),
       if (orderBy.isNotEmpty)
         "orderBy": jsonEncode(_normalizeTursoOrderBy(orderBy)),

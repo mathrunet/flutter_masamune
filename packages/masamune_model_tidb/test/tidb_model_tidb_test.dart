@@ -35,6 +35,36 @@ void main() {
     expect(orderBy.single["key"], "updated_at");
   });
 
+  test("Tidb prefix is normalized and serialized.", () {
+    final get = TidbGetModelFunctionsAction(
+      database: "main",
+      table: "users",
+      prefix: " dev___ ",
+    );
+    const post = TidbPostModelFunctionsAction(
+      database: "main",
+      table: "users",
+      prefix: "dev",
+      value: {"name": "Alice"},
+    );
+    const empty = TidbDeleteModelFunctionsAction(
+      database: "main",
+      table: "users",
+      prefix: "___",
+    );
+
+    expect(get.prefix, "dev_");
+    expect(Uri.parse(get.path).queryParameters["prefix"], "dev_");
+    expect(post.prefix, "dev_");
+    expect(post.toMap()?["prefix"], "dev_");
+    expect(empty.prefix, isNull);
+    expect(empty.toMap(), isEmpty);
+    expect(
+      () => const TidbModelAdapter(prefix: "invalid prefix").prefix,
+      throwsArgumentError,
+    );
+  });
+
   test("Tidb write FunctionsActions build path based URLs.", () {
     const post = TidbPostModelFunctionsAction(
       database: "main",
@@ -145,6 +175,39 @@ void main() {
     expect(collection["user_1"]?[kUidFieldKey], "user_1");
     expect(collection["user_1"]?[kTimeFieldKey], 1234);
     expect(collection["user_1"]?["isActive"], false);
+  });
+
+  test("TidbModelAdapter isolates shared cache by prefix.", () async {
+    final cache = NoSqlDatabase();
+    final devFunctions = _RecordingFunctionsAdapter(
+      responseData: const [
+        {"id": "user_1", "name": "Development"},
+      ],
+    );
+    final prodFunctions = _RecordingFunctionsAdapter(
+      responseData: const [
+        {"id": "user_1", "name": "Production"},
+      ],
+    );
+    final dev = TidbModelAdapter(
+      functionsAdapter: devFunctions,
+      cachedRuntimeDatabase: cache,
+      prefix: "dev",
+    );
+    final prod = TidbModelAdapter(
+      functionsAdapter: prodFunctions,
+      cachedRuntimeDatabase: cache,
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+      reference: true,
+    );
+
+    expect((await dev.loadDocument(query))["name"], "Development");
+    expect((await prod.loadDocument(query))["name"], "Production");
+    expect((await dev.loadDocument(query))["name"], "Development");
+    expect(devFunctions.actions, hasLength(1));
+    expect(prodFunctions.actions, hasLength(1));
   });
 
   test("TidbModelAdapter preloads references with one whereIn query.",

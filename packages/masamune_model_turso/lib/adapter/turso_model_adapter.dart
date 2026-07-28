@@ -36,10 +36,12 @@ class TursoModelAdapter extends ModelAdapter {
   const TursoModelAdapter({
     this.useDirectClient = true,
     FunctionsAdapter? functionsAdapter,
+    String? prefix,
     this.tokenTtlSeconds = 3600,
     this.retryDelays = _tursoRetryDelays,
     NoSqlDatabase? cachedRuntimeDatabase,
   })  : _functionsAdapter = functionsAdapter,
+        _prefix = prefix,
         _cachedRuntimeDatabase = cachedRuntimeDatabase;
 
   /// Functions adapter for obtaining tokens and using Workers CRUD.
@@ -50,6 +52,16 @@ class TursoModelAdapter extends ModelAdapter {
   }
 
   final FunctionsAdapter? _functionsAdapter;
+
+  /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に追加するプレフィックス。
+  String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
+
+  final String? _prefix;
+
+  String? get _cachePrefix =>
+      prefix == null ? null : "__database_prefix__/$prefix";
 
   /// Whether to use direct client access.
   ///
@@ -111,6 +123,7 @@ class TursoModelAdapter extends ModelAdapter {
           await functionsAdapter.execute(TursoDeleteModelFunctionsAction(
             database: path.database,
             table: path.table,
+            prefix: prefix,
             indexKey: path.indexKey,
           ));
         },
@@ -126,10 +139,11 @@ class TursoModelAdapter extends ModelAdapter {
       await functionsAdapter.execute(TursoDeleteModelFunctionsAction(
         database: path.database,
         table: path.table,
+        prefix: prefix,
         indexKey: path.indexKey,
       ));
     }
-    await cachedRuntimeDatabase.deleteDocument(query);
+    await cachedRuntimeDatabase.deleteDocument(query, prefix: _cachePrefix);
   }
 
   @override
@@ -151,12 +165,12 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    cachedRuntimeDatabase.removeCollectionListener(query);
+    cachedRuntimeDatabase.removeCollectionListener(query, prefix: _cachePrefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    cachedRuntimeDatabase.removeDocumentListener(query);
+    cachedRuntimeDatabase.removeDocumentListener(query, prefix: _cachePrefix);
   }
 
   @override
@@ -194,6 +208,7 @@ class TursoModelAdapter extends ModelAdapter {
               await functionsAdapter.execute(TursoGetModelFunctionsAction(
             database: path.database,
             table: path.table,
+            prefix: prefix,
             where: payload.where,
             count: true,
           ));
@@ -220,6 +235,7 @@ class TursoModelAdapter extends ModelAdapter {
       final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
         database: path.database,
         table: path.table,
+        prefix: prefix,
         where: payload.where,
         count: true,
       ));
@@ -240,14 +256,19 @@ class TursoModelAdapter extends ModelAdapter {
     final data = _directEnabled
         ? await _loadCollectionDirect(path, payload)
         : await _loadCollectionFunctions(path, payload);
-    await cachedRuntimeDatabase.syncCollection(query, data);
+    await cachedRuntimeDatabase.syncCollection(
+      query,
+      data,
+      prefix: _cachePrefix,
+    );
     return data;
   }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     if (query.reference && !query.reload) {
-      final cached = await cachedRuntimeDatabase.loadDocument(query);
+      final cached =
+          await cachedRuntimeDatabase.loadDocument(query, prefix: _cachePrefix);
       if (cached != null) {
         return cached;
       }
@@ -256,7 +277,11 @@ class TursoModelAdapter extends ModelAdapter {
     final data = _directEnabled
         ? await _loadDocumentDirect(path)
         : await _loadDocumentFunctions(path);
-    await cachedRuntimeDatabase.syncDocument(query, data);
+    await cachedRuntimeDatabase.syncDocument(
+      query,
+      data,
+      prefix: _cachePrefix,
+    );
     return data;
   }
 
@@ -291,13 +316,17 @@ class TursoModelAdapter extends ModelAdapter {
     final path = TursoModelPath.fromDocumentQuery(query);
     final row = _buildSaveRow(path, value);
     final boolFields = _extractTursoBoolFields(value);
-    _cacheTursoBoolFields(path.table, boolFields);
+    _cacheTursoBoolFields(path.database, path.table, boolFields);
     if (_directEnabled) {
       await _saveDocumentDirect(path, row, boolFields);
     } else {
       await _saveDocumentFunctions(path, row);
     }
-    await cachedRuntimeDatabase.saveDocument(query, value);
+    await cachedRuntimeDatabase.saveDocument(
+      query,
+      value,
+      prefix: _cachePrefix,
+    );
   }
 
   @override
@@ -331,7 +360,8 @@ class TursoModelAdapter extends ModelAdapter {
       functionsFallback: (_) => _loadCollectionFunctions(path, payload),
       callback: (client) async {
         final where = _buildTursoWhereSql(where: payload.where);
-        final boolFields = await _loadTursoBoolFields(client, path.table);
+        final boolFields =
+            await _loadTursoBoolFields(client, path.database, path.table);
         final List<Map<String, dynamic>> rows;
         try {
           rows = await client.query(
@@ -361,11 +391,16 @@ class TursoModelAdapter extends ModelAdapter {
     final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       where: payload.where,
       orderBy: payload.orderBy,
       limit: payload.limit,
     ));
-    return _rowsToMap(res.data, table: path.table);
+    return _rowsToMap(
+      res.data,
+      database: path.database,
+      table: path.table,
+    );
   }
 
   Future<DynamicMap> _loadDocumentDirect(TursoModelPath path) async {
@@ -377,7 +412,8 @@ class TursoModelAdapter extends ModelAdapter {
       ],
       functionsFallback: (_) => _loadDocumentFunctions(path),
       callback: (client) async {
-        final boolFields = await _loadTursoBoolFields(client, path.table);
+        final boolFields =
+            await _loadTursoBoolFields(client, path.database, path.table);
         final List<Map<String, dynamic>> rows;
         try {
           rows = await client.query(
@@ -402,9 +438,14 @@ class TursoModelAdapter extends ModelAdapter {
     final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       indexKey: path.indexKey,
     ));
-    final rows = _rowsToList(res.data, table: path.table);
+    final rows = _rowsToList(
+      res.data,
+      database: path.database,
+      table: path.table,
+    );
     return rows.isEmpty ? <String, dynamic>{} : rows.first;
   }
 
@@ -471,7 +512,8 @@ class TursoModelAdapter extends ModelAdapter {
               continue;
             }
             try {
-              final boolFields = await _loadTursoBoolFields(client, table);
+              final boolFields =
+                  await _loadTursoBoolFields(client, database, table);
               final rows = await client.query(
                 "SELECT * FROM ${_quoteTursoIdentifier(table)} "
                 "WHERE ${_quoteTursoIdentifier("id")} IN (${ids.map((_) => "?").join(", ")})",
@@ -515,6 +557,7 @@ class TursoModelAdapter extends ModelAdapter {
         final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
           database: database,
           table: table,
+          prefix: prefix,
           where: [
             {
               "type": ModelQueryFilterType.whereIn.name,
@@ -523,7 +566,11 @@ class TursoModelAdapter extends ModelAdapter {
             },
           ],
         ));
-        databaseResult[table] = _rowsToMap(res.data, table: table);
+        databaseResult[table] = _rowsToMap(
+          res.data,
+          database: database,
+          table: table,
+        );
       }
       result[database] = databaseResult;
       await _syncPreloadedReferences(database, databaseResult);
@@ -548,6 +595,7 @@ class TursoModelAdapter extends ModelAdapter {
           ),
         ),
         rows,
+        prefix: _cachePrefix,
       );
     }
   }
@@ -577,6 +625,7 @@ class TursoModelAdapter extends ModelAdapter {
     await functionsAdapter.execute(TursoPostModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: prefix,
       value: row,
     ));
   }
@@ -617,7 +666,7 @@ class TursoModelAdapter extends ModelAdapter {
         for (final operation in operations.whereType<_TursoSaveOperation>()) {
           final path = operation.path();
           final boolFields = _extractTursoBoolFields(operation.value);
-          _cacheTursoBoolFields(path.table, boolFields);
+          _cacheTursoBoolFields(path.database, path.table, boolFields);
           await _ensureSchema(
             client,
             path.table,
@@ -663,6 +712,7 @@ class TursoModelAdapter extends ModelAdapter {
       token = await _retryTursoTransient(() {
         return functionsAdapter.execute(TursoTokenFunctionsAction(
           database: database,
+          prefix: prefix,
           targets: _mergeScopes(scopes),
           ttlSeconds: tokenTtlSeconds,
         ));
@@ -814,10 +864,15 @@ class TursoModelAdapter extends ModelAdapter {
     }
   }
 
-  List<DynamicMap> _rowsToList(Object? data, {String? table}) {
-    final boolFields = table == null
+  List<DynamicMap> _rowsToList(
+    Object? data, {
+    String? database,
+    String? table,
+  }) {
+    final boolFields = database == null || table == null
         ? const <String>{}
-        : _tursoBoolFieldsCache[table] ?? const <String>{};
+        : _tursoBoolFieldsCache[_boolFieldsCacheKey(database, table)] ??
+            const <String>{};
     if (data is List) {
       return data
           .whereType<Map>()
@@ -871,6 +926,7 @@ class TursoModelAdapter extends ModelAdapter {
 
   Future<Set<String>> _loadTursoBoolFields(
     LibsqlClient client,
+    String database,
     String table,
   ) async {
     try {
@@ -883,25 +939,43 @@ class TursoModelAdapter extends ModelAdapter {
           .map((row) => row.get("column_name", ""))
           .where((field) => field.isNotEmpty)
           .toSet();
-      _cacheTursoBoolFields(table, fields);
+      _cacheTursoBoolFields(database, table, fields);
       return fields;
     } catch (_) {
-      return _tursoBoolFieldsCache[table] ?? const {};
+      return _tursoBoolFieldsCache[_boolFieldsCacheKey(database, table)] ??
+          const {};
     }
   }
 
-  void _cacheTursoBoolFields(String table, Set<String> fields) {
+  void _cacheTursoBoolFields(
+    String database,
+    String table,
+    Set<String> fields,
+  ) {
     if (fields.isEmpty) {
       return;
     }
-    _tursoBoolFieldsCache[table] = {
-      ...?_tursoBoolFieldsCache[table],
+    final key = _boolFieldsCacheKey(database, table);
+    _tursoBoolFieldsCache[key] = {
+      ...?_tursoBoolFieldsCache[key],
       ...fields,
     };
   }
 
-  Map<String, DynamicMap> _rowsToMap(Object? data, {String? table}) {
-    return Map.fromEntries(_rowsToList(data, table: table).map((row) {
+  String _boolFieldsCacheKey(String database, String table) {
+    return "${prefix ?? ""}\u0000$database\u0000$table";
+  }
+
+  Map<String, DynamicMap> _rowsToMap(
+    Object? data, {
+    String? database,
+    String? table,
+  }) {
+    return Map.fromEntries(_rowsToList(
+      data,
+      database: database,
+      table: table,
+    ).map((row) {
       return MapEntry(row.get("id", ""), row);
     }).where((entry) => entry.key.isNotEmpty));
   }
@@ -913,6 +987,7 @@ class TursoModelAdapter extends ModelAdapter {
   int get hashCode {
     return runtimeType.hashCode ^
         functionsAdapter.hashCode ^
+        prefix.hashCode ^
         useDirectClient.hashCode ^
         retryDelays.hashCode ^
         cachedRuntimeDatabase.hashCode;
@@ -977,7 +1052,8 @@ class _TursoSaveOperation extends _TursoOperation {
       path,
       adapter._buildSaveRow(path, value),
     );
-    await adapter.cachedRuntimeDatabase.saveDocument(query, value);
+    await adapter.cachedRuntimeDatabase
+        .saveDocument(query, value, prefix: adapter._cachePrefix);
   }
 
   @override
@@ -986,7 +1062,8 @@ class _TursoSaveOperation extends _TursoOperation {
     final row = adapter._buildSaveRow(path, value);
     final insert = _buildTursoInsertSql(path.table, row);
     await client.execute(insert.sql, positional: insert.args);
-    await adapter.cachedRuntimeDatabase.saveDocument(query, value);
+    await adapter.cachedRuntimeDatabase
+        .saveDocument(query, value, prefix: adapter._cachePrefix);
   }
 
   @override
@@ -998,7 +1075,8 @@ class _TursoSaveOperation extends _TursoOperation {
     final row = adapter._buildSaveRow(path, value);
     final insert = _buildTursoInsertSql(path.table, row);
     await transaction.execute(insert.sql, positional: insert.args);
-    await adapter.cachedRuntimeDatabase.saveDocument(query, value);
+    await adapter.cachedRuntimeDatabase
+        .saveDocument(query, value, prefix: adapter._cachePrefix);
   }
 }
 
@@ -1023,9 +1101,11 @@ class _TursoDeleteOperation extends _TursoOperation {
     await adapter.functionsAdapter.execute(TursoDeleteModelFunctionsAction(
       database: path.database,
       table: path.table,
+      prefix: adapter.prefix,
       indexKey: path.indexKey,
     ));
-    await adapter.cachedRuntimeDatabase.deleteDocument(query);
+    await adapter.cachedRuntimeDatabase
+        .deleteDocument(query, prefix: adapter._cachePrefix);
   }
 
   @override
@@ -1036,7 +1116,8 @@ class _TursoDeleteOperation extends _TursoOperation {
       "WHERE ${_quoteTursoIdentifier("id")} = ?",
       positional: [path.indexKey],
     );
-    await adapter.cachedRuntimeDatabase.deleteDocument(query);
+    await adapter.cachedRuntimeDatabase
+        .deleteDocument(query, prefix: adapter._cachePrefix);
   }
 
   @override
@@ -1050,6 +1131,7 @@ class _TursoDeleteOperation extends _TursoOperation {
       "WHERE ${_quoteTursoIdentifier("id")} = ?",
       positional: [path.indexKey],
     );
-    await adapter.cachedRuntimeDatabase.deleteDocument(query);
+    await adapter.cachedRuntimeDatabase
+        .deleteDocument(query, prefix: adapter._cachePrefix);
   }
 }

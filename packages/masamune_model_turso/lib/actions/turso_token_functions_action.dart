@@ -11,15 +11,21 @@ class TursoTokenFunctionsAction
   const TursoTokenFunctionsAction({
     required this.database,
     required this.targets,
+    String? prefix,
     this.operations = const [],
     this.ttlSeconds = 600,
     this.action = "turso/token",
-  });
+  }) : _prefix = prefix;
 
   /// Database ID.
   ///
   /// データベースID。
   final String database;
+
+  /// Prefix added to the physical database name.
+  String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
+
+  final String? _prefix;
 
   /// Requested database-level operations.
   ///
@@ -50,6 +56,7 @@ class TursoTokenFunctionsAction
   @override
   DynamicMap? toMap() {
     return {
+      if (prefix != null) "prefix": prefix,
       if (operations.isNotEmpty) "operations": operations,
       if (targets.isNotEmpty)
         "targets": targets.map((item) => item.toMap()).toList(),
