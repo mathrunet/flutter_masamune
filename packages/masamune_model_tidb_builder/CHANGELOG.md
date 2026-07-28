@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))
+
 ## 3.2.0
 
  - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))

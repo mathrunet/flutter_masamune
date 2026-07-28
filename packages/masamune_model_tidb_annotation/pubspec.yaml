@@ -1,6 +1,6 @@
 name: masamune_model_tidb_annotation
 description: Define annotations that generate TiDB Data Service configuration from Masamune models.
-version: 3.2.0
+version: 3.3.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_tidb_annotation
 

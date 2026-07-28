@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.18.0`](#katana_cli---v3180)
+ - [`masamune_model_tidb` - `v3.4.0`](#masamune_model_tidb---v340)
+ - [`masamune_model_tidb_annotation` - `v3.3.0`](#masamune_model_tidb_annotation---v330)
+ - [`masamune_model_tidb_builder` - `v3.3.0`](#masamune_model_tidb_builder---v330)
+
+---
+
+#### `katana_cli` - `v3.18.0`
+
+ - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))
+
+#### `masamune_model_tidb` - `v3.4.0`
+
+ - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))
+
+#### `masamune_model_tidb_annotation` - `v3.3.0`
+
+ - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))
+
+#### `masamune_model_tidb_builder` - `v3.3.0`
+
+ - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))
+
+
+## 2026-07-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.17.2`](#katana_cli---v3172)
  - [`masamune_model_tidb` - `v3.3.0`](#masamune_model_tidb---v330)
  - [`masamune_model_tidb_annotation` - `v3.2.0`](#masamune_model_tidb_annotation---v320)

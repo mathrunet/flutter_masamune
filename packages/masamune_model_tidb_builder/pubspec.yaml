@@ -1,6 +1,6 @@
 name: masamune_model_tidb_builder
 description: Generate official TiDB Data Service CaC and additive schema SQL from Masamune models.
-version: 3.2.0
+version: 3.3.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_tidb_builder
 
@@ -12,7 +12,7 @@ dependencies:
   build: ^3.1.0
   source_gen: ^4.0.0
   masamune_annotation: ^3.1.1
-  masamune_model_tidb_annotation: ^3.2.0
+  masamune_model_tidb_annotation: ^3.3.0
 
 dev_dependencies:
   test: ^1.26.3

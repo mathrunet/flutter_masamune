@@ -1,3 +1,7 @@
+## 3.18.0
+
+ - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))
+
 ## 3.17.2
 
  - **FIX**(cloudflare): enhance backup configuration in katana.yaml and update regression tests. ([e3f7d604](https://github.com/mathrunet/flutter_masamune/commit/e3f7d60437d870f1438d1fccbd7a74e8f94ed5c8))
