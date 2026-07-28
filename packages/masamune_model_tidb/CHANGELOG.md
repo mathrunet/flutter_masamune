@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
 ## 3.2.1
 
  - **FIX**(tidb): enhance boolean value handling in TiDB model. ([d34e8260](https://github.com/mathrunet/flutter_masamune/commit/d34e8260481ff71e65cec4d52a956e62b4ece713))

@@ -1,3 +1,7 @@
+## 3.5.0
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
 ## 3.4.3
 
  - **FIX**(turso): enhance query handling and data normalization. ([af98f82f](https://github.com/mathrunet/flutter_masamune/commit/af98f82fc61571dcea61df7bfede54928a63ce06))

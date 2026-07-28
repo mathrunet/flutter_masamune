@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.17.2`](#katana_cli---v3172)
+ - [`masamune_model_tidb` - `v3.3.0`](#masamune_model_tidb---v330)
+ - [`masamune_model_tidb_annotation` - `v3.2.0`](#masamune_model_tidb_annotation---v320)
+ - [`masamune_model_tidb_builder` - `v3.2.0`](#masamune_model_tidb_builder---v320)
+ - [`masamune_model_turso` - `v3.5.0`](#masamune_model_turso---v350)
+
+---
+
+#### `katana_cli` - `v3.17.2`
+
+ - **FIX**(cloudflare): enhance backup configuration in katana.yaml and update regression tests. ([e3f7d604](https://github.com/mathrunet/flutter_masamune/commit/e3f7d60437d870f1438d1fccbd7a74e8f94ed5c8))
+
+#### `masamune_model_tidb` - `v3.3.0`
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
+#### `masamune_model_tidb_annotation` - `v3.2.0`
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
+#### `masamune_model_tidb_builder` - `v3.2.0`
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
+#### `masamune_model_turso` - `v3.5.0`
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
+
 ## 2026-07-27
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.17.2
+
+ - **FIX**(cloudflare): enhance backup configuration in katana.yaml and update regression tests. ([e3f7d604](https://github.com/mathrunet/flutter_masamune/commit/e3f7d60437d870f1438d1fccbd7a74e8f94ed5c8))
+
 ## 3.17.1
 
  - **FIX**(tidb): implement TiDB apply CLI tool and enhance Cloudflare storage backup functionality. ([8f453563](https://github.com/mathrunet/flutter_masamune/commit/8f453563eaa06d258fddbab0aced955646f5c329))

@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(tidb): add support for database prefixes in model actions and adapters. ([e06e0f7d](https://github.com/mathrunet/flutter_masamune/commit/e06e0f7d3d8200a55b01023dee35e03a6b9d15ee))
+
 ## 1.1.1
 
  - **REFACTOR**(tidb): improve parameter handling in SQL generation. ([105d44d6](https://github.com/mathrunet/flutter_masamune/commit/105d44d6456cc0ba8a3ea2d9493fbdd7151efa03))
