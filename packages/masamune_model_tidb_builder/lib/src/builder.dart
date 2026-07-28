@@ -19,7 +19,11 @@ class _BuilderEntry {
 }
 
 class _MasamuneModelTidbBuilder extends Builder {
+  _MasamuneModelTidbBuilder(this._configuredPrefixes);
+
   static final Map<String, _BuilderEntry> _entries = {};
+
+  final List<String> _configuredPrefixes;
 
   @override
   Future<void> build(BuildStep buildStep) async {
@@ -59,7 +63,16 @@ class _MasamuneModelTidbBuilder extends Builder {
           element: element,
         );
       }
-      final prefixes = _readPrefixes(annotation.read("prefixes"), element);
+      final prefixes = _readPrefixes(
+        [
+          ..._configuredPrefixes,
+          ...annotation
+              .read("prefixes")
+              .listValue
+              .map((value) => value.toStringValue()),
+        ],
+        element,
+      );
       final modelTable = TidbTableSpec(
         database: database,
         table: table,
@@ -120,26 +133,18 @@ class _MasamuneModelTidbBuilder extends Builder {
   }
 
   List<String> _readPrefixes(
-    ConstantReader reader,
+    Iterable<String?> values,
     ClassElement element,
   ) {
-    final prefixes = <String>{};
-    for (final value in reader.listValue) {
-      final raw = value.toStringValue();
-      final normalized = _normalizePrefix(raw);
-      if (normalized == null) {
-        continue;
-      }
-      final databasePrefix = normalized.substring(0, normalized.length - 1);
-      if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(databasePrefix)) {
-        throw InvalidGenerationSourceError(
-          "TiDB Data Service prefixes must be valid identifiers: $raw",
-          element: element,
-        );
-      }
-      prefixes.add(normalized);
+    try {
+      return normalizeTidbDatabasePrefixes(values);
+    } on ArgumentError catch (error) {
+      throw InvalidGenerationSourceError(
+        error.message?.toString() ??
+            "TiDB Data Service prefixes must be valid identifiers.",
+        element: element,
+      );
     }
-    return prefixes.toList();
   }
 
   List<TidbTableSpec> _withDatabasePrefixes(
@@ -156,12 +161,6 @@ class _MasamuneModelTidbBuilder extends Builder {
           columns: table.columns,
         ),
     ];
-  }
-
-  String? _normalizePrefix(String? value) {
-    var normalized = value?.trim() ?? "";
-    normalized = normalized.replaceFirst(RegExp(r"_+$"), "");
-    return normalized.isEmpty ? null : "${normalized}_";
   }
 
   void _generateAggregate() {

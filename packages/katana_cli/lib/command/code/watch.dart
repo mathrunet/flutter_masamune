@@ -21,6 +21,10 @@ class CodeWatchCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
+    final builderArguments = _tidbDataServiceBuilderArguments(context);
+    final builderShellArguments = _shellArguments(builderArguments);
+    final builderShellSuffix =
+        builderShellArguments.isEmpty ? "" : " $builderShellArguments";
     if (File("melos.yaml").existsSync()) {
       await command(
         "Watch build_runner for all packages to generate code.",
@@ -28,7 +32,8 @@ class CodeWatchCliCommand extends CliCommand {
           melos,
           "exec",
           "--",
-          "$flutter packages pub run build_runner watch --delete-conflicting-outputs",
+          "$flutter packages pub run build_runner watch "
+              "--delete-conflicting-outputs$builderShellSuffix",
         ],
       );
     } else {
@@ -42,6 +47,7 @@ class CodeWatchCliCommand extends CliCommand {
           "build_runner",
           "watch",
           "--delete-conflicting-outputs",
+          ...builderArguments,
         ],
       );
     }

@@ -16,6 +16,7 @@ import "package:source_gen/source_gen.dart";
 
 // Project imports:
 import "src/endpoint_spec.dart";
+import "src/prefixes.dart";
 import "src/rules_reader.dart";
 
 export "src/endpoint_spec.dart";
@@ -25,5 +26,7 @@ part "src/builder.dart";
 
 /// Creates the TiDB Data Service aggregate builder.
 Builder masamuneModelTidbBuilderFactory(BuilderOptions options) {
-  return _MasamuneModelTidbBuilder();
+  return _MasamuneModelTidbBuilder(
+    readTidbDatabasePrefixOption(options.config["prefixes"]),
+  );
 }

@@ -39,6 +39,44 @@ part "snippets.dart";
 part "localize.dart";
 part "debug.dart";
 
+const _tidbDataServiceBuilderKey =
+    "masamune_model_tidb_builder:masamune_model_tidb_builder";
+
+List<String> _tidbDataServiceBuilderArguments(ExecContext context) {
+  final configuredPrefixes = context.yaml
+      .getAsMap("cloudflare")
+      .getAsMap("tidb")
+      .getAsMap("data_service")
+      .getAsList("prefixes");
+  final prefixes = <String>{};
+  for (final value in configuredPrefixes) {
+    var prefix = value.toString().trim();
+    prefix = prefix.replaceFirst(RegExp(r"_+$"), "");
+    if (prefix.isEmpty) {
+      continue;
+    }
+    if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(prefix)) {
+      throw ArgumentError.value(
+        value,
+        "cloudflare.tidb.data_service.prefixes",
+        "TiDB Data Service prefixes must be valid identifiers.",
+      );
+    }
+    prefixes.add(prefix);
+  }
+  if (prefixes.isEmpty) {
+    return const [];
+  }
+  return [
+    "--define",
+    "$_tidbDataServiceBuilderKey=prefixes=${prefixes.join(",")}",
+  ];
+}
+
+String _shellArguments(List<String> arguments) {
+  return arguments.map((argument) => "'$argument'").join(" ");
+}
+
 /// Dart/Flutter code generation and editing.
 ///
 /// Dart/Flutterのコード生成や編集を行います。

@@ -22,6 +22,10 @@ class CodeGenerateCliCommand extends CliCommand {
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
     final isClean = context.args.get(2, "");
+    final builderArguments = _tidbDataServiceBuilderArguments(context);
+    final builderShellArguments = _shellArguments(builderArguments);
+    final builderShellSuffix =
+        builderShellArguments.isEmpty ? "" : " $builderShellArguments";
     if (File("melos.yaml").existsSync()) {
       if (isClean.isNotEmpty) {
         await command(
@@ -40,7 +44,8 @@ class CodeGenerateCliCommand extends CliCommand {
           melos,
           "exec",
           "--",
-          "$flutter packages pub run build_runner build --delete-conflicting-outputs",
+          "$flutter packages pub run build_runner build "
+              "--delete-conflicting-outputs$builderShellSuffix",
         ],
       );
     } else {
@@ -67,6 +72,7 @@ class CodeGenerateCliCommand extends CliCommand {
           "build_runner",
           "build",
           "--delete-conflicting-outputs",
+          ...builderArguments,
         ],
       );
     }

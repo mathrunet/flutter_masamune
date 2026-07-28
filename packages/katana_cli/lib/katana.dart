@@ -294,6 +294,9 @@ cloudflare:
     mode: direct
     connection_url:
     data_service:
+      # Physical database prefixes generated for every @tidbDataService model.
+      # すべての@tidbDataServiceモデルに生成する物理データベースのプレフィックス。
+      prefixes:
       project_id:
       cluster_id:
       app_id:
