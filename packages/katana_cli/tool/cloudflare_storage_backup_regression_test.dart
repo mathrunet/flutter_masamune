@@ -1,9 +1,17 @@
 import "dart:io";
 
 import "package:katana_cli/action/cloudflare/storage.dart";
+import "package:katana_cli/katana.dart";
 import "package:katana_cli/katana_cli.dart";
 
 Future<void> main() async {
+  final template = katanaYamlCode(true);
+  _expectCount(template, "    backup:", 1);
+  _expectCount(template, "      binding: R2_BACKUP_BUCKET", 1);
+  _expectCount(template, "      max_concurrency:", 0);
+  _expectCount(template, "      max_batch_size: 10", 1);
+  _expectCount(template, "      dead_letter_queue:", 1);
+
   final originalDirectory = Directory.current;
   final temporary = await Directory.systemTemp.createTemp(
     "katana_cloudflare_storage_backup_",

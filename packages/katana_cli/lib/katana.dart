@@ -319,14 +319,26 @@ cloudflare:
   # If you want to use Cloudflare R2 Storage via Workers, set [enable] to `true`.
   # Specify the R2 binding name in [binding], the R2 bucket name in [bucket_name], and the public R2/custom domain in [public_base_url].
   # [download_url_secret] is used to sign limited download URLs. If empty, `katana apply` generates and stores it in `katana_secrets.yaml`.
+  # To copy uploaded objects to another R2 bucket, enable [backup] and specify its bucket binding and Queue settings.
   # Workersを通してCloudflare R2 Storageを使いたい場合は[enable]を`true`にしてください。
   # [binding]にはR2のbinding名、[bucket_name]にはR2 bucket名、[public_base_url]には公開R2/custom domainを指定します。
   # [download_url_secret]は限定ダウンロードURLの署名に利用します。空の場合は`katana apply`で生成し、`katana_secrets.yaml`に保存します。
+  # アップロードされたオブジェクトを別のR2バケットへコピーする場合は[backup]を有効化し、バケットbindingとQueue設定を指定します。
   storage:
     enable: false
     binding: R2_BUCKET
     bucket_name:
     public_base_url:
+    backup:
+      enable: false
+      binding: R2_BACKUP_BUCKET
+      bucket_name:
+      preview_bucket_name:
+      queue_name:
+      max_batch_size: 10
+      max_batch_timeout: 5
+      max_retries: 3
+      dead_letter_queue:
 
   # Enable Firebase Messaging via Workers.
   # Specify ChannelNotificationId for Android in [channel_id].
