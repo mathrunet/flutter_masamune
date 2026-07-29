@@ -557,21 +557,27 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       }
       await _deployAndWait(api, appId, "Apply additive Masamune schema.");
       for (final endpoint in endpoints) {
-        await callTidbDataEndpoint(
-          region: region,
-          appId: appId,
-          path: endpoint.path,
-          publicKey: dataService["public_key"].toString(),
-          privateKey: dataService["private_key"].toString(),
-          method: "POST",
-          body: const <String, dynamic>{},
+        await retryTidbDataEndpointUntilDeployed(
+          () => callTidbDataEndpoint(
+            region: region,
+            appId: appId,
+            path: endpoint.path,
+            publicKey: dataService["public_key"].toString(),
+            privateKey: dataService["private_key"].toString(),
+            method: "POST",
+            body: const <String, dynamic>{},
+          ),
         );
       }
     } on Object catch (exception) {
       failure = exception;
     } finally {
       for (final endpoint in endpoints) {
-        await api.dataService("DELETE", endpoint.name);
+        await deleteTidbDataServiceEndpointAndWait(
+          api,
+          appId: appId,
+          endpointName: endpoint.name,
+        );
       }
       if (endpoints.isNotEmpty) {
         await _deployAndWait(api, appId, "Remove schema bootstrap endpoints.");

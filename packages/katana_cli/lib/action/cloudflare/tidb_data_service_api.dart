@@ -2,8 +2,19 @@
 import "dart:convert";
 import "dart:io";
 
+/// Contract used by TiDB Data Service management operations.
+abstract interface class TidbDataServiceApi {
+  /// Sends a Data Service management API request.
+  Future<Map<String, dynamic>> dataService(
+    String method,
+    String path, {
+    Map<String, String>? query,
+    Object? body,
+  });
+}
+
 /// Minimal Digest-authenticated client for TiDB Cloud management APIs.
-class TidbCloudManagementApi {
+class TidbCloudManagementApi implements TidbDataServiceApi {
   /// Creates a management API client.
   TidbCloudManagementApi({
     required this.publicKey,
@@ -28,6 +39,7 @@ class TidbCloudManagementApi {
   final HttpClient _client = HttpClient();
 
   /// Sends a Data Service management API request.
+  @override
   Future<Map<String, dynamic>> dataService(
     String method,
     String path, {
@@ -126,6 +138,82 @@ class TidbCloudManagementApi {
   void close() {
     _client.close();
   }
+}
+
+/// Deletes one endpoint and waits for its automatic deployment to finish.
+Future<void> deleteTidbDataServiceEndpointAndWait(
+  TidbDataServiceApi api, {
+  required String appId,
+  required String endpointName,
+  Duration pollInterval = const Duration(seconds: 2),
+  int maxAttempts = 30,
+}) async {
+  final deploymentsPath = "dataApps/$appId/deployments";
+  Future<Map<String, dynamic>> latestDeployment() async {
+    final response = await api.dataService(
+      "GET",
+      deploymentsPath,
+      query: {"pageSize": "1"},
+    );
+    final deployments = response["deployments"];
+    if (deployments is! List || deployments.isEmpty) {
+      return const {};
+    }
+    final latest = deployments.first;
+    if (latest is! Map) {
+      return const {};
+    }
+    return latest.map(
+      (key, value) => MapEntry(key.toString(), value),
+    );
+  }
+
+  final previousDeployment = await latestDeployment();
+  final previousName = previousDeployment["name"]?.toString() ?? "";
+  await api.dataService("DELETE", endpointName);
+  for (var attempt = 0; attempt < maxAttempts; attempt++) {
+    final deployment = await latestDeployment();
+    final name = deployment["name"]?.toString() ?? "";
+    final status = deployment["status"]?.toString().toLowerCase() ?? "";
+    if (name.isEmpty || name == previousName) {
+      await Future<void>.delayed(pollInterval);
+      continue;
+    }
+    if (status == "success") {
+      return;
+    }
+    if (status == "failed") {
+      throw StateError(
+        "TiDB Data Service endpoint deletion deployment failed: "
+        "${deployment["statusErrorMessage"]}",
+      );
+    }
+    await Future<void>.delayed(pollInterval);
+  }
+  throw StateError(
+    "Timed out waiting for the TiDB Data Service endpoint deletion "
+    "deployment.",
+  );
+}
+
+/// Retries a newly deployed endpoint while TiDB propagates the deployment.
+Future<Map<String, dynamic>> retryTidbDataEndpointUntilDeployed(
+  Future<Map<String, dynamic>> Function() call, {
+  Duration pollInterval = const Duration(seconds: 2),
+  int maxAttempts = 10,
+}) async {
+  for (var attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      return await call();
+    } on HttpException catch (exception) {
+      if (attempt == maxAttempts - 1 ||
+          !exception.message.contains("deployed endpoint not found")) {
+        rethrow;
+      }
+      await Future<void>.delayed(pollInterval);
+    }
+  }
+  throw StateError("TiDB Data Service endpoint retry was exhausted.");
 }
 
 Future<Map<String, dynamic>> _callTidbCloudApiWithCurl({
