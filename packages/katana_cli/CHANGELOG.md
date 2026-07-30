@@ -1,3 +1,8 @@
+## 3.18.1
+
+ - **FIX**(tidb): enhance endpoint ownership management and pagination. ([a12bf5b6](https://github.com/mathrunet/flutter_masamune/commit/a12bf5b62ac82cdaa4cddc08851ab1754d014632))
+ - **FIX**(tidb): wait for endpoint deletion deployments. ([d3d812f2](https://github.com/mathrunet/flutter_masamune/commit/d3d812f2e1f8ba8f73acef137af62ea73167e963))
+
 ## 3.18.0
 
  - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))

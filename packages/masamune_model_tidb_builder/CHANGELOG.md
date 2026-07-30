@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**(tidb): introduce CachedTidbModelAdapter for persistent local caching. ([67f6854e](https://github.com/mathrunet/flutter_masamune/commit/67f6854ebab383d897ddd838db0ea4abf6c48375))
+
 ## 3.3.0
 
  - **FEAT**(tidb): implement shared database prefixes for TiDB Data Service. ([b7f96d84](https://github.com/mathrunet/flutter_masamune/commit/b7f96d84539b05ef10275b95add093a0080aeb66))

@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.18.1`](#katana_cli---v3181)
+ - [`masamune_model_tidb` - `v3.5.0`](#masamune_model_tidb---v350)
+ - [`masamune_model_tidb_builder` - `v3.4.0`](#masamune_model_tidb_builder---v340)
+ - [`masamune_model_turso` - `v3.6.0`](#masamune_model_turso---v360)
+
+---
+
+#### `katana_cli` - `v3.18.1`
+
+ - **FIX**(tidb): enhance endpoint ownership management and pagination. ([a12bf5b6](https://github.com/mathrunet/flutter_masamune/commit/a12bf5b62ac82cdaa4cddc08851ab1754d014632))
+ - **FIX**(tidb): wait for endpoint deletion deployments. ([d3d812f2](https://github.com/mathrunet/flutter_masamune/commit/d3d812f2e1f8ba8f73acef137af62ea73167e963))
+
+#### `masamune_model_tidb` - `v3.5.0`
+
+ - **FEAT**(tidb): introduce CachedTidbModelAdapter for persistent local caching. ([67f6854e](https://github.com/mathrunet/flutter_masamune/commit/67f6854ebab383d897ddd838db0ea4abf6c48375))
+
+#### `masamune_model_tidb_builder` - `v3.4.0`
+
+ - **FEAT**(tidb): introduce CachedTidbModelAdapter for persistent local caching. ([67f6854e](https://github.com/mathrunet/flutter_masamune/commit/67f6854ebab383d897ddd838db0ea4abf6c48375))
+
+#### `masamune_model_turso` - `v3.6.0`
+
+ - **FEAT**(tidb): introduce CachedTidbModelAdapter for persistent local caching. ([67f6854e](https://github.com/mathrunet/flutter_masamune/commit/67f6854ebab383d897ddd838db0ea4abf6c48375))
+
+
 ## 2026-07-28
 
 ### Changes
