@@ -60,7 +60,11 @@ class TursoModelAdapter extends ModelAdapter {
 
   final String? _prefix;
 
-  String? get _cachePrefix =>
+  /// Prefix used to isolate runtime and persistent cache entries.
+  ///
+  /// ランタイムキャッシュと永続キャッシュのエントリーを分離するプレフィックス。
+  @protected
+  String? get cachePrefix =>
       prefix == null ? null : "__database_prefix__/$prefix";
 
   /// Whether to use direct client access.
@@ -110,6 +114,106 @@ class TursoModelAdapter extends ModelAdapter {
     return cachedRuntimeDatabase.clearAll();
   }
 
+  /// Called before loading a document from Turso.
+  ///
+  /// Tursoからドキュメントを読み込む前に呼び出されます。
+  @protected
+  Future<DynamicMap?> onPreloadDocument(
+    ModelAdapterDocumentQuery query,
+  ) =>
+      Future.value();
+
+  /// Called after loading a document from Turso.
+  ///
+  /// Tursoからドキュメントを読み込んだ後に呼び出されます。
+  @protected
+  Future<void> onPostloadDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) =>
+      Future.value();
+
+  /// Called before loading a collection from Turso.
+  ///
+  /// Tursoからコレクションを読み込む前に呼び出されます。
+  @protected
+  Future<CachedTursoModelCollectionLoaderResponse?> onPreloadCollection(
+    ModelAdapterCollectionQuery query,
+  ) =>
+      Future.value();
+
+  /// Called after loading a collection from Turso.
+  ///
+  /// Tursoからコレクションを読み込んだ後に呼び出されます。
+  @protected
+  Future<void> onPostloadCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap> value,
+  ) =>
+      Future.value();
+
+  /// Called after saving a document to Turso.
+  ///
+  /// Tursoへドキュメントを保存した後に呼び出されます。
+  @protected
+  Future<void> onSaveDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) =>
+      Future.value();
+
+  /// Called after deleting a document from Turso.
+  ///
+  /// Tursoからドキュメントを削除した後に呼び出されます。
+  @protected
+  Future<void> onDeleteDocument(
+    ModelAdapterDocumentQuery query,
+  ) =>
+      Future.value();
+
+  Future<void> _syncCachedCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap> value,
+  ) async {
+    await cachedRuntimeDatabase.syncCollection(
+      query,
+      value,
+      prefix: cachePrefix,
+    );
+    await onPostloadCollection(query, value);
+  }
+
+  Future<void> _syncCachedDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) async {
+    await cachedRuntimeDatabase.syncDocument(
+      query,
+      value,
+      prefix: cachePrefix,
+    );
+    await onPostloadDocument(query, value);
+  }
+
+  Future<void> _saveCachedDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) async {
+    await cachedRuntimeDatabase.saveDocument(
+      query,
+      value,
+      prefix: cachePrefix,
+    );
+    await onSaveDocument(query, value);
+  }
+
+  Future<void> _deleteCachedDocument(
+    ModelAdapterDocumentQuery query,
+  ) async {
+    await cachedRuntimeDatabase.deleteDocument(query, prefix: cachePrefix);
+    await onDeleteDocument(query);
+  }
+
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     final path = TursoModelPath.fromDocumentQuery(query);
@@ -143,7 +247,7 @@ class TursoModelAdapter extends ModelAdapter {
         indexKey: path.indexKey,
       ));
     }
-    await cachedRuntimeDatabase.deleteDocument(query, prefix: _cachePrefix);
+    await _deleteCachedDocument(query);
   }
 
   @override
@@ -165,12 +269,12 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    cachedRuntimeDatabase.removeCollectionListener(query, prefix: _cachePrefix);
+    cachedRuntimeDatabase.removeCollectionListener(query, prefix: cachePrefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    cachedRuntimeDatabase.removeDocumentListener(query, prefix: _cachePrefix);
+    cachedRuntimeDatabase.removeDocumentListener(query, prefix: cachePrefix);
   }
 
   @override
@@ -251,16 +355,29 @@ class TursoModelAdapter extends ModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
       ModelAdapterCollectionQuery query) async {
-    final path = TursoModelPath.fromCollectionQuery(query);
-    final payload = TursoQueryPayload.fromFilters(query.query.filters);
-    final data = _directEnabled
-        ? await _loadCollectionDirect(path, payload)
-        : await _loadCollectionFunctions(path, payload);
-    await cachedRuntimeDatabase.syncCollection(
-      query,
-      data,
-      prefix: _cachePrefix,
-    );
+    final cache = await onPreloadCollection(query);
+    var data = cache?.value;
+    if (data == null || cache?.query != null) {
+      if (cache?.query != null) {
+        query = cache!.query!;
+      }
+      final path = TursoModelPath.fromCollectionQuery(query);
+      final payload = TursoQueryPayload.fromFilters(query.query.filters);
+      final remote = _directEnabled
+          ? await _loadCollectionDirect(path, payload)
+          : await _loadCollectionFunctions(path, payload);
+      data = {
+        ...?data,
+        ...remote,
+      };
+      await _syncCachedCollection(query, data);
+    } else {
+      await cachedRuntimeDatabase.syncCollection(
+        query,
+        data,
+        prefix: cachePrefix,
+      );
+    }
     return data;
   }
 
@@ -268,20 +385,25 @@ class TursoModelAdapter extends ModelAdapter {
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     if (query.reference && !query.reload) {
       final cached =
-          await cachedRuntimeDatabase.loadDocument(query, prefix: _cachePrefix);
+          await cachedRuntimeDatabase.loadDocument(query, prefix: cachePrefix);
       if (cached != null) {
         return cached;
       }
+    }
+    final cached = await onPreloadDocument(query);
+    if (cached != null) {
+      await cachedRuntimeDatabase.syncDocument(
+        query,
+        cached,
+        prefix: cachePrefix,
+      );
+      return cached;
     }
     final path = TursoModelPath.fromDocumentQuery(query);
     final data = _directEnabled
         ? await _loadDocumentDirect(path)
         : await _loadDocumentFunctions(path);
-    await cachedRuntimeDatabase.syncDocument(
-      query,
-      data,
-      prefix: _cachePrefix,
-    );
+    await _syncCachedDocument(query, data);
     return data;
   }
 
@@ -322,11 +444,7 @@ class TursoModelAdapter extends ModelAdapter {
     } else {
       await _saveDocumentFunctions(path, row);
     }
-    await cachedRuntimeDatabase.saveDocument(
-      query,
-      value,
-      prefix: _cachePrefix,
-    );
+    await _saveCachedDocument(query, value);
   }
 
   @override
@@ -587,7 +705,7 @@ class TursoModelAdapter extends ModelAdapter {
       if (rows.isEmpty) {
         continue;
       }
-      await cachedRuntimeDatabase.syncCollection(
+      await _syncCachedCollection(
         ModelAdapterCollectionQuery(
           query: CollectionModelQuery(
             "database/$database/${tableEntry.key}",
@@ -595,7 +713,6 @@ class TursoModelAdapter extends ModelAdapter {
           ),
         ),
         rows,
-        prefix: _cachePrefix,
       );
     }
   }
@@ -684,6 +801,9 @@ class TursoModelAdapter extends ModelAdapter {
           } catch (_) {
             await tx.rollback();
             rethrow;
+          }
+          for (final operation in operations) {
+            await operation.syncCache(this);
           }
         } else {
           for (final operation in operations) {
@@ -1027,6 +1147,8 @@ abstract class _TursoOperation {
     TursoModelAdapter adapter,
     dynamic transaction,
   );
+
+  Future<void> syncCache(TursoModelAdapter adapter);
 }
 
 class _TursoSaveOperation extends _TursoOperation {
@@ -1052,8 +1174,7 @@ class _TursoSaveOperation extends _TursoOperation {
       path,
       adapter._buildSaveRow(path, value),
     );
-    await adapter.cachedRuntimeDatabase
-        .saveDocument(query, value, prefix: adapter._cachePrefix);
+    await syncCache(adapter);
   }
 
   @override
@@ -1062,8 +1183,7 @@ class _TursoSaveOperation extends _TursoOperation {
     final row = adapter._buildSaveRow(path, value);
     final insert = _buildTursoInsertSql(path.table, row);
     await client.execute(insert.sql, positional: insert.args);
-    await adapter.cachedRuntimeDatabase
-        .saveDocument(query, value, prefix: adapter._cachePrefix);
+    await syncCache(adapter);
   }
 
   @override
@@ -1075,8 +1195,11 @@ class _TursoSaveOperation extends _TursoOperation {
     final row = adapter._buildSaveRow(path, value);
     final insert = _buildTursoInsertSql(path.table, row);
     await transaction.execute(insert.sql, positional: insert.args);
-    await adapter.cachedRuntimeDatabase
-        .saveDocument(query, value, prefix: adapter._cachePrefix);
+  }
+
+  @override
+  Future<void> syncCache(TursoModelAdapter adapter) async {
+    await adapter._saveCachedDocument(query, value);
   }
 }
 
@@ -1104,8 +1227,7 @@ class _TursoDeleteOperation extends _TursoOperation {
       prefix: adapter.prefix,
       indexKey: path.indexKey,
     ));
-    await adapter.cachedRuntimeDatabase
-        .deleteDocument(query, prefix: adapter._cachePrefix);
+    await syncCache(adapter);
   }
 
   @override
@@ -1116,8 +1238,7 @@ class _TursoDeleteOperation extends _TursoOperation {
       "WHERE ${_quoteTursoIdentifier("id")} = ?",
       positional: [path.indexKey],
     );
-    await adapter.cachedRuntimeDatabase
-        .deleteDocument(query, prefix: adapter._cachePrefix);
+    await syncCache(adapter);
   }
 
   @override
@@ -1131,7 +1252,10 @@ class _TursoDeleteOperation extends _TursoOperation {
       "WHERE ${_quoteTursoIdentifier("id")} = ?",
       positional: [path.indexKey],
     );
-    await adapter.cachedRuntimeDatabase
-        .deleteDocument(query, prefix: adapter._cachePrefix);
+  }
+
+  @override
+  Future<void> syncCache(TursoModelAdapter adapter) async {
+    await adapter._deleteCachedDocument(query);
   }
 }

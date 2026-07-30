@@ -1,8 +1,10 @@
 // Copyright (c) 2025 mathru. All rights reserved.
 
 // Package imports:
-import "package:masamune_model_tidb_builder/src/prefixes.dart";
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_model_tidb_builder/src/prefixes.dart";
 
 void main() {
   test("reads list and comma-separated builder options", () {

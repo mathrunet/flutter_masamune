@@ -53,6 +53,44 @@ database/<database>/<table>/<document_id>
 The adapter sends all reads and writes to the Workers CRUD endpoint. It does not
 open direct MySQL/TiDB TCP connections from Flutter clients.
 
+## Persistent local cache
+
+Use `CachedTidbModelAdapter` when loaded data should remain available from a
+device-local cache after the app restarts.
+
+```dart
+final adapter = CachedTidbModelAdapter();
+```
+
+Documents are loaded from the local cache first. Call `reload()` on the
+Masamune model when fresh remote data is required. Saves, deletes, batches, and
+transactions keep TiDB, the runtime cache, and the persistent cache in sync.
+
+Use `cacheFilter` to exclude documents from the persistent cache. Collection
+cache loading is opt-in through `collectionLoaders`, which can return cached
+rows only or return a modified query to merge additional TiDB rows.
+
+```dart
+late final CachedTidbModelAdapter adapter;
+adapter = CachedTidbModelAdapter(
+  cacheFilter: (_, value) => value["private"] != true,
+  collectionLoaders: [
+    (query, _) async {
+      final cache = await adapter.loadCachedCollection(query);
+      if (cache == null) {
+        return null;
+      }
+      return CachedTidbModelCollectionLoaderResponse(value: cache);
+    },
+  ],
+);
+```
+
+Pass a custom `cachedLocalDatabase` for testing or custom persistence behavior.
+The default shared database stores native data in the application documents
+area and Web data through the storage used by `DatabaseExporter`. Database
+prefixes also isolate persistent cache entries.
+
 ## Separate development and production databases
 
 Pass `prefix` to select a prefixed physical database while keeping model paths

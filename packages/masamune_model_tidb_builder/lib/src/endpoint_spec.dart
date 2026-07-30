@@ -113,6 +113,67 @@ class TidbGeneratedArtifacts {
   final Map<String, String> files;
 }
 
+/// Deployment identity that must survive model code generation.
+class TidbDeploymentIdentity {
+  /// Creates a deployment identity.
+  const TidbDeploymentIdentity({
+    this.appId = "",
+    this.appName = "masamune",
+    this.clusterId = "0",
+  });
+
+  /// Reads the deployment identity from existing Data Service CaC files.
+  ///
+  /// Invalid or incomplete files fall back to safe first-generation values.
+  factory TidbDeploymentIdentity.fromArtifacts({
+    String? dataAppConfig,
+    String? dataSourcesConfig,
+  }) {
+    var appId = "";
+    var appName = "masamune";
+    var clusterId = "0";
+    try {
+      final decoded = jsonDecode(dataAppConfig ?? "");
+      if (decoded is Map) {
+        final existingAppId = decoded["app_id"]?.toString().trim() ?? "";
+        final existingAppName = decoded["app_name"]?.toString().trim() ?? "";
+        appId = existingAppId;
+        if (existingAppName.isNotEmpty) {
+          appName = existingAppName;
+        }
+      }
+    } on FormatException {
+      // A malformed generated file is replaced with safe defaults.
+    }
+    try {
+      final decoded = jsonDecode(dataSourcesConfig ?? "");
+      if (decoded is List && decoded.isNotEmpty && decoded.first is Map) {
+        final existingClusterId =
+            (decoded.first as Map)["cluster_id"]?.toString().trim() ?? "";
+        if (existingClusterId.isNotEmpty) {
+          clusterId = existingClusterId;
+        }
+      }
+    } on FormatException {
+      // A malformed generated file is replaced with safe defaults.
+    }
+    return TidbDeploymentIdentity(
+      appId: appId,
+      appName: appName,
+      clusterId: clusterId,
+    );
+  }
+
+  /// TiDB Data App identifier.
+  final String appId;
+
+  /// TiDB Data App display name.
+  final String appName;
+
+  /// TiDB cluster identifier.
+  final String clusterId;
+}
+
 /// Single source of truth for the Workers/Data Service endpoint convention.
 class TidbEndpointSpec {
   /// Generates official Data Service CaC files and Masamune manifests.

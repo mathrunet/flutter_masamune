@@ -453,21 +453,21 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "3.5.2"
+    version: "3.6.0"
   katana_model_firestore:
     dependency: "direct overridden"
     description:
       path: "../katana_model_firestore"
       relative: true
     source: path
-    version: "3.3.3"
+    version: "3.3.4"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "3.3.2"
+    version: "3.3.3"
   katana_platform_info:
     dependency: "direct overridden"
     description:
@@ -592,7 +592,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.5.9"
+    version: "3.5.10"
   masamune_annotation:
     dependency: "direct overridden"
     description:

@@ -35,7 +35,11 @@ class TidbModelAdapter extends ModelAdapter {
 
   final String? _prefix;
 
-  String? get _cachePrefix =>
+  /// Prefix used to isolate runtime and persistent cache entries.
+  ///
+  /// ランタイムキャッシュと永続キャッシュのエントリーを分離するプレフィックス。
+  @protected
+  String? get cachePrefix =>
       prefix == null ? null : "__database_prefix__/$prefix";
 
   /// Local cache database.
@@ -68,6 +72,106 @@ class TidbModelAdapter extends ModelAdapter {
     return cachedRuntimeDatabase.clearAll();
   }
 
+  /// Called before loading a document from TiDB.
+  ///
+  /// TiDBからドキュメントを読み込む前に呼び出されます。
+  @protected
+  Future<DynamicMap?> onPreloadDocument(
+    ModelAdapterDocumentQuery query,
+  ) =>
+      Future.value();
+
+  /// Called after loading a document from TiDB.
+  ///
+  /// TiDBからドキュメントを読み込んだ後に呼び出されます。
+  @protected
+  Future<void> onPostloadDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) =>
+      Future.value();
+
+  /// Called before loading a collection from TiDB.
+  ///
+  /// TiDBからコレクションを読み込む前に呼び出されます。
+  @protected
+  Future<CachedTidbModelCollectionLoaderResponse?> onPreloadCollection(
+    ModelAdapterCollectionQuery query,
+  ) =>
+      Future.value();
+
+  /// Called after loading a collection from TiDB.
+  ///
+  /// TiDBからコレクションを読み込んだ後に呼び出されます。
+  @protected
+  Future<void> onPostloadCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap> value,
+  ) =>
+      Future.value();
+
+  /// Called after saving a document to TiDB.
+  ///
+  /// TiDBへドキュメントを保存した後に呼び出されます。
+  @protected
+  Future<void> onSaveDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) =>
+      Future.value();
+
+  /// Called after deleting a document from TiDB.
+  ///
+  /// TiDBからドキュメントを削除した後に呼び出されます。
+  @protected
+  Future<void> onDeleteDocument(
+    ModelAdapterDocumentQuery query,
+  ) =>
+      Future.value();
+
+  Future<void> _syncCachedCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap> value,
+  ) async {
+    await cachedRuntimeDatabase.syncCollection(
+      query,
+      value,
+      prefix: cachePrefix,
+    );
+    await onPostloadCollection(query, value);
+  }
+
+  Future<void> _syncCachedDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) async {
+    await cachedRuntimeDatabase.syncDocument(
+      query,
+      value,
+      prefix: cachePrefix,
+    );
+    await onPostloadDocument(query, value);
+  }
+
+  Future<void> _saveCachedDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) async {
+    await cachedRuntimeDatabase.saveDocument(
+      query,
+      value,
+      prefix: cachePrefix,
+    );
+    await onSaveDocument(query, value);
+  }
+
+  Future<void> _deleteCachedDocument(
+    ModelAdapterDocumentQuery query,
+  ) async {
+    await cachedRuntimeDatabase.deleteDocument(query, prefix: cachePrefix);
+    await onDeleteDocument(query);
+  }
+
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     final path = TidbModelPath.fromDocumentQuery(query);
@@ -77,7 +181,7 @@ class TidbModelAdapter extends ModelAdapter {
       prefix: prefix,
       indexKey: path.indexKey,
     ));
-    await cachedRuntimeDatabase.deleteDocument(query, prefix: _cachePrefix);
+    await _deleteCachedDocument(query);
   }
 
   @override
@@ -99,12 +203,12 @@ class TidbModelAdapter extends ModelAdapter {
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    cachedRuntimeDatabase.removeCollectionListener(query, prefix: _cachePrefix);
+    cachedRuntimeDatabase.removeCollectionListener(query, prefix: cachePrefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    cachedRuntimeDatabase.removeDocumentListener(query, prefix: _cachePrefix);
+    cachedRuntimeDatabase.removeDocumentListener(query, prefix: cachePrefix);
   }
 
   @override
@@ -147,14 +251,27 @@ class TidbModelAdapter extends ModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
       ModelAdapterCollectionQuery query) async {
-    final path = TidbModelPath.fromCollectionQuery(query);
-    final payload = TidbQueryPayload.fromFilters(query.query.filters);
-    final data = await _loadCollectionFunctions(path, payload);
-    await cachedRuntimeDatabase.syncCollection(
-      query,
-      data,
-      prefix: _cachePrefix,
-    );
+    final cache = await onPreloadCollection(query);
+    var data = cache?.value;
+    if (data == null || cache?.query != null) {
+      if (cache?.query != null) {
+        query = cache!.query!;
+      }
+      final path = TidbModelPath.fromCollectionQuery(query);
+      final payload = TidbQueryPayload.fromFilters(query.query.filters);
+      final remote = await _loadCollectionFunctions(path, payload);
+      data = {
+        ...?data,
+        ...remote,
+      };
+      await _syncCachedCollection(query, data);
+    } else {
+      await cachedRuntimeDatabase.syncCollection(
+        query,
+        data,
+        prefix: cachePrefix,
+      );
+    }
     return data;
   }
 
@@ -162,18 +279,23 @@ class TidbModelAdapter extends ModelAdapter {
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     if (query.reference && !query.reload) {
       final cached =
-          await cachedRuntimeDatabase.loadDocument(query, prefix: _cachePrefix);
+          await cachedRuntimeDatabase.loadDocument(query, prefix: cachePrefix);
       if (cached != null) {
         return cached;
       }
     }
+    final cached = await onPreloadDocument(query);
+    if (cached != null) {
+      await cachedRuntimeDatabase.syncDocument(
+        query,
+        cached,
+        prefix: cachePrefix,
+      );
+      return cached;
+    }
     final path = TidbModelPath.fromDocumentQuery(query);
     final data = await _loadDocumentFunctions(path);
-    await cachedRuntimeDatabase.syncDocument(
-      query,
-      data,
-      prefix: _cachePrefix,
-    );
+    await _syncCachedDocument(query, data);
     return data;
   }
 
@@ -208,11 +330,7 @@ class TidbModelAdapter extends ModelAdapter {
     final path = TidbModelPath.fromDocumentQuery(query);
     final row = _buildSaveRow(path, value);
     await _saveDocumentFunctions(path, row);
-    await cachedRuntimeDatabase.saveDocument(
-      query,
-      value,
-      prefix: _cachePrefix,
-    );
+    await _saveCachedDocument(query, value);
   }
 
   @override
@@ -329,7 +447,7 @@ class TidbModelAdapter extends ModelAdapter {
       if (rows.isEmpty) {
         continue;
       }
-      await cachedRuntimeDatabase.syncCollection(
+      await _syncCachedCollection(
         ModelAdapterCollectionQuery(
           query: CollectionModelQuery(
             "database/$database/${tableEntry.key}",
@@ -337,7 +455,6 @@ class TidbModelAdapter extends ModelAdapter {
           ),
         ),
         rows,
-        prefix: _cachePrefix,
       );
     }
   }
@@ -467,8 +584,7 @@ class _TidbSaveOperation extends _TidbOperation {
       path,
       adapter._buildSaveRow(path, value),
     );
-    await adapter.cachedRuntimeDatabase
-        .saveDocument(query, value, prefix: adapter._cachePrefix);
+    await adapter._saveCachedDocument(query, value);
   }
 }
 
@@ -496,7 +612,6 @@ class _TidbDeleteOperation extends _TidbOperation {
       prefix: adapter.prefix,
       indexKey: path.indexKey,
     ));
-    await adapter.cachedRuntimeDatabase
-        .deleteDocument(query, prefix: adapter._cachePrefix);
+    await adapter._deleteCachedDocument(query);
   }
 }

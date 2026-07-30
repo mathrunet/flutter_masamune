@@ -1,7 +1,8 @@
 # masamune_model_tidb_builder
 
 Run `katana code generate` after adding `@tidbDataService` to Masamune models.
-The builder emits the official TiDB Data Service CaC layout:
+The builder and `katana apply` maintain the official TiDB Data Service CaC
+layout:
 
 ```text
 tidb/data_service/
@@ -10,8 +11,18 @@ tidb/data_service/
   http_endpoints/config.json
   http_endpoints/sql/*.sql
   __masamune/schema.sql
+  __masamune/deployed_endpoints.json
   __generated_manifest.json
 ```
+
+`katana apply` writes `__masamune/deployed_endpoints.json` after a successful
+TiDB deployment. It records the full TiDB resource name for every endpoint
+deployed by the current project. On a later model generation, endpoints absent
+from the new `http_endpoints/config.json` are deleted only when the remote
+resource still exactly matches that last-applied ownership record. Other
+Masamune-tagged endpoints in a shared Data App are left untouched. Keep this
+state file with the generated Data Service artifacts so that the ownership
+boundary survives another machine or CI checkout.
 
 The schema migration is additive. Operations explicitly denied by
 `cloudflare/src/rules.json` are omitted from generated endpoints; dynamic rules

@@ -436,6 +436,233 @@ void main() {
     expect(response.scopes.single.readMode, "direct");
     expect(response.scopes.single.writeMode, "functions");
   });
+
+  test("CachedTursoModelAdapter loads documents from persistent cache.",
+      () async {
+    final localDatabase = NoSqlDatabase();
+    final firstFunctions = _RecordingFunctionsAdapter(
+      responseData: const [
+        {"id": "user_1", "name": "Alice"},
+      ],
+    );
+    final firstAdapter = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: firstFunctions,
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+
+    expect((await firstAdapter.loadDocument(query))["name"], "Alice");
+    expect(firstFunctions.actions, hasLength(1));
+
+    final secondFunctions = _RecordingFunctionsAdapter(
+      responseData: const [
+        {"id": "user_1", "name": "Bob"},
+      ],
+    );
+    final secondAdapter = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: secondFunctions,
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+
+    expect((await secondAdapter.loadDocument(query))["name"], "Alice");
+    expect(secondFunctions.actions, isEmpty);
+
+    final reloaded = await secondAdapter.loadDocument(
+      query.copyWith(reload: true),
+    );
+    expect(reloaded["name"], "Bob");
+    expect(secondFunctions.actions, hasLength(1));
+    expect((await localDatabase.loadDocument(query))?["name"], "Bob");
+  });
+
+  test("CachedTursoModelAdapter merges collection cache and remote data.",
+      () async {
+    final localDatabase = NoSqlDatabase();
+    const query = ModelAdapterCollectionQuery(
+      query: CollectionModelQuery(
+        "database/test/users",
+        adapter: RuntimeModelAdapter(),
+      ),
+    );
+    await localDatabase.saveCollection(query, const {
+      "user_1": {"name": "Alice"},
+    });
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseData: const [
+        {"id": "user_2", "name": "Bob"},
+      ],
+    );
+    final adapter = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: functionsAdapter,
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+      collectionLoaders: [
+        (query, _) async {
+          return CachedTursoModelCollectionLoaderResponse(
+            value: await localDatabase.loadCollection(query) ?? {},
+            query: query,
+          );
+        },
+      ],
+    );
+
+    final result = await adapter.loadCollection(query);
+
+    expect(result.keys, containsAll(["user_1", "user_2"]));
+    expect(functionsAdapter.actions, hasLength(1));
+    expect((await localDatabase.loadCollection(query))?.keys,
+        containsAll(["user_1", "user_2"]));
+  });
+
+  test("CachedTursoModelAdapter can satisfy collection loads from cache.",
+      () async {
+    final localDatabase = NoSqlDatabase();
+    const query = ModelAdapterCollectionQuery(
+      query: CollectionModelQuery(
+        "database/test/users",
+        adapter: RuntimeModelAdapter(),
+      ),
+    );
+    await localDatabase.saveCollection(query, const {
+      "user_1": {"name": "Alice"},
+    });
+    final functionsAdapter = _RecordingFunctionsAdapter();
+    final adapter = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: functionsAdapter,
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+      collectionLoaders: [
+        (query, _) async {
+          return CachedTursoModelCollectionLoaderResponse(
+            value: await localDatabase.loadCollection(query) ?? {},
+          );
+        },
+      ],
+    );
+
+    expect((await adapter.loadCollection(query))["user_1"]?["name"], "Alice");
+    expect(functionsAdapter.actions, isEmpty);
+  });
+
+  test("CachedTursoModelAdapter applies cacheFilter.", () async {
+    final localDatabase = NoSqlDatabase();
+    final adapter = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: _RecordingFunctionsAdapter(
+        responseData: const [
+          {"id": "user_1", "name": "Alice", "private": true},
+        ],
+      ),
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+      cacheFilter: (_, value) => value["private"] != true,
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+
+    await adapter.loadDocument(query);
+
+    expect(await localDatabase.loadDocument(query), isNull);
+  });
+
+  test("CachedTursoModelAdapter isolates persistent cache by prefix.",
+      () async {
+    final localDatabase = NoSqlDatabase();
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+    final dev = CachedTursoModelAdapter(
+      useDirectClient: false,
+      prefix: "dev",
+      functionsAdapter: _RecordingFunctionsAdapter(
+        responseData: const [
+          {"id": "user_1", "name": "Development"},
+        ],
+      ),
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+    final prod = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: _RecordingFunctionsAdapter(
+        responseData: const [
+          {"id": "user_1", "name": "Production"},
+        ],
+      ),
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+
+    expect((await dev.loadDocument(query))["name"], "Development");
+    expect((await prod.loadDocument(query))["name"], "Production");
+
+    final cachedDevFunctions = _RecordingFunctionsAdapter();
+    final cachedProdFunctions = _RecordingFunctionsAdapter();
+    final cachedDev = CachedTursoModelAdapter(
+      useDirectClient: false,
+      prefix: "dev",
+      functionsAdapter: cachedDevFunctions,
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+    final cachedProd = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: cachedProdFunctions,
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+
+    expect((await cachedDev.loadDocument(query))["name"], "Development");
+    expect((await cachedProd.loadDocument(query))["name"], "Production");
+    expect(cachedDevFunctions.actions, isEmpty);
+    expect(cachedProdFunctions.actions, isEmpty);
+  });
+
+  test("CachedTursoModelAdapter syncs saves, batches, deletes, and clear.",
+      () async {
+    final localDatabase = NoSqlDatabase();
+    final adapter = CachedTursoModelAdapter(
+      useDirectClient: false,
+      functionsAdapter: _RecordingFunctionsAdapter(),
+      cachedRuntimeDatabase: NoSqlDatabase(),
+      cachedLocalDatabase: localDatabase,
+    );
+    const firstQuery = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+    const secondQuery = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_2"),
+    );
+
+    await adapter.saveDocument(firstQuery, const {"name": "Alice"});
+    expect((await localDatabase.loadDocument(firstQuery))?["name"], "Alice");
+
+    await adapter.runBatch((ref) {
+      adapter.saveOnBatch(ref, secondQuery, const {"name": "Bob"});
+    }, 100);
+    expect((await localDatabase.loadDocument(secondQuery))?["name"], "Bob");
+
+    await adapter.runTransaction((ref) {
+      adapter.deleteOnTransaction(ref, secondQuery);
+    });
+    expect(await localDatabase.loadDocument(secondQuery), isNull);
+
+    await adapter.deleteDocument(firstQuery);
+    expect(await localDatabase.loadDocument(firstQuery), isNull);
+
+    await adapter.saveDocument(firstQuery, const {"name": "Alice"});
+    await adapter.clearCache();
+    expect(await localDatabase.loadDocument(firstQuery), isNull);
+  });
 }
 
 class _RecordingFunctionsAdapter extends FunctionsAdapter {

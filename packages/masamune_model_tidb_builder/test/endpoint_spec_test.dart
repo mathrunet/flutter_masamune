@@ -66,6 +66,98 @@ void main() {
     );
   });
 
+  test("emits only endpoints from the current model inventory", () {
+    const removedTable = TidbTableSpec(
+      database: "main",
+      table: "removed",
+      columns: [
+        TidbColumnSpec(name: "value", sqlType: "TEXT"),
+      ],
+    );
+    final previous = TidbEndpointSpec.generate(
+      tables: [table, removedTable],
+      rules: const TidbRulesReader({}),
+    );
+    final current = TidbEndpointSpec.generate(
+      tables: [table],
+      rules: const TidbRulesReader({}),
+    );
+    final previousConfig = (jsonDecode(
+      previous.files["http_endpoints/config.json"]!,
+    ) as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+    final currentConfig = (jsonDecode(
+      current.files["http_endpoints/config.json"]!,
+    ) as List<dynamic>)
+        .cast<Map<String, dynamic>>();
+
+    expect(
+      previousConfig.any(
+        (endpoint) =>
+            endpoint["endpoint"]?.toString().startsWith("/main/removed/") ??
+            false,
+      ),
+      isTrue,
+    );
+    expect(
+      currentConfig.any(
+        (endpoint) =>
+            endpoint["endpoint"]?.toString().startsWith("/main/removed/") ??
+            false,
+      ),
+      isFalse,
+    );
+    expect(
+      current.files.keys.any((path) => path.contains("-main-removed-")),
+      isFalse,
+    );
+  });
+
+  test("preserves deployment identity from existing CaC files", () {
+    final identity = TidbDeploymentIdentity.fromArtifacts(
+      dataAppConfig: jsonEncode({
+        "app_id": "dataapp-existing",
+        "app_name": "roalia",
+      }),
+      dataSourcesConfig: jsonEncode([
+        {"cluster_id": 1234567890},
+      ]),
+    );
+    final output = TidbEndpointSpec.generate(
+      tables: [table],
+      rules: const TidbRulesReader({}),
+      appId: identity.appId,
+      appName: identity.appName,
+      clusterId: identity.clusterId,
+    );
+
+    expect(
+      jsonDecode(output.files["dataapp_config.json"]!),
+      containsPair("app_id", "dataapp-existing"),
+    );
+    expect(
+      jsonDecode(output.files["dataapp_config.json"]!),
+      containsPair("app_name", "roalia"),
+    );
+    expect(
+      jsonDecode(output.files["data_sources/cluster.json"]!),
+      [
+        {"cluster_id": 1234567890},
+      ],
+    );
+  });
+
+  test("uses safe deployment defaults for malformed CaC files", () {
+    final identity = TidbDeploymentIdentity.fromArtifacts(
+      dataAppConfig: "{invalid",
+      dataSourcesConfig: "[invalid",
+    );
+
+    expect(identity.appId, isEmpty);
+    expect(identity.appName, "masamune");
+    expect(identity.clusterId, "0");
+  });
+
   test("omits only operations explicitly denied by rules.json", () {
     final output = TidbEndpointSpec.generate(
       tables: [table],

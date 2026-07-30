@@ -56,6 +56,49 @@ database/<database_id>/<table_id>/<document_id>
 database/<database_id>/<table_id>
 ```
 
+## Persistent local cache
+
+Use `CachedTursoModelAdapter` when loaded data should remain available from a
+device-local cache after the app restarts.
+
+```dart
+final adapter = CachedTursoModelAdapter(
+  functionsAdapter: CloudflareFunctionsAdapter(
+    endpoint: "https://example.workers.dev",
+  ),
+);
+```
+
+Documents are loaded from the local cache first. Call `reload()` on the
+Masamune model when fresh remote data is required. Saves, deletes, batches, and
+transactions keep the remote database, runtime cache, and persistent cache in
+sync.
+
+Use `cacheFilter` to exclude documents from the persistent cache. Collection
+cache loading is opt-in through `collectionLoaders`, which can return cached
+rows only or return a modified query to merge additional Turso rows.
+
+```dart
+late final CachedTursoModelAdapter adapter;
+adapter = CachedTursoModelAdapter(
+  cacheFilter: (_, value) => value["private"] != true,
+  collectionLoaders: [
+    (query, _) async {
+      final cache = await adapter.loadCachedCollection(query);
+      if (cache == null) {
+        return null;
+      }
+      return CachedTursoModelCollectionLoaderResponse(value: cache);
+    },
+  ],
+);
+```
+
+Pass a custom `cachedLocalDatabase` for testing or custom persistence behavior.
+The default shared database stores native data in the application documents
+area and Web data through the storage used by `DatabaseExporter`. Database
+prefixes also isolate persistent cache entries.
+
 ## Separate development and production databases
 
 Pass `prefix` to separate the physical database without changing model paths.

@@ -196,10 +196,21 @@ class _MasamuneModelTidbBuilder extends Builder {
     final root = Directory.current;
     final output = Directory(_safeProjectPath(root, outputPath));
     final rulesFile = File(_safeProjectPath(root, rulesPath));
+    final deploymentIdentity = TidbDeploymentIdentity.fromArtifacts(
+      dataAppConfig: _readIfExists(
+        File("${output.path}/dataapp_config.json"),
+      ),
+      dataSourcesConfig: _readIfExists(
+        File("${output.path}/data_sources/cluster.json"),
+      ),
+    );
     final artifacts = TidbEndpointSpec.generate(
       tables: tableMap.values.toList(),
       customEndpoints: customEndpointMap.values.toList(),
       rules: TidbRulesReader.fromFile(rulesFile),
+      appId: deploymentIdentity.appId,
+      appName: deploymentIdentity.appName,
+      clusterId: deploymentIdentity.clusterId,
     );
     _cleanPreviouslyGenerated(output, artifacts.files.keys.toSet());
     for (final file in artifacts.files.entries) {
@@ -207,6 +218,10 @@ class _MasamuneModelTidbBuilder extends Builder {
       target.parent.createSync(recursive: true);
       target.writeAsStringSync(file.value);
     }
+  }
+
+  String? _readIfExists(File file) {
+    return file.existsSync() ? file.readAsStringSync() : null;
   }
 
   void _cleanPreviouslyGenerated(
