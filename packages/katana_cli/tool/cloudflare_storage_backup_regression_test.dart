@@ -1,10 +1,14 @@
 import "dart:io";
 
 import "package:katana_cli/action/cloudflare/storage.dart";
+import "package:katana_cli/action/cloudflare/tidb_data_service_api.dart";
 import "package:katana_cli/katana.dart";
 import "package:katana_cli/katana_cli.dart";
 
 Future<void> main() async {
+  await _testTidbEndpointOwnership();
+  await _testTidbOwnershipPersistenceOrder();
+
   final template = katanaYamlCode(true);
   _expectCount(template, "    backup:", 1);
   _expectCount(template, "      binding: R2_BACKUP_BUCKET", 1);
@@ -116,6 +120,151 @@ exit 0
   } finally {
     Directory.current = originalDirectory;
     await temporary.delete(recursive: true);
+  }
+}
+
+Future<void> _testTidbOwnershipPersistenceOrder() async {
+  final source = await File("lib/action/cloudflare/tidb.dart").readAsString();
+  _expectCount(source, "await _writeEndpointOwnershipState(", 3);
+  for (final deployment in [
+    '"Initialize Katana endpoint ownership.",',
+    '"Synchronize Masamune endpoints before cutover.",',
+    '"Deploy Masamune endpoints.");',
+  ]) {
+    final deploymentIndex = source.indexOf(deployment);
+    final persistenceIndex = source.indexOf(
+      "await _writeEndpointOwnershipState(",
+      deploymentIndex,
+    );
+    _expect(
+      deploymentIndex >= 0 && persistenceIndex > deploymentIndex,
+      "Endpoint ownership must be persisted only after `$deployment`.",
+    );
+  }
+  _expect(
+    !source.contains("for (final entry in existing.entries)"),
+    "Unowned Masamune endpoints must not be deleted by a global tag sweep.",
+  );
+}
+
+Future<void> _testTidbEndpointOwnership() async {
+  const removed = TidbManagedEndpointOwnership(
+    name: "dataApps/app-1/endpoints/1",
+    method: "POST",
+    path: "/main/removed/delete",
+  );
+  const retained = TidbManagedEndpointOwnership(
+    name: "dataApps/app-1/endpoints/2",
+    method: "GET",
+    path: "/main/retained/get",
+  );
+  const state = TidbEndpointOwnershipState(
+    appId: "app-1",
+    endpoints: [removed, retained],
+  );
+
+  final decoded = TidbEndpointOwnershipState.decode(state.encode());
+  _expect(decoded.belongsTo("app-1"), "Ownership state lost its Data App.");
+  _expect(
+    !decoded.belongsTo("app-2"),
+    "Ownership state must not cross Data Apps.",
+  );
+  final stale = decoded.staleEndpoints(
+    currentAppId: "app-1",
+    desiredKeys: {retained.key},
+  ).toList();
+  _expect(
+    stale.length == 1 && stale.single.name == removed.name,
+    "Only a previously deployed endpoint removed by the builder may be stale.",
+  );
+  _expect(
+    decoded.staleEndpoints(
+      currentAppId: "app-2",
+      desiredKeys: const {},
+    ).isEmpty,
+    "Endpoints from a different Data App must never be stale.",
+  );
+  _expect(
+    removed.matchesEndpoint({
+      "name": removed.name,
+      "method": "post",
+      "path": removed.path,
+    }),
+    "Exact endpoint ownership was not recognized.",
+  );
+  _expect(
+    !removed.matchesEndpoint({
+      "name": "dataApps/app-1/endpoints/replaced",
+      "method": removed.method,
+      "path": removed.path,
+    }),
+    "A replaced remote resource must not inherit endpoint ownership.",
+  );
+
+  final api = _PagedTidbCloudManagementApi();
+  try {
+    final endpoints = await listTidbDataServicePages(
+      api,
+      "dataApps/app-1/endpoints",
+      "endpoints",
+    );
+    _expect(
+      endpoints.length == 101,
+      "Endpoint ownership reconciliation must read every API page.",
+    );
+    _expect(
+      api.pageTokens.length == 2 &&
+          api.pageTokens.first == null &&
+          api.pageTokens.last == "page-2",
+      "Endpoint pagination tokens were not followed correctly.",
+    );
+  } finally {
+    api.close();
+  }
+}
+
+class _PagedTidbCloudManagementApi extends TidbCloudManagementApi {
+  _PagedTidbCloudManagementApi() : super(publicKey: "test", privateKey: "test");
+
+  final List<String?> pageTokens = [];
+
+  @override
+  Future<Map<String, dynamic>> dataService(
+    String method,
+    String path, {
+    Map<String, String>? query,
+    Object? body,
+  }) async {
+    final token = query?["pageToken"];
+    pageTokens.add(token);
+    if (token == null) {
+      return {
+        "endpoints": [
+          for (var index = 0; index < 100; index++)
+            {
+              "name": "dataApps/app-1/endpoints/$index",
+              "method": "GET",
+              "path": "/main/items/$index",
+            },
+        ],
+        "nextPageToken": "page-2",
+      };
+    }
+    return {
+      "endpoints": [
+        {
+          "name": "dataApps/app-1/endpoints/100",
+          "method": "GET",
+          "path": "/main/items/100",
+        },
+      ],
+    };
+  }
+}
+
+void _expect(bool condition, String message) {
+  if (!condition) {
+    throw StateError(message);
   }
 }
 

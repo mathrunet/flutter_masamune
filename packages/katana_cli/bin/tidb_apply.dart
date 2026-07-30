@@ -31,12 +31,11 @@ Future<void> main() async {
         "GET",
         "clusters/${dataServiceConfig["cluster_id"]}",
       );
-      final listed = await api.dataService(
-        "GET",
+      final endpoints = await listTidbDataServicePages(
+        api,
         "dataApps/${dataService["app_id"]}/endpoints",
-        query: {"pageSize": "100"},
+        "endpoints",
       );
-      final endpoints = listed["endpoints"] as List? ?? const [];
       stdout.writeln(
         jsonEncode({
           "publicEndpointDisabled": (((cluster["endpoints"] as Map?)?["public"]

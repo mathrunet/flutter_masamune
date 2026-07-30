@@ -159,6 +159,18 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final management = _nested(secretTidb, ["management_api"]);
     final dataService = _nested(secretTidb, ["data_service"]);
     final cutover = _nested(secretTidb, ["cutover"]);
+    final configuredAppId = config["app_id"]?.toString().trim() ?? "";
+    final managedAppId = configuredAppId.isNotEmpty
+        ? configuredAppId
+        : dataService["app_id"]?.toString().trim() ?? "";
+    if (managedAppId.isNotEmpty) {
+      await _writeDataAppConfig(
+        directory: directory,
+        appId: managedAppId,
+        appName: appName,
+        clusterId: clusterId,
+      );
+    }
     final managementPublic = management["public_key"]?.toString() ?? "";
     final managementPrivate = management["private_key"]?.toString() ?? "";
     if (managementPublic.isEmpty || managementPrivate.isEmpty) {
@@ -173,6 +185,29 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final previousHash = cutover["manifest_hash"]?.toString();
     final state = cutover["state"]?.toString();
     if (restrictMysql && state == "complete" && previousHash == manifestHash) {
+      final ownership = await _readEndpointOwnershipState(directory);
+      if (managedAppId.isNotEmpty && !ownership.belongsTo(managedAppId)) {
+        final api = TidbCloudManagementApi(
+          publicKey: managementPublic,
+          privateKey: managementPrivate,
+        );
+        try {
+          final nextOwnership = await _upsertManagedEndpoints(
+            api,
+            appId: managedAppId,
+            clusterId: clusterId,
+            directory: directory,
+          );
+          await _deployAndWait(
+            api,
+            managedAppId,
+            "Initialize Katana endpoint ownership.",
+          );
+          await _writeEndpointOwnershipState(directory, nextOwnership);
+        } finally {
+          api.close();
+        }
+      }
       if (secretTidb.containsKey("connection_url")) {
         secretTidb.remove("connection_url");
         _nested(secrets, ["cloudflare"])["tidb"] = secretTidb;
@@ -206,7 +241,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           directory: directory,
           dataService: dataService,
         );
-        await _upsertManagedEndpoints(
+        final nextOwnership = await _upsertManagedEndpoints(
           api,
           appId: dataService["app_id"].toString(),
           clusterId: clusterId,
@@ -217,6 +252,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           dataService["app_id"].toString(),
           "Synchronize Masamune endpoints before cutover.",
         );
+        await _writeEndpointOwnershipState(directory, nextOwnership);
       } finally {
         api.close();
       }
@@ -254,7 +290,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         projectId: projectId,
         clusterId: clusterId,
       );
-      var appId = config["app_id"]?.toString().trim() ?? "";
+      var appId = configuredAppId;
       if (appId.isEmpty) {
         appId = dataService["app_id"]?.toString() ?? "";
       }
@@ -283,13 +319,14 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         directory: directory,
         dataService: dataService,
       );
-      await _upsertManagedEndpoints(
+      final nextOwnership = await _upsertManagedEndpoints(
         api,
         appId: appId,
         clusterId: clusterId,
         directory: directory,
       );
       await _deployAndWait(api, appId, "Deploy Masamune endpoints.");
+      await _writeEndpointOwnershipState(directory, nextOwnership);
       await _writeDataAppConfig(
         directory: directory,
         appId: appId,
@@ -588,33 +625,44 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     }
   }
 
-  Future<void> _upsertManagedEndpoints(
+  Future<TidbEndpointOwnershipState> _upsertManagedEndpoints(
     TidbCloudManagementApi api, {
     required String appId,
     required String clusterId,
     required String directory,
   }) async {
     label("Upsert generated TiDB Data Service endpoints.");
+    final previousOwnership = await _readEndpointOwnershipState(directory);
     final configFile = File("$directory/http_endpoints/config.json");
     final decoded = jsonDecode(await configFile.readAsString());
     if (decoded is! List) {
       throw StateError("http_endpoints/config.json must contain an array.");
     }
-    final listed = await _listDataServicePages(
+    final listed = await listTidbDataServicePages(
       api,
       "dataApps/$appId/endpoints",
       "endpoints",
     );
     final existing = {
-      for (final item in listed) "${item["method"]}:${item["path"]}": item,
+      for (final item in listed)
+        "${item["method"]?.toString().toUpperCase()}:${item["path"]}": item,
+    };
+    final existingByName = {
+      for (final item in listed)
+        if (item["name"]?.toString().isNotEmpty ?? false)
+          item["name"].toString(): item,
     };
     final desired = <String>{};
+    final nextOwnedEndpoints = <TidbManagedEndpointOwnership>[];
     for (final raw in decoded) {
       final item = _mapValue(raw);
-      final method = item["method"].toString();
+      final method = item["method"].toString().toUpperCase();
       final path = item["endpoint"].toString();
-      desired.add("$method:$path");
-      final current = existing["$method:$path"];
+      final key = "$method:$path";
+      if (!desired.add(key)) {
+        throw StateError("Duplicate generated endpoint: $method $path");
+      }
+      final current = existing[key];
       if (current != null && !_managedEndpointTags.contains(current["tag"])) {
         throw StateError(
           "Endpoint collision with a non-Masamune endpoint: $method $path",
@@ -628,27 +676,115 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         await sqlFile.readAsString(),
         clusterId,
       );
+      late Map<String, dynamic> resolved;
       try {
         if (current == null) {
-          await _createManagedEndpoint(api, appId, body);
+          resolved = await _createManagedEndpoint(api, appId, body);
         } else if (!_endpointMatches(current, body)) {
           await api.dataService("DELETE", current["name"].toString());
           await Future<void>.delayed(const Duration(seconds: 1));
-          await _createManagedEndpoint(api, appId, body);
+          resolved = await _createManagedEndpoint(api, appId, body);
+        } else {
+          resolved = current;
         }
       } on Object catch (exception) {
         throw StateError(
           "Failed to upsert generated endpoint $method $path: $exception",
         );
       }
+      final name = resolved["name"]?.toString().trim() ?? "";
+      if (name.isEmpty) {
+        throw StateError(
+          "TiDB did not return the resource name for $method $path.",
+        );
+      }
+      nextOwnedEndpoints.add(
+        TidbManagedEndpointOwnership(
+          name: name,
+          method: method,
+          path: path,
+        ),
+      );
     }
-    for (final entry in existing.entries) {
-      final current = entry.value;
-      if (!_managedEndpointTags.contains(current["tag"]) ||
-          desired.contains(entry.key)) {
+
+    if (previousOwnership.appId.isNotEmpty &&
+        !previousOwnership.belongsTo(appId)) {
+      stdout.writeln(
+        "[WARN] Ignore TiDB endpoint ownership for "
+        "`${previousOwnership.appId}` while applying `$appId`.",
+      );
+    }
+    for (final owned in previousOwnership.staleEndpoints(
+      currentAppId: appId,
+      desiredKeys: desired,
+    )) {
+      final current = existingByName[owned.name];
+      if (current == null) {
         continue;
       }
-      await api.dataService("DELETE", current["name"].toString());
+      if (!owned.matchesEndpoint(current) ||
+          !_managedEndpointTags.contains(current["tag"])) {
+        stdout.writeln(
+          "[WARN] Skip deleting `${owned.name}` because the remote endpoint "
+          "no longer matches its Katana ownership record.",
+        );
+        continue;
+      }
+      await api.dataService("DELETE", owned.name);
+    }
+    return TidbEndpointOwnershipState(
+      appId: appId,
+      endpoints: nextOwnedEndpoints,
+    );
+  }
+
+  Future<TidbEndpointOwnershipState> _readEndpointOwnershipState(
+    String directory,
+  ) async {
+    final file = File(
+      "$directory/__masamune/deployed_endpoints.json",
+    );
+    if (!file.existsSync()) {
+      return const TidbEndpointOwnershipState.empty();
+    }
+    try {
+      return TidbEndpointOwnershipState.decode(await file.readAsString());
+    } on FormatException catch (exception) {
+      stdout.writeln(
+        "[WARN] Ignore malformed TiDB endpoint ownership state "
+        "`${file.path}`: $exception",
+      );
+      return const TidbEndpointOwnershipState.empty();
+    }
+  }
+
+  Future<void> _writeEndpointOwnershipState(
+    String directory,
+    TidbEndpointOwnershipState state,
+  ) async {
+    final file = File(
+      "$directory/__masamune/deployed_endpoints.json",
+    );
+    await file.parent.create(recursive: true);
+    final temporary = File("${file.path}.tmp");
+    final backup = File("${file.path}.bak");
+    await temporary.writeAsString(state.encode());
+    if (file.existsSync()) {
+      if (backup.existsSync()) {
+        await backup.delete();
+      }
+      await file.rename(backup.path);
+    }
+    try {
+      await temporary.rename(file.path);
+    } on Object {
+      if (backup.existsSync()) {
+        await backup.rename(file.path);
+      }
+      rethrow;
+    }
+    if (backup.existsSync()) {
+      await backup.delete();
     }
   }
 
@@ -676,29 +812,6 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     }
     throw StateError(
         "TiDB Data Service endpoint creation retry was exhausted.");
-  }
-
-  Future<List<Map<String, dynamic>>> _listDataServicePages(
-    TidbCloudManagementApi api,
-    String path,
-    String listKey,
-  ) async {
-    final items = <Map<String, dynamic>>[];
-    String? pageToken;
-    do {
-      final response = await api.dataService(
-        "GET",
-        path,
-        query: {
-          "pageSize": "100",
-          if (pageToken != null) "pageToken": pageToken,
-        },
-      );
-      items.addAll(_listOfMaps(response[listKey]));
-      final next = response["nextPageToken"]?.toString() ?? "";
-      pageToken = next.isEmpty ? null : next;
-    } while (pageToken != null);
-    return items;
   }
 
   bool _endpointMatches(

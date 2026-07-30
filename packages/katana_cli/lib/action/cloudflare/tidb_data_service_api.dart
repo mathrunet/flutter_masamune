@@ -13,6 +13,141 @@ abstract interface class TidbDataServiceApi {
   });
 }
 
+/// A TiDB Data Service endpoint owned by the current Katana project.
+class TidbManagedEndpointOwnership {
+  /// Creates an owned endpoint record.
+  const TidbManagedEndpointOwnership({
+    required this.name,
+    required this.method,
+    required this.path,
+  });
+
+  /// Reads an owned endpoint record from JSON.
+  factory TidbManagedEndpointOwnership.fromJson(Map value) {
+    return TidbManagedEndpointOwnership(
+      name: value["name"]?.toString().trim() ?? "",
+      method: value["method"]?.toString().trim().toUpperCase() ?? "",
+      path: value["path"]?.toString().trim() ?? "",
+    );
+  }
+
+  /// Full TiDB endpoint resource name.
+  final String name;
+
+  /// HTTP method.
+  final String method;
+
+  /// Data Service endpoint path.
+  final String path;
+
+  /// Stable method and path key.
+  String get key => "$method:$path";
+
+  /// Whether this record can prove ownership of [endpoint].
+  bool matchesEndpoint(Map endpoint) {
+    return name.isNotEmpty &&
+        name == endpoint["name"]?.toString().trim() &&
+        method == endpoint["method"]?.toString().trim().toUpperCase() &&
+        path == endpoint["path"]?.toString().trim();
+  }
+
+  /// Converts this record to JSON.
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "method": method,
+      "path": path,
+    };
+  }
+}
+
+/// Last successfully deployed TiDB endpoints for the current project.
+class TidbEndpointOwnershipState {
+  /// Creates an endpoint ownership state.
+  const TidbEndpointOwnershipState({
+    required this.appId,
+    this.endpoints = const [],
+  });
+
+  /// Creates an empty ownership state.
+  const TidbEndpointOwnershipState.empty()
+      : appId = "",
+        endpoints = const [];
+
+  /// Decodes an endpoint ownership state.
+  factory TidbEndpointOwnershipState.decode(String source) {
+    final decoded = jsonDecode(source);
+    if (decoded is! Map) {
+      throw const FormatException(
+        "TiDB endpoint ownership state must contain a JSON object.",
+      );
+    }
+    final version = decoded["version"]?.toString() ?? "";
+    if (version != "1") {
+      throw FormatException(
+        "Unsupported TiDB endpoint ownership state version: $version",
+      );
+    }
+    final rawEndpoints = decoded["endpoints"];
+    if (rawEndpoints is! List) {
+      throw const FormatException(
+        "TiDB endpoint ownership state must contain an endpoints array.",
+      );
+    }
+    final endpoints = rawEndpoints
+        .whereType<Map>()
+        .map(TidbManagedEndpointOwnership.fromJson)
+        .toList();
+    if (endpoints.length != rawEndpoints.length ||
+        endpoints.any(
+          (endpoint) =>
+              endpoint.name.isEmpty ||
+              endpoint.method.isEmpty ||
+              endpoint.path.isEmpty,
+        )) {
+      throw const FormatException(
+        "TiDB endpoint ownership records must be complete.",
+      );
+    }
+    return TidbEndpointOwnershipState(
+      appId: decoded["app_id"]?.toString().trim() ?? "",
+      endpoints: endpoints,
+    );
+  }
+
+  /// TiDB Data App identifier.
+  final String appId;
+
+  /// Endpoints confirmed by the last successful deployment.
+  final List<TidbManagedEndpointOwnership> endpoints;
+
+  /// Whether this state belongs to [currentAppId].
+  bool belongsTo(String currentAppId) {
+    return appId.isNotEmpty && appId == currentAppId;
+  }
+
+  /// Returns previously deployed endpoints that are no longer desired.
+  Iterable<TidbManagedEndpointOwnership> staleEndpoints({
+    required String currentAppId,
+    required Set<String> desiredKeys,
+  }) {
+    if (!belongsTo(currentAppId)) {
+      return const [];
+    }
+    return endpoints.where((endpoint) => !desiredKeys.contains(endpoint.key));
+  }
+
+  /// Encodes this state as stable, human-readable JSON.
+  String encode() {
+    final sorted = [...endpoints]..sort((a, b) => a.key.compareTo(b.key));
+    return "${const JsonEncoder.withIndent("  ").convert({
+          "version": 1,
+          "app_id": appId,
+          "endpoints": sorted.map((endpoint) => endpoint.toJson()).toList(),
+        })}\n";
+  }
+}
+
 /// Minimal Digest-authenticated client for TiDB Cloud management APIs.
 class TidbCloudManagementApi implements TidbDataServiceApi {
   /// Creates a management API client.
@@ -214,6 +349,39 @@ Future<Map<String, dynamic>> retryTidbDataEndpointUntilDeployed(
     }
   }
   throw StateError("TiDB Data Service endpoint retry was exhausted.");
+}
+
+/// Lists every page from a TiDB Data Service collection.
+Future<List<Map<String, dynamic>>> listTidbDataServicePages(
+  TidbCloudManagementApi api,
+  String path,
+  String listKey,
+) async {
+  final items = <Map<String, dynamic>>[];
+  String? pageToken;
+  do {
+    final response = await api.dataService(
+      "GET",
+      path,
+      query: {
+        "pageSize": "100",
+        if (pageToken != null) "pageToken": pageToken,
+      },
+    );
+    final values = response[listKey];
+    if (values is List) {
+      items.addAll(
+        values.whereType<Map>().map(
+              (value) => value.map(
+                (key, item) => MapEntry(key.toString(), item),
+              ),
+            ),
+      );
+    }
+    final next = response["nextPageToken"]?.toString() ?? "";
+    pageToken = next.isEmpty ? null : next;
+  } while (pageToken != null);
+  return items;
 }
 
 Future<Map<String, dynamic>> _callTidbCloudApiWithCurl({
