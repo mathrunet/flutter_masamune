@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.18.3`](#katana_cli---v3183)
+ - [`masamune_model_tidb_builder` - `v3.4.2`](#masamune_model_tidb_builder---v342)
+
+---
+
+#### `katana_cli` - `v3.18.3`
+
+ - **REFACTOR**(tidb): streamline endpoint deletion and enhance server-side transport handling. ([06b37c59](https://github.com/mathrunet/flutter_masamune/commit/06b37c5935ef14719c8558029a2c7c8aba5d305f))
+
+#### `masamune_model_tidb_builder` - `v3.4.2`
+
+ - **REFACTOR**(tidb): streamline endpoint deletion and enhance server-side transport handling. ([06b37c59](https://github.com/mathrunet/flutter_masamune/commit/06b37c5935ef14719c8558029a2c7c8aba5d305f))
+
+
+## 2026-07-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.18.2`](#katana_cli---v3182)
  - [`masamune_model_tidb_annotation` - `v3.3.1`](#masamune_model_tidb_annotation---v331)
  - [`masamune_model_tidb_builder` - `v3.4.1`](#masamune_model_tidb_builder---v341)

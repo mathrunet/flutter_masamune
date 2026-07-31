@@ -1,3 +1,7 @@
+## 3.18.3
+
+ - **REFACTOR**(tidb): streamline endpoint deletion and enhance server-side transport handling. ([06b37c59](https://github.com/mathrunet/flutter_masamune/commit/06b37c5935ef14719c8558029a2c7c8aba5d305f))
+
 ## 3.18.2
 
  - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
