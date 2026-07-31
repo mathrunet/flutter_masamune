@@ -11,6 +11,7 @@ void main() {
   const table = TidbTableSpec(
     database: "main",
     table: "users",
+    readCacheTtlSeconds: 60,
     columns: [
       TidbColumnSpec(name: "name", sqlType: "TEXT", required: true),
       TidbColumnSpec(name: "score", sqlType: "BIGINT"),
@@ -41,6 +42,15 @@ void main() {
       ),
       hasLength(1),
     );
+    final getEndpoint = config.cast<Map<String, dynamic>>().singleWhere(
+          (item) => item["endpoint"] == "/main/users/get",
+        );
+    final upsertEndpoint = config.cast<Map<String, dynamic>>().singleWhere(
+          (item) => item["endpoint"] == "/main/users/upsert",
+        );
+    expect(getEndpoint["settings"]["cache_enabled"], 1);
+    expect(getEndpoint["settings"]["cache_ttl"], 60);
+    expect(upsertEndpoint["settings"]["cache_enabled"], 0);
     expect(
       output.files["http_endpoints/sql/GET-main-users-list.sql"],
       startsWith("USE `main`;"),

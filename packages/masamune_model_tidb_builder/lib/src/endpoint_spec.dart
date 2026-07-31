@@ -31,6 +31,7 @@ class TidbTableSpec {
     required this.table,
     required this.columns,
     this.rulesDatabase,
+    this.readCacheTtlSeconds = 0,
   });
 
   /// Database name.
@@ -44,6 +45,9 @@ class TidbTableSpec {
 
   /// Columns including Masamune reserved columns.
   final List<TidbColumnSpec> columns;
+
+  /// Cache TTL for generated read endpoints.
+  final int readCacheTtlSeconds;
 }
 
 /// A parameter accepted by a custom Data Service endpoint.
@@ -428,8 +432,11 @@ class TidbEndpointSpec {
         "timeout": 30000,
         "row_limit": 2000,
         "enable_pagination": 0,
-        "cache_enabled": 0,
-        "cache_ttl": 30,
+        "cache_enabled":
+            method == "GET" && table.readCacheTtlSeconds > 0 ? 1 : 0,
+        "cache_ttl": method == "GET" && table.readCacheTtlSeconds > 0
+            ? table.readCacheTtlSeconds
+            : 30,
       },
       "tag": "Masamune",
       "batch_operation": 0,

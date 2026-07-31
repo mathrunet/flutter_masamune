@@ -2,6 +2,7 @@
 import "dart:convert";
 
 // Package imports:
+import "package:libsql_dart/libsql_dart.dart";
 import "package:masamune/masamune.dart";
 import "package:test/test.dart";
 
@@ -168,6 +169,187 @@ void main() {
     final post = functionsAdapter.actions.last as TursoPostModelFunctionsAction;
     expect(post.path, "turso/database/test/user");
     expect(post.value["id"], "user_1");
+  });
+
+  test("TursoModelAdapter reuses a direct client within an auth session.",
+      () async {
+    var sessionKey = "user_1";
+    var clientCount = 0;
+    var syncCount = 0;
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: (action) {
+        if (action is TursoTokenFunctionsAction) {
+          return {
+            "token": "token",
+            "expiresAt": DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600,
+            "url": ":memory:",
+            "readMode": "direct",
+            "writeMode": "direct",
+            "targets": action.targets
+                .map((target) => {
+                      ...target.toMap(),
+                      "readMode": "direct",
+                      "writeMode": "direct",
+                    })
+                .toList(),
+          };
+        }
+        return const [];
+      },
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => sessionKey,
+      clientFactory: (_) async {
+        clientCount++;
+        return _TestLibsqlClient(onSync: () => syncCount++);
+      },
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+    );
+    const firstQuery = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/user/user_1"),
+    );
+    const secondQuery = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/records/record_1"),
+    );
+
+    await adapter.prewarm(
+      database: "test",
+      scopes: const [
+        TursoTokenScope(table: "user", operations: ["write"]),
+        TursoTokenScope(table: "records", operations: ["write"]),
+        TursoTokenScope(
+          table: "__masamune_turso_schema",
+          operations: ["write"],
+        ),
+      ],
+    );
+    await adapter.saveDocument(firstQuery, const {"name": "Alice"});
+    await adapter.saveDocument(secondQuery, const {"name": "Bob"});
+
+    expect(
+      functionsAdapter.actions.whereType<TursoTokenFunctionsAction>(),
+      hasLength(1),
+    );
+    expect(clientCount, 1);
+    expect(syncCount, 2);
+
+    sessionKey = "user_2";
+    await adapter.saveDocument(firstQuery, const {"name": "Carol"});
+
+    expect(
+      functionsAdapter.actions.whereType<TursoTokenFunctionsAction>(),
+      hasLength(2),
+    );
+    expect(clientCount, 2);
+    await session.clear();
+  });
+
+  test(
+      "TursoModelAdapter sends prewarmed functions writes without a token preflight.",
+      () async {
+    var syncCount = 0;
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: (action) {
+        if (action is TursoTokenFunctionsAction) {
+          return {
+            "token": "read-token",
+            "expiresAt": DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600,
+            "url": ":memory:",
+            "readMode": "direct",
+            "writeMode": "functions",
+            "targets": action.targets
+                .map((target) => {
+                      ...target.toMap(),
+                      "readMode":
+                          target.operations.contains("read") ? "direct" : null,
+                      "writeMode": target.operations.contains("write")
+                          ? "functions"
+                          : null,
+                    })
+                .toList(),
+          };
+        }
+        return const [];
+      },
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => _TestLibsqlClient(onSync: () => syncCount++),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/user/user_1"),
+    );
+
+    await adapter.prewarm(
+      database: "test",
+      scopes: const [
+        TursoTokenScope(table: "user", operations: ["read", "write"]),
+        TursoTokenScope(
+          table: "__masamune_turso_schema",
+          operations: ["read", "write"],
+        ),
+      ],
+    );
+    await adapter.saveDocument(query, const {"name": "Alice"});
+
+    expect(
+      functionsAdapter.actions.whereType<TursoTokenFunctionsAction>(),
+      hasLength(1),
+    );
+    expect(functionsAdapter.actions.last, isA<TursoPostModelFunctionsAction>());
+    expect(syncCount, 1);
+    await session.clear();
+  });
+
+  test("TursoModelAdapter checks sqlite_master before reading bool metadata.",
+      () async {
+    final queries = <String>[];
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: (action) => action is TursoTokenFunctionsAction
+          ? {
+              "token": "token",
+              "expiresAt": DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600,
+              "url": ":memory:",
+              "readMode": "direct",
+              "writeMode": "functions",
+              "targets": action.targets
+                  .map((target) => {
+                        ...target.toMap(),
+                        "readMode": "direct",
+                        "writeMode": "functions",
+                      })
+                  .toList(),
+            }
+          : const [],
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => _TestLibsqlClient(
+        onQuery: queries.add,
+      ),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+    );
+
+    await adapter.loadDocument(const ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    ));
+
+    expect(queries.first, contains("sqlite_master"));
+    expect(
+      queries.where((sql) => sql.contains("SELECT column_name")),
+      isEmpty,
+    );
+    await session.clear();
   });
 
   test("TursoModelAdapter restores uid and time fields on load.", () async {
@@ -692,8 +874,45 @@ class _RecordingFunctionsAdapter extends FunctionsAdapter {
     if (action is TursoTokenFunctionsAction && tokenError != null) {
       throw tokenError;
     }
-    return action.execute((_) async => {
-          "data": responseForAction?.call(action) ?? responseData,
-        });
+    return action.execute((_) async {
+      final response = responseForAction?.call(action) ?? responseData;
+      if (action is TursoTokenFunctionsAction && response is Map) {
+        return Map<String, dynamic>.from(response);
+      }
+      return {"data": response};
+    });
   }
+}
+
+class _TestLibsqlClient extends LibsqlClient {
+  _TestLibsqlClient({this.onSync, this.onQuery}) : super.memory();
+
+  final void Function()? onSync;
+  final void Function(String sql)? onQuery;
+
+  @override
+  Future<List<Map<String, dynamic>>> query(
+    String sql, {
+    Map<String, dynamic>? named,
+    List<dynamic>? positional,
+  }) async {
+    onQuery?.call(sql);
+    return const [];
+  }
+
+  @override
+  Future<int> execute(
+    String sql, {
+    Map<String, dynamic>? named,
+    List<dynamic>? positional,
+  }) async =>
+      1;
+
+  @override
+  Future<void> sync() async {
+    onSync?.call();
+  }
+
+  @override
+  Future<void> dispose() async {}
 }

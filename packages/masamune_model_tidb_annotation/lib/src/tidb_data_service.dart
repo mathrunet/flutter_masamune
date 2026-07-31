@@ -20,6 +20,7 @@ class TidbDataService {
     this.extraColumns = const [],
     this.additionalTables = const [],
     this.customEndpoints = const [],
+    this.readCacheTtlSeconds = 0,
   });
 
   /// Logical TiDB database name.
@@ -50,6 +51,12 @@ class TidbDataService {
 
   /// Server-only custom SQL endpoints generated into Data Service CaC.
   final List<TidbDataServiceCustomEndpoint> customEndpoints;
+
+  /// Cache TTL for generated GET endpoints.
+  ///
+  /// A value of zero disables TiDB Data Service response caching. This setting
+  /// applies to get, list, and count endpoints only.
+  final int readCacheTtlSeconds;
 }
 
 /// Column definition for a server-owned Data Service schema.

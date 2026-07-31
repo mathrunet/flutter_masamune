@@ -39,6 +39,7 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final workers = cloudflare.getAsMap("workers");
     final enabledWorkers = workers.get("enable", false);
     final enableFirebaseAuth = workers.get("enable_firebase_auth", false);
+    final smartPlacement = workers.get("smart_placement", false);
     final firebase = context.yaml.getAsMap("firebase");
     final firebaseProjectId = firebase.get("project_id", "");
     final pages = cloudflare.getAsMap("pages");
@@ -120,6 +121,7 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
       }
       await CloudflareWranglerCliCode(
         projectId: projectId,
+        smartPlacement: smartPlacement,
       ).generateFile("wrangler.jsonc");
       await command(
         "Package installation.",
@@ -321,6 +323,7 @@ class CloudflareWranglerCliCode extends CliCode {
   /// Cloudflare Wrangler.jsoncのコードベース。
   const CloudflareWranglerCliCode({
     required this.projectId,
+    this.smartPlacement = false,
   });
 
   /// Project ID.
@@ -329,6 +332,11 @@ class CloudflareWranglerCliCode extends CliCode {
   /// CloudflareのプロジェクトID。
   /// wrangler.jsoncにプロジェクトIDを設定するために必要です。
   final String projectId;
+
+  /// Whether to enable Cloudflare Workers Smart Placement.
+  ///
+  /// Cloudflare WorkersのSmart Placementを有効にするかどうか。
+  final bool smartPlacement;
 
   @override
   String get name => "wrangler";
@@ -383,12 +391,13 @@ class CloudflareWranglerCliCode extends CliCode {
 			"enabled": true
 		}
 	},
-	"upload_source_maps": true
+	"upload_source_maps": true,
+	${smartPlacement ? '"placement": { "mode": "smart" },' : '''
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
 	 */
-	// "placement": {  "mode": "smart" }
+	// "placement": {  "mode": "smart" }'''}
 	/**
 	 * Bindings
 	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including

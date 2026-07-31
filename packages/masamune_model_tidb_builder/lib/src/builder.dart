@@ -55,6 +55,14 @@ class _MasamuneModelTidbBuilder extends Builder {
         database,
         element,
       );
+      final readCacheTtlSeconds =
+          annotation.read("readCacheTtlSeconds").intValue;
+      if (readCacheTtlSeconds < 0) {
+        throw InvalidGenerationSourceError(
+          "`readCacheTtlSeconds` must be zero or greater.",
+          element: element,
+        );
+      }
       dataServiceDirPath ??= outputPath;
       rulesJsonPath ??= rulesPath;
       if (dataServiceDirPath != outputPath || rulesJsonPath != rulesPath) {
@@ -80,6 +88,7 @@ class _MasamuneModelTidbBuilder extends Builder {
           ..._columns(element),
           ..._readColumns(annotation.read("extraColumns")),
         ],
+        readCacheTtlSeconds: readCacheTtlSeconds,
       );
       tables.addAll(_withDatabasePrefixes(modelTable, prefixes));
       for (final value in annotation.read("additionalTables").listValue) {
@@ -159,6 +168,7 @@ class _MasamuneModelTidbBuilder extends Builder {
           rulesDatabase: table.database,
           table: table.table,
           columns: table.columns,
+          readCacheTtlSeconds: table.readCacheTtlSeconds,
         ),
     ];
   }

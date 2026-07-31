@@ -250,6 +250,9 @@ cloudflare:
   workers:
     enable: false
     enable_firebase_auth: true
+    # Run Workers closer to regional databases and upstream APIs when faster.
+    # リージョンDBや外部APIに近い場所でWorkerを実行し、通信を高速化します。
+    smart_placement: false
 
   # Enable Cloudflare Pages.
   # Cloudflare Pagesを有効にします。

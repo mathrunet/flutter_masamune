@@ -20,6 +20,467 @@ const _tursoSchemaTable = "__masamune_turso_schema";
 
 final Map<String, Set<String>> _tursoBoolFieldsCache = {};
 
+/// Timing breakdown for a Turso prewarm.
+///
+/// Turso prewarmの処理時間内訳。
+class TursoPrewarmResult {
+  /// Creates a prewarm timing result.
+  ///
+  /// prewarmの処理時間内訳を作成します。
+  const TursoPrewarmResult({
+    required this.routeDuration,
+    required this.replicaDuration,
+    required this.totalDuration,
+  });
+
+  /// Time spent resolving permissions and a direct token.
+  ///
+  /// 権限と直接接続トークンの解決に要した時間。
+  final Duration routeDuration;
+
+  /// Time spent opening and synchronizing the embedded replica.
+  ///
+  /// Embedded Replicaの接続と同期に要した時間。
+  final Duration replicaDuration;
+
+  /// Total prewarm duration.
+  ///
+  /// prewarm全体の処理時間。
+  final Duration totalDuration;
+}
+
+/// A reusable authenticated direct connection session for Turso.
+///
+/// Tokens and connected clients are isolated by the value returned from
+/// [sessionKey]. Return `null` while no authenticated session is available;
+/// those requests continue to use one-shot tokens and clients.
+///
+/// Tursoの認証済み直接接続を再利用するセッション。
+///
+/// トークンと接続済みクライアントは[sessionKey]の戻り値ごとに分離されます。
+/// 認証セッションがない間は`null`を返してください。その場合は従来どおり
+/// リクエストごとにトークンとクライアントを作成します。
+class TursoDirectClientSession {
+  /// Creates a reusable Turso direct connection session.
+  ///
+  /// Tursoの直接接続を再利用するセッションを作成します。
+  TursoDirectClientSession({
+    required this.sessionKey,
+    this.expirationMargin = const Duration(seconds: 30),
+    this.useEmbeddedReplica = true,
+    this.clientFactory,
+  });
+
+  /// Returns a stable key for the current authenticated user/session.
+  ///
+  /// 現在の認証ユーザー・セッションを識別する安定したキーを返します。
+  final String? Function() sessionKey;
+
+  /// Margin before token expiration at which a new token is requested.
+  ///
+  /// 有効期限より前に新しいトークンへ更新するための猶予時間。
+  final Duration expirationMargin;
+
+  /// Whether direct clients use an on-device embedded replica.
+  ///
+  /// 直接接続クライアントで端末内のEmbedded Replicaを利用するかどうか。
+  final bool useEmbeddedReplica;
+
+  /// Overrides direct client creation.
+  ///
+  /// 直接接続クライアントの生成処理を上書きします。
+  final Future<LibsqlClient> Function(
+    TursoTokenFunctionsActionResponse token,
+  )? clientFactory;
+
+  final Map<String, _TursoDirectDatabaseSession> _databases = {};
+  String? _activeSessionKey;
+
+  Future<TursoTokenFunctionsActionResponse> _resolve({
+    required String connectionKey,
+    required String database,
+    required String? prefix,
+    required List<TursoTokenScope> scopes,
+    required Future<TursoTokenFunctionsActionResponse> Function(
+      List<TursoTokenScope> scopes,
+    ) loader,
+  }) async {
+    final currentSessionKey = sessionKey();
+    if (currentSessionKey == null || currentSessionKey.isEmpty) {
+      return await loader(scopes);
+    }
+    await _activate(currentSessionKey);
+    final key = _cacheKey(
+      sessionKey: currentSessionKey,
+      connectionKey: connectionKey,
+      database: database,
+      prefix: prefix,
+    );
+    final state = _databases.putIfAbsent(
+      key,
+      () => _TursoDirectDatabaseSession(
+        key: key,
+        database: database,
+        prefix: prefix,
+      ),
+    );
+    final mergedScopes = _mergeSessionScopes([...state.scopes, ...scopes]);
+    final resolved = state.resolved;
+    if (resolved != null &&
+        _coversScopes(resolved, scopes) &&
+        (_isValid(resolved) || !_hasDirectMode(resolved))) {
+      return resolved;
+    }
+    final pending = state.resolving;
+    if (pending != null && _sameScopes(state.scopes, mergedScopes)) {
+      return await pending;
+    }
+    state.scopes = mergedScopes;
+    final future = loader(mergedScopes);
+    state.resolving = future;
+    try {
+      final token = await future;
+      state.resolved = token;
+      if (state.client != null) {
+        await _disposeClient(state);
+      }
+      return token;
+    } catch (_) {
+      state.resolved = null;
+      rethrow;
+    } finally {
+      if (identical(state.resolving, future)) {
+        state.resolving = null;
+      }
+    }
+  }
+
+  String? _cachedMode({
+    required String connectionKey,
+    required String database,
+    required String? prefix,
+    required List<TursoTokenScope> scopes,
+    required bool write,
+  }) {
+    final currentSessionKey = sessionKey();
+    if (currentSessionKey == null ||
+        currentSessionKey.isEmpty ||
+        _activeSessionKey != currentSessionKey) {
+      return null;
+    }
+    final key = _cacheKey(
+      sessionKey: currentSessionKey,
+      connectionKey: connectionKey,
+      database: database,
+      prefix: prefix,
+    );
+    final resolved = _databases[key]?.resolved;
+    if (resolved == null || !_coversScopes(resolved, scopes)) {
+      return null;
+    }
+    if (_hasDirectMode(resolved) && !_isValid(resolved)) {
+      return null;
+    }
+    return _modeFor(resolved, scopes, write: write);
+  }
+
+  Future<T> _run<T>({
+    required String connectionKey,
+    required String database,
+    required String? prefix,
+    required TursoTokenFunctionsActionResponse token,
+    required bool write,
+    required Future<T> Function(LibsqlClient client) callback,
+  }) async {
+    final currentSessionKey = sessionKey();
+    if (currentSessionKey == null || currentSessionKey.isEmpty) {
+      final client = await _connect(token, null);
+      try {
+        final result = await callback(client);
+        if (write && useEmbeddedReplica) {
+          await client.sync();
+        }
+        return result;
+      } finally {
+        await client.dispose();
+      }
+    }
+    await _activate(currentSessionKey);
+    final key = _cacheKey(
+      sessionKey: currentSessionKey,
+      connectionKey: connectionKey,
+      database: database,
+      prefix: prefix,
+    );
+    final state = _databases.putIfAbsent(
+      key,
+      () => _TursoDirectDatabaseSession(
+        key: key,
+        database: database,
+        prefix: prefix,
+      ),
+    );
+    final future = state.client ??= _connect(token, key);
+    try {
+      final client = await future;
+      final result = await callback(client);
+      if (write && useEmbeddedReplica) {
+        await client.sync();
+      }
+      return result;
+    } catch (_) {
+      if (identical(state.client, future)) {
+        state.client = null;
+      }
+      try {
+        await (await future).dispose();
+      } catch (_) {}
+      rethrow;
+    }
+  }
+
+  Future<void> _sync({
+    required String connectionKey,
+    required String database,
+    required String? prefix,
+  }) async {
+    if (!useEmbeddedReplica) {
+      return;
+    }
+    final currentSessionKey = sessionKey();
+    if (currentSessionKey == null ||
+        currentSessionKey.isEmpty ||
+        _activeSessionKey != currentSessionKey) {
+      return;
+    }
+    final key = _cacheKey(
+      sessionKey: currentSessionKey,
+      connectionKey: connectionKey,
+      database: database,
+      prefix: prefix,
+    );
+    final state = _databases[key];
+    final resolved = state?.resolved;
+    if (state == null ||
+        resolved == null ||
+        resolved.token.isEmpty ||
+        resolved.url.isEmpty ||
+        !_isValid(resolved)) {
+      return;
+    }
+    final client = await (state.client ??= _connect(resolved, key));
+    await client.sync();
+  }
+
+  /// Disposes cached clients and tokens.
+  ///
+  /// キャッシュしたクライアントとトークンを破棄します。
+  Future<void> clear() async {
+    final databases = _databases.values.toList();
+    _databases.clear();
+    for (final database in databases) {
+      await _disposeClient(database);
+    }
+  }
+
+  Future<void> _activate(String currentSessionKey) async {
+    if (_activeSessionKey == currentSessionKey) {
+      return;
+    }
+    await clear();
+    _activeSessionKey = currentSessionKey;
+  }
+
+  bool _isValid(TursoTokenFunctionsActionResponse token) {
+    if (token.expiresAt <= 0) {
+      return false;
+    }
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    return token.expiresAt >
+        now + expirationMargin.inSeconds.clamp(0, token.expiresAt);
+  }
+
+  String _cacheKey({
+    required String sessionKey,
+    required String connectionKey,
+    required String database,
+    required String? prefix,
+  }) {
+    return [
+      sessionKey,
+      connectionKey,
+      prefix ?? "",
+      database,
+    ].join("\u0000");
+  }
+
+  Future<LibsqlClient> _connect(
+    TursoTokenFunctionsActionResponse token,
+    String? cacheKey,
+  ) async {
+    final clientFactory = this.clientFactory;
+    if (clientFactory != null) {
+      return await clientFactory(token);
+    }
+    final directory = await DatabaseExporter.documentDirectory;
+    final replicaPath = directory == null ||
+            directory.isEmpty ||
+            cacheKey == null ||
+            !useEmbeddedReplica
+        ? null
+        : "$directory/turso_${cacheKey.toSHA1()}.db";
+    final client = replicaPath == null
+        ? LibsqlClient.remote(token.url, authToken: token.token)
+        : LibsqlClient.replica(
+            replicaPath,
+            syncUrl: token.url,
+            authToken: token.token,
+            readYourWrites: true,
+          );
+    await client.connect();
+    if (replicaPath != null) {
+      await client.sync();
+    }
+    return client;
+  }
+
+  Future<void> _disposeClient(_TursoDirectDatabaseSession state) async {
+    final client = state.client;
+    state.client = null;
+    if (client == null) {
+      return;
+    }
+    try {
+      await (await client).dispose();
+    } catch (_) {}
+  }
+
+  bool _hasDirectMode(TursoTokenFunctionsActionResponse response) {
+    return response.readMode == "direct" || response.writeMode == "direct";
+  }
+
+  String? _modeFor(
+    TursoTokenFunctionsActionResponse response,
+    List<TursoTokenScope> scopes, {
+    required bool write,
+  }) {
+    final modes = <String>{};
+    for (final scope in scopes) {
+      final operations = scope.operations;
+      final requiresMode = write
+          ? operations.any(_isTursoWriteOperation)
+          : operations.any(_isTursoReadOperation);
+      if (!requiresMode) {
+        continue;
+      }
+      final resolved = response.scopes.firstWhereOrNull(
+        (item) => item.table == scope.table,
+      );
+      modes.add(
+        (write ? resolved?.writeMode : resolved?.readMode) ??
+            (write ? response.writeMode : response.readMode),
+      );
+    }
+    if (modes.isEmpty) {
+      return null;
+    }
+    if (modes.length == 1) {
+      return modes.single;
+    }
+    if (modes.contains("none")) {
+      return "none";
+    }
+    return "functions";
+  }
+
+  bool _coversScopes(
+    TursoTokenFunctionsActionResponse response,
+    List<TursoTokenScope> scopes,
+  ) {
+    for (final scope in scopes) {
+      final resolved = response.scopes.firstWhereOrNull(
+        (item) => item.table == scope.table,
+      );
+      if (resolved == null) {
+        return false;
+      }
+      for (final operation in scope.operations) {
+        if (!_operationsContain(resolved.operations, operation)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  bool _operationsContain(List<String> operations, String operation) {
+    if (operations.contains(operation)) {
+      return true;
+    }
+    if (_isTursoReadOperation(operation)) {
+      return operations.any(_isTursoReadOperation);
+    }
+    if (_isTursoWriteOperation(operation)) {
+      return operations.any(_isTursoWriteOperation);
+    }
+    return false;
+  }
+
+  bool _sameScopes(
+    List<TursoTokenScope> first,
+    List<TursoTokenScope> second,
+  ) {
+    return _scopeSignature(first) == _scopeSignature(second);
+  }
+
+  String _scopeSignature(List<TursoTokenScope> scopes) {
+    final values = scopes.map((scope) {
+      final operations = [...scope.operations]..sort();
+      return "${scope.table}:${operations.join(",")}";
+    }).toList()
+      ..sort();
+    return values.join(";");
+  }
+}
+
+class _TursoDirectDatabaseSession {
+  _TursoDirectDatabaseSession({
+    required this.key,
+    required this.database,
+    required this.prefix,
+  });
+
+  final String key;
+  final String database;
+  final String? prefix;
+  List<TursoTokenScope> scopes = const [];
+  TursoTokenFunctionsActionResponse? resolved;
+  Future<TursoTokenFunctionsActionResponse>? resolving;
+  Future<LibsqlClient>? client;
+}
+
+bool _isTursoReadOperation(String operation) {
+  return operation == "read" || operation == "get";
+}
+
+bool _isTursoWriteOperation(String operation) {
+  return const {"write", "create", "update", "delete"}.contains(operation);
+}
+
+List<TursoTokenScope> _mergeSessionScopes(List<TursoTokenScope> scopes) {
+  final values = <String, Set<String>>{};
+  for (final scope in scopes) {
+    values.putIfAbsent(scope.table, () => <String>{}).addAll(scope.operations);
+  }
+  return values.entries
+      .map((entry) => TursoTokenScope(
+            table: entry.key,
+            operations: entry.value.toList()..sort(),
+          ))
+      .toList()
+    ..sort((a, b) => a.table.compareTo(b.table));
+}
+
 /// A model adapter that enables the use of Turso.
 ///
 /// It can access Turso through Cloudflare Workers, or directly through a
@@ -35,6 +496,7 @@ class TursoModelAdapter extends ModelAdapter {
   /// Tursoを利用できるようにしたモデルアダプター。
   const TursoModelAdapter({
     this.useDirectClient = true,
+    this.directClientSession,
     FunctionsAdapter? functionsAdapter,
     String? prefix,
     this.tokenTtlSeconds = 3600,
@@ -71,6 +533,11 @@ class TursoModelAdapter extends ModelAdapter {
   ///
   /// 直接接続を利用するかどうか。
   final bool useDirectClient;
+
+  /// Optional authenticated session used to reuse tokens and direct clients.
+  ///
+  /// トークンと直接接続クライアントの再利用に使う認証済みセッション。
+  final TursoDirectClientSession? directClientSession;
 
   /// Token TTL in seconds.
   ///
@@ -112,6 +579,55 @@ class TursoModelAdapter extends ModelAdapter {
   @override
   Future<void> clearCache() {
     return cachedRuntimeDatabase.clearAll();
+  }
+
+  /// Resolves all Turso routes for [database] and opens its direct replica.
+  ///
+  /// [database]の全Turso経路を解決し、直接接続用レプリカを事前に開きます。
+  Future<TursoPrewarmResult?> prewarm({
+    required String database,
+    required List<TursoTokenScope> scopes,
+  }) async {
+    final session = directClientSession;
+    if (!_directEnabled || session == null || scopes.isEmpty) {
+      return null;
+    }
+    final totalStopwatch = Stopwatch()..start();
+    final routeStopwatch = Stopwatch()..start();
+    final connectionKey = functionsAdapter.endpoint;
+    final resolved = await session._resolve(
+      connectionKey: connectionKey,
+      database: database,
+      prefix: prefix,
+      scopes: _mergeScopes(scopes),
+      loader: (targets) => functionsAdapter.execute(TursoTokenFunctionsAction(
+        database: database,
+        prefix: prefix,
+        targets: targets,
+        ttlSeconds: tokenTtlSeconds,
+      )),
+    );
+    routeStopwatch.stop();
+    final replicaStopwatch = Stopwatch()..start();
+    if (resolved.token.isNotEmpty &&
+        resolved.url.isNotEmpty &&
+        (resolved.readMode == "direct" || resolved.writeMode == "direct")) {
+      await session._run<void>(
+        connectionKey: connectionKey,
+        database: database,
+        prefix: prefix,
+        token: resolved,
+        write: false,
+        callback: (_) async {},
+      );
+    }
+    replicaStopwatch.stop();
+    totalStopwatch.stop();
+    return TursoPrewarmResult(
+      routeDuration: routeStopwatch.elapsed,
+      replicaDuration: replicaStopwatch.elapsed,
+      totalDuration: totalStopwatch.elapsed,
+    );
   }
 
   /// Called before loading a document from Turso.
@@ -827,46 +1343,88 @@ class TursoModelAdapter extends ModelAdapter {
     Future<T> Function(TursoTokenFunctionsActionResponse token)?
         functionsFallback,
   }) async {
-    final TursoTokenFunctionsActionResponse token;
-    try {
-      token = await _retryTursoTransient(() {
-        return functionsAdapter.execute(TursoTokenFunctionsAction(
+    final mergedScopes = _mergeScopes(scopes);
+    final session = directClientSession;
+    final connectionKey = functionsAdapter.endpoint;
+    final requiresWrite = _requiresWrite(scopes);
+    final cachedMode = session?._cachedMode(
+      connectionKey: connectionKey,
+      database: database,
+      prefix: prefix,
+      scopes: mergedScopes,
+      write: requiresWrite,
+    );
+    if (cachedMode == "functions" && functionsFallback != null) {
+      final result = await functionsFallback(_fallbackTokenResponse);
+      if (requiresWrite) {
+        await session?._sync(
+          connectionKey: connectionKey,
           database: database,
           prefix: prefix,
-          targets: _mergeScopes(scopes),
-          ttlSeconds: tokenTtlSeconds,
-        ));
-      });
-    } catch (error) {
-      if (functionsFallback != null && _isTursoDirectFallbackError(error)) {
-        return await _retryTursoTransient(
-          () => functionsFallback(_fallbackTokenResponse),
         );
       }
-      rethrow;
+      return result;
     }
-    if (_requiresRead(scopes) && token.readMode != "direct") {
-      if (token.readMode == "functions" && functionsFallback != null) {
-        return await functionsFallback(token);
-      }
-      throw StateError(
-          "Direct Turso read is not allowed. readMode=${token.readMode}");
-    }
-    if (_requiresWrite(scopes) && token.writeMode != "direct") {
-      if (token.writeMode == "functions" && functionsFallback != null) {
-        return await functionsFallback(token);
-      }
-      throw StateError(
-          "Direct Turso write is not allowed. writeMode=${token.writeMode}");
-    }
-    final url = token.url;
-    if (url.isEmpty) {
-      throw StateError(
-          "Token response url is required for direct Turso access.");
+    if (cachedMode == "none") {
+      throw StateError("Turso access is not allowed.");
     }
     try {
       return await _retryTursoTransient(() async {
-        final client = LibsqlClient.remote(url, authToken: token.token);
+        final token = session == null
+            ? await functionsAdapter.execute(TursoTokenFunctionsAction(
+                database: database,
+                prefix: prefix,
+                targets: mergedScopes,
+                ttlSeconds: tokenTtlSeconds,
+              ))
+            : await session._resolve(
+                connectionKey: connectionKey,
+                database: database,
+                prefix: prefix,
+                scopes: mergedScopes,
+                loader: (targets) =>
+                    functionsAdapter.execute(TursoTokenFunctionsAction(
+                  database: database,
+                  prefix: prefix,
+                  targets: targets,
+                  ttlSeconds: tokenTtlSeconds,
+                )),
+              );
+        final mode = session?._modeFor(
+              token,
+              mergedScopes,
+              write: requiresWrite,
+            ) ??
+            (requiresWrite ? token.writeMode : token.readMode);
+        if (mode != "direct") {
+          if (mode == "functions" && functionsFallback != null) {
+            final result = await functionsFallback(token);
+            if (requiresWrite) {
+              await session?._sync(
+                connectionKey: connectionKey,
+                database: database,
+                prefix: prefix,
+              );
+            }
+            return result;
+          }
+          throw StateError("Turso access is not allowed. mode=$mode");
+        }
+        if (token.url.isEmpty) {
+          throw StateError(
+              "Token response url is required for direct Turso access.");
+        }
+        if (session != null) {
+          return await session._run(
+            connectionKey: connectionKey,
+            database: database,
+            prefix: prefix,
+            token: token,
+            write: requiresWrite,
+            callback: callback,
+          );
+        }
+        final client = LibsqlClient.remote(token.url, authToken: token.token);
         await client.connect();
         try {
           return await callback(client);
@@ -876,9 +1434,17 @@ class TursoModelAdapter extends ModelAdapter {
       });
     } catch (error) {
       if (functionsFallback != null && _isTursoDirectFallbackError(error)) {
-        return await _retryTursoTransient(
-          () => functionsFallback(token),
+        final result = await _retryTursoTransient(
+          () => functionsFallback(_fallbackTokenResponse),
         );
+        if (requiresWrite) {
+          await session?._sync(
+            connectionKey: connectionKey,
+            database: database,
+            prefix: prefix,
+          );
+        }
+        return result;
       }
       rethrow;
     }
@@ -907,11 +1473,6 @@ class TursoModelAdapter extends ModelAdapter {
     const writeOperations = {"write", "create", "update", "delete"};
     return scopes.any((scope) => scope.operations
         .any((operation) => writeOperations.contains(operation)));
-  }
-
-  bool _requiresRead(List<TursoTokenScope> scopes) {
-    return scopes.any((scope) => scope.operations
-        .any((operation) => operation == "read" || operation == "get"));
   }
 
   bool _isTursoDirectFallbackError(Object error) {
@@ -1050,6 +1611,14 @@ class TursoModelAdapter extends ModelAdapter {
     String table,
   ) async {
     try {
+      final schemaTable = await client.query(
+        "SELECT 1 FROM sqlite_master WHERE type = ? AND name = ? LIMIT 1",
+        positional: ["table", _tursoSchemaTable],
+      );
+      if (schemaTable.isEmpty) {
+        return _tursoBoolFieldsCache[_boolFieldsCacheKey(database, table)] ??
+            const {};
+      }
       final rows = await client.query(
         "SELECT column_name FROM ${_quoteTursoIdentifier(_tursoSchemaTable)} "
         "WHERE table_name = ? AND value_type = ?",
@@ -1109,6 +1678,7 @@ class TursoModelAdapter extends ModelAdapter {
         functionsAdapter.hashCode ^
         prefix.hashCode ^
         useDirectClient.hashCode ^
+        directClientSession.hashCode ^
         retryDelays.hashCode ^
         cachedRuntimeDatabase.hashCode;
   }
