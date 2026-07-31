@@ -220,75 +220,31 @@ class TidbEndpointSpec {
       schema.writeln();
 
       final operations = <String, Map<String, String>>{};
-      final rulesDatabase = table.rulesDatabase ?? table.database;
-      final readDenied = rules.isExplicitlyDenied(
-        rulesDatabase,
-        table.table,
-        TidbRulesOperation.get,
-      );
-      final createDenied = rules.isExplicitlyDenied(
-        rulesDatabase,
-        table.table,
-        TidbRulesOperation.create,
-      );
-      final updateDenied = rules.isExplicitlyDenied(
-        rulesDatabase,
-        table.table,
-        TidbRulesOperation.update,
-      );
-      final deleteDenied = rules.isExplicitlyDenied(
-        rulesDatabase,
-        table.table,
-        TidbRulesOperation.delete,
-      );
-      if (!readDenied) {
-        for (final operation in ["get", "list", "count"]) {
-          _addEndpoint(
-            files: files,
-            configs: endpointConfigs,
-            operations: operations,
-            table: table,
-            columns: columns,
-            operation: operation,
-            clusterId: clusterId,
-            description: "Generated from rules.json read access.",
-          );
-        }
-      }
-      if (!(createDenied && updateDenied)) {
+      // Data Service credentials are held only by the Worker. Client access
+      // rules are enforced by the Worker before it calls these endpoints, so
+      // an explicit client deny must not remove the server-side transport.
+      for (final operation in ["get", "list", "count"]) {
         _addEndpoint(
           files: files,
           configs: endpointConfigs,
           operations: operations,
           table: table,
           columns: columns,
-          operation: "upsert",
+          operation: operation,
           clusterId: clusterId,
-          description: "Generated from rules.json create/update access.",
+          description: "Generated server-side data transport.",
         );
       }
-      if (!updateDenied) {
+      for (final operation in ["upsert", "update", "delete"]) {
         _addEndpoint(
           files: files,
           configs: endpointConfigs,
           operations: operations,
           table: table,
           columns: columns,
-          operation: "update",
+          operation: operation,
           clusterId: clusterId,
-          description: "Generated from rules.json update access.",
-        );
-      }
-      if (!deleteDenied) {
-        _addEndpoint(
-          files: files,
-          configs: endpointConfigs,
-          operations: operations,
-          table: table,
-          columns: columns,
-          operation: "delete",
-          clusterId: clusterId,
-          description: "Generated from rules.json delete access.",
+          description: "Generated server-side data transport.",
         );
       }
       manifestTables["${table.database}\u0000${table.table}"] = {

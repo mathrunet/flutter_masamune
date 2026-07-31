@@ -168,7 +168,7 @@ void main() {
     expect(identity.clusterId, "0");
   });
 
-  test("omits only operations explicitly denied by rules.json", () {
+  test("keeps server transport endpoints when client rules deny access", () {
     final output = TidbEndpointSpec.generate(
       tables: [table],
       rules: const TidbRulesReader({
@@ -192,15 +192,15 @@ void main() {
             (item as Map<String, dynamic>)["endpoint"] as String)
         .toList();
 
-    expect(operations, isNot(contains("/main/users/get")));
-    expect(operations, isNot(contains("/main/users/list")));
-    expect(operations, isNot(contains("/main/users/count")));
-    expect(operations, isNot(contains("/main/users/delete")));
+    expect(operations, contains("/main/users/get"));
+    expect(operations, contains("/main/users/list"));
+    expect(operations, contains("/main/users/count"));
+    expect(operations, contains("/main/users/delete"));
     expect(operations, contains("/main/users/upsert"));
     expect(operations, contains("/main/users/update"));
   });
 
-  test("uses the logical database for prefixed table rules", () {
+  test("keeps prefixed server transport endpoints when reads are denied", () {
     const prefixed = TidbTableSpec(
       database: "dev_main",
       rulesDatabase: "main",
@@ -229,7 +229,7 @@ void main() {
             (item as Map<String, dynamic>)["endpoint"] as String)
         .toList();
 
-    expect(operations, isNot(contains("/dev_main/users/get")));
+    expect(operations, contains("/dev_main/users/get"));
     expect(operations, contains("/dev_main/users/upsert"));
     final manifest = jsonDecode(
       output.files["__generated_manifest.json"]!,

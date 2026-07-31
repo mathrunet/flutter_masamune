@@ -681,8 +681,11 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         if (current == null) {
           resolved = await _createManagedEndpoint(api, appId, body);
         } else if (!_endpointMatches(current, body)) {
-          await api.dataService("DELETE", current["name"].toString());
-          await Future<void>.delayed(const Duration(seconds: 1));
+          await deleteTidbDataServiceEndpointAndWait(
+            api,
+            appId: appId,
+            endpointName: current["name"].toString(),
+          );
           resolved = await _createManagedEndpoint(api, appId, body);
         } else {
           resolved = current;
@@ -730,7 +733,11 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         );
         continue;
       }
-      await api.dataService("DELETE", owned.name);
+      await deleteTidbDataServiceEndpointAndWait(
+        api,
+        appId: appId,
+        endpointName: owned.name,
+      );
     }
     return TidbEndpointOwnershipState(
       appId: appId,
