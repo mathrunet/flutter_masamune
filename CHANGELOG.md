@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.18.2`](#katana_cli---v3182)
+ - [`masamune_model_tidb_annotation` - `v3.3.1`](#masamune_model_tidb_annotation---v331)
+ - [`masamune_model_tidb_builder` - `v3.4.1`](#masamune_model_tidb_builder---v341)
+ - [`masamune_model_turso` - `v3.6.1`](#masamune_model_turso---v361)
+
+---
+
+#### `katana_cli` - `v3.18.2`
+
+ - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
+
+#### `masamune_model_tidb_annotation` - `v3.3.1`
+
+ - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
+
+#### `masamune_model_tidb_builder` - `v3.4.1`
+
+ - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
+
+#### `masamune_model_turso` - `v3.6.1`
+
+ - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
+
+
 ## 2026-07-30
 
 ### Changes

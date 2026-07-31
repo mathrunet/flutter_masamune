@@ -1,3 +1,7 @@
+## 3.18.2
+
+ - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
+
 ## 3.18.1
 
  - **FIX**(tidb): enhance endpoint ownership management and pagination. ([a12bf5b6](https://github.com/mathrunet/flutter_masamune/commit/a12bf5b62ac82cdaa4cddc08851ab1754d014632))
