@@ -1,0 +1,282 @@
+part of '/masamune_ai_debugger.dart';
+
+/// Adds an in-app AI debug console to Masamune debug builds.
+///
+/// Masamuneのデバッグビルドにアプリ内AIデバッグコンソールを追加します。
+class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
+  /// Creates an adapter that provides the in-app AI debug console.
+  ///
+  /// アプリ内AIデバッグコンソールを提供するアダプターを作成します。
+  AIDebuggerMasamuneAdapter({
+    required this.projectId,
+    this.endpoint =
+        const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_ENDPOINT"),
+    this.apiKey = const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_API_KEY"),
+    this.maxScreenshots = 6,
+    this.maxSessionsPerHour = 6,
+    this.modelLoadTimeout = const Duration(seconds: 5),
+    this.indicatorTimeout = const Duration(seconds: 10),
+    AIDebugPost? post,
+    AIDebugRegisterRunCallback? registerRun,
+    AIDebugHeartbeatCallback? heartbeat,
+    AIDebugEndRunCallback? endRun,
+    AIDebugUploadScreenshotCallback? uploadScreenshot,
+    AIDebugSendRequestCallback? sendRequest,
+    AIDebugReportIncidentCallback? reportIncident,
+    AIDebugUploadEventsCallback? uploadEvents,
+  }) : controller = AIDebugController(
+          projectId: projectId,
+          endpoint: endpoint,
+          apiKey: apiKey,
+          maxSessionsPerHour: maxSessionsPerHour,
+          post: post,
+          registerRun: registerRun ?? defaultRegisterRun,
+          heartbeatCallback: heartbeat ?? defaultHeartbeat,
+          endRun: endRun ?? defaultEndRun,
+          uploadScreenshot: uploadScreenshot ?? defaultUploadScreenshot,
+          sendRequest: sendRequest ?? defaultSendRequest,
+          reportIncident: reportIncident ?? defaultReportIncident,
+          uploadEvents: uploadEvents ?? defaultUploadEvents,
+        ) {
+    _loggerAdapter = _AIDebugLoggerAdapter(
+      controller,
+      modelLoadTimeout: modelLoadTimeout,
+      indicatorTimeout: indicatorTimeout,
+    );
+  }
+
+  /// Project identifier sent to the AI debug API.
+  ///
+  /// AIデバッグAPIへ送信するプロジェクトID。
+  final String projectId;
+
+  /// Endpoint URL of the AI debug API.
+  ///
+  /// AIデバッグAPIのエンドポイントURL。
+  final String endpoint;
+
+  /// API key used to authenticate requests to the AI debug API.
+  ///
+  /// AIデバッグAPIへのリクエスト認証に使用するAPIキー。
+  final String apiKey;
+
+  /// Maximum number of screenshots retained in the debug console.
+  ///
+  /// デバッグコンソールに保持するスクリーンショットの最大数。
+  final int maxScreenshots;
+
+  /// Maximum number of AI debug sessions allowed per hour.
+  ///
+  /// 1時間あたりに許可するAIデバッグセッションの最大数。
+  final int maxSessionsPerHour;
+
+  /// Duration after which a model load is reported as a performance incident.
+  ///
+  /// モデル読込をパフォーマンスインシデントとして報告するまでの時間。
+  final Duration modelLoadTimeout;
+
+  /// Duration after which an indicator is reported as a performance incident.
+  ///
+  /// インジケーター表示をパフォーマンスインシデントとして報告するまでの時間。
+  final Duration indicatorTimeout;
+
+  /// Controller that manages AI debug runs, incidents, and requests.
+  ///
+  /// AIデバッグの実行、インシデント、リクエストを管理するコントローラー。
+  final AIDebugController controller;
+  late final LoggerAdapter _loggerAdapter;
+
+  FlutterExceptionHandler? _previousFlutterError;
+  bool Function(Object, StackTrace)? _previousPlatformError;
+
+  /// Registers a run with the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI APIへ実行を登録します。
+  static Future<void> defaultRegisterRun(AIDebugController controller) async {
+    await _postToSamuraiAI(controller, "/api/app-debug/runs", {
+      "runId": controller.runId,
+      "projectId": controller.projectId,
+      "platform": defaultTargetPlatform.name,
+      "flavor": "debug",
+      "startedAt": controller.startedAt.toIso8601String(),
+      "maxSessionsPerHour": controller.maxSessionsPerHour,
+    });
+  }
+
+  /// Sends a heartbeat to the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI APIへハートビートを送信します。
+  static Future<void> defaultHeartbeat(AIDebugController controller) async {
+    await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/heartbeat",
+      const {},
+    );
+  }
+
+  /// Ends a run on the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI API上の実行を終了します。
+  static Future<void> defaultEndRun(AIDebugController controller) async {
+    await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/end",
+      const {},
+    );
+  }
+
+  /// Uploads a screenshot to the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI APIへスクリーンショットをアップロードします。
+  static Future<String> defaultUploadScreenshot(
+    AIDebugController controller,
+    Uint8List bytes, {
+    required String name,
+  }) async {
+    final result = await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/screenshots",
+      {
+        "name": name,
+        "data": "data:image/png;base64,${base64Encode(bytes)}",
+      },
+    );
+    return ((result["screenshot"] as Map?)?["name"] as String?) ?? "";
+  }
+
+  /// Sends an instruction to the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI APIへ指示を送信します。
+  static Future<String?> defaultSendRequest(
+    AIDebugController controller,
+    String instruction,
+    List<String> screenshotNames,
+  ) async {
+    final result = await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/request",
+      {
+        "instruction": instruction,
+        "screenshotNames": screenshotNames,
+      },
+    );
+    return result["sessionId"] as String?;
+  }
+
+  /// Reports an incident to the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI APIへインシデントを報告します。
+  static Future<void> defaultReportIncident(
+    AIDebugController controller, {
+    required String kind,
+    required String message,
+    required String stackTrace,
+    required DateTime timestamp,
+    required Map<String, Object?> metadata,
+  }) async {
+    await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/incidents",
+      {
+        "kind": kind,
+        "message": message,
+        "stackTrace": stackTrace,
+        "timestamp": timestamp.toUtc().toIso8601String(),
+        if (metadata.isNotEmpty) "metadata": metadata,
+      },
+    );
+  }
+
+  /// Uploads log events to the default SamuraiAI API.
+  ///
+  /// デフォルトのSamuraiAI APIへログイベントをアップロードします。
+  static Future<void> defaultUploadEvents(
+    AIDebugController controller,
+    List<Map<String, Object?>> events,
+  ) async {
+    await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/events",
+      {"events": events},
+    );
+  }
+
+  static Future<Map<String, Object?>> _postToSamuraiAI(
+    AIDebugController controller,
+    String path,
+    Map<String, Object?> body,
+  ) async {
+    final base = controller.endpoint.replaceFirst(RegExp(r"/+$"), "");
+    if (base.isEmpty) {
+      throw StateError("MASAMUNE_AI_DEBUGGER_ENDPOINT is not configured");
+    }
+    if (controller.apiKey.isEmpty) {
+      throw StateError("MASAMUNE_AI_DEBUGGER_API_KEY is not configured");
+    }
+    final url = "$base$path";
+    final headers = {
+      "content-type": "application/json",
+      "x-api-key": controller.apiKey,
+    };
+    final customPost = controller.post;
+    if (customPost != null) return customPost(url, headers, body);
+    final response = await Api.post(
+      url,
+      headers: headers,
+      body: jsonEncode(body),
+    );
+    final decoded =
+        response.body.isEmpty ? <String, Object?>{} : jsonDecode(response.body);
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      final message = decoded is Map ? decoded["error"] : null;
+      throw AIDebugHttpException(
+        response.statusCode,
+        message?.toString() ?? "AI Debugger HTTP ${response.statusCode}",
+      );
+    }
+    return Map<String, Object?>.from(decoded as Map);
+  }
+
+  @override
+  bool get runZonedGuarded => kDebugMode;
+
+  @override
+  double get priority => 5;
+
+  @override
+  List<LoggerAdapter> get loggerAdapters =>
+      kDebugMode ? <LoggerAdapter>[_loggerAdapter] : const [];
+
+  @override
+  FutureOr<void> onPreRunApp(WidgetsBinding binding) {
+    if (!kDebugMode) {
+      return Future<void>.value();
+    }
+    _previousFlutterError = FlutterError.onError;
+    FlutterError.onError = (details) {
+      _previousFlutterError?.call(details);
+      unawaited(controller.reportError(details.exception, details.stack));
+    };
+    _previousPlatformError = ui.PlatformDispatcher.instance.onError;
+    ui.PlatformDispatcher.instance.onError = (error, stack) {
+      final handled = _previousPlatformError?.call(error, stack) ?? false;
+      unawaited(controller.reportError(error, stack));
+      return handled;
+    };
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    if (kDebugMode) unawaited(controller.reportError(error, stackTrace));
+  }
+
+  @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    if (!kDebugMode) return app;
+    return _AIDebugOverlay(
+      controller: controller,
+      maxScreenshots: maxScreenshots,
+      child: app,
+    );
+  }
+}
