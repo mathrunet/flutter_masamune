@@ -1,8 +1,8 @@
 // Copyright (c) 2025 mathru. All rights reserved.
 
-/// Masamune plugin package that includes a model adapter to retrieve data from TiDB.
+/// Masamune plugin package that includes a model adapter to retrieve data from Turso.
 ///
-/// To use, import `package:masamune_model_tidb/masamune_model_tidb.dart`.
+/// To use, import `package:masamune_model_turso/masamune_model_turso.dart`.
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel

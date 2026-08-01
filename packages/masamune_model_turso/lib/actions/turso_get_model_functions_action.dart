@@ -45,6 +45,8 @@ class TursoGetModelFunctionsAction
   final String table;
 
   /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に付加するプレフィックス。
   String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
 
   final String? _prefix;
