@@ -60,4 +60,146 @@ void main() {
       isNot(endsWith("|unknown")),
     );
   });
+
+  testWidgets("measured circular indicator emits one named trace", (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: MeasuredCircularProgressIndicator(
+          traceName: "ExamplePage.initialLoad",
+          color: Colors.red,
+          strokeWidth: 3,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final indicator = tester.widget<CircularProgressIndicator>(
+      find.byType(CircularProgressIndicator),
+    );
+    expect(indicator.color, Colors.red);
+    expect(indicator.strokeWidth, 3);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    final traceLogs = (await loggerDatabase.read())
+        .values
+        .where(
+          (value) =>
+              value.get(LoggerDatabase.nameKey, "") ==
+              "$katanaIndicatorTracePrefix|ExamplePage.initialLoad",
+        )
+        .toList();
+    expect(traceLogs, hasLength(1));
+    expect(traceLogs.single.get("duration", -1), greaterThanOrEqualTo(0));
+  });
+
+  testWidgets("measured linear indicator emits one named trace", (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: MeasuredLinearProgressIndicator(
+          traceName: "DownloadPage.fileWait",
+          value: 0.4,
+          color: Colors.blue,
+          minHeight: 6,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final indicator = tester.widget<LinearProgressIndicator>(
+      find.byType(LinearProgressIndicator),
+    );
+    expect(indicator.value, 0.4);
+    expect(indicator.color, Colors.blue);
+    expect(indicator.minHeight, 6);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    final traceLogs = (await loggerDatabase.read()).values.where(
+          (value) =>
+              value.get(LoggerDatabase.nameKey, "") ==
+              "$katanaIndicatorTracePrefix|DownloadPage.fileWait",
+        );
+    expect(traceLogs, hasLength(1));
+  });
+
+  testWidgets("rebuild keeps trace and trace name change rotates it", (
+    tester,
+  ) async {
+    final traceName = ValueNotifier("ExamplePage.firstWait");
+    addTearDown(traceName.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ValueListenableBuilder<String>(
+          valueListenable: traceName,
+          builder: (context, value, child) =>
+              MeasuredCircularProgressIndicator(traceName: value),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+    expect(await loggerDatabase.read(), isEmpty);
+
+    traceName.value = "ExamplePage.secondWait";
+    await tester.pump();
+    await tester.pump();
+
+    var names = (await loggerDatabase.read())
+        .values
+        .map((value) => value.get(LoggerDatabase.nameKey, ""))
+        .toList();
+    expect(
+      names.where(
+        (name) => name == "$katanaIndicatorTracePrefix|ExamplePage.firstWait",
+      ),
+      hasLength(1),
+    );
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    names = (await loggerDatabase.read())
+        .values
+        .map((value) => value.get(LoggerDatabase.nameKey, ""))
+        .toList();
+    expect(
+      names.where(
+        (name) => name == "$katanaIndicatorTracePrefix|ExamplePage.secondWait",
+      ),
+      hasLength(1),
+    );
+  });
+
+  testWidgets("adaptive measured indicator forwards material properties", (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: MeasuredCircularProgressIndicator.adaptive(
+          traceName: "ExamplePage.adaptiveWait",
+          value: 0.25,
+          backgroundColor: Colors.black,
+          strokeWidth: 5,
+        ),
+      ),
+    );
+
+    final indicator = tester.widget<CircularProgressIndicator>(
+      find.byType(CircularProgressIndicator),
+    );
+    expect(indicator.value, 0.25);
+    expect(indicator.backgroundColor, Colors.black);
+    expect(indicator.strokeWidth, 5);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+  });
 }

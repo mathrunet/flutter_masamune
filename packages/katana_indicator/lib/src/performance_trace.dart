@@ -5,10 +5,14 @@ part of "/katana_indicator.dart";
 /// インジケーター表示のパフォーマンストレースで使用するPrefix。
 const katanaIndicatorTracePrefix = "katana.indicator.show";
 
-Future<LoggerTrace?> _startIndicatorTrace(StackTrace stackTrace) async {
+Future<LoggerTrace?> _startIndicatorTrace(
+  StackTrace stackTrace, {
+  String? traceName,
+}) async {
   try {
+    final resolvedTraceName = traceName?.trim();
     final trace = Logger().trace(
-      "$katanaIndicatorTracePrefix|${_indicatorCaller(stackTrace)}",
+      "$katanaIndicatorTracePrefix|${resolvedTraceName == null || resolvedTraceName.isEmpty ? _indicatorCaller(stackTrace) : resolvedTraceName}",
     );
     await trace.start();
     return trace;
@@ -17,6 +21,27 @@ Future<LoggerTrace?> _startIndicatorTrace(StackTrace stackTrace) async {
   } catch (error) {
     debugPrint("Failed to start indicator trace: $error");
     return null;
+  }
+}
+
+class _IndicatorTraceLifecycle {
+  Future<LoggerTrace?>? _trace;
+
+  void start(String traceName) {
+    stop();
+    _trace = _startIndicatorTrace(
+      StackTrace.current,
+      traceName: traceName,
+    );
+  }
+
+  void stop() {
+    final trace = _trace;
+    _trace = null;
+    if (trace == null) {
+      return;
+    }
+    unawaited(trace.then(_stopIndicatorTrace));
   }
 }
 

@@ -99,6 +99,38 @@ await doc.save({
 }).showIndicator(context, indicator: Center(child: LinearProgressIndicator()));
 ```
 
+## Measuring directly placed progress indicators
+
+Use `MeasuredCircularProgressIndicator` or
+`MeasuredLinearProgressIndicator` when a progress indicator is placed directly
+in a widget tree while waiting for work to finish. The widget emits a
+`katana.indicator.show` performance trace for its visible lifetime.
+
+```dart
+const Center(
+  child: MeasuredCircularProgressIndicator(
+    traceName: "ProfilePage.initialLoad",
+    strokeWidth: 3,
+  ),
+);
+```
+
+```dart
+const MeasuredLinearProgressIndicator(
+  traceName: "DownloadPage.assetWait",
+  value: 0.4,
+  minHeight: 6,
+);
+```
+
+Use a stable, non-sensitive `traceName` that identifies the page and waiting
+operation. Do not include user IDs or other dynamic personal data.
+
+Keep the standard Flutter progress indicators for persistent status gauges
+that are not waiting states. Also keep the indicator passed to
+`Future.showIndicator` unmeasured because `showIndicator` already emits one
+trace for the whole operation.
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!

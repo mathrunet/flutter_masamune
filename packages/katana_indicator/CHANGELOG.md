@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **FEAT**(katana_indicator): add measured circular and linear progress indicators.
+
 ## 3.2.0
 
  - **FEAT**(katana_indicator): enhance performance tracing and update dependencies. ([5696b49b](https://github.com/mathrunet/flutter_masamune/commit/5696b49b2dc023b74b26f712173d4b463452533d))
@@ -396,4 +400,3 @@
 ## 1.1.0
 
  - **FEAT**: Initial commit. ([7b67f762](https://github.com/mathrunet/flutter_masamune/commit/7b67f7627727def2f3f3f7ce5c6b8deba712d00d))
-
