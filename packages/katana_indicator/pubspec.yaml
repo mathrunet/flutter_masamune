@@ -13,7 +13,10 @@ dependencies:
     sdk: flutter
     
   katana: ^3.4.0
+  katana_logger: ^3.1.1
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   test: ^1.25.0
   katana_test: ^3.1.0
   flutter_lints: ^6.0.0

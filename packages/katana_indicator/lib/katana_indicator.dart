@@ -15,9 +15,10 @@ import "dart:async";
 import "package:flutter/material.dart";
 
 // Package imports:
-import "package:katana/katana.dart";
+import "package:katana_logger/katana_logger.dart";
 
 export "package:katana/katana.dart";
 
 part "src/future_indicator.dart";
+part "src/performance_trace.dart";
 part "src/progress_indicator.dart";

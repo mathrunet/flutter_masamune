@@ -36,80 +36,85 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
     DialogRoute<T>? route;
     Completer<void>? completer;
     if (futureOr is Future<T>) {
-      completer = Completer<void>();
-      var navigator = Navigator.of(context, rootNavigator: true);
+      final navigator = Navigator.of(context, rootNavigator: true);
       final rootContext = navigator.context;
-      unawaited(
-        futureOr.whenComplete(
-          () {
-            completer?.complete();
-            completer = null;
-            final removingRoute = route;
-            route = null;
-            if (removingRoute == null) {
-              return;
-            }
-            if (!navigator.mounted) {
-              return;
-            }
-            if (!removingRoute.isActive) {
-              return;
-            }
-            try {
-              navigator.removeRoute(removingRoute);
-            } catch (_) {
-              // The route was already removed from the navigator history
-              // (e.g. by an intervening pop or page disposal) before this
-              // callback fired. Swallow the resulting StateError so that the
-              // surrounding Future continues to complete normally.
-            }
-          },
-        ),
-      );
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (completer == null) {
-          return;
-        }
-        try {
-          final themes = InheritedTheme.capture(
-            from: context,
-            to: rootContext,
-          );
-          route = DialogRoute<T>(
-            context: rootContext,
-            builder: (_) {
-              return PopScope(
-                canPop: false,
-                child: indicator ??
-                    Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white.withValues(
-                          alpha: 0.5,
+      final trace = await _startIndicatorTrace(StackTrace.current);
+      try {
+        completer = Completer<void>();
+        unawaited(
+          futureOr.whenComplete(
+            () {
+              completer?.complete();
+              completer = null;
+              final removingRoute = route;
+              route = null;
+              if (removingRoute == null) {
+                return;
+              }
+              if (!navigator.mounted) {
+                return;
+              }
+              if (!removingRoute.isActive) {
+                return;
+              }
+              try {
+                navigator.removeRoute(removingRoute);
+              } catch (_) {
+                // The route was already removed from the navigator history
+                // (e.g. by an intervening pop or page disposal) before this
+                // callback fired. Swallow the resulting StateError so that the
+                // surrounding Future continues to complete normally.
+              }
+            },
+          ),
+        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (completer == null) {
+            return;
+          }
+          try {
+            final themes = InheritedTheme.capture(
+              from: context,
+              to: rootContext,
+            );
+            route = DialogRoute<T>(
+              context: rootContext,
+              builder: (_) {
+                return PopScope(
+                  canPop: false,
+                  child: indicator ??
+                      Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white.withValues(
+                            alpha: 0.5,
+                          ),
                         ),
                       ),
-                    ),
-              );
-            },
-            barrierColor: barrierColor,
-            barrierDismissible: false,
-            useSafeArea: true,
-            themes: themes,
-            traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
-          );
-          if (route != null) {
-            navigator.push<T>(route!);
+                );
+              },
+              barrierColor: barrierColor,
+              barrierDismissible: false,
+              useSafeArea: true,
+              themes: themes,
+              traversalEdgeBehavior: TraversalEdgeBehavior.closedLoop,
+            );
+            if (route != null) {
+              navigator.push<T>(route!);
+            }
+          } catch (e) {
+            completer?.completeError(e);
+            completer = null;
+          } finally {
+            completer?.complete();
+            completer = null;
           }
-        } catch (e) {
-          completer?.completeError(e);
-          completer = null;
-        } finally {
-          completer?.complete();
-          completer = null;
-        }
-      });
-      await completer?.future;
-      final value = await this;
-      return value;
+        });
+        await completer?.future;
+        final value = await this;
+        return value;
+      } finally {
+        await _stopIndicatorTrace(trace);
+      }
     } else {
       return await this;
     }
