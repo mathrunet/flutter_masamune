@@ -1,13 +1,13 @@
 part of "/masamune_model_tidb.dart";
 
-/// Parsed Tidb model path.
+/// Parsed TiDB model path.
 ///
-/// 解析済みのTidbモデルパス。
+/// 解析済みのTiDBモデルパス。
 @immutable
 class TidbModelPath {
-  /// Parsed Tidb model path.
+  /// Parsed TiDB model path.
   ///
-  /// 解析済みのTidbモデルパス。
+  /// 解析済みのTiDBモデルパス。
   const TidbModelPath({
     required this.database,
     required this.table,

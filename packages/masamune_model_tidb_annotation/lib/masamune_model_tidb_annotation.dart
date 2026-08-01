@@ -1,8 +1,11 @@
 // Copyright (c) 2025 mathru. All rights reserved.
 
-/// Annotations for generating TiDB Data Service Configuration as Code.
+/// Masamune plugin package that includes a model adapter to retrieve data from TiDB.
 ///
-/// To use, import `package:masamune_model_tidb_annotation/masamune_model_tidb_annotation.dart`.
+/// To use, import `package:masamune_model_tidb/masamune_model_tidb.dart`.
+///
+/// [mathru.net]: https://mathru.net
+/// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library;
 
 export "package:masamune_annotation/masamune_annotation.dart";

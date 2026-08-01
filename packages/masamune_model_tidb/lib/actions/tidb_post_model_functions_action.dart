@@ -1,13 +1,13 @@
 part of "/masamune_model_tidb.dart";
 
-/// FunctionsAction for creating a Tidb row.
+/// FunctionsAction for creating a TiDB row.
 ///
-/// Tidbの行を作成するためのFunctionsAction。
+/// TiDBの行を作成するためのFunctionsAction。
 class TidbPostModelFunctionsAction
     extends FunctionsAction<TidbPostModelFunctionsActionResponse> {
-  /// FunctionsAction for creating a Tidb row.
+  /// FunctionsAction for creating a TiDB row.
   ///
-  /// Tidbの行を作成するためのFunctionsAction。
+  /// TiDBの行を作成するためのFunctionsAction。
   const TidbPostModelFunctionsAction({
     required this.database,
     required this.table,
@@ -28,6 +28,8 @@ class TidbPostModelFunctionsAction
   final String table;
 
   /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に付加するプレフィックス。
   String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
 
   final String? _prefix;

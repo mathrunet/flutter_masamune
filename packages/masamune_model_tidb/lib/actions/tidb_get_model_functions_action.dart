@@ -14,14 +14,14 @@ String _buildTidbActionPath(
   ).toString();
 }
 
-/// FunctionsAction for reading rows from Tidb.
+/// FunctionsAction for reading rows from TiDB.
 ///
-/// Tidbから行を読み込むためのFunctionsAction。
+/// TiDBから行を読み込むためのFunctionsAction。
 class TidbGetModelFunctionsAction
     extends FunctionsAction<TidbGetModelFunctionsActionResponse> {
-  /// FunctionsAction for reading rows from Tidb.
+  /// FunctionsAction for reading rows from TiDB.
   ///
-  /// Tidbから行を読み込むためのFunctionsAction。
+  /// TiDBから行を読み込むためのFunctionsAction。
   TidbGetModelFunctionsAction({
     required this.database,
     required this.table,
@@ -45,6 +45,8 @@ class TidbGetModelFunctionsAction
   final String table;
 
   /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に付加するプレフィックス。
   String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
 
   final String? _prefix;

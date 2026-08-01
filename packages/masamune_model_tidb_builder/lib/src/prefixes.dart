@@ -4,6 +4,11 @@
 ///
 /// The option accepts either a YAML list from `build.yaml` or a comma-separated
 /// string passed through build runner's `--define` option.
+///
+/// build runnerオプションからTiDBデータベースのプレフィックスを読み込みます。
+///
+/// `build.yaml`のYAMLリスト、またはbuild runnerの`--define`オプションで
+/// 渡されたカンマ区切り文字列を受け付けます。
 List<String> readTidbDatabasePrefixOption(Object? value) {
   if (value == null) {
     return const [];
@@ -22,6 +27,8 @@ List<String> readTidbDatabasePrefixOption(Object? value) {
 }
 
 /// Normalizes and validates TiDB physical database prefixes.
+///
+/// TiDBの物理データベース用プレフィックスを正規化して検証します。
 List<String> normalizeTidbDatabasePrefixes(Iterable<String?> values) {
   final prefixes = <String>{};
   for (final value in values) {

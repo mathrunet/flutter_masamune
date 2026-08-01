@@ -5,8 +5,12 @@ import "dart:convert";
 import "rules_reader.dart";
 
 /// A column generated from a Masamune model field.
+///
+/// Masamuneモデルのフィールドから生成するカラム。
 class TidbColumnSpec {
   /// Creates a column specification.
+  ///
+  /// カラム仕様を作成します。
   const TidbColumnSpec({
     required this.name,
     required this.sqlType,
@@ -14,18 +18,28 @@ class TidbColumnSpec {
   });
 
   /// Column name.
+  ///
+  /// カラム名。
   final String name;
 
   /// TiDB SQL type.
+  ///
+  /// TiDBのSQL型。
   final String sqlType;
 
   /// Whether model construction requires this field.
+  ///
+  /// モデルの構築時にこのフィールドが必須かどうか。
   final bool required;
 }
 
 /// A table generated from one annotated Masamune model.
+///
+/// アノテーションが付与された1つのMasamuneモデルから生成するテーブル。
 class TidbTableSpec {
   /// Creates a table specification.
+  ///
+  /// テーブル仕様を作成します。
   const TidbTableSpec({
     required this.database,
     required this.table,
@@ -35,24 +49,38 @@ class TidbTableSpec {
   });
 
   /// Database name.
+  ///
+  /// データベース名。
   final String database;
 
   /// Logical database name used to evaluate rules.
+  ///
+  /// ルールの評価に使用する論理データベース名。
   final String? rulesDatabase;
 
   /// Table name.
+  ///
+  /// テーブル名。
   final String table;
 
   /// Columns including Masamune reserved columns.
+  ///
+  /// Masamuneの予約カラムを含むカラム一覧。
   final List<TidbColumnSpec> columns;
 
   /// Cache TTL for generated read endpoints.
+  ///
+  /// 生成する読込エンドポイントのキャッシュ有効期間。
   final int readCacheTtlSeconds;
 }
 
 /// A parameter accepted by a custom Data Service endpoint.
+///
+/// カスタムData Serviceエンドポイントが受け付けるパラメーター。
 class TidbCustomEndpointParameterSpec {
   /// Creates a custom endpoint parameter.
+  ///
+  /// カスタムエンドポイントのパラメーターを作成します。
   const TidbCustomEndpointParameterSpec({
     required this.name,
     this.type = "string",
@@ -61,21 +89,33 @@ class TidbCustomEndpointParameterSpec {
   });
 
   /// Parameter name.
+  ///
+  /// パラメーター名。
   final String name;
 
   /// Data Service parameter type.
+  ///
+  /// Data Serviceのパラメーター型。
   final String type;
 
   /// Whether callers must provide the value.
+  ///
+  /// 呼び出し元が値を指定する必要があるかどうか。
   final bool required;
 
   /// Default value.
+  ///
+  /// デフォルト値。
   final String defaultValue;
 }
 
 /// A server-only custom SQL endpoint.
+///
+/// サーバー専用のカスタムSQLエンドポイント。
 class TidbCustomEndpointSpec {
   /// Creates a custom endpoint specification.
+  ///
+  /// カスタムエンドポイントの仕様を作成します。
   const TidbCustomEndpointSpec({
     required this.name,
     required this.path,
@@ -87,39 +127,63 @@ class TidbCustomEndpointSpec {
   });
 
   /// Stable manifest key.
+  ///
+  /// 固定のマニフェストキー。
   final String name;
 
   /// Endpoint path.
+  ///
+  /// エンドポイントパス。
   final String path;
 
   /// SQL source.
+  ///
+  /// SQLソース。
   final String sql;
 
   /// HTTP method.
+  ///
+  /// HTTPメソッド。
   final String method;
 
   /// Endpoint parameters.
+  ///
+  /// エンドポイントのパラメーター一覧。
   final List<TidbCustomEndpointParameterSpec> parameters;
 
   /// Endpoint timeout.
+  ///
+  /// エンドポイントのタイムアウト時間。
   final int timeoutMilliseconds;
 
   /// Maximum returned or affected rows.
+  ///
+  /// 返却または更新する行数の上限。
   final int rowLimit;
 }
 
 /// Complete output of the TiDB Data Service generator.
+///
+/// TiDB Data Service Generatorの完全な出力。
 class TidbGeneratedArtifacts {
   /// Creates generated artifacts.
+  ///
+  /// 生成済みアーティファクトを作成します。
   const TidbGeneratedArtifacts(this.files);
 
   /// Relative output path to file contents.
+  ///
+  /// 相対出力パスとファイル内容の対応表。
   final Map<String, String> files;
 }
 
 /// Deployment identity that must survive model code generation.
+///
+/// モデルコード生成後も保持する必要があるデプロイID情報。
 class TidbDeploymentIdentity {
   /// Creates a deployment identity.
+  ///
+  /// デプロイID情報を作成します。
   const TidbDeploymentIdentity({
     this.appId = "",
     this.appName = "masamune",
@@ -129,6 +193,10 @@ class TidbDeploymentIdentity {
   /// Reads the deployment identity from existing Data Service CaC files.
   ///
   /// Invalid or incomplete files fall back to safe first-generation values.
+  ///
+  /// 既存のData Service CaCファイルからデプロイID情報を読み込みます。
+  ///
+  /// 不正または不完全なファイルの場合は、安全な初回生成値を使用します。
   factory TidbDeploymentIdentity.fromArtifacts({
     String? dataAppConfig,
     String? dataSourcesConfig,
@@ -169,18 +237,28 @@ class TidbDeploymentIdentity {
   }
 
   /// TiDB Data App identifier.
+  ///
+  /// TiDB Data AppのID。
   final String appId;
 
   /// TiDB Data App display name.
+  ///
+  /// TiDB Data Appの表示名。
   final String appName;
 
   /// TiDB cluster identifier.
+  ///
+  /// TiDBクラスターのID。
   final String clusterId;
 }
 
 /// Single source of truth for the Workers/Data Service endpoint convention.
+///
+/// WorkersとData Serviceのエンドポイント規約を管理するSingle Source of Truth。
 class TidbEndpointSpec {
   /// Generates official Data Service CaC files and Masamune manifests.
+  ///
+  /// 公式Data Service CaCファイルとMasamuneマニフェストを生成します。
   static TidbGeneratedArtifacts generate({
     required List<TidbTableSpec> tables,
     required TidbRulesReader rules,

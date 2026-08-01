@@ -25,6 +25,8 @@ export "src/rules_reader.dart";
 part "src/builder.dart";
 
 /// Creates the TiDB Data Service aggregate builder.
+///
+/// TiDB Data Serviceの集約Builderを作成します。
 Builder masamuneModelTidbBuilderFactory(BuilderOptions options) {
   return _MasamuneModelTidbBuilder(
     readTidbDatabasePrefixOption(options.config["prefixes"]),

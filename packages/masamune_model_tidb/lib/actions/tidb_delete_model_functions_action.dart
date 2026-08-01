@@ -1,13 +1,13 @@
 part of "/masamune_model_tidb.dart";
 
-/// FunctionsAction for deleting Tidb rows.
+/// FunctionsAction for deleting TiDB rows.
 ///
-/// Tidbの行を削除するためのFunctionsAction。
+/// TiDBの行を削除するためのFunctionsAction。
 class TidbDeleteModelFunctionsAction
     extends FunctionsAction<TidbDeleteModelFunctionsActionResponse> {
-  /// FunctionsAction for deleting Tidb rows.
+  /// FunctionsAction for deleting TiDB rows.
   ///
-  /// Tidbの行を削除するためのFunctionsAction。
+  /// TiDBの行を削除するためのFunctionsAction。
   const TidbDeleteModelFunctionsAction({
     required this.database,
     required this.table,
@@ -28,6 +28,8 @@ class TidbDeleteModelFunctionsAction
   final String table;
 
   /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に付加するプレフィックス。
   String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
 
   final String? _prefix;

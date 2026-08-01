@@ -3,26 +3,42 @@ import "dart:convert";
 import "dart:io";
 
 /// Operations used while deciding which endpoints are safe to generate.
+///
+/// 安全に生成できるエンドポイントを判定する際に使用する操作。
 enum TidbRulesOperation {
   /// Read a document or collection.
+  ///
+  /// ドキュメントまたはコレクションを読み込みます。
   get,
 
   /// Create a document.
+  ///
+  /// ドキュメントを作成します。
   create,
 
   /// Update a document.
+  ///
+  /// ドキュメントを更新します。
   update,
 
   /// Delete a document.
+  ///
+  /// ドキュメントを削除します。
   delete,
 }
 
 /// Reads the subset of rules.json that can be proven statically denied.
+///
+/// 静的に拒否されると判断できるrules.jsonのサブセットを読み込みます。
 class TidbRulesReader {
   /// Creates a rules reader from decoded JSON.
+  ///
+  /// デコード済みのJSONからルールリーダーを作成します。
   const TidbRulesReader(this.rules);
 
   /// Loads rules from [file], returning permissive generation when absent.
+  ///
+  /// [file]からルールを読み込み、ファイルがない場合は生成を許可します。
   factory TidbRulesReader.fromFile(File file) {
     if (!file.existsSync()) {
       return const TidbRulesReader({});
@@ -34,9 +50,13 @@ class TidbRulesReader {
   }
 
   /// Raw rules configuration.
+  ///
+  /// 変換前のルール設定。
   final Map<String, dynamic> rules;
 
   /// Returns true only when the most specific static rule explicitly denies.
+  ///
+  /// 最も具体的な静的ルールが明示的に拒否する場合のみtrueを返します。
   bool isExplicitlyDenied(
     String database,
     String table,

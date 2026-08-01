@@ -1,16 +1,16 @@
 part of "/masamune_model_tidb.dart";
 
-/// A model adapter that enables the use of Tidb.
+/// A model adapter that enables the use of TiDB.
 ///
-/// It accesses Tidb through Cloudflare Workers.
+/// It accesses TiDB through Cloudflare Workers.
 ///
-/// Tidbを利用できるようにしたモデルアダプター。
+/// TiDBを利用できるようにしたモデルアダプター。
 ///
-/// Cloudflare Workers経由でTidbにアクセスします。
+/// Cloudflare Workers経由でTiDBにアクセスします。
 class TidbModelAdapter extends ModelAdapter {
-  /// A model adapter that enables the use of Tidb.
+  /// A model adapter that enables the use of TiDB.
   ///
-  /// Tidbを利用できるようにしたモデルアダプター。
+  /// TiDBを利用できるようにしたモデルアダプター。
   const TidbModelAdapter({
     FunctionsAdapter? functionsAdapter,
     String? prefix,

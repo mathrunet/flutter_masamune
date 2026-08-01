@@ -1,13 +1,13 @@
 part of "/masamune_model_tidb.dart";
 
-/// FunctionsAction for updating Tidb rows.
+/// FunctionsAction for updating TiDB rows.
 ///
-/// Tidbの行を更新するためのFunctionsAction。
+/// TiDBの行を更新するためのFunctionsAction。
 class TidbPutModelFunctionsAction
     extends FunctionsAction<TidbPutModelFunctionsActionResponse> {
-  /// FunctionsAction for updating Tidb rows.
+  /// FunctionsAction for updating TiDB rows.
   ///
-  /// Tidbの行を更新するためのFunctionsAction。
+  /// TiDBの行を更新するためのFunctionsAction。
   const TidbPutModelFunctionsAction({
     required this.database,
     required this.table,
@@ -29,6 +29,8 @@ class TidbPutModelFunctionsAction
   final String table;
 
   /// Prefix added to the physical database name.
+  ///
+  /// 物理データベース名に付加するプレフィックス。
   String? get prefix => _normalizeTidbDatabasePrefix(_prefix);
 
   final String? _prefix;

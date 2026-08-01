@@ -1,13 +1,13 @@
 part of "/masamune_model_tidb.dart";
 
-/// Query payload for Tidb.
+/// Query payload for TiDB.
 ///
-/// Tidb用のクエリーペイロード。
+/// TiDB用のクエリーペイロード。
 @immutable
 class TidbQueryPayload {
-  /// Query payload for Tidb.
+  /// Query payload for TiDB.
   ///
-  /// Tidb用のクエリーペイロード。
+  /// TiDB用のクエリーペイロード。
   const TidbQueryPayload({
     this.where = const [],
     this.orderBy = const [],
