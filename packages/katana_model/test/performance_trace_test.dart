@@ -1,8 +1,12 @@
+// Dart imports:
 import "dart:async";
 
+// Package imports:
 import "package:katana_logger/katana_logger.dart";
-import "package:katana_model/katana_model.dart";
 import "package:test/test.dart";
+
+// Project imports:
+import "package:katana_model/katana_model.dart";
 
 class _TraceDocumentModel extends DocumentBase<DynamicMap> {
   _TraceDocumentModel(super.modelQuery, {this.fail = false});

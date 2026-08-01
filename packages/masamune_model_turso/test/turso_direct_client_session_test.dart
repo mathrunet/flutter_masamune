@@ -8,6 +8,8 @@ import "package:flutter_test/flutter_test.dart";
 import "package:katana_functions/katana_functions.dart";
 import "package:katana_model/katana_model.dart";
 import "package:libsql_dart/libsql_dart.dart";
+
+// Project imports:
 import "package:masamune_model_turso/masamune_model_turso.dart";
 
 /// A [LibsqlClient] that never touches the Rust bridge.
