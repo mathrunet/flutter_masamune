@@ -1,3 +1,7 @@
+## 3.7.0
+
+ - **FEAT**(katana_model): enhance performance tracing and update dependencies. ([fe5c5907](https://github.com/mathrunet/flutter_masamune/commit/fe5c59076ca116fb11f52895cc508b3716416495))
+
 ## 3.6.0
 
  - **FEAT**(model): add preloadReferences method and refactor reference query handling. ([1b41839d](https://github.com/mathrunet/flutter_masamune/commit/1b41839d0ca9e0e6a200251f98054cb4e71f087f))

@@ -1,3 +1,7 @@
+## 3.5.1
+
+ - **REFACTOR**(masamune_model_tidb): standardize TiDB terminology and enhance documentation. ([ca0975b3](https://github.com/mathrunet/flutter_masamune/commit/ca0975b30e5fb9e1fd09fb65447a0f5eb084039c))
+
 ## 3.5.0
 
  - **FEAT**(tidb): introduce CachedTidbModelAdapter for persistent local caching. ([67f6854e](https://github.com/mathrunet/flutter_masamune/commit/67f6854ebab383d897ddd838db0ea4abf6c48375))

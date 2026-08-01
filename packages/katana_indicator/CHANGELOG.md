@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(katana_indicator): enhance performance tracing and update dependencies. ([5696b49b](https://github.com/mathrunet/flutter_masamune/commit/5696b49b2dc023b74b26f712173d4b463452533d))
+
 ## 3.1.2
 
  - **FIX**(future_indicator): improve route removal logic in FutureIndicatorExtensions. ([02be324b](https://github.com/mathrunet/flutter_masamune/commit/02be324bc469b1114d6c8f23e51d933ec9ebd866))

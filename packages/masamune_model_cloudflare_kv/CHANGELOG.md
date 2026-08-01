@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - Update a dependency to the latest release.
+
 ## 3.2.1
 
  - **FIX**(tests): reorder import statements in cloudflare_kv_model_adapter_test.dart. ([ffa7f523](https://github.com/mathrunet/flutter_masamune/commit/ffa7f523a087ba5533a8f66e24175ee8b1a889fe))

@@ -1,3 +1,7 @@
+## 3.3.2
+
+ - **REFACTOR**(masamune_model_tidb): standardize TiDB terminology and enhance documentation. ([ca0975b3](https://github.com/mathrunet/flutter_masamune/commit/ca0975b30e5fb9e1fd09fb65447a0f5eb084039c))
+
 ## 3.3.1
 
  - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))

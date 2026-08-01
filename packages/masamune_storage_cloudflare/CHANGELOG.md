@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - Update a dependency to the latest release.
+
 ## 3.2.1
 
  - **REFACTOR**(cloudflare): reorganize import statements for clarity. ([f8ef3bc8](https://github.com/mathrunet/flutter_masamune/commit/f8ef3bc8c4638124fdecf905545e03175871828f))

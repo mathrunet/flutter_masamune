@@ -1,3 +1,8 @@
+## 3.6.2
+
+ - **REFACTOR**(masamune_model_turso): update dependencies and enhance documentation. ([bcf5634a](https://github.com/mathrunet/flutter_masamune/commit/bcf5634ab6f588657b438147bb9ac8ab5c3a33e1))
+ - **FIX**(masamune_model_turso): 使用中のTursoクライアント破棄によるクラッシュを修正. ([f43fed07](https://github.com/mathrunet/flutter_masamune/commit/f43fed07950b1c964873cbdd0cbb00f2eca59c37))
+
 ## 3.6.1
 
  - **FIX**(cloudflare): add smart placement option for Cloudflare Workers. ([9b9b8295](https://github.com/mathrunet/flutter_masamune/commit/9b9b8295eeae64ae0e90d39a9d5bb755a1ab7e0f))
