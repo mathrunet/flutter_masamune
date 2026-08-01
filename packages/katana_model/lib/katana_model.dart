@@ -20,7 +20,7 @@ import "package:flutter/material.dart" show DateTimeRange;
 import "package:flutter/widgets.dart";
 
 // Package imports:
-import "package:katana/katana.dart";
+import "package:katana_logger/katana_logger.dart";
 
 export "package:katana/katana.dart";
 
@@ -36,6 +36,7 @@ part "extension/vector_collection_mixin.dart";
 part "extension/vector_initial_collection_mixin.dart";
 
 part "src/const.dart";
+part "src/performance_trace.dart";
 part "src/model_update_notification.dart";
 part "src/document_base.dart";
 part "src/model_adapter.dart";

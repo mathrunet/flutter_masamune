@@ -240,7 +240,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       if (loaded) {
         return;
       }
-      await _load();
+      await _load(operation: "load");
     });
     if (reloadOnce && !_reloaded) {
       _reloaded = true;
@@ -249,10 +249,15 @@ abstract class DocumentBase<T> extends ChangeNotifier
     return value;
   }
 
-  Future<T?> _load() async {
+  Future<T?> _load({required String operation}) async {
     if (_loadCompleter != null) {
       return loading!;
     }
+    final trace = await _startModelLoadTrace(
+      modelType: runtimeType.toString(),
+      target: "document",
+      operation: operation,
+    );
     try {
       final val = value;
       _loadCompleter = Completer<T?>();
@@ -282,6 +287,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
     } finally {
       _loadCompleter?.complete();
       _loadCompleter = null;
+      await _stopModelLoadTrace(trace);
     }
     return value;
   }
@@ -302,7 +308,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       _reloadingCompleter = Completer();
       try {
         _loaded = false;
-        await _load();
+        await _load(operation: "reload");
       } catch (e) {
         _reloadingCompleter?.completeError(e);
         _reloadingCompleter = null;

@@ -252,7 +252,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       if (loaded) {
         return;
       }
-      await _load();
+      await _load(operation: "load");
     });
     if (reloadOnce && !_reloaded) {
       _reloaded = true;
@@ -261,10 +261,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return this;
   }
 
-  Future<CollectionBase<TModel>> _load() async {
+  Future<CollectionBase<TModel>> _load({required String operation}) async {
     if (_loadCompleter != null) {
       return loading!;
     }
+    final trace = await _startModelLoadTrace(
+      modelType: runtimeType.toString(),
+      target: "collection",
+      operation: operation,
+    );
     try {
       final tmpValue = _value;
       _loadCompleter = Completer<CollectionBase<TModel>>();
@@ -295,6 +300,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
     } finally {
       _loadCompleter?.complete(this);
       _loadCompleter = null;
+      await _stopModelLoadTrace(trace);
     }
     return this;
   }
@@ -315,7 +321,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       _reloadingCompleter = Completer();
       try {
         _loaded = false;
-        await _load();
+        await _load(operation: "reload");
       } catch (e) {
         _reloadingCompleter?.completeError(e);
         _reloadingCompleter = null;
@@ -346,7 +352,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         _loaded = false;
         _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
         final prevLength = length;
-        await _load();
+        await _load(operation: "next");
         if (length == prevLength) {
           _canNext = false;
           _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
