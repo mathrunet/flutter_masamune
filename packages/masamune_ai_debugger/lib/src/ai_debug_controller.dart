@@ -23,24 +23,32 @@ class AIDebugController {
     this.heartbeatInterval = const Duration(seconds: 30),
   });
 
+  /// Overrides Debug availability with `false` in tests.
+  ///
+  /// Release/Profile builds remain disabled even when this is set to `true`.
+  @visibleForTesting
+  static bool? debugModeOverride;
+
+  static bool get _debugEnabled => kDebugMode && (debugModeOverride ?? true);
+
   /// Project identifier sent to the AI debug API.
   ///
   /// AIデバッグAPIへ送信するプロジェクトID。
   final String projectId;
 
-  /// Endpoint URL of the AI debug API.
+  /// Endpoint URL available to the configured callbacks.
   ///
-  /// AIデバッグAPIのエンドポイントURL。
+  /// 設定済みコールバックが利用できるエンドポイントURL。
   final String endpoint;
 
-  /// API key used to authenticate requests to the AI debug API.
+  /// API key available to the configured callbacks.
   ///
-  /// AIデバッグAPIへのリクエスト認証に使用するAPIキー。
+  /// 設定済みコールバックが利用できるAPIキー。
   final String apiKey;
 
-  /// Maximum number of AI debug sessions allowed per hour.
+  /// Maximum sessions per hour supplied to the configured backend.
   ///
-  /// 1時間あたりに許可するAIデバッグセッションの最大数。
+  /// 設定済みバックエンドへ渡す1時間あたりの最大セッション数。
   final int maxSessionsPerHour;
 
   /// Optional transport used instead of the default HTTP client.
@@ -121,6 +129,7 @@ class AIDebugController {
   ///
   /// 現在の実行を設定済みのバックエンドへ登録します。
   Future<void> register() async {
+    if (!_debugEnabled) return;
     final existing = _registration;
     if (existing != null) return existing;
     final registration = _register();
@@ -141,6 +150,7 @@ class AIDebugController {
   ///
   /// フォアグラウンドでのハートビート送信を開始または再開します。
   Future<void> resume() async {
+    if (!_debugEnabled) return;
     _foreground = true;
     _heartbeatTimer?.cancel();
     try {
@@ -175,6 +185,7 @@ class AIDebugController {
   ///
   /// ハートビートを1回送信し、期限切れまたは消失した実行を再作成します。
   Future<void> heartbeat() {
+    if (!_debugEnabled) return Future<void>.value();
     final existing = _heartbeatInFlight;
     if (existing != null) return existing;
     final request = _sendHeartbeat();
@@ -207,6 +218,7 @@ class AIDebugController {
   ///
   /// 現在の実行を終了します。複数回呼び出しても安全です。
   Future<void> end() {
+    if (!_debugEnabled) return Future<void>.value();
     final existing = _endInFlight;
     if (existing != null) return existing;
     pause();
@@ -242,6 +254,7 @@ class AIDebugController {
   ///
   /// スクリーンショットの[bytes]をアップロードし、保存されたファイル名を返します。
   Future<String> upload(Uint8List bytes, {String? name}) async {
+    if (!_debugEnabled) return "";
     await register();
     return uploadScreenshot(
       this,
@@ -254,6 +267,7 @@ class AIDebugController {
   ///
   /// 選択した[screenshots]とともにAIへの[instruction]を送信します。
   Future<String?> send(String instruction, List<Uint8List> screenshots) async {
+    if (!_debugEnabled) return null;
     await register();
     await flushLogs();
     final names = <String>[];
@@ -275,7 +289,7 @@ class AIDebugController {
   ///
   /// [error]とその[stackTrace]を例外インシデントとして報告します。
   Future<void> reportError(Object error, StackTrace? stackTrace) async {
-    if (!kDebugMode) return;
+    if (!_debugEnabled) return;
     await _reportIncident(
       kind: "exception",
       message: _redact(error.toString()),
@@ -293,7 +307,7 @@ class AIDebugController {
     required Duration elapsed,
     required Duration threshold,
   }) async {
-    if (!kDebugMode) return;
+    if (!_debugEnabled) return;
     final redactedTraceName = _redact(traceName);
     await _reportIncident(
       kind: "performance",
@@ -358,7 +372,7 @@ class AIDebugController {
     Map<String, Object?>? parameters, {
     String severity = "info",
   }) {
-    if (!kDebugMode) return;
+    if (!_debugEnabled) return;
     _logs.add({
       "message": _redact("$name ${jsonEncode(parameters ?? const {})}"),
       "severity": severity,
@@ -379,6 +393,7 @@ class AIDebugController {
   ///
   /// キューに保持されたパンくずログを設定済みのバックエンドへ送信します。
   Future<void> flushLogs() async {
+    if (!_debugEnabled) return;
     if (_logs.isEmpty) return;
     final batch = List<Map<String, Object?>>.from(_logs.take(100));
     _logs.removeRange(0, batch.length);

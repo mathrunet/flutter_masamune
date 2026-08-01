@@ -2,9 +2,12 @@
 
 // ignore_for_file: implementation_imports
 
-/// AI debug overlay and error reporting adapter for Masamune apps.
+/// AI debug overlay, incident reporting, and performance monitoring for
+/// Masamune apps running in debug mode.
 ///
 /// To use, import `package:masamune_ai_debugger/masamune_ai_debugger.dart`.
+/// The default SamuraiAI integration reads its endpoint and API key from
+/// `MASAMUNE_AI_DEBUGGER_ENDPOINT` and `MASAMUNE_AI_DEBUGGER_API_KEY`.
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel

@@ -1,12 +1,21 @@
 part of '/masamune_ai_debugger.dart';
 
-/// Adds an in-app AI debug console to Masamune debug builds.
+/// Adds an in-app AI debug console, incident reporting, and performance
+/// monitoring to Masamune debug builds.
 ///
-/// Masamuneのデバッグビルドにアプリ内AIデバッグコンソールを追加します。
+/// Masamuneのデバッグビルドにアプリ内AIデバッグコンソール、インシデント報告、
+/// パフォーマンス監視を追加します。
 class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
-  /// Creates an adapter that provides the in-app AI debug console.
+  /// Creates an adapter that provides AI debugging in debug mode.
   ///
-  /// アプリ内AIデバッグコンソールを提供するアダプターを作成します。
+  /// The default SamuraiAI callbacks read [endpoint] and [apiKey] from dart
+  /// defines. When replacing the callbacks, those values are only required by
+  /// callbacks that use them.
+  ///
+  /// デバッグモードでAIデバッグ機能を提供するアダプターを作成します。
+  /// 既定のSamuraiAIコールバックは[endpoint]と[apiKey]をdart-defineから
+  /// 読み込みます。コールバックを差し替えた場合、これらの値が必要かどうかは
+  /// 各コールバックの実装に依存します。
   AIDebuggerMasamuneAdapter({
     required this.projectId,
     this.endpoint =
@@ -50,14 +59,14 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   /// AIデバッグAPIへ送信するプロジェクトID。
   final String projectId;
 
-  /// Endpoint URL of the AI debug API.
+  /// Endpoint URL used by the default SamuraiAI callbacks.
   ///
-  /// AIデバッグAPIのエンドポイントURL。
+  /// 既定のSamuraiAIコールバックが使用するエンドポイントURL。
   final String endpoint;
 
-  /// API key used to authenticate requests to the AI debug API.
+  /// API key used by the default SamuraiAI callbacks.
   ///
-  /// AIデバッグAPIへのリクエスト認証に使用するAPIキー。
+  /// 既定のSamuraiAIコールバックがリクエスト認証に使用するAPIキー。
   final String apiKey;
 
   /// Maximum number of screenshots retained in the debug console.
@@ -65,9 +74,9 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   /// デバッグコンソールに保持するスクリーンショットの最大数。
   final int maxScreenshots;
 
-  /// Maximum number of AI debug sessions allowed per hour.
+  /// Maximum sessions per hour sent to the configured backend.
   ///
-  /// 1時間あたりに許可するAIデバッグセッションの最大数。
+  /// 設定済みバックエンドへ送信する1時間あたりの最大セッション数。
   final int maxSessionsPerHour;
 
   /// Duration after which a model load is reported as a performance incident.
@@ -206,6 +215,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     String path,
     Map<String, Object?> body,
   ) async {
+    if (!AIDebugController._debugEnabled) return const {};
     final base = controller.endpoint.replaceFirst(RegExp(r"/+$"), "");
     if (base.isEmpty) {
       throw StateError("MASAMUNE_AI_DEBUGGER_ENDPOINT is not configured");

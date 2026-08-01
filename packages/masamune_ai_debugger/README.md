@@ -38,10 +38,12 @@ For more information about Masamune Framework, please click here.
 
 # Usage
 
-A floating UI will be added to the Debug build of the Masamune app that sends instructions, screenshots, and unhandled errors to SamuraiAI. Neither the UI nor the communication will be active in Release/Profile builds.
+A floating UI will be added to the Debug build of the Masamune app that sends instructions, screenshots, and unhandled errors to SamuraiAI. Neither the UI nor the communication will be active in Release/Profile builds. The public controller's lifecycle, upload, send, incident, and log methods are also no-ops outside Debug builds.
 
 ```dart
-final samurai = SamuraiMasamuneAdapter(
+import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
+
+final aiDebugger = AIDebuggerMasamuneAdapter(
   projectId: "Users-mathru-Documents-github-myapp",
   modelLoadTimeout: const Duration(seconds: 5),
   indicatorTimeout: const Duration(seconds: 10),
@@ -50,13 +52,15 @@ final samurai = SamuraiMasamuneAdapter(
 void main() {
   runMasamuneApp(
     (ref) => MasamuneApp(
-      masamuneAdapters: [samurai],
+      masamuneAdapters: [aiDebugger],
       home: const MyHomePage(),
     ),
-    masamuneAdapters: [samurai],
+    masamuneAdapters: [aiDebugger],
   );
 }
 ```
+
+Create one adapter instance and pass that same instance to both `MasamuneApp` and `runMasamuneApp`. The `projectId` should be the absolute project directory with the leading slash removed and the remaining slashes replaced by hyphens.
 
 Do not embed the connection target and API key in the source code; specify them during debug startup.
 
@@ -67,6 +71,8 @@ flutter run \
 ```
 
 APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値は含まれるため、配布せず、不要になったキーは無効化してください。スクリーンショットは手動操作時、未処理エラー検出時、性能閾値超過時だけ送信されます。
+
+`endpoint` と `apiKey` をコンストラクタで省略すると、上記の dart-define が読み込まれます。既定の SamuraiAI コールバックを利用する場合は両方の値が必要です。
 
 フローティングアイコンはタップするとそのまま開き、長押しすると現在画面のスクリーンショットを撮影してから開きます。
 
@@ -89,16 +95,22 @@ final customDebugger = AIDebuggerMasamuneAdapter(
 
 The callback typedefs are `AIDebugRegisterRunCallback`, `AIDebugHeartbeatCallback`, `AIDebugEndRunCallback`, `AIDebugUploadScreenshotCallback`, `AIDebugSendRequestCallback`, `AIDebugReportIncidentCallback`, and `AIDebugUploadEventsCallback`. The corresponding `AIDebuggerMasamuneAdapter.default*` static functions expose the default SamuraiAI implementations. The existing `post` callback remains available for replacing only the low-level HTTP transport used by those defaults.
 
+`upload()` returns the provider-specific screenshot identifier, not a URL. `AIDebugHttpException` represents a non-2xx response returned by the AI debug API; connection and transport failures may use other exception types.
+
 ## 遅延の自動検出
 
 Debugビルドでは、既存の `LoggerAdapter` のperformance traceを使って次を自動計測します。
 
 - MasamuneのDocument／Collectionモデルの `load`・`reload`・`next`（既定5秒）
 - `Future.showIndicator` 経由のインジケーター表示（既定10秒）
+- `MeasuredCircularProgressIndicator` / `MeasuredLinearProgressIndicator` の表示時間（既定10秒）
 
 処理が終わらなくても閾値へ達した時点で、現在画面と直近ログをperformance incidentとして送信し、SamuraiAIにPlan Modeの調査セッションを作成します。同一処理は既存の重複排除と時間当たり上限の対象です。閾値以下で完了した処理は `duration_ms` の通常ログだけを送ります。
 
-任意に配置した `CircularProgressIndicator` は画面走査しません。自動計測する場合は `showIndicator` を利用してください。閾値に `Duration.zero` を指定すると、そのカテゴリの自動incidentを無効化できます。
+Widgetツリーへ待機表示を直接配置する場合は、固定かつ機密情報を含まない`traceName`を付けた
+`MeasuredCircularProgressIndicator`または`MeasuredLinearProgressIndicator`を使用してください。
+常設の進捗率表示は標準ProgressIndicatorを使い、すでに計測済みの`showIndicator`へ計測版を渡して
+二重計測してはいけません。閾値に `Duration.zero` を指定すると、そのカテゴリの自動incidentを無効化できます。
 
 
 # GitHub Sponsors

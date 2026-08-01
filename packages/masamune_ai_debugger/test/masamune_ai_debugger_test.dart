@@ -165,6 +165,78 @@ void main() {
     expect(calls, contains(startsWith("end:")));
   });
 
+  test("disabled debug mode prevents controller communication", () async {
+    final calls = <String>[];
+    AIDebugController.debugModeOverride = false;
+    addTearDown(() => AIDebugController.debugModeOverride = null);
+    final controller = AIDebugController(
+      projectId: "Users-example-app",
+      endpoint: "",
+      apiKey: "",
+      maxSessionsPerHour: 6,
+      registerRun: (_) async => calls.add("register"),
+      heartbeatCallback: (_) async => calls.add("heartbeat"),
+      endRun: (_) async => calls.add("end"),
+      uploadScreenshot: (_, __, {required name}) async {
+        calls.add("upload");
+        return name;
+      },
+      sendRequest: (_, __, ___) async {
+        calls.add("send");
+        return "session";
+      },
+      reportIncident: (
+        _, {
+        required kind,
+        required message,
+        required stackTrace,
+        required timestamp,
+        required metadata,
+      }) async =>
+          calls.add("incident"),
+      uploadEvents: (_, __) async => calls.add("events"),
+    );
+
+    await controller.register();
+    await controller.resume();
+    await controller.heartbeat();
+    expect(
+      await controller.upload(Uint8List.fromList([1]), name: "image.png"),
+      isEmpty,
+    );
+    expect(await controller.send("instruction", const []), isNull);
+    await controller.reportError(StateError("boom"), StackTrace.current);
+    await controller.reportPerformanceTrace(
+      category: "model_load",
+      traceName: "ExampleModel.load",
+      startedAt: DateTime.now(),
+      elapsed: const Duration(seconds: 6),
+      threshold: const Duration(seconds: 5),
+    );
+    controller.addLog("event", const {"value": 1});
+    await controller.flushLogs();
+    await controller.end();
+
+    await AIDebuggerMasamuneAdapter.defaultRegisterRun(controller);
+    expect(
+      await AIDebuggerMasamuneAdapter.defaultUploadScreenshot(
+        controller,
+        Uint8List.fromList([1]),
+        name: "image.png",
+      ),
+      isEmpty,
+    );
+    expect(
+      await AIDebuggerMasamuneAdapter.defaultSendRequest(
+        controller,
+        "instruction",
+        const [],
+      ),
+      isNull,
+    );
+    expect(calls, isEmpty);
+  });
+
   test("slow model trace reports one performance incident", () async {
     final requests = <MapEntry<String, Map<String, Object?>>>[];
     final adapter = AIDebuggerMasamuneAdapter(
