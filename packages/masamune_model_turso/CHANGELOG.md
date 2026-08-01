@@ -1,3 +1,7 @@
+## 3.6.3
+
+ - **REFACTOR**(tests): reorganize import statements for clarity. ([e323ce40](https://github.com/mathrunet/flutter_masamune/commit/e323ce40ff1b62ef136b179ddd7af2880275a9ca))
+
 ## 3.6.2
 
  - **REFACTOR**(masamune_model_turso): update dependencies and enhance documentation. ([bcf5634a](https://github.com/mathrunet/flutter_masamune/commit/bcf5634ab6f588657b438147bb9ac8ab5c3a33e1))

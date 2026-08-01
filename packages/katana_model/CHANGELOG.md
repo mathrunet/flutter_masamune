@@ -1,3 +1,7 @@
+## 3.7.1
+
+ - **REFACTOR**(tests): reorganize import statements for clarity. ([e323ce40](https://github.com/mathrunet/flutter_masamune/commit/e323ce40ff1b62ef136b179ddd7af2880275a9ca))
+
 ## 3.7.0
 
  - **FEAT**(katana_model): enhance performance tracing and update dependencies. ([fe5c5907](https://github.com/mathrunet/flutter_masamune/commit/fe5c59076ca116fb11f52895cc508b3716416495))

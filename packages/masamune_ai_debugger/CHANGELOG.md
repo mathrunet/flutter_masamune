@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - **FIX**(masamune_ai_debugger): enhance AI debugging capabilities and documentation. ([5d8a0160](https://github.com/mathrunet/flutter_masamune/commit/5d8a0160a6b972439032e5920b3e272373076a1f))
+
 ## 3.1.0
 
  - **FEAT**(masamune_ai_debugger): add initial implementation of AI debug overlay. ([536cf7f4](https://github.com/mathrunet/flutter_masamune/commit/536cf7f474d452a92be8ad5cd7ac4e0daae7c5ca))

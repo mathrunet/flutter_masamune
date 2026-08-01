@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **REFACTOR**(tests): reorganize import statements for clarity. ([e323ce40](https://github.com/mathrunet/flutter_masamune/commit/e323ce40ff1b62ef136b179ddd7af2880275a9ca))
+ - **FEAT**(katana_indicator): add measured progress indicators with performance tracing. ([2b312298](https://github.com/mathrunet/flutter_masamune/commit/2b312298194dace91c8b38032ea84921df4ce746))
+
 ## Unreleased
 
  - **FEAT**(katana_indicator): add measured circular and linear progress indicators.
