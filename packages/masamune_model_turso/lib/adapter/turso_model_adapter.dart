@@ -67,6 +67,7 @@ class TursoDirectClientSession {
   TursoDirectClientSession({
     required this.sessionKey,
     this.expirationMargin = const Duration(seconds: 30),
+    this.disposeGracePeriod = const Duration(seconds: 5),
     this.useEmbeddedReplica = true,
     this.clientFactory,
   });
@@ -80,6 +81,23 @@ class TursoDirectClientSession {
   ///
   /// 有効期限より前に新しいトークンへ更新するための猶予時間。
   final Duration expirationMargin;
+
+  /// Maximum time a disposal waits for in-flight callers to finish.
+  ///
+  /// A cached client is shared by every concurrent caller, so disposing it
+  /// while a query is still running drops the underlying Rust object and
+  /// raises `DroppableDisposedException`. Disposal therefore waits until the
+  /// client becomes idle, and this duration bounds that wait so a hung query
+  /// cannot leak the client forever.
+  ///
+  /// 破棄処理が実行中の呼び出しの完了を待つ最大時間。
+  ///
+  /// キャッシュされたクライアントは同時実行中の全呼び出し元で共有されるため、
+  /// クエリの実行中に破棄するとRust側のオブジェクトが解放され
+  /// `DroppableDisposedException`が発生します。そのため破棄はクライアントが
+  /// アイドルになるまで待機します。この時間で待機を打ち切ることで、クエリが
+  /// ハングした場合にクライアントが解放されなくなることを防ぎます。
+  final Duration disposeGracePeriod;
 
   /// Whether direct clients use an on-device embedded replica.
   ///
@@ -220,22 +238,34 @@ class TursoDirectClientSession {
         prefix: prefix,
       ),
     );
-    final future = state.client ??= _connect(token, key);
+    final handle = state.client ??= _TursoDirectClientHandle(
+      _connect(token, key),
+    );
+    // Retain before awaiting so a concurrent `clear()` cannot dispose the
+    // shared client while this caller is still connecting or querying.
+    handle.retain();
+    var released = false;
     try {
-      final client = await future;
+      final client = await handle.client;
       final result = await callback(client);
       if (write && useEmbeddedReplica) {
         await client.sync();
       }
       return result;
     } catch (_) {
-      if (identical(state.client, future)) {
+      if (identical(state.client, handle)) {
         state.client = null;
       }
-      try {
-        await (await future).dispose();
-      } catch (_) {}
+      // Release before disposing. `_disposeHandle` waits for the handle to
+      // become idle, so holding this caller's own retain would deadlock.
+      handle.release();
+      released = true;
+      await _disposeHandle(handle);
       rethrow;
+    } finally {
+      if (!released) {
+        handle.release();
+      }
     }
   }
 
@@ -268,19 +298,33 @@ class TursoDirectClientSession {
         !_isValid(resolved)) {
       return;
     }
-    final client = await (state.client ??= _connect(resolved, key));
-    await client.sync();
+    final handle = state.client ??= _TursoDirectClientHandle(
+      _connect(resolved, key),
+    );
+    handle.retain();
+    try {
+      final client = await handle.client;
+      await client.sync();
+    } finally {
+      handle.release();
+    }
   }
 
   /// Disposes cached clients and tokens.
   ///
+  /// Each client is disposed only after its in-flight callers finish, so this
+  /// can take up to [disposeGracePeriod]. Databases are disposed in parallel
+  /// to keep that wait from accumulating across sessions.
+  ///
   /// キャッシュしたクライアントとトークンを破棄します。
+  ///
+  /// 各クライアントは実行中の呼び出しが完了してから破棄されるため、最大で
+  /// [disposeGracePeriod]の時間がかかります。待ち時間がセッションごとに
+  /// 積み上がらないよう、データベース単位の破棄は並列で実行します。
   Future<void> clear() async {
     final databases = _databases.values.toList();
     _databases.clear();
-    for (final database in databases) {
-      await _disposeClient(database);
-    }
+    await Future.wait(databases.map(_disposeClient));
   }
 
   Future<void> _activate(String currentSessionKey) async {
@@ -345,13 +389,37 @@ class TursoDirectClientSession {
   }
 
   Future<void> _disposeClient(_TursoDirectDatabaseSession state) async {
-    final client = state.client;
+    final handle = state.client;
+    // Detach first so later callers open a fresh client instead of joining the
+    // one about to be disposed.
     state.client = null;
-    if (client == null) {
+    if (handle == null) {
+      return;
+    }
+    await _disposeHandle(handle);
+  }
+
+  Future<void> _disposeHandle(_TursoDirectClientHandle handle) async {
+    try {
+      await handle.waitUntilIdle().timeout(disposeGracePeriod);
+    } on TimeoutException {
+      // The grace period expired. Prefer releasing the client over waiting on
+      // a caller that may never finish.
+    }
+    final LibsqlClient client;
+    try {
+      client = await handle.client.timeout(disposeGracePeriod);
+    } on Object {
+      // The connection failed or never settled. Dispose it in the background
+      // if it resolves later so the Rust object is not leaked, but never block
+      // the caller of `clear()` on a connection that may never complete.
+      unawaited(
+        handle.client.then((client) => client.dispose()).onError((_, __) {}),
+      );
       return;
     }
     try {
-      await (await client).dispose();
+      await client.dispose();
     } catch (_) {}
   }
 
@@ -456,7 +524,40 @@ class _TursoDirectDatabaseSession {
   List<TursoTokenScope> scopes = const [];
   TursoTokenFunctionsActionResponse? resolved;
   Future<TursoTokenFunctionsActionResponse>? resolving;
-  Future<LibsqlClient>? client;
+  _TursoDirectClientHandle? client;
+}
+
+/// A single cached [LibsqlClient] together with its in-flight caller count.
+///
+/// The count is tracked per client rather than per database session. While a
+/// disposal waits for the client to become idle, a new caller may open a
+/// replacement client on the same session; counting per session would let
+/// those new callers keep the disposal waiting indefinitely.
+class _TursoDirectClientHandle {
+  _TursoDirectClientHandle(this.client);
+
+  final Future<LibsqlClient> client;
+  int _active = 0;
+  Completer<void>? _idle;
+
+  void retain() {
+    _active++;
+  }
+
+  void release() {
+    _active--;
+    if (_active <= 0) {
+      _idle?.complete();
+      _idle = null;
+    }
+  }
+
+  Future<void> waitUntilIdle() {
+    if (_active <= 0) {
+      return Future<void>.value();
+    }
+    return (_idle ??= Completer<void>()).future;
+  }
 }
 
 bool _isTursoReadOperation(String operation) {
