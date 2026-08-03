@@ -5,6 +5,43 @@ import "package:flutter_test/flutter_test.dart";
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 
 void main() {
+  test("adapter reads the project ID from dart-define by default", () {
+    final adapter = AIDebuggerMasamuneAdapter();
+
+    expect(
+      adapter.projectId,
+      const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_PROJECT_ID"),
+    );
+  });
+
+  test("an explicit project ID overrides the dart-define", () {
+    final adapter = AIDebuggerMasamuneAdapter(projectId: "explicit-project");
+
+    expect(adapter.projectId, "explicit-project");
+  });
+
+  test("default SamuraiAI callbacks require a project ID", () async {
+    AIDebugController.debugModeOverride = true;
+    addTearDown(() => AIDebugController.debugModeOverride = null);
+    final controller = AIDebugController(
+      projectId: "",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      maxSessionsPerHour: 6,
+    );
+
+    await expectLater(
+      AIDebuggerMasamuneAdapter.defaultRegisterRun(controller),
+      throwsA(
+        isA<StateError>().having(
+          (error) => error.message,
+          "message",
+          "MASAMUNE_AI_DEBUGGER_PROJECT_ID is not configured",
+        ),
+      ),
+    );
+  });
+
   test("one reported error uses only the explicit incident endpoint", () async {
     final requests = <String>[];
     final controller = AIDebugController(

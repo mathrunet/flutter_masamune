@@ -6,8 +6,9 @@
 /// Masamune apps running in debug mode.
 ///
 /// To use, import `package:masamune_ai_debugger/masamune_ai_debugger.dart`.
-/// The default SamuraiAI integration reads its endpoint and API key from
-/// `MASAMUNE_AI_DEBUGGER_ENDPOINT` and `MASAMUNE_AI_DEBUGGER_API_KEY`.
+/// The default SamuraiAI integration reads its project ID, endpoint, and API
+/// key from `MASAMUNE_AI_DEBUGGER_PROJECT_ID`,
+/// `MASAMUNE_AI_DEBUGGER_ENDPOINT`, and `MASAMUNE_AI_DEBUGGER_API_KEY`.
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel

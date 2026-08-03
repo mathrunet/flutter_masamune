@@ -9,15 +9,17 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   /// Creates an adapter that provides AI debugging in debug mode.
   ///
   /// The default SamuraiAI callbacks read [endpoint] and [apiKey] from dart
-  /// defines. When replacing the callbacks, those values are only required by
-  /// callbacks that use them.
+  /// defines. [projectId] is also read from a dart define when omitted. When
+  /// replacing the callbacks, those values are only required by callbacks that
+  /// use them.
   ///
   /// デバッグモードでAIデバッグ機能を提供するアダプターを作成します。
-  /// 既定のSamuraiAIコールバックは[endpoint]と[apiKey]をdart-defineから
-  /// 読み込みます。コールバックを差し替えた場合、これらの値が必要かどうかは
-  /// 各コールバックの実装に依存します。
+  /// 既定のSamuraiAIコールバックは[projectId]、[endpoint]、[apiKey]を
+  /// dart-defineから読み込みます。コールバックを差し替えた場合、これらの値が
+  /// 必要かどうかは各コールバックの実装に依存します。
   AIDebuggerMasamuneAdapter({
-    required this.projectId,
+    this.projectId =
+        const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_PROJECT_ID"),
     this.endpoint =
         const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_ENDPOINT"),
     this.apiKey = const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_API_KEY"),
@@ -216,6 +218,9 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     Map<String, Object?> body,
   ) async {
     if (!AIDebugController._debugEnabled) return const {};
+    if (controller.projectId.isEmpty) {
+      throw StateError("MASAMUNE_AI_DEBUGGER_PROJECT_ID is not configured");
+    }
     final base = controller.endpoint.replaceFirst(RegExp(r"/+$"), "");
     if (base.isEmpty) {
       throw StateError("MASAMUNE_AI_DEBUGGER_ENDPOINT is not configured");

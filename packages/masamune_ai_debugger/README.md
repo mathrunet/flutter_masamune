@@ -44,7 +44,6 @@ A floating UI will be added to the Debug build of the Masamune app that sends in
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 
 final aiDebugger = AIDebuggerMasamuneAdapter(
-  projectId: "Users-mathru-Documents-github-myapp",
   modelLoadTimeout: const Duration(seconds: 5),
   indicatorTimeout: const Duration(seconds: 10),
 );
@@ -60,19 +59,20 @@ void main() {
 }
 ```
 
-Create one adapter instance and pass that same instance to both `MasamuneApp` and `runMasamuneApp`. The `projectId` should be the absolute project directory with the leading slash removed and the remaining slashes replaced by hyphens.
+Create one adapter instance and pass that same instance to both `MasamuneApp` and `runMasamuneApp`. `projectId` is read from `MASAMUNE_AI_DEBUGGER_PROJECT_ID` by default. You can still pass it directly to the constructor when using a custom integration.
 
 Do not embed the connection target and API key in the source code; specify them during debug startup.
 
 ```bash
 flutter run \
+  --dart-define=MASAMUNE_AI_DEBUGGER_PROJECT_ID=Users-mathru-Documents-github-myapp \
   --dart-define=MASAMUNE_AI_DEBUGGER_ENDPOINT=https://your-tailnet-host/__samurai \
   --dart-define=MASAMUNE_AI_DEBUGGER_API_KEY=your-key
 ```
 
 APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値は含まれるため、配布せず、不要になったキーは無効化してください。スクリーンショットは手動操作時、未処理エラー検出時、性能閾値超過時だけ送信されます。
 
-`endpoint` と `apiKey` をコンストラクタで省略すると、上記の dart-define が読み込まれます。既定の SamuraiAI コールバックを利用する場合は両方の値が必要です。
+`projectId` / `endpoint` / `apiKey` をコンストラクタで省略すると、上記の dart-define が読み込まれます。既定の SamuraiAI コールバックを利用する場合は3つの値が必要です。明示的なコンストラクタ引数は dart-define より優先されます。
 
 フローティングアイコンはタップするとそのまま開き、長押しすると現在画面のスクリーンショットを撮影してから開きます。
 
