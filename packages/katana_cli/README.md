@@ -119,6 +119,15 @@ katana code controller [ControllerName]
 
 For other codes, please see Help.
 
+### Masamune AI Debugger
+
+Add the AI Debugger dependency, configure all flavor dart-defines, and register
+one adapter instance in a standard Masamune project.
+
+```bash
+katana code debuggable
+```
+
 ## Automatic code generation with build_runner
 
 You must have build_runner installed in your project in order to run it.
