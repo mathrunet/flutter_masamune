@@ -130,6 +130,7 @@ katana test debug
 | **フォーム値** | `katana code value [name]` |
 | **Functions作成** | `katana code server call/request/schedule/firestore [name]` |
 | **コード生成** | `katana code generate` |
+| **AI Debugger導入** | `katana code debuggable` |
 | **プラグイン適用** | `katana apply` |
 | **バリデーション** | `flutter analyze && dart run custom_lint` |
 | **フォーマット** | `dart fix --apply lib && dart format .` |
