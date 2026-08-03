@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-08-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.19.0`](#katana_cli---v3190)
+ - [`masamune_ai_debugger` - `v3.1.2`](#masamune_ai_debugger---v312)
+
+---
+
+#### `katana_cli` - `v3.19.0`
+
+ - **FEAT**(debuggable): implement AI Debugger command and project synchronization. ([9341915f](https://github.com/mathrunet/flutter_masamune/commit/9341915f09b89c4d2a89a78b2ade18ee1afd17b3))
+
+#### `masamune_ai_debugger` - `v3.1.2`
+
+ - **REFACTOR**(masamune_ai_debugger): enhance project ID handling and documentation. ([d05474c6](https://github.com/mathrunet/flutter_masamune/commit/d05474c6f2835c39c50dbfe11207951f1b7e2913))
+
+
 ## 2026-08-02
 
 ### Changes

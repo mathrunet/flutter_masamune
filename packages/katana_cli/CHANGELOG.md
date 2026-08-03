@@ -1,3 +1,7 @@
+## 3.19.0
+
+ - **FEAT**(debuggable): implement AI Debugger command and project synchronization. ([9341915f](https://github.com/mathrunet/flutter_masamune/commit/9341915f09b89c4d2a89a78b2ade18ee1afd17b3))
+
 ## 3.18.3
 
  - **REFACTOR**(tidb): streamline endpoint deletion and enhance server-side transport handling. ([06b37c59](https://github.com/mathrunet/flutter_masamune/commit/06b37c5935ef14719c8558029a2c7c8aba5d305f))
