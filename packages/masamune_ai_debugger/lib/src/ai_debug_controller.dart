@@ -12,16 +12,45 @@ class AIDebugController {
     required this.endpoint,
     required this.apiKey,
     required this.maxSessionsPerHour,
+    AIDebugSettings settings = const AIDebugSettings(),
     this.post,
     this.registerRun = AIDebuggerMasamuneAdapter.defaultRegisterRun,
     this.heartbeatCallback = AIDebuggerMasamuneAdapter.defaultHeartbeat,
     this.endRun = AIDebuggerMasamuneAdapter.defaultEndRun,
     this.uploadScreenshot = AIDebuggerMasamuneAdapter.defaultUploadScreenshot,
-    this.sendRequest = AIDebuggerMasamuneAdapter.defaultSendRequest,
-    this.reportIncident = AIDebuggerMasamuneAdapter.defaultReportIncident,
+    AIDebugConfiguredSendRequestCallback? configuredSendRequest,
+    AIDebugSendRequestCallback? sendRequest,
+    AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
+    AIDebugReportIncidentCallback? reportIncident,
     this.uploadEvents = AIDebuggerMasamuneAdapter.defaultUploadEvents,
     this.heartbeatInterval = const Duration(seconds: 30),
-  });
+  })  : _settings = settings,
+        _settingsStore = _AIDebugSettingsStore(projectId, settings),
+        sendRequest = configuredSendRequest ??
+            (sendRequest == null
+                ? AIDebuggerMasamuneAdapter.defaultConfiguredSendRequest
+                : (controller, instruction, screenshotNames,
+                        {required model, required permissionMode}) =>
+                    sendRequest(controller, instruction, screenshotNames)),
+        reportIncident = configuredReportIncident ??
+            (reportIncident == null
+                ? AIDebuggerMasamuneAdapter.defaultConfiguredReportIncident
+                : (controller,
+                        {required kind,
+                        required message,
+                        required stackTrace,
+                        required timestamp,
+                        required metadata,
+                        required model,
+                        required permissionMode}) =>
+                    reportIncident(
+                      controller,
+                      kind: kind,
+                      message: message,
+                      stackTrace: stackTrace,
+                      timestamp: timestamp,
+                      metadata: metadata,
+                    ));
 
   /// Overrides Debug availability with `false` in tests.
   ///
@@ -79,12 +108,12 @@ class AIDebugController {
   /// Callback that sends an instruction to the AI debugger.
   ///
   /// AIデバッガーへ指示を送信するコールバック。
-  final AIDebugSendRequestCallback sendRequest;
+  final AIDebugConfiguredSendRequestCallback sendRequest;
 
   /// Callback that reports an exception or performance incident.
   ///
   /// 例外またはパフォーマンスインシデントを報告するコールバック。
-  final AIDebugReportIncidentCallback reportIncident;
+  final AIDebugConfiguredReportIncidentCallback reportIncident;
 
   /// Callback that uploads breadcrumb log events.
   ///
@@ -95,6 +124,35 @@ class AIDebugController {
   ///
   /// フォアグラウンドでハートビートを送信する間隔。
   final Duration heartbeatInterval;
+
+  final _AIDebugSettingsStore _settingsStore;
+  AIDebugSettings _settings;
+  Future<AIDebugSettings>? _settingsLoad;
+
+  /// Current AI Debugger settings.
+  AIDebugSettings get settings => _settings;
+
+  /// Loads persisted settings once for this controller.
+  Future<AIDebugSettings> loadSettings() {
+    final existing = _settingsLoad;
+    if (existing != null) return existing;
+    final request = _settingsStore.load().then((value) {
+      _settings = value;
+      return value;
+    }).catchError((Object error) {
+      debugPrint("AI Debugger settings load failed: $error");
+      return _settings;
+    });
+    _settingsLoad = request;
+    return request;
+  }
+
+  /// Updates and persists AI Debugger settings.
+  Future<void> updateSettings(AIDebugSettings settings) async {
+    await loadSettings();
+    _settings = settings;
+    await _settingsStore.save(settings);
+  }
 
   String _runId = _createRunId();
   DateTime _startedAt = DateTime.now().toUtc();
@@ -266,8 +324,14 @@ class AIDebugController {
   /// Sends an AI [instruction] with the selected [screenshots].
   ///
   /// 選択した[screenshots]とともにAIへの[instruction]を送信します。
-  Future<String?> send(String instruction, List<Uint8List> screenshots) async {
+  Future<String?> send(
+    String instruction,
+    List<Uint8List> screenshots, {
+    AIDebugModel? model,
+    AIDebugPermissionMode? permissionMode,
+  }) async {
     if (!_debugEnabled) return null;
+    final settings = await loadSettings();
     await register();
     await flushLogs();
     final names = <String>[];
@@ -282,6 +346,8 @@ class AIDebugController {
         math.min(16000, redactedInstruction.length),
       ),
       names.where((name) => name.isNotEmpty).toList(),
+      model: model ?? settings.manualModel,
+      permissionMode: permissionMode ?? settings.manualPermissionMode,
     );
   }
 
@@ -290,10 +356,13 @@ class AIDebugController {
   /// [error]とその[stackTrace]を例外インシデントとして報告します。
   Future<void> reportError(Object error, StackTrace? stackTrace) async {
     if (!_debugEnabled) return;
+    final settings = await loadSettings();
     await _reportIncident(
       kind: "exception",
       message: _redact(error.toString()),
       stackTrace: _redact(stackTrace?.toString() ?? ""),
+      model: settings.errorModel,
+      permissionMode: settings.errorPermissionMode,
     );
   }
 
@@ -308,6 +377,7 @@ class AIDebugController {
     required Duration threshold,
   }) async {
     if (!_debugEnabled) return;
+    final settings = await loadSettings();
     final redactedTraceName = _redact(traceName);
     await _reportIncident(
       kind: "performance",
@@ -319,6 +389,8 @@ class AIDebugController {
         "elapsedMs": elapsed.inMilliseconds,
         "thresholdMs": threshold.inMilliseconds,
       },
+      model: settings.performanceModel,
+      permissionMode: settings.performancePermissionMode,
     );
   }
 
@@ -327,6 +399,8 @@ class AIDebugController {
     required String message,
     String stackTrace = "",
     Map<String, Object?> metadata = const {},
+    required AIDebugModel model,
+    required AIDebugPermissionMode permissionMode,
   }) async {
     final fingerprintSource = "$kind:$message";
     final fingerprint =
@@ -358,6 +432,8 @@ class AIDebugController {
         stackTrace: stackTrace,
         timestamp: now,
         metadata: metadata,
+        model: model,
+        permissionMode: permissionMode,
       );
     } catch (sendError) {
       debugPrint("AI Debugger error report failed: $sendError");

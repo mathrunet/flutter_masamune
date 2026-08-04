@@ -266,7 +266,7 @@ packages:
       path: "../katana_indicator"
       relative: true
     source: path
-    version: "3.2.0"
+    version: "3.3.0"
   katana_localization:
     dependency: "direct overridden"
     description:
@@ -294,14 +294,14 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "3.7.0"
+    version: "3.7.1"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "3.3.4"
+    version: "3.3.5"
   katana_platform_info:
     dependency: "direct overridden"
     description:
@@ -411,7 +411,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.5.11"
+    version: "3.5.12"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -612,7 +612,7 @@ packages:
     source: hosted
     version: "0.6.0"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       sha256: c3025c5534b01739267eb7d76959bbc25a6d10f6988e1c2a3036940133dd10bf

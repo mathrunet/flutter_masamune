@@ -3,8 +3,15 @@ import "dart:typed_data";
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   test("adapter reads the project ID from dart-define by default", () {
     final adapter = AIDebuggerMasamuneAdapter();
 
@@ -274,6 +281,87 @@ void main() {
     expect(calls, isEmpty);
   });
 
+  test("settings persist per project", () async {
+    final first = AIDebugController(
+      projectId: "Users-example-settings-a",
+      endpoint: "",
+      apiKey: "",
+      maxSessionsPerHour: 6,
+    );
+    const saved = AIDebugSettings(
+      manualModel: AIDebugModel.mythos,
+      manualPermissionMode: AIDebugPermissionMode.bypassPermissions,
+      errorModel: AIDebugModel.opus,
+      errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
+      performanceModel: AIDebugModel.haiku,
+      modelLoadTimeout: Duration(milliseconds: 2500),
+      indicatorTimeout: Duration(seconds: 17),
+    );
+    await first.updateSettings(saved);
+
+    final restored = await AIDebugController(
+      projectId: "Users-example-settings-a",
+      endpoint: "",
+      apiKey: "",
+      maxSessionsPerHour: 6,
+    ).loadSettings();
+    final otherProject = await AIDebugController(
+      projectId: "Users-example-settings-b",
+      endpoint: "",
+      apiKey: "",
+      maxSessionsPerHour: 6,
+    ).loadSettings();
+
+    expect(restored.manualModel, AIDebugModel.mythos);
+    expect(
+      restored.manualPermissionMode,
+      AIDebugPermissionMode.bypassPermissions,
+    );
+    expect(restored.errorModel, AIDebugModel.opus);
+    expect(restored.performanceModel, AIDebugModel.haiku);
+    expect(restored.modelLoadTimeout, const Duration(milliseconds: 2500));
+    expect(restored.indicatorTimeout, const Duration(seconds: 17));
+    expect(otherProject.manualModel, AIDebugModel.sonnet);
+  });
+
+  test("manual and incident requests include selected model and mode",
+      () async {
+    final requests = <MapEntry<String, Map<String, Object?>>>[];
+    final controller = AIDebugController(
+      projectId: "Users-example-options",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      maxSessionsPerHour: 6,
+      settings: const AIDebugSettings(
+        errorModel: AIDebugModel.opus,
+        errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
+      ),
+      post: (url, headers, body) async {
+        requests.add(MapEntry(Uri.parse(url).path, body));
+        return {"success": true};
+      },
+    );
+
+    await controller.send(
+      "manual",
+      const [],
+      model: AIDebugModel.mythos,
+      permissionMode: AIDebugPermissionMode.bypassPermissions,
+    );
+    await controller.reportError(StateError("configured"), StackTrace.current);
+
+    final manual = requests.singleWhere(
+      (request) => request.key.endsWith("/request"),
+    );
+    final incident = requests.singleWhere(
+      (request) => request.key.endsWith("/incidents"),
+    );
+    expect(manual.value["model"], "mythos");
+    expect(manual.value["permissionMode"], "bypassPermissions");
+    expect(incident.value["model"], "opus");
+    expect(incident.value["permissionMode"], "bypassPermissions");
+  });
+
   test("slow model trace reports one performance incident", () async {
     final requests = <MapEntry<String, Map<String, Object?>>>[];
     final adapter = AIDebuggerMasamuneAdapter(
@@ -355,6 +443,9 @@ void main() {
     await tester.pump();
     expect(find.text("AI Debugger"), findsOneWidget);
     expect(find.byIcon(Icons.screenshot_monitor), findsOneWidget);
+    expect(find.byIcon(Icons.settings), findsOneWidget);
+    expect(find.bySemanticsLabel("Mode Plan"), findsOneWidget);
+    expect(find.bySemanticsLabel("Model Sonnet"), findsOneWidget);
     expect(find.byIcon(Icons.send), findsOneWidget);
     final textField = tester.widget<TextField>(find.byType(TextField));
     expect(textField.textAlignVertical, TextAlignVertical.top);
@@ -369,6 +460,50 @@ void main() {
     final panel = tester.getRect(find.text("AI Debugger"));
     expect(panel.right, lessThanOrEqualTo(800));
     expect(panel.bottom, lessThanOrEqualTo(600));
+  });
+
+  testWidgets("settings dialog edits and persists incident settings",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-settings-widget",
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => adapter.onBuildApp(
+            context,
+            const ColoredBox(color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.settings));
+    await tester.pump();
+
+    expect(find.text("AI Debugger設定"), findsOneWidget);
+    expect(find.text("エラー時"), findsOneWidget);
+    expect(find.text("計測超過時"), findsOneWidget);
+    await tester.tap(find.widgetWithText(ChoiceChip, "Opus").first);
+    await tester.tap(
+      find.widgetWithText(ChoiceChip, "bypassPermissions").first,
+    );
+    final timeoutFields = find.byType(TextField);
+    await tester.enterText(timeoutFields.at(1), "7.5");
+    await tester.enterText(timeoutFields.at(2), "12");
+    await tester.tap(find.widgetWithText(FilledButton, "保存"));
+    await tester.pumpAndSettle();
+
+    final settings = adapter.controller.settings;
+    expect(settings.errorModel, AIDebugModel.opus);
+    expect(
+      settings.errorPermissionMode,
+      AIDebugPermissionMode.bypassPermissions,
+    );
+    expect(settings.modelLoadTimeout, const Duration(milliseconds: 7500));
+    expect(settings.indicatorTimeout, const Duration(seconds: 12));
   });
 
   testWidgets("successful manual send closes the AI Debugger panel",

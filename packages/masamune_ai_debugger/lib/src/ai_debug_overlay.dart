@@ -19,20 +19,32 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     with WidgetsBindingObserver {
   final _boundaryKey = GlobalKey();
   final _textController = TextEditingController();
+  final _modelTimeoutController = TextEditingController();
+  final _indicatorTimeoutController = TextEditingController();
   final List<Uint8List> _screenshots = [];
   Offset _position = const Offset(16, 80);
   bool _expanded = false;
   bool _hidden = false;
   bool _sending = false;
+  bool _settingsOpen = false;
   String? _status;
+  String? _settingsError;
   Uint8List? _preview;
+  late AIDebugSettings _settings;
+  late AIDebugSettings _draftSettings;
 
   @override
   void initState() {
     super.initState();
+    _settings = widget.controller.settings;
+    _draftSettings = _settings;
+    _settingsError = null;
     WidgetsBinding.instance.addObserver(this);
     widget.controller.attachCapture(_capture);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(widget.controller.loadSettings().then((settings) {
+        if (mounted) setState(() => _settings = settings);
+      }));
       unawaited(widget.controller.resume().catchError((Object error) {
         if (mounted) setState(() => _status = error.toString());
       }));
@@ -57,6 +69,8 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     WidgetsBinding.instance.removeObserver(this);
     unawaited(widget.controller.end());
     _textController.dispose();
+    _modelTimeoutController.dispose();
+    _indicatorTimeoutController.dispose();
     super.dispose();
   }
 
@@ -114,7 +128,12 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       _status = null;
     });
     try {
-      final sessionId = await widget.controller.send(text, _screenshots);
+      final sessionId = await widget.controller.send(
+        text,
+        _screenshots,
+        model: _settings.manualModel,
+        permissionMode: _settings.manualPermissionMode,
+      );
       if (!mounted) return;
       setState(() {
         _textController.clear();
@@ -128,6 +147,105 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       if (mounted) setState(() => _sending = false);
     }
   }
+
+  Future<void> _persistSettings(AIDebugSettings settings) async {
+    setState(() => _settings = settings);
+    try {
+      await widget.controller.updateSettings(settings);
+    } catch (error) {
+      if (mounted) setState(() => _status = "設定の保存に失敗しました: $error");
+    }
+  }
+
+  void _cycleManualMode() {
+    final values = AIDebugPermissionMode.values;
+    final index = values.indexOf(_settings.manualPermissionMode);
+    unawaited(_persistSettings(_settings.copyWith(
+      manualPermissionMode: values[(index + 1) % values.length],
+    )));
+  }
+
+  void _cycleManualModel() {
+    const values = [
+      AIDebugModel.mythos,
+      AIDebugModel.opus,
+      AIDebugModel.sonnet,
+      AIDebugModel.haiku,
+    ];
+    final index = values.indexOf(_settings.manualModel);
+    unawaited(_persistSettings(_settings.copyWith(
+      manualModel: values[(index + 1) % values.length],
+    )));
+  }
+
+  void _openSettings() {
+    _draftSettings = _settings;
+    _modelTimeoutController.text = _settings.modelLoadTimeout.inMilliseconds /
+                1000 ==
+            _settings.modelLoadTimeout.inSeconds
+        ? _settings.modelLoadTimeout.inSeconds.toString()
+        : (_settings.modelLoadTimeout.inMilliseconds / 1000).toStringAsFixed(1);
+    _indicatorTimeoutController
+        .text = _settings.indicatorTimeout.inMilliseconds / 1000 ==
+            _settings.indicatorTimeout.inSeconds
+        ? _settings.indicatorTimeout.inSeconds.toString()
+        : (_settings.indicatorTimeout.inMilliseconds / 1000).toStringAsFixed(1);
+    setState(() => _settingsOpen = true);
+  }
+
+  Future<void> _saveSettings() async {
+    final modelSeconds = double.tryParse(_modelTimeoutController.text.trim());
+    final indicatorSeconds =
+        double.tryParse(_indicatorTimeoutController.text.trim());
+    if (modelSeconds == null ||
+        indicatorSeconds == null ||
+        modelSeconds <= 0 ||
+        indicatorSeconds <= 0 ||
+        modelSeconds > 86400 ||
+        indicatorSeconds > 86400) {
+      setState(
+        () => _settingsError = "0より大きく86400以下の秒数を入力してください",
+      );
+      return;
+    }
+    final settings = _draftSettings.copyWith(
+      modelLoadTimeout: Duration(milliseconds: (modelSeconds * 1000).round()),
+      indicatorTimeout:
+          Duration(milliseconds: (indicatorSeconds * 1000).round()),
+    );
+    setState(() => _settingsOpen = false);
+    await _persistSettings(settings);
+  }
+
+  MaterialColor _modelColor(AIDebugModel model) => switch (model) {
+        AIDebugModel.mythos => Colors.red,
+        AIDebugModel.opus => Colors.purple,
+        AIDebugModel.sonnet => Colors.orange,
+        AIDebugModel.haiku => Colors.green,
+      };
+
+  IconData _modelIcon(AIDebugModel model) => switch (model) {
+        AIDebugModel.mythos => Icons.workspace_premium,
+        AIDebugModel.opus => Icons.star,
+        AIDebugModel.sonnet => Icons.bolt,
+        AIDebugModel.haiku => Icons.air,
+      };
+
+  String _modelLabel(AIDebugModel model) => switch (model) {
+        AIDebugModel.mythos => "Mythos",
+        AIDebugModel.opus => "Opus",
+        AIDebugModel.sonnet => "Sonnet",
+        AIDebugModel.haiku => "Haiku",
+      };
+
+  MaterialColor _modeColor(AIDebugPermissionMode mode) =>
+      mode == AIDebugPermissionMode.plan ? Colors.blue : Colors.orange;
+
+  IconData _modeIcon(AIDebugPermissionMode mode) =>
+      mode == AIDebugPermissionMode.plan ? Icons.assignment : Icons.bolt;
+
+  String _modeLabel(AIDebugPermissionMode mode) =>
+      mode == AIDebugPermissionMode.plan ? "Plan" : "bypassPermissions";
 
   Offset _clamp(Offset value, Size area, Size item, EdgeInsets safe) => Offset(
         value.dx
@@ -185,6 +303,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     ),
                   ),
                   if (_preview != null) _buildPreview(),
+                  if (_settingsOpen) _buildSettingsDialog(),
                 ]),
               ),
             );
@@ -277,6 +396,29 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     ),
                   ),
                   IconButton(
+                    visualDensity: VisualDensity.compact,
+                    tooltip: "AI Debugger設定",
+                    onPressed: _sending ? null : _openSettings,
+                    icon: const Icon(Icons.settings, semanticLabel: "設定"),
+                  ),
+                  _buildCompactSelector(
+                    tooltip:
+                        "Mode: ${_modeLabel(_settings.manualPermissionMode)}",
+                    semanticLabel:
+                        "Mode ${_modeLabel(_settings.manualPermissionMode)}",
+                    color: _modeColor(_settings.manualPermissionMode),
+                    icon: _modeIcon(_settings.manualPermissionMode),
+                    onPressed: _sending ? null : _cycleManualMode,
+                  ),
+                  _buildCompactSelector(
+                    tooltip: "Model: ${_modelLabel(_settings.manualModel)}",
+                    semanticLabel:
+                        "Model ${_modelLabel(_settings.manualModel)}",
+                    color: _modelColor(_settings.manualModel),
+                    icon: _modelIcon(_settings.manualModel),
+                    onPressed: _sending ? null : _cycleManualModel,
+                  ),
+                  IconButton(
                     onPressed: _sending ? null : _send,
                     icon: _sending
                         ? const SizedBox.square(
@@ -294,6 +436,241 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             ]),
           ),
         ),
+      );
+
+  Widget _buildCompactSelector({
+    required String tooltip,
+    required String semanticLabel,
+    required MaterialColor color,
+    required IconData icon,
+    required VoidCallback? onPressed,
+  }) =>
+      Tooltip(
+        message: tooltip,
+        child: Semantics(
+          label: semanticLabel,
+          button: true,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: InkWell(
+              onTap: onPressed,
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.16),
+                  border: Border.all(color: color.withValues(alpha: 0.75)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, color: color.shade300, size: 19),
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget _buildSettingsDialog() => Positioned.fill(
+        child: ColoredBox(
+          color: Colors.black.withValues(alpha: 0.58),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 360, maxHeight: 560),
+              child: Material(
+                color: const Color(0xF0222222),
+                borderRadius: BorderRadius.circular(16),
+                elevation: 16,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(children: [
+                        const Icon(Icons.settings, size: 19),
+                        const SizedBox(width: 8),
+                        const Expanded(
+                          child: Text(
+                            "AI Debugger設定",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        IconButton(
+                          visualDensity: VisualDensity.compact,
+                          onPressed: () =>
+                              setState(() => _settingsOpen = false),
+                          icon: const Icon(
+                            Icons.close,
+                            size: 18,
+                            semanticLabel: "設定を閉じる",
+                          ),
+                        ),
+                      ]),
+                      Flexible(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _buildSettingsSection(
+                                title: "エラー時",
+                                model: _draftSettings.errorModel,
+                                mode: _draftSettings.errorPermissionMode,
+                                onModelChanged: (value) => setState(() {
+                                  _draftSettings = _draftSettings.copyWith(
+                                      errorModel: value);
+                                }),
+                                onModeChanged: (value) => setState(() {
+                                  _draftSettings = _draftSettings.copyWith(
+                                    errorPermissionMode: value,
+                                  );
+                                }),
+                              ),
+                              const SizedBox(height: 14),
+                              _buildSettingsSection(
+                                title: "計測超過時",
+                                model: _draftSettings.performanceModel,
+                                mode: _draftSettings.performancePermissionMode,
+                                onModelChanged: (value) => setState(() {
+                                  _draftSettings = _draftSettings.copyWith(
+                                    performanceModel: value,
+                                  );
+                                }),
+                                onModeChanged: (value) => setState(() {
+                                  _draftSettings = _draftSettings.copyWith(
+                                    performancePermissionMode: value,
+                                  );
+                                }),
+                              ),
+                              const SizedBox(height: 14),
+                              const Text(
+                                "超過判定時間（秒）",
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: _modelTimeoutController,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      labelText: "モデル読込",
+                                      suffixText: "秒",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: TextField(
+                                    controller: _indicatorTimeoutController,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      labelText: "インジケーター",
+                                      suffixText: "秒",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                              if (_settingsError != null) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  _settingsError!,
+                                  style: const TextStyle(
+                                    color: Colors.redAccent,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () =>
+                                setState(() => _settingsOpen = false),
+                            child: const Text("キャンセル"),
+                          ),
+                          const SizedBox(width: 8),
+                          FilledButton(
+                            onPressed: _saveSettings,
+                            child: const Text("保存"),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget _buildSettingsSection({
+    required String title,
+    required AIDebugModel model,
+    required AIDebugPermissionMode mode,
+    required ValueChanged<AIDebugModel> onModelChanged,
+    required ValueChanged<AIDebugPermissionMode> onModeChanged,
+  }) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: AIDebugModel.values.map((value) {
+              final color = _modelColor(value);
+              final selected = value == model;
+              return ChoiceChip(
+                selected: selected,
+                showCheckmark: false,
+                avatar: Icon(
+                  _modelIcon(value),
+                  size: 16,
+                  color: selected ? color.shade200 : color.shade300,
+                ),
+                label: Text(_modelLabel(value)),
+                selectedColor: color.withValues(alpha: 0.28),
+                side: BorderSide(color: color.withValues(alpha: 0.65)),
+                onSelected: (_) => onModelChanged(value),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 6,
+            children: AIDebugPermissionMode.values.map((value) {
+              final color = _modeColor(value);
+              final selected = value == mode;
+              return ChoiceChip(
+                selected: selected,
+                showCheckmark: false,
+                avatar: Icon(
+                  _modeIcon(value),
+                  size: 16,
+                  color: selected ? color.shade200 : color.shade300,
+                ),
+                label: Text(_modeLabel(value)),
+                selectedColor: color.withValues(alpha: 0.28),
+                side: BorderSide(color: color.withValues(alpha: 0.65)),
+                onSelected: (_) => onModeChanged(value),
+              );
+            }).toList(),
+          ),
+        ],
       );
 
   Widget _buildPreview() => Positioned.fill(

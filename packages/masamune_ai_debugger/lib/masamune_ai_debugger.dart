@@ -23,6 +23,7 @@ import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
 import "package:masamune/masamune.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 part "adapter/ai_debugger_masamune_adapter.dart";
 part "src/ai_debug_post.dart";

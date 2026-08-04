@@ -1,15 +1,9 @@
 part of '/masamune_ai_debugger.dart';
 
 class _AIDebugLoggerAdapter extends LoggerAdapter {
-  const _AIDebugLoggerAdapter(
-    this.controller, {
-    required this.modelLoadTimeout,
-    required this.indicatorTimeout,
-  });
+  const _AIDebugLoggerAdapter(this.controller);
 
   final AIDebugController controller;
-  final Duration modelLoadTimeout;
-  final Duration indicatorTimeout;
 
   @override
   Future<List<LogValue>> logList() => Future.value(const []);
@@ -27,7 +21,6 @@ class _AIDebugLoggerAdapter extends LoggerAdapter {
         name,
         this,
         category: "model_load",
-        timeout: modelLoadTimeout,
       );
     }
     if (name.startsWith("$_indicatorTracePrefix|")) {
@@ -35,7 +28,6 @@ class _AIDebugLoggerAdapter extends LoggerAdapter {
         name,
         this,
         category: "indicator",
-        timeout: indicatorTimeout,
       );
     }
     return _AIDebugLoggerTrace(name, this);
@@ -47,28 +39,30 @@ class _AIDebugLoggerTrace extends LoggerTraceValue {
     super.name,
     super.adapter, {
     this.category,
-    this.timeout,
   });
 
   final String? category;
-  final Duration? timeout;
+  Duration? _activeTimeout;
   Timer? _timeoutTimer;
   bool _thresholdExceeded = false;
 
   @override
   Future<void> start(DateTime startTime) async {
-    final configuredTimeout = timeout;
     final configuredCategory = category;
-    if (configuredTimeout == null ||
-        configuredCategory == null ||
-        configuredTimeout <= Duration.zero) {
+    if (configuredCategory == null) {
       return;
     }
+    final aiDebuggerAdapter = adapter as _AIDebugLoggerAdapter;
+    final settings = await aiDebuggerAdapter.controller.loadSettings();
+    final configuredTimeout = configuredCategory == "model_load"
+        ? settings.modelLoadTimeout
+        : settings.indicatorTimeout;
+    _activeTimeout = configuredTimeout;
+    if (configuredTimeout <= Duration.zero) return;
     _timeoutTimer = Timer(configuredTimeout, () {
       if (_thresholdExceeded) return;
       _thresholdExceeded = true;
       final elapsed = DateTime.now().difference(startTime);
-      final aiDebuggerAdapter = adapter as _AIDebugLoggerAdapter;
       unawaited(
         aiDebuggerAdapter.controller.reportPerformanceTrace(
           category: configuredCategory,
@@ -90,7 +84,8 @@ class _AIDebugLoggerTrace extends LoggerTraceValue {
       parameters: {
         "duration_ms": endTime.difference(startTime).inMilliseconds,
         if (category != null) "category": category,
-        if (timeout != null) "threshold_ms": timeout!.inMilliseconds,
+        if (_activeTimeout != null)
+          "threshold_ms": _activeTimeout!.inMilliseconds,
         if (category != null) "threshold_exceeded": _thresholdExceeded,
       },
     );

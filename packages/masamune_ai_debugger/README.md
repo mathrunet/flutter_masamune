@@ -44,6 +44,12 @@ A floating UI will be added to the Debug build of the Masamune app that sends in
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 
 final aiDebugger = AIDebuggerMasamuneAdapter(
+  manualModel: AIDebugModel.sonnet,
+  manualPermissionMode: AIDebugPermissionMode.plan,
+  errorModel: AIDebugModel.sonnet,
+  errorPermissionMode: AIDebugPermissionMode.plan,
+  performanceModel: AIDebugModel.sonnet,
+  performancePermissionMode: AIDebugPermissionMode.plan,
   modelLoadTimeout: const Duration(seconds: 5),
   indicatorTimeout: const Duration(seconds: 10),
 );
@@ -76,6 +82,12 @@ APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値�
 
 フローティングアイコンはタップするとそのまま開き、長押しすると現在画面のスクリーンショットを撮影してから開きます。
 
+メッセージフォーム下部のMode／Modelボタンでは、次に手動送信するセッションの
+`plan / bypassPermissions`と`haiku / sonnet / opus / mythos`を選択できます。
+設定ボタンでは、未処理エラー時と計測超過時のMode／Model、およびモデル読込と
+インジケーターの超過判定時間を個別に設定できます。これらの値は端末内へ保存され、
+同じproject IDの次回起動時に復元されます。
+
 ## Custom AI provider
 
 SamuraiAI is the default provider. To connect another AI or backend, pass callbacks for each API operation. Custom callbacks receive semantic values instead of SamuraiAI-specific URLs or JSON payloads, so `endpoint` and `apiKey` are not required when all callbacks are supplied.
@@ -93,7 +105,7 @@ final customDebugger = AIDebuggerMasamuneAdapter(
 );
 ```
 
-The callback typedefs are `AIDebugRegisterRunCallback`, `AIDebugHeartbeatCallback`, `AIDebugEndRunCallback`, `AIDebugUploadScreenshotCallback`, `AIDebugSendRequestCallback`, `AIDebugReportIncidentCallback`, and `AIDebugUploadEventsCallback`. The corresponding `AIDebuggerMasamuneAdapter.default*` static functions expose the default SamuraiAI implementations. The existing `post` callback remains available for replacing only the low-level HTTP transport used by those defaults.
+The callback typedefs are `AIDebugRegisterRunCallback`, `AIDebugHeartbeatCallback`, `AIDebugEndRunCallback`, `AIDebugUploadScreenshotCallback`, `AIDebugSendRequestCallback`, `AIDebugReportIncidentCallback`, and `AIDebugUploadEventsCallback`. To receive the selected model and permission mode, use `configuredSendRequest` (`AIDebugConfiguredSendRequestCallback`) and `configuredReportIncident` (`AIDebugConfiguredReportIncidentCallback`). The legacy callbacks remain available for integrations that do not use session settings. The corresponding `AIDebuggerMasamuneAdapter.default*` static functions expose the default SamuraiAI implementations. The existing `post` callback remains available for replacing only the low-level HTTP transport used by those defaults.
 
 `upload()` returns the provider-specific screenshot identifier, not a URL. `AIDebugHttpException` represents a non-2xx response returned by the AI debug API; connection and transport failures may use other exception types.
 

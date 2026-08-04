@@ -13,6 +13,7 @@
 ## Unreleased
 
  - **FEAT**: Add per-operation callbacks with SamuraiAI static defaults for custom AI debugger providers.
+ - **FEAT**: Add persistent model, permission mode, and performance timeout settings to the debug overlay.
 
 ## 3.2.10
 

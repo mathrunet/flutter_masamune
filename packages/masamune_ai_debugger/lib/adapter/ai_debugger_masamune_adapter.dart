@@ -27,33 +27,49 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.maxSessionsPerHour = 6,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
+    this.manualModel = AIDebugModel.sonnet,
+    this.manualPermissionMode = AIDebugPermissionMode.plan,
+    this.errorModel = AIDebugModel.sonnet,
+    this.errorPermissionMode = AIDebugPermissionMode.plan,
+    this.performanceModel = AIDebugModel.sonnet,
+    this.performancePermissionMode = AIDebugPermissionMode.plan,
     AIDebugPost? post,
     AIDebugRegisterRunCallback? registerRun,
     AIDebugHeartbeatCallback? heartbeat,
     AIDebugEndRunCallback? endRun,
     AIDebugUploadScreenshotCallback? uploadScreenshot,
     AIDebugSendRequestCallback? sendRequest,
+    AIDebugConfiguredSendRequestCallback? configuredSendRequest,
     AIDebugReportIncidentCallback? reportIncident,
+    AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
     AIDebugUploadEventsCallback? uploadEvents,
   }) : controller = AIDebugController(
           projectId: projectId,
           endpoint: endpoint,
           apiKey: apiKey,
           maxSessionsPerHour: maxSessionsPerHour,
+          settings: AIDebugSettings(
+            manualModel: manualModel,
+            manualPermissionMode: manualPermissionMode,
+            errorModel: errorModel,
+            errorPermissionMode: errorPermissionMode,
+            performanceModel: performanceModel,
+            performancePermissionMode: performancePermissionMode,
+            modelLoadTimeout: modelLoadTimeout,
+            indicatorTimeout: indicatorTimeout,
+          ),
           post: post,
           registerRun: registerRun ?? defaultRegisterRun,
           heartbeatCallback: heartbeat ?? defaultHeartbeat,
           endRun: endRun ?? defaultEndRun,
           uploadScreenshot: uploadScreenshot ?? defaultUploadScreenshot,
-          sendRequest: sendRequest ?? defaultSendRequest,
-          reportIncident: reportIncident ?? defaultReportIncident,
+          sendRequest: sendRequest,
+          configuredSendRequest: configuredSendRequest,
+          reportIncident: reportIncident,
+          configuredReportIncident: configuredReportIncident,
           uploadEvents: uploadEvents ?? defaultUploadEvents,
         ) {
-    _loggerAdapter = _AIDebugLoggerAdapter(
-      controller,
-      modelLoadTimeout: modelLoadTimeout,
-      indicatorTimeout: indicatorTimeout,
-    );
+    _loggerAdapter = _AIDebugLoggerAdapter(controller);
   }
 
   /// Project identifier sent to the AI debug API.
@@ -90,6 +106,24 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   ///
   /// インジケーター表示をパフォーマンスインシデントとして報告するまでの時間。
   final Duration indicatorTimeout;
+
+  /// Initial model used by manual requests before persisted settings load.
+  final AIDebugModel manualModel;
+
+  /// Initial permission mode used by manual requests.
+  final AIDebugPermissionMode manualPermissionMode;
+
+  /// Initial model used by unhandled errors.
+  final AIDebugModel errorModel;
+
+  /// Initial permission mode used by unhandled errors.
+  final AIDebugPermissionMode errorPermissionMode;
+
+  /// Initial model used by performance incidents.
+  final AIDebugModel performanceModel;
+
+  /// Initial permission mode used by performance incidents.
+  final AIDebugPermissionMode performancePermissionMode;
 
   /// Controller that manages AI debug runs, incidents, and requests.
   ///
@@ -163,12 +197,32 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     String instruction,
     List<String> screenshotNames,
   ) async {
+    final settings = await controller.loadSettings();
+    return defaultConfiguredSendRequest(
+      controller,
+      instruction,
+      screenshotNames,
+      model: settings.manualModel,
+      permissionMode: settings.manualPermissionMode,
+    );
+  }
+
+  /// Sends an instruction with explicit session settings.
+  static Future<String?> defaultConfiguredSendRequest(
+    AIDebugController controller,
+    String instruction,
+    List<String> screenshotNames, {
+    required AIDebugModel model,
+    required AIDebugPermissionMode permissionMode,
+  }) async {
     final result = await _postToSamuraiAI(
       controller,
       "/api/app-debug/runs/${controller.runId}/request",
       {
         "instruction": instruction,
         "screenshotNames": screenshotNames,
+        "model": model.name,
+        "permissionMode": permissionMode.name,
       },
     );
     return result["sessionId"] as String?;
@@ -185,6 +239,33 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     required DateTime timestamp,
     required Map<String, Object?> metadata,
   }) async {
+    final settings = await controller.loadSettings();
+    final performance = kind == "performance";
+    await defaultConfiguredReportIncident(
+      controller,
+      kind: kind,
+      message: message,
+      stackTrace: stackTrace,
+      timestamp: timestamp,
+      metadata: metadata,
+      model: performance ? settings.performanceModel : settings.errorModel,
+      permissionMode: performance
+          ? settings.performancePermissionMode
+          : settings.errorPermissionMode,
+    );
+  }
+
+  /// Reports an incident with explicit session settings.
+  static Future<void> defaultConfiguredReportIncident(
+    AIDebugController controller, {
+    required String kind,
+    required String message,
+    required String stackTrace,
+    required DateTime timestamp,
+    required Map<String, Object?> metadata,
+    required AIDebugModel model,
+    required AIDebugPermissionMode permissionMode,
+  }) async {
     await _postToSamuraiAI(
       controller,
       "/api/app-debug/runs/${controller.runId}/incidents",
@@ -194,6 +275,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
         "stackTrace": stackTrace,
         "timestamp": timestamp.toUtc().toIso8601String(),
         if (metadata.isNotEmpty) "metadata": metadata,
+        "model": model.name,
+        "permissionMode": permissionMode.name,
       },
     );
   }
