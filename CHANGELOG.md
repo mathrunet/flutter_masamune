@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ai_debugger` - `v3.2.0`](#masamune_ai_debugger---v320)
+
+---
+
+#### `masamune_ai_debugger` - `v3.2.0`
+
+ - **FEAT**(masamune_ai_debugger): enhance AI debugger settings and functionality. ([49b1f73d](https://github.com/mathrunet/flutter_masamune/commit/49b1f73d9194c6f3c6c81adef29046ae1ffe5aed))
+
+
+## 2026-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.20.0`](#katana_cli---v3200)
  - [`masamune_model_turso` - `v3.7.0`](#masamune_model_turso---v370)
 

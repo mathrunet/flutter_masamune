@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(masamune_ai_debugger): enhance AI debugger settings and functionality. ([49b1f73d](https://github.com/mathrunet/flutter_masamune/commit/49b1f73d9194c6f3c6c81adef29046ae1ffe5aed))
+
 ## 3.1.2
 
  - **REFACTOR**(masamune_ai_debugger): enhance project ID handling and documentation. ([d05474c6](https://github.com/mathrunet/flutter_masamune/commit/d05474c6f2835c39c50dbfe11207951f1b7e2913))
