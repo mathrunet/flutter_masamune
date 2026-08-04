@@ -1,3 +1,7 @@
+## 3.7.0
+
+ - **FEAT**(turso): enhance TursoDB deployment and error handling. ([314a7502](https://github.com/mathrunet/flutter_masamune/commit/314a75021cbd72ece49cb7e8e8b23da6918611b0))
+
 ## 3.6.3
 
  - **REFACTOR**(tests): reorganize import statements for clarity. ([e323ce40](https://github.com/mathrunet/flutter_masamune/commit/e323ce40ff1b62ef136b179ddd7af2880275a9ca))

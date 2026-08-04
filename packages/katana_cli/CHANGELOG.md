@@ -1,3 +1,7 @@
+## 3.20.0
+
+ - **FEAT**(turso): enhance TursoDB deployment and error handling. ([314a7502](https://github.com/mathrunet/flutter_masamune/commit/314a75021cbd72ece49cb7e8e8b23da6918611b0))
+
 ## 3.19.0
 
  - **FEAT**(debuggable): implement AI Debugger command and project synchronization. ([9341915f](https://github.com/mathrunet/flutter_masamune/commit/9341915f09b89c4d2a89a78b2ade18ee1afd17b3))

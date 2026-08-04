@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.20.0`](#katana_cli---v3200)
+ - [`masamune_model_turso` - `v3.7.0`](#masamune_model_turso---v370)
+
+---
+
+#### `katana_cli` - `v3.20.0`
+
+ - **FEAT**(turso): enhance TursoDB deployment and error handling. ([314a7502](https://github.com/mathrunet/flutter_masamune/commit/314a75021cbd72ece49cb7e8e8b23da6918611b0))
+
+#### `masamune_model_turso` - `v3.7.0`
+
+ - **FEAT**(turso): enhance TursoDB deployment and error handling. ([314a7502](https://github.com/mathrunet/flutter_masamune/commit/314a75021cbd72ece49cb7e8e8b23da6918611b0))
+
+
 ## 2026-08-03
 
 ### Changes
