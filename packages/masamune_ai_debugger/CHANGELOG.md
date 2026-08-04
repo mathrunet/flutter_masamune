@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **FIX**(masamune_ai_debugger): update AI Debugger models and enhance settings. ([7da423b8](https://github.com/mathrunet/flutter_masamune/commit/7da423b8288220b1f2ba8f606955a049d8912780))
+
 ## 3.2.0
 
  - **FEAT**(masamune_ai_debugger): enhance AI debugger settings and functionality. ([49b1f73d](https://github.com/mathrunet/flutter_masamune/commit/49b1f73d9194c6f3c6c81adef29046ae1ffe5aed))

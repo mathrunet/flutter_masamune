@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ai_debugger` - `v3.2.1`](#masamune_ai_debugger---v321)
+
+---
+
+#### `masamune_ai_debugger` - `v3.2.1`
+
+ - **FIX**(masamune_ai_debugger): update AI Debugger models and enhance settings. ([7da423b8](https://github.com/mathrunet/flutter_masamune/commit/7da423b8288220b1f2ba8f606955a049d8912780))
+
+
+## 2026-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_ai_debugger` - `v3.2.0`](#masamune_ai_debugger---v320)
 
 ---
