@@ -40,6 +40,7 @@ class TestUpdateCliCommand extends CliCommand {
         ]
       ],
       catchError: true,
+      failOnStderr: false,
     );
   }
 }

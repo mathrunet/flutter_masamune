@@ -68,9 +68,16 @@ class TursoDirectClientSession {
     required this.sessionKey,
     this.expirationMargin = const Duration(seconds: 30),
     this.disposeGracePeriod = const Duration(seconds: 5),
-    this.useEmbeddedReplica = true,
+    this.useEmbeddedReplica = false,
     this.clientFactory,
-  });
+  }) {
+    if (useEmbeddedReplica) {
+      throw UnsupportedError(
+        "TursoDB does not support the legacy libSQL Embedded Replica path. "
+        "Use remote direct access and CachedTursoModelAdapter instead.",
+      );
+    }
+  }
 
   /// Returns a stable key for the current authenticated user/session.
   ///
@@ -99,9 +106,15 @@ class TursoDirectClientSession {
   /// ハングした場合にクライアントが解放されなくなることを防ぎます。
   final Duration disposeGracePeriod;
 
-  /// Whether direct clients use an on-device embedded replica.
+  /// Whether direct clients use a legacy on-device embedded replica.
   ///
-  /// 直接接続クライアントで端末内のEmbedded Replicaを利用するかどうか。
+  /// TursoDB does not support this SQLite-format path. The value must remain
+  /// false; use [CachedTursoModelAdapter] for persistent local caching.
+  ///
+  /// 直接接続クライアントで旧式の端末内Embedded Replicaを利用するかどうか。
+  ///
+  /// TursoDBはこのSQLite形式の経路に対応しないため、falseのみ指定できます。
+  /// 端末永続キャッシュには[CachedTursoModelAdapter]を使用してください。
   final bool useEmbeddedReplica;
 
   /// Overrides direct client creation.
@@ -1409,14 +1422,16 @@ class TursoModelAdapter extends ModelAdapter {
           );
         }
         if (transaction) {
-          final dynamic tx = await client.transaction();
+          await client.execute("BEGIN CONCURRENT");
           try {
             for (final operation in operations) {
-              await operation.runDirectTransaction(this, tx);
+              await operation.runDirectTransaction(this, client);
             }
-            await tx.commit();
+            await client.execute("COMMIT");
           } catch (_) {
-            await tx.rollback();
+            try {
+              await client.execute("ROLLBACK");
+            } catch (_) {}
             rethrow;
           }
           for (final operation in operations) {
@@ -1560,8 +1575,7 @@ class TursoModelAdapter extends ModelAdapter {
       } catch (error, stackTrace) {
         lastError = error;
         lastStackTrace = stackTrace;
-        if (!_isTursoDirectFallbackError(error) ||
-            attempt == retryDelays.length) {
+        if (!_isTursoRetryableError(error) || attempt == retryDelays.length) {
           rethrow;
         }
         await Future<void>.delayed(retryDelays[attempt]);
@@ -1587,6 +1601,17 @@ class TursoModelAdapter extends ModelAdapter {
         message.contains("Bad Gateway") ||
         message.contains("Service Unavailable") ||
         message.contains("Gateway Timeout");
+  }
+
+  bool _isTursoRetryableError(Object error) {
+    if (_isTursoDirectFallbackError(error)) {
+      return true;
+    }
+    final message = error.toString();
+    return RegExp(
+      r"SQLITE_BUSY|SQLITE_BUSY_SNAPSHOT|write conflict|transaction conflict|conflict at commit|database is locked",
+      caseSensitive: false,
+    ).hasMatch(message);
   }
 
   bool _isTursoMissingTableError(Object error) {

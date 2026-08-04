@@ -714,6 +714,10 @@ bool validateFilePath(String path) {
 ///
 /// If [runInShell] is set to `true`, it will run on the shell.
 ///
+/// If [failOnStderr] is set to `false`, stderr is forwarded without treating it
+/// as a failure. A non-zero process exit code still throws when [catchError] is
+/// `true`.
+///
 /// コマンドを実行します。
 ///
 /// [executable]にコマンドを[arguments]に引数を入力してください。
@@ -721,12 +725,16 @@ bool validateFilePath(String path) {
 /// [workingDirectory]でコマンドが実行されるフォルダを指定します。デフォルトは`Directory.current.path`になります。
 ///
 /// [runInShell]を`true`にするとシェル上で実行されます。
+///
+/// [failOnStderr]を`false`にすると、標準エラー出力は表示しつつ失敗扱いにしません。
+/// [catchError]が`true`の場合、終了コードが0以外なら引き続き例外を投げます。
 Future<String> command(
   String title,
   List<String> commands, {
   String? workingDirectory,
   bool runInShell = true,
   bool catchError = false,
+  bool failOnStderr = true,
   void Function(Process process, String line)? action,
 }) async {
   String? prevDirectory;
@@ -774,7 +782,7 @@ Future<String> command(
     if (workingDirectory != null) {
       Directory.current = prevDirectory!;
     }
-    if (catchError && err) {
+    if (catchError && failOnStderr && err) {
       throw Exception(
         "An error has occurred. Please check the log above for details.",
       );
@@ -791,7 +799,7 @@ Future<String> command(
       commands.first,
       commands.sublist(1, commands.length),
       runInShell: runInShell,
-    ).print(catchError);
+    ).print(catchError, failOnStderr: failOnStderr);
     if (workingDirectory != null) {
       Directory.current = prevDirectory!;
     }
@@ -1023,7 +1031,10 @@ extension ProcessExtensions on Future<Process> {
   /// Prints the contents of the command to standard output.
   ///
   /// コマンドの内容を標準出力にプリントします。
-  Future<String> print(bool catchError) async {
+  Future<String> print(
+    bool catchError, {
+    bool failOnStderr = true,
+  }) async {
     final process = await this;
     var res = "";
     var err = false;
@@ -1048,7 +1059,7 @@ extension ProcessExtensions on Future<Process> {
         "An error has occurred. Please check the log above for details.",
       );
     }
-    if (catchError && err) {
+    if (catchError && failOnStderr && err) {
       throw Exception(
         "An error has occurred. Please check the log above for details.",
       );

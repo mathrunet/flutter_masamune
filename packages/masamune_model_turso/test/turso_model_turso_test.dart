@@ -234,7 +234,7 @@ void main() {
       hasLength(1),
     );
     expect(clientCount, 1);
-    expect(syncCount, 2);
+    expect(syncCount, 0);
 
     sessionKey = "user_2";
     await adapter.saveDocument(firstQuery, const {"name": "Carol"});
@@ -304,7 +304,78 @@ void main() {
       hasLength(1),
     );
     expect(functionsAdapter.actions.last, isA<TursoPostModelFunctionsAction>());
-    expect(syncCount, 1);
+    expect(syncCount, 0);
+    await session.clear();
+  });
+
+  test("TursoDirectClientSession rejects legacy embedded replicas.", () {
+    expect(
+      () => TursoDirectClientSession(
+        sessionKey: () => "user_1",
+        useEmbeddedReplica: true,
+      ),
+      throwsUnsupportedError,
+    );
+  });
+
+  test("TursoModelAdapter retries BEGIN CONCURRENT after a row conflict.",
+      () async {
+    final statements = <String>[];
+    var commitCount = 0;
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: (action) => action is TursoTokenFunctionsAction
+          ? {
+              "token": "token",
+              "expiresAt": DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600,
+              "url": ":memory:",
+              "readMode": "direct",
+              "writeMode": "direct",
+              "targets": action.targets
+                  .map((target) => {
+                        ...target.toMap(),
+                        "readMode": "direct",
+                        "writeMode": "direct",
+                      })
+                  .toList(),
+            }
+          : const [],
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => _TestLibsqlClient(
+        onExecute: (sql) {
+          statements.add(sql);
+          if (sql == "COMMIT" && commitCount++ == 0) {
+            throw Exception("SQLITE_BUSY: conflict at commit");
+          }
+        },
+      ),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+      retryDelays: const [Duration.zero],
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+
+    await adapter.runTransaction((ref) {
+      adapter.deleteOnTransaction(ref, query);
+    });
+
+    expect(
+      statements,
+      [
+        "BEGIN CONCURRENT",
+        contains('DELETE FROM "users"'),
+        "COMMIT",
+        "ROLLBACK",
+        "BEGIN CONCURRENT",
+        contains('DELETE FROM "users"'),
+        "COMMIT",
+      ],
+    );
     await session.clear();
   });
 
@@ -885,10 +956,12 @@ class _RecordingFunctionsAdapter extends FunctionsAdapter {
 }
 
 class _TestLibsqlClient extends LibsqlClient {
-  _TestLibsqlClient({this.onSync, this.onQuery}) : super.memory();
+  _TestLibsqlClient({this.onSync, this.onQuery, this.onExecute})
+      : super.memory();
 
   final void Function()? onSync;
   final void Function(String sql)? onQuery;
+  final void Function(String sql)? onExecute;
 
   @override
   Future<List<Map<String, dynamic>>> query(
@@ -905,8 +978,10 @@ class _TestLibsqlClient extends LibsqlClient {
     String sql, {
     Map<String, dynamic>? named,
     List<dynamic>? positional,
-  }) async =>
-      1;
+  }) async {
+    onExecute?.call(sql);
+    return 1;
+  }
 
   @override
   Future<void> sync() async {

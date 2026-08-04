@@ -136,6 +136,16 @@ The adapter always uses the URL resolved by the Workers token endpoint. This
 supports direct access to dynamically created databases and prevents clients
 from pinning a fixed database URL.
 
+TursoDB direct access is remote-only. The legacy libSQL Embedded Replica path
+uses a SQLite-format local database and is not compatible with the TursoDB-only
+policy; `TursoDirectClientSession(useEmbeddedReplica: true)` therefore throws
+`UnsupportedError`. Use `CachedTursoModelAdapter` for device-local caching.
+
+Direct batches and model transactions start with `BEGIN CONCURRENT`. If TursoDB
+reports a row conflict or `SQLITE_BUSY` at commit, the adapter rolls back and
+retries the whole transaction with bounded backoff. Cache synchronization only
+happens after a successful commit.
+
 When direct access is enabled, client-side rules checks are not performed. The
 short-lived database token is resolved by the Workers backend. The adapter sends
 table `targets` only when it needs table-level Masamune rules to decide whether

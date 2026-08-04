@@ -16,7 +16,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
 
   @override
   String get description =>
-      "We will perform the deployment process for TursoDB with Cloudflare. Please register with Turso (https://turso.tech/) in advance, and create an organization, a group, and an API token. Cloudflare用のTursoDBのデプロイ処理を行います。予めTruso（https://turso.tech/）に登録し、組織とグループ、APIトークンを作成してください。";
+      "Deploy TursoDB (MVCC) with Cloudflare. Enable Concurrent Writes in Turso Dashboard Settings > General, then prepare an organization, group, and API token. Cloudflare用のTursoDB（MVCC）をデプロイします。Turso DashboardのSettings > GeneralでConcurrent Writesを有効化し、組織・グループ・APIトークンを準備してください。既存のSQLite型DBは利用できません。";
 
   @override
   bool checkEnabled(ExecContext context) {
@@ -85,6 +85,9 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       [
         "masamune_model_turso",
       ],
+    );
+    label(
+      "Use the TursoDB engine. Existing SQLite databases with the same name must be migrated first.",
     );
     label("Add Cloudflare Workers functions");
     final source = await indexFile.readAsString();
