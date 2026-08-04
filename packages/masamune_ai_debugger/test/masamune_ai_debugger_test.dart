@@ -321,7 +321,7 @@ void main() {
     expect(restored.performanceModel, AIDebugModel.haiku);
     expect(restored.modelLoadTimeout, const Duration(milliseconds: 2500));
     expect(restored.indicatorTimeout, const Duration(seconds: 17));
-    expect(otherProject.manualModel, AIDebugModel.sonnet);
+    expect(otherProject.manualModel, AIDebugModel.opus);
   });
 
   test("manual and incident requests include selected model and mode",
@@ -445,7 +445,7 @@ void main() {
     expect(find.byIcon(Icons.screenshot_monitor), findsOneWidget);
     expect(find.byIcon(Icons.settings), findsOneWidget);
     expect(find.bySemanticsLabel("Mode Plan"), findsOneWidget);
-    expect(find.bySemanticsLabel("Model Sonnet"), findsOneWidget);
+    expect(find.bySemanticsLabel("Model Opus"), findsOneWidget);
     expect(find.byIcon(Icons.send), findsOneWidget);
     final textField = tester.widget<TextField>(find.byType(TextField));
     expect(textField.textAlignVertical, TextAlignVertical.top);
@@ -468,12 +468,10 @@ void main() {
       projectId: "Users-example-settings-widget",
     );
     await tester.pumpWidget(
-      MaterialApp(
-        home: Builder(
-          builder: (context) => adapter.onBuildApp(
-            context,
-            const ColoredBox(color: Colors.blue),
-          ),
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
         ),
       ),
     );

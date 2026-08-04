@@ -44,11 +44,11 @@ A floating UI will be added to the Debug build of the Masamune app that sends in
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 
 final aiDebugger = AIDebuggerMasamuneAdapter(
-  manualModel: AIDebugModel.sonnet,
+  manualModel: AIDebugModel.opus,
   manualPermissionMode: AIDebugPermissionMode.plan,
-  errorModel: AIDebugModel.sonnet,
+  errorModel: AIDebugModel.opus,
   errorPermissionMode: AIDebugPermissionMode.plan,
-  performanceModel: AIDebugModel.sonnet,
+  performanceModel: AIDebugModel.opus,
   performancePermissionMode: AIDebugPermissionMode.plan,
   modelLoadTimeout: const Duration(seconds: 5),
   indicatorTimeout: const Duration(seconds: 10),

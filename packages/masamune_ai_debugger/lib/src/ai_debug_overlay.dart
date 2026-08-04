@@ -471,143 +471,149 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       );
 
   Widget _buildSettingsDialog() => Positioned.fill(
-        child: ColoredBox(
-          color: Colors.black.withValues(alpha: 0.58),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 360, maxHeight: 560),
-              child: Material(
-                color: const Color(0xF0222222),
-                borderRadius: BorderRadius.circular(16),
-                elevation: 16,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(children: [
-                        const Icon(Icons.settings, size: 19),
-                        const SizedBox(width: 8),
-                        const Expanded(
-                          child: Text(
-                            "AI Debugger設定",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.dark(),
+          home: ColoredBox(
+            color: Colors.black.withValues(alpha: 0.58),
+            child: Center(
+              child: ConstrainedBox(
+                constraints:
+                    const BoxConstraints(maxWidth: 360, maxHeight: 560),
+                child: Material(
+                  color: const Color(0xF0222222),
+                  borderRadius: BorderRadius.circular(16),
+                  elevation: 16,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(children: [
+                          const Icon(Icons.settings, size: 19),
+                          const SizedBox(width: 8),
+                          const Expanded(
+                            child: Text(
+                              "AI Debugger設定",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          visualDensity: VisualDensity.compact,
-                          onPressed: () =>
-                              setState(() => _settingsOpen = false),
-                          icon: const Icon(
-                            Icons.close,
-                            size: 18,
-                            semanticLabel: "設定を閉じる",
-                          ),
-                        ),
-                      ]),
-                      Flexible(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _buildSettingsSection(
-                                title: "エラー時",
-                                model: _draftSettings.errorModel,
-                                mode: _draftSettings.errorPermissionMode,
-                                onModelChanged: (value) => setState(() {
-                                  _draftSettings = _draftSettings.copyWith(
-                                      errorModel: value);
-                                }),
-                                onModeChanged: (value) => setState(() {
-                                  _draftSettings = _draftSettings.copyWith(
-                                    errorPermissionMode: value,
-                                  );
-                                }),
-                              ),
-                              const SizedBox(height: 14),
-                              _buildSettingsSection(
-                                title: "計測超過時",
-                                model: _draftSettings.performanceModel,
-                                mode: _draftSettings.performancePermissionMode,
-                                onModelChanged: (value) => setState(() {
-                                  _draftSettings = _draftSettings.copyWith(
-                                    performanceModel: value,
-                                  );
-                                }),
-                                onModeChanged: (value) => setState(() {
-                                  _draftSettings = _draftSettings.copyWith(
-                                    performancePermissionMode: value,
-                                  );
-                                }),
-                              ),
-                              const SizedBox(height: 14),
-                              const Text(
-                                "超過判定時間（秒）",
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(height: 8),
-                              Row(children: [
-                                Expanded(
-                                  child: TextField(
-                                    controller: _modelTimeoutController,
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                      decimal: true,
-                                    ),
-                                    decoration: const InputDecoration(
-                                      labelText: "モデル読込",
-                                      suffixText: "秒",
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: TextField(
-                                    controller: _indicatorTimeoutController,
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                      decimal: true,
-                                    ),
-                                    decoration: const InputDecoration(
-                                      labelText: "インジケーター",
-                                      suffixText: "秒",
-                                      border: OutlineInputBorder(),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                              if (_settingsError != null) ...[
-                                const SizedBox(height: 8),
-                                Text(
-                                  _settingsError!,
-                                  style: const TextStyle(
-                                    color: Colors.redAccent,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
+                          IconButton(
+                            visualDensity: VisualDensity.compact,
                             onPressed: () =>
                                 setState(() => _settingsOpen = false),
-                            child: const Text("キャンセル"),
+                            icon: const Icon(
+                              Icons.close,
+                              size: 18,
+                              semanticLabel: "設定を閉じる",
+                            ),
                           ),
-                          const SizedBox(width: 8),
-                          FilledButton(
-                            onPressed: _saveSettings,
-                            child: const Text("保存"),
+                        ]),
+                        Flexible(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                _buildSettingsSection(
+                                  title: "エラー時",
+                                  model: _draftSettings.errorModel,
+                                  mode: _draftSettings.errorPermissionMode,
+                                  onModelChanged: (value) => setState(() {
+                                    _draftSettings = _draftSettings.copyWith(
+                                        errorModel: value);
+                                  }),
+                                  onModeChanged: (value) => setState(() {
+                                    _draftSettings = _draftSettings.copyWith(
+                                      errorPermissionMode: value,
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(height: 14),
+                                _buildSettingsSection(
+                                  title: "計測超過時",
+                                  model: _draftSettings.performanceModel,
+                                  mode:
+                                      _draftSettings.performancePermissionMode,
+                                  onModelChanged: (value) => setState(() {
+                                    _draftSettings = _draftSettings.copyWith(
+                                      performanceModel: value,
+                                    );
+                                  }),
+                                  onModeChanged: (value) => setState(() {
+                                    _draftSettings = _draftSettings.copyWith(
+                                      performancePermissionMode: value,
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(height: 14),
+                                const Text(
+                                  "超過判定時間（秒）",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _modelTimeoutController,
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
+                                      decoration: const InputDecoration(
+                                        labelText: "モデル読込",
+                                        suffixText: "秒",
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _indicatorTimeoutController,
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
+                                      decoration: const InputDecoration(
+                                        labelText: "インジケーター",
+                                        suffixText: "秒",
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                                if (_settingsError != null) ...[
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    _settingsError!,
+                                    style: const TextStyle(
+                                      color: Colors.redAccent,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () =>
+                                  setState(() => _settingsOpen = false),
+                              child: const Text("キャンセル"),
+                            ),
+                            const SizedBox(width: 8),
+                            FilledButton(
+                              onPressed: _saveSettings,
+                              child: const Text("保存"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

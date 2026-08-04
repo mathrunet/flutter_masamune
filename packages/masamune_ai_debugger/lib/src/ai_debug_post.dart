@@ -35,11 +35,11 @@ enum AIDebugPermissionMode {
 class AIDebugSettings {
   /// Creates AI Debugger settings.
   const AIDebugSettings({
-    this.manualModel = AIDebugModel.sonnet,
+    this.manualModel = AIDebugModel.opus,
     this.manualPermissionMode = AIDebugPermissionMode.plan,
-    this.errorModel = AIDebugModel.sonnet,
+    this.errorModel = AIDebugModel.opus,
     this.errorPermissionMode = AIDebugPermissionMode.plan,
-    this.performanceModel = AIDebugModel.sonnet,
+    this.performanceModel = AIDebugModel.opus,
     this.performancePermissionMode = AIDebugPermissionMode.plan,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
@@ -172,7 +172,7 @@ class _AIDebugSettingsStore {
 
   String get _key {
     final suffix = projectId.isEmpty ? "default" : projectId;
-    return "masamune_ai_debugger.settings.v1.$suffix";
+    return "masamune_ai_debugger.settings.v2.$suffix";
   }
 
   Future<AIDebugSettings> load() async {
