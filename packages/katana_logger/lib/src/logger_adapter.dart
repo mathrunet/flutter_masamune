@@ -30,6 +30,33 @@ abstract class LoggerAdapter {
   /// ログの名前である[name]と[parameters]を渡してログを保存する処理を実行してください。
   Future<void> send(String name, {DynamicMap? parameters});
 
+  /// Report [exception] and [stackTrace] caught by try-catch.
+  ///
+  /// Adapters that can handle errors natively should override this to report them as errors.
+  ///
+  /// By default it falls back to [send] with the log name [name] (`error` if not specified).
+  ///
+  /// try-catchでキャッチした[exception]と[stackTrace]を報告します。
+  ///
+  /// エラーをネイティブに扱えるアダプターはこれをオーバーライドしてエラーとして報告してください。
+  ///
+  /// 既定ではログ名[name]（未指定の場合は`error`）で[send]にフォールバックします。
+  Future<void> error(
+    Object exception,
+    StackTrace? stackTrace, {
+    String? name,
+    DynamicMap? parameters,
+  }) async {
+    await send(
+      name ?? "error",
+      parameters: {
+        ...?parameters,
+        "error": exception.toString(),
+        "stackTrace": stackTrace?.toString(),
+      },
+    );
+  }
+
   /// Create [LoggerTraceValue] by passing [name], the name of the log.
   ///
   /// [LoggerTraceValue.start] to start tracking logs, [LoggerTraceValue.stop] to complete and save.

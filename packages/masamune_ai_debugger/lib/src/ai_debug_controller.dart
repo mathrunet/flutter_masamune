@@ -12,6 +12,7 @@ class AIDebugController {
     required this.endpoint,
     required this.apiKey,
     required this.maxSessionsPerHour,
+    this.reportHandledErrors = true,
     AIDebugSettings settings = const AIDebugSettings(),
     this.post,
     this.registerRun = AIDebuggerMasamuneAdapter.defaultRegisterRun,
@@ -79,6 +80,15 @@ class AIDebugController {
   ///
   /// 設定済みバックエンドへ渡す1時間あたりの最大セッション数。
   final int maxSessionsPerHour;
+
+  /// Whether to report errors caught by try-catch as incidents.
+  ///
+  /// If `false`, they are only recorded as breadcrumb logs with a severity of `error` and no incident is raised.
+  ///
+  /// try-catchでキャッチされたエラーをインシデントとして報告するかどうか。
+  ///
+  /// `false`の場合は`error`のseverityを持つパンくずログとして記録されるのみで、インシデントは発生しません。
+  final bool reportHandledErrors;
 
   /// Optional transport used instead of the default HTTP client.
   ///

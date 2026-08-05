@@ -25,6 +25,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.apiKey = const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_API_KEY"),
     this.maxScreenshots = 6,
     this.maxSessionsPerHour = 6,
+    this.reportHandledErrors = true,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
     this.manualModel = AIDebugModel.opus,
@@ -48,6 +49,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
           endpoint: endpoint,
           apiKey: apiKey,
           maxSessionsPerHour: maxSessionsPerHour,
+          reportHandledErrors: reportHandledErrors,
           settings: AIDebugSettings(
             manualModel: manualModel,
             manualPermissionMode: manualPermissionMode,
@@ -96,6 +98,15 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 設定済みバックエンドへ送信する1時間あたりの最大セッション数。
   final int maxSessionsPerHour;
+
+  /// Whether to report errors caught by try-catch via [Logger.error] as incidents.
+  ///
+  /// If `false`, they are only recorded as breadcrumb logs with a severity of `error` and no incident is raised.
+  ///
+  /// [Logger.error]経由でtry-catchでキャッチされたエラーをインシデントとして報告するかどうか。
+  ///
+  /// `false`の場合は`error`のseverityを持つパンくずログとして記録されるのみで、インシデントは発生しません。
+  final bool reportHandledErrors;
 
   /// Duration after which a model load is reported as a performance incident.
   ///

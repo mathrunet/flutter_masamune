@@ -37,18 +37,29 @@ class Logger extends ChangeNotifier {
   ///
   /// ロガーを定義するアダプターのリスト。
   List<LoggerAdapter> get adapters {
-    if (LoggerAdapter._test != null) {
-      return LoggerAdapter._test!;
-    }
-    final adapters = [
-      ...LoggerAdapter.primary,
-      ..._adapters,
-    ];
+    final adapters = _resolvedAdapters;
     assert(
       adapters.isNotEmpty,
       "LoggerAdapter is not set. Place [LoggerAdapterScope] widget closer to the root.",
     );
     return adapters;
+  }
+
+  /// Resolve the adapter without asserting that it exists.
+  ///
+  /// [LoggerAdapterScope] is only placed when there is at least one adapter, so an app without any [LoggerAdapter] will have this empty.
+  ///
+  /// アダプターの存在をアサートせずに解決します。
+  ///
+  /// [LoggerAdapterScope]はアダプターが1つ以上あるときのみ配置されるため、[LoggerAdapter]を一つも持たないアプリではこれが空になります。
+  List<LoggerAdapter> get _resolvedAdapters {
+    if (LoggerAdapter._test != null) {
+      return LoggerAdapter._test!;
+    }
+    return [
+      ...LoggerAdapter.primary,
+      ..._adapters,
+    ];
   }
 
   final List<LoggerAdapter> _adapters;
@@ -89,6 +100,48 @@ class Logger extends ChangeNotifier {
     await Future.wait(
       adapters.map(
         (adapter) => adapter.send(name, parameters: parameters),
+      ),
+    );
+    notifyListeners();
+  }
+
+  /// Report [exception] and [stackTrace] caught by try-catch.
+  ///
+  /// Exceptions swallowed by try-catch do not reach [FlutterError.onError], [PlatformDispatcher.onError] or `runZonedGuarded`, so call this to make them visible.
+  ///
+  /// Unlike other methods, this does nothing if no [LoggerAdapter] is set, so it is safe to call unconditionally in a catch clause.
+  ///
+  /// try-catchでキャッチした[exception]と[stackTrace]を報告します。
+  ///
+  /// try-catchで握り潰された例外は[FlutterError.onError]や[PlatformDispatcher.onError]、`runZonedGuarded`に到達しないため、これを呼び出して可視化してください。
+  ///
+  /// 他のメソッドと異なり[LoggerAdapter]が一つも設定されていない場合は何もしないため、catch節で無条件に呼び出しても安全です。
+  ///
+  /// ```dart
+  /// try {
+  ///   await something();
+  /// } catch (e, stackTrace) {
+  ///   await appLogger.error(e, stackTrace);
+  /// }
+  /// ```
+  Future<void> error(
+    Object exception,
+    StackTrace? stackTrace, {
+    String? name,
+    DynamicMap? parameters,
+  }) async {
+    final adapters = _resolvedAdapters;
+    if (adapters.isEmpty) {
+      return;
+    }
+    await Future.wait(
+      adapters.map(
+        (adapter) => adapter.error(
+          exception,
+          stackTrace,
+          name: name,
+          parameters: parameters,
+        ),
       ),
     );
     notifyListeners();

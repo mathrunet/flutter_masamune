@@ -11,6 +11,7 @@ library;
 // Package imports:
 import "package:analyzer/dart/ast/ast.dart";
 import "package:analyzer/dart/ast/token.dart";
+import "package:analyzer/dart/ast/visitor.dart";
 import "package:analyzer/dart/element/nullability_suffix.dart";
 import "package:analyzer/dart/element/type.dart";
 import "package:analyzer/error/error.dart";
@@ -34,6 +35,7 @@ part "buttons/masamune_button_convert.dart";
 
 part "common/masamune_limit_if_nesting.dart";
 part "common/masamune_unwrap_nullable.dart";
+part "common/masamune_caught_error_should_report.dart";
 part "masamune/masamune_should_use_universal_widget.dart";
 part "masamune/masamune_should_use_form_widget.dart";
 
@@ -55,6 +57,7 @@ class _MasamuneLints extends PluginBase {
         const _MasamuneShouldUseFormWidget(),
         const _MasamuneLimitIfNesting(),
         const _MasamuneUnwrapNullable(),
+        const _MasamuneCaughtErrorShouldReport(),
       ];
   @override
   List<Assist> getAssists() => [

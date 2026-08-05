@@ -15,6 +15,28 @@ class _AIDebugLoggerAdapter extends LoggerAdapter {
   }
 
   @override
+  Future<void> error(
+    Object exception,
+    StackTrace? stackTrace, {
+    String? name,
+    DynamicMap? parameters,
+  }) async {
+    if (!controller.reportHandledErrors) {
+      controller.addLog(
+        name ?? "error",
+        {
+          ...?parameters,
+          "error": exception.toString(),
+          "stackTrace": stackTrace?.toString(),
+        },
+        severity: "error",
+      );
+      return;
+    }
+    await controller.reportError(exception, stackTrace);
+  }
+
+  @override
   LoggerTraceValue trace(String name) {
     if (name.startsWith("$_modelLoadTracePrefix|")) {
       return _AIDebugLoggerTrace(

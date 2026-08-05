@@ -124,6 +124,39 @@ Widgetツリーへ待機表示を直接配置する場合は、固定かつ機�
 常設の進捗率表示は標準ProgressIndicatorを使い、すでに計測済みの`showIndicator`へ計測版を渡して
 二重計測してはいけません。閾値に `Duration.zero` を指定すると、そのカテゴリの自動incidentを無効化できます。
 
+## try-catchで握り潰した例外の報告
+
+自動で設定される `runZonedGuarded`・`FlutterError.onError`・`PlatformDispatcher.onError` の3つは、いずれも
+**誰にもハンドリングされなかった例外**専用のフックです。Dartの仕様上 `try-catch` でキャッチされた例外は
+これらに一切到達しないため、握り潰すとAI Debuggerからは完全に不可視になります。
+
+catch節では `Logger.error` で明示的に報告してください。アプリテンプレートが生成する `appLogger` を使えば
+`ref` や `BuildContext` なしでどこからでも呼び出せます。
+
+```dart
+try {
+  await something();
+} catch (e, stackTrace) {
+  await appLogger.error(e, stackTrace);
+}
+```
+
+これによりスクリーンショットとスタックトレース付きの `exception` incidentが送信されます。
+`LoggerAdapter` が一つも設定されていない場合は何もしないため、catch節で無条件に呼び出しても安全です。
+
+報告漏れは `masamune_lints` の `masamune_caught_error_should_report` が警告します。
+`rethrow` や `throw` で伝播させている場合は対象外です。意図的に握り潰す場合は
+`// ignore: masamune_caught_error_should_report` を付けてください。
+
+握り潰した例外をincident化せずパンくずログ（severity `error`）だけに留めたい場合は
+`reportHandledErrors` に `false` を指定します。
+
+```dart
+AIDebuggerMasamuneAdapter(
+  reportHandledErrors: false,
+);
+```
+
 
 # GitHub Sponsors
 
