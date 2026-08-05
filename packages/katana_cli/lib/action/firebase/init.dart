@@ -10,6 +10,16 @@ import "package:katana_cli/action/firebase/authentication.dart";
 import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
 
+/// Pattern for removing ANSI escape sequences from the CLI output.
+///
+/// CLIの出力からANSIエスケープシーケンスを取り除くためのパターン。
+final _ansiEscapePattern = RegExp(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])");
+
+/// Escape character (`ESC`) for sending arrow keys, etc.
+///
+/// 矢印キー等を送信するためのエスケープ文字(`ESC`)。
+final _escapeCharacter = String.fromCharCode(0x1B);
+
 /// Firebase initial configuration.
 ///
 /// Firebaseの初期設定を行います。
@@ -568,7 +578,16 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               line,
               "? What language would you like to use to write Cloud Functions?",
               commandStack,
-              () => process.stdin.write("j\n"),
+              () {
+                // `JavaScript` / `TypeScript` / `Python`の順に表示されるため、
+                // 下矢印キーで1つ下に移動して`TypeScript`を選択する。
+                // エスケープシーケンスと改行が同一チャンクで処理されて
+                // 取りこぼされないように、確定の改行は少し遅らせて送信する。
+                process.stdin.write("$_escapeCharacter[B");
+                Future<void>.delayed(const Duration(milliseconds: 200), () {
+                  process.stdin.write("\n");
+                });
+              },
             );
             _runCommandStack(
               line,
@@ -927,7 +946,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     List<String> stack,
     void Function() callback,
   ) {
-    if (!line.startsWith(command) || stack.contains(command)) {
+    // 標準出力はチャンク単位で渡され、ANSIエスケープシーケンスが含まれるため、
+    // それらを除去した上で部分一致で判定する。
+    final normalized = line.replaceAll(_ansiEscapePattern, "");
+    if (!normalized.contains(command) || stack.contains(command)) {
       return;
     }
     stack.add(command);
@@ -960,7 +982,7 @@ class FirebaseFunctionsIndexCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import * as m from "@mathrunet/masamune_firebase";
+import * as mf from "@mathrunet/masamune_firebase";
 import * as admin from "firebase-admin";
 if (admin.apps.length === 0) {
   admin.initializeApp();
@@ -980,7 +1002,7 @@ if (admin.apps.length === 0) {
 // Define [m.Functions.xxxx] for the functions to be added to Functions.
 //
 // Functionsに追加する機能を[m.Functions.xxxx]を定義してください。
-m.deploy(
+mf.deploy(
   exports,
   ["us-central1"],
   [],

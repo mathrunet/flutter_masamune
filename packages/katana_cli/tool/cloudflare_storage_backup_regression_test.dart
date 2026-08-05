@@ -24,9 +24,9 @@ Future<void> main() async {
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
     await File("cloudflare/src/index.ts").writeAsString("""
-import * as m from "@mathrunet/masamune_cloudflare";
+import * as mc from "@mathrunet/masamune_cloudflare";
 
-export default m.deploy([
+export default mc.deploy([
 ]);
 """);
     await File("cloudflare/wrangler.jsonc").writeAsString("""

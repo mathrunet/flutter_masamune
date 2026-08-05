@@ -84,7 +84,7 @@ class CodeServerCallCliCommand extends CliTestableCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune_firebase";
+import * as mf from "@mathrunet/masamune_firebase";
 
 """;
   }
@@ -102,7 +102,7 @@ import * as m from "@mathrunet/masamune_firebase";
  *
  * Create server code for FunctionCall.
  */
-export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
+export class ${className.toPascalCase()}Call extends mf.CallProcessFunctionBase {
     /**
      * @param {string} id
      * Describe the method names used in Functions.
@@ -115,7 +115,7 @@ export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
      *
      * 実際の処理の中身を指定します。
      *
-     * @param {m.CallableRequest<any>} query
+     * @param {mf.CallableRequest<any>} query
      * Query passed to Functions.
      *
      * Functionsに渡されたクエリ。
@@ -126,7 +126,7 @@ export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
      * 処理の結果を返します。
      */
     async process(
-      query: m.CallableRequest<any>,
+      query: mf.CallableRequest<any>,
     ): Promise<{[key: string]: any}> {
         // TODO: Implement the process to be executed.
         return {};

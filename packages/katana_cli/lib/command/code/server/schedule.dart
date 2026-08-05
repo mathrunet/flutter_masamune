@@ -97,7 +97,7 @@ class CodeServerScheduleFirebaseCliCommand extends CliTestableCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune_firebase";
+import * as mf from "@mathrunet/masamune_firebase";
 
 """;
   }
@@ -115,7 +115,7 @@ import * as m from "@mathrunet/masamune_firebase";
  *
  * Create a server code for the scheduler in Firebase Functions.
  */
-export class ${className.toPascalCase()}Schedule extends m.ScheduleProcessFunctionBase {
+export class ${className.toPascalCase()}Schedule extends mf.ScheduleProcessFunctionBase {
     /**
      * @param {string} id
      * Describe the method names used in Functions.
@@ -268,7 +268,7 @@ class CodeServerScheduleCloudflareCliCommand extends CliCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune_cloudflare";
+import * as mc from "@mathrunet/masamune_cloudflare";
 
 """;
   }
@@ -286,7 +286,7 @@ import * as m from "@mathrunet/masamune_cloudflare";
  *
  * Create a server code for the scheduler in Cloudflare Workers.
  */
-export class ${className.toPascalCase()}Schedule extends m.ScheduleProcessWorkdersBase {
+export class ${className.toPascalCase()}Schedule extends mc.ScheduleProcessWorkdersBase {
     /**
      * Specify the actual contents of the scheduled process.
      *

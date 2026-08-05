@@ -60,7 +60,7 @@ class CodeServerWorkerCliCommand extends CliCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune_cloudflare";
+import * as mc from "@mathrunet/masamune_cloudflare";
 import { Hono } from "hono";
 """;
   }
@@ -78,7 +78,7 @@ import { Hono } from "hono";
  *
  * Create a server code for Cloudflare Workers.
  */
-export class ${className.toPascalCase()}Worker extends m.RequestProcessWorkdersBase {
+export class ${className.toPascalCase()}Worker extends mc.RequestProcessWorkdersBase {
     /**
      * @param {string} path
      * Describe the path names used in Workers.

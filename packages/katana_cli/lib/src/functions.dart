@@ -14,7 +14,7 @@ class Functions {
   Functions();
 
   static final _functionRegExp = RegExp(
-    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",
+    r"mf.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",
   );
 
   static final _importRegexp = RegExp(
@@ -72,7 +72,7 @@ class Functions {
     _functions = region
             .namedGroup("functions")
             ?.split(",")
-            .map((e) => e.trim().replaceAll(RegExp("^m.Functions."), ""))
+            .map((e) => e.trim().replaceAll(RegExp("^mf.Functions."), ""))
             .where((e) => e.isNotEmpty)
             .toList() ??
         [];
@@ -87,14 +87,14 @@ class Functions {
     }
     final imports = [
       ...this.imports,
-      "import * as m from \"@mathrunet/masamune\";",
+      "import * as mf from \"@mathrunet/masamune_firebase\";",
     ].distinct();
     _rawData = _rawData.replaceAll(_importRegexp, "");
     for (final import in imports) {
       _rawData = "$import\n$_rawData";
     }
     _rawData = _rawData.replaceAll(_functionRegExp, """
-m.deploy(
+mf.deploy(
   exports,
   [${regions.map((e) => '"$e"').join(", ")}],
   [

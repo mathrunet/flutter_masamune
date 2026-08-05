@@ -78,7 +78,7 @@ class CodeServerFirestoreTriggeredCliCommand extends CliTestableCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune_firebase";
+import * as mf from "@mathrunet/masamune_firebase";
 import * as functions from "firebase-functions/v2";
 
 """;
@@ -97,7 +97,7 @@ import * as functions from "firebase-functions/v2";
  *
  * Create a server code for Firestore triggers.
  */
-export class ${className.toPascalCase()}FirestoreTriggered extends m.FirestoreTriggeredProcessFunctionBase {
+export class ${className.toPascalCase()}FirestoreTriggered extends mf.FirestoreTriggeredProcessFunctionBase {
     /**
      * @param {string} id
      * Describe the method names used in Functions.

@@ -77,7 +77,7 @@ class CodeServerRequestCliCommand extends CliTestableCodeCommand {
 /* eslint indent: off */
 /* eslint max-len: off */
 /* eslint @typescript-eslint/no-explicit-any: off */
-import * as m from "@mathrunet/masamune_firebase";
+import * as mf from "@mathrunet/masamune_firebase";
 import * as functions from "firebase-functions/v2";
 import * as express from "express";
 
@@ -97,7 +97,7 @@ import * as express from "express";
  *
  * Create server code for HTTP requests.
  */
-export class ${className.toPascalCase()}Request extends m.RequestProcessFunctionBase {
+export class ${className.toPascalCase()}Request extends mf.RequestProcessFunctionBase {
     /**
      * @param {string} id
      * Describe the method names used in Functions.
