@@ -23,6 +23,7 @@ import "package:katana_cli/action/app/privacy_manifests.dart";
 import "package:katana_cli/action/app/speech_to_text.dart";
 import "package:katana_cli/action/app/spread_sheet.dart";
 import "package:katana_cli/action/app/text_to_speech.dart";
+import "package:katana_cli/action/cloudflare/authentication.dart";
 import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/cloudflare/kv.dart";
 import "package:katana_cli/action/cloudflare/storage.dart";
@@ -65,6 +66,7 @@ const _actions = <CliActionMixin>[
   AppDeeplinkCliAction(),
   AppPrivacyManifestsCliAction(),
   CloudflareInitCliAction(),
+  CloudflareAuthenticationCliAction(),
   CloudflareKvCliAction(),
   CloudflareStorageCliAction(),
   CloudflareTursoCliAction(),

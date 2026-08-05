@@ -254,6 +254,22 @@ cloudflare:
     # リージョンDBや外部APIに近い場所でWorkerを実行し、通信を高速化します。
     smart_placement: false
 
+  # Configure Firebase Authentication features running on Cloudflare Workers.
+  # Cloudflare Workers上で動作するFirebase Authentication機能を設定します。
+  authentication:
+    # Enable deletion of the currently authenticated Firebase Auth user.
+    # [service_account] accepts a Firebase Admin SDK service account JSON string.
+    # If it is empty, `katana apply` searches `cloudflare/` and then `android/`
+    # for a service account JSON file. A non-empty value in `katana_secrets.yaml`
+    # takes precedence over this value.
+    # 現在認証されているFirebase Authユーザーの削除を有効にします。
+    # [service_account]にはFirebase Admin SDKサービスアカウントJSON文字列を指定します。
+    # 空の場合、`katana apply`は`cloudflare/`、次に`android/`からサービスアカウントJSONを探索します。
+    # `katana_secrets.yaml`に空でない値がある場合は、そちらを優先します。
+    delete_user:
+      enable: false
+      service_account:
+
   # Enable Cloudflare Pages.
   # Cloudflare Pagesを有効にします。
   pages:
@@ -1031,6 +1047,12 @@ String katanaSecretsYamlCode() => """
 # Describe Cloudflare secret information.
 # Cloudflareのシークレット情報を記述します。
 cloudflare:
+  authentication:
+    delete_user:
+      # Firebase Admin SDK service account JSON used by the delete-user Worker.
+      # delete-user Workerが使用するFirebase Admin SDKサービスアカウントJSON。
+      service_account:
+
   turso:
     # Turso Platform API Token. This non-empty value takes precedence over `katana.yaml`.
     # TursoのPlatform API Token。空でない場合は`katana.yaml`より優先されます。

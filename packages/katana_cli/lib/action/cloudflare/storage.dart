@@ -666,9 +666,11 @@ ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucket
     if (result.exitCode == 0) {
       return;
     }
-    final normalized = output.toLowerCase();
-    if (normalized.contains("already exists") ||
-        normalized.contains("already been taken")) {
+    final normalized = _normalizeWranglerOutput(output);
+    if (RegExp(r"\[\s*code:\s*11009\s*\]").hasMatch(normalized) &&
+        normalized.contains(
+          "queue name '${queueName.toLowerCase()}' is already taken",
+        )) {
       return;
     }
     throw Exception("Failed to create Cloudflare Queue `$queueName`.");
@@ -688,15 +690,21 @@ ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucket
     );
     final listOutput = "${list.stdout}\n${list.stderr}";
     if (list.exitCode != 0) {
-      stdout.write(listOutput);
-      throw Exception(
-        "Failed to list Cloudflare R2 notifications for `$bucketName`.",
-      );
+      final normalized = _normalizeWranglerOutput(listOutput);
+      final isUnconfigured =
+          RegExp(r"\[\s*code:\s*11015\s*\]").hasMatch(normalized) &&
+              normalized.contains("no event notification config found") &&
+              normalized.contains("no configurations found for bucket");
+      // Wrangler reports an unconfigured bucket as an API error. Treat only
+      // this response as an empty notification list and create the rule.
+      if (!isUnconfigured) {
+        stdout.write(listOutput);
+        throw Exception(
+          "Failed to list Cloudflare R2 notifications for `$bucketName`.",
+        );
+      }
     }
-    final normalizedListOutput = listOutput.toLowerCase();
-    if (listOutput.contains(queueName) &&
-        (normalizedListOutput.contains("object-create") ||
-            normalizedListOutput.contains("managed by katana: r2 backup"))) {
+    if (_hasEquivalentR2ObjectCreateNotification(listOutput, queueName)) {
       return;
     }
     final create = await Process.run(
@@ -726,6 +734,51 @@ ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucket
         "Failed to create the R2 object-create notification. Remove or update any overlapping notification rule, then run `katana apply` again.",
       );
     }
+  }
+
+  String _normalizeWranglerOutput(String output) {
+    return output
+        .replaceAll(RegExp(r"\x1B\[[0-?]*[ -/]*[@-~]"), "")
+        .toLowerCase();
+  }
+
+  bool _hasEquivalentR2ObjectCreateNotification(
+    String output,
+    String queueName,
+  ) {
+    final normalized = _normalizeWranglerOutput(output);
+    const objectCreateActions = {
+      "putobject",
+      "completemultipartupload",
+      "copyobject",
+    };
+    final queuePattern = RegExp(
+      r"^\s*(?:-\s*)?queue_name\s*:\s*(.*?)\s*$",
+      multiLine: true,
+    );
+    final eventTypePattern = RegExp(
+      r"^\s*(?:-\s*)?event_type\s*:\s*(.*?)\s*$",
+      multiLine: true,
+    );
+    final rules = normalized.split(
+      RegExp(r"(?=^\s*(?:-\s*)?rule_id\s*:)", multiLine: true),
+    );
+    return rules.any((rule) {
+      final queueMatches = queuePattern.allMatches(rule).toList();
+      final eventTypeMatches = eventTypePattern.allMatches(rule).toList();
+      if (queueMatches.length != 1 || eventTypeMatches.length != 1) {
+        return false;
+      }
+      final targetQueue = queueMatches.single.group(1)!.trim();
+      final actions = eventTypeMatches.single
+          .group(1)!
+          .split(",")
+          .map((action) => action.trim())
+          .toList();
+      return targetQueue == queueName.toLowerCase() &&
+          actions.length == objectCreateActions.length &&
+          actions.toSet().containsAll(objectCreateActions);
+    });
   }
 
   Future<void> _putWranglerSecret({

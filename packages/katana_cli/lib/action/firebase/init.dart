@@ -70,7 +70,6 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final npm = bin.get("npm", "npm");
-    final npx = bin.get("npx", "npx");
     final firebaseCommand = bin.get("firebase", "firebase");
     final gsutil = bin.get("gsutil", "gsutil");
     final flutterfireCommand = bin.get("flutterfire", "flutterfire");
@@ -667,28 +666,23 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ],
         workingDirectory: "firebase/functions",
       );
-      await command(
-        "Initialize Jest",
-        [
-          npx,
-          "ts-jest",
-          "config:init",
-        ],
-        workingDirectory: "firebase/functions",
+      final toolingPlan = FirebaseFunctionsToolingPlan.create(
+        functionsDirectory: Directory("firebase/functions"),
       );
+      if (toolingPlan.initializeJest) {
+        await command(
+          "Initialize Jest",
+          toolingPlan.initializeJestCommand,
+          workingDirectory: "firebase/functions",
+        );
+      }
       if (!firebaseFunctionsIndexExists) {
         label("Data replacement for Firebase Functions.");
         await const FirebaseFunctionsIndexCliCode().generateFile("index.ts");
       }
       await command(
         "Fix lint errors.",
-        [
-          "eslint",
-          "--ext",
-          ".js,.ts",
-          "--fix",
-          ".",
-        ],
+        toolingPlan.fixLintCommand,
         workingDirectory: "firebase/functions",
       );
       await const FunctionsEslintrcCliCode().generateFile(".eslintrc.js");
@@ -955,6 +949,58 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     stack.add(command);
     callback.call();
   }
+}
+
+/// Command plan for initializing Firebase Functions development tooling.
+///
+/// Firebase Functionsの開発ツールを初期化するためのコマンド計画。
+class FirebaseFunctionsToolingPlan {
+  /// Creates a command plan based on the current Functions directory.
+  ///
+  /// Functionsディレクトリの現在の状態に基づいてコマンド計画を作成します。
+  factory FirebaseFunctionsToolingPlan.create({
+    required Directory functionsDirectory,
+  }) {
+    final executableSuffix = Platform.isWindows ? ".cmd" : "";
+    String localExecutable(String name) =>
+        "node_modules/.bin/$name$executableSuffix";
+    return FirebaseFunctionsToolingPlan._(
+      initializeJest:
+          !File("${functionsDirectory.path}/jest.config.js").existsSync(),
+      initializeJestCommand: [
+        localExecutable("ts-jest"),
+        "config:init",
+      ],
+      fixLintCommand: [
+        localExecutable("eslint"),
+        "--ext",
+        ".js,.ts",
+        "--fix",
+        ".",
+      ],
+    );
+  }
+
+  const FirebaseFunctionsToolingPlan._({
+    required this.initializeJest,
+    required this.initializeJestCommand,
+    required this.fixLintCommand,
+  });
+
+  /// Whether a Jest configuration must be generated.
+  ///
+  /// Jest設定を生成する必要があるかどうか。
+  final bool initializeJest;
+
+  /// Command that generates the Jest configuration.
+  ///
+  /// Jest設定を生成するコマンド。
+  final List<String> initializeJestCommand;
+
+  /// Command that fixes ESLint errors.
+  ///
+  /// ESLintエラーを修正するコマンド。
+  final List<String> fixLintCommand;
 }
 
 /// Firebase Functions index.ts codebase.
