@@ -15,6 +15,38 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v3.21.0`](#katana_cli---v3210)
+ - [`masamune_ai_debugger` - `v3.3.1`](#masamune_ai_debugger---v331)
+ - [`masamune_lints` - `v3.3.0`](#masamune_lints---v330)
+
+---
+
+#### `katana_cli` - `v3.21.0`
+
+ - **FEAT**(cloudflare): add Firebase Authentication configuration for delete-user functionality. ([918e5a0a](https://github.com/mathrunet/flutter_masamune/commit/918e5a0ae16d4a67afbf57fc35261d916fd67be7))
+
+#### `masamune_ai_debugger` - `v3.3.1`
+
+ - **FIX**(masamune_ai_debugger): introduce request type handling in AI Debugger overlay. ([56e9dfd8](https://github.com/mathrunet/flutter_masamune/commit/56e9dfd8dec77aa30700b33d025988e539a098ac))
+
+#### `masamune_lints` - `v3.3.0`
+
+ - **FIX**: update test dependency version in masamune_lints and masamune_test packages. ([4e6fcbc2](https://github.com/mathrunet/flutter_masamune/commit/4e6fcbc23ec57de297ece3b76b5e7dd0d64d71c5))
+ - **FEAT**(katana_logger): add error reporting functionality to Logger. ([f3e99405](https://github.com/mathrunet/flutter_masamune/commit/f3e9940574245327b260e268b97a988f1bb9af78))
+
+
+## 2026-08-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.20.1`](#katana_cli---v3201)
  - [`katana_logger` - `v3.2.0`](#katana_logger---v320)
  - [`masamune_ai_debugger` - `v3.3.0`](#masamune_ai_debugger---v330)

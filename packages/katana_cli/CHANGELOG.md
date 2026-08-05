@@ -1,3 +1,7 @@
+## 3.21.0
+
+ - **FEAT**(cloudflare): add Firebase Authentication configuration for delete-user functionality. ([918e5a0a](https://github.com/mathrunet/flutter_masamune/commit/918e5a0ae16d4a67afbf57fc35261d916fd67be7))
+
 ## 3.20.1
 
  - **REFACTOR**(katana_cli): update import aliases for Firebase and Cloudflare modules. ([fb93f3a2](https://github.com/mathrunet/flutter_masamune/commit/fb93f3a249ab56846b32829b3c17c50f692bc3c5))

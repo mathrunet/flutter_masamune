@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **FIX**: update test dependency version in masamune_lints and masamune_test packages. ([4e6fcbc2](https://github.com/mathrunet/flutter_masamune/commit/4e6fcbc23ec57de297ece3b76b5e7dd0d64d71c5))
+ - **FEAT**(katana_logger): add error reporting functionality to Logger. ([f3e99405](https://github.com/mathrunet/flutter_masamune/commit/f3e9940574245327b260e268b97a988f1bb9af78))
+
 ## 3.2.0
 
  - **FEAT**(katana_logger): add error reporting functionality to Logger. ([f3e99405](https://github.com/mathrunet/flutter_masamune/commit/f3e9940574245327b260e268b97a988f1bb9af78))

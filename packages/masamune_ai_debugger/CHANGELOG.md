@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**(masamune_ai_debugger): introduce request type handling in AI Debugger overlay. ([56e9dfd8](https://github.com/mathrunet/flutter_masamune/commit/56e9dfd8dec77aa30700b33d025988e539a098ac))
+
 ## 3.3.0
 
  - **FEAT**(katana_logger): add error reporting functionality to Logger. ([f3e99405](https://github.com/mathrunet/flutter_masamune/commit/f3e9940574245327b260e268b97a988f1bb9af78))
