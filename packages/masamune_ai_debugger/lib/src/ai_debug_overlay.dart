@@ -1,5 +1,10 @@
 part of '/masamune_ai_debugger.dart';
 
+enum _AIDebugRequestType {
+  bugFix,
+  requirementsEdit,
+}
+
 class _AIDebugOverlay extends StatefulWidget {
   const _AIDebugOverlay({
     required this.controller,
@@ -27,6 +32,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   bool _hidden = false;
   bool _sending = false;
   bool _settingsOpen = false;
+  _AIDebugRequestType _requestType = _AIDebugRequestType.bugFix;
   String? _status;
   String? _settingsError;
   Uint8List? _preview;
@@ -123,13 +129,14 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   Future<void> _send() async {
     final text = _textController.text.trim();
     if (text.isEmpty || _sending) return;
+    final instruction = _buildInstruction(text);
     setState(() {
       _sending = true;
       _status = null;
     });
     try {
       final sessionId = await widget.controller.send(
-        text,
+        instruction,
         _screenshots,
         model: _settings.manualModel,
         permissionMode: _settings.manualPermissionMode,
@@ -148,6 +155,14 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     }
   }
 
+  String _buildInstruction(String text) {
+    if (_requestType == _AIDebugRequestType.bugFix) return text;
+    const command = "/dev:kiwame:edit";
+    final firstCommand = RegExp(r"^/\S+").firstMatch(text)?.group(0);
+    if (firstCommand == command) return text;
+    return "$command\n\n$text";
+  }
+
   Future<void> _persistSettings(AIDebugSettings settings) async {
     setState(() => _settings = settings);
     try {
@@ -164,6 +179,12 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       manualPermissionMode: values[(index + 1) % values.length],
     )));
   }
+
+  void _cycleRequestType() => setState(() {
+        _requestType = _requestType == _AIDebugRequestType.bugFix
+            ? _AIDebugRequestType.requirementsEdit
+            : _AIDebugRequestType.bugFix;
+      });
 
   void _cycleManualModel() {
     const values = [
@@ -246,6 +267,16 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
 
   String _modeLabel(AIDebugPermissionMode mode) =>
       mode == AIDebugPermissionMode.plan ? "Plan" : "bypassPermissions";
+
+  MaterialColor get _requestTypeColor =>
+      _requestType == _AIDebugRequestType.bugFix ? Colors.red : Colors.teal;
+
+  IconData get _requestTypeIcon => _requestType == _AIDebugRequestType.bugFix
+      ? Icons.bug_report
+      : Icons.edit_note;
+
+  String get _requestTypeLabel =>
+      _requestType == _AIDebugRequestType.bugFix ? "不具合修正" : "要件修正";
 
   Offset _clamp(Offset value, Size area, Size item, EdgeInsets safe) => Offset(
         value.dx
@@ -400,6 +431,13 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     tooltip: "AI Debugger設定",
                     onPressed: _sending ? null : _openSettings,
                     icon: const Icon(Icons.settings, semanticLabel: "設定"),
+                  ),
+                  _buildCompactSelector(
+                    tooltip: "送信種別: $_requestTypeLabel",
+                    semanticLabel: _requestTypeLabel,
+                    color: _requestTypeColor,
+                    icon: _requestTypeIcon,
+                    onPressed: _sending ? null : _cycleRequestType,
                   ),
                   _buildCompactSelector(
                     tooltip:

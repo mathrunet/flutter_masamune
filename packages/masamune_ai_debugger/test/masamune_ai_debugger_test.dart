@@ -444,6 +444,8 @@ void main() {
     expect(find.text("AI Debugger"), findsOneWidget);
     expect(find.byIcon(Icons.screenshot_monitor), findsOneWidget);
     expect(find.byIcon(Icons.settings), findsOneWidget);
+    expect(find.bySemanticsLabel("不具合修正"), findsOneWidget);
+    expect(find.byIcon(Icons.bug_report), findsOneWidget);
     expect(find.bySemanticsLabel("Mode Plan"), findsOneWidget);
     expect(find.bySemanticsLabel("Model Opus"), findsOneWidget);
     expect(find.byIcon(Icons.send), findsOneWidget);
@@ -506,14 +508,14 @@ void main() {
 
   testWidgets("successful manual send closes the AI Debugger panel",
       (tester) async {
-    final requests = <String>[];
+    final requests = <MapEntry<String, Map<String, Object?>>>[];
     final adapter = AIDebuggerMasamuneAdapter(
       projectId: "Users-example-app",
       endpoint: "https://ai-debugger.example.test",
       apiKey: "test-key",
       post: (url, headers, body) async {
         final path = Uri.parse(url).path;
-        requests.add(path);
+        requests.add(MapEntry(path, body));
         if (path.endsWith("/request")) {
           return {"success": true, "sessionId": "session-test"};
         }
@@ -540,7 +542,56 @@ void main() {
 
     expect(find.text("AI Debugger"), findsNothing);
     expect(find.byIcon(Icons.auto_awesome), findsOneWidget);
-    expect(requests, contains(endsWith("/request")));
+    final request = requests.singleWhere(
+      (request) => request.key.endsWith("/request"),
+    );
+    expect(request.value["instruction"], "調査してください");
+    await adapter.controller.end();
+  });
+
+  testWidgets("requirements edit send prepends the kiwame edit command",
+      (tester) async {
+    final requests = <MapEntry<String, Map<String, Object?>>>[];
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-requirements-edit",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      post: (url, headers, body) async {
+        requests.add(MapEntry(Uri.parse(url).path, body));
+        return {"success": true, "sessionId": "session-test"};
+      },
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => adapter.onBuildApp(
+            context,
+            const ColoredBox(color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("不具合修正"));
+    await tester.pump();
+
+    expect(find.bySemanticsLabel("要件修正"), findsOneWidget);
+    expect(find.byIcon(Icons.edit_note), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), "要件を変更してください");
+    await tester.tap(find.byIcon(Icons.send));
+    await tester.pumpAndSettle();
+
+    final request = requests.singleWhere(
+      (request) => request.key.endsWith("/request"),
+    );
+    expect(
+      request.value["instruction"],
+      "/dev:kiwame:edit\n\n要件を変更してください",
+    );
     await adapter.controller.end();
   });
 
