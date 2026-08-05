@@ -1,6 +1,6 @@
 name: masamune_model_cloudflare_kv
 description: Masamune plugin package that includes a model adapter to retrieve data from Cloudflare KV.
-version: 3.2.3
+version: 3.2.4
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_cloudflare_kv
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
 
   meta:
-  masamune: ^3.5.12
+  masamune: ^3.5.13
 
 dev_dependencies:
   test: ^1.25.0

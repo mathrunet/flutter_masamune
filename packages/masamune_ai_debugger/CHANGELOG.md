@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**(katana_logger): add error reporting functionality to Logger. ([f3e99405](https://github.com/mathrunet/flutter_masamune/commit/f3e9940574245327b260e268b97a988f1bb9af78))
+
 ## 3.2.1
 
  - **FIX**(masamune_ai_debugger): update AI Debugger models and enhance settings. ([7da423b8](https://github.com/mathrunet/flutter_masamune/commit/7da423b8288220b1f2ba8f606955a049d8912780))

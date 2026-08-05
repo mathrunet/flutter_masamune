@@ -1,3 +1,7 @@
+## 3.2.13
+
+ - Update a dependency to the latest release.
+
 ## 3.2.12
 
  - **FIX**(masamune_ai_debugger): enhance AI debugging capabilities and documentation. ([5d8a0160](https://github.com/mathrunet/flutter_masamune/commit/5d8a0160a6b972439032e5920b3e272373076a1f))

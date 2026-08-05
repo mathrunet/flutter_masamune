@@ -1,3 +1,7 @@
+## 3.3.2
+
+ - Update a dependency to the latest release.
+
 ## 3.3.1
 
  - **FIX**: Fixed a bug where the router's pop was not working. ([b78ed480](https://github.com/mathrunet/flutter_masamune/commit/b78ed480b776684e975ae22fd5afc858598bb6a8))

@@ -1,3 +1,7 @@
+## 3.20.1
+
+ - **REFACTOR**(katana_cli): update import aliases for Firebase and Cloudflare modules. ([fb93f3a2](https://github.com/mathrunet/flutter_masamune/commit/fb93f3a249ab56846b32829b3c17c50f692bc3c5))
+
 ## 3.20.0
 
  - **FEAT**(turso): enhance TursoDB deployment and error handling. ([314a7502](https://github.com/mathrunet/flutter_masamune/commit/314a75021cbd72ece49cb7e8e8b23da6918611b0))

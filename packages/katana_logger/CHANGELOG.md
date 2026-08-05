@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(katana_logger): add error reporting functionality to Logger. ([f3e99405](https://github.com/mathrunet/flutter_masamune/commit/f3e9940574245327b260e268b97a988f1bb9af78))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.

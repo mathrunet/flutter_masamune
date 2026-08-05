@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - Update a dependency to the latest release.
+
 ## 3.3.0
 
  - **REFACTOR**(tests): reorganize import statements for clarity. ([e323ce40](https://github.com/mathrunet/flutter_masamune/commit/e323ce40ff1b62ef136b179ddd7af2880275a9ca))

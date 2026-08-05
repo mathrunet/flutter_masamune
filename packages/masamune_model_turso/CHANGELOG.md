@@ -1,3 +1,7 @@
+## 3.7.1
+
+ - Update a dependency to the latest release.
+
 ## 3.7.0
 
  - **FEAT**(turso): enhance TursoDB deployment and error handling. ([314a7502](https://github.com/mathrunet/flutter_masamune/commit/314a75021cbd72ece49cb7e8e8b23da6918611b0))
