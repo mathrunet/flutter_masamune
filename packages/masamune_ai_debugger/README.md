@@ -88,6 +88,30 @@ APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値�
 インジケーターの超過判定時間を個別に設定できます。これらの値は端末内へ保存され、
 同じproject IDの次回起動時に復元されます。
 
+手動送信と未処理エラー／性能閾値超過の自動送信には、現在のWidget構成が
+Debugビルド内で自動的に添付されます。ページ名、ルート、調査に必要な状態値も
+渡す場合は`contextProvider`を指定してください。providerは送信の直前に呼ばれるため、
+その時点の状態を返します。
+
+```dart
+final aiDebugger = AIDebuggerMasamuneAdapter(
+  contextProvider: () => AIDebugContextSnapshot(
+    pageName: "CheckoutPage",
+    route: "/checkout",
+    values: {
+      "cartCount": cartController.items.length,
+      "isSubmitting": cartController.isSubmitting,
+    },
+  ),
+);
+```
+
+`values`にはAIの調査に必要なJSON互換値だけを明示してください。任意のローカル変数を
+自動収集する機能ではありません。token、API key、password、secretなどのキーと、
+メールアドレスを含む文字列は送信前に秘匿され、ツリー・値の深さ、件数、文字数にも
+上限が適用されます。独自AI providerの既存callbackシグネチャは変わらず、callback内では
+`controller.currentContext`から、その送信に対応するスナップショットを参照できます。
+
 ## Custom AI provider
 
 SamuraiAI is the default provider. To connect another AI or backend, pass callbacks for each API operation. Custom callbacks receive semantic values instead of SamuraiAI-specific URLs or JSON payloads, so `endpoint` and `apiKey` are not required when all callbacks are supplied.
@@ -124,29 +148,31 @@ Widgetツリーへ待機表示を直接配置する場合は、固定かつ機�
 常設の進捗率表示は標準ProgressIndicatorを使い、すでに計測済みの`showIndicator`へ計測版を渡して
 二重計測してはいけません。閾値に `Duration.zero` を指定すると、そのカテゴリの自動incidentを無効化できます。
 
-## try-catchで握り潰した例外の報告
+## 想定内／想定外エラーのcatchと報告
 
 自動で設定される `runZonedGuarded`・`FlutterError.onError`・`PlatformDispatcher.onError` の3つは、いずれも
 **誰にもハンドリングされなかった例外**専用のフックです。Dartの仕様上 `try-catch` でキャッチされた例外は
 これらに一切到達しないため、握り潰すとAI Debuggerからは完全に不可視になります。
 
-catch節では `Logger.error` で明示的に報告してください。アプリテンプレートが生成する `appLogger` を使えば
-`ref` や `BuildContext` なしでどこからでも呼び出せます。
+想定内エラーは型付きの `on XxxException catch` で個別に処理し、そのtryの最後に想定外エラー用の型指定なしcatchを置きます。型指定なしcatchで処理を継続する場合は `Logger.error` で明示的に報告してください。アプリテンプレートが生成する `appLogger` を使えば `ref` や `BuildContext` なしでどこからでも呼び出せます。
 
 ```dart
 try {
   await something();
+} on ValidationException catch (e) {
+  handleValidationError(e);
 } catch (e, stackTrace) {
   await appLogger.error(e, stackTrace);
+  handleUnexpectedError();
 }
 ```
 
 これによりスクリーンショットとスタックトレース付きの `exception` incidentが送信されます。
-`LoggerAdapter` が一つも設定されていない場合は何もしないため、catch節で無条件に呼び出しても安全です。
+`LoggerAdapter` が一つも設定されていない場合は何もしないため、想定外エラーを処理する際に常に呼び出しても安全です。
 
-報告漏れは `masamune_lints` の `masamune_caught_error_should_report` が警告します。
-`rethrow` や `throw` で伝播させている場合は対象外です。意図的に握り潰す場合は
-`// ignore: masamune_caught_error_should_report` を付けてください。
+`masamune_lints` の `masamune_expected_error_should_have_unexpected_catch` が最終catchの不足を、`masamune_caught_error_should_report` が想定外エラーの報告漏れを警告します。`rethrow` や `throw` で伝播させている場合はグローバルハンドラーが報告するため対象外です。同じエラーをローカル報告してから再送出すると二重報告になるため避けてください。
+
+lintはエラーの業務上の意味を推論しません。想定内エラーは型付きcatchで明示し、型なしcatch内の型判定で振り分けないでください。
 
 握り潰した例外をincident化せずパンくずログ（severity `error`）だけに留めたい場合は
 `reportHandledErrors` に `false` を指定します。

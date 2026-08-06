@@ -36,6 +36,25 @@ For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
 
+## Error handling rules
+
+Masamune distinguishes expected and unexpected errors by catch syntax.
+
+```dart
+try {
+  await operation();
+} on ValidationException catch (e) {
+  handleValidationError(e);
+} catch (e, stackTrace) {
+  await appLogger.error(e, stackTrace);
+  handleUnexpectedError();
+}
+```
+
+- `masamune_expected_error_should_have_unexpected_catch` requires a final untyped catch when a try statement has typed catches for expected errors.
+- `masamune_caught_error_should_report` requires an untyped catch to report the same caught error and stack trace with `appLogger.error`, unless it propagates the error with `rethrow` or `throw`.
+- Typed `on XxxException catch` clauses declare expected errors and do not require incident reporting.
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!

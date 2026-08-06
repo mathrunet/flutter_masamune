@@ -28,6 +28,107 @@ enum AIDebugPermissionMode {
   bypassPermissions,
 }
 
+/// A bounded snapshot of the app state attached to a debug request.
+///
+/// デバッグ依頼へ添付する、サイズ制限済みのアプリ状態スナップショット。
+@immutable
+class AIDebugContextSnapshot {
+  /// Creates an app context snapshot.
+  const AIDebugContextSnapshot({
+    this.pageName,
+    this.route,
+    this.widgetTree,
+    this.values = const {},
+  });
+
+  /// Human-readable current page name.
+  final String? pageName;
+
+  /// Current route path or route name.
+  final String? route;
+
+  /// Optional widget tree supplied by a custom provider.
+  ///
+  /// When omitted, AI Debugger captures the app widget hierarchy.
+  final String? widgetTree;
+
+  /// Explicitly selected JSON-compatible diagnostic values.
+  final Map<String, Object?> values;
+
+  bool get _isEmpty =>
+      (pageName == null || pageName!.isEmpty) &&
+      (route == null || route!.isEmpty) &&
+      (widgetTree == null || widgetTree!.isEmpty) &&
+      values.isEmpty;
+
+  Map<String, Object?> _toJson() {
+    final sanitizer = _AIDebugContextSanitizer();
+    return {
+      if (pageName != null && pageName!.isNotEmpty)
+        "pageName": sanitizer.text(pageName!, maxLength: 200),
+      if (route != null && route!.isNotEmpty)
+        "route": sanitizer.text(route!, maxLength: 1000),
+      if (widgetTree != null && widgetTree!.isNotEmpty)
+        "widgetTree": sanitizer.text(widgetTree!, maxLength: 16000),
+      if (values.isNotEmpty) "values": sanitizer.value(values),
+    };
+  }
+}
+
+/// Supplies page, route, and explicitly selected state at send time.
+///
+/// 送信時点のページ、ルート、明示的に選択した状態を提供します。
+typedef AIDebugContextProvider = FutureOr<AIDebugContextSnapshot?> Function();
+
+class _AIDebugContextSanitizer {
+  static final RegExp _sensitiveKey = RegExp(
+    r"authorization|cookie|token|api[_-]?key|password|secret|private[_-]?key",
+    caseSensitive: false,
+  );
+
+  int _remainingCharacters = 24000;
+
+  String text(String source, {int maxLength = 4000}) {
+    if (_remainingCharacters <= 0) return "[TRUNCATED]";
+    final redacted = AIDebugController._redact(source);
+    final length = math.min(
+      redacted.length,
+      math.min(maxLength, _remainingCharacters),
+    );
+    _remainingCharacters -= length;
+    return redacted.substring(0, length);
+  }
+
+  Object? value(Object? source, {int depth = 0, String? key}) {
+    if (key != null && _sensitiveKey.hasMatch(key)) return "[REDACTED]";
+    if (source == null || source is bool || source is num) return source;
+    if (source is String) return text(source);
+    if (depth >= 5) return text(source.toString(), maxLength: 500);
+    if (source is Map) {
+      final result = <String, Object?>{};
+      for (final entry in source.entries.take(50)) {
+        final entryKey = text(entry.key.toString(), maxLength: 200);
+        result[entryKey] = value(
+          entry.value,
+          depth: depth + 1,
+          key: entryKey,
+        );
+        if (_remainingCharacters <= 0) break;
+      }
+      return result;
+    }
+    if (source is Iterable) {
+      final result = <Object?>[];
+      for (final item in source.take(50)) {
+        result.add(value(item, depth: depth + 1));
+        if (_remainingCharacters <= 0) break;
+      }
+      return result;
+    }
+    return text(source.toString(), maxLength: 1000);
+  }
+}
+
 /// Persisted AI Debugger session and performance settings.
 ///
 /// 永続化されるAI Debuggerのセッション・性能設定。

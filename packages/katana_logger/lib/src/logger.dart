@@ -105,23 +105,26 @@ class Logger extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Report [exception] and [stackTrace] caught by try-catch.
+  /// Report an unexpected [exception] and [stackTrace] handled by an untyped catch.
   ///
-  /// Exceptions swallowed by try-catch do not reach [FlutterError.onError], [PlatformDispatcher.onError] or `runZonedGuarded`, so call this to make them visible.
+  /// Handle expected errors in typed `on XxxException catch` clauses. When an untyped catch handles an unexpected error instead of propagating it with `rethrow` or `throw`, call this to make the error visible because caught exceptions do not reach [FlutterError.onError], [PlatformDispatcher.onError] or `runZonedGuarded`.
   ///
-  /// Unlike other methods, this does nothing if no [LoggerAdapter] is set, so it is safe to call unconditionally in a catch clause.
+  /// Unlike other methods, this does nothing if no [LoggerAdapter] is set, so it is safe to call whenever an unexpected error is handled.
   ///
-  /// try-catchでキャッチした[exception]と[stackTrace]を報告します。
+  /// 型指定なしのcatchで処理する想定外の[exception]と[stackTrace]を報告します。
   ///
-  /// try-catchで握り潰された例外は[FlutterError.onError]や[PlatformDispatcher.onError]、`runZonedGuarded`に到達しないため、これを呼び出して可視化してください。
+  /// 想定内エラーは型付きの`on XxxException catch`で処理します。型指定なしのcatchで想定外エラーを処理して継続する場合、捕捉済み例外は[FlutterError.onError]や[PlatformDispatcher.onError]、`runZonedGuarded`に到達しないため、これを呼び出して可視化してください。`rethrow`または`throw`で伝播する場合は不要です。
   ///
-  /// 他のメソッドと異なり[LoggerAdapter]が一つも設定されていない場合は何もしないため、catch節で無条件に呼び出しても安全です。
+  /// 他のメソッドと異なり[LoggerAdapter]が一つも設定されていない場合は何もしないため、想定外エラーを処理する際に常に呼び出しても安全です。
   ///
   /// ```dart
   /// try {
   ///   await something();
+  /// } on ExpectedException catch (e) {
+  ///   handleExpectedError(e);
   /// } catch (e, stackTrace) {
   ///   await appLogger.error(e, stackTrace);
+  ///   handleUnexpectedError();
   /// }
   /// ```
   Future<void> error(

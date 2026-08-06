@@ -186,6 +186,18 @@ event_type: PutObject, CompleteMultipartUpload, CopyObject
     acceptedQueue.error == null && acceptedQueue.notificationCreates == 0,
     "ANSI/case variants of code 11009 for the target Queue must be reused.",
   );
+  final acceptedQueueFromStdout = await _runWranglerScenario(
+    queueExitCode: 1,
+    queueStdout:
+        "Queue name 'my-app-storage-backup' is already taken. [code: 11009]",
+    listStdout: equivalentRule,
+  );
+  _expect(
+    acceptedQueueFromStdout.error == null &&
+        acceptedQueueFromStdout.notificationCreates == 0,
+    "Code 11009 for the target Queue must be reused regardless of the "
+    "Wrangler output stream.",
+  );
   for (final testCase in const [
     (
       name: "code 11009 for another Queue",
@@ -198,6 +210,11 @@ event_type: PutObject, CompleteMultipartUpload, CopyObject
     (
       name: "an authentication failure",
       output: "Authentication failed. [code: 10000]",
+    ),
+    (
+      name: "code 11009 accompanied by another API error",
+      output: "Queue name 'my-app-storage-backup' is already taken. "
+          "[code: 11009]\nAuthentication failed. [code: 10000]",
     ),
   ]) {
     final result = await _runWranglerScenario(

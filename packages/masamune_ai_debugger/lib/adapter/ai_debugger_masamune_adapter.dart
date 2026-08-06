@@ -34,6 +34,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.errorPermissionMode = AIDebugPermissionMode.plan,
     this.performanceModel = AIDebugModel.opus,
     this.performancePermissionMode = AIDebugPermissionMode.plan,
+    this.contextProvider,
     AIDebugPost? post,
     AIDebugRegisterRunCallback? registerRun,
     AIDebugHeartbeatCallback? heartbeat,
@@ -50,6 +51,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
           apiKey: apiKey,
           maxSessionsPerHour: maxSessionsPerHour,
           reportHandledErrors: reportHandledErrors,
+          contextProvider: contextProvider,
           settings: AIDebugSettings(
             manualModel: manualModel,
             manualPermissionMode: manualPermissionMode,
@@ -135,6 +137,9 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
 
   /// Initial permission mode used by performance incidents.
   final AIDebugPermissionMode performancePermissionMode;
+
+  /// Supplies page, route, and selected state for manual and automatic sends.
+  final AIDebugContextProvider? contextProvider;
 
   /// Controller that manages AI debug runs, incidents, and requests.
   ///
@@ -226,6 +231,9 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     required AIDebugModel model,
     required AIDebugPermissionMode permissionMode,
   }) async {
+    final context = controller._hasCurrentContext
+        ? controller.currentContext
+        : await controller.captureContext();
     final result = await _postToSamuraiAI(
       controller,
       "/api/app-debug/runs/${controller.runId}/request",
@@ -234,6 +242,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
         "screenshotNames": screenshotNames,
         "model": model.name,
         "permissionMode": permissionMode.name,
+        if (context != null) "context": context._toJson(),
       },
     );
     return result["sessionId"] as String?;
@@ -277,7 +286,10 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     required AIDebugModel model,
     required AIDebugPermissionMode permissionMode,
   }) async {
-    await _postToSamuraiAI(
+    final context = controller._hasCurrentContext
+        ? controller.currentContext
+        : await controller.captureContext();
+    final result = await _postToSamuraiAI(
       controller,
       "/api/app-debug/runs/${controller.runId}/incidents",
       {
@@ -288,8 +300,15 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
         if (metadata.isNotEmpty) "metadata": metadata,
         "model": model.name,
         "permissionMode": permissionMode.name,
+        if (context != null) "context": context._toJson(),
       },
     );
+    if (result["sessionCreated"] == true) {
+      controller._notifyIncidentSessionCreated(
+        kind,
+        result["sessionId"]?.toString() ?? "",
+      );
+    }
   }
 
   /// Uploads log events to the default SamuraiAI API.

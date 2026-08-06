@@ -7,12 +7,23 @@
 2. **katana code必須** → 手動でのファイル作成は絶対禁止
 3. **段階的バリデーション** → 1実装ごとに`flutter analyze && dart run custom_lint`実行
 4. **全生成ファイルコミット** → `.m.dart`, `.g.dart`, `.freezed.dart`, テスト画像必須
+5. **例外の分類必須** → 想定内は型付き`on`、想定外は最後の型なし`catch`で分離し、想定外は`appLogger.error`で報告（再送出時を除く）
 
 ### 開発フローの絶対順序
 ```
 実装 → バリデーション → 修正 → 次の実装
 ```
 この順序を絶対に崩さない。エラーは即座に対処。
+
+### 例外処理の絶対原則
+
+- 想定内エラーは`on XxxException catch`で型ごとに処理する
+- 型付きcatchを置いたtryは、最後に`catch (e, stackTrace)`を置く
+- 最後の型なしcatchで処理を継続する場合は、捕捉した同じ値を`await appLogger.error(e, stackTrace)`へ渡す
+- `rethrow`または`throw`で上位へ伝播する場合は、グローバルハンドラーで報告されるため`appLogger.error`は不要
+- 型なしcatch内の`if (e is XxxException)`で想定内エラーを振り分けない
+
+詳細は`ref:masamune`の例外処理規約を正本とする。
 
 ## 🎯 開発フロー（P0）
 

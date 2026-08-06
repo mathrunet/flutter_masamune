@@ -85,7 +85,25 @@ void g() {}
       );
     });
 
-    test("does not report when reported via a Logger-typed receiver", () async {
+    test("does not report a typed catch for an expected error", () async {
+      expect(
+        await lintedFunctionsOf("""
+class ExpectedException implements Exception {}
+void f() {
+  try {
+    g();
+  } on ExpectedException catch (e) {
+    handle(e);
+  }
+}
+void g() {}
+void handle(Object error) {}
+"""),
+        isEmpty,
+      );
+    });
+
+    test("does not report an exact appLogger.error call", () async {
       expect(
         await lintedFunctionsOf("""
 class Logger {
@@ -105,18 +123,76 @@ void g() {}
       );
     });
 
-    test("still reports when `error` is called on an unrelated receiver",
+    test("still reports when `error` is called on another Logger", () async {
+      expect(
+        await lintedFunctionsOf("""
+class Logger {
+  Future<void> error(Object exception, StackTrace? stackTrace) async {}
+}
+final otherLogger = Logger();
+void f() {
+  try {
+    g();
+  } catch (e, stackTrace) {
+    otherLogger.error(e, stackTrace);
+  }
+}
+void g() {}
+"""),
+        hasLength(1),
+      );
+    });
+
+    test("still reports when appLogger.error receives different values",
         () async {
+      expect(
+        await lintedFunctionsOf("""
+class Logger {
+  Future<void> error(Object exception, StackTrace? stackTrace) async {}
+}
+final appLogger = Logger();
+void f() {
+  try {
+    g();
+  } catch (e, stackTrace) {
+    appLogger.error(Exception("different"), StackTrace.current);
+  }
+}
+void g() {}
+"""),
+        hasLength(1),
+      );
+    });
+
+    test("still reports when appLogger has an unrelated type", () async {
       expect(
         await lintedFunctionsOf("""
 class Unrelated {
   void error(Object exception, StackTrace? stackTrace) {}
 }
+final appLogger = Unrelated();
 void f() {
   try {
     g();
   } catch (e, stackTrace) {
-    Unrelated().error(e, stackTrace);
+    appLogger.error(e, stackTrace);
+  }
+}
+void g() {}
+"""),
+        hasLength(1),
+      );
+    });
+
+    test("still reports when another reporting method is used", () async {
+      expect(
+        await lintedFunctionsOf("""
+void reportError(Object exception, StackTrace? stackTrace) {}
+void f() {
+  try {
+    g();
+  } catch (e, stackTrace) {
+    reportError(e, stackTrace);
   }
 }
 void g() {}
@@ -188,28 +264,6 @@ void f() {
   try {
     g();
   } catch (e, stackTrace) {
-    appLogger.error(e, stackTrace);}
-}
-void g() {}
-""",
-      );
-    });
-
-    test("adds a catch clause to a bare `on` clause", () async {
-      expect(
-        await fixedSourceOf("""
-void f() {
-  try {
-    g();
-  } on Exception {}
-}
-void g() {}
-"""),
-        """
-void f() {
-  try {
-    g();
-  } on Exception catch (e, stackTrace) {
     appLogger.error(e, stackTrace);}
 }
 void g() {}

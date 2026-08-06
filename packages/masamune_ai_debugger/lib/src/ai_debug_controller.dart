@@ -13,6 +13,7 @@ class AIDebugController {
     required this.apiKey,
     required this.maxSessionsPerHour,
     this.reportHandledErrors = true,
+    this.contextProvider,
     AIDebugSettings settings = const AIDebugSettings(),
     this.post,
     this.registerRun = AIDebuggerMasamuneAdapter.defaultRegisterRun,
@@ -89,6 +90,9 @@ class AIDebugController {
   ///
   /// `false`の場合は`error`のseverityを持つパンくずログとして記録されるのみで、インシデントは発生しません。
   final bool reportHandledErrors;
+
+  /// Supplies current page, route, and selected diagnostic values.
+  final AIDebugContextProvider? contextProvider;
 
   /// Optional transport used instead of the default HTTP client.
   ///
@@ -168,6 +172,8 @@ class AIDebugController {
   DateTime _startedAt = DateTime.now().toUtc();
 
   Future<Uint8List?> Function()? _capture;
+  String? Function()? _captureWidgetTree;
+  void Function(String kind, String sessionId)? _incidentSessionCreated;
   Future<void>? _registration;
   Future<void>? _heartbeatInFlight;
   Future<void>? _endInFlight;
@@ -192,6 +198,64 @@ class AIDebugController {
   /// 現在のアプリ画面をキャプチャするコールバックを設定します。
   void attachCapture(Future<Uint8List?> Function() capture) =>
       _capture = capture;
+
+  void _attachWidgetTree(String? Function() capture) =>
+      _captureWidgetTree = capture;
+
+  void _detachWidgetTree(String? Function() capture) {
+    if (_captureWidgetTree == capture) _captureWidgetTree = null;
+  }
+
+  static final Object _contextZoneKey = Object();
+
+  bool get _hasCurrentContext =>
+      Zone.current[_contextZoneKey] is _AIDebugContextZoneValue;
+
+  /// Context captured for the callback currently being invoked.
+  AIDebugContextSnapshot? get currentContext =>
+      (Zone.current[_contextZoneKey] as _AIDebugContextZoneValue?)?.snapshot;
+
+  /// Captures a bounded context snapshot without failing the debug request.
+  Future<AIDebugContextSnapshot?> captureContext() async {
+    if (!_debugEnabled) return null;
+    AIDebugContextSnapshot? provided;
+    try {
+      provided = await contextProvider?.call();
+    } catch (error) {
+      debugPrint("AI Debugger context provider failed: $error");
+    }
+    String? automaticWidgetTree;
+    try {
+      automaticWidgetTree = _captureWidgetTree?.call();
+    } catch (error) {
+      debugPrint("AI Debugger widget tree capture failed: $error");
+    }
+    final snapshot = AIDebugContextSnapshot(
+      pageName: provided?.pageName,
+      route: provided?.route,
+      widgetTree: provided?.widgetTree?.isNotEmpty == true
+          ? provided!.widgetTree
+          : automaticWidgetTree,
+      values: provided?.values ?? const {},
+    );
+    return snapshot._isEmpty ? null : snapshot;
+  }
+
+  void _attachIncidentSessionCreated(
+    void Function(String kind, String sessionId) callback,
+  ) =>
+      _incidentSessionCreated = callback;
+
+  void _detachIncidentSessionCreated(
+    void Function(String kind, String sessionId) callback,
+  ) {
+    if (_incidentSessionCreated == callback) _incidentSessionCreated = null;
+  }
+
+  void _notifyIncidentSessionCreated(String kind, String sessionId) {
+    if (sessionId.isEmpty) return;
+    _incidentSessionCreated?.call(kind, sessionId);
+  }
 
   /// Registers the current run with the configured backend.
   ///
@@ -341,6 +405,7 @@ class AIDebugController {
     AIDebugPermissionMode? permissionMode,
   }) async {
     if (!_debugEnabled) return null;
+    final context = await captureContext();
     final settings = await loadSettings();
     await register();
     await flushLogs();
@@ -349,15 +414,18 @@ class AIDebugController {
       names.add(await upload(image));
     }
     final redactedInstruction = _redact(instruction);
-    return sendRequest(
-      this,
-      redactedInstruction.substring(
-        0,
-        math.min(16000, redactedInstruction.length),
+    return runZoned<Future<String?>>(
+      () => sendRequest(
+        this,
+        redactedInstruction.substring(
+          0,
+          math.min(16000, redactedInstruction.length),
+        ),
+        names.where((name) => name.isNotEmpty).toList(),
+        model: model ?? settings.manualModel,
+        permissionMode: permissionMode ?? settings.manualPermissionMode,
       ),
-      names.where((name) => name.isNotEmpty).toList(),
-      model: model ?? settings.manualModel,
-      permissionMode: permissionMode ?? settings.manualPermissionMode,
+      zoneValues: {_contextZoneKey: _AIDebugContextZoneValue(context)},
     );
   }
 
@@ -425,6 +493,7 @@ class AIDebugController {
       return;
     }
     _reportedErrors[fingerprint] = now;
+    final context = await captureContext();
     try {
       await register();
       await flushLogs();
@@ -435,15 +504,18 @@ class AIDebugController {
           name: "$kind-${now.millisecondsSinceEpoch}.png",
         );
       }
-      await reportIncident(
-        this,
-        kind: kind,
-        message: message,
-        stackTrace: stackTrace,
-        timestamp: now,
-        metadata: metadata,
-        model: model,
-        permissionMode: permissionMode,
+      await runZoned<Future<void>>(
+        () => reportIncident(
+          this,
+          kind: kind,
+          message: message,
+          stackTrace: stackTrace,
+          timestamp: now,
+          metadata: metadata,
+          model: model,
+          permissionMode: permissionMode,
+        ),
+        zoneValues: {_contextZoneKey: _AIDebugContextZoneValue(context)},
       );
     } catch (sendError) {
       debugPrint("AI Debugger error report failed: $sendError");
@@ -509,4 +581,10 @@ class AIDebugController {
           RegExp(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}",
               caseSensitive: false),
           "[REDACTED_EMAIL]");
+}
+
+class _AIDebugContextZoneValue {
+  const _AIDebugContextZoneValue(this.snapshot);
+
+  final AIDebugContextSnapshot? snapshot;
 }

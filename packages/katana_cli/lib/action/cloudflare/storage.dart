@@ -660,18 +660,26 @@ ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucket
       runInShell: true,
     );
     final output = "${result.stdout}\n${result.stderr}";
-    if (output.trim().isNotEmpty) {
-      stdout.write(output);
-    }
     if (result.exitCode == 0) {
+      if (output.trim().isNotEmpty) {
+        stdout.write(output);
+      }
       return;
     }
     final normalized = _normalizeWranglerOutput(output);
-    if (RegExp(r"\[\s*code:\s*11009\s*\]").hasMatch(normalized) &&
+    final errorCodes = RegExp(r"\[\s*code:\s*(\d+)\s*\]")
+        .allMatches(normalized)
+        .map((match) => match.group(1))
+        .toSet();
+    if (errorCodes.length == 1 &&
+        errorCodes.single == "11009" &&
         normalized.contains(
           "queue name '${queueName.toLowerCase()}' is already taken",
         )) {
       return;
+    }
+    if (output.trim().isNotEmpty) {
+      stdout.write(output);
     }
     throw Exception("Failed to create Cloudflare Queue `$queueName`.");
   }

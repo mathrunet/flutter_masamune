@@ -36,6 +36,7 @@ part "buttons/masamune_button_convert.dart";
 part "common/masamune_limit_if_nesting.dart";
 part "common/masamune_unwrap_nullable.dart";
 part "common/masamune_caught_error_should_report.dart";
+part "common/masamune_expected_error_should_have_unexpected_catch.dart";
 part "masamune/masamune_should_use_universal_widget.dart";
 part "masamune/masamune_should_use_form_widget.dart";
 
@@ -58,6 +59,7 @@ class _MasamuneLints extends PluginBase {
         const _MasamuneLimitIfNesting(),
         const _MasamuneUnwrapNullable(),
         const _MasamuneCaughtErrorShouldReport(),
+        const _MasamuneExpectedErrorShouldHaveUnexpectedCatch(),
       ];
   @override
   List<Assist> getAssists() => [

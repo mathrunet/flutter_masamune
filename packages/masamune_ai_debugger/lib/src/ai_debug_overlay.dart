@@ -26,6 +26,9 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   final _textController = TextEditingController();
   final _modelTimeoutController = TextEditingController();
   final _indicatorTimeoutController = TextEditingController();
+  late final void Function(String kind, String sessionId)
+      _incidentSessionCreated = _showIncidentSessionCreated;
+  late final String? Function() _widgetTreeCapture = _captureWidgetTree;
   final List<Uint8List> _screenshots = [];
   Offset _position = const Offset(16, 80);
   bool _expanded = false;
@@ -34,8 +37,10 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   bool _settingsOpen = false;
   _AIDebugRequestType _requestType = _AIDebugRequestType.bugFix;
   String? _status;
+  String? _incidentNotification;
   String? _settingsError;
   Uint8List? _preview;
+  Timer? _incidentNotificationTimer;
   late AIDebugSettings _settings;
   late AIDebugSettings _draftSettings;
 
@@ -47,6 +52,8 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     _settingsError = null;
     WidgetsBinding.instance.addObserver(this);
     widget.controller.attachCapture(_capture);
+    widget.controller._attachWidgetTree(_widgetTreeCapture);
+    widget.controller._attachIncidentSessionCreated(_incidentSessionCreated);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(widget.controller.loadSettings().then((settings) {
         if (mounted) setState(() => _settings = settings);
@@ -73,11 +80,27 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    widget.controller._detachIncidentSessionCreated(_incidentSessionCreated);
+    widget.controller._detachWidgetTree(_widgetTreeCapture);
+    _incidentNotificationTimer?.cancel();
     unawaited(widget.controller.end());
     _textController.dispose();
     _modelTimeoutController.dispose();
     _indicatorTimeoutController.dispose();
     super.dispose();
+  }
+
+  void _showIncidentSessionCreated(String kind, String _) {
+    if (!mounted) return;
+    _incidentNotificationTimer?.cancel();
+    setState(() {
+      _incidentNotification = kind == "performance"
+          ? "処理時間のしきい値超過を検出し、AIセッションを作成しました"
+          : "想定外エラーを検出し、AIセッションを作成しました";
+    });
+    _incidentNotificationTimer = Timer(const Duration(seconds: 4), () {
+      if (mounted) setState(() => _incidentNotification = null);
+    });
   }
 
   Future<Uint8List?> _capture() async {
@@ -97,6 +120,31 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     } finally {
       if (mounted) setState(() => _hidden = false);
     }
+  }
+
+  String? _captureWidgetTree() {
+    final root = _boundaryKey.currentContext as Element?;
+    if (root == null) return null;
+    final buffer = StringBuffer();
+    var nodes = 0;
+    var truncated = false;
+
+    void visit(Element element, int depth) {
+      if (nodes >= 300 || depth > 14 || buffer.length >= 16000) {
+        truncated = true;
+        return;
+      }
+      nodes += 1;
+      buffer
+        ..write(List.filled(depth, "  ").join())
+        ..writeln(element.widget.runtimeType);
+      element.visitChildren((child) => visit(child, depth + 1));
+    }
+
+    root.visitChildren((child) => visit(child, 0));
+    if (truncated) buffer.writeln("... [TRUNCATED]");
+    final result = buffer.toString().trimRight();
+    return result.isEmpty ? null : result;
   }
 
   Future<void> _addScreenshot() async {
@@ -316,6 +364,8 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
               child: Theme(
                 data: ThemeData.dark(),
                 child: Stack(children: [
+                  if (_incidentNotification != null)
+                    _buildIncidentNotification(safe),
                   Positioned(
                     left: position.dx,
                     top: position.dy,
@@ -351,6 +401,55 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
           shape: const CircleBorder(),
           elevation: 8,
           child: const Icon(Icons.auto_awesome, color: Colors.white70),
+        ),
+      );
+
+  Widget _buildIncidentNotification(EdgeInsets safe) => Positioned(
+        top: safe.top + 12,
+        left: 16,
+        right: 16,
+        child: IgnorePointer(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Semantics(
+                liveRegion: true,
+                label: _incidentNotification,
+                child: Material(
+                  color: const Color(0xF02A2A2A),
+                  borderRadius: BorderRadius.circular(12),
+                  elevation: 12,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.auto_awesome,
+                          color: Colors.lightGreenAccent,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Text(
+                            _incidentNotification!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       );
 

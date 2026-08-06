@@ -1,25 +1,5 @@
 part of "/masamune_lints.dart";
 
-/// Names of the methods that count as reporting a caught error.
-const _kReportMethodNames = {
-  "error",
-  "reportError",
-  "recordError",
-};
-
-/// Static types of the receiver allowed for the generic [_kGenericReportMethodNames].
-const _kReportReceiverTypes = {
-  "Logger",
-  "LoggerAdapter",
-};
-
-/// Method names that are too generic to be matched by name alone.
-///
-/// These require the static type of the receiver to be in [_kReportReceiverTypes].
-const _kGenericReportMethodNames = {
-  "error",
-};
-
 class _MasamuneCaughtErrorShouldReport extends DartLintRule {
   const _MasamuneCaughtErrorShouldReport()
       : super(
@@ -29,7 +9,7 @@ class _MasamuneCaughtErrorShouldReport extends DartLintRule {
   static const _code = lint_codes.LintCode(
     name: "masamune_caught_error_should_report",
     problemMessage:
-        "Exceptions swallowed by try-catch never reach FlutterError.onError, PlatformDispatcher.onError or runZonedGuarded, so they become invisible to the AI Debugger. Report it with appLogger.error(e, stackTrace), or rethrow it. try-catchで握り潰された例外はFlutterError.onErrorやPlatformDispatcher.onError、runZonedGuardedに到達せず、AI Debuggerから不可視になります。appLogger.error(e, stackTrace)で報告するか、rethrowしてください。",
+        "An untyped catch handles an unexpected error. Report the caught error and stack trace with appLogger.error(e, stackTrace), or propagate it with rethrow/throw. 型指定なしのcatchは想定外エラーを処理します。捕捉したエラーとスタックトレースをappLogger.error(e, stackTrace)で報告するか、rethrow/throwで伝播してください。",
     errorSeverity: ErrorSeverity.WARNING,
   );
 
@@ -40,7 +20,12 @@ class _MasamuneCaughtErrorShouldReport extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCatchClause((node) {
-      if (node.body.isReportingCaughtError()) {
+      // A typed `on XxxException catch` explicitly declares an expected
+      // error. It is handled locally and does not need incident reporting.
+      if (node.exceptionType != null) {
+        return;
+      }
+      if (node.isReportingCaughtError()) {
         return;
       }
       reporter.atNode(node, _code);
@@ -64,7 +49,7 @@ class _MasamuneCaughtErrorShouldReportFix extends DartFix {
       if (!analysisError.sourceRange.intersects(node.sourceRange)) {
         return;
       }
-      if (node.body.isReportingCaughtError()) {
+      if (node.exceptionType != null || node.isReportingCaughtError()) {
         return;
       }
 
@@ -75,20 +60,13 @@ class _MasamuneCaughtErrorShouldReportFix extends DartFix {
 
       changeBuilder.addDartFileEdit((builder) {
         final exceptionName = node.exceptionParameter?.name.lexeme;
+        if (exceptionName == null) {
+          // An untyped catch always has an exception parameter.
+          return;
+        }
         final stackTraceName = node.stackTraceParameter?.name.lexeme;
 
-        // `on Xxx { }` has no catch clause at all, so add one.
-        if (exceptionName == null) {
-          final onType = node.exceptionType;
-          if (onType == null) {
-            // Should not happen. A catch clause always has `on` or `catch`.
-            return;
-          }
-          builder.addSimpleInsertion(
-            onType.sourceRange.end,
-            " catch (e, stackTrace)",
-          );
-        } else if (stackTraceName == null) {
+        if (stackTraceName == null) {
           builder.addSimpleInsertion(
             node.exceptionParameter!.sourceRange.end,
             ", stackTrace",
@@ -101,7 +79,7 @@ class _MasamuneCaughtErrorShouldReportFix extends DartFix {
             node.thisOrAncestorOfType<FunctionBody>()?.isAsynchronous ?? false;
         builder.addSimpleInsertion(
           node.body.leftBracket.end,
-          "\n${_indentOf(resolver, node)}  ${isAsync ? "await " : ""}appLogger.error(${exceptionName ?? "e"}, ${stackTraceName ?? "stackTrace"});",
+          "\n${_indentOf(resolver, node)}  ${isAsync ? "await " : ""}appLogger.error($exceptionName, ${stackTraceName ?? "stackTrace"});",
         );
       });
     });
@@ -121,17 +99,30 @@ class _MasamuneCaughtErrorShouldReportFix extends DartFix {
   }
 }
 
-extension on AstNode {
-  /// Whether this subtree reports or propagates the caught error.
+extension on CatchClause {
+  /// Whether this catch reports the same error and stack trace, or propagates
+  /// the error to an upper-level handler.
   bool isReportingCaughtError() {
-    final visitor = _CaughtErrorReportVisitor();
-    accept(visitor);
+    final visitor = _CaughtErrorReportVisitor(
+      exceptionName: exceptionParameter?.name.lexeme,
+      stackTraceName: stackTraceParameter?.name.lexeme,
+    );
+    body.accept(visitor);
     return visitor.found;
   }
 }
 
-/// Walks a catch body looking for a `rethrow`, a `throw` or a report call.
+/// Walks a catch body looking for a `rethrow`, a `throw`, or an exact
+/// `appLogger.error(caughtError, caughtStackTrace)` call.
 class _CaughtErrorReportVisitor extends RecursiveAstVisitor<void> {
+  _CaughtErrorReportVisitor({
+    required this.exceptionName,
+    required this.stackTraceName,
+  });
+
+  final String? exceptionName;
+  final String? stackTraceName;
+
   bool found = false;
 
   @override
@@ -148,41 +139,47 @@ class _CaughtErrorReportVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
-    final methodName = node.methodName.name;
-    if (_kReportMethodNames.contains(methodName)) {
-      if (!_kGenericReportMethodNames.contains(methodName) ||
-          _hasAllowedReceiver(node)) {
-        found = true;
-      }
+    if (_isCaughtErrorReport(node)) {
+      found = true;
     }
     super.visitMethodInvocation(node);
   }
 
-  /// Whether the static type of the receiver of [node] is an allowed logger type.
-  ///
-  /// `error` is too generic a name to match on its own, so an unrelated `foo.error()` must not be treated as a report.
-  bool _hasAllowedReceiver(MethodInvocation node) {
+  bool _isCaughtErrorReport(MethodInvocation node) {
+    if (exceptionName == null || stackTraceName == null) {
+      return false;
+    }
+    if (node.methodName.name != "error") {
+      return false;
+    }
     final target = node.realTarget;
-    if (target == null) {
+    if (target is! SimpleIdentifier || target.name != "appLogger") {
       return false;
     }
-    final staticType = target.staticType;
-    if (staticType == null) {
+    final targetType = target.staticType;
+    if (targetType is! InterfaceType || !_isLoggerType(targetType)) {
       return false;
     }
-    if (_kReportReceiverTypes
-        .contains(staticType.getDisplayString().split("<").first)) {
+    final positionalArguments = node.argumentList.arguments
+        .where((argument) => argument is! NamedExpression)
+        .toList(growable: false);
+    if (positionalArguments.length < 2) {
+      return false;
+    }
+    final errorArgument = positionalArguments[0];
+    final stackTraceArgument = positionalArguments[1];
+    return errorArgument is SimpleIdentifier &&
+        errorArgument.name == exceptionName &&
+        stackTraceArgument is SimpleIdentifier &&
+        stackTraceArgument.name == stackTraceName;
+  }
+
+  bool _isLoggerType(InterfaceType type) {
+    if (type.getDisplayString().split("<").first == "Logger") {
       return true;
     }
-    // Also allow subclasses of LoggerAdapter such as FirebaseLoggerAdapter.
-    if (staticType is InterfaceType) {
-      for (final supertype in staticType.allSupertypes) {
-        if (_kReportReceiverTypes
-            .contains(supertype.getDisplayString().split("<").first)) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return type.allSupertypes.any(
+      (supertype) => supertype.getDisplayString().split("<").first == "Logger",
+    );
   }
 }

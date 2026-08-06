@@ -152,6 +152,10 @@ void main() {
     final calls = <String>[];
     final adapter = AIDebuggerMasamuneAdapter(
       projectId: "custom-project",
+      contextProvider: () => const AIDebugContextSnapshot(
+        pageName: "CustomPage",
+        values: {"count": 3},
+      ),
       registerRun: (controller) async {
         calls.add("register:${controller.runId}");
       },
@@ -166,7 +170,9 @@ void main() {
         return "custom-screenshot";
       },
       sendRequest: (controller, instruction, screenshotNames) async {
-        calls.add("request:$instruction:${screenshotNames.join(",")}");
+        calls.add(
+          "request:$instruction:${screenshotNames.join(",")}:${controller.currentContext?.pageName}",
+        );
         return "custom-session";
       },
       reportIncident: (
@@ -202,7 +208,7 @@ void main() {
     expect(calls.where((call) => call.startsWith("register:")), hasLength(1));
     expect(calls, contains(startsWith("heartbeat:")));
     expect(calls, contains("screenshot:image.png:3"));
-    expect(calls, contains("request:custom instruction:"));
+    expect(calls, contains("request:custom instruction::CustomPage"));
     expect(calls, contains("events:1"));
     expect(calls,
         contains(contains("incident:exception:Bad state: custom error")));
@@ -332,6 +338,15 @@ void main() {
       endpoint: "https://ai-debugger.example.test",
       apiKey: "test-key",
       maxSessionsPerHour: 6,
+      contextProvider: () => const AIDebugContextSnapshot(
+        pageName: "CheckoutPage",
+        route: "/checkout",
+        values: {
+          "cartCount": 2,
+          "apiToken": "must-not-leak",
+          "email": "customer@example.com",
+        },
+      ),
       settings: const AIDebugSettings(
         errorModel: AIDebugModel.opus,
         errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
@@ -360,6 +375,34 @@ void main() {
     expect(manual.value["permissionMode"], "bypassPermissions");
     expect(incident.value["model"], "opus");
     expect(incident.value["permissionMode"], "bypassPermissions");
+    for (final request in [manual, incident]) {
+      final context = request.value["context"] as Map<String, Object?>;
+      expect(context["pageName"], "CheckoutPage");
+      expect(context["route"], "/checkout");
+      final values = context["values"] as Map<String, Object?>;
+      expect(values["cartCount"], 2);
+      expect(values["apiToken"], "[REDACTED]");
+      expect(values["email"], "[REDACTED_EMAIL]");
+    }
+  });
+
+  test("context provider failures do not block a manual request", () async {
+    final requests = <Map<String, Object?>>[];
+    final controller = AIDebugController(
+      projectId: "Users-example-context-failure",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      maxSessionsPerHour: 6,
+      contextProvider: () => throw StateError("context unavailable"),
+      post: (url, headers, body) async {
+        if (Uri.parse(url).path.endsWith("/request")) requests.add(body);
+        return {"success": true, "sessionId": "session-test"};
+      },
+    );
+
+    expect(await controller.send("manual", const []), "session-test");
+    expect(requests, hasLength(1));
+    expect(requests.single.containsKey("context"), isFalse);
   });
 
   test("slow model trace reports one performance incident", () async {
@@ -546,6 +589,97 @@ void main() {
       (request) => request.key.endsWith("/request"),
     );
     expect(request.value["instruction"], "調査してください");
+    final context = request.value["context"] as Map<String, Object?>;
+    expect(context["widgetTree"], contains("ColoredBox"));
+    await adapter.controller.end();
+  });
+
+  testWidgets("created incident sessions show a temporary notification",
+      (tester) async {
+    var sessionCreated = true;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-incident-notification",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      post: (url, headers, body) async {
+        if (Uri.parse(url).path.endsWith("/incidents")) {
+          return {
+            "success": true,
+            "sessionCreated": sessionCreated,
+            "sessionId": sessionCreated ? "incident-session" : null,
+          };
+        }
+        return {"success": true};
+      },
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => adapter.onBuildApp(
+            context,
+            const ColoredBox(color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await AIDebuggerMasamuneAdapter.defaultConfiguredReportIncident(
+      adapter.controller,
+      kind: "exception",
+      message: "boom",
+      stackTrace: "stack",
+      timestamp: DateTime.now(),
+      metadata: const {},
+      model: AIDebugModel.opus,
+      permissionMode: AIDebugPermissionMode.plan,
+    );
+    await tester.pump();
+    expect(
+      find.text("想定外エラーを検出し、AIセッションを作成しました"),
+      findsOneWidget,
+    );
+
+    await tester.pump(const Duration(seconds: 4));
+    expect(
+      find.text("想定外エラーを検出し、AIセッションを作成しました"),
+      findsNothing,
+    );
+
+    sessionCreated = false;
+    await AIDebuggerMasamuneAdapter.defaultConfiguredReportIncident(
+      adapter.controller,
+      kind: "exception",
+      message: "deduplicated",
+      stackTrace: "stack",
+      timestamp: DateTime.now(),
+      metadata: const {},
+      model: AIDebugModel.opus,
+      permissionMode: AIDebugPermissionMode.plan,
+    );
+    await tester.pump();
+    expect(
+      find.text("想定外エラーを検出し、AIセッションを作成しました"),
+      findsNothing,
+    );
+
+    sessionCreated = true;
+    await AIDebuggerMasamuneAdapter.defaultConfiguredReportIncident(
+      adapter.controller,
+      kind: "performance",
+      message: "slow trace",
+      stackTrace: "",
+      timestamp: DateTime.now(),
+      metadata: const {"thresholdMs": 5000},
+      model: AIDebugModel.sonnet,
+      permissionMode: AIDebugPermissionMode.plan,
+    );
+    await tester.pump();
+    expect(
+      find.text("処理時間のしきい値超過を検出し、AIセッションを作成しました"),
+      findsOneWidget,
+    );
+    await tester.pump(const Duration(seconds: 4));
     await adapter.controller.end();
   });
 
