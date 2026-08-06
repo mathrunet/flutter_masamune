@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**(masamune_ai_debugger): enhance error handling and context reporting. ([a98e2db8](https://github.com/mathrunet/flutter_masamune/commit/a98e2db8a0b80b5d0e439a27a8eab1a3a972537e))
+
 ## 3.3.0
 
  - **FIX**: update test dependency version in masamune_lints and masamune_test packages. ([4e6fcbc2](https://github.com/mathrunet/flutter_masamune/commit/4e6fcbc23ec57de297ece3b76b5e7dd0d64d71c5))

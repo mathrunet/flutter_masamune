@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**(masamune_ai_debugger): enhance error handling and context reporting. ([a98e2db8](https://github.com/mathrunet/flutter_masamune/commit/a98e2db8a0b80b5d0e439a27a8eab1a3a972537e))
+
 ## 3.3.1
 
  - **FIX**(masamune_ai_debugger): introduce request type handling in AI Debugger overlay. ([56e9dfd8](https://github.com/mathrunet/flutter_masamune/commit/56e9dfd8dec77aa30700b33d025988e539a098ac))
