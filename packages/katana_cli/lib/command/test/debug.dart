@@ -39,6 +39,7 @@ class TestDebugCliCommand extends CliCommand {
         ]
       ],
       catchError: true,
+      failOnStderr: false,
     );
   }
 }

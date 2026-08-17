@@ -294,16 +294,23 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
           .map((key, value) => MapEntry(key, value.toString()))
           .where((key, value) => value.isNotEmpty),
     );
-    await XCodePermissionType.locationAlwaysUsage.setMessageToXCode(
-      permission
-          .map((key, value) => MapEntry(key, value.toString()))
-          .where((key, value) => value.isNotEmpty),
-    );
-    await XCodePermissionType.locationAlwaysAndWhenInUseUsage.setMessageToXCode(
-      permission
-          .map((key, value) => MapEntry(key, value.toString()))
-          .where((key, value) => value.isNotEmpty),
-    );
+    if (enableBackground) {
+      await XCodePermissionType.locationAlwaysUsage.setMessageToXCode(
+        permission
+            .map((key, value) => MapEntry(key, value.toString()))
+            .where((key, value) => value.isNotEmpty),
+      );
+      await XCodePermissionType.locationAlwaysAndWhenInUseUsage
+          .setMessageToXCode(
+        permission
+            .map((key, value) => MapEntry(key, value.toString()))
+            .where((key, value) => value.isNotEmpty),
+      );
+    } else {
+      await XCodePermissionType.locationAlwaysUsage.removeMessageFromXCode();
+      await XCodePermissionType.locationAlwaysAndWhenInUseUsage
+          .removeMessageFromXCode();
+    }
     await PodfilePermissionType.locationUsage.enablePermissionToPodfile();
     await addFlutterImport(
       [

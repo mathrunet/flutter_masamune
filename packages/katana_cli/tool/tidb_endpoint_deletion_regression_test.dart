@@ -3,13 +3,62 @@ import "dart:collection";
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/tidb.dart";
 import "package:katana_cli/action/cloudflare/tidb_data_service_api.dart";
 
 Future<void> main() async {
   await _waitsForTheNewAutomaticDeployment();
   await _reportsAutomaticDeploymentFailure();
   await _retriesEndpointPropagation();
+  _detectsMissingGeneratedEndpointsDespiteLocalOwnership();
   stdout.writeln("All TiDB endpoint deletion checks passed.");
+}
+
+void _detectsMissingGeneratedEndpointsDespiteLocalOwnership() {
+  final generated = <Map<String, dynamic>>[
+    {
+      "method": "POST",
+      "endpoint": "/internal/onboarding/verify_persistence",
+    },
+    {
+      "method": "POST",
+      "endpoint": "/internal/dev/onboarding/verify_persistence",
+    },
+  ];
+  final completeRemote = <Map<String, dynamic>>[
+    {
+      "method": "POST",
+      "path": "/internal/onboarding/verify_persistence",
+    },
+    {
+      "method": "POST",
+      "path": "/internal/dev/onboarding/verify_persistence",
+    },
+  ];
+  _expectEqual(
+    tidbGeneratedEndpointSetIsComplete(generated, completeRemote),
+    true,
+    "a complete remote endpoint set is reusable",
+  );
+  _expectEqual(
+    tidbGeneratedEndpointSetIsComplete(
+      generated,
+      completeRemote.take(1),
+    ),
+    false,
+    "a missing remote endpoint must force synchronization",
+  );
+  _expectEqual(
+    tidbGeneratedEndpointSetIsComplete(generated, [
+      completeRemote.first,
+      {
+        "method": "GET",
+        "path": "/internal/dev/onboarding/verify_persistence",
+      },
+    ]),
+    false,
+    "a remote endpoint with the wrong method must force synchronization",
+  );
 }
 
 Future<void> _waitsForTheNewAutomaticDeployment() async {

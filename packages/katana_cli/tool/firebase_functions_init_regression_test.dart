@@ -5,6 +5,22 @@ import "dart:io";
 import "package:katana_cli/action/firebase/init.dart";
 
 Future<void> main() async {
+  const indexCode = FirebaseFunctionsIndexCliCode();
+  final indexImports = indexCode.import("index.ts", "index", "Index");
+  _expect(
+    !indexImports.contains("firebase-admin"),
+    "The generated index must delegate Firebase initialization to "
+    "masamune_firebase.",
+  );
+  _expect(
+    !indexImports.contains("initializeApp"),
+    "The generated index must not initialize Firebase Admin directly.",
+  );
+  _expect(
+    indexCode.body("index.ts", "index", "Index").contains("mf.deploy("),
+    "The generated index must keep deployment registration through mf.deploy.",
+  );
+
   final temporary = await Directory.systemTemp.createTemp(
     "katana_firebase_functions_init_",
   );

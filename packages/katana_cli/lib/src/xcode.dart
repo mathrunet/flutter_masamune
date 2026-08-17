@@ -638,6 +638,63 @@ enum XCodePermissionType {
       );
     }
   }
+
+  /// Removes this permission message from Info.plist and all localizations.
+  ///
+  /// Info.plistと全ローカライズからこの権限メッセージを削除します。
+  Future<void> removeMessageFromXCode() async {
+    final runnerDirectory = Directory("ios/Runner");
+    if (runnerDirectory.existsSync()) {
+      final localizedFiles = runnerDirectory
+          .listSync()
+          .whereType<Directory>()
+          .where((directory) => directory.path.endsWith(".lproj"))
+          .map((directory) => File("${directory.path}/InfoPlist.strings"));
+      final permissionLine = RegExp(
+        "^${RegExp.escape(id)}" r'\s*=\s*"[^"]*";\s*\n?',
+        multiLine: true,
+      );
+      for (final file in localizedFiles) {
+        if (!file.existsSync()) {
+          continue;
+        }
+        final data = await file.readAsString();
+        if (permissionLine.hasMatch(data)) {
+          final updated =
+              "${data.replaceAll(permissionLine, "").trimRight()}\n";
+          await file.writeAsString(updated);
+        }
+      }
+    }
+
+    final plist = File("ios/Runner/Info.plist");
+    if (!plist.existsSync()) {
+      return;
+    }
+    final document = XmlDocument.parse(await plist.readAsString());
+    final dict = document.findAllElements("dict").firstOrNull;
+    if (dict == null) {
+      throw Exception(
+        "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
+      );
+    }
+    final key = dict.children.firstWhereOrNull((node) {
+      return node is XmlElement &&
+          node.name.toString() == "key" &&
+          node.innerText == id;
+    });
+    if (key == null) {
+      return;
+    }
+    final value = key.nextElementSibling;
+    if (value != null) {
+      dict.children.remove(value);
+    }
+    dict.children.remove(key);
+    await plist.writeAsString(
+      document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+    );
+  }
 }
 
 /// Privacy Manifest for XCode.

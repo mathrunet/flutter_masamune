@@ -13,6 +13,31 @@ import "package:katana_cli/katana_cli.dart";
 
 const _managedEndpointTags = {"Masamune", "MasamuneServer"};
 
+/// Returns whether every generated endpoint has a matching remote method/path.
+///
+/// The local ownership file is only a record of a previous successful apply;
+/// it cannot prove that the endpoint still exists in TiDB Cloud.
+bool tidbGeneratedEndpointSetIsComplete(
+  Iterable<Object?> generated,
+  Iterable<Map<String, dynamic>> remote,
+) {
+  final remoteKeys = remote
+      .map(
+        (item) => "${item["method"]?.toString().toUpperCase()}:${item["path"]}",
+      )
+      .toSet();
+  return generated.every((raw) {
+    final item = raw is Map
+        ? raw.map((key, value) => MapEntry(key.toString(), value))
+        : const <String, dynamic>{};
+    final method = item["method"]?.toString().toUpperCase() ?? "";
+    final path = item["endpoint"]?.toString() ?? "";
+    return method.isNotEmpty &&
+        path.isNotEmpty &&
+        remoteKeys.contains("$method:$path");
+  });
+}
+
 /// Cloudflare deployment process for TiDB.
 ///
 /// Cloudflare用のTiDBのデプロイ処理を行います。
@@ -186,24 +211,34 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final state = cutover["state"]?.toString();
     if (restrictMysql && state == "complete" && previousHash == manifestHash) {
       final ownership = await _readEndpointOwnershipState(directory);
-      if (managedAppId.isNotEmpty && !ownership.belongsTo(managedAppId)) {
+      if (managedAppId.isNotEmpty) {
         final api = TidbCloudManagementApi(
           publicKey: managementPublic,
           privateKey: managementPrivate,
         );
         try {
-          final nextOwnership = await _upsertManagedEndpoints(
+          final synchronized = await _generatedEndpointsAreSynchronized(
             api,
             appId: managedAppId,
             clusterId: clusterId,
             directory: directory,
           );
-          await _deployAndWait(
-            api,
-            managedAppId,
-            "Initialize Katana endpoint ownership.",
-          );
-          await _writeEndpointOwnershipState(directory, nextOwnership);
+          if (!ownership.belongsTo(managedAppId) || !synchronized) {
+            final nextOwnership = await _upsertManagedEndpoints(
+              api,
+              appId: managedAppId,
+              clusterId: clusterId,
+              directory: directory,
+            );
+            await _deployAndWait(
+              api,
+              managedAppId,
+              synchronized
+                  ? "Initialize Katana endpoint ownership."
+                  : "Repair missing or drifted Katana endpoints.",
+            );
+            await _writeEndpointOwnershipState(directory, nextOwnership);
+          }
         } finally {
           api.close();
         }
@@ -743,6 +778,52 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       appId: appId,
       endpoints: nextOwnedEndpoints,
     );
+  }
+
+  Future<bool> _generatedEndpointsAreSynchronized(
+    TidbCloudManagementApi api, {
+    required String appId,
+    required String clusterId,
+    required String directory,
+  }) async {
+    final configFile = File("$directory/http_endpoints/config.json");
+    final decoded = jsonDecode(await configFile.readAsString());
+    if (decoded is! List) {
+      throw StateError("http_endpoints/config.json must contain an array.");
+    }
+    final listed = await listTidbDataServicePages(
+      api,
+      "dataApps/$appId/endpoints",
+      "endpoints",
+    );
+    if (!tidbGeneratedEndpointSetIsComplete(decoded, listed)) {
+      return false;
+    }
+    final existing = {
+      for (final item in listed)
+        "${item["method"]?.toString().toUpperCase()}:${item["path"]}": item,
+    };
+    for (final raw in decoded) {
+      final item = _mapValue(raw);
+      final method = item["method"].toString().toUpperCase();
+      final path = item["endpoint"].toString();
+      final current = existing["$method:$path"];
+      if (current == null) {
+        return false;
+      }
+      final sqlFile = File(
+        "$directory/http_endpoints/${item["sql_file"]}",
+      );
+      final desired = _managementEndpointBody(
+        item,
+        await sqlFile.readAsString(),
+        clusterId,
+      );
+      if (!_endpointMatches(current, desired)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<TidbEndpointOwnershipState> _readEndpointOwnershipState(
