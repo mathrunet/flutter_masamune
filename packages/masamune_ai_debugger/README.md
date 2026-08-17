@@ -133,6 +133,11 @@ The callback typedefs are `AIDebugRegisterRunCallback`, `AIDebugHeartbeatCallbac
 
 `upload()` returns the provider-specific screenshot identifier, not a URL. `AIDebugHttpException` represents a non-2xx response returned by the AI debug API; connection and transport failures may use other exception types.
 
+例外と性能閾値超過による自動incidentには、セッションの過剰生成を防ぐセーフティが適用されます。
+同じ種別・メッセージのincidentは、同じアプリ起動中には最初の1回だけ送信します。
+内容が異なるincidentも1秒以内に連続した場合は最初の1回だけを送信し、残りは破棄します。
+手動で送信したAI Debuggerリクエストはこの制限の対象外です。
+
 ## 遅延の自動検出
 
 Debugビルドでは、既存の `LoggerAdapter` のperformance traceを使って次を自動計測します。
@@ -141,7 +146,7 @@ Debugビルドでは、既存の `LoggerAdapter` のperformance traceを使っ�
 - `Future.showIndicator` 経由のインジケーター表示（既定10秒）
 - `MeasuredCircularProgressIndicator` / `MeasuredLinearProgressIndicator` の表示時間（既定10秒）
 
-処理が終わらなくても閾値へ達した時点で、現在画面と直近ログをperformance incidentとして送信し、SamuraiAIにPlan Modeの調査セッションを作成します。同一処理は既存の重複排除と時間当たり上限の対象です。閾値以下で完了した処理は `duration_ms` の通常ログだけを送ります。
+処理が終わらなくても閾値へ達した時点で、現在画面と直近ログをperformance incidentとして送信し、SamuraiAIにPlan Modeの調査セッションを作成します。同一処理はアプリ起動中の重複排除と時間当たり上限の対象です。閾値以下で完了した処理は `duration_ms` の通常ログだけを送ります。
 
 Widgetツリーへ待機表示を直接配置する場合は、固定かつ機密情報を含まない`traceName`を付けた
 `MeasuredCircularProgressIndicator`または`MeasuredLinearProgressIndicator`を使用してください。

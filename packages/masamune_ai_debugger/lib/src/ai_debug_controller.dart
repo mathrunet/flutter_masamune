@@ -177,7 +177,10 @@ class AIDebugController {
   Future<void>? _registration;
   Future<void>? _heartbeatInFlight;
   Future<void>? _endInFlight;
-  final Map<String, DateTime> _reportedErrors = {};
+  static const Duration _incidentBurstWindow = Duration(seconds: 1);
+
+  final Set<String> _reportedIncidentFingerprints = {};
+  DateTime? _lastReportedIncidentAt;
   final List<Map<String, Object?>> _logs = [];
   Timer? _flushTimer;
   Timer? _heartbeatTimer;
@@ -481,18 +484,25 @@ class AIDebugController {
     required AIDebugPermissionMode permissionMode,
   }) async {
     final fingerprintSource = "$kind:$message";
-    final fingerprint =
-        fingerprintSource.replaceAll(RegExp(r"\d+"), "N").substring(
-              0,
-              math.min(300, fingerprintSource.length),
-            );
+    final normalizedFingerprintSource = fingerprintSource.replaceAll(
+      RegExp(r"\d+"),
+      "N",
+    );
+    final fingerprint = normalizedFingerprintSource.substring(
+      0,
+      math.min(300, normalizedFingerprintSource.length),
+    );
     final now = DateTime.now();
-    final previous = _reportedErrors[fingerprint];
-    if (previous != null &&
-        now.difference(previous) < const Duration(minutes: 30)) {
+    if (_reportedIncidentFingerprints.contains(fingerprint)) {
       return;
     }
-    _reportedErrors[fingerprint] = now;
+    final lastReportedAt = _lastReportedIncidentAt;
+    if (lastReportedAt != null &&
+        now.difference(lastReportedAt) < _incidentBurstWindow) {
+      return;
+    }
+    _reportedIncidentFingerprints.add(fingerprint);
+    _lastReportedIncidentAt = now;
     final context = await captureContext();
     try {
       await register();

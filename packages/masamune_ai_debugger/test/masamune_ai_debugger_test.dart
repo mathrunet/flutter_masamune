@@ -72,6 +72,112 @@ void main() {
     expect(requests, isNot(contains(endsWith("/events"))));
   });
 
+  test("numeric error fingerprints stay within normalized message bounds",
+      () async {
+    var incidentCount = 0;
+    final controller = AIDebugController(
+      projectId: "Users-example-app",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      maxSessionsPerHour: 6,
+      registerRun: (_) async {},
+      reportIncident: (
+        _, {
+        required kind,
+        required message,
+        required stackTrace,
+        required timestamp,
+        required metadata,
+      }) async {
+        incidentCount += 1;
+      },
+    );
+
+    await controller.reportError(
+      StateError("challenge 123 failed"),
+      StackTrace.current,
+    );
+    await controller.reportError(
+      StateError("challenge 456 failed"),
+      StackTrace.current,
+    );
+
+    expect(incidentCount, 1);
+  });
+
+  test("automatic incidents are deduplicated per launch and burst limited",
+      () async {
+    final incidents = <String>[];
+    Future<void> report(
+      AIDebugController _, {
+      required String kind,
+      required String message,
+      required String stackTrace,
+      required DateTime timestamp,
+      required Map<String, Object?> metadata,
+    }) async {
+      incidents.add("$kind:$message");
+    }
+
+    final controller = AIDebugController(
+      projectId: "Users-example-safety",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      maxSessionsPerHour: 6,
+      registerRun: (_) async {},
+      reportIncident: report,
+    );
+
+    await controller.reportError(
+      StateError("first failure"),
+      StackTrace.current,
+    );
+    await controller.reportPerformanceTrace(
+      category: "model_load",
+      traceName: "SlowModel.load",
+      startedAt: DateTime.now(),
+      elapsed: const Duration(seconds: 6),
+      threshold: const Duration(seconds: 5),
+    );
+
+    expect(incidents, ["exception:Bad state: first failure"]);
+
+    await Future<void>.delayed(const Duration(milliseconds: 1100));
+    await controller.reportError(
+      StateError("first failure"),
+      StackTrace.current,
+    );
+    expect(incidents, ["exception:Bad state: first failure"]);
+
+    await controller.reportPerformanceTrace(
+      category: "model_load",
+      traceName: "SlowModel.load",
+      startedAt: DateTime.now(),
+      elapsed: const Duration(seconds: 6),
+      threshold: const Duration(seconds: 5),
+    );
+    expect(incidents, [
+      "exception:Bad state: first failure",
+      "performance:Performance threshold exceeded: SlowModel.load",
+    ]);
+
+    final nextLaunchController = AIDebugController(
+      projectId: "Users-example-safety",
+      endpoint: "https://ai-debugger.example.test",
+      apiKey: "test-key",
+      maxSessionsPerHour: 6,
+      registerRun: (_) async {},
+      reportIncident: report,
+    );
+    await nextLaunchController.reportError(
+      StateError("first failure"),
+      StackTrace.current,
+    );
+
+    expect(incidents.last, "exception:Bad state: first failure");
+    expect(incidents, hasLength(3));
+  });
+
   test("foreground heartbeat and end use the same run", () async {
     final requests = <String>[];
     final controller = AIDebugController(
