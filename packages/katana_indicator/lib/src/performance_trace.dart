@@ -5,15 +5,18 @@ part of "/katana_indicator.dart";
 /// インジケーター表示のパフォーマンストレースで使用するPrefix。
 const katanaIndicatorTracePrefix = "katana.indicator.show";
 
+const _firebasePerformanceTraceNameMaxLength = 100;
+const _traceNameHashLength = 8;
+
 Future<LoggerTrace?> _startIndicatorTrace(
   StackTrace stackTrace, {
   String? traceName,
 }) async {
   try {
     final resolvedTraceName = traceName?.trim();
-    final trace = Logger().trace(
-      "$katanaIndicatorTracePrefix|${resolvedTraceName == null || resolvedTraceName.isEmpty ? _indicatorCaller(stackTrace) : resolvedTraceName}",
-    );
+    final name =
+        "$katanaIndicatorTracePrefix|${resolvedTraceName == null || resolvedTraceName.isEmpty ? _indicatorCaller(stackTrace) : resolvedTraceName}";
+    final trace = Logger().trace(_firebasePerformanceTraceName(name));
     await trace.start();
     return trace;
   } on AssertionError {
@@ -22,6 +25,30 @@ Future<LoggerTrace?> _startIndicatorTrace(
     debugPrint("Failed to start indicator trace: $error");
     return null;
   }
+}
+
+String _firebasePerformanceTraceName(String name) {
+  if (name.length <= _firebasePerformanceTraceNameMaxLength) {
+    return name;
+  }
+  final hash = _traceNameHash(name);
+  const prefixLength =
+      _firebasePerformanceTraceNameMaxLength - _traceNameHashLength - 1;
+  var prefixEnd = prefixLength;
+  final lastCodeUnit = name.codeUnitAt(prefixEnd - 1);
+  if (lastCodeUnit >= 0xd800 && lastCodeUnit <= 0xdbff) {
+    prefixEnd--;
+  }
+  return "${name.substring(0, prefixEnd)}-$hash";
+}
+
+String _traceNameHash(String name) {
+  var hash = 0x811c9dc5;
+  for (final codeUnit in name.codeUnits) {
+    hash ^= codeUnit;
+    hash = (hash * 0x01000193) & 0xffffffff;
+  }
+  return hash.toRadixString(16).padLeft(_traceNameHashLength, "0");
 }
 
 class _IndicatorTraceLifecycle {

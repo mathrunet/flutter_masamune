@@ -61,6 +61,80 @@ void main() {
     );
   });
 
+  testWidgets("trace names at the Firebase limit are preserved", (
+    tester,
+  ) async {
+    final traceName = "a" * (100 - katanaIndicatorTracePrefix.length - 1);
+    final expectedName = "$katanaIndicatorTracePrefix|$traceName";
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MeasuredCircularProgressIndicator(traceName: traceName),
+      ),
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    final names = (await loggerDatabase.read())
+        .values
+        .map((value) => value.get(LoggerDatabase.nameKey, ""));
+    expect(names, contains(expectedName));
+  });
+
+  testWidgets("long trace names are shortened deterministically", (
+    tester,
+  ) async {
+    final traceName = "ExamplePage.${"longOperation" * 12}";
+
+    for (var i = 0; i < 2; i++) {
+      await tester.pumpWidget(
+        MaterialApp(
+          key: ValueKey(i),
+          home: MeasuredCircularProgressIndicator(traceName: traceName),
+        ),
+      );
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    }
+
+    final names = (await loggerDatabase.read())
+        .values
+        .map((value) => value.get(LoggerDatabase.nameKey, ""))
+        .toList();
+    expect(names, hasLength(2));
+    expect(names[0], names[1]);
+    expect(names.first, hasLength(100));
+    expect(names.first, matches(RegExp(r"-[0-9a-f]{8}$")));
+  });
+
+  testWidgets("long trace names with different suffixes stay distinct", (
+    tester,
+  ) async {
+    final commonName = "ExamplePage.${"sharedOperation" * 12}";
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MeasuredCircularProgressIndicator(traceName: "${commonName}A"),
+      ),
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MeasuredCircularProgressIndicator(traceName: "${commonName}B"),
+      ),
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+
+    final names = (await loggerDatabase.read())
+        .values
+        .map((value) => value.get(LoggerDatabase.nameKey, ""))
+        .toList();
+    expect(names, hasLength(2));
+    expect(names[0], isNot(names[1]));
+    expect(names, everyElement(hasLength(100)));
+    expect(names, everyElement(matches(RegExp(r"-[0-9a-f]{8}$"))));
+  });
+
   testWidgets("measured circular indicator emits one named trace", (
     tester,
   ) async {

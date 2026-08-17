@@ -1,3 +1,7 @@
+## 3.3.3
+
+ - **FIX**(katana_indicator): shorten Firebase Performance trace names to the iOS SDK limit.
+
 ## 3.3.2
 
  - Update a dependency to the latest release.
