@@ -3,6 +3,157 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-08-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.23.0`](#katana_cli---v3230)
+ - [`katana_indicator` - `v3.3.4`](#katana_indicator---v334)
+ - [`masamune` - `v3.5.15`](#masamune---v3515)
+ - [`masamune_location_platform_interface` - `v3.1.15`](#masamune_location_platform_interface---v3115)
+ - [`masamune_model_tidb` - `v3.5.5`](#masamune_model_tidb---v355)
+ - [`masamune_model_firebase_remote_config` - `v3.2.15`](#masamune_model_firebase_remote_config---v3215)
+ - [`masamune_markdown` - `v3.6.11`](#masamune_markdown---v3611)
+ - [`masamune_model_turso` - `v3.7.3`](#masamune_model_turso---v373)
+ - [`masamune_location_geocoding` - `v3.1.15`](#masamune_location_geocoding---v3115)
+ - [`masamune_location` - `v3.1.15`](#masamune_location---v3115)
+ - [`masamune_ai` - `v3.2.15`](#masamune_ai---v3215)
+ - [`masamune_notification_local` - `v3.1.15`](#masamune_notification_local---v3115)
+ - [`masamune_model_firestore` - `v3.1.15`](#masamune_model_firestore---v3115)
+ - [`masamune_auth_apple` - `v3.1.15`](#masamune_auth_apple---v3115)
+ - [`masamune_model_cloudflare_kv` - `v3.2.6`](#masamune_model_cloudflare_kv---v326)
+ - [`masamune_scheduler` - `v3.1.15`](#masamune_scheduler---v3115)
+ - [`masamune_model_algolia` - `v3.2.16`](#masamune_model_algolia---v3216)
+ - [`masamune_location_background` - `v3.1.15`](#masamune_location_background---v3115)
+ - [`masamune_speech_to_text_mobile` - `v3.2.15`](#masamune_speech_to_text_mobile---v3215)
+ - [`masamune_text_to_speech` - `v3.1.15`](#masamune_text_to_speech---v3115)
+ - [`masamune_ai_debugger` - `v3.4.1`](#masamune_ai_debugger---v341)
+ - [`masamune_agora` - `v3.2.7`](#masamune_agora---v327)
+ - [`masamune_auth_google` - `v3.2.9`](#masamune_auth_google---v329)
+ - [`masamune_model_firebase_data_connect` - `v3.2.15`](#masamune_model_firebase_data_connect---v3215)
+ - [`masamune_ai_openai` - `v3.3.15`](#masamune_ai_openai---v3315)
+ - [`masamune_painter` - `v3.3.19`](#masamune_painter---v3319)
+ - [`masamune_calendar` - `v3.1.15`](#masamune_calendar---v3115)
+ - [`masamune_ai_firebase` - `v3.2.15`](#masamune_ai_firebase---v3215)
+ - [`masamune_model_github` - `v3.6.12`](#masamune_model_github---v3612)
+ - [`masamune_auth_google_firebase` - `v3.1.15`](#masamune_auth_google_firebase---v3115)
+ - [`masamune_animate` - `v3.1.15`](#masamune_animate---v3115)
+ - [`masamune_google_cloud` - `v3.2.16`](#masamune_google_cloud---v3216)
+ - [`masamune_picker` - `v3.2.15`](#masamune_picker---v3215)
+ - [`masamune_app_review` - `v3.1.15`](#masamune_app_review---v3115)
+ - [`masamune_util` - `v3.1.15`](#masamune_util---v3115)
+ - [`masamune_storage_functions` - `v3.2.15`](#masamune_storage_functions---v3215)
+ - [`masamune_test` - `v3.3.16`](#masamune_test---v3316)
+ - [`masamune_model_functions` - `v3.4.15`](#masamune_model_functions---v3415)
+ - [`masamune_speech_to_text_google` - `v3.2.16`](#masamune_speech_to_text_google---v3216)
+ - [`masamune_storage_cloudflare` - `v3.2.6`](#masamune_storage_cloudflare---v326)
+ - [`masamune_universal_ui` - `v3.2.16`](#masamune_universal_ui---v3216)
+ - [`masamune_purchase_stripe` - `v3.7.15`](#masamune_purchase_stripe---v3715)
+ - [`masamune_auth_apple_firebase` - `v3.1.15`](#masamune_auth_apple_firebase---v3115)
+ - [`masamune_auth_github_firebase` - `v3.4.15`](#masamune_auth_github_firebase---v3415)
+ - [`masamune_notification` - `v3.2.15`](#masamune_notification---v3215)
+ - [`masamune_logger_firebase` - `v3.1.15`](#masamune_logger_firebase---v3115)
+ - [`masamune_firebase_app_check` - `v3.1.16`](#masamune_firebase_app_check---v3116)
+ - [`masamune_introduction` - `v3.4.15`](#masamune_introduction---v3415)
+ - [`masamune_functions_cloudflare` - `v3.2.6`](#masamune_functions_cloudflare---v326)
+ - [`masamune_deeplink` - `v3.1.15`](#masamune_deeplink---v3115)
+ - [`masamune_speech_to_text` - `v3.2.15`](#masamune_speech_to_text---v3215)
+ - [`masamune_auth_firebase` - `v3.1.15`](#masamune_auth_firebase---v3115)
+ - [`masamune_auth_facebook` - `v3.1.15`](#masamune_auth_facebook---v3115)
+ - [`masamune_force_updater` - `v3.1.15`](#masamune_force_updater---v3115)
+ - [`masamune_location_google` - `v3.1.15`](#masamune_location_google---v3115)
+ - [`masamune_mail` - `v3.2.9`](#masamune_mail---v329)
+ - [`masamune_purchase` - `v3.1.15`](#masamune_purchase---v3115)
+ - [`masamune_notification_firebase` - `v3.1.15`](#masamune_notification_firebase---v3115)
+ - [`masamune_purchase_mobile` - `v3.1.15`](#masamune_purchase_mobile---v3115)
+ - [`masamune_ads_google` - `v3.1.15`](#masamune_ads_google---v3115)
+ - [`masamune_workflow` - `v3.3.9`](#masamune_workflow---v339)
+ - [`masamune_camera` - `v3.3.15`](#masamune_camera---v3315)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v3.5.15`
+ - `masamune_location_platform_interface` - `v3.1.15`
+ - `masamune_model_tidb` - `v3.5.5`
+ - `masamune_model_firebase_remote_config` - `v3.2.15`
+ - `masamune_markdown` - `v3.6.11`
+ - `masamune_model_turso` - `v3.7.3`
+ - `masamune_location_geocoding` - `v3.1.15`
+ - `masamune_location` - `v3.1.15`
+ - `masamune_ai` - `v3.2.15`
+ - `masamune_notification_local` - `v3.1.15`
+ - `masamune_model_firestore` - `v3.1.15`
+ - `masamune_auth_apple` - `v3.1.15`
+ - `masamune_model_cloudflare_kv` - `v3.2.6`
+ - `masamune_scheduler` - `v3.1.15`
+ - `masamune_model_algolia` - `v3.2.16`
+ - `masamune_location_background` - `v3.1.15`
+ - `masamune_speech_to_text_mobile` - `v3.2.15`
+ - `masamune_text_to_speech` - `v3.1.15`
+ - `masamune_ai_debugger` - `v3.4.1`
+ - `masamune_agora` - `v3.2.7`
+ - `masamune_auth_google` - `v3.2.9`
+ - `masamune_model_firebase_data_connect` - `v3.2.15`
+ - `masamune_ai_openai` - `v3.3.15`
+ - `masamune_painter` - `v3.3.19`
+ - `masamune_calendar` - `v3.1.15`
+ - `masamune_ai_firebase` - `v3.2.15`
+ - `masamune_model_github` - `v3.6.12`
+ - `masamune_auth_google_firebase` - `v3.1.15`
+ - `masamune_animate` - `v3.1.15`
+ - `masamune_google_cloud` - `v3.2.16`
+ - `masamune_picker` - `v3.2.15`
+ - `masamune_app_review` - `v3.1.15`
+ - `masamune_util` - `v3.1.15`
+ - `masamune_storage_functions` - `v3.2.15`
+ - `masamune_test` - `v3.3.16`
+ - `masamune_model_functions` - `v3.4.15`
+ - `masamune_speech_to_text_google` - `v3.2.16`
+ - `masamune_storage_cloudflare` - `v3.2.6`
+ - `masamune_universal_ui` - `v3.2.16`
+ - `masamune_purchase_stripe` - `v3.7.15`
+ - `masamune_auth_apple_firebase` - `v3.1.15`
+ - `masamune_auth_github_firebase` - `v3.4.15`
+ - `masamune_notification` - `v3.2.15`
+ - `masamune_logger_firebase` - `v3.1.15`
+ - `masamune_firebase_app_check` - `v3.1.16`
+ - `masamune_introduction` - `v3.4.15`
+ - `masamune_functions_cloudflare` - `v3.2.6`
+ - `masamune_deeplink` - `v3.1.15`
+ - `masamune_speech_to_text` - `v3.2.15`
+ - `masamune_auth_firebase` - `v3.1.15`
+ - `masamune_auth_facebook` - `v3.1.15`
+ - `masamune_force_updater` - `v3.1.15`
+ - `masamune_location_google` - `v3.1.15`
+ - `masamune_mail` - `v3.2.9`
+ - `masamune_purchase` - `v3.1.15`
+ - `masamune_notification_firebase` - `v3.1.15`
+ - `masamune_purchase_mobile` - `v3.1.15`
+ - `masamune_ads_google` - `v3.1.15`
+ - `masamune_workflow` - `v3.3.9`
+ - `masamune_camera` - `v3.3.15`
+
+---
+
+#### `katana_cli` - `v3.23.0`
+
+ - **FEAT**(katana_cli): enhance location permission handling and add endpoint synchronization check. ([7ac1da6b](https://github.com/mathrunet/flutter_masamune/commit/7ac1da6be35916db84f2f3091600b7c63eab9e7c))
+
+#### `katana_indicator` - `v3.3.4`
+
+ - **FIX**(katana_indicator): shorten Firebase Performance trace names to comply with iOS SDK limits. ([8d9e51cc](https://github.com/mathrunet/flutter_masamune/commit/8d9e51cc27163273214b025d189076a51439fd05))
+
+
 ## 2026-08-06
 
 ### Changes

@@ -1,3 +1,7 @@
+## 3.3.4
+
+ - **FIX**(katana_indicator): shorten Firebase Performance trace names to comply with iOS SDK limits. ([8d9e51cc](https://github.com/mathrunet/flutter_masamune/commit/8d9e51cc27163273214b025d189076a51439fd05))
+
 ## 3.3.3
 
  - **FIX**(katana_indicator): shorten Firebase Performance trace names to the iOS SDK limit.
