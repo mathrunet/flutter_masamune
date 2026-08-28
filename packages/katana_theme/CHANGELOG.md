@@ -1,3 +1,7 @@
+## 3.4.1
+
+ - **FIX**(katana_theme): release version 3.4.0 with image caching improvements. ([f4f06b7f](https://github.com/mathrunet/flutter_masamune/commit/f4f06b7ff0bffd56f0abeff3ad57f4f978fb23c3))
+
 ## 3.4.0
 
  - **FEAT**: Decode and cache raster images for the physical display size when both `Image.width` and `Image.height` are specified.

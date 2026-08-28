@@ -1,3 +1,7 @@
+## 3.7.6
+
+ - **FIX**(masamune_model_turso): update dependency versions and improve disposal logic. ([e533a5a5](https://github.com/mathrunet/flutter_masamune/commit/e533a5a52569f6f362a43ee9d1daec15484a1034))
+
 ## 3.7.5
 
  - Update a dependency to the latest release.
