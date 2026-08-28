@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**(katana_theme): introduce configurable image memory cache limits. ([36eabbf8](https://github.com/mathrunet/flutter_masamune/commit/36eabbf8f068e9c2162dd056f17f5b31df305fb4))
+
 ## 3.2.0
 
  - **FEAT**: Add configurable image memory cache limits to `AppThemeData`.

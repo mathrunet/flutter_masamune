@@ -1,3 +1,7 @@
+## 3.24.0
+
+ - **FEAT**(firebase): add requiresFirebaseCliScaffold function and update .gitignore handling. ([8eac04b2](https://github.com/mathrunet/flutter_masamune/commit/8eac04b22f89783b491235ff0656076291beb011))
+
 ## 3.23.0
 
  - **FEAT**(katana_cli): enhance location permission handling and add endpoint synchronization check. ([7ac1da6b](https://github.com/mathrunet/flutter_masamune/commit/7ac1da6be35916db84f2f3091600b7c63eab9e7c))
