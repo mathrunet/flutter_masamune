@@ -24,6 +24,9 @@ class _FakeLibsqlClient extends LibsqlClient {
   /// Blocks every [query] until completed. Used to keep a caller in flight.
   Completer<void>? queryGate;
 
+  /// Error raised after [queryGate] opens.
+  Object? queryError;
+
   @override
   Future<void> connect() async {}
 
@@ -37,6 +40,10 @@ class _FakeLibsqlClient extends LibsqlClient {
     List<dynamic>? positional,
   }) async {
     await queryGate?.future;
+    final error = queryError;
+    if (error != null) {
+      throw error;
+    }
     return const [];
   }
 
@@ -141,6 +148,73 @@ void main() {
 
     client.queryGate!.complete();
     await load;
+    await cleared;
+
+    expect(client.disposeCount, 1);
+  });
+
+  test(
+      "clear() returns after the grace period but defers disposal until an in-flight query finishes",
+      () async {
+    final client = _FakeLibsqlClient();
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user",
+      disposeGracePeriod: const Duration(milliseconds: 50),
+      clientFactory: (_) async => client,
+    );
+    final adapter = _adapter(session);
+
+    await adapter.prewarm(database: "slow", scopes: _documentLoadScopes);
+    client.queryGate = Completer<void>();
+    final load = adapter.loadDocument(
+      ModelAdapterDocumentQuery(
+        query: DocumentModelQuery(
+          "database/slow/items/item",
+          adapter: adapter,
+        ),
+      ),
+    );
+    await pumpEventQueue();
+
+    await session.clear().timeout(const Duration(seconds: 5));
+    expect(
+      client.disposeCount,
+      0,
+      reason: "A slow but active query must retain its Rust client.",
+    );
+
+    client.queryGate!.complete();
+    await load;
+    await pumpEventQueue();
+
+    expect(client.disposeCount, 1);
+  });
+
+  test("concurrent disposal paths dispose a failed query client only once",
+      () async {
+    final client = _FakeLibsqlClient();
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user",
+      clientFactory: (_) async => client,
+    );
+    final adapter = _adapter(session);
+
+    await adapter.prewarm(database: "failed", scopes: _documentLoadScopes);
+    client.queryGate = Completer<void>();
+    client.queryError = StateError("query failed");
+    final load = adapter.loadDocument(
+      ModelAdapterDocumentQuery(
+        query: DocumentModelQuery(
+          "database/failed/items/item",
+          adapter: adapter,
+        ),
+      ),
+    );
+    await pumpEventQueue();
+
+    final cleared = session.clear();
+    client.queryGate!.complete();
+    await expectLater(load, throwsStateError);
     await cleared;
 
     expect(client.disposeCount, 1);

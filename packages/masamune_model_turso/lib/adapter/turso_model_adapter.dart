@@ -89,21 +89,23 @@ class TursoDirectClientSession {
   /// 有効期限より前に新しいトークンへ更新するための猶予時間。
   final Duration expirationMargin;
 
-  /// Maximum time a disposal waits for in-flight callers to finish.
+  /// Maximum time a disposal request waits for in-flight callers to finish.
   ///
   /// A cached client is shared by every concurrent caller, so disposing it
   /// while a query is still running drops the underlying Rust object and
-  /// raises `DroppableDisposedException`. Disposal therefore waits until the
-  /// client becomes idle, and this duration bounds that wait so a hung query
-  /// cannot leak the client forever.
+  /// raises `DroppableDisposedException`. Native disposal therefore always
+  /// waits until the client becomes idle. This duration only bounds how long
+  /// `clear()` and token replacement wait synchronously; after it expires,
+  /// disposal continues safely in the background.
   ///
-  /// 破棄処理が実行中の呼び出しの完了を待つ最大時間。
+  /// 破棄要求が実行中の呼び出しの完了を待つ最大時間。
   ///
   /// キャッシュされたクライアントは同時実行中の全呼び出し元で共有されるため、
   /// クエリの実行中に破棄するとRust側のオブジェクトが解放され
-  /// `DroppableDisposedException`が発生します。そのため破棄はクライアントが
-  /// アイドルになるまで待機します。この時間で待機を打ち切ることで、クエリが
-  /// ハングした場合にクライアントが解放されなくなることを防ぎます。
+  /// `DroppableDisposedException`が発生します。そのためnative側の破棄は必ず
+  /// クライアントがアイドルになるまで待機します。この時間は`clear()`やトークン
+  /// 差し替えが同期的に待つ上限だけを定め、超過後の破棄はバックグラウンドで安全に
+  /// 継続します。
   final Duration disposeGracePeriod;
 
   /// Whether direct clients use a legacy on-device embedded replica.
@@ -325,15 +327,17 @@ class TursoDirectClientSession {
 
   /// Disposes cached clients and tokens.
   ///
-  /// Each client is disposed only after its in-flight callers finish, so this
-  /// can take up to [disposeGracePeriod]. Databases are disposed in parallel
-  /// to keep that wait from accumulating across sessions.
+  /// Each client is disposed only after its in-flight callers finish. This
+  /// method waits for at most [disposeGracePeriod]; any remaining disposal
+  /// continues in the background. Databases are handled in parallel to keep
+  /// that wait from accumulating across sessions.
   ///
   /// キャッシュしたクライアントとトークンを破棄します。
   ///
-  /// 各クライアントは実行中の呼び出しが完了してから破棄されるため、最大で
-  /// [disposeGracePeriod]の時間がかかります。待ち時間がセッションごとに
-  /// 積み上がらないよう、データベース単位の破棄は並列で実行します。
+  /// 各クライアントは実行中の呼び出しが完了してから破棄されます。このメソッドが
+  /// 待つのは最大[disposeGracePeriod]で、残りの破棄はバックグラウンドで継続します。
+  /// 待ち時間がセッションごとに積み上がらないよう、データベース単位の破棄は並列で
+  /// 実行します。
   Future<void> clear() async {
     final databases = _databases.values.toList();
     _databases.clear();
@@ -412,28 +416,54 @@ class TursoDirectClientSession {
     await _disposeHandle(handle);
   }
 
-  Future<void> _disposeHandle(_TursoDirectClientHandle handle) async {
+  Future<void> _disposeHandle(_TursoDirectClientHandle handle) {
+    final pending = handle.disposalRequest;
+    if (pending != null) {
+      return pending;
+    }
+    final request = _disposeHandleOnce(handle);
+    handle.disposalRequest = request;
+    return request;
+  }
+
+  Future<void> _disposeHandleOnce(_TursoDirectClientHandle handle) async {
     try {
       await handle.waitUntilIdle().timeout(disposeGracePeriod);
     } on TimeoutException {
-      // The grace period expired. Prefer releasing the client over waiting on
-      // a caller that may never finish.
-    }
-    final LibsqlClient client;
-    try {
-      client = await handle.client.timeout(disposeGracePeriod);
-    } on Object {
-      // The connection failed or never settled. Dispose it in the background
-      // if it resolves later so the Rust object is not leaked, but never block
-      // the caller of `clear()` on a connection that may never complete.
+      // Detaching the handle already lets new callers proceed. Never dispose
+      // the Rust client while an existing caller still owns it; continue the
+      // native cleanup after the final release instead.
       unawaited(
-        handle.client.then((client) => client.dispose()).onError((_, __) {}),
+        handle
+            .waitUntilIdle()
+            .then((_) => _disposeResolvedClient(handle))
+            .onError((_, __) {}),
       );
       return;
     }
+    await _disposeResolvedClient(handle);
+  }
+
+  Future<void> _disposeResolvedClient(_TursoDirectClientHandle handle) {
+    final pending = handle.nativeDisposal;
+    if (pending != null) {
+      return pending;
+    }
+    final disposal = _disposeResolvedClientOnce(handle);
+    handle.nativeDisposal = disposal;
+    return disposal;
+  }
+
+  Future<void> _disposeResolvedClientOnce(
+    _TursoDirectClientHandle handle,
+  ) async {
     try {
+      final client = await handle.client;
       await client.dispose();
-    } catch (_) {}
+    } on Object {
+      // Connection and native-disposal failures are already detached from the
+      // active session and must not make cache clearing fail.
+    }
   }
 
   bool _hasDirectMode(TursoTokenFunctionsActionResponse response) {
@@ -552,6 +582,8 @@ class _TursoDirectClientHandle {
   final Future<LibsqlClient> client;
   int _active = 0;
   Completer<void>? _idle;
+  Future<void>? disposalRequest;
+  Future<void>? nativeDisposal;
 
   void retain() {
     _active++;
