@@ -208,12 +208,12 @@ class _MasamuneShouldUseUniversalWidget extends _MasamuneAnalysisRule {
   }
 
   String? _constructorTypeName(AstNode? node) => switch (node) {
-        InstanceCreationExpression(:final constructorName) =>
-          constructorName.type.name.lexeme,
-        MethodInvocation(:final staticType) when staticType is InterfaceType =>
-          staticType.getDisplayString().split("<").first,
-        _ => null,
-      };
+    InstanceCreationExpression(:final constructorName) =>
+      constructorName.type.name.lexeme,
+    MethodInvocation(:final staticType) when staticType is InterfaceType =>
+      staticType.getDisplayString().split("<").first,
+    _ => null,
+  };
 
   /// 親メソッドを取得する
   MethodDeclaration? _findParentMethod(AstNode node) {

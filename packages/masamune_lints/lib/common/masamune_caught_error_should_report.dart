@@ -63,7 +63,7 @@ class _MasamuneCaughtErrorShouldReportFix extends ResolvedCorrectionProducer {
       }
       final isAsync =
           catchClause.thisOrAncestorOfType<FunctionBody>()?.isAsynchronous ??
-              false;
+          false;
       builder.addSimpleInsertion(
         catchClause.body.leftBracket.end,
         "\n${_indentOf(catchClause)}  ${isAsync ? "await " : ""}appLogger.error($exceptionName, ${stackTraceName ?? "stackTrace"});",

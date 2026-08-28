@@ -64,7 +64,7 @@ class _MasamuneModelShouldLoad extends _MasamuneAnalysisRule {
           // 変数に入れていないとき
           final parentMethodInvocationNode =
               node.target?.thisOrAncestorOfType<MethodInvocation>() ??
-                  node.parent?.thisOrAncestorOfType<MethodInvocation>();
+              node.parent?.thisOrAncestorOfType<MethodInvocation>();
           if (parentMethodInvocationNode != null &&
               parentMethodInvocationNode != node) {
             final found = res.firstWhereOrNull(
@@ -85,8 +85,8 @@ class _MasamuneModelShouldLoad extends _MasamuneAnalysisRule {
             return;
           }
           // 変数に入れていないときかつカスケードでメソッドを呼び出しているとき
-          final parentCascadeExpressionVariableNode =
-              node.parent?.thisOrAncestorOfType<CascadeExpression>();
+          final parentCascadeExpressionVariableNode = node.parent
+              ?.thisOrAncestorOfType<CascadeExpression>();
           if (parentCascadeExpressionVariableNode != null) {
             final parentMethodInvocationNode =
                 parentCascadeExpressionVariableNode.target
@@ -112,8 +112,8 @@ class _MasamuneModelShouldLoad extends _MasamuneAnalysisRule {
             }
           }
           // 変数に入れているとき
-          final parentVariableDeclarationNode =
-              node.thisOrAncestorOfType<VariableDeclaration>();
+          final parentVariableDeclarationNode = node
+              .thisOrAncestorOfType<VariableDeclaration>();
           if (parentVariableDeclarationNode != null) {
             final found = res.firstWhereOrNull(
               (e) => e.variable == parentVariableDeclarationNode,

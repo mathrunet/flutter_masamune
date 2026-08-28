@@ -366,7 +366,8 @@ class PageRef {
 """;
 
   Future<void> test_reports_unloaded_model_in_build() async {
-    const source = """
+    const source =
+        """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -410,7 +411,8 @@ class LoadingBuilder {
 """;
 
   Future<void> test_reports_loaded_model_without_indicator() async {
-    const source = """
+    const source =
+        """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -456,7 +458,8 @@ class PageRef {
 """;
 
   Future<void> test_reports_collection_query_without_limit() async {
-    const source = """
+    const source =
+        """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -491,7 +494,8 @@ class Page {
   }
 
   Future<void> test_reports_aggregate_with_limit() async {
-    const source = """
+    const source =
+        """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -748,8 +752,9 @@ class TextButton extends Widget {
   }) async {
     testFile.writeAsStringSync(source);
     final unitResult = await resolveFile(testFile.path);
-    final libraryResult = await unitResult.session
-        .getResolvedLibrary(testFile.path) as ResolvedLibraryResult;
+    final libraryResult =
+        await unitResult.session.getResolvedLibrary(testFile.path)
+            as ResolvedLibraryResult;
     final diagnostic = isFix
         ? unitResult.diagnostics.singleWhere(
             (diagnostic) => diagnostic.diagnosticCode.lowerCaseName == ruleName,
@@ -767,19 +772,20 @@ class TextButton extends Widget {
     final registry = _CapturingPluginRegistry();
     MasamuneLintsPlugin().register(registry);
     final generators = isFix ? registry.fixes[ruleName]! : registry.assists;
-    final producer =
-        generators.map((generator) => generator(context: context)).singleWhere(
-              (producer) =>
-                  (isFix ? producer.fixKind?.id : producer.assistKind?.id) ==
-                      correctionId &&
-                  (!isFix
-                      ? (producer.assistArguments ?? const [])
-                              .map((value) => value.toString())
-                              .toList()
-                              .join() ==
-                          correctionArguments.join()
-                      : true),
-            );
+    final producer = generators
+        .map((generator) => generator(context: context))
+        .singleWhere(
+          (producer) =>
+              (isFix ? producer.fixKind?.id : producer.assistKind?.id) ==
+                  correctionId &&
+              (!isFix
+                  ? (producer.assistArguments ?? const [])
+                            .map((value) => value.toString())
+                            .toList()
+                            .join() ==
+                        correctionArguments.join()
+                  : true),
+        );
     final builder = ChangeBuilderImpl(session: unitResult.session);
     await producer.compute(builder);
     final fileEdit = builder.sourceChange.edits.single;
@@ -843,7 +849,8 @@ void g() {}
   }
 
   Future<void> test_assist_add_icon_exact_edit() async {
-    const source = """
+    const source =
+        """
 $_buttonDeclarations
 Widget f() => ElevatedButton(child: const Widget());
 """;
@@ -861,7 +868,8 @@ Widget f() => ElevatedButton.icon(label: const Widget(), icon: const Icon(Icons.
   }
 
   Future<void> test_assist_remove_icon_exact_edit() async {
-    const source = """
+    const source =
+        """
 $_buttonDeclarations
 Widget f() => ElevatedButton.icon(
   icon: const Icon(Icons.add),
@@ -884,7 +892,8 @@ Widget f() => ElevatedButton(
   }
 
   Future<void> test_assist_convert_button_exact_edit() async {
-    const source = """
+    const source =
+        """
 $_buttonDeclarations
 Widget f() => ElevatedButton(child: const Widget());
 """;
