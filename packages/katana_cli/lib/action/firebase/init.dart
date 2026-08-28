@@ -20,6 +20,18 @@ final _ansiEscapePattern = RegExp(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])");
 /// 矢印キー等を送信するためのエスケープ文字(`ESC`)。
 final _escapeCharacter = String.fromCharCode(0x1B);
 
+/// Whether Firebase CLI-managed project files are required.
+///
+/// Firebase CLI管理のプロジェクトファイルが必要かどうか。
+bool requiresFirebaseCliScaffold({
+  required bool firestore,
+  required bool dataconnect,
+  required bool storage,
+  required bool hosting,
+  required bool functions,
+}) =>
+    firestore || dataconnect || storage || hosting || functions;
+
 /// Firebase initial configuration.
 ///
 /// Firebaseの初期設定を行います。
@@ -798,21 +810,30 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       json["scripts"] = scripts;
       await packageJson.writeAsString(jsonEncode(json));
     }
-    label("Rewrite `.gitignore`.");
-    final gitignore = File("firebase/.gitignore");
-    if (!gitignore.existsSync()) {
-      error("Cannot find `firebase/.gitignore`. Project is broken.");
-      return;
-    }
-    final gitignores = await gitignore.readAsLines();
-    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
-      if (!gitignores.any((e) => e.startsWith(".env"))) {
-        gitignores.add(".env");
+    final requiresCliScaffold = requiresFirebaseCliScaffold(
+      firestore: enabledFirestore,
+      dataconnect: enabledDataconnect,
+      storage: enabledStorage,
+      hosting: enabledHosting,
+      functions: enabledFunctions,
+    );
+    if (requiresCliScaffold) {
+      label("Rewrite `.gitignore`.");
+      final gitignore = File("firebase/.gitignore");
+      if (!gitignore.existsSync()) {
+        error("Cannot find `firebase/.gitignore`. Project is broken.");
+        return;
       }
-    } else {
-      gitignores.removeWhere((e) => e.startsWith(".env"));
+      final gitignores = await gitignore.readAsLines();
+      if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+        if (!gitignores.any((e) => e.startsWith(".env"))) {
+          gitignores.add(".env");
+        }
+      } else {
+        gitignores.removeWhere((e) => e.startsWith(".env"));
+      }
+      await gitignore.writeAsString(gitignores.join("\n"));
     }
-    await gitignore.writeAsString(gitignores.join("\n"));
     if (enabledFunctions) {
       label("Create functions test folder.");
       final functionsTest = Directory("firebase/functions/test");
@@ -1448,7 +1469,9 @@ const firebaseDataConnectModelAdapter = FirebaseDataConnectModelAdapter();
 @firebaseDataConnectAdapter
 class FirebaseDataConnectModelAdapter
     extends _\$FirebaseDataConnectModelAdapter {
-  const FirebaseDataConnectModelAdapter();
+  const FirebaseDataConnectModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
+  });
 }
 """;
   }

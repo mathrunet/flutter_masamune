@@ -85,7 +85,9 @@ class ${className}ModelAdapter extends ModelAdapter {
   /// Model adapter for use with DocumentModel and CollectionModel.
   ///
   /// It can be given by [MasamuneApp] or various [ModelQuery], or specified by [CollectionModelPath] or [DocumentModelPath].
-  const ${className}ModelAdapter();
+  const ${className}ModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
+  });
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) {
