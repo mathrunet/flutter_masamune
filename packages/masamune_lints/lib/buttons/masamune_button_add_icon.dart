@@ -1,70 +1,62 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneButtonAddIcon extends DartAssist {
-  _MasamuneButtonAddIcon();
+class _MasamuneButtonAddIcon extends ResolvedCorrectionProducer {
+  static const _assistKind = AssistKind(
+    "masamune_lints.assist.add_button_icon",
+    _kAddOrRemoveIconPriority,
+    "Add icon to button",
+  );
+
+  _MasamuneButtonAddIcon({required super.context});
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    SourceRange target,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!target.intersects(node.constructorName.sourceRange)) {
-        return;
-      }
-      final createdType = node.constructorName.type.type;
-      if (createdType == null ||
-          !TypeChecker.any(_MaterialButtonType.values.map((e) => e.typeChecker))
-              .isExactlyType(createdType)) {
-        return;
-      }
-      final simpleIdentifier = node.constructorName.name;
-      final supportedIdentifier = simpleIdentifier?.toSupportedIdentifier();
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
 
-      if (supportedIdentifier != null && supportedIdentifier.hasIcon) {
-        return;
+  @override
+  AssistKind get assistKind => _assistKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final creation = _buttonInvocation(node);
+    if (creation == null || !_isMaterialButtonType(creation.type)) {
+      return;
+    }
+    final identifier = creation.identifier;
+    if (identifier?.hasIcon ?? false) {
+      return;
+    }
+    await builder.addDartFileEdit(file, (builder) {
+      if (identifier == _SupportedIdentifier.tonal) {
+        builder.addSimpleReplacement(
+          creation.nameRange,
+          "FilledButton.tonalIcon",
+        );
+      } else {
+        builder.addSimpleInsertion(creation.nameRange.end, ".icon");
       }
-      final changeBuilder = reporter.createChangeBuilder(
-        message: "Add icon to button",
-        priority: _kAddOrRemoveIconPriority,
-      );
-
-      changeBuilder.addDartFileEdit((builder) {
-        if (supportedIdentifier == _SupportedIdentifier.tonal) {
-          builder.addSimpleReplacement(
-            node.constructorName.sourceRange,
-            "FilledButton.tonalIcon",
-          );
-        } else {
-          builder.addSimpleInsertion(
-            node.constructorName.sourceRange.end,
-            ".icon",
-          );
+      var hasIcon = false;
+      for (final argument in creation.argumentList.arguments) {
+        final name = _namedArgumentName(argument);
+        final nameRange = _namedArgumentNameRange(argument);
+        if (name == "child" && nameRange != null) {
+          builder.addSimpleReplacement(nameRange, "label");
+        } else if (name == "icon") {
+          hasIcon = true;
         }
-
-        var existIcon = false;
-        for (var argument in node.argumentList.arguments) {
-          if (argument is NamedExpression) {
-            if (argument.name.label.name == "child") {
-              builder.addSimpleReplacement(
-                argument.name.sourceRange,
-                "label:",
-              );
-            }
-            if (argument.name.label.name == "icon") {
-              existIcon = true;
-            }
-          }
-        }
-        if (!existIcon) {
-          builder.addSimpleInsertion(
-            node.argumentList.arguments.last.sourceRange.end,
-            ", icon: Icon(Icons.add // TODO: Change icon)",
-          );
-        }
-      });
+      }
+      if (!hasIcon) {
+        final arguments = creation.argumentList.arguments;
+        final insertionOffset = arguments.isEmpty
+            ? creation.argumentList.leftParenthesis.end
+            : arguments.last.end;
+        builder.addSimpleInsertion(
+          insertionOffset,
+          arguments.isEmpty
+              ? "icon: const Icon(Icons.add), label: const SizedBox.shrink()"
+              : ", icon: const Icon(Icons.add)",
+        );
+      }
     });
   }
 }

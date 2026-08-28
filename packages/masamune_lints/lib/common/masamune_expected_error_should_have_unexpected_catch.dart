@@ -1,24 +1,17 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneExpectedErrorShouldHaveUnexpectedCatch extends DartLintRule {
-  const _MasamuneExpectedErrorShouldHaveUnexpectedCatch()
-      : super(
-          code: _code,
-        );
+class _MasamuneExpectedErrorShouldHaveUnexpectedCatch
+    extends _MasamuneAnalysisRule {
+  _MasamuneExpectedErrorShouldHaveUnexpectedCatch() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_expected_error_should_have_unexpected_catch",
-    problemMessage:
-        "A try statement with typed catches for expected errors must end with an untyped catch for unexpected errors. 想定内エラーを型付きcatchで処理するtryは、想定外エラー用の型指定なしcatchを最後に置いてください。",
-    errorSeverity: ErrorSeverity.WARNING,
+  static const code = LintCode(
+    "masamune_expected_error_should_have_unexpected_catch",
+    "A try statement with typed catches for expected errors must end with an untyped catch for unexpected errors. 想定内エラーを型付きcatchで処理するtryは、想定外エラー用の型指定なしcatchを最後に置いてください。",
+    severity: DiagnosticSeverity.WARNING,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     context.registry.addTryStatement((node) {
       final catchClauses = node.catchClauses;
       if (catchClauses.isEmpty ||
@@ -28,7 +21,7 @@ class _MasamuneExpectedErrorShouldHaveUnexpectedCatch extends DartLintRule {
       if (catchClauses.last.exceptionType == null) {
         return;
       }
-      reporter.atNode(catchClauses.last, _code);
+      reportAtNode(catchClauses.last);
     });
   }
 }

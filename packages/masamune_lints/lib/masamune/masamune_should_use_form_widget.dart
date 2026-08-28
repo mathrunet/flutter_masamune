@@ -1,26 +1,12 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneShouldUseFormWidget extends DartLintRule {
-  const _MasamuneShouldUseFormWidget()
-      : super(
-          code: _code,
-        );
+class _MasamuneShouldUseFormWidget extends _MasamuneAnalysisRule {
+  _MasamuneShouldUseFormWidget() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_should_use_form_widget",
-    problemMessage: """
-Masamuneフレームワークでは各種FormWidgetに対してKatanaFormを利用することを推奨しています。
-下記の変換を行ってください。
-
-- TextField -> FormTextField
-- TextFormField -> FormTextField
-- DropdownButton -> FormMapDropdownField
-- DropdownButtonFormField -> FormMapDropdownField
-- Checkbox -> FormCheckbox
-- Switch -> FormSwitch
-- Slider -> FormSlider
-""",
-    errorSeverity: ErrorSeverity.WARNING,
+  static const code = LintCode(
+    "masamune_should_use_form_widget",
+    "Consider using {0} instead of {1}. {0}はKatanaFormの一部でより多くの機能を提供します。",
+    severity: DiagnosticSeverity.WARNING,
   );
 
   static const Map<String, String> _widgetSuggestions = {
@@ -34,26 +20,25 @@ Masamuneフレームワークでは各種FormWidgetに対してKatanaFormを利�
   };
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     context.registry.addInstanceCreationExpression((node) {
       final constructorName = node.constructorName;
-      final typeName = constructorName.type.name2.lexeme;
+      final typeName = constructorName.type.name.lexeme;
 
       if (_widgetSuggestions.containsKey(typeName)) {
         final suggestedWidget = _widgetSuggestions[typeName]!;
 
-        final customCode = lint_codes.LintCode(
-          name: "masamune_should_use_form_widget",
-          problemMessage:
-              "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはKatanaFormの一部でより多くの機能を提供します。",
-          errorSeverity: ErrorSeverity.WARNING,
-        );
-
-        reporter.atNode(node, customCode);
+        reportAtNode(node, arguments: [suggestedWidget, typeName]);
+      }
+    });
+    context.registry.addMethodInvocation((node) {
+      if (node.target != null || node.staticType is! InterfaceType) {
+        return;
+      }
+      final typeName = node.staticType!.getDisplayString().split("<").first;
+      final suggestedWidget = _widgetSuggestions[typeName];
+      if (suggestedWidget != null) {
+        reportAtNode(node, arguments: [suggestedWidget, typeName]);
       }
     });
   }
