@@ -1,3 +1,7 @@
+## 3.1.16
+
+ - Expand `google_mobile_ads` compatibility through 9.x for Gradle 9 and the latest Google Mobile Ads SDK support.
+
 ## 3.1.15
 
  - Update a dependency to the latest release.
