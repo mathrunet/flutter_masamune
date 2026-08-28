@@ -5,6 +5,19 @@ import "package:test/test.dart";
 import "package:katana_model/katana_model.dart";
 
 void main() {
+  test("modelAdapter.defaultAutoDisposeWhenUnreferenced", () {
+    expect(
+      const RuntimeModelAdapter().defaultAutoDisposeWhenUnreferenced,
+      false,
+    );
+    expect(
+      const RuntimeModelAdapter(
+        defaultAutoDisposeWhenUnreferenced: true,
+      ).defaultAutoDisposeWhenUnreferenced,
+      true,
+    );
+  });
+
   test("modelAdapter.hasMatch", () {
     const modelAdapter = RuntimeModelAdapter();
     expect(modelAdapter.hasMatch(path: "shop", pattern: "shop"), []);

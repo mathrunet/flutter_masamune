@@ -16,6 +16,7 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
   ///
   /// 読み込みのみが可能であり、ドキュメントの保存・削除はサポートしていません。
   const FirebaseRemoteConfigModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
     this.initialValue,
     FirebaseOptions? options,
     this.iosOptions,

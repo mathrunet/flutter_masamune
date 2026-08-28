@@ -1,6 +1,9 @@
 // Dart imports:
 import "dart:convert";
 
+// Flutter imports:
+import "package:flutter/foundation.dart";
+
 // Package imports:
 import "package:masamune/masamune.dart";
 import "package:test/test.dart";
@@ -9,6 +12,35 @@ import "package:test/test.dart";
 import "package:masamune_model_tidb/masamune_model_tidb.dart";
 
 void main() {
+  test("ModelQueryBase uses the resolved adapter auto-dispose default.", () {
+    const adapter = TidbModelAdapter(
+      defaultAutoDisposeWhenUnreferenced: true,
+    );
+    const query = _TestModelQuery(
+      DocumentModelQuery(
+        "database/test/users/user_1",
+        adapter: adapter,
+      ),
+    );
+
+    expect(query.primaryAdapter, same(adapter));
+    expect(query.autoDisposeWhenUnreferenced, true);
+
+    final appRef = AppRef();
+    final model = appRef.model(
+      query,
+      autoDisposeWhenUnreferenced: null,
+    );
+    expect(
+      appRef.model(query, autoDisposeWhenUnreferenced: true),
+      same(model),
+    );
+    expect(
+      appRef.model(query, autoDisposeWhenUnreferenced: false),
+      same(model),
+    );
+  });
+
   test("TidbGetModelFunctionsAction builds path based URL.", () {
     final action = TidbGetModelFunctionsAction(
       database: "main",
@@ -546,6 +578,16 @@ void main() {
     await adapter.clearCache();
     expect(await localDatabase.loadDocument(firstQuery), isNull);
   });
+}
+
+class _TestModelQuery extends ModelQueryBase<ChangeNotifier> {
+  const _TestModelQuery(this.modelQuery);
+
+  @override
+  final DocumentModelQuery modelQuery;
+
+  @override
+  ChangeNotifier Function() call(Ref ref) => ChangeNotifier.new;
 }
 
 class _RecordingFunctionsAdapter extends FunctionsAdapter {

@@ -18,6 +18,7 @@ abstract class CachedRestApiModelAdapter extends RestApiModelAdapter {
   const CachedRestApiModelAdapter({
     required super.builders,
     required super.endpoint,
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     super.validator,
     super.headers = RestApiModelAdapter.defaultHeaders,

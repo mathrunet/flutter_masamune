@@ -18,6 +18,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   const RestApiModelAdapter({
     required this.builders,
     required this.endpoint,
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     this.asyncSavingManager,
     this.validator,

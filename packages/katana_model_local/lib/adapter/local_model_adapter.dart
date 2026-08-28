@@ -51,6 +51,7 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// [validator]を指定するとデータベース内でのバリデーションが行われます。
   const LocalModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     this.prefix,
     this.initialValue,

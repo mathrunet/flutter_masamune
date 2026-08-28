@@ -85,6 +85,7 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
   const CsvCollectionSourceModelAdapter({
     required super.source,
     required this.idKey,
+    super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
     super.database,
     super.collectionPath,
@@ -226,6 +227,7 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   /// ```
   const CsvDocumentSourceModelAdapter({
     required super.source,
+    super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
     super.database,
     super.collectionPath,
@@ -458,6 +460,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   /// [fromCsv]に変換用の処理を記述することでCSVのデータを[Map]に変換します。
   const CsvSourceModelAdapter({
     required this.source,
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     this.initialValue,
     this.requestHeaders,

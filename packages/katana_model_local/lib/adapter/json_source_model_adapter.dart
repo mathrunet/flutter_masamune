@@ -98,6 +98,7 @@ class JsonCollectionSourceModelAdapter extends JsonSourceModelAdapter {
   /// ```
   const JsonCollectionSourceModelAdapter({
     required super.source,
+    super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
     super.database,
     super.collectionPath,
@@ -236,6 +237,7 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
   /// ```
   const JsonDocumentSourceModelAdapter({
     required super.source,
+    super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
     super.database,
     super.collectionPath,
@@ -398,6 +400,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   /// [fromJson]に変換用の処理を記述することでJsonのデータを[Map]に変換します。
   const JsonSourceModelAdapter({
     required this.source,
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     this.initialValue,
     this.requestHeaders,

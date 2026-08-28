@@ -8,6 +8,7 @@ abstract class FirebaseDataConnectModelAdapterBase extends ModelAdapter {
   ///
   /// [FirebaseDataConnectModelAdapterBase]を初期化します。
   const FirebaseDataConnectModelAdapterBase({
+    super.defaultAutoDisposeWhenUnreferenced,
     this.initialValue,
     NoSqlDatabase? localDatabase,
     FirebaseOptions? options,

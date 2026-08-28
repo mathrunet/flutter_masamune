@@ -16,6 +16,7 @@ class CloudflareKVModelAdapter extends ModelAdapter {
   ///
   /// `@mathrunet/masamune_cloudflare_kv`と併用して、一時トークンの取得や読み書きを行うことが可能です。
   const CloudflareKVModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
     FunctionsAdapter? functionsAdapter,
   }) : _functionsAdapter = functionsAdapter;
 

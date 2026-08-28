@@ -54,7 +54,16 @@ abstract class ModelAdapter {
   /// [ModelAdapter.primary]はトップレベルで実行された[ModelAdapterScope]を通して自動的に設定されます。
   ///
   /// [ModelAdapterScope]が実行されていない場合には[RuntimeModelAdapter]が呼び出されます。
-  const ModelAdapter();
+  const ModelAdapter({
+    this.defaultAutoDisposeWhenUnreferenced = false,
+  });
+
+  /// Returns `true` if models using this adapter should be automatically
+  /// disposed of when they are no longer referenced by any widget.
+  ///
+  /// このアダプターを利用するモデルがどのウィジェットからも参照されなくなったときに
+  /// 自動的に破棄する場合`true`を返します。
+  final bool defaultAutoDisposeWhenUnreferenced;
 
   /// You can get the default adapter.
   ///

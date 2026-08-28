@@ -923,6 +923,7 @@ class GithubModelAdapter extends ModelAdapter {
   /// [onRetrieveToken]を利用してGitHubのAPIトークンを与えてください。
   const GithubModelAdapter({
     required this.onRetrieveToken,
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     GitHub? github,
     this.useLocalDatabase = true,

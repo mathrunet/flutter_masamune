@@ -17,6 +17,7 @@ class FunctionsModelAdapter extends ModelAdapter {
   /// [DocumentModelFunctionsAction]と[CollectionModelFunctionsAction]を実行することによりFunctionsとのやりとりを行います。
   const FunctionsModelAdapter({
     required this.functionsAdapter,
+    super.defaultAutoDisposeWhenUnreferenced,
     this.documentAction = "document_model_firestore",
     this.collectionAction = "collection_model_firestore",
     this.aggregateAction = "aggregate_model_firestore",

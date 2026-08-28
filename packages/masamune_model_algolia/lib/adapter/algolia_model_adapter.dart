@@ -31,6 +31,7 @@ class AlgoliaModelAdapter extends ModelAdapter {
     required this.firestoreModelAdapter,
     required this.applicationId,
     required this.apiKey,
+    super.defaultAutoDisposeWhenUnreferenced,
   });
 
   /// Firestore model adapter.

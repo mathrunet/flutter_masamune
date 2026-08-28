@@ -373,14 +373,14 @@ packages:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.3.0"
   katana_model:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "3.6.0"
+    version: "3.7.3"
   katana_platform_info:
     dependency: "direct overridden"
     description:

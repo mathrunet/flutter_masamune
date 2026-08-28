@@ -63,6 +63,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// [networkDelay]を指定すると通信の遅延をシミュレートすることができます。
   const RuntimeModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     this.initialValue,
     this.prefix,

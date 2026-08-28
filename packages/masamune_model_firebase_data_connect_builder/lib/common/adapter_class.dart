@@ -19,7 +19,16 @@ List<Spec> adapterClass(
         ..extend = const Reference("FirebaseDataConnectModelAdapterBase")
         ..constructors.addAll([
           Constructor(
-            (c) => c..constant = true,
+            (c) => c
+              ..constant = true
+              ..optionalParameters.add(
+                Parameter(
+                  (p) => p
+                    ..name = "defaultAutoDisposeWhenUnreferenced"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+              ),
           ),
         ])
         ..methods.addAll([

@@ -609,6 +609,7 @@ class TursoModelAdapter extends ModelAdapter {
   ///
   /// Tursoを利用できるようにしたモデルアダプター。
   const TursoModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
     this.useDirectClient = true,
     this.directClientSession,
     FunctionsAdapter? functionsAdapter,

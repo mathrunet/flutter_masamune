@@ -67,6 +67,7 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const CachedFirestoreModelAdapter({
+    super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
     super.database,
     super.cachedRuntimeDatabase,
