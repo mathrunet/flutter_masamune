@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FEAT**: Add configurable image memory cache limits to `AppThemeData`.
+ - **FIX**: Reduce the default image memory cache limit from 100 to 50 images.
+
 ## 3.1.2
 
  - **FIX**: add TODO for color customization in listTileTheme. ([0fc61164](https://github.com/mathrunet/flutter_masamune/commit/0fc6116477eaf3ef4b31a369c82fe82212d8bdc6))
@@ -609,4 +614,3 @@
 ## 1.1.0
 
  - **FEAT**: Initial commitments. ([2bb089d5](https://github.com/mathrunet/flutter_masamune/commit/2bb089d5b22c416beae1f610d5ddedfc43f2fe8d))
-

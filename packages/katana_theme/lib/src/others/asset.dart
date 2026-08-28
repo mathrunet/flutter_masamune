@@ -339,56 +339,6 @@ mixin _ImageProviderBuilderMixin {
   }
 }
 
-/// Memory cache for images.
-///
-/// 画像のメモリキャッシュ。
-class ImageMemoryCache {
-  /// Memory cache for images.
-  ///
-  /// 画像のメモリキャッシュ。
-  const ImageMemoryCache._();
-
-  static const int _maxCacheImages = 100;
-  static final Map<String, ImageStreamCompleter> _manager = {};
-  static final Map<String, ImageStreamCompleterHandle> _managerHandles = {};
-  static final List<String> _savedImages = [];
-
-  /// Get the cache for the image.
-  ///
-  /// 画像のキャッシュを取得します。
-  static ImageStreamCompleter? getCache(String? key) {
-    if (key.isEmpty) {
-      return null;
-    }
-    if (_manager.containsKey(key)) {
-      return _manager[key]!;
-    }
-    return null;
-  }
-
-  /// Set the cache for the image.
-  ///
-  /// 画像のキャッシュを設定します。
-  static ImageStreamCompleter setCache(
-    String? key,
-    ImageStreamCompleter completer,
-  ) {
-    if (key.isEmpty) {
-      return completer;
-    }
-    if (_savedImages.length == _maxCacheImages) {
-      final removedUrl = _savedImages.removeAt(0);
-      _manager.remove(removedUrl);
-      _managerHandles[removedUrl]?.dispose();
-      _managerHandles.remove(removedUrl);
-    }
-    _savedImages.add(key!);
-    _manager[key] = completer;
-    _managerHandles[key] = completer.keepAlive();
-    return completer;
-  }
-}
-
 class _MemoizedNetworkImage extends network_image.NetworkImage {
   const _MemoizedNetworkImage(super.url, {super.headers});
 

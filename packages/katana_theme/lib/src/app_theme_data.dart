@@ -224,8 +224,13 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     this.statusBarBrightnessOnIOS,
     this.statusBarBrightnessOnAndroid,
     this.fixed = false,
+    this.maximumImageCacheSize = 50,
     this.defaultFontFamilyResolver,
-  })  : _lightColor = brightness == Brightness.light
+  })  : assert(
+          maximumImageCacheSize >= 0,
+          "maximumImageCacheSize must not be negative.",
+        ),
+        _lightColor = brightness == Brightness.light
             ? ColorThemeData._(
                 brightness: Brightness.light,
                 primary: primary,
@@ -674,6 +679,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     Brightness? statusBarBrightnessOnIOS,
     Brightness? statusBarBrightnessOnAndroid,
     bool fixed = false,
+    int maximumImageCacheSize = 50,
     String? Function(Locale locale)? defaultFontFamilyResolver,
   }) : this(
           primary: primary,
@@ -776,6 +782,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.light,
           fixed: fixed,
+          maximumImageCacheSize: maximumImageCacheSize,
           statusBarBrightnessOnIOS: statusBarBrightnessOnIOS,
           statusBarBrightnessOnAndroid: statusBarBrightnessOnAndroid,
           themeMode: themeMode,
@@ -953,6 +960,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     Brightness? statusBarBrightnessOnIOS,
     Brightness? statusBarBrightnessOnAndroid,
     bool fixed = false,
+    int maximumImageCacheSize = 50,
     String? Function(Locale locale)? defaultFontFamilyResolver,
   }) : this(
           primary: primary,
@@ -1055,6 +1063,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.dark,
           fixed: fixed,
+          maximumImageCacheSize: maximumImageCacheSize,
           statusBarBrightnessOnIOS: statusBarBrightnessOnIOS,
           statusBarBrightnessOnAndroid: statusBarBrightnessOnAndroid,
           themeMode: themeMode,
@@ -1069,6 +1078,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     this.useMaterial3 = true,
     this.centerTitleOnAppBar,
     this.fixed = false,
+    this.maximumImageCacheSize = 50,
     this.defaultFontFamilyResolver,
     this.platform = TargetPlatform.iOS,
     this.statusBarBrightnessOnIOS,
@@ -1251,6 +1261,16 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
   /// `true`の場合、ライトモードやダークモードの切り替えを行わず、常に同じテーマを使用します。
   final bool fixed;
 
+  /// Maximum number of decoded images retained by the in-memory image cache.
+  ///
+  /// Set this to `0` to disable the additional in-memory cache provided by
+  /// `katana_theme`.
+  ///
+  /// 画像のメモリキャッシュに保持するデコード済み画像の最大数。
+  ///
+  /// `0`を指定すると`katana_theme`が提供する追加のメモリキャッシュを無効化します。
+  final int maximumImageCacheSize;
+
   /// Explicitly specifies the color of the status bar icon.
   ///
   /// Black for [Brightness.dark] and white for [Brightness.light].
@@ -1360,6 +1380,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     Brightness? brightness,
     String? defaultFontFamily,
   }) {
+    ImageMemoryCache.maximumSize = maximumImageCacheSize;
     final text = this.text;
     defaultFontFamily ??= text.defaultFontFamily;
 
@@ -2009,6 +2030,7 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
     Brightness? statusBarBrightnessOnIOS,
     Brightness? statusBarBrightnessOnAndroid,
     bool? fixed,
+    int? maximumImageCacheSize,
     String? Function(Locale)? defaultFontFamilyResolver,
   }) {
     return AppThemeData._(
@@ -2135,6 +2157,8 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
       statusBarBrightnessOnAndroid:
           statusBarBrightnessOnAndroid ?? this.statusBarBrightnessOnAndroid,
       fixed: fixed ?? this.fixed,
+      maximumImageCacheSize:
+          maximumImageCacheSize ?? this.maximumImageCacheSize,
       defaultFontFamilyResolver:
           defaultFontFamilyResolver ?? this.defaultFontFamilyResolver,
     );
@@ -2272,9 +2296,79 @@ class AppThemeData extends ThemeExtension<AppThemeData> {
       statusBarBrightnessOnIOS:
           t < 0.5 ? statusBarBrightnessOnIOS : other.statusBarBrightnessOnIOS,
       fixed: t < 0.5 ? fixed : other.fixed,
+      maximumImageCacheSize:
+          t < 0.5 ? maximumImageCacheSize : other.maximumImageCacheSize,
       defaultFontFamilyResolver:
           t < 0.5 ? defaultFontFamilyResolver : other.defaultFontFamilyResolver,
     );
+  }
+}
+
+/// Memory cache for images loaded by `katana_theme` image providers.
+///
+/// `katana_theme`の画像プロバイダーが読み込んだ画像のメモリキャッシュ。
+class ImageMemoryCache {
+  const ImageMemoryCache._();
+
+  static int _maximumSize = 50;
+  static final Map<String, ImageStreamCompleter> _manager = {};
+  static final Map<String, ImageStreamCompleterHandle> _managerHandles = {};
+  static final List<String> _savedImages = [];
+
+  /// Maximum number of images retained by this cache.
+  ///
+  /// Setting this to `0` clears and disables the cache.
+  ///
+  /// このキャッシュに保持する画像の最大数。
+  ///
+  /// `0`を指定するとキャッシュをクリアして無効化します。
+  static int get maximumSize => _maximumSize;
+  static set maximumSize(int value) {
+    if (value < 0) {
+      throw ArgumentError.value(value, "value", "Must not be negative.");
+    }
+    _maximumSize = value;
+    _trimToMaximumSize();
+  }
+
+  /// Get the cache for the image.
+  ///
+  /// 画像のキャッシュを取得します。
+  static ImageStreamCompleter? getCache(String? key) {
+    if (key == null || key.isEmpty) {
+      return null;
+    }
+    return _manager[key];
+  }
+
+  /// Set the cache for the image.
+  ///
+  /// 画像のキャッシュを設定します。
+  static ImageStreamCompleter setCache(
+    String? key,
+    ImageStreamCompleter completer,
+  ) {
+    if (key == null || key.isEmpty || _maximumSize == 0) {
+      return completer;
+    }
+    if (_manager.containsKey(key)) {
+      _savedImages.remove(key);
+      _manager.remove(key);
+      _managerHandles.remove(key)?.dispose();
+    }
+    _savedImages.add(key);
+    _manager[key] = completer;
+    _managerHandles[key] = completer.keepAlive();
+    _trimToMaximumSize();
+    return completer;
+  }
+
+  static void _trimToMaximumSize() {
+    while (_savedImages.length > _maximumSize) {
+      final removedKey = _savedImages.removeAt(0);
+      _manager.remove(removedKey);
+      _managerHandles.remove(removedKey)?.dispose();
+    }
   }
 }
 
