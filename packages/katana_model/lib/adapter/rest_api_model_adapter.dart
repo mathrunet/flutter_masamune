@@ -18,7 +18,6 @@ abstract class RestApiModelAdapter extends ModelAdapter {
   const RestApiModelAdapter({
     required this.builders,
     required this.endpoint,
-    super.defaultAutoDisposeWhenUnreferenced,
     NoSqlDatabase? database,
     this.asyncSavingManager,
     this.validator,
@@ -26,6 +25,7 @@ abstract class RestApiModelAdapter extends ModelAdapter {
     this.headers = defaultHeaders,
     this.checkError = defaultCheckError,
     this.vectorConverter = const RuntimeVectorConverter(),
+    super.defaultAutoDisposeWhenUnreferenced,
   }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.

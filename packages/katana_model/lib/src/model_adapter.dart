@@ -61,8 +61,7 @@ abstract class ModelAdapter {
   /// Returns `true` if models using this adapter should be automatically
   /// disposed of when they are no longer referenced by any widget.
   ///
-  /// このアダプターを利用するモデルがどのウィジェットからも参照されなくなったときに
-  /// 自動的に破棄する場合`true`を返します。
+  /// このアダプターを利用するモデルがどのウィジェットからも参照されなくなったときに自動的に破棄する場合`true`を返します。
   final bool defaultAutoDisposeWhenUnreferenced;
 
   /// You can get the default adapter.
