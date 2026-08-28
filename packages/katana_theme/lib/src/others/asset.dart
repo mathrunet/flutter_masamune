@@ -209,6 +209,10 @@ class TemporaryImageProviderBuilder with _ImageProviderBuilderMixin {
   final String _prefix = "document://";
 }
 
+ImageProvider _cacheRasterImage(ImageProvider provider) {
+  return ImageMemoryCacheProvider(provider);
+}
+
 mixin _ImageProviderBuilderMixin {
   String? get _prefix;
 
@@ -249,14 +253,14 @@ mixin _ImageProviderBuilderMixin {
       if (defaultAssetURI.endsWith("svg")) {
         return MemoizedAssetSvgImageProvider(defaultAssetURI);
       } else {
-        return _MemoizedAssetImage(defaultAssetURI);
+        return _cacheRasterImage(_MemoizedAssetImage(defaultAssetURI));
       }
     }
     try {
       uri = "$_prefix${uri!.trimStringRight("/")}";
       if (uri.startsWith("blob:")) {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
-        return MemoryImage(base64Url.decode(blob));
+        return _cacheRasterImage(MemoryImage(base64Url.decode(blob)));
       } else if (uri.startsWith("http")) {
         if (uri.endsWith("svg")) {
           return MemoizedNetworkSvgImageProvider(
@@ -264,9 +268,11 @@ mixin _ImageProviderBuilderMixin {
             headers: headers,
           );
         } else {
-          return _MemoizedNetworkImage(
-            uri,
-            headers: headers,
+          return _cacheRasterImage(
+            _MemoizedNetworkImage(
+              uri,
+              headers: headers,
+            ),
           );
         }
       } else if (uri.startsWith("/") || uri.startsWith("file:")) {
@@ -279,9 +285,11 @@ mixin _ImageProviderBuilderMixin {
           }
         } else {
           if (file.existsSync()) {
-            return _MemoizedFileImage(file);
+            return _cacheRasterImage(_MemoizedFileImage(file));
           } else {
-            return _MemoizedAssetImage(uri.trimString("/"));
+            return _cacheRasterImage(
+              _MemoizedAssetImage(uri.trimString("/")),
+            );
           }
         }
       } else if (uri.startsWith("document:")) {
@@ -292,7 +300,12 @@ mixin _ImageProviderBuilderMixin {
             dirType: FileImageDirType.document,
           );
         } else {
-          return _MemoizedFileImage(file, dirType: FileImageDirType.document);
+          return _cacheRasterImage(
+            _MemoizedFileImage(
+              file,
+              dirType: FileImageDirType.document,
+            ),
+          );
         }
       } else if (uri.startsWith("temp:")) {
         final file = File(uri.replaceAll(RegExp(r"^temp:(//)?"), ""));
@@ -302,7 +315,12 @@ mixin _ImageProviderBuilderMixin {
             dirType: FileImageDirType.temporary,
           );
         } else {
-          return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+          return _cacheRasterImage(
+            _MemoizedFileImage(
+              file,
+              dirType: FileImageDirType.temporary,
+            ),
+          );
         }
       } else if (uri.startsWith("temporary:")) {
         final file = File(uri.replaceAll(RegExp(r"^temporary:(//)?"), ""));
@@ -312,20 +330,25 @@ mixin _ImageProviderBuilderMixin {
             dirType: FileImageDirType.temporary,
           );
         } else {
-          return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+          return _cacheRasterImage(
+            _MemoizedFileImage(
+              file,
+              dirType: FileImageDirType.temporary,
+            ),
+          );
         }
       } else if (uri.startsWith("resource:")) {
         final path = uri.replaceAll(RegExp(r"^resource:(//)?"), "");
         if (uri.endsWith("svg")) {
           return MemoizedAssetSvgImageProvider(path);
         } else {
-          return _MemoizedAssetImage(path);
+          return _cacheRasterImage(_MemoizedAssetImage(path));
         }
       } else {
         if (uri.endsWith("svg")) {
           return MemoizedAssetSvgImageProvider(uri);
         } else {
-          return _MemoizedAssetImage(uri);
+          return _cacheRasterImage(_MemoizedAssetImage(uri));
         }
       }
     } catch (e) {
@@ -333,7 +356,7 @@ mixin _ImageProviderBuilderMixin {
       if (defaultAssetURI.endsWith("svg")) {
         return MemoizedAssetSvgImageProvider(defaultAssetURI);
       } else {
-        return _MemoizedAssetImage(defaultAssetURI);
+        return _cacheRasterImage(_MemoizedAssetImage(defaultAssetURI));
       }
     }
   }
@@ -360,14 +383,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
   @override
   ImageStreamCompleter loadImage(
       NetworkImage key, ImageDecoderCallback decode) {
-    if (key.url.isEmpty) {
-      return _loadImage(key, decode);
-    }
-    final cache = ImageMemoryCache.getCache(key.url);
-    if (cache != null) {
-      return cache;
-    }
-    return ImageMemoryCache.setCache(key.url, _loadImage(key, decode));
+    return _loadImage(key, decode);
   }
 
   ImageStreamCompleter _loadImage(
@@ -482,17 +498,7 @@ class _MemoizedFileImage extends FileImage {
 
   @override
   ImageStreamCompleter loadImage(FileImage key, ImageDecoderCallback decode) {
-    if (key.file.path.isEmpty) {
-      return _loadImage(key, decode);
-    }
-    final cache = ImageMemoryCache.getCache(key.file.path);
-    if (cache != null) {
-      return cache;
-    }
-    return ImageMemoryCache.setCache(
-      key.file.path,
-      _loadImage(key, decode),
-    );
+    return _loadImage(key, decode);
   }
 
   ImageStreamCompleter _loadImage(FileImage key, ImageDecoderCallback decode) {
@@ -537,17 +543,4 @@ class _MemoizedFileImage extends FileImage {
 
 class _MemoizedAssetImage extends AssetImage {
   const _MemoizedAssetImage(super.assetName);
-
-  @override
-  ImageStreamCompleter loadImage(
-      AssetBundleImageKey key, ImageDecoderCallback decode) {
-    if (key.name.isEmpty) {
-      return super.loadImage(key, decode);
-    }
-    final cache = ImageMemoryCache.getCache(key.name);
-    if (cache != null) {
-      return cache;
-    }
-    return ImageMemoryCache.setCache(key.name, super.loadImage(key, decode));
-  }
 }

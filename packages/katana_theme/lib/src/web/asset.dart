@@ -161,6 +161,16 @@ class TemporaryImageProviderBuilder with _ImageProviderBuilderMixin {
   const TemporaryImageProviderBuilder._();
 }
 
+ImageProvider _cacheRasterImage(
+  ImageProvider provider, {
+  bool resizeImage = true,
+}) {
+  return ImageMemoryCacheProvider(
+    provider,
+    resizeImage: resizeImage,
+  );
+}
+
 mixin _ImageProviderBuilderMixin {
   /// [ImageProvider] from the image file existing in [uri].
   ///
@@ -199,13 +209,13 @@ mixin _ImageProviderBuilderMixin {
       if (defaultAssetURI.endsWith("svg")) {
         return MemoizedAssetSvgImageProvider(defaultAssetURI);
       } else {
-        return _MemoizedAssetImage(defaultAssetURI);
+        return _cacheRasterImage(_MemoizedAssetImage(defaultAssetURI));
       }
     }
     try {
       if (uri!.startsWith("blob:")) {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
-        return MemoryImage(base64Url.decode(blob));
+        return _cacheRasterImage(MemoryImage(base64Url.decode(blob)));
       } else if (uri.startsWith("http")) {
         if (uri.endsWith("svg")) {
           return MemoizedNetworkSvgImageProvider(
@@ -213,7 +223,10 @@ mixin _ImageProviderBuilderMixin {
             headers: headers,
           );
         } else {
-          return _MemoizedNetworkImage(uri, headers: headers);
+          return _cacheRasterImage(
+            _MemoizedNetworkImage(uri, headers: headers),
+            resizeImage: false,
+          );
         }
       } else if (uri.startsWith("resource:")) {
         final path = uri.replaceAll(RegExp(r"^resource:(//)?"), "");
@@ -222,7 +235,7 @@ mixin _ImageProviderBuilderMixin {
             path,
           );
         } else {
-          return _MemoizedAssetImage(path);
+          return _cacheRasterImage(_MemoizedAssetImage(path));
         }
       } else {
         if (uri.endsWith("svg")) {
@@ -230,7 +243,7 @@ mixin _ImageProviderBuilderMixin {
             uri,
           );
         } else {
-          return _MemoizedAssetImage(uri);
+          return _cacheRasterImage(_MemoizedAssetImage(uri));
         }
       }
     } catch (e) {
@@ -238,7 +251,7 @@ mixin _ImageProviderBuilderMixin {
       if (defaultAssetURI.endsWith("svg")) {
         return MemoizedAssetSvgImageProvider(defaultAssetURI);
       } else {
-        return _MemoizedAssetImage(defaultAssetURI);
+        return _cacheRasterImage(_MemoizedAssetImage(defaultAssetURI));
       }
     }
   }
@@ -246,34 +259,8 @@ mixin _ImageProviderBuilderMixin {
 
 class _MemoizedNetworkImage extends network_image.NetworkImage {
   const _MemoizedNetworkImage(super.url, {super.headers});
-
-  @override
-  ImageStreamCompleter loadImage(
-      NetworkImage key, ImageDecoderCallback decode) {
-    if (key.url.isEmpty) {
-      return super.loadImage(key, decode);
-    }
-    final cache = ImageMemoryCache.getCache(key.url);
-    if (cache != null) {
-      return cache;
-    }
-    return ImageMemoryCache.setCache(key.url, super.loadImage(key, decode));
-  }
 }
 
 class _MemoizedAssetImage extends AssetImage {
   const _MemoizedAssetImage(super.assetName);
-
-  @override
-  ImageStreamCompleter loadImage(
-      AssetBundleImageKey key, ImageDecoderCallback decode) {
-    if (key.name.isEmpty) {
-      return super.loadImage(key, decode);
-    }
-    final cache = ImageMemoryCache.getCache(key.name);
-    if (cache != null) {
-      return cache;
-    }
-    return ImageMemoryCache.setCache(key.name, super.loadImage(key, decode));
-  }
 }

@@ -1,3 +1,9 @@
+## 3.4.0
+
+ - **FEAT**: Decode and cache raster images for the physical display size when both `Image.width` and `Image.height` are specified.
+ - **FEAT**: Cache separate decoded variants for each physical image size while preserving the source aspect ratio.
+ - **NOTE**: Network images on Flutter Web retain their original decode size because custom network decode sizes are not supported by the web engine.
+
 ## 3.3.0
 
  - **FEAT**(katana_theme): introduce configurable image memory cache limits. ([36eabbf8](https://github.com/mathrunet/flutter_masamune/commit/36eabbf8f068e9c2162dd056f17f5b31df305fb4))

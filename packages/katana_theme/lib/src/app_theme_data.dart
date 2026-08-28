@@ -2311,9 +2311,9 @@ class ImageMemoryCache {
   const ImageMemoryCache._();
 
   static int _maximumSize = 50;
-  static final Map<String, ImageStreamCompleter> _manager = {};
-  static final Map<String, ImageStreamCompleterHandle> _managerHandles = {};
-  static final List<String> _savedImages = [];
+  static final Map<Object, ImageStreamCompleter> _manager = {};
+  static final Map<Object, ImageStreamCompleterHandle> _managerHandles = {};
+  static final List<Object> _savedImages = [];
 
   /// Maximum number of images retained by this cache.
   ///
@@ -2334,8 +2334,8 @@ class ImageMemoryCache {
   /// Get the cache for the image.
   ///
   /// 画像のキャッシュを取得します。
-  static ImageStreamCompleter? getCache(String? key) {
-    if (key == null || key.isEmpty) {
+  static ImageStreamCompleter? getCache(Object? key) {
+    if (key == null || (key is String && key.isEmpty)) {
       return null;
     }
     return _manager[key];
@@ -2345,10 +2345,10 @@ class ImageMemoryCache {
   ///
   /// 画像のキャッシュを設定します。
   static ImageStreamCompleter setCache(
-    String? key,
+    Object? key,
     ImageStreamCompleter completer,
   ) {
-    if (key == null || key.isEmpty || _maximumSize == 0) {
+    if (key == null || (key is String && key.isEmpty) || _maximumSize == 0) {
       return completer;
     }
     if (_manager.containsKey(key)) {
@@ -2363,6 +2363,19 @@ class ImageMemoryCache {
     return completer;
   }
 
+  /// Evict the image associated with [key].
+  ///
+  /// [key]に関連付けられた画像をキャッシュから削除します。
+  static bool evict(Object? key) {
+    if (key == null || !_manager.containsKey(key)) {
+      return false;
+    }
+    _savedImages.remove(key);
+    _manager.remove(key);
+    _managerHandles.remove(key)?.dispose();
+    return true;
+  }
+
   static void _trimToMaximumSize() {
     while (_savedImages.length > _maximumSize) {
       final removedKey = _savedImages.removeAt(0);
@@ -2370,6 +2383,214 @@ class ImageMemoryCache {
       _managerHandles.remove(removedKey)?.dispose();
     }
   }
+}
+
+/// An image provider that decodes and caches raster images for their display
+/// size.
+///
+/// When both dimensions are available in [ImageConfiguration.size], the
+/// logical display size is converted to physical pixels using
+/// [ImageConfiguration.devicePixelRatio]. The decoded image preserves its
+/// aspect ratio and is large enough to cover the requested display bounds.
+///
+/// 表示サイズに合わせてラスター画像をデコードし、キャッシュする画像プロバイダー。
+///
+/// [ImageConfiguration.size]の縦横両方が取得できる場合、論理表示サイズを
+/// [ImageConfiguration.devicePixelRatio]で物理ピクセルへ変換します。デコード後の
+/// 画像は縦横比を維持し、要求された表示領域を覆える最小サイズになります。
+@immutable
+class ImageMemoryCacheProvider extends ImageProvider<ImageMemoryCacheKey> {
+  /// Creates an image provider backed by [imageProvider].
+  ///
+  /// Set [resizeImage] to false on platforms that cannot resize the decoded
+  /// image.
+  const ImageMemoryCacheProvider(
+    this.imageProvider, {
+    this.resizeImage = true,
+  });
+
+  /// The wrapped image provider.
+  final ImageProvider imageProvider;
+
+  /// Whether the decoded image should use the configured display size.
+  final bool resizeImage;
+
+  @override
+  Future<ImageMemoryCacheKey> obtainKey(ImageConfiguration configuration) {
+    final targetSize = resizeImage
+        ? _ImageMemoryTargetSize.fromConfiguration(configuration)
+        : null;
+    Completer<ImageMemoryCacheKey>? completer;
+    SynchronousFuture<ImageMemoryCacheKey>? result;
+    imageProvider.obtainKey(configuration).then((key) {
+      final cacheKey = ImageMemoryCacheKey._(
+        providerKey: key,
+        targetSize: targetSize,
+      );
+      if (completer == null) {
+        result = SynchronousFuture<ImageMemoryCacheKey>(cacheKey);
+      } else {
+        completer.complete(cacheKey);
+      }
+    });
+    if (result != null) {
+      return result!;
+    }
+    completer = Completer<ImageMemoryCacheKey>();
+    return completer.future;
+  }
+
+  @override
+  ImageStreamCompleter loadImage(
+    ImageMemoryCacheKey key,
+    ImageDecoderCallback decode,
+  ) {
+    final cache = ImageMemoryCache.getCache(key);
+    if (cache != null) {
+      return cache;
+    }
+
+    Future<ui.Codec> decodeForTargetSize(
+      ui.ImmutableBuffer buffer, {
+      ui.TargetImageSizeCallback? getTargetSize,
+    }) {
+      assert(
+        getTargetSize == null,
+        "ImageMemoryCacheProvider cannot be composed with another "
+        "ImageProvider that applies getTargetSize.",
+      );
+      final targetSize = key._targetSize;
+      if (targetSize == null) {
+        return decode(buffer);
+      }
+      return decode(
+        buffer,
+        getTargetSize: targetSize.cover,
+      );
+    }
+
+    final completer = imageProvider.loadImage(
+      key._providerKey,
+      decodeForTargetSize,
+    );
+    completer.addEphemeralErrorListener((exception, stackTrace) {
+      scheduleMicrotask(() {
+        ImageMemoryCache.evict(key);
+        PaintingBinding.instance.imageCache.evict(key);
+      });
+    });
+    return ImageMemoryCache.setCache(key, completer);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+    return other is ImageMemoryCacheProvider &&
+        other.imageProvider == imageProvider &&
+        other.resizeImage == resizeImage;
+  }
+
+  @override
+  int get hashCode => Object.hash(imageProvider, resizeImage);
+
+  @override
+  String toString() =>
+      "$runtimeType(imageProvider: $imageProvider, resizeImage: $resizeImage)";
+}
+
+/// The key used by [ImageMemoryCacheProvider].
+///
+/// Instances can only be created by [ImageMemoryCacheProvider] so external
+/// callers cannot insert incompatible keys into Flutter's image cache.
+@immutable
+class ImageMemoryCacheKey {
+  const ImageMemoryCacheKey._({
+    required Object providerKey,
+    required _ImageMemoryTargetSize? targetSize,
+  })  : _providerKey = providerKey,
+        _targetSize = targetSize;
+
+  final Object _providerKey;
+  final _ImageMemoryTargetSize? _targetSize;
+
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+    return other is ImageMemoryCacheKey &&
+        other._providerKey == _providerKey &&
+        other._targetSize == _targetSize;
+  }
+
+  @override
+  int get hashCode => Object.hash(_providerKey, _targetSize);
+}
+
+@immutable
+class _ImageMemoryTargetSize {
+  const _ImageMemoryTargetSize({
+    required this.width,
+    required this.height,
+  });
+
+  static _ImageMemoryTargetSize? fromConfiguration(
+    ImageConfiguration configuration,
+  ) {
+    final size = configuration.size;
+    final devicePixelRatio = configuration.devicePixelRatio ?? 1.0;
+    if (size == null ||
+        !size.width.isFinite ||
+        !size.height.isFinite ||
+        size.width <= 0 ||
+        size.height <= 0 ||
+        !devicePixelRatio.isFinite ||
+        devicePixelRatio <= 0) {
+      return null;
+    }
+    return _ImageMemoryTargetSize(
+      width: (size.width * devicePixelRatio).ceil(),
+      height: (size.height * devicePixelRatio).ceil(),
+    );
+  }
+
+  final int width;
+  final int height;
+
+  ui.TargetImageSize cover(int intrinsicWidth, int intrinsicHeight) {
+    if (width <= 0 ||
+        height <= 0 ||
+        intrinsicWidth <= 0 ||
+        intrinsicHeight <= 0) {
+      return ui.TargetImageSize(
+        width: intrinsicWidth,
+        height: intrinsicHeight,
+      );
+    }
+    final scale = math.min(
+      1.0,
+      math.max(width / intrinsicWidth, height / intrinsicHeight),
+    );
+    return ui.TargetImageSize(
+      width: math.max(1, (intrinsicWidth * scale).ceil()),
+      height: math.max(1, (intrinsicHeight * scale).ceil()),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+    return other is _ImageMemoryTargetSize &&
+        other.width == width &&
+        other.height == height;
+  }
+
+  @override
+  int get hashCode => Object.hash(width, height);
 }
 
 /// Define a color scheme.
