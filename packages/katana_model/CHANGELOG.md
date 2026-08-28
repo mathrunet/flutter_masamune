@@ -1,3 +1,7 @@
+## 3.8.0
+
+ - **FEAT**(dependencies): update package versions and enhance model adapter functionality. ([8237cbe1](https://github.com/mathrunet/flutter_masamune/commit/8237cbe1f8dde71c7e9e005774fc35157c6d2ec1))
+
 ## 3.7.3
 
  - Update a dependency to the latest release.

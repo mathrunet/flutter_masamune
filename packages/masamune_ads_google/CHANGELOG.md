@@ -1,3 +1,7 @@
+## 3.1.18
+
+ - Update a dependency to the latest release.
+
 ## 3.1.17
 
  - **FIX**(release): update masamune_ads_google to version 3.1.16. ([3cebb5b8](https://github.com/mathrunet/flutter_masamune/commit/3cebb5b8e4fd20a4d3a4091a00af6ce1df3b572a))
