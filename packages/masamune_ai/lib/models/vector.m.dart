@@ -144,6 +144,7 @@ class _$_VectorModelDocumentQuery
     extends ModelQueryBase<_$VectorModelDocument> {
   const _$_VectorModelDocumentQuery(this.modelQuery);
 
+  @override
   final DocumentModelQuery modelQuery;
 
   @override
@@ -193,6 +194,7 @@ class _$_VectorModelCollectionQuery
     extends ModelQueryBase<_$VectorModelCollection> {
   const _$_VectorModelCollectionQuery(this.modelQuery);
 
+  @override
   final CollectionModelQuery modelQuery;
 
   @override

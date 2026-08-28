@@ -2,25 +2,29 @@
 
 // ignore_for_file: non_constant_identifier_names
 
+// Package imports:
+import "package:analysis_server_plugin/edit/dart/correction_producer.dart";
+import "package:analysis_server_plugin/registry.dart";
 import "package:analyzer/analysis_rule/analysis_rule.dart";
 import "package:analyzer/dart/analysis/results.dart";
 import "package:analyzer/error/error.dart";
-import "package:analysis_server_plugin/edit/dart/correction_producer.dart";
-import "package:analysis_server_plugin/registry.dart";
+import "package:analyzer_plugin/protocol/protocol_common.dart" show SourceEdit;
+import "package:analyzer_testing/analysis_rule/analysis_rule.dart";
+import "package:test/test.dart";
+import "package:test_reflective_loader/test_reflective_loader.dart";
+
+// Project imports:
+import "package:masamune_lints/masamune_lints.dart";
+
 // ignore: implementation_imports
 import "package:analysis_server_plugin/src/correction/fix_generators.dart"
     show ProducerGenerator;
-import "package:analyzer_plugin/protocol/protocol_common.dart" show SourceEdit;
 // ignore: implementation_imports
 import "package:analyzer_plugin/src/utilities/change_builder/change_builder_core.dart"
     show ChangeBuilderImpl;
-import "package:analyzer_testing/analysis_rule/analysis_rule.dart";
 // ignore: implementation_imports
 import "package:analyzer_testing/src/analysis_rule/pub_package_resolution.dart"
     show ExpectedDiagnostic;
-import "package:masamune_lints/masamune_lints.dart";
-import "package:test/test.dart";
-import "package:test_reflective_loader/test_reflective_loader.dart";
 
 AnalysisRule _rule(String name) =>
     createMasamuneLintRules().singleWhere((rule) => rule.name == name);
@@ -362,8 +366,7 @@ class PageRef {
 """;
 
   Future<void> test_reports_unloaded_model_in_build() async {
-    const source =
-        """
+    const source = """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -407,8 +410,7 @@ class LoadingBuilder {
 """;
 
   Future<void> test_reports_loaded_model_without_indicator() async {
-    const source =
-        """
+    const source = """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -454,8 +456,7 @@ class PageRef {
 """;
 
   Future<void> test_reports_collection_query_without_limit() async {
-    const source =
-        """
+    const source = """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -490,8 +491,7 @@ class Page {
   }
 
   Future<void> test_reports_aggregate_with_limit() async {
-    const source =
-        """
+    const source = """
 $_support
 class Page {
   void build(PageRef ref) {
@@ -748,9 +748,8 @@ class TextButton extends Widget {
   }) async {
     testFile.writeAsStringSync(source);
     final unitResult = await resolveFile(testFile.path);
-    final libraryResult =
-        await unitResult.session.getResolvedLibrary(testFile.path)
-            as ResolvedLibraryResult;
+    final libraryResult = await unitResult.session
+        .getResolvedLibrary(testFile.path) as ResolvedLibraryResult;
     final diagnostic = isFix
         ? unitResult.diagnostics.singleWhere(
             (diagnostic) => diagnostic.diagnosticCode.lowerCaseName == ruleName,
@@ -768,20 +767,19 @@ class TextButton extends Widget {
     final registry = _CapturingPluginRegistry();
     MasamuneLintsPlugin().register(registry);
     final generators = isFix ? registry.fixes[ruleName]! : registry.assists;
-    final producer = generators
-        .map((generator) => generator(context: context))
-        .singleWhere(
-          (producer) =>
-              (isFix ? producer.fixKind?.id : producer.assistKind?.id) ==
-                  correctionId &&
-              (!isFix
-                  ? (producer.assistArguments ?? const [])
-                            .map((value) => value.toString())
-                            .toList()
-                            .join() ==
-                        correctionArguments.join()
-                  : true),
-        );
+    final producer =
+        generators.map((generator) => generator(context: context)).singleWhere(
+              (producer) =>
+                  (isFix ? producer.fixKind?.id : producer.assistKind?.id) ==
+                      correctionId &&
+                  (!isFix
+                      ? (producer.assistArguments ?? const [])
+                              .map((value) => value.toString())
+                              .toList()
+                              .join() ==
+                          correctionArguments.join()
+                      : true),
+            );
     final builder = ChangeBuilderImpl(session: unitResult.session);
     await producer.compute(builder);
     final fileEdit = builder.sourceChange.edits.single;
@@ -845,8 +843,7 @@ void g() {}
   }
 
   Future<void> test_assist_add_icon_exact_edit() async {
-    const source =
-        """
+    const source = """
 $_buttonDeclarations
 Widget f() => ElevatedButton(child: const Widget());
 """;
@@ -864,8 +861,7 @@ Widget f() => ElevatedButton.icon(label: const Widget(), icon: const Icon(Icons.
   }
 
   Future<void> test_assist_remove_icon_exact_edit() async {
-    const source =
-        """
+    const source = """
 $_buttonDeclarations
 Widget f() => ElevatedButton.icon(
   icon: const Icon(Icons.add),
@@ -888,8 +884,7 @@ Widget f() => ElevatedButton(
   }
 
   Future<void> test_assist_convert_button_exact_edit() async {
-    const source =
-        """
+    const source = """
 $_buttonDeclarations
 Widget f() => ElevatedButton(child: const Widget());
 """;

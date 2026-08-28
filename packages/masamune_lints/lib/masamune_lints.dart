@@ -78,21 +78,21 @@ class MasamuneLintsPlugin extends Plugin {
 /// This factory is public so that plugin consumers can use the official
 /// `analyzer_testing` harness without relying on implementation imports.
 List<AnalysisRule> createMasamuneLintRules() => [
-  _MasamuneModelShouldLoad(),
-  _MasamuneModelShouldShowIndicatorWhileLoading(),
-  _MasamuneCollectionModelShouldAddLimitQuery(),
-  _MasamuneScopedQueryMustPassToAppropriateRef(),
-  _MasamuneShouldUseUniversalWidget(),
-  _MasamuneShouldUseFormWidget(),
-  _MasamuneLimitIfNesting(),
-  _MasamuneUnwrapNullable(),
-  _MasamuneCaughtErrorShouldReport(),
-  _MasamuneExpectedErrorShouldHaveUnexpectedCatch(),
-];
+      _MasamuneModelShouldLoad(),
+      _MasamuneModelShouldShowIndicatorWhileLoading(),
+      _MasamuneCollectionModelShouldAddLimitQuery(),
+      _MasamuneScopedQueryMustPassToAppropriateRef(),
+      _MasamuneShouldUseUniversalWidget(),
+      _MasamuneShouldUseFormWidget(),
+      _MasamuneLimitIfNesting(),
+      _MasamuneUnwrapNullable(),
+      _MasamuneCaughtErrorShouldReport(),
+      _MasamuneExpectedErrorShouldHaveUnexpectedCatch(),
+    ];
 
 abstract class _MasamuneAnalysisRule extends AnalysisRule {
   _MasamuneAnalysisRule(this._code)
-    : super(name: _code.lowerCaseName, description: _code.problemMessage);
+      : super(name: _code.lowerCaseName, description: _code.problemMessage);
 
   final LintCode _code;
 
@@ -138,12 +138,14 @@ class _MasamuneRuleRegistry {
       catchClauseCallbacks.add(callback);
   void addFunctionExpressionInvocation(
     void Function(FunctionExpressionInvocation) callback,
-  ) => functionExpressionInvocationCallbacks.add(callback);
+  ) =>
+      functionExpressionInvocationCallbacks.add(callback);
   void addIfStatement(void Function(IfStatement) callback) =>
       ifStatementCallbacks.add(callback);
   void addInstanceCreationExpression(
     void Function(InstanceCreationExpression) callback,
-  ) => instanceCreationExpressionCallbacks.add(callback);
+  ) =>
+      instanceCreationExpressionCallbacks.add(callback);
   void addMethodInvocation(void Function(MethodInvocation) callback) =>
       methodInvocationCallbacks.add(callback);
   void addPostfixExpression(void Function(PostfixExpression) callback) =>

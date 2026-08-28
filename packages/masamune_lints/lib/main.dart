@@ -1,5 +1,6 @@
 // Copyright (c) 2025 mathru. All rights reserved.
 
+// Project imports:
 import "package:masamune_lints/masamune_lints.dart";
 
 /// Entry point loaded by the Dart analysis server.

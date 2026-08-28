@@ -57,7 +57,7 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
           // 変数に入れていないとき
           final parentMethodInvocationNode =
               node.target?.thisOrAncestorOfType<MethodInvocation>() ??
-              node.parent?.thisOrAncestorOfType<MethodInvocation>();
+                  node.parent?.thisOrAncestorOfType<MethodInvocation>();
           if (parentMethodInvocationNode != null &&
               parentMethodInvocationNode != node) {
             final found = res.firstWhereOrNull(
@@ -78,8 +78,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
             return;
           }
           // 変数に入れていないときかつカスケードでメソッドを呼び出しているとき
-          final parentCascadeExpressionVariableNode = node.parent
-              ?.thisOrAncestorOfType<CascadeExpression>();
+          final parentCascadeExpressionVariableNode =
+              node.parent?.thisOrAncestorOfType<CascadeExpression>();
           if (parentCascadeExpressionVariableNode != null) {
             final parentMethodInvocationNode =
                 parentCascadeExpressionVariableNode.target
@@ -105,8 +105,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
             }
           }
           // 変数に入れているとき
-          final parentVariableDeclarationNode = node
-              .thisOrAncestorOfType<VariableDeclaration>();
+          final parentVariableDeclarationNode =
+              node.thisOrAncestorOfType<VariableDeclaration>();
           if (parentVariableDeclarationNode != null) {
             final found = res.firstWhereOrNull(
               (e) => e.variable == parentVariableDeclarationNode,
@@ -159,9 +159,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
           final targetNode = node.argumentList.arguments.firstWhereOrNull(
             (item) => item.correspondingParameter?.name == "loadingFutures",
           );
-          final targetExpression = targetNode == null
-              ? null
-              : _argumentExpression(targetNode);
+          final targetExpression =
+              targetNode == null ? null : _argumentExpression(targetNode);
           if (targetExpression == null) {
             return;
           }
@@ -194,9 +193,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
           final targetNode = node.argumentList.arguments.firstWhereOrNull(
             (item) => item.correspondingParameter?.name == "futures",
           );
-          final targetExpression = targetNode == null
-              ? null
-              : _argumentExpression(targetNode);
+          final targetExpression =
+              targetNode == null ? null : _argumentExpression(targetNode);
           if (targetExpression == null) {
             return;
           }
@@ -239,8 +237,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
       final type = node.staticType is InterfaceType
           ? node.staticType!.getDisplayString().split("<").first
           : node.target == null
-          ? node.methodName.name
-          : null;
+              ? node.methodName.name
+              : null;
       final parameterName = switch (type) {
         "UniversalScaffold" => "loadingFutures",
         "LoadingBuilder" => "futures",
@@ -278,9 +276,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
         if (targetName != null) {
           indicatorVariables.add(targetName);
           res
-                  .firstWhereOrNull((value) => value.variableName == targetName)
-                  ?.isShowIndicator =
-              true;
+              .firstWhereOrNull((value) => value.variableName == targetName)
+              ?.isShowIndicator = true;
         }
       }
     });
@@ -292,9 +289,8 @@ class _MasamuneModelShouldShowIndicatorWhileLoading
       }
       for (final node in res) {
         final variableName = node.variableName;
-        final buildSource = node.node
-            ?.thisOrAncestorOfType<MethodDeclaration>()
-            ?.toSource();
+        final buildSource =
+            node.node?.thisOrAncestorOfType<MethodDeclaration>()?.toSource();
         if (variableName != null &&
             buildSource != null &&
             (buildSource.contains("LoadingBuilder(") ||

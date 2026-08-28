@@ -117,18 +117,15 @@ _ButtonInvocation? _buttonInvocation(AstNode selectedNode) {
   if (invocation == null) {
     return null;
   }
-  final displayType = invocation.staticType
-      ?.getDisplayString()
-      .split("<")
-      .first;
-  final className =
-      _MaterialButtonType.values
+  final displayType =
+      invocation.staticType?.getDisplayString().split("<").first;
+  final className = _MaterialButtonType.values
           .map((value) => value.className)
           .contains(displayType)
       ? displayType!
       : invocation.target == null
-      ? invocation.methodName.name
-      : invocation.target.toString();
+          ? invocation.methodName.name
+          : invocation.target.toString();
   if (!_MaterialButtonType.values.any(
     (value) => value.className == className,
   )) {

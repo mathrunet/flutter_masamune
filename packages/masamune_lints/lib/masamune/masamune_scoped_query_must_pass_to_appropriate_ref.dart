@@ -127,8 +127,8 @@ class _MasamuneScopedQueryMustPassToAppropriateRef
             }
             return;
           }
-          final function = node.parent
-              ?.thisOrAncestorOfType<FunctionExpression>();
+          final function =
+              node.parent?.thisOrAncestorOfType<FunctionExpression>();
           if (function != null) {
             final ancestor = function.parent
                 ?.thisOrAncestorOfType<InstanceCreationExpression>();
@@ -136,11 +136,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef
               return;
             }
             final elementType = function
-                .parameters
-                ?.parameterFragments
-                .firstOrNull
-                ?.element
-                .type;
+                .parameters?.parameterFragments.firstOrNull?.element.type;
             if (elementType == null || elementType is! InterfaceType) {
               return;
             }

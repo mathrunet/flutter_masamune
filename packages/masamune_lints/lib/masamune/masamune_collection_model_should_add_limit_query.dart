@@ -64,8 +64,7 @@ class _MasamuneCollectionModelShouldAddLimitQuery
 
     context.addPostRunCallback(() {
       for (final use in uses) {
-        final hasLimit =
-            use.hasLimit ||
+        final hasLimit = use.hasLimit ||
             (use.variableName != null &&
                 limitedVariables.contains(use.variableName));
         if ((use.isAggregate && hasLimit) || (!use.isAggregate && !hasLimit)) {
@@ -83,19 +82,22 @@ class _MasamuneCollectionModelShouldAddLimitQuery
       type.getDisplayString().endsWith("ModelCollectionQuery");
 
   DartType? _elementType(Element? element) => switch (element) {
-    VariableElement(:final type) => type,
-    GetterElement(:final returnType) => returnType,
-    _ => null,
-  };
+        VariableElement(:final type) => type,
+        GetterElement(:final returnType) => returnType,
+        _ => null,
+      };
 
   DartType? _expressionDeclaredType(
     Expression expression,
-  ) => switch (expression) {
-    SimpleIdentifier(:final element) => _elementType(element),
-    PropertyAccess(:final propertyName) => _elementType(propertyName.element),
-    PrefixedIdentifier(:final identifier) => _elementType(identifier.element),
-    _ => null,
-  };
+  ) =>
+      switch (expression) {
+        SimpleIdentifier(:final element) => _elementType(element),
+        PropertyAccess(:final propertyName) =>
+          _elementType(propertyName.element),
+        PrefixedIdentifier(:final identifier) =>
+          _elementType(identifier.element),
+        _ => null,
+      };
 
   String? _rootIdentifier(AstNode? node) {
     var current = node;

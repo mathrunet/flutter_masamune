@@ -1,6 +1,11 @@
+// Flutter imports:
 import "package:flutter/widgets.dart";
-import "package:katana_theme/katana_theme.dart";
+
+// Package imports:
 import "package:test/test.dart";
+
+// Project imports:
+import "package:katana_theme/katana_theme.dart";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
