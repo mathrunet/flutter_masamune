@@ -1,3 +1,20 @@
+## 4.0.0
+
+- **BREAKING**: Require Dart 3.10 or later and migrate completely from
+  `custom_lint` / `custom_lint_builder` to the official
+  `analysis_server_plugin` API.
+- Add the fixed `lib/main.dart` entry point required by the official
+  `analysis_server_plugin` API as the explicitly approved exception to the
+  repository's Katana-template requirement.
+- Preserve all ten diagnostics and their severity, including the error-level
+  scoped-query rule.
+- Preserve the caught-error quick fix and the add-icon, remove-icon, and
+  button-type conversion assists.
+- Move rule tests to the official `analyzer_testing` harness and add positive,
+  negative, severity, and message-argument coverage.
+- Support both Dart 3.10 and Dart 3.13.2 through a compatible official analyzer
+  plug-in dependency set.
+
 ## 3.4.0
 
  - **FEAT**(masamune_ai_debugger): enhance error handling and context reporting. ([a98e2db8](https://github.com/mathrunet/flutter_masamune/commit/a98e2db8a0b80b5d0e439a27a8eab1a3a972537e))
@@ -210,4 +227,3 @@
 ## 2.1.0
 
  - **FEAT**: Initial commit. ([53f12b5d](https://github.com/mathrunet/flutter_masamune/commit/53f12b5d069add251493efefe92a0822aaee5927))
-

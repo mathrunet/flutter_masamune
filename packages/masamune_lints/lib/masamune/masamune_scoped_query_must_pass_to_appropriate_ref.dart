@@ -64,22 +64,18 @@ _MasamuneScopedType _getRefType(InterfaceType? type) {
   return _MasamuneScopedType.any;
 }
 
-class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
-  const _MasamuneScopedQueryMustPassToAppropriateRef() : super(code: _code);
+class _MasamuneScopedQueryMustPassToAppropriateRef
+    extends _MasamuneAnalysisRule {
+  _MasamuneScopedQueryMustPassToAppropriateRef() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_scoped_query_must_pass_to_appropriate_ref",
-    problemMessage:
-        "ScopedQuery must be passed to the appropriate Ref. ScopedQueryは適切なRefに渡す必要があります。",
-    errorSeverity: ErrorSeverity.ERROR,
+  static const code = LintCode(
+    "masamune_scoped_query_must_pass_to_appropriate_ref",
+    "ScopedQuery must be passed to the appropriate Ref. ScopedQueryは適切なRefに渡す必要があります。 Ref/{0} != ScopedQuery/{1}",
+    severity: DiagnosticSeverity.ERROR,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     // メソッドの実行時
     context.registry.addMethodInvocation((node) {
       final functionName = node.methodName.name;
@@ -90,7 +86,8 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
           if (argument == null || targetType == null) {
             return;
           }
-          final argumentType = (argument.staticType as InterfaceType?);
+          final argumentType =
+              (_argumentExpression(argument)?.staticType as InterfaceType?);
           if (argumentType == null) {
             return;
           }
@@ -104,15 +101,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
             switch (type) {
               case _MasamuneScopedType.app:
                 if (type != scopedType) {
-                  reporter.atNode(
-                    node,
-                    lint_codes.LintCode(
-                      name: _code.name,
-                      problemMessage:
-                          "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
-                      errorSeverity: _code.errorSeverity,
-                    ),
-                  );
+                  reportAtNode(node, arguments: [type.label, scopedType.label]);
                 }
                 break;
               case _MasamuneScopedType.page:
@@ -121,15 +110,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
                   return;
                 }
                 if (type != scopedType) {
-                  reporter.atNode(
-                    node,
-                    lint_codes.LintCode(
-                      name: _code.name,
-                      problemMessage:
-                          "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
-                      errorSeverity: _code.errorSeverity,
-                    ),
-                  );
+                  reportAtNode(node, arguments: [type.label, scopedType.label]);
                 }
                 break;
               case _MasamuneScopedType.widget:
@@ -138,15 +119,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
                   return;
                 }
                 if (type != scopedType) {
-                  reporter.atNode(
-                    node,
-                    lint_codes.LintCode(
-                      name: _code.name,
-                      problemMessage:
-                          "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${scopedType.label}",
-                      errorSeverity: _code.errorSeverity,
-                    ),
-                  );
+                  reportAtNode(node, arguments: [type.label, scopedType.label]);
                 }
                 break;
               default:
@@ -154,8 +127,8 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
             }
             return;
           }
-          final function =
-              node.parent?.thisOrAncestorOfType<FunctionExpression>();
+          final function = node.parent
+              ?.thisOrAncestorOfType<FunctionExpression>();
           if (function != null) {
             final ancestor = function.parent
                 ?.thisOrAncestorOfType<InstanceCreationExpression>();
@@ -163,7 +136,11 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
               return;
             }
             final elementType = function
-                .parameters?.parameterFragments.firstOrNull?.element.type;
+                .parameters
+                ?.parameterFragments
+                .firstOrNull
+                ?.element
+                .type;
             if (elementType == null || elementType is! InterfaceType) {
               return;
             }
@@ -172,15 +149,7 @@ class _MasamuneScopedQueryMustPassToAppropriateRef extends DartLintRule {
               return;
             }
             if (scopedType != type) {
-              reporter.atNode(
-                node,
-                lint_codes.LintCode(
-                  name: _code.name,
-                  problemMessage:
-                      "${_code.problemMessage} Ref/${type.label} != ScopedQuery/${type.label}",
-                  errorSeverity: _code.errorSeverity,
-                ),
-              );
+              reportAtNode(node, arguments: [type.label, scopedType.label]);
             }
 
             return;

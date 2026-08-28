@@ -36,6 +36,71 @@ For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
 
+## Requirements
+
+- Dart 3.10 or later
+- An editor or analysis command that supports the official Dart analyzer plug-in API
+
+## Setup
+
+Add `masamune_lints` to `dev_dependencies`, then enable the plug-in at the top
+level of `analysis_options.yaml`:
+
+```yaml
+plugins:
+  masamune_lints: ^4.0.0
+```
+
+For local development, the official path plug-in form is also supported:
+
+```yaml
+plugins:
+  masamune_lints:
+    path: ../masamune_lints
+```
+
+Version 4.0.0 is a breaking migration from `custom_lint`. Remove
+`custom_lint` and `custom_lint_builder` from the consuming package, remove the
+old `analyzer.plugins: [custom_lint]` configuration, and do not run
+`dart run custom_lint`. Diagnostics, quick fixes, and assists are now provided
+directly by the Dart analysis server.
+
+The official `analysis_server_plugin` API requires a fixed `lib/main.dart`
+entry point containing the top-level `plugin` object. That file was created as
+the explicitly approved exception to the repository's Katana-template
+requirement; no other manually created source entry point is introduced by this
+migration.
+
+## Diagnostics
+
+The plug-in provides ten diagnostics with the same conditions and severity as
+the 3.x implementation:
+
+| Diagnostic | Severity |
+| --- | --- |
+| `masamune_model_should_load` | warning |
+| `masamune_model_should_show_indicator_while_loading` | warning |
+| `masamune_collection_model_should_add_limit_query` | warning |
+| `masamune_scoped_query_must_pass_to_appropriate_ref` | error |
+| `masamune_should_use_universal_widget` | warning |
+| `masamune_should_use_form_widget` | warning |
+| `masamune_limit_if_nesting` | warning |
+| `masamune_unwrap_nullable` | warning |
+| `masamune_caught_error_should_report` | warning |
+| `masamune_expected_error_should_have_unexpected_catch` | warning |
+
+It also provides one quick fix for reporting an unexpected caught error and
+three kinds of button assists: add an icon, remove an icon, and convert the
+Material button type.
+
+### `flutter analyze` note
+
+Some Flutter SDK releases can finish one-shot `flutter analyze` before an
+official analyzer plug-in reports its diagnostics. The command still loads the
+local path plug-in successfully, but use `dart analyze` or editor analysis when
+you need deterministic plug-in diagnostics until the upstream Flutter/Dart
+analysis-server timing issue is resolved.
+
 ## Error handling rules
 
 Masamune distinguishes expected and unexpected errors by catch syntax.

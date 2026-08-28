@@ -1,24 +1,16 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneCaughtErrorShouldReport extends DartLintRule {
-  const _MasamuneCaughtErrorShouldReport()
-      : super(
-          code: _code,
-        );
+class _MasamuneCaughtErrorShouldReport extends _MasamuneAnalysisRule {
+  _MasamuneCaughtErrorShouldReport() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_caught_error_should_report",
-    problemMessage:
-        "An untyped catch handles an unexpected error. Report the caught error and stack trace with appLogger.error(e, stackTrace), or propagate it with rethrow/throw. 型指定なしのcatchは想定外エラーを処理します。捕捉したエラーとスタックトレースをappLogger.error(e, stackTrace)で報告するか、rethrow/throwで伝播してください。",
-    errorSeverity: ErrorSeverity.WARNING,
+  static const code = LintCode(
+    "masamune_caught_error_should_report",
+    "An untyped catch handles an unexpected error. Report the caught error and stack trace with appLogger.error(e, stackTrace), or propagate it with rethrow/throw. 型指定なしのcatchは想定外エラーを処理します。捕捉したエラーとスタックトレースをappLogger.error(e, stackTrace)で報告するか、rethrow/throwで伝播してください。",
+    severity: DiagnosticSeverity.WARNING,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     context.registry.addCatchClause((node) {
       // A typed `on XxxException catch` explicitly declares an expected
       // error. It is handled locally and does not need incident reporting.
@@ -28,60 +20,54 @@ class _MasamuneCaughtErrorShouldReport extends DartLintRule {
       if (node.isReportingCaughtError()) {
         return;
       }
-      reporter.atNode(node, _code);
+      reportAtNode(node);
     });
   }
-
-  @override
-  List<Fix> getFixes() => [_MasamuneCaughtErrorShouldReportFix()];
 }
 
-class _MasamuneCaughtErrorShouldReportFix extends DartFix {
+class _MasamuneCaughtErrorShouldReportFix extends ResolvedCorrectionProducer {
+  static const _fixKind = FixKind(
+    "masamune_lints.fix.report_caught_error",
+    DartFixKindPriority.standard,
+    "Report the caught error with appLogger.error",
+  );
+
+  _MasamuneCaughtErrorShouldReportFix({required super.context});
+
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    AnalysisError analysisError,
-    List<AnalysisError> others,
-  ) {
-    context.registry.addCatchClause((node) {
-      if (!analysisError.sourceRange.intersects(node.sourceRange)) {
-        return;
-      }
-      if (node.exceptionType != null || node.isReportingCaughtError()) {
-        return;
-      }
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
 
-      final changeBuilder = reporter.createChangeBuilder(
-        message: "Report the caught error with appLogger.error",
-        priority: 80,
-      );
+  @override
+  FixKind get fixKind => _fixKind;
 
-      changeBuilder.addDartFileEdit((builder) {
-        final exceptionName = node.exceptionParameter?.name.lexeme;
-        if (exceptionName == null) {
-          // An untyped catch always has an exception parameter.
-          return;
-        }
-        final stackTraceName = node.stackTraceParameter?.name.lexeme;
-
-        if (stackTraceName == null) {
-          builder.addSimpleInsertion(
-            node.exceptionParameter!.sourceRange.end,
-            ", stackTrace",
-          );
-        }
-
-        // `unawaited` is not in scope by default, so only add `await` when the
-        // enclosing body is asynchronous and drop the future otherwise.
-        final isAsync =
-            node.thisOrAncestorOfType<FunctionBody>()?.isAsynchronous ?? false;
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final catchClause = node.thisOrAncestorOfType<CatchClause>();
+    if (catchClause == null ||
+        catchClause.exceptionType != null ||
+        catchClause.isReportingCaughtError()) {
+      return;
+    }
+    final exceptionName = catchClause.exceptionParameter?.name.lexeme;
+    if (exceptionName == null) {
+      return;
+    }
+    final stackTraceName = catchClause.stackTraceParameter?.name.lexeme;
+    await builder.addDartFileEdit(file, (builder) {
+      if (stackTraceName == null) {
         builder.addSimpleInsertion(
-          node.body.leftBracket.end,
-          "\n${_indentOf(resolver, node)}  ${isAsync ? "await " : ""}appLogger.error($exceptionName, ${stackTraceName ?? "stackTrace"});",
+          catchClause.exceptionParameter!.end,
+          ", stackTrace",
         );
-      });
+      }
+      final isAsync =
+          catchClause.thisOrAncestorOfType<FunctionBody>()?.isAsynchronous ??
+          false;
+      builder.addSimpleInsertion(
+        catchClause.body.leftBracket.end,
+        "\n${_indentOf(catchClause)}  ${isAsync ? "await " : ""}appLogger.error($exceptionName, ${stackTraceName ?? "stackTrace"});",
+      );
     });
   }
 
@@ -89,12 +75,12 @@ class _MasamuneCaughtErrorShouldReportFix extends DartFix {
   ///
   /// [node] starts at the `on`/`catch` keyword, which sits mid-line, so its own
   /// column cannot be used.
-  String _indentOf(CustomLintResolver resolver, CatchClause node) {
+  String _indentOf(CatchClause node) {
     final offset = node.thisOrAncestorOfType<TryStatement>()?.offset;
     if (offset == null) {
       return "";
     }
-    final location = resolver.lineInfo.getLocation(offset);
+    final location = unitResult.lineInfo.getLocation(offset);
     return " " * (location.columnNumber - 1);
   }
 }
@@ -161,13 +147,13 @@ class _CaughtErrorReportVisitor extends RecursiveAstVisitor<void> {
       return false;
     }
     final positionalArguments = node.argumentList.arguments
-        .where((argument) => argument is! NamedExpression)
+        .where((argument) => _namedArgumentName(argument) == null)
         .toList(growable: false);
     if (positionalArguments.length < 2) {
       return false;
     }
-    final errorArgument = positionalArguments[0];
-    final stackTraceArgument = positionalArguments[1];
+    final errorArgument = _argumentExpression(positionalArguments[0]);
+    final stackTraceArgument = _argumentExpression(positionalArguments[1]);
     return errorArgument is SimpleIdentifier &&
         errorArgument.name == exceptionName &&
         stackTraceArgument is SimpleIdentifier &&

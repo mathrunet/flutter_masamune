@@ -1,73 +1,48 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneButtonRemoveIcon extends DartAssist {
-  _MasamuneButtonRemoveIcon();
+class _MasamuneButtonRemoveIcon extends ResolvedCorrectionProducer {
+  static const _assistKind = AssistKind(
+    "masamune_lints.assist.remove_button_icon",
+    _kAddOrRemoveIconPriority,
+    "Remove icon from button",
+  );
+
+  _MasamuneButtonRemoveIcon({required super.context});
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    SourceRange target,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!target.intersects(node.constructorName.sourceRange)) {
-        return;
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  AssistKind get assistKind => _assistKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final creation = _buttonInvocation(node);
+    if (creation == null || !_isMaterialButtonType(creation.type)) {
+      return;
+    }
+    final identifier = creation.identifier;
+    if (!(identifier?.hasIcon ?? false)) {
+      return;
+    }
+    await builder.addDartFileEdit(file, (builder) {
+      if (identifier == _SupportedIdentifier.tonalIcon) {
+        builder.addSimpleReplacement(creation.nameRange, "FilledButton.tonal");
+      } else {
+        builder.addSimpleReplacement(creation.nameRange, creation.className);
       }
-
-      final createdType = node.constructorName.type.type;
-      if (createdType == null ||
-          !TypeChecker.any(_MaterialButtonType.values.map((e) => e.typeChecker))
-              .isExactlyType(createdType)) {
-        return;
-      }
-
-      final simpleIdentifier = node.constructorName.name;
-      final supportedIdentifier = simpleIdentifier?.toSupportedIdentifier();
-
-      if (supportedIdentifier != null && !supportedIdentifier.hasIcon) {
-        return;
-      }
-
-      final changeBuilder = reporter.createChangeBuilder(
-        message: "Remove icon from button",
-        priority: _kAddOrRemoveIconPriority,
-      );
-
-      changeBuilder.addDartFileEdit((builder) {
-        if (supportedIdentifier == _SupportedIdentifier.tonalIcon) {
-          builder.addSimpleReplacement(
-            node.constructorName.sourceRange,
-            "FilledButton.tonal",
-          );
-        } else {
-          builder.addSimpleReplacement(
-            node.constructorName.sourceRange,
-            node.constructorName.type.name2.lexeme,
+      for (final argument in creation.argumentList.arguments) {
+        final name = _namedArgumentName(argument);
+        final nameRange = _namedArgumentNameRange(argument);
+        if (name == "label" && nameRange != null) {
+          builder.addSimpleReplacement(nameRange, "child");
+        } else if (name == "icon") {
+          builder.addDeletion(
+            range.nodeInList(creation.argumentList.arguments, argument),
           );
         }
-
-        for (var argument in node.argumentList.arguments) {
-          if (argument is NamedExpression) {
-            if (argument.name.label.name == "label") {
-              builder.addSimpleReplacement(
-                argument.name.sourceRange,
-                "child:",
-              );
-            }
-
-            if (argument.name.label.name == "icon") {
-              builder.addDeletion(
-                SourceRange(
-                  argument.sourceRange.offset,
-                  argument.sourceRange.length +
-                      (argument.endToken.next?.lexeme == "," ? 1 : 0),
-                ),
-              );
-            }
-          }
-        }
-      });
+      }
     });
   }
 }

@@ -1,20 +1,21 @@
 name: masamune_lints
 description: Package that defines lint rules necessary for use with the Masamune framework.
-version: 3.4.0
+version: 4.0.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_lints
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.10.0 <4.0.0"
 
 dependencies:
-  katana: ^3.4.0
-  analyzer: ^8.0.0
-  analyzer_plugin: ^0.13.0
-  custom_lint: ^0.8.0
-  custom_lint_builder: ^0.8.0
+  # Keep the analyzer 12 generation: analyzer 13-based plugin releases can
+  # hang on Dart 3.13.2, while 0.3.14 is verified on both Dart 3.10 and 3.13.2.
+  analysis_server_plugin: ">=0.3.13 <0.3.15"
+  analyzer: ">=12.0.0 <13.0.0"
+  analyzer_plugin: ">=0.14.7 <0.14.9"
 dev_dependencies:
+  analyzer_testing: 0.2.5
   test: ^1.29.0
-  katana_test: ^3.1.0
   flutter_lints: ^6.0.0
   import_sorter: ^4.6.0
+  test_reflective_loader: ^0.4.0

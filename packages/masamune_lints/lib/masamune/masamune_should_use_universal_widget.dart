@@ -1,26 +1,12 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneShouldUseUniversalWidget extends DartLintRule {
-  const _MasamuneShouldUseUniversalWidget()
-      : super(
-          code: _code,
-        );
+class _MasamuneShouldUseUniversalWidget extends _MasamuneAnalysisRule {
+  _MasamuneShouldUseUniversalWidget() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_should_use_universal_widget",
-    problemMessage: """
-The Masamune framework recommends using UniversalUI instead of Widgets such as Scaffold and ListView. MasamuneフレームワークではScaffoldやListViewなどのWidgetの代わりにUniversalUIを利用することを推奨しています。
-下記の変換を行ってください。
-
-- Scaffold -> UniversalScaffold
-- ListView -> UniversalListView
-- GridView -> UniversalGridView
-- AppBar -> UniversalAppBar
-- Container -> UniversalContainer
-- Padding -> UniversalPadding
-- Column -> UniversalColumn
-""",
-    errorSeverity: ErrorSeverity.WARNING,
+  static const code = LintCode(
+    "masamune_should_use_universal_widget",
+    "Consider using {0} instead of {1}. {2}",
+    severity: DiagnosticSeverity.WARNING,
   );
 
   static const Map<String, String> _widgetSuggestions = {
@@ -36,44 +22,67 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
   };
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     context.registry.addInstanceCreationExpression((node) {
       final constructorName = node.constructorName;
-      final typeName = constructorName.type.name2.lexeme;
+      final typeName = constructorName.type.name.lexeme;
 
       if (_widgetSuggestions.containsKey(typeName)) {
         final suggestedWidget = _widgetSuggestions[typeName]!;
 
-        final customCode = lint_codes.LintCode(
-          name: "masamune_should_use_universal_widget",
-          problemMessage:
-              "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
-          errorSeverity: ErrorSeverity.WARNING,
+        reportAtNode(
+          node,
+          arguments: [
+            suggestedWidget,
+            typeName,
+            "$suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
+          ],
         );
-
-        reporter.atNode(node, customCode);
       } else if (_widgetOnlyTopLevelSuggestions.containsKey(typeName)) {
         if (_shouldUseUniversalContainer(node)) {
           final suggestedWidget = _widgetOnlyTopLevelSuggestions[typeName]!;
 
-          final customCode = lint_codes.LintCode(
-            name: "masamune_should_use_universal_widget",
-            problemMessage:
-                "Consider using $suggestedWidget instead of $typeName. $suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
-            errorSeverity: ErrorSeverity.WARNING,
+          reportAtNode(
+            node,
+            arguments: [
+              suggestedWidget,
+              typeName,
+              "$suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
+            ],
           );
-
-          reporter.atNode(node, customCode);
         }
       }
     });
 
     // メソッド呼び出しでのファクトリーコンストラクタも監視
     context.registry.addMethodInvocation((node) {
+      if (node.target == null && node.staticType is InterfaceType) {
+        final typeName = node.staticType!.getDisplayString().split("<").first;
+        final suggestedWidget = _widgetSuggestions[typeName];
+        if (suggestedWidget != null) {
+          reportAtNode(
+            node,
+            arguments: [
+              suggestedWidget,
+              typeName,
+              "$suggestedWidgetはUniversalUIの一部でより多くの機能を提供します。",
+            ],
+          );
+          return;
+        }
+        final topLevelSuggestion = _widgetOnlyTopLevelSuggestions[typeName];
+        if (topLevelSuggestion != null && _shouldUseUniversalContainer(node)) {
+          reportAtNode(
+            node,
+            arguments: [
+              topLevelSuggestion,
+              typeName,
+              "$topLevelSuggestionはUniversalUIの一部でより多くの機能を提供します。",
+            ],
+          );
+          return;
+        }
+      }
       final targetType = node.target?.staticType?.getDisplayString();
       final methodName = node.methodName.name;
 
@@ -81,25 +90,25 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
       if (targetType != null && _widgetSuggestions.containsKey(targetType)) {
         final suggestedWidget = _widgetSuggestions[targetType]!;
 
-        final customCode = lint_codes.LintCode(
-          name: "masamune_should_use_universal_widget",
-          problemMessage:
-              "Consider using $suggestedWidget.$methodName instead of $targetType.$methodName. UniversalUIウィジェットの使用を検討してください。",
-          errorSeverity: ErrorSeverity.WARNING,
+        reportAtNode(
+          node,
+          arguments: [
+            "$suggestedWidget.$methodName",
+            "$targetType.$methodName",
+            "UniversalUIウィジェットの使用を検討してください。",
+          ],
         );
-
-        reporter.atNode(node, customCode);
       }
     });
   }
 
   /// Containerに対してUniversalContainerを推奨すべきかどうかを判定する
-  bool _shouldUseUniversalContainer(InstanceCreationExpression node) {
+  bool _shouldUseUniversalContainer(AstNode node) {
     return _isInPageScopedWidgetBuild(node) || _isInUniversalScaffoldBody(node);
   }
 
   /// PageScopedWidgetのbuildメソッドの戻り値として直接返されているかどうかを判定する
-  bool _isInPageScopedWidgetBuild(InstanceCreationExpression node) {
+  bool _isInPageScopedWidgetBuild(AstNode node) {
     final parent = node.parent;
 
     // return Container(); のように直接返されている場合
@@ -131,17 +140,17 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
   }
 
   /// UniversalScaffoldのbodyプロパティ直下かどうかを判定する
-  bool _isInUniversalScaffoldBody(InstanceCreationExpression node) {
+  bool _isInUniversalScaffoldBody(AstNode node) {
     final parent = node.parent;
 
     // body: Container() のように直接指定されている場合
-    if (parent is NamedExpression && parent.name.label.name == "body") {
+    if (parent != null && _namedArgumentName(parent) == "body") {
       // bodyプロパティの親がUniversalScaffoldのコンストラクタかチェック
       final argumentList = parent.parent;
       if (argumentList is ArgumentList) {
         final constructor = argumentList.parent;
-        if (constructor is InstanceCreationExpression) {
-          final typeName = constructor.constructorName.type.name2.lexeme;
+        final typeName = _constructorTypeName(constructor);
+        if (typeName != null) {
           return typeName == "UniversalScaffold" || typeName == "Scaffold";
         }
       }
@@ -153,13 +162,13 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
       final function = parent.parent;
       if (function is FunctionExpression) {
         final namedExpression = function.parent;
-        if (namedExpression is NamedExpression &&
-            namedExpression.name.label.name == "body") {
+        if (namedExpression != null &&
+            _namedArgumentName(namedExpression) == "body") {
           final argumentList = namedExpression.parent;
           if (argumentList is ArgumentList) {
             final constructor = argumentList.parent;
-            if (constructor is InstanceCreationExpression) {
-              final typeName = constructor.constructorName.type.name2.lexeme;
+            final typeName = _constructorTypeName(constructor);
+            if (typeName != null) {
               return typeName == "UniversalScaffold" || typeName == "Scaffold";
             }
           }
@@ -177,14 +186,13 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
           final functionExpression = function.parent;
           if (functionExpression is FunctionExpression) {
             final namedExpression = functionExpression.parent;
-            if (namedExpression is NamedExpression &&
-                namedExpression.name.label.name == "body") {
+            if (namedExpression != null &&
+                _namedArgumentName(namedExpression) == "body") {
               final argumentList = namedExpression.parent;
               if (argumentList is ArgumentList) {
                 final constructor = argumentList.parent;
-                if (constructor is InstanceCreationExpression) {
-                  final typeName =
-                      constructor.constructorName.type.name2.lexeme;
+                final typeName = _constructorTypeName(constructor);
+                if (typeName != null) {
                   return typeName == "UniversalScaffold" ||
                       typeName == "Scaffold";
                 }
@@ -198,6 +206,14 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
 
     return false;
   }
+
+  String? _constructorTypeName(AstNode? node) => switch (node) {
+    InstanceCreationExpression(:final constructorName) =>
+      constructorName.type.name.lexeme,
+    MethodInvocation(:final staticType) when staticType is InterfaceType =>
+      staticType.getDisplayString().split("<").first,
+    _ => null,
+  };
 
   /// 親メソッドを取得する
   MethodDeclaration? _findParentMethod(AstNode node) {
@@ -227,7 +243,7 @@ The Masamune framework recommends using UniversalUI instead of Widgets such as S
   bool _extendsPageScopedWidget(ClassDeclaration classDeclaration) {
     final extendsClause = classDeclaration.extendsClause;
     if (extendsClause != null) {
-      final superclassName = extendsClause.superclass.name2.lexeme;
+      final superclassName = extendsClause.superclass.name.lexeme;
       return superclassName == "PageScopedWidget";
     }
     return false;

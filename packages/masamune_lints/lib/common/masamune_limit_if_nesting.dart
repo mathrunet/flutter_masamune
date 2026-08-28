@@ -2,25 +2,17 @@ part of "/masamune_lints.dart";
 
 const _kMaxNestingCount = 3;
 
-class _MasamuneLimitIfNesting extends DartLintRule {
-  const _MasamuneLimitIfNesting()
-      : super(
-          code: _code,
-        );
+class _MasamuneLimitIfNesting extends _MasamuneAnalysisRule {
+  _MasamuneLimitIfNesting() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_if_nesting_should_limit",
-    problemMessage:
-        "Nesting hierarchy for if should be limited to $_kMaxNestingCount units. ifのネスト階層は$_kMaxNestingCount個までにしてください。",
-    errorSeverity: ErrorSeverity.WARNING,
+  static const code = LintCode(
+    "masamune_if_nesting_should_limit",
+    "Nesting hierarchy for if should be limited to $_kMaxNestingCount units. ifのネスト階層は$_kMaxNestingCount個までにしてください。",
+    severity: DiagnosticSeverity.WARNING,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     context.registry.addIfStatement((node) {
       var nestingLevel = 0;
       AstNode? currentNode = node;
@@ -33,10 +25,7 @@ class _MasamuneLimitIfNesting extends DartLintRule {
       }
 
       if (nestingLevel > _kMaxNestingCount) {
-        reporter.atNode(
-          node,
-          _code,
-        );
+        reportAtNode(node);
       }
     });
   }

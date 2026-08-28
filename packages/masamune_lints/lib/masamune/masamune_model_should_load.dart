@@ -1,21 +1,16 @@
 part of "/masamune_lints.dart";
 
-class _MasamuneModelShouldLoad extends DartLintRule {
-  const _MasamuneModelShouldLoad() : super(code: _code);
+class _MasamuneModelShouldLoad extends _MasamuneAnalysisRule {
+  _MasamuneModelShouldLoad() : super(code);
 
-  static const _code = lint_codes.LintCode(
-    name: "masamune_model_should_load",
-    problemMessage:
-        "The object obtained from ref.app.model must be executed with the load or reload or aggregate method. Change ref to appRef to avoid this. ref.app.modelから取得したオブジェクトはloadメソッドもしくはreloadメソッド、もしくはaggregateメソッドを実行する必要があります。refをappRefに変更すると回避できます。",
-    errorSeverity: ErrorSeverity.WARNING,
+  static const code = LintCode(
+    "masamune_model_should_load",
+    "The object obtained from ref.app.model must be executed with the load or reload or aggregate method. Change ref to appRef to avoid this. ref.app.modelから取得したオブジェクトはloadメソッドもしくはreloadメソッド、もしくはaggregateメソッドを実行する必要があります。refをappRefに変更すると回避できます。",
+    severity: DiagnosticSeverity.WARNING,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ErrorReporter reporter,
-    CustomLintContext context,
-  ) {
+  void run(_MasamuneRuleContext context) {
     final res = <_MasamuneModelShouldLoadValue>[];
 
     // メソッドの実行時
@@ -69,11 +64,12 @@ class _MasamuneModelShouldLoad extends DartLintRule {
           // 変数に入れていないとき
           final parentMethodInvocationNode =
               node.target?.thisOrAncestorOfType<MethodInvocation>() ??
-                  node.parent?.thisOrAncestorOfType<MethodInvocation>();
+              node.parent?.thisOrAncestorOfType<MethodInvocation>();
           if (parentMethodInvocationNode != null &&
               parentMethodInvocationNode != node) {
             final found = res.firstWhereOrNull(
-                (e) => e.method == parentMethodInvocationNode);
+              (e) => e.method == parentMethodInvocationNode,
+            );
             if (found != null) {
               found
                 ..isLoad = true
@@ -89,8 +85,8 @@ class _MasamuneModelShouldLoad extends DartLintRule {
             return;
           }
           // 変数に入れていないときかつカスケードでメソッドを呼び出しているとき
-          final parentCascadeExpressionVariableNode =
-              node.parent?.thisOrAncestorOfType<CascadeExpression>();
+          final parentCascadeExpressionVariableNode = node.parent
+              ?.thisOrAncestorOfType<CascadeExpression>();
           if (parentCascadeExpressionVariableNode != null) {
             final parentMethodInvocationNode =
                 parentCascadeExpressionVariableNode.target
@@ -98,7 +94,8 @@ class _MasamuneModelShouldLoad extends DartLintRule {
             if (parentMethodInvocationNode != null &&
                 parentMethodInvocationNode != node) {
               final found = res.firstWhereOrNull(
-                  (e) => e.method == parentMethodInvocationNode);
+                (e) => e.method == parentMethodInvocationNode,
+              );
               if (found != null) {
                 found
                   ..isLoad = true
@@ -115,11 +112,12 @@ class _MasamuneModelShouldLoad extends DartLintRule {
             }
           }
           // 変数に入れているとき
-          final parentVariableDeclarationNode =
-              node.thisOrAncestorOfType<VariableDeclaration>();
+          final parentVariableDeclarationNode = node
+              .thisOrAncestorOfType<VariableDeclaration>();
           if (parentVariableDeclarationNode != null) {
             final found = res.firstWhereOrNull(
-                (e) => e.variable == parentVariableDeclarationNode);
+              (e) => e.variable == parentVariableDeclarationNode,
+            );
             if (found != null) {
               found.isLoad = true;
               return;
@@ -129,14 +127,16 @@ class _MasamuneModelShouldLoad extends DartLintRule {
           final simpleIdentifier = node.thisOrTargetOfType<SimpleIdentifier>();
           if (simpleIdentifier != null) {
             final found = res.firstWhereOrNull(
-                (e) => e.variableName == simpleIdentifier.name);
+              (e) => e.variableName == simpleIdentifier.name,
+            );
             found?.isLoad = true;
             return;
           }
           final methodInvocation = node.thisOrTargetOfType<MethodInvocation>();
           if (methodInvocation != null) {
-            final found =
-                res.firstWhereOrNull((e) => e.method == methodInvocation);
+            final found = res.firstWhereOrNull(
+              (e) => e.method == methodInvocation,
+            );
             if (found != null) {
               found
                 ..isLoad = true
@@ -163,10 +163,7 @@ class _MasamuneModelShouldLoad extends DartLintRule {
         if (node.isLoad || !node.isModel || node.node == null) {
           continue;
         }
-        reporter.atNode(
-          node.node!,
-          _code,
-        );
+        reportAtNode(node.node!);
       }
     });
   }
