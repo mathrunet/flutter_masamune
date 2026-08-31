@@ -140,6 +140,8 @@ class SquareAvatar extends StatelessWidget {
             if (backgroundImage != null)
               Image(
                 image: backgroundImage!,
+                width: width,
+                height: height,
                 fit: BoxFit.cover,
               ),
           ],

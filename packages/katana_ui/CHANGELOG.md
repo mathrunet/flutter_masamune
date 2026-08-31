@@ -1,3 +1,7 @@
+## 3.3.3
+
+ - **FIX**: Pass the fixed width and height of `SquareAvatar` to its inner image so size-aware image providers can decode and cache an appropriately sized raster.
+
 ## 3.3.2
 
  - **FIX**: Add message box patterns. ([4f992ac8](https://github.com/mathrunet/flutter_masamune/commit/4f992ac8b2db21ce4b7fe5b2ea77eb2611c453fd))
@@ -567,4 +571,3 @@
  - **FEAT**: Modal addition. ([e6649f50](https://github.com/mathrunet/flutter_masamune/commit/e6649f50818147ca8b61fde4b968861ec531c0c3))
  - **FEAT**: Initial commit. ([d000f734](https://github.com/mathrunet/flutter_masamune/commit/d000f7349c1f6ff7c6aae15c8050694dde73f4a4))
  - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
-
