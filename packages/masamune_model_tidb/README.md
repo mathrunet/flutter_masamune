@@ -116,39 +116,24 @@ Enable TiDB in `katana.yaml` and run `katana apply`.
 cloudflare:
   tidb:
     enable: true
-    connection_url: mysql://user:password@gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/app_db
+    project_id: "123"
+    cluster_id: "456"
 ```
 
-Katana CLI stores the TiDB connection URL in Cloudflare Workers secrets with
-`wrangler secret put`.
+TiDB uses Data Service only. Store the Organization Management API public and
+private keys under `cloudflare.tidb.management_api` in `katana_secrets.yaml`.
+Katana-generated Data App, Data API key, region, and cutover state are stored
+in the Git-ignored `cloudflare/tidb.yaml`.
 
-TiDB Cloud Starter and Essential clusters require a username prefix. For
-example, if the TiDB Cloud connection dialog shows
-`4M9hEa4vE3S7jAF.root`, the prefix is `4M9hEa4vE3S7jAF`. Use the prefixed
-username in `connection_url`:
-
-```text
-mysql://4M9hEa4vE3S7jAF.root:<PASSWORD>@gateway01.ap-northeast-1.prod.aws.tidbcloud.com:4000/app_db
-```
-
-The root password in `connection_url` is used only by the Workers backend and is
-not returned to the Flutter client.
-
-In direct mode, TiDB databases are not created automatically. Create the
-database in TiDB Cloud before using it. This includes prefixed databases such
-as `dev_main`. Tables and missing columns are created automatically on save.
-
-In Data Service mode, define shared prefixes once in `katana.yaml`. Every
+Define shared prefixes once in `katana.yaml`. Every
 `@tidbDataService` model uses the same list, and `katana apply` creates the
 generated physical databases through additive schema SQL.
 
 ```yaml
 cloudflare:
   tidb:
-    mode: data_service
-    data_service:
-      prefixes:
-        - dev
+    prefixes:
+      - dev
 ```
 
 # GitHub Sponsors

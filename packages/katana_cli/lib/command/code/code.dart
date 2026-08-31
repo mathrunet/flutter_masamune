@@ -45,11 +45,10 @@ const _tidbDataServiceBuilderKey =
     "masamune_model_tidb_builder:masamune_model_tidb_builder";
 
 List<String> _tidbDataServiceBuilderArguments(ExecContext context) {
-  final configuredPrefixes = context.yaml
-      .getAsMap("cloudflare")
-      .getAsMap("tidb")
-      .getAsMap("data_service")
-      .getAsList("prefixes");
+  final tidb = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
+  final configuredPrefixes = tidb.getAsList("prefixes").isNotEmpty
+      ? tidb.getAsList("prefixes")
+      : tidb.getAsMap("data_service").getAsList("prefixes");
   final prefixes = <String>{};
   for (final value in configuredPrefixes) {
     var prefix = value.toString().trim();
@@ -60,7 +59,7 @@ List<String> _tidbDataServiceBuilderArguments(ExecContext context) {
     if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(prefix)) {
       throw ArgumentError.value(
         value,
-        "cloudflare.tidb.data_service.prefixes",
+        "cloudflare.tidb.prefixes",
         "TiDB Data Service prefixes must be valid identifiers.",
       );
     }

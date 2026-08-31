@@ -171,6 +171,88 @@ void main() {
     expect(post.value["id"], "user_1");
   });
 
+  test("TursoModelAdapter falls back to GET after a direct DNS panic.",
+      () async {
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseData: const [
+        {"id": "user_1", "name": "Alice"},
+      ],
+      responseForAction: _directTokenResponse,
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => throw Exception(_dnsPanicMessage),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+      retryDelays: const [],
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+
+    final result = await adapter.loadDocument(query);
+
+    expect(result["name"], "Alice");
+    expect(
+      functionsAdapter.actions.whereType<TursoGetModelFunctionsAction>(),
+      hasLength(1),
+    );
+  });
+
+  test("TursoModelAdapter falls back to POST after a direct DNS panic.",
+      () async {
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: _directTokenResponse,
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => throw Exception(_dnsPanicMessage),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+      retryDelays: const [],
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+
+    await adapter.saveDocument(query, const {"name": "Alice"});
+
+    expect(
+      functionsAdapter.actions.whereType<TursoPostModelFunctionsAction>(),
+      hasLength(1),
+    );
+  });
+
+  test("TursoModelAdapter does not fall back after a direct permission error.",
+      () async {
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: _directTokenResponse,
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => throw StateError("permission denied"),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+      retryDelays: const [],
+    );
+    const query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("database/test/users/user_1"),
+    );
+
+    await expectLater(adapter.loadDocument(query), throwsStateError);
+
+    expect(
+      functionsAdapter.actions.whereType<TursoGetModelFunctionsAction>(),
+      isEmpty,
+    );
+  });
+
   test("TursoModelAdapter reuses a direct client within an auth session.",
       () async {
     var sessionKey = "user_1";
@@ -419,6 +501,80 @@ void main() {
     expect(
       queries.where((sql) => sql.contains("SELECT column_name")),
       isEmpty,
+    );
+    await session.clear();
+  });
+
+  test("TursoModelAdapter tolerates a concurrent duplicate-column migration.",
+      () async {
+    var schemaChanged = false;
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: _directTokenResponse,
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => _TestLibsqlClient(
+        queryResult: (sql) {
+          if (sql.startsWith("PRAGMA table_info") && schemaChanged) {
+            return const [
+              {"name": "id", "type": "TEXT"},
+              {"name": "age", "type": "INTEGER"},
+            ];
+          }
+          return const [];
+        },
+        executeResult: (sql) {
+          if (sql.contains('ADD COLUMN "age"')) {
+            schemaChanged = true;
+            throw Exception("duplicate column name: age");
+          }
+          return 1;
+        },
+      ),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+    );
+
+    await expectLater(
+      adapter.saveDocument(
+        const ModelAdapterDocumentQuery(
+          query: DocumentModelQuery("database/test/users/user_1"),
+        ),
+        const {"age": 20},
+      ),
+      completes,
+    );
+    await session.clear();
+  });
+
+  test("TursoModelAdapter does not infer a persistent type from null.",
+      () async {
+    final functionsAdapter = _RecordingFunctionsAdapter(
+      responseForAction: _directTokenResponse,
+    );
+    final session = TursoDirectClientSession(
+      sessionKey: () => "user_1",
+      clientFactory: (_) async => _TestLibsqlClient(),
+    );
+    final adapter = TursoModelAdapter(
+      functionsAdapter: functionsAdapter,
+      directClientSession: session,
+    );
+
+    await expectLater(
+      adapter.saveDocument(
+        const ModelAdapterDocumentQuery(
+          query: DocumentModelQuery("database/test/users/user_1"),
+        ),
+        const {"age": null},
+      ),
+      throwsA(isA<StateError>().having(
+        (error) => error.message,
+        "message",
+        contains("Cannot infer SQL type for column age from null"),
+      )),
     );
     await session.clear();
   });
@@ -918,6 +1074,31 @@ void main() {
   });
 }
 
+const _dnsPanicMessage =
+    "PanicException(called `Result::unwrap()` on an `Err` value: "
+    "Hrana(Http(\"error trying to connect: dns error: failed to lookup "
+    "address information: No address associated with hostname\")))";
+
+Object? _directTokenResponse(FunctionsAction<dynamic> action) {
+  if (action is! TursoTokenFunctionsAction) {
+    return null;
+  }
+  return {
+    "token": "token",
+    "expiresAt": DateTime.now().millisecondsSinceEpoch ~/ 1000 + 3600,
+    "url": "libsql://example.test",
+    "readMode": "direct",
+    "writeMode": "direct",
+    "targets": action.targets
+        .map((target) => {
+              ...target.toMap(),
+              "readMode": "direct",
+              "writeMode": "direct",
+            })
+        .toList(),
+  };
+}
+
 class _RecordingFunctionsAdapter extends FunctionsAdapter {
   _RecordingFunctionsAdapter({
     this.tokenError,
@@ -956,12 +1137,19 @@ class _RecordingFunctionsAdapter extends FunctionsAdapter {
 }
 
 class _TestLibsqlClient extends LibsqlClient {
-  _TestLibsqlClient({this.onSync, this.onQuery, this.onExecute})
-      : super.memory();
+  _TestLibsqlClient({
+    this.onSync,
+    this.onQuery,
+    this.onExecute,
+    this.queryResult,
+    this.executeResult,
+  }) : super.memory();
 
   final void Function()? onSync;
   final void Function(String sql)? onQuery;
   final void Function(String sql)? onExecute;
+  final List<Map<String, dynamic>> Function(String sql)? queryResult;
+  final int Function(String sql)? executeResult;
 
   @override
   Future<List<Map<String, dynamic>>> query(
@@ -970,7 +1158,7 @@ class _TestLibsqlClient extends LibsqlClient {
     List<dynamic>? positional,
   }) async {
     onQuery?.call(sql);
-    return const [];
+    return queryResult?.call(sql) ?? const [];
   }
 
   @override
@@ -980,7 +1168,7 @@ class _TestLibsqlClient extends LibsqlClient {
     List<dynamic>? positional,
   }) async {
     onExecute?.call(sql);
-    return 1;
+    return executeResult?.call(sql) ?? 1;
   }
 
   @override

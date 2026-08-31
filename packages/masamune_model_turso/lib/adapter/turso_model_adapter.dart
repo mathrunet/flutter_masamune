@@ -1630,10 +1630,18 @@ class TursoModelAdapter extends ModelAdapter {
     final message = error.toString();
     return RegExp(r"(?:Failed to post:?|status=?|status: )\s*(500|502|503|504)")
             .hasMatch(message) ||
+        _isTursoHostResolutionError(message) ||
         message.contains("no route configured for host") ||
         message.contains("Bad Gateway") ||
         message.contains("Service Unavailable") ||
         message.contains("Gateway Timeout");
+  }
+
+  bool _isTursoHostResolutionError(String message) {
+    return RegExp(
+      r"dns error|failed (?:to )?(?:lookup|resolve) address information|failed host lookup|no address associated with hostname|nodename nor servname provided",
+      caseSensitive: false,
+    ).hasMatch(message);
   }
 
   bool _isTursoRetryableError(Object error) {
@@ -1697,11 +1705,42 @@ class TursoModelAdapter extends ModelAdapter {
       if (columns.contains(entry.key)) {
         continue;
       }
-      await client.execute(
-        "ALTER TABLE ${_quoteTursoIdentifier(table)} "
-        "ADD COLUMN ${_quoteTursoIdentifier(entry.key)} ${_inferTursoSqlType(entry.value)}",
-      );
+      final type = _inferTursoSqlType(entry.value, column: entry.key);
+      try {
+        await client.execute(
+          "ALTER TABLE ${_quoteTursoIdentifier(table)} "
+          "ADD COLUMN ${_quoteTursoIdentifier(entry.key)} $type",
+        );
+      } catch (error) {
+        if (!_isTursoDuplicateColumnError(error)) {
+          rethrow;
+        }
+        final latest = await client
+            .query("PRAGMA table_info(${_quoteTursoIdentifier(table)})");
+        final migrated = latest.where(
+          (row) => row.get("name", "") == entry.key,
+        );
+        if (migrated.isEmpty ||
+            !_isCompatibleTursoType(
+              migrated.first.get("type", "").toString(),
+              type,
+            )) {
+          rethrow;
+        }
+      }
     }
+  }
+
+  bool _isTursoDuplicateColumnError(Object error) {
+    return RegExp(
+      r"duplicate column(?: name)?",
+      caseSensitive: false,
+    ).hasMatch(error.toString());
+  }
+
+  bool _isCompatibleTursoType(String existing, String expected) {
+    final normalized = existing.toUpperCase();
+    return normalized == expected || normalized == "TEXT";
   }
 
   List<DynamicMap> _rowsToList(

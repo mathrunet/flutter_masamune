@@ -277,16 +277,14 @@ cloudflare:
   
   # If you want to use TursoDB via Workers, set [enable] to `true`.
   # Specify the Turso Organization and Group in [organization] and [group].
-  # For [platform_api_token], enter your Turso Platform API Token.
-  # If [platform_api_token] is also set in `katana_secrets.yaml`, the non-empty secret value takes precedence.
+  # Store the Turso Platform API Token in `katana_secrets.yaml`.
   # The Platform API Token can be obtained by following the steps below:
   # 1. Go to `https://app.turso.tech/mathru/settings/api-tokens`
   # 2. Click the `Create Token` button
   # 3. Specify a `name` and be sure to specify a `Group`.
   # Workersを通してTrusoDBを使いたい場合は[enable]を`true`にしてください。
   # TursoのOrganizationとGroupを[organization]と[group]に指定します。
-  # [platform_api_token]にはTursoのPlatform API Tokenを記載してください。
-  # `katana_secrets.yaml`にも[platform_api_token]を設定した場合は、空でないSecrets側の値が優先されます。
+  # TursoのPlatform API Tokenは`katana_secrets.yaml`に記載してください。
   # Platform API Tokenは下記の手順で取得可能です。
   # 1. `https://app.turso.tech/mathru/settings/api-tokens`にアクセス
   # 2. `Create Token`ボタンをクリック
@@ -295,39 +293,15 @@ cloudflare:
     enable: false
     organization:
     group:
-    platform_api_token:
-    # Lifetime in seconds for server-side full-access tokens. Tokens are refreshed 60 seconds before expiry.
-    server_token_ttl: 3600
-    # Explicitly invalidate all legacy group tokens once. This is destructive and defaults to false.
-    rotate_legacy_tokens: false
 
-  # If you want to use TiDB via Workers, set [enable] to `true`.
-  # Specify the TiDB Connection URL in [connection_url].
-  # If [connection_url] is also set in `katana_secrets.yaml`, the non-empty secret value takes precedence.
-  # Workersを通してTiDBを使いたい場合は[enable]を`true`にしてください。
-  # [connection_url]にはTiDBのConnection URLを記載してください。
-  # `katana_secrets.yaml`にも[connection_url]を設定した場合は、空でないSecrets側の値が優先されます。
+  # Enable TiDB Data Service via Workers and specify its project and cluster.
+  # Store the Management API public/private keys in `katana_secrets.yaml`.
+  # Workersを通してTiDB Data Serviceを使う場合は有効化し、projectとclusterを指定します。
+  # Management APIのpublic/private keyは`katana_secrets.yaml`に記載してください。
   tidb:
     enable: false
-    # "direct" (default) or "data_service".
-    mode: direct
-    connection_url:
-    data_service:
-      # Physical database prefixes generated for every @tidbDataService model.
-      # すべての@tidbDataServiceモデルに生成する物理データベースのプレフィックス。
-      prefixes:
-      project_id:
-      cluster_id:
-      app_id:
-      app_name: masamune
-      directory: tidb/data_service
-      rate_limit_rpm: 1000
-      max_scan_rows: 1000
-      restrict_mysql: true
-      github:
-        repository:
-        branch: main
-        directory: /tidb/data_service
+    project_id:
+    cluster_id:
 
   # If you want to use Cloudflare KV via Workers, set [enable] to `true`.
   # Specify the KV binding name in [binding] and the KV namespace ID in [namespace_id].
@@ -339,28 +313,15 @@ cloudflare:
     namespace_id:
 
   # If you want to use Cloudflare R2 Storage via Workers, set [enable] to `true`.
-  # Specify the R2 binding name in [binding], the R2 bucket name in [bucket_name], and the public R2/custom domain in [public_base_url].
-  # [download_url_secret] is used to sign limited download URLs. If empty, `katana apply` generates and stores it in `katana_secrets.yaml`.
-  # To copy uploaded objects to another R2 bucket, enable [backup] and specify its bucket binding and Queue settings.
+  # Specify the R2 bucket name and public R2/custom domain.
+  # The binding defaults to `R2_BUCKET`, and the limited-download secret is generated automatically.
   # Workersを通してCloudflare R2 Storageを使いたい場合は[enable]を`true`にしてください。
-  # [binding]にはR2のbinding名、[bucket_name]にはR2 bucket名、[public_base_url]には公開R2/custom domainを指定します。
-  # [download_url_secret]は限定ダウンロードURLの署名に利用します。空の場合は`katana apply`で生成し、`katana_secrets.yaml`に保存します。
-  # アップロードされたオブジェクトを別のR2バケットへコピーする場合は[backup]を有効化し、バケットbindingとQueue設定を指定します。
+  # R2 bucket名と公開R2/custom domainを指定します。
+  # bindingは`R2_BUCKET`、限定ダウンロード用secretは自動設定されます。
   storage:
     enable: false
-    binding: R2_BUCKET
     bucket_name:
     public_base_url:
-    backup:
-      enable: false
-      binding: R2_BACKUP_BUCKET
-      bucket_name:
-      preview_bucket_name:
-      queue_name:
-      max_batch_size: 10
-      max_batch_timeout: 5
-      max_retries: 3
-      dead_letter_queue:
 
   # Enable Firebase Messaging via Workers.
   # Specify ChannelNotificationId for Android in [channel_id].
@@ -1059,26 +1020,10 @@ cloudflare:
     platform_api_token:
 
   tidb:
-    # TiDB Connection URL. This non-empty value takes precedence over `katana.yaml`.
-    # TiDBのConnection URL。空でない場合は`katana.yaml`より優先されます。
-    connection_url:
-    # Organization API key used only by `katana apply`.
+    # Organization Management API key used only by `katana apply`.
     management_api:
       public_key:
       private_key:
-    # Data API key generated for Cloudflare Workers.
-    data_service:
-      app_id:
-      api_key_id:
-      region:
-      public_key:
-      private_key:
-    # Two-stage public endpoint cutover state. Managed automatically.
-    cutover:
-      manifest_hash:
-      baseline_worker_deployment_id:
-      worker_deployment_id:
-      state:
 
 # Describe purchase secret information.
 # 課金のシークレット情報を記述します。

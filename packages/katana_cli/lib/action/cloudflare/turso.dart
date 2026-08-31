@@ -42,6 +42,10 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         ? secretPlatformApiToken
         : turso.get("platform_api_token", "");
     final serverTokenTtl = turso.get("server_token_ttl", 3600);
+    final schemaManifestPath = turso.get(
+      "schema_manifest",
+      "tidb/data_service/__generated_schema_manifest.json",
+    );
     final rotateLegacyTokens = turso.get("rotate_legacy_tokens", false);
     if (organization.isEmpty) {
       error(
@@ -90,12 +94,22 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       "Use the TursoDB engine. Existing SQLite databases with the same name must be migrated first.",
     );
     label("Add Cloudflare Workers functions");
+    final schemaManifest = File(schemaManifestPath);
+    final useSchemaManifest = schemaManifest.existsSync();
+    if (useSchemaManifest) {
+      await schemaManifest.copy("cloudflare/src/turso_schema_manifest.json");
+    } else {
+      label(
+        "Turso schema manifest was not found at `$schemaManifestPath`; runtime value inference remains enabled.",
+      );
+    }
     final source = await indexFile.readAsString();
     final updated = _updateTursoFunctions(
       source,
       organization: organization,
       group: group,
       serverTokenTtl: serverTokenTtl,
+      useSchemaManifest: useSchemaManifest,
     );
     if (updated == null) {
       return;
@@ -135,20 +149,26 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     required String organization,
     required String group,
     required int serverTokenTtl,
+    required bool useSchemaManifest,
   }) {
     final tursoFunction = _tursoFunction(
       "turso",
       organization: organization,
       group: group,
       serverTokenTtl: serverTokenTtl,
+      useSchemaManifest: useSchemaManifest,
     );
     final tursoTokenFunction = _tursoFunction(
       "tursoToken",
       organization: organization,
       group: group,
       serverTokenTtl: serverTokenTtl,
+      useSchemaManifest: useSchemaManifest,
     );
     var updated = _ensureTursoImport(source);
+    if (useSchemaManifest) {
+      updated = _ensureSchemaManifestImport(updated);
+    }
     updated = _replaceFunction(updated, "turso.Functions.turso", tursoFunction);
     updated = _replaceFunction(
       updated,
@@ -197,6 +217,23 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       lastImport.end,
       lastImport.end,
       "\n$import",
+    );
+  }
+
+  String _ensureSchemaManifestImport(String source) {
+    const statement =
+        'import tursoSchemaManifest from "./turso_schema_manifest.json";';
+    if (source.contains(statement)) {
+      return source;
+    }
+    final imports = RegExp(r"^import .+;$", multiLine: true).allMatches(source);
+    if (imports.isEmpty) {
+      return "$statement\n$source";
+    }
+    return source.replaceRange(
+      imports.last.end,
+      imports.last.end,
+      "\n$statement",
     );
   }
 
@@ -322,6 +359,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     required String organization,
     required String group,
     required int serverTokenTtl,
+    required bool useSchemaManifest,
   }) {
     return """
     turso.Functions.$name({
@@ -329,7 +367,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         group: "$group",
         autoCreateDatabase: true,
         serverTokenTtlSeconds: $serverTokenTtl,
-    }),""";
+${useSchemaManifest ? "        schemaManifest: tursoSchemaManifest as turso.TursoSchemaManifest,\n" : ""}    }),""";
   }
 
   Future<void> _rotateLegacyTokens({

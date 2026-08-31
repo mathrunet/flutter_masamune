@@ -271,6 +271,7 @@ class TidbEndpointSpec {
         "${a.database}.${a.table}".compareTo("${b.database}.${b.table}"));
     final endpointConfigs = <Map<String, dynamic>>[];
     final manifestTables = <String, dynamic>{};
+    final schemaManifestTables = <String, dynamic>{};
     final manifestCustomEndpoints = <String, dynamic>{};
     final files = <String, String>{};
     final schema = StringBuffer(
@@ -330,6 +331,16 @@ class TidbEndpointSpec {
         "table": table.table,
         "columns": columns.map((column) => column.name).toList(),
         "endpoints": operations,
+      };
+      schemaManifestTables["${table.database}\u0000${table.table}"] = {
+        "database": table.database,
+        "table": table.table,
+        "columns": columns
+            .map((column) => {
+                  "name": column.name,
+                  "type": column.sqlType,
+                })
+            .toList(),
       };
     }
 
@@ -428,6 +439,10 @@ class TidbEndpointSpec {
     });
     files["http_endpoints/config.json"] = _json(endpointConfigs);
     files["__masamune/schema.sql"] = schema.toString();
+    files["__generated_schema_manifest.json"] = _json({
+      "version": "1-${_stableSchemaHash(schemaManifestTables)}",
+      "tables": schemaManifestTables,
+    });
     files["__generated_manifest.json"] = _json({
       "version": "1",
       "tables": manifestTables,
@@ -435,6 +450,16 @@ class TidbEndpointSpec {
       "generated_files": [...files.keys, "__generated_manifest.json"]..sort(),
     });
     return TidbGeneratedArtifacts(files);
+  }
+
+  static String _stableSchemaHash(Map<String, dynamic> tables) {
+    final source = jsonEncode(tables);
+    var hash = 0x811c9dc5;
+    for (final codeUnit in source.codeUnits) {
+      hash ^= codeUnit;
+      hash = (hash * 0x01000193) & 0xffffffff;
+    }
+    return hash.toRadixString(16).padLeft(8, "0");
   }
 
   static void _addEndpoint({

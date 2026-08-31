@@ -9,6 +9,7 @@ import "package:yaml_writer/yaml_writer.dart";
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/cloudflare/tidb_data_service_api.dart";
+import "package:katana_cli/action/cloudflare/tidb_state.dart";
 import "package:katana_cli/katana_cli.dart";
 
 const _managedEndpointTags = {"Masamune", "MasamuneServer"};
@@ -49,7 +50,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
 
   @override
   String get description =>
-      "Configure direct TiDB access or TiDB Data Service for Cloudflare Workers. Cloudflare Workers向けのTiDB直接接続またはTiDB Data Serviceを構成します。";
+      "Configure TiDB Data Service for Cloudflare Workers. Cloudflare Workers向けのTiDB Data Serviceを構成します。";
 
   @override
   bool checkEnabled(ExecContext context) {
@@ -65,22 +66,43 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
     final tidb = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
-    final rawMode = tidb.get("mode", "direct").toString();
-    final mode = rawMode == "data-service" || rawMode == "data_service"
-        ? "data-service"
-        : "direct";
+    final mode = tidb.get("mode", "data_service").toString();
+    if (mode != "data_service" && mode != "data-service") {
+      error(
+        "TiDB direct mode is no longer supported. Configure `project_id` "
+        "and `cluster_id` for TiDB Data Service.",
+      );
+      return;
+    }
     if (!_validateCloudflareFiles()) {
       return;
     }
-    if (mode == "direct") {
-      await _applyDirect(context, tidb, npm: npm, wrangler: wrangler);
+    try {
+      await ensureTidbManagedStateIsGitIgnored();
+    } on StateError catch (exception) {
+      error(exception.message.toString());
       return;
     }
+    final secrets = await _loadSecretsRoot();
+    late final TidbManagedStateLoadResult managed;
+    try {
+      managed = await loadAndMigrateTidbManagedState(secrets);
+    } on StateError catch (exception) {
+      error(exception.message.toString());
+      return;
+    }
+    if (managed.stateChanged) {
+      await saveTidbManagedState(managed.state);
+    }
+    if (managed.secretsChanged) {
+      await _saveSecretsRoot(secrets);
+    }
     await _applyDataService(
-      context,
       tidb,
       npm: npm,
       wrangler: wrangler,
+      secrets: secrets,
+      managedState: managed.state,
     );
   }
 
@@ -98,52 +120,20 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     return true;
   }
 
-  Future<void> _applyDirect(
-    ExecContext context,
-    Map tidb, {
-    required String npm,
-    required String wrangler,
-  }) async {
-    final secretTidb = context.secrets.getAsMap("cloudflare").getAsMap("tidb");
-    final secretConnectionUrl = secretTidb.get("connection_url", "");
-    final connectionUrl = secretConnectionUrl.isNotEmpty
-        ? secretConnectionUrl
-        : tidb.get("connection_url", "");
-    if (connectionUrl.isEmpty) {
-      error(
-        "Direct mode requires [cloudflare]->[tidb]->[connection_url] in `katana_secrets.yaml` or `katana.yaml`.",
-      );
-      return;
-    }
-    final secrets = await _loadSecretsRoot();
-    _nested(secrets, ["cloudflare", "tidb"])["connection_url"] = connectionUrl;
-    await _saveSecretsRoot(secrets);
-    await addFlutterImport(["masamune_model_tidb"]);
-    if (!await _updateWorkersFunction(mode: "direct")) {
-      return;
-    }
-    await _installNodePackage(npm);
-    await putWranglerSecret(
-      wrangler: wrangler,
-      name: "TIDB_CONNECTION_URL",
-      value: connectionUrl,
-    );
-    await putWranglerSecret(
-      wrangler: wrangler,
-      name: "TIDB_MODE",
-      value: "direct",
-    );
-  }
-
   Future<void> _applyDataService(
-    ExecContext context,
     Map tidb, {
     required String npm,
     required String wrangler,
+    required Map<String, dynamic> secrets,
+    required Map<String, dynamic> managedState,
   }) async {
-    final config = Map<String, dynamic>.from(
-      tidb["data_service"] as Map,
-    );
+    final legacy = tidb["data_service"] is Map
+        ? Map<String, dynamic>.from(tidb["data_service"] as Map)
+        : <String, dynamic>{};
+    final config = <String, dynamic>{
+      ...legacy,
+      ...Map<String, dynamic>.from(tidb),
+    }..remove("data_service");
     final directory = config["directory"]?.toString() ?? "tidb/data_service";
     final manifestFile = File("$directory/__generated_manifest.json");
     if (!manifestFile.existsSync()) {
@@ -179,15 +169,11 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       return;
     }
 
-    final secrets = await _loadSecretsRoot();
     final secretTidb = _nested(secrets, ["cloudflare", "tidb"]);
     final management = _nested(secretTidb, ["management_api"]);
-    final dataService = _nested(secretTidb, ["data_service"]);
-    final cutover = _nested(secretTidb, ["cutover"]);
-    final configuredAppId = config["app_id"]?.toString().trim() ?? "";
-    final managedAppId = configuredAppId.isNotEmpty
-        ? configuredAppId
-        : dataService["app_id"]?.toString().trim() ?? "";
+    final dataService = _nested(managedState, ["data_service"]);
+    final cutover = _nested(managedState, ["cutover"]);
+    final managedAppId = dataService["app_id"]?.toString().trim() ?? "";
     if (managedAppId.isNotEmpty) {
       await _writeDataAppConfig(
         directory: directory,
@@ -243,11 +229,6 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           api.close();
         }
       }
-      if (secretTidb.containsKey("connection_url")) {
-        secretTidb.remove("connection_url");
-        _nested(secrets, ["cloudflare"])["tidb"] = secretTidb;
-        await _saveSecretsRoot(secrets);
-      }
       label("TiDB Data Service-only cutover is already complete.");
       return;
     }
@@ -301,9 +282,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       );
       cutover["state"] = "complete";
       cutover["worker_deployment_id"] = deployed;
-      secretTidb.remove("connection_url");
-      _nested(secrets, ["cloudflare"])["tidb"] = secretTidb;
-      await _saveSecretsRoot(secrets);
+      await saveTidbManagedState(managedState);
       return;
     }
 
@@ -325,10 +304,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         projectId: projectId,
         clusterId: clusterId,
       );
-      var appId = configuredAppId;
-      if (appId.isEmpty) {
-        appId = dataService["app_id"]?.toString() ?? "";
-      }
+      var appId = managedAppId;
       appId = await _ensureDataApp(
         api,
         projectId: projectId,
@@ -345,7 +321,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         rateLimit: rateLimit,
         dataService: dataService,
       );
-      await _saveSecretsRoot(secrets);
+      await saveTidbManagedState(managedState);
       await _applyAdditiveSchema(
         api,
         appId: appId,
@@ -369,10 +345,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         clusterId: clusterId,
       );
       await _copyRuntimeManifest(manifestText);
-      if (!await _updateWorkersFunction(
-        mode: "data-service",
-        maxScanRows: maxScanRows,
-      )) {
+      if (!await _updateWorkersFunction(maxScanRows: maxScanRows)) {
         return;
       }
       await _installNodePackage(npm);
@@ -392,7 +365,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         ..["manifest_hash"] = manifestHash
         ..["baseline_worker_deployment_id"] = baseline
         ..["state"] = "prepared";
-      await _saveSecretsRoot(secrets);
+      await saveTidbManagedState(managedState);
       label("TiDB Data Service preparation completed.");
       stdout.writeln(
         "\nThe MySQL public endpoint is still enabled. "
@@ -1045,15 +1018,13 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   }
 
   Future<bool> _updateWorkersFunction({
-    required String mode,
     int maxScanRows = 1000,
   }) async {
     final index = File("cloudflare/src/index.ts");
     var source = await index.readAsString();
-    if (mode == "data-service" &&
-        !source.contains(
-          'import tidbDataServiceManifest from "./tidb_data_service_manifest.json";',
-        )) {
+    if (!source.contains(
+      'import tidbDataServiceManifest from "./tidb_data_service_manifest.json";',
+    )) {
       final imports =
           RegExp(r"^import .+;$", multiLine: true).allMatches(source);
       const statement =
@@ -1067,16 +1038,10 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             );
       await index.writeAsString(source);
     }
-    final function = mode == "data-service"
-        ? """
+    final function = """
     tidb.Functions.tidb({
-        mode: "data-service",
         dataServiceManifest: tidbDataServiceManifest as tidb.TidbDataServiceManifest,
         maxScanRows: $maxScanRows,
-    }),"""
-        : """
-    tidb.Functions.tidb({
-        mode: "direct",
     }),""";
     return applyCloudflareWorkersFunctions(
       alias: "tidb",
@@ -1102,7 +1067,6 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     required Map<String, dynamic> dataService,
   }) async {
     final values = {
-      "TIDB_MODE": "data-service",
       "TIDB_DATA_SERVICE_APP_ID": appId,
       "TIDB_DATA_SERVICE_REGION": region,
       "TIDB_DATA_SERVICE_PUBLIC_KEY": dataService["public_key"].toString(),
@@ -1229,22 +1193,27 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       );
     }
     final workerSecrets = jsonDecode(listed.stdout.toString());
-    final hasDirectSecret = workerSecrets is List &&
-        workerSecrets.any(
-          (item) =>
-              item is Map && item["name"]?.toString() == "TIDB_CONNECTION_URL",
-        );
-    if (hasDirectSecret) {
+    final names = workerSecrets is List
+        ? workerSecrets
+            .whereType<Map>()
+            .map((item) => item["name"]?.toString())
+            .whereType<String>()
+            .toSet()
+        : <String>{};
+    for (final obsolete in const ["TIDB_CONNECTION_URL", "TIDB_MODE"]) {
+      if (!names.contains(obsolete)) {
+        continue;
+      }
       final deleted = await Process.run(
         wrangler,
-        ["secret", "delete", "TIDB_CONNECTION_URL"],
+        ["secret", "delete", obsolete],
         workingDirectory: "cloudflare",
         runInShell: true,
       );
       if (deleted.exitCode != 0) {
         throw StateError(
-          "The public endpoint was disabled, but TIDB_CONNECTION_URL could "
-          "not be deleted: ${deleted.stderr}",
+          "The public endpoint was disabled, but $obsolete could not be "
+          "deleted: ${deleted.stderr}",
         );
       }
     }

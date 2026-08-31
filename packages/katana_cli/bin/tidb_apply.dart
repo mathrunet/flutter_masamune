@@ -8,6 +8,7 @@ import "package:yaml/yaml.dart";
 // Project imports:
 import "package:katana_cli/action/cloudflare/tidb.dart";
 import "package:katana_cli/action/cloudflare/tidb_data_service_api.dart";
+import "package:katana_cli/action/cloudflare/tidb_state.dart";
 import "package:katana_cli/katana_cli.dart";
 
 Future<void> main() async {
@@ -19,9 +20,11 @@ Future<void> main() async {
   if (Platform.environment["TIDB_VERIFY"] == "1") {
     final tidb = ((secrets as Map)["cloudflare"] as Map)["tidb"] as Map;
     final management = tidb["management_api"] as Map;
-    final dataService = tidb["data_service"] as Map;
     final config = ((yaml as Map)["cloudflare"] as Map)["tidb"] as Map;
-    final dataServiceConfig = config["data_service"] as Map;
+    final managed = await loadAndMigrateTidbManagedState(
+      Map<String, dynamic>.from(secrets),
+    );
+    final dataService = managed.state["data_service"] as Map;
     final api = TidbCloudManagementApi(
       publicKey: management["public_key"].toString(),
       privateKey: management["private_key"].toString(),
@@ -29,7 +32,7 @@ Future<void> main() async {
     try {
       final cluster = await api.starter(
         "GET",
-        "clusters/${dataServiceConfig["cluster_id"]}",
+        "clusters/${config["cluster_id"]}",
       );
       final endpoints = await listTidbDataServicePages(
         api,

@@ -11,11 +11,13 @@ Future<void> main() async {
   await _testWranglerResponseHandling();
 
   final template = katanaYamlCode(true);
-  _expectCount(template, "    backup:", 1);
-  _expectCount(template, "      binding: R2_BACKUP_BUCKET", 1);
+  _expectCount(template, "    backup:", 0);
+  _expectCount(template, "      binding: R2_BACKUP_BUCKET", 0);
   _expectCount(template, "      max_concurrency:", 0);
-  _expectCount(template, "      max_batch_size: 10", 1);
-  _expectCount(template, "      dead_letter_queue:", 1);
+  _expectCount(template, "      max_batch_size: 10", 0);
+  _expectCount(template, "      dead_letter_queue:", 0);
+  _expectCount(template, "    bucket_name:", 1);
+  _expectCount(template, "    public_base_url:", 1);
 
   final originalDirectory = Directory.current;
   final temporary = await Directory.systemTemp.createTemp(
@@ -458,9 +460,9 @@ Future<void> _testTidbOwnershipPersistenceOrder() async {
   final source = await File("lib/action/cloudflare/tidb.dart").readAsString();
   _expectCount(source, "await _writeEndpointOwnershipState(", 3);
   for (final deployment in [
-    '"Initialize Katana endpoint ownership.",',
-    '"Synchronize Masamune endpoints before cutover.",',
-    '"Deploy Masamune endpoints.");',
+    "Initialize Katana endpoint ownership.",
+    "Synchronize Masamune endpoints before cutover.",
+    "Deploy Masamune endpoints.",
   ]) {
     final deploymentIndex = source.indexOf(deployment);
     final persistenceIndex = source.indexOf(

@@ -31,6 +31,25 @@ void main() {
     expect(output.files, contains("http_endpoints/config.json"));
     expect(output.files, contains("__masamune/schema.sql"));
     expect(output.files, contains("__generated_manifest.json"));
+    expect(output.files, contains("__generated_schema_manifest.json"));
+    final schemaManifest = jsonDecode(
+      output.files["__generated_schema_manifest.json"]!,
+    ) as Map<String, dynamic>;
+    expect(schemaManifest["version"], startsWith("1-"));
+    expect(schemaManifest["tables"], {
+      "main\u0000users": {
+        "database": "main",
+        "table": "users",
+        "columns": [
+          {"name": "id", "type": "VARCHAR(255)"},
+          {"name": "parent_id", "type": "VARCHAR(255)"},
+          {"name": "created_at", "type": "BIGINT"},
+          {"name": "updated_at", "type": "BIGINT"},
+          {"name": "name", "type": "TEXT"},
+          {"name": "score", "type": "BIGINT"},
+        ],
+      },
+    });
     final config = jsonDecode(
       output.files["http_endpoints/config.json"]!,
     ) as List<dynamic>;

@@ -235,7 +235,13 @@ String _buildTursoLimitSql(int? limit) {
   return " LIMIT $limit";
 }
 
-String _inferTursoSqlType(Object? value) {
+String _inferTursoSqlType(Object? value, {String? column}) {
+  if (value == null) {
+    throw StateError(
+      "Cannot infer SQL type for column ${column ?? "<unknown>"} from null. "
+      "Provide an explicit schema before writing null.",
+    );
+  }
   final encoded = _encodeTursoSqlValue(value);
   if (encoded is int || encoded is bool) {
     return "INTEGER";
@@ -258,8 +264,8 @@ _TursoSql _buildTursoCreateTableSql(String table, DynamicMap value) {
         entry.key == "updated_at") {
       continue;
     }
-    columns.add(
-        "${_quoteTursoIdentifier(entry.key)} ${_inferTursoSqlType(entry.value)}");
+    columns.add("${_quoteTursoIdentifier(entry.key)} "
+        "${_inferTursoSqlType(entry.value, column: entry.key)}");
   }
   return _TursoSql(
     sql:
