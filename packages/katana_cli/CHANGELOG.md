@@ -1,3 +1,7 @@
+## 3.24.1
+
+ - **FIX**(tidb): migrate to Data Service model and enhance state management. ([773aa5a5](https://github.com/mathrunet/flutter_masamune/commit/773aa5a57efbae84718c95cfefc163b10f07a413))
+
 ## 3.24.0
 
  - **FEAT**(firebase): add requiresFirebaseCliScaffold function and update .gitignore handling. ([8eac04b2](https://github.com/mathrunet/flutter_masamune/commit/8eac04b22f89783b491235ff0656076291beb011))

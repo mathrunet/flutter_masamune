@@ -1,3 +1,7 @@
+## 3.3.4
+
+ - **FIX**(square_avatar): ensure fixed dimensions are passed to inner image. ([7632432e](https://github.com/mathrunet/flutter_masamune/commit/7632432ee08f29ebb4a8087fe38aed8a7cf50690))
+
 ## 3.3.3
 
  - **FIX**: Pass the fixed width and height of `SquareAvatar` to its inner image so size-aware image providers can decode and cache an appropriately sized raster.

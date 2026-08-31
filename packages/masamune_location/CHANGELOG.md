@@ -1,3 +1,7 @@
+## 3.1.20
+
+ - **FIX**(location): handle unhandled errors during concurrent location listener startup. ([c096c688](https://github.com/mathrunet/flutter_masamune/commit/c096c688d71c87755f659b92f4a12cb6ebfda1b1))
+
 ## 3.1.19
 
  - Fix unhandled errors from concurrent location listener startup.

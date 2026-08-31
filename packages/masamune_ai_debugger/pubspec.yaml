@@ -1,6 +1,6 @@
 name: masamune_ai_debugger
 description: AI debug overlay and error reporting adapter for Masamune apps.
-version: 3.4.4
+version: 3.4.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ai_debugger
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   katana: ^3.4.0
-  masamune: ^3.5.18
+  masamune: ^3.5.19
   shared_preferences: ^2.5.3
 
 dev_dependencies:

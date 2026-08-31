@@ -1,3 +1,7 @@
+## 3.4.4
+
+ - **FIX**(tidb): migrate to Data Service model and enhance state management. ([773aa5a5](https://github.com/mathrunet/flutter_masamune/commit/773aa5a57efbae84718c95cfefc163b10f07a413))
+
 ## 3.4.3
 
  - **REFACTOR**(masamune_model_tidb): standardize TiDB terminology and enhance documentation. ([ca0975b3](https://github.com/mathrunet/flutter_masamune/commit/ca0975b30e5fb9e1fd09fb65447a0f5eb084039c))
