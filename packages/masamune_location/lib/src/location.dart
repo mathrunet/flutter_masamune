@@ -67,7 +67,7 @@ class Location
   Timer? _timer;
   Duration _updateInterval = const Duration(seconds: 1);
   bool _updated = false;
-  Completer<void>? _listenCompleter;
+  Future<void>? _listenFuture;
   Completer<void>? _loadCompleter;
   Completer<void>? _saveCompleter;
   Completer<void>? _initializeCompleter;
@@ -196,8 +196,8 @@ class Location
     if (_loadCompleter != null) {
       return _loadCompleter?.future;
     }
-    if (_listenCompleter != null) {
-      return _listenCompleter?.future;
+    if (_listenFuture != null) {
+      return _listenFuture;
     }
     if (_value != null) {
       return;
@@ -300,19 +300,35 @@ class Location
     double? distanceFilterMeters,
     Duration updateInterval = const Duration(seconds: 1),
     Duration timeout = const Duration(seconds: 15),
+  }) {
+    final activeListen = _listenFuture;
+    if (activeListen != null) {
+      return activeListen;
+    }
+    final listenFuture = _startListening(
+      accuracy: accuracy,
+      distanceFilterMeters: distanceFilterMeters,
+      updateInterval: updateInterval,
+      timeout: timeout,
+    );
+    _listenFuture = listenFuture;
+    return listenFuture;
+  }
+
+  Future<void> _startListening({
+    required LocationAccuracy? accuracy,
+    required double? distanceFilterMeters,
+    required Duration updateInterval,
+    required Duration timeout,
   }) async {
-    if (_listenCompleter != null) {
-      return _listenCompleter?.future;
-    }
-    if (_loadCompleter != null) {
-      await _loadCompleter?.future;
-    }
-    if (_updateInterval == updateInterval && listening) {
-      return;
-    }
-    _listenCompleter = Completer<void>();
-    _updateInterval = updateInterval;
     try {
+      if (_loadCompleter != null) {
+        await _loadCompleter?.future;
+      }
+      if (_updateInterval == updateInterval && listening) {
+        return;
+      }
+      _updateInterval = updateInterval;
       await initialize(timeout: timeout);
       await adapter.changeSettings(
         accuracy: accuracy,
@@ -339,15 +355,8 @@ class Location
         notifyListeners();
       });
       notifyListeners();
-      _listenCompleter?.complete();
-      _listenCompleter = null;
-    } catch (e) {
-      _listenCompleter?.completeError(e);
-      _listenCompleter = null;
-      rethrow;
     } finally {
-      _listenCompleter?.complete();
-      _listenCompleter = null;
+      _listenFuture = null;
     }
   }
 
