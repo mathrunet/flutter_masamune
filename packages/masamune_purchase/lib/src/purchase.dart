@@ -352,6 +352,61 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
     return _products
         .firstWhereOrNull((product) => product.productId == productId);
   }
+
+  /// Forces [product] to be treated as purchased for debugging purposes.
+  ///
+  /// This only changes the state held in this [Purchase] instance. It does not
+  /// purchase the product through the store or write purchase data to a server.
+  /// The forced state is discarded when this [Purchase] instance is recreated.
+  ///
+  /// デバッグ用に[product]を強制的に購入済みとして扱います。
+  ///
+  /// この[Purchase]インスタンス内の状態だけを変更します。ストアでの購入やサーバーへの
+  /// 課金データの書き込みは行いません。[Purchase]インスタンスが再生成されると強制状態は
+  /// 破棄されます。
+  void debugForcePurchase(PurchaseProduct product) {
+    _findDebugForceProduct(product)._debugForcePurchase();
+  }
+
+  /// Forces [product] to be treated as unpurchased for debugging purposes.
+  ///
+  /// This only changes the state held in this [Purchase] instance. It does not
+  /// revoke the product through the store or delete purchase data from a server.
+  /// The forced state is discarded when this [Purchase] instance is recreated.
+  ///
+  /// デバッグ用に[product]を強制的に未購入として扱います。
+  ///
+  /// この[Purchase]インスタンス内の状態だけを変更します。ストアでの失効処理やサーバーの
+  /// 課金データ削除は行いません。[Purchase]インスタンスが再生成されると強制状態は破棄されます。
+  void debugForceUnpurchase(PurchaseProduct product) {
+    _findDebugForceProduct(product)._debugForceUnpurchase();
+  }
+
+  _DebugForcePurchaseProduct _findDebugForceProduct(
+    PurchaseProduct product,
+  ) {
+    if (!_initialized) {
+      throw StateError(
+        "Purchase is not initialized. Call initialize() before changing the debug purchase state.",
+      );
+    }
+    final found = findProductById(product.productId);
+    if (found == null) {
+      throw ArgumentError.value(
+        product,
+        "product",
+        "The product is not managed by this Purchase instance.",
+      );
+    }
+    if (found is! _DebugForcePurchaseProduct) {
+      throw ArgumentError.value(
+        product,
+        "product",
+        "Only non-consumable and subscription products can have their purchase state forced.",
+      );
+    }
+    return found;
+  }
 }
 
 @immutable

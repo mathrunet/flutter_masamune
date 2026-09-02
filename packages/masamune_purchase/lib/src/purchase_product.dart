@@ -335,6 +335,30 @@ class PurchaseProduct {
   bool operator ==(Object other) => hashCode == other.hashCode;
 }
 
+mixin _DebugForcePurchaseProduct on PurchaseProduct, ChangeNotifier {
+  bool? _debugForcePurchasedOverride;
+
+  bool _debugForceActive(bool active) {
+    return _debugForcePurchasedOverride ?? (debugForcePurchased || active);
+  }
+
+  void _debugForcePurchase() {
+    if (_debugForcePurchasedOverride ?? false) {
+      return;
+    }
+    _debugForcePurchasedOverride = true;
+    notifyListeners();
+  }
+
+  void _debugForceUnpurchase() {
+    if (!(_debugForcePurchasedOverride ?? true)) {
+      return;
+    }
+    _debugForcePurchasedOverride = false;
+    notifyListeners();
+  }
+}
+
 /// Define billing items that are [PurchaseProductType.consumable].
 ///
 /// [PurchaseProductType.consumable]な課金アイテムを定義します。
@@ -482,7 +506,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
 /// [PurchaseProductType.nonConsumable]な課金アイテムを定義します。
 // ignore: must_be_immutable
 class StoreNonConsumablePurchaseProduct extends PurchaseProduct
-    with ChangeNotifier {
+    with ChangeNotifier, _DebugForcePurchaseProduct {
   /// Define billing items that are [PurchaseProductType.nonConsumable].
   ///
   /// [PurchaseProductType.nonConsumable]な課金アイテムを定義します。
@@ -601,9 +625,9 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: debugForcePurchased
-          ? true
-          : onRetrieveValue.call(_document, this, _userId),
+      active: _debugForceActive(
+        onRetrieveValue.call(_document, this, _userId),
+      ),
     );
   }
 
@@ -624,7 +648,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
 /// [PurchaseProductType.subscription]な課金アイテムを定義します。
 // ignore: must_be_immutable
 class StoreSubscriptionPurchaseProduct extends PurchaseProduct
-    with ChangeNotifier {
+    with ChangeNotifier, _DebugForcePurchaseProduct {
   /// Define billing items that are [PurchaseProductType.subscription].
   ///
   /// [PurchaseProductType.subscription]な課金アイテムを定義します。
@@ -819,9 +843,9 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: debugForcePurchased
-          ? true
-          : onRetrieveValue.call(_collection, this, _userId),
+      active: _debugForceActive(
+        onRetrieveValue.call(_collection, this, _userId),
+      ),
     );
   }
 
