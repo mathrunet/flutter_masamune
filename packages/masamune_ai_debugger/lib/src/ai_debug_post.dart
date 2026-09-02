@@ -80,6 +80,69 @@ class AIDebugContextSnapshot {
 /// 送信時点のページ、ルート、明示的に選択した状態を提供します。
 typedef AIDebugContextProvider = FutureOr<AIDebugContextSnapshot?> Function();
 
+/// A purchase product exposed by the AI debugger's debug purchase UI.
+///
+/// AIデバッガーのデバッグ課金UIに表示する課金商品です。
+@immutable
+class AIDebugPurchaseProduct {
+  /// Creates a purchase product for debug operations.
+  ///
+  /// デバッグ操作用の課金商品を作成します。
+  const AIDebugPurchaseProduct({
+    required this.id,
+    required this.label,
+  });
+
+  /// Identifier used to resolve the app's actual purchase product.
+  ///
+  /// アプリ側の実際の課金商品を解決するためのID。
+  final String id;
+
+  /// Label displayed in the AI debugger UI.
+  ///
+  /// AIデバッガーUIに表示するラベル。
+  final String label;
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AIDebugPurchaseProduct && other.id == id;
+}
+
+/// Signs in a debug user with an email address and password.
+typedef AIDebugLoginCallback = FutureOr<void> Function(
+  String email,
+  String password,
+);
+
+/// Signs out the current debug user.
+typedef AIDebugLogoutCallback = FutureOr<void> Function();
+
+/// Returns whether a debug user is currently signed in.
+typedef AIDebugIsLoggedInCallback = bool Function();
+
+/// Returns the purchase products available to the debug purchase UI.
+typedef AIDebugPurchaseProductsCallback = List<AIDebugPurchaseProduct>
+    Function();
+
+/// Forces the supplied product into a purchased state.
+typedef AIDebugPurchaseCallback = FutureOr<void> Function(
+  AIDebugPurchaseProduct product,
+);
+
+/// Removes the supplied product from the purchased state.
+typedef AIDebugCancelPurchaseCallback = FutureOr<void> Function(
+  AIDebugPurchaseProduct product,
+);
+
+/// Returns whether the supplied product is currently purchased.
+typedef AIDebugIsPurchasedCallback = bool Function(
+  AIDebugPurchaseProduct product,
+);
+
 class _AIDebugContextSanitizer {
   static final RegExp _sensitiveKey = RegExp(
     r"authorization|cookie|token|api[_-]?key|password|secret|private[_-]?key",

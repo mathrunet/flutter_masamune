@@ -45,7 +45,30 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     AIDebugReportIncidentCallback? reportIncident,
     AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
     AIDebugUploadEventsCallback? uploadEvents,
-  }) : controller = AIDebugController(
+    this.login,
+    this.logout,
+    this.isLoggedIn,
+    this.purchaseProducts,
+    this.purchase,
+    this.cancelPurchase,
+    this.isPurchased,
+  })  : assert(
+          (login == null && logout == null && isLoggedIn == null) ||
+              (login != null && logout != null && isLoggedIn != null),
+          "login, logout, and isLoggedIn must be provided together.",
+        ),
+        assert(
+          (purchaseProducts == null &&
+                  purchase == null &&
+                  cancelPurchase == null &&
+                  isPurchased == null) ||
+              (purchaseProducts != null &&
+                  purchase != null &&
+                  cancelPurchase != null &&
+                  isPurchased != null),
+          "purchaseProducts, purchase, cancelPurchase, and isPurchased must be provided together.",
+        ),
+        controller = AIDebugController(
           projectId: projectId,
           endpoint: endpoint,
           apiKey: apiKey,
@@ -140,6 +163,27 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
 
   /// Supplies page, route, and selected state for manual and automatic sends.
   final AIDebugContextProvider? contextProvider;
+
+  /// Signs in a debug user with an email address and password.
+  final AIDebugLoginCallback? login;
+
+  /// Signs out the current debug user.
+  final AIDebugLogoutCallback? logout;
+
+  /// Returns whether a debug user is currently signed in.
+  final AIDebugIsLoggedInCallback? isLoggedIn;
+
+  /// Returns the products available to the debug purchase UI.
+  final AIDebugPurchaseProductsCallback? purchaseProducts;
+
+  /// Forces a product into a purchased state for debugging.
+  final AIDebugPurchaseCallback? purchase;
+
+  /// Removes a product from the purchased state for debugging.
+  final AIDebugCancelPurchaseCallback? cancelPurchase;
+
+  /// Returns whether a product is currently purchased.
+  final AIDebugIsPurchasedCallback? isPurchased;
 
   /// Controller that manages AI debug runs, incidents, and requests.
   ///
@@ -404,6 +448,13 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     return _AIDebugOverlay(
       controller: controller,
       maxScreenshots: maxScreenshots,
+      login: login,
+      logout: logout,
+      isLoggedIn: isLoggedIn,
+      purchaseProducts: purchaseProducts,
+      purchase: purchase,
+      cancelPurchase: cancelPurchase,
+      isPurchased: isPurchased,
       child: app,
     );
   }

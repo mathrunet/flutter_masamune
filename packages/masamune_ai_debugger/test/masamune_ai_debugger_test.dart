@@ -1,3 +1,4 @@
+import "dart:async";
 import "dart:typed_data";
 
 import "package:flutter/material.dart";
@@ -832,6 +833,201 @@ void main() {
       request.value["instruction"],
       "/dev:kiwame:edit\n\n要件を変更してください",
     );
+    await adapter.controller.end();
+  });
+
+  test("debug feature callbacks must be provided as complete groups", () {
+    expect(
+      () => AIDebuggerMasamuneAdapter(login: (email, password) {}),
+      throwsAssertionError,
+    );
+    expect(
+      () => AIDebuggerMasamuneAdapter(purchaseProducts: () => const []),
+      throwsAssertionError,
+    );
+  });
+
+  testWidgets("debug authentication UI signs in and signs out", (tester) async {
+    var loggedIn = false;
+    String? receivedEmail;
+    String? receivedPassword;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-auth",
+      login: (email, password) {
+        receivedEmail = email;
+        receivedPassword = password;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.bySemanticsLabel("AI Debuggerを開く"), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    expect(find.bySemanticsLabel("AIデバッガー認証"), findsOneWidget);
+    expect(find.bySemanticsLabel("AIデバッガー課金管理"), findsNothing);
+    expect(find.bySemanticsLabel("AIデバッガー指示入力"), findsOneWidget);
+
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+    expect(find.text("デバッグログイン"), findsOneWidget);
+    expect(
+      find.bySemanticsLabel("デバッグログイン メールアドレス"),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel("デバッグログイン パスワード"),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel("AI入力へ戻る"), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField).at(0), "debug@example.com");
+    await tester.enterText(find.byType(TextField).at(1), "password123");
+    await tester.tap(find.bySemanticsLabel("デバッグログイン実行"));
+    await tester.pump();
+
+    expect(receivedEmail, "debug@example.com");
+    expect(receivedPassword, "password123");
+    expect(loggedIn, isTrue);
+    expect(find.text("AI Debugger"), findsOneWidget);
+
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+    expect(loggedIn, isFalse);
+    expect(find.text("デバッグログイン"), findsNothing);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug authentication prevents duplicate asynchronous submits",
+      (tester) async {
+    var calls = 0;
+    var loggedIn = false;
+    final completion = Completer<void>();
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-auth-async",
+      login: (email, password) async {
+        calls += 1;
+        await completion.future;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+    await tester.enterText(find.byType(TextField).at(0), "debug@example.com");
+    await tester.enterText(find.byType(TextField).at(1), "password123");
+
+    await tester.tap(find.bySemanticsLabel("デバッグログイン実行"));
+    await tester.tap(find.bySemanticsLabel("デバッグログイン実行"));
+    await tester.pump();
+    expect(calls, 1);
+    expect(find.text("ログイン中…"), findsOneWidget);
+
+    completion.complete();
+    await tester.pumpAndSettle();
+    expect(loggedIn, isTrue);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug purchase UI purchases and cancels individual products",
+      (tester) async {
+    const basic = AIDebugPurchaseProduct(id: "basic", label: "Basic");
+    const pro = AIDebugPurchaseProduct(id: "pro", label: "Pro");
+    const premium = AIDebugPurchaseProduct(id: "premium", label: "Premium");
+    final purchasedIds = <String>{pro.id};
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-purchase",
+      purchaseProducts: () => const [basic, pro, premium],
+      purchase: (product) => purchasedIds.add(product.id),
+      cancelPurchase: (product) => purchasedIds.remove(product.id),
+      isPurchased: (product) => purchasedIds.contains(product.id),
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+
+    expect(find.bySemanticsLabel("AIデバッガー課金管理"), findsOneWidget);
+    expect(find.bySemanticsLabel("AIデバッガー認証"), findsNothing);
+    await tester.tap(find.bySemanticsLabel("AIデバッガー課金管理"));
+    await tester.pump();
+
+    expect(find.text("デバッグ課金"), findsOneWidget);
+    expect(find.bySemanticsLabel("デバッグ課金 商品選択"), findsOneWidget);
+    expect(find.bySemanticsLabel("課金解除 pro"), findsOneWidget);
+    await tester.tap(find.byType(DropdownButton<AIDebugPurchaseProduct>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text("Premium").last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel("デバッグ強制課金実行"));
+    await tester.pump();
+
+    expect(purchasedIds, containsAll([pro.id, premium.id]));
+    expect(find.bySemanticsLabel("課金解除 premium"), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel("課金解除 pro"));
+    await tester.pump();
+    expect(purchasedIds, isNot(contains(pro.id)));
+    expect(find.bySemanticsLabel("課金解除 pro"), findsNothing);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug operation errors remain visible in their form",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-auth-error",
+      login: (email, password) => throw StateError("login failed"),
+      logout: () {},
+      isLoggedIn: () => false,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+    await tester.enterText(find.byType(TextField).at(0), "debug@example.com");
+    await tester.enterText(find.byType(TextField).at(1), "password123");
+    await tester.tap(find.bySemanticsLabel("デバッグログイン実行"));
+    await tester.pump();
+
+    expect(find.textContaining("login failed"), findsOneWidget);
+    expect(find.text("デバッグログイン"), findsOneWidget);
     await adapter.controller.end();
   });
 

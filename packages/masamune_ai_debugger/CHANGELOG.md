@@ -54,6 +54,7 @@
 
  - **FEAT**: Add per-operation callbacks with SamuraiAI static defaults for custom AI debugger providers.
  - **FEAT**: Add persistent model, permission mode, and performance timeout settings to the debug overlay.
+ - **FEAT**: Add debug authentication and per-product purchase controls with Maestro-accessible semantics.
 
 ## 3.2.10
 

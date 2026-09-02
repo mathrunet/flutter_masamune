@@ -5,15 +5,35 @@ enum _AIDebugRequestType {
   requirementsEdit,
 }
 
+enum _AIDebugPanelView {
+  prompt,
+  login,
+  purchase,
+}
+
 class _AIDebugOverlay extends StatefulWidget {
   const _AIDebugOverlay({
     required this.controller,
     required this.maxScreenshots,
+    required this.login,
+    required this.logout,
+    required this.isLoggedIn,
+    required this.purchaseProducts,
+    required this.purchase,
+    required this.cancelPurchase,
+    required this.isPurchased,
     required this.child,
   });
 
   final AIDebugController controller;
   final int maxScreenshots;
+  final AIDebugLoginCallback? login;
+  final AIDebugLogoutCallback? logout;
+  final AIDebugIsLoggedInCallback? isLoggedIn;
+  final AIDebugPurchaseProductsCallback? purchaseProducts;
+  final AIDebugPurchaseCallback? purchase;
+  final AIDebugCancelPurchaseCallback? cancelPurchase;
+  final AIDebugIsPurchasedCallback? isPurchased;
   final Widget child;
 
   @override
@@ -24,6 +44,8 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     with WidgetsBindingObserver {
   final _boundaryKey = GlobalKey();
   final _textController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _modelTimeoutController = TextEditingController();
   final _indicatorTimeoutController = TextEditingController();
   late final void Function(String kind, String sessionId)
@@ -34,9 +56,16 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   bool _expanded = false;
   bool _hidden = false;
   bool _sending = false;
+  bool _debugOperationRunning = false;
   bool _settingsOpen = false;
+  bool _loggedIn = false;
+  _AIDebugPanelView _panelView = _AIDebugPanelView.prompt;
   _AIDebugRequestType _requestType = _AIDebugRequestType.bugFix;
+  List<AIDebugPurchaseProduct> _purchaseProducts = const [];
+  Set<String> _purchasedProductIds = const {};
+  AIDebugPurchaseProduct? _selectedPurchaseProduct;
   String? _status;
+  String? _debugOperationError;
   String? _incidentNotification;
   String? _settingsError;
   Uint8List? _preview;
@@ -50,6 +79,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     _settings = widget.controller.settings;
     _draftSettings = _settings;
     _settingsError = null;
+    _readLoginState();
     WidgetsBinding.instance.addObserver(this);
     widget.controller.attachCapture(_capture);
     widget.controller._attachWidgetTree(_widgetTreeCapture);
@@ -85,10 +115,157 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     _incidentNotificationTimer?.cancel();
     unawaited(widget.controller.end());
     _textController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     _modelTimeoutController.dispose();
     _indicatorTimeoutController.dispose();
     super.dispose();
   }
+
+  bool get _hasAuthentication =>
+      widget.login != null &&
+      widget.logout != null &&
+      widget.isLoggedIn != null;
+
+  bool get _hasPurchase =>
+      widget.purchaseProducts != null &&
+      widget.purchase != null &&
+      widget.cancelPurchase != null &&
+      widget.isPurchased != null;
+
+  bool _readLoginState() {
+    if (!_hasAuthentication) return true;
+    try {
+      _loggedIn = widget.isLoggedIn!();
+      return true;
+    } catch (error) {
+      _debugOperationError = error.toString();
+      return false;
+    }
+  }
+
+  Future<void> _openAuthentication() async {
+    if (_debugOperationRunning) return;
+    final stateRead = _readLoginState();
+    if (!stateRead) {
+      setState(() => _panelView = _AIDebugPanelView.login);
+      return;
+    }
+    if (!_loggedIn) {
+      setState(() {
+        _debugOperationError = null;
+        _panelView = _AIDebugPanelView.login;
+      });
+      return;
+    }
+    setState(() {
+      _debugOperationRunning = true;
+      _debugOperationError = null;
+    });
+    try {
+      await widget.logout!();
+      _readLoginState();
+    } catch (error) {
+      _debugOperationError = error.toString();
+    } finally {
+      if (mounted) setState(() => _debugOperationRunning = false);
+    }
+  }
+
+  Future<void> _performLogin() async {
+    if (_debugOperationRunning) return;
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    if (email.isEmpty || password.isEmpty) {
+      setState(() => _debugOperationError = "メールアドレスとパスワードを入力してください");
+      return;
+    }
+    setState(() {
+      _debugOperationRunning = true;
+      _debugOperationError = null;
+    });
+    try {
+      await widget.login!(email, password);
+      final stateRead = _readLoginState();
+      if (!mounted) return;
+      if (stateRead && _loggedIn) {
+        _passwordController.clear();
+        setState(() => _panelView = _AIDebugPanelView.prompt);
+      } else if (stateRead) {
+        setState(() => _debugOperationError = "ログイン状態を確認できませんでした");
+      }
+    } catch (error) {
+      if (mounted) setState(() => _debugOperationError = error.toString());
+    } finally {
+      if (mounted) setState(() => _debugOperationRunning = false);
+    }
+  }
+
+  void _refreshPurchaseState() {
+    final products = widget.purchaseProducts!();
+    final productIds = <String>{};
+    for (final product in products) {
+      if (!productIds.add(product.id)) {
+        throw StateError("課金商品IDが重複しています: ${product.id}");
+      }
+    }
+    final purchasedIds = <String>{};
+    for (final product in products) {
+      if (widget.isPurchased!(product)) purchasedIds.add(product.id);
+    }
+    _purchaseProducts = products;
+    _purchasedProductIds = purchasedIds;
+    final available = products
+        .where((product) => !purchasedIds.contains(product.id))
+        .toList();
+    _selectedPurchaseProduct = available.contains(_selectedPurchaseProduct)
+        ? _selectedPurchaseProduct
+        : available.firstOrNull;
+  }
+
+  void _openPurchase() {
+    setState(() {
+      _debugOperationError = null;
+      _panelView = _AIDebugPanelView.purchase;
+    });
+    try {
+      _refreshPurchaseState();
+    } catch (error) {
+      setState(() => _debugOperationError = error.toString());
+    }
+  }
+
+  Future<void> _performPurchase() async {
+    final product = _selectedPurchaseProduct;
+    if (product == null || _debugOperationRunning) return;
+    await _runPurchaseOperation(() => widget.purchase!(product));
+  }
+
+  Future<void> _performCancelPurchase(AIDebugPurchaseProduct product) async {
+    if (_debugOperationRunning) return;
+    await _runPurchaseOperation(() => widget.cancelPurchase!(product));
+  }
+
+  Future<void> _runPurchaseOperation(
+      FutureOr<void> Function() operation) async {
+    setState(() {
+      _debugOperationRunning = true;
+      _debugOperationError = null;
+    });
+    try {
+      await operation();
+      _refreshPurchaseState();
+    } catch (error) {
+      _debugOperationError = error.toString();
+    } finally {
+      if (mounted) setState(() => _debugOperationRunning = false);
+    }
+  }
+
+  void _backToPrompt() => setState(() {
+        _debugOperationError = null;
+        _panelView = _AIDebugPanelView.prompt;
+      });
 
   void _showIncidentSessionCreated(String kind, String _) {
     if (!mounted) return;
@@ -352,7 +529,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                 math.max(160.0, area.width - safe.horizontal - 16);
             final panelWidth = math.min(360.0, availableWidth);
             final itemSize =
-                _expanded ? Size(panelWidth, 300) : const Size(52, 52);
+                _expanded ? Size(panelWidth, 360) : const Size(52, 52);
             final position = _clamp(_position, area, itemSize, safe);
             if (position != _position) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -462,118 +639,360 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
           elevation: 12,
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Column(children: [
-              Row(children: [
-                const Icon(Icons.auto_awesome, size: 18),
-                const SizedBox(width: 8),
-                const Expanded(
-                    child: Text("AI Debugger",
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                IconButton(
-                  visualDensity: VisualDensity.compact,
-                  onPressed: () => setState(() => _expanded = false),
-                  icon: const Icon(Icons.close, size: 18, semanticLabel: "閉じる"),
-                ),
-              ]),
-              Expanded(
-                child: TextField(
-                  controller: _textController,
-                  expands: true,
-                  maxLines: null,
-                  minLines: null,
-                  textAlignVertical: TextAlignVertical.top,
-                  style: const TextStyle(fontSize: 14),
-                  decoration: const InputDecoration(
-                      hintText: "AIへの指示", border: OutlineInputBorder()),
-                ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: 48,
-                child: Row(children: [
-                  IconButton(
-                      onPressed: _addScreenshot,
-                      icon: const Icon(Icons.screenshot_monitor,
-                          semanticLabel: "スクリーンショット")),
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _screenshots.length,
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: Stack(children: [
-                          InkWell(
-                            onTap: () =>
-                                setState(() => _preview = _screenshots[index]),
-                            child: Image.memory(_screenshots[index],
-                                width: 48, height: 48, fit: BoxFit.cover),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: InkWell(
-                              onTap: () =>
-                                  setState(() => _screenshots.removeAt(index)),
-                              child: const DecoratedBox(
-                                decoration: BoxDecoration(
-                                    color: Colors.black87,
-                                    shape: BoxShape.circle),
-                                child: Icon(Icons.close, size: 14),
-                              ),
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    visualDensity: VisualDensity.compact,
-                    tooltip: "AI Debugger設定",
-                    onPressed: _sending ? null : _openSettings,
-                    icon: const Icon(Icons.settings, semanticLabel: "設定"),
-                  ),
-                  _buildCompactSelector(
-                    tooltip: "送信種別: $_requestTypeLabel",
-                    semanticLabel: _requestTypeLabel,
-                    color: _requestTypeColor,
-                    icon: _requestTypeIcon,
-                    onPressed: _sending ? null : _cycleRequestType,
-                  ),
-                  _buildCompactSelector(
-                    tooltip:
-                        "Mode: ${_modeLabel(_settings.manualPermissionMode)}",
-                    semanticLabel:
-                        "Mode ${_modeLabel(_settings.manualPermissionMode)}",
-                    color: _modeColor(_settings.manualPermissionMode),
-                    icon: _modeIcon(_settings.manualPermissionMode),
-                    onPressed: _sending ? null : _cycleManualMode,
-                  ),
-                  _buildCompactSelector(
-                    tooltip: "Model: ${_modelLabel(_settings.manualModel)}",
-                    semanticLabel:
-                        "Model ${_modelLabel(_settings.manualModel)}",
-                    color: _modelColor(_settings.manualModel),
-                    icon: _modelIcon(_settings.manualModel),
-                    onPressed: _sending ? null : _cycleManualModel,
-                  ),
-                  IconButton(
-                    onPressed: _sending ? null : _send,
-                    icon: _sending
-                        ? const SizedBox.square(
-                            dimension: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2))
-                        : const Icon(Icons.send, semanticLabel: "送信"),
-                  ),
-                ]),
-              ),
-              if (_status != null)
-                Text(_status!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 10)),
-            ]),
+            child: switch (_panelView) {
+              _AIDebugPanelView.prompt => _buildPromptPanel(),
+              _AIDebugPanelView.login => _buildLoginPanel(),
+              _AIDebugPanelView.purchase => _buildPurchasePanel(),
+            },
           ),
         ),
       );
+
+  Widget _buildPanelHeader(String title, {bool showBack = false}) =>
+      Row(children: [
+        if (showBack)
+          IconButton(
+            visualDensity: VisualDensity.compact,
+            tooltip: "AI入力へ戻る",
+            onPressed: _debugOperationRunning ? null : _backToPrompt,
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 18,
+              semanticLabel: "AI入力へ戻る",
+            ),
+          )
+        else ...[
+          const Icon(Icons.auto_awesome, size: 18),
+          const SizedBox(width: 8),
+        ],
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        IconButton(
+          visualDensity: VisualDensity.compact,
+          onPressed: () => setState(() {
+            _panelView = _AIDebugPanelView.prompt;
+            _expanded = false;
+          }),
+          icon: const Icon(Icons.close, size: 18, semanticLabel: "閉じる"),
+        ),
+      ]);
+
+  Widget _buildPromptPanel() => Column(children: [
+        _buildPanelHeader("AI Debugger"),
+        if (_hasAuthentication || _hasPurchase) ...[
+          SizedBox(
+            height: 38,
+            child: Row(children: [
+              if (_hasAuthentication)
+                Expanded(
+                  child: Semantics(
+                    label: "AIデバッガー認証",
+                    button: true,
+                    excludeSemantics: true,
+                    child: OutlinedButton.icon(
+                      onPressed:
+                          _debugOperationRunning ? null : _openAuthentication,
+                      icon: Icon(
+                        _loggedIn ? Icons.logout : Icons.login,
+                        size: 17,
+                      ),
+                      label: Text(_loggedIn ? "ログアウト" : "ログイン"),
+                    ),
+                  ),
+                ),
+              if (_hasAuthentication && _hasPurchase) const SizedBox(width: 8),
+              if (_hasPurchase)
+                Expanded(
+                  child: Semantics(
+                    label: "AIデバッガー課金管理",
+                    button: true,
+                    excludeSemantics: true,
+                    child: OutlinedButton.icon(
+                      onPressed: _debugOperationRunning ? null : _openPurchase,
+                      icon: const Icon(Icons.payments, size: 17),
+                      label: const Text("課金管理"),
+                    ),
+                  ),
+                ),
+            ]),
+          ),
+          const SizedBox(height: 8),
+        ],
+        Expanded(
+          child: Semantics(
+            label: "AIデバッガー指示入力",
+            textField: true,
+            child: TextField(
+              controller: _textController,
+              expands: true,
+              maxLines: null,
+              minLines: null,
+              textAlignVertical: TextAlignVertical.top,
+              style: const TextStyle(fontSize: 14),
+              decoration: const InputDecoration(
+                hintText: "AIへの指示",
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 48,
+          child: Row(children: [
+            IconButton(
+                onPressed: _addScreenshot,
+                icon: const Icon(Icons.screenshot_monitor,
+                    semanticLabel: "スクリーンショット")),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _screenshots.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: Stack(children: [
+                    InkWell(
+                      onTap: () =>
+                          setState(() => _preview = _screenshots[index]),
+                      child: Image.memory(_screenshots[index],
+                          width: 48, height: 48, fit: BoxFit.cover),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: InkWell(
+                        onTap: () =>
+                            setState(() => _screenshots.removeAt(index)),
+                        child: const DecoratedBox(
+                          decoration: BoxDecoration(
+                              color: Colors.black87, shape: BoxShape.circle),
+                          child: Icon(Icons.close, size: 14),
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+              ),
+            ),
+            IconButton(
+              visualDensity: VisualDensity.compact,
+              tooltip: "AI Debugger設定",
+              onPressed: _sending ? null : _openSettings,
+              icon: const Icon(Icons.settings, semanticLabel: "設定"),
+            ),
+            _buildCompactSelector(
+              tooltip: "送信種別: $_requestTypeLabel",
+              semanticLabel: _requestTypeLabel,
+              color: _requestTypeColor,
+              icon: _requestTypeIcon,
+              onPressed: _sending ? null : _cycleRequestType,
+            ),
+            _buildCompactSelector(
+              tooltip: "Mode: ${_modeLabel(_settings.manualPermissionMode)}",
+              semanticLabel:
+                  "Mode ${_modeLabel(_settings.manualPermissionMode)}",
+              color: _modeColor(_settings.manualPermissionMode),
+              icon: _modeIcon(_settings.manualPermissionMode),
+              onPressed: _sending ? null : _cycleManualMode,
+            ),
+            _buildCompactSelector(
+              tooltip: "Model: ${_modelLabel(_settings.manualModel)}",
+              semanticLabel: "Model ${_modelLabel(_settings.manualModel)}",
+              color: _modelColor(_settings.manualModel),
+              icon: _modelIcon(_settings.manualModel),
+              onPressed: _sending ? null : _cycleManualModel,
+            ),
+            IconButton(
+              onPressed: _sending ? null : _send,
+              icon: _sending
+                  ? const SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.send, semanticLabel: "送信"),
+            ),
+          ]),
+        ),
+        if (_status != null)
+          Text(_status!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 10)),
+      ]);
+
+  Widget _buildLoginPanel() => Column(children: [
+        _buildPanelHeader("デバッグログイン", showBack: true),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Semantics(
+                label: "デバッグログイン メールアドレス",
+                textField: true,
+                child: TextField(
+                  controller: _emailController,
+                  enabled: !_debugOperationRunning,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  autofillHints: const [AutofillHints.username],
+                  decoration: const InputDecoration(
+                    labelText: "メールアドレス",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Semantics(
+                label: "デバッグログイン パスワード",
+                textField: true,
+                child: TextField(
+                  controller: _passwordController,
+                  enabled: !_debugOperationRunning,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const [AutofillHints.password],
+                  onSubmitted: (_) => _performLogin(),
+                  decoration: const InputDecoration(
+                    labelText: "パスワード",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              if (_debugOperationError != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  _debugOperationError!,
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+                ),
+              ],
+            ]),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: Semantics(
+            label: "デバッグログイン実行",
+            button: true,
+            excludeSemantics: true,
+            child: FilledButton(
+              onPressed: _debugOperationRunning ? null : _performLogin,
+              child: Text(_debugOperationRunning ? "ログイン中…" : "ログイン"),
+            ),
+          ),
+        ),
+      ]);
+
+  Widget _buildPurchasePanel() {
+    final purchased = _purchaseProducts
+        .where((product) => _purchasedProductIds.contains(product.id))
+        .toList();
+    final available = _purchaseProducts
+        .where((product) => !_purchasedProductIds.contains(product.id))
+        .toList();
+    return Column(children: [
+      _buildPanelHeader("デバッグ課金", showBack: true),
+      const Align(
+        alignment: Alignment.centerLeft,
+        child: Text("課金中", style: TextStyle(fontWeight: FontWeight.w600)),
+      ),
+      const SizedBox(height: 6),
+      Expanded(
+        child: purchased.isEmpty
+            ? const Align(
+                alignment: Alignment.topLeft,
+                child: Text("課金中のアイテムはありません"),
+              )
+            : ListView.builder(
+                itemCount: purchased.length,
+                itemBuilder: (context, index) {
+                  final product = purchased[index];
+                  return ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(product.label),
+                    subtitle: Text(product.id),
+                    trailing: IconButton(
+                      tooltip: "課金解除: ${product.label}",
+                      onPressed: _debugOperationRunning
+                          ? null
+                          : () => _performCancelPurchase(product),
+                      icon: Icon(
+                        Icons.close,
+                        semanticLabel: "課金解除 ${product.id}",
+                      ),
+                    ),
+                  );
+                },
+              ),
+      ),
+      const Divider(),
+      if (_purchaseProducts.isEmpty)
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text("課金アイテムがありません"),
+        )
+      else if (available.isEmpty)
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text("すべてのアイテムが課金中です"),
+        )
+      else
+        Semantics(
+          label: "デバッグ課金 商品選択",
+          container: true,
+          excludeSemantics: true,
+          child: DropdownButtonFormField<AIDebugPurchaseProduct>(
+            key: ValueKey(
+              "debug-purchase-${_selectedPurchaseProduct?.id}-${purchased.length}",
+            ),
+            initialValue: _selectedPurchaseProduct,
+            isExpanded: true,
+            decoration: const InputDecoration(
+              labelText: "課金アイテム",
+              border: OutlineInputBorder(),
+            ),
+            items: available
+                .map(
+                  (product) => DropdownMenuItem(
+                    value: product,
+                    child: Text(product.label),
+                  ),
+                )
+                .toList(),
+            onChanged: _debugOperationRunning
+                ? null
+                : (value) => setState(() => _selectedPurchaseProduct = value),
+          ),
+        ),
+      if (_debugOperationError != null) ...[
+        const SizedBox(height: 8),
+        Text(
+          _debugOperationError!,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+        ),
+      ],
+      const SizedBox(height: 12),
+      SizedBox(
+        width: double.infinity,
+        child: Semantics(
+          label: "デバッグ強制課金実行",
+          button: true,
+          excludeSemantics: true,
+          child: FilledButton(
+            onPressed:
+                _debugOperationRunning || _selectedPurchaseProduct == null
+                    ? null
+                    : _performPurchase,
+            child: Text(_debugOperationRunning ? "処理中…" : "課金する"),
+          ),
+        ),
+      ),
+    ]);
+  }
 
   Widget _buildCompactSelector({
     required String tooltip,

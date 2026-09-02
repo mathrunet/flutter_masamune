@@ -82,6 +82,64 @@ APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値�
 
 フローティングアイコンはタップするとそのまま開き、長押しすると現在画面のスクリーンショットを撮影してから開きます。
 
+## デバッグ認証・デバッグ課金
+
+認証用の3コールバックをすべて指定すると、AI指示欄の上にログイン／ログアウトボタンが表示されます。
+課金用の4コールバックをすべて指定すると、同じ行に課金管理ボタンが表示されます。これらのUIと
+コールバックは他のAIデバッガー機能と同様にDebugビルドでのみ有効です。
+
+`AIDebugPurchaseProduct`はAIデバッガー専用の軽量な商品型です。`masamune_purchase`には依存しないため、
+アプリ側でIDを実際の`PurchaseProduct`へ変換してください。
+
+```dart
+const debugProducts = [
+  AIDebugPurchaseProduct(id: "premium_monthly", label: "プレミアム（月額）"),
+  AIDebugPurchaseProduct(id: "premium_yearly", label: "プレミアム（年額）"),
+];
+
+final purchaseProductsById = <String, PurchaseProduct>{
+  monthlyProduct.productId: monthlyProduct,
+  yearlyProduct.productId: yearlyProduct,
+};
+
+final aiDebugger = AIDebuggerMasamuneAdapter(
+  login: (email, password) => debugAuth.signIn(email, password),
+  logout: debugAuth.signOut,
+  isLoggedIn: () => debugAuth.isSignedIn,
+  purchaseProducts: () => debugProducts,
+  purchase: (item) => debugPurchase.forcePurchase(
+    purchaseProductsById[item.id]!,
+  ),
+  cancelPurchase: (item) => debugPurchase.forceCancel(
+    purchaseProductsById[item.id]!,
+  ),
+  isPurchased: (item) => debugPurchase.isPurchased(
+    purchaseProductsById[item.id]!,
+  ),
+);
+```
+
+ログイン／ログアウト／課金／解約後は、それぞれ同期getterの`isLoggedIn`／`isPurchased`が再評価され、
+UIへ即座に反映されます。コールバック内で実際のストア購入や解約を行うのではなく、アプリのデバッグ用
+状態を切り替える実装を渡してください。
+
+Maestroからは次の固定Semanticsラベルを利用できます。
+
+- `AI Debuggerを開く`
+- `AIデバッガー指示入力`
+- `AIデバッガー認証`
+- `デバッグログイン メールアドレス`
+- `デバッグログイン パスワード`
+- `デバッグログイン実行`
+- `AIデバッガー課金管理`
+- `デバッグ課金 商品選択`
+- `デバッグ強制課金実行`
+- `課金解除 <商品ID>`
+- `AI入力へ戻る`
+
+Maestroの`pressKey`は修飾キー付きショートカットを送信できないため、フォームを直接開くショートカットは
+提供していません。固定Semanticsラベルを`tapOn`／`inputText`で操作してください。
+
 メッセージフォーム下部のMode／Modelボタンでは、次に手動送信するセッションの
 `plan / bypassPermissions`と`haiku / sonnet / opus / mythos`を選択できます。
 設定ボタンでは、未処理エラー時と計測超過時のMode／Model、およびモデル読込と
