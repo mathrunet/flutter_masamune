@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(masamune_purchase): add debug purchase state management. ([71194352](https://github.com/mathrunet/flutter_masamune/commit/71194352b21f093e260317796143a289751b1210))
+
 ## 3.1.19
 
  - Update a dependency to the latest release.

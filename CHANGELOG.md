@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ai` - `v3.4.0`](#masamune_ai---v340)
+ - [`masamune_purchase` - `v3.2.0`](#masamune_purchase---v320)
+ - [`masamune_ai_openai` - `v3.3.21`](#masamune_ai_openai---v3321)
+ - [`masamune_ai_firebase` - `v3.2.21`](#masamune_ai_firebase---v3221)
+ - [`masamune_purchase_mobile` - `v3.1.20`](#masamune_purchase_mobile---v3120)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_openai` - `v3.3.21`
+ - `masamune_ai_firebase` - `v3.2.21`
+ - `masamune_purchase_mobile` - `v3.1.20`
+
+---
+
+#### `masamune_ai` - `v3.4.0`
+
+ - **FIX**(masamune_ai_debugger): enhance AI debugging capabilities and documentation. ([5d8a0160](https://github.com/mathrunet/flutter_masamune/commit/5d8a0160a6b972439032e5920b3e272373076a1f))
+ - **FEAT**(masamune_ai_debugger): add debug authentication and purchase controls. ([e200523e](https://github.com/mathrunet/flutter_masamune/commit/e200523e6dd33d6f06d3d56769d111a9b13ae181))
+
+#### `masamune_purchase` - `v3.2.0`
+
+ - **FEAT**(masamune_purchase): add debug purchase state management. ([71194352](https://github.com/mathrunet/flutter_masamune/commit/71194352b21f093e260317796143a289751b1210))
+
+
+## 2026-09-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v3.25.0`](#katana_cli---v3250)
  - [`masamune_ai` - `v3.3.0`](#masamune_ai---v330)
  - [`masamune_ai_debugger` - `v3.5.0`](#masamune_ai_debugger---v350)

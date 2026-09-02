@@ -1,3 +1,8 @@
+## 3.4.0
+
+ - **FIX**(masamune_ai_debugger): enhance AI debugging capabilities and documentation. ([5d8a0160](https://github.com/mathrunet/flutter_masamune/commit/5d8a0160a6b972439032e5920b3e272373076a1f))
+ - **FEAT**(masamune_ai_debugger): add debug authentication and purchase controls. ([e200523e](https://github.com/mathrunet/flutter_masamune/commit/e200523e6dd33d6f06d3d56769d111a9b13ae181))
+
 ## 3.3.0
 
  - **FEAT**(masamune_ai_debugger): add debug authentication and purchase controls. ([e200523e](https://github.com/mathrunet/flutter_masamune/commit/e200523e6dd33d6f06d3d56769d111a9b13ae181))
