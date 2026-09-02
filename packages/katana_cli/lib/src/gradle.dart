@@ -6,6 +6,7 @@ import "package:katana/katana.dart";
 
 // Project imports:
 import "package:katana_cli/config.dart";
+import "package:katana_cli/src/native_environment.dart";
 
 /// Class for retrieving and saving files in `android/app/build.gradle`.
 ///
@@ -84,6 +85,11 @@ class AppGradle {
     if (_rawData.isEmpty) {
       throw Exception("No value. Please load data with [load].");
     }
+    final nativeEnvironment = RegExp(
+      "${RegExp.escape(AndroidNativeEnvironmentSynchronizer.beginMarker)}"
+      r"[\s\S]*?"
+      "${RegExp.escape(AndroidNativeEnvironmentSynchronizer.endMarker)}",
+    ).firstMatch(_rawData)?.group(0);
     _rawData = GradleLoadProperties._save(_rawData, _loadProperties);
     _rawData = GradleImport._save(_rawData, _imports);
     if (_android != null) {
@@ -91,6 +97,19 @@ class AppGradle {
     }
     _rawData = GradlePlugin._save(_rawData, _plugins);
     _rawData = GradleDependencies._save(_rawData, _dependencies);
+    if (nativeEnvironment != null &&
+        !_rawData.contains(AndroidNativeEnvironmentSynchronizer.beginMarker)) {
+      final androidIndex =
+          RegExp(r"^android\s*\{", multiLine: true).firstMatch(_rawData)?.start;
+      if (androidIndex == null) {
+        throw const FormatException("Android Gradle block was not found.");
+      }
+      _rawData = _rawData.replaceRange(
+        androidIndex,
+        androidIndex,
+        "$nativeEnvironment\n\n",
+      );
+    }
     if (File("android/app/build.gradle").existsSync()) {
       final gradle = File("android/app/build.gradle");
       await gradle.writeAsString(_rawData);

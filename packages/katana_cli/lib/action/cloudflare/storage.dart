@@ -9,7 +9,141 @@ import "package:yaml/yaml.dart";
 import "package:yaml_writer/yaml_writer.dart";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/katana_cli.dart";
+
+/// Path of the Cloudflare Storage state managed by Katana.
+const storageManagedStatePath = "cloudflare/storage.yaml";
+
+/// Result of loading and migrating the Cloudflare Storage managed state.
+class StorageManagedStateLoadResult {
+  /// Creates a result of loading and migrating the managed state.
+  const StorageManagedStateLoadResult({
+    required this.state,
+    required this.downloadUrlSecret,
+    required this.secretsChanged,
+    required this.stateChanged,
+  });
+
+  /// Storage state stored in [storageManagedStatePath].
+  final Map<String, dynamic> state;
+
+  /// Secret used to sign limited download URLs.
+  final String downloadUrlSecret;
+
+  /// Whether `katana_secrets.yaml` was changed by migration.
+  final bool secretsChanged;
+
+  /// Whether [storageManagedStatePath] must be persisted.
+  final bool stateChanged;
+}
+
+/// Loads Storage state and migrates the legacy automatically managed secret.
+Future<StorageManagedStateLoadResult> loadAndMigrateStorageManagedState(
+  Map<String, dynamic> secrets, {
+  String configuredSecret = "",
+  String Function()? generateSecret,
+}) async {
+  final file = File(storageManagedStatePath);
+  final loaded = file.existsSync()
+      ? Map<String, dynamic>.from(
+          modifize(loadYaml(await file.readAsString())) as Map? ?? {},
+        )
+      : <String, dynamic>{};
+  final state = _stringMap(loaded);
+  final cloudflare = _nestedMap(secrets, "cloudflare");
+  final storage = _nestedMap(cloudflare, "storage");
+  final legacySecret = storage["download_url_secret"]?.toString() ?? "";
+  final storedSecret = state["download_url_secret"]?.toString() ?? "";
+  if (legacySecret.isNotEmpty &&
+      storedSecret.isNotEmpty &&
+      legacySecret != storedSecret) {
+    throw StateError(
+      "Cloudflare Storage managed state differs between "
+      "`katana_secrets.yaml` and `$storageManagedStatePath` at "
+      "`download_url_secret`. Resolve the conflict before running "
+      "`katana apply` again.",
+    );
+  }
+  final downloadUrlSecret = configuredSecret.isNotEmpty
+      ? configuredSecret
+      : storedSecret.isNotEmpty
+          ? storedSecret
+          : legacySecret.isNotEmpty
+              ? legacySecret
+              : (generateSecret ?? _generateDownloadUrlSecret)();
+  var secretsChanged = false;
+  var stateChanged = !file.existsSync();
+  if (storage.containsKey("download_url_secret")) {
+    storage.remove("download_url_secret");
+    secretsChanged = true;
+  }
+  if (state["version"] != 1) {
+    state["version"] = 1;
+    stateChanged = true;
+  }
+  if (state["download_url_secret"] != downloadUrlSecret) {
+    state["download_url_secret"] = downloadUrlSecret;
+    stateChanged = true;
+  }
+  return StorageManagedStateLoadResult(
+    state: state,
+    downloadUrlSecret: downloadUrlSecret,
+    secretsChanged: secretsChanged,
+    stateChanged: stateChanged,
+  );
+}
+
+/// Saves Cloudflare Storage managed state atomically.
+Future<void> saveStorageManagedState(Map<String, dynamic> state) async {
+  final file = File(storageManagedStatePath);
+  await file.parent.create(recursive: true);
+  final temporary = File("${file.path}.tmp");
+  await temporary.writeAsString(YamlWriter().write(state));
+  try {
+    await temporary.rename(file.path);
+  } on FileSystemException {
+    await file.writeAsString(await temporary.readAsString());
+    await temporary.delete();
+  }
+}
+
+/// Ensures that Storage managed state is ignored by Git.
+Future<void> ensureStorageManagedStateIsGitIgnored() async {
+  final file = File("cloudflare/.gitignore");
+  if (!file.existsSync()) {
+    throw StateError(
+      "The file `cloudflare/.gitignore` does not exist. Initialize "
+      "Cloudflare Workers before enabling Storage.",
+    );
+  }
+  final lines = await file.readAsLines();
+  if (lines.any((line) => line.trim() == "storage.yaml")) {
+    return;
+  }
+  lines.add("storage.yaml");
+  await file.writeAsString("${lines.join("\n")}\n");
+}
+
+Map<String, dynamic> _nestedMap(
+  Map<String, dynamic> parent,
+  String key,
+) {
+  final value = parent[key];
+  if (value is Map) {
+    return parent[key] = _stringMap(value);
+  }
+  return parent[key] = <String, dynamic>{};
+}
+
+Map<String, dynamic> _stringMap(Map<dynamic, dynamic> value) =>
+    value.map((key, item) => MapEntry(key.toString(), item));
+
+String _generateDownloadUrlSecret() {
+  final random = Random.secure();
+  final bytes = List<int>.generate(48, (_) => random.nextInt(256));
+  return base64UrlEncode(bytes);
+}
 
 /// Cloudflare deployment process for R2 Storage.
 ///
@@ -36,6 +170,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final storage = cloudflare.getAsMap("storage");
     final binding = storage.get("binding", "R2_BUCKET");
@@ -45,6 +180,8 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final configuredDownloadUrlSecret = storage.get("download_url_secret", "");
     final backup = storage.getAsMap("backup");
     final backupEnabled = backup.get("enable", false);
+    final configuredConsumerFlavor =
+        backup.get("consumer_flavor", "").toString().trim();
     final backupBinding = backup.get("binding", "R2_BACKUP_BUCKET");
     final backupBucketName = backup.get("bucket_name", "");
     final backupPreviewBucketName = backup.get("preview_bucket_name", "");
@@ -78,6 +215,14 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       return;
     }
     if (backupEnabled) {
+      if (configuredConsumerFlavor.isNotEmpty &&
+          configuredConsumerFlavor != KatanaFlavor.dev.name &&
+          configuredConsumerFlavor != KatanaFlavor.prod.name) {
+        error(
+          "Cloudflare R2 backup [consumer_flavor] must be `dev` or `prod`.",
+        );
+        return;
+      }
       if (backupBinding.isEmpty) {
         error(
           "If [cloudflare]->[storage]->[backup]->[enable] is enabled, please include [binding].",
@@ -111,8 +256,6 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
         return;
       }
     }
-    final downloadUrlSecret =
-        await _loadOrCreateDownloadUrlSecret(configuredDownloadUrlSecret);
     final cloudflareDir = Directory("cloudflare");
     if (!cloudflareDir.existsSync()) {
       error(
@@ -134,6 +277,35 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    try {
+      await ensureStorageManagedStateIsGitIgnored();
+    } on StateError catch (exception) {
+      error(exception.message.toString());
+      return;
+    }
+    final secrets = await _loadSecretsRoot();
+    late final StorageManagedStateLoadResult managed;
+    try {
+      managed = await loadAndMigrateStorageManagedState(
+        secrets,
+        configuredSecret: configuredDownloadUrlSecret,
+      );
+    } on StateError catch (exception) {
+      error(exception.message.toString());
+      return;
+    }
+    if (managed.stateChanged) {
+      await saveStorageManagedState(managed.state);
+    }
+    if (managed.secretsChanged) {
+      await _saveSecretsRoot(secrets);
+    }
+    final downloadUrlSecret = managed.downloadUrlSecret;
+    final ownsBackupConsumer = _ownsBackupQueueConsumer(
+      context,
+      queueName: backupQueueName,
+      configuredConsumerFlavor: configuredConsumerFlavor,
+    );
 
     label("Add Cloudflare Workers functions");
     final source = await indexFile.readAsString();
@@ -150,36 +322,46 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     }
     await indexFile.writeAsString(updated);
     label("Add Cloudflare R2 bucket binding");
-    var wranglerSource = _updateWranglerR2Bucket(
-      await wranglerFile.readAsString(),
-      binding: binding,
-      bucketName: bucketName,
-      previewBucketName: previewBucketName,
-      backupEnabled: backupEnabled,
-      backupBinding: backupBinding,
-      backupBucketName: backupBucketName,
-      backupPreviewBucketName: backupPreviewBucketName,
+    final wranglerSource = WranglerEnvironmentSynchronizer.transformEnvironment(
+      WranglerEnvironmentSynchronizer.ensureEnvironment(
+        await wranglerFile.readAsString(),
+        flavor: flavor,
+        workerName: cloudflare.get("project_id", ""),
+      ),
+      flavor: flavor,
+      transform: (environment) {
+        var updated = _updateWranglerR2Bucket(
+          environment,
+          binding: binding,
+          bucketName: bucketName,
+          previewBucketName: previewBucketName,
+          backupEnabled: backupEnabled,
+          backupBinding: backupBinding,
+          backupBucketName: backupBucketName,
+          backupPreviewBucketName: backupPreviewBucketName,
+        );
+        if (backupEnabled) {
+          updated = ownsBackupConsumer
+              ? _updateWranglerQueueConsumer(
+                  updated,
+                  queueName: backupQueueName,
+                  maxBatchSize: backupMaxBatchSize,
+                  maxBatchTimeout: backupMaxBatchTimeout,
+                  maxRetries: backupMaxRetries,
+                  deadLetterQueue: backupDeadLetterQueue,
+                )
+              : _removeWranglerQueueConsumer(
+                  updated,
+                  queueName: backupQueueName,
+                );
+        }
+        return updated;
+      },
     );
-    if (backupEnabled) {
-      wranglerSource = _updateWranglerQueueConsumer(
-        wranglerSource,
-        queueName: backupQueueName,
-        maxBatchSize: backupMaxBatchSize,
-        maxBatchTimeout: backupMaxBatchTimeout,
-        maxRetries: backupMaxRetries,
-        deadLetterQueue: backupDeadLetterQueue,
-      );
-    }
     await wranglerFile.writeAsString(wranglerSource);
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
-        "@mathrunet/masamune_cloudflare_storage",
-      ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
+    await installMissingCloudflarePackages(
+      npm: npm,
+      packages: const ["@mathrunet/masamune_cloudflare_storage"],
     );
     await addFlutterImport(
       [
@@ -188,6 +370,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     );
     await _putWranglerSecret(
       wrangler: wrangler,
+      environment: flavor,
       key: "STORAGE_DOWNLOAD_URL_SECRET",
       value: downloadUrlSecret,
     );
@@ -207,38 +390,75 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     }
   }
 
-  Future<String> _loadOrCreateDownloadUrlSecret(String configuredSecret) async {
+  Future<Map<String, dynamic>> _loadSecretsRoot() async {
     final file = File("katana_secrets.yaml");
-    final root = file.existsSync()
-        ? Map<String, dynamic>.from(
-            modifize(loadYaml(await file.readAsString())) as Map? ?? {},
-          )
-        : <String, dynamic>{};
-    final cloudflare = _map(root, "cloudflare");
-    final storage = _map(cloudflare, "storage");
-    final storedSecret = storage["download_url_secret"];
-    final secret = configuredSecret.isNotEmpty
-        ? configuredSecret
-        : storedSecret is String && storedSecret.isNotEmpty
-            ? storedSecret
-            : _generateDownloadUrlSecret();
-    storage["download_url_secret"] = secret;
-    await file.writeAsString(YamlWriter().write(root));
-    return secret;
-  }
-
-  Map<String, dynamic> _map(Map<String, dynamic> parent, String key) {
-    final value = parent[key];
-    if (value is Map) {
-      return parent[key] = Map<String, dynamic>.from(value);
+    if (!file.existsSync()) {
+      return {};
     }
-    return parent[key] = <String, dynamic>{};
+    return Map<String, dynamic>.from(
+      modifize(loadYaml(await file.readAsString())) as Map? ?? {},
+    );
   }
 
-  String _generateDownloadUrlSecret() {
-    final random = Random.secure();
-    final bytes = List<int>.generate(48, (_) => random.nextInt(256));
-    return base64UrlEncode(bytes);
+  bool _ownsBackupQueueConsumer(
+    ExecContext context, {
+    required String queueName,
+    required String configuredConsumerFlavor,
+  }) {
+    final flavorContext = context.flavorContext;
+    final currentFlavor = flavorContext?.flavor.name ?? KatanaFlavor.prod.name;
+    if (configuredConsumerFlavor.isNotEmpty) {
+      return currentFlavor == configuredConsumerFlavor;
+    }
+    if (flavorContext == null) {
+      return true;
+    }
+    final devQueueName = _backupQueueNameForFlavor(
+      flavorContext,
+      KatanaFlavor.dev,
+    );
+    final prodQueueName = _backupQueueNameForFlavor(
+      flavorContext,
+      KatanaFlavor.prod,
+    );
+    final devWorkerName = flavorContext.yamlValue(
+      const ["cloudflare", "project_id"],
+      flavor: KatanaFlavor.dev,
+    )?.toString();
+    final prodWorkerName = flavorContext.yamlValue(
+      const ["cloudflare", "project_id"],
+      flavor: KatanaFlavor.prod,
+    )?.toString();
+    final sharedQueue = devQueueName == queueName && prodQueueName == queueName;
+    final distinctWorkers = devWorkerName != null &&
+        prodWorkerName != null &&
+        devWorkerName.isNotEmpty &&
+        prodWorkerName.isNotEmpty &&
+        devWorkerName != prodWorkerName;
+    if (sharedQueue && distinctWorkers) {
+      return currentFlavor == KatanaFlavor.prod.name;
+    }
+    return true;
+  }
+
+  String _backupQueueNameForFlavor(
+    FlavorContext context,
+    KatanaFlavor flavor,
+  ) {
+    final bucketName = context.yamlValue(
+          const ["cloudflare", "storage", "bucket_name"],
+          flavor: flavor,
+        )?.toString() ??
+        "";
+    return context.yamlValue(
+          const ["cloudflare", "storage", "backup", "queue_name"],
+          flavor: flavor,
+        )?.toString() ??
+        (bucketName.isEmpty ? "" : "$bucketName-backup");
+  }
+
+  Future<void> _saveSecretsRoot(Map<String, dynamic> root) {
+    return File("katana_secrets.yaml").writeAsString(YamlWriter().write(root));
   }
 
   String? _updateStorageFunctions(
@@ -541,6 +761,70 @@ $consumer
     );
   }
 
+  String _removeWranglerQueueConsumer(
+    String source, {
+    required String queueName,
+  }) {
+    return _removeObjectArrayItem(
+          source,
+          propertyName: "consumers",
+          identityName: "queue",
+          identity: queueName,
+          propertyIndent: "\t\t",
+          objectIndent: "\t\t\t",
+        ) ??
+        source;
+  }
+
+  String? _removeObjectArrayItem(
+    String source, {
+    required String propertyName,
+    required String identityName,
+    required String identity,
+    required String propertyIndent,
+    required String objectIndent,
+  }) {
+    final propertyPattern = RegExp('"$propertyName"\\s*:\\s*\\[');
+    final propertyMatch = propertyPattern.firstMatch(source);
+    if (propertyMatch == null) {
+      return null;
+    }
+    final open = source.indexOf("[", propertyMatch.start);
+    final close = _findClosing(source, open, "[", "]");
+    if (close < 0) {
+      return null;
+    }
+    final identityPattern = RegExp(
+      '"$identityName"\\s*:\\s*"([^"]+)"',
+    );
+    final output = <String>[];
+    var cursor = open + 1;
+    while (cursor < close) {
+      final objectOpen = source.indexOf("{", cursor);
+      if (objectOpen < 0 || objectOpen >= close) {
+        break;
+      }
+      final objectClose = _findClosing(source, objectOpen, "{", "}");
+      if (objectClose < 0 || objectClose > close) {
+        break;
+      }
+      final object = source.substring(objectOpen, objectClose + 1).trim();
+      if (identityPattern.firstMatch(object)?.group(1) != identity) {
+        output.add(_indentObject(object, objectIndent));
+      }
+      cursor = objectClose + 1;
+    }
+    final replacement = """
+"$propertyName": [
+${output.join(",\n")}
+$propertyIndent]""";
+    return source.replaceRange(
+      propertyMatch.start,
+      close + 1,
+      replacement,
+    );
+  }
+
   String? _upsertObjectArray(
     String source, {
     required String propertyName,
@@ -791,13 +1075,14 @@ ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucket
 
   Future<void> _putWranglerSecret({
     required String wrangler,
+    required String environment,
     required String key,
     required String value,
   }) async {
     label("Set Cloudflare Workers secrets.");
     final process = await Process.start(
       wrangler,
-      ["secret", "put", key],
+      ["secret", "put", key, "--env", environment],
       workingDirectory: "cloudflare",
       runInShell: true,
     );

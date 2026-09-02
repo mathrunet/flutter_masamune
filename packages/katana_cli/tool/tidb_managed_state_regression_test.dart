@@ -5,6 +5,9 @@ import "package:katana_cli/katana.dart";
 
 Future<void> main() async {
   _verifyMinimalTemplates();
+  _verifyCompletedCutoverRepairsDataSourceFirst();
+  _verifySchemaBootstrapUsesTemporaryTableEndpoints();
+  _verifyManagementRateLimitRetry();
   final original = Directory.current;
   final temporary = await Directory.systemTemp.createTemp(
     "katana_tidb_managed_state_",
@@ -36,7 +39,10 @@ Future<void> main() async {
       },
     };
 
-    final migrated = await loadAndMigrateTidbManagedState(secrets);
+    final migrated = await loadAndMigrateTidbManagedState(
+      secrets,
+      environment: "prod",
+    );
     _expect(migrated.secretsChanged, "legacy secrets must be migrated");
     _expect(migrated.stateChanged, "a new managed state must be written");
     final tidbSecrets =
@@ -52,7 +58,7 @@ Future<void> main() async {
       "the generated Data API private key must move to managed state",
     );
 
-    await saveTidbManagedState(migrated.state);
+    await saveTidbManagedState(migrated.state, environment: "prod");
     await ensureTidbManagedStateIsGitIgnored();
     await ensureTidbManagedStateIsGitIgnored();
     final ignored = await File("cloudflare/.gitignore").readAsLines();
@@ -60,11 +66,29 @@ Future<void> main() async {
       ignored.where((line) => line == "tidb.yaml").length == 1,
       "tidb.yaml must be ignored exactly once",
     );
-    final persisted = await File(tidbManagedStatePath).readAsString();
+    final persisted = await File(
+      tidbManagedStatePathFor("prod"),
+    ).readAsString();
     _expect(
       persisted.contains("data-private") &&
           !persisted.contains("management-private"),
       "managed state must contain generated secrets only",
+    );
+
+    final dev = await loadAndMigrateTidbManagedState(
+      <String, dynamic>{},
+      environment: "dev",
+    );
+    _expect(
+      (dev.state["data_service"] as Map).isEmpty &&
+          (dev.state["cutover"] as Map).isEmpty,
+      "dev must not reuse the production Data App or cutover state",
+    );
+    await saveTidbManagedState(dev.state, environment: "dev");
+    _expect(
+      tidbManagedStatePathFor("dev") != tidbManagedStatePathFor("prod") &&
+          File(tidbManagedStatePathFor("dev")).existsSync(),
+      "each flavor must persist an independent managed state file",
     );
 
     final matchingPartialSecrets = <String, dynamic>{
@@ -76,6 +100,7 @@ Future<void> main() async {
     };
     final matching = await loadAndMigrateTidbManagedState(
       matchingPartialSecrets,
+      environment: "prod",
     );
     _expect(
       matching.secretsChanged &&
@@ -92,7 +117,10 @@ Future<void> main() async {
       },
     };
     try {
-      await loadAndMigrateTidbManagedState(conflictingSecrets);
+      await loadAndMigrateTidbManagedState(
+        conflictingSecrets,
+        environment: "prod",
+      );
     } on StateError catch (exception) {
       _expect(
         exception.message.toString().contains("differs"),
@@ -108,6 +136,52 @@ Future<void> main() async {
   }
 }
 
+void _verifyCompletedCutoverRepairsDataSourceFirst() {
+  final source = File("lib/action/cloudflare/tidb.dart").readAsStringSync();
+  final completed = _section(
+    source,
+    'if (restrictMysql && state == "complete"',
+    'if (restrictMysql && state == "prepared"',
+  );
+  final ensure = completed.indexOf("await _ensureDataSource(");
+  final synchronize = completed.indexOf("_generatedEndpointsAreSynchronized(");
+  _expect(
+    ensure >= 0 && synchronize >= 0 && ensure < synchronize,
+    "completed cutover must ensure the cluster is a Data Source before syncing endpoints",
+  );
+}
+
+void _verifySchemaBootstrapUsesTemporaryTableEndpoints() {
+  final source = File("lib/action/cloudflare/tidb.dart").readAsStringSync();
+  final bootstrap = _section(
+    source,
+    "Future<void> _applyAdditiveSchema(",
+    "Future<TidbEndpointOwnershipState> _upsertManagedEndpoints(",
+  );
+  _expect(
+    source.contains("splitTidbAdditiveSchemaMigrations(") &&
+        bootstrap.contains("_createManagedEndpoint(") &&
+        bootstrap.contains("/__masamune/bootstrap_") &&
+        bootstrap.contains("_deployAndWait(") &&
+        bootstrap.contains("deleteTidbDataServiceEndpointAndWait(") &&
+        bootstrap.contains("retryTidbDataEndpointUntilDeployed(") &&
+        bootstrap.contains("callTidbDataEndpoint(") &&
+        !bootstrap.contains("/system/query"),
+    "schema bootstrap must use temporary per-table endpoints",
+  );
+}
+
+void _verifyManagementRateLimitRetry() {
+  final source = File(
+    "lib/action/cloudflare/tidb_data_service_api.dart",
+  ).readAsStringSync();
+  _expect(
+    source.contains("response.statusCode == HttpStatus.tooManyRequests") &&
+        source.contains("HttpHeaders.retryAfterHeader"),
+    "the TiDB management client must honor API rate-limit responses",
+  );
+}
+
 void _verifyMinimalTemplates() {
   final template = katanaYamlCode(true);
   final secrets = katanaSecretsYamlCode();
@@ -120,24 +194,41 @@ void _verifyMinimalTemplates() {
     "\n\n# Describe purchase",
   );
   _expect(
-    tidb.contains("    enable: false\n    project_id:\n    cluster_id:") &&
+    tidb.contains(
+          "    enable: false\n"
+          "    project_id:\n"
+          "    cluster_id:\n"
+          "      dev:\n"
+          "      prod:",
+        ) &&
         !tidb.contains("mode:") &&
         !tidb.contains("connection_url:") &&
         !tidb.contains("app_id:"),
     "the TiDB template must expose only user-managed Data Service settings",
   );
   _expect(
-    turso.contains("    enable: false\n    organization:\n    group:") &&
+    turso.contains(
+          "    enable: false\n"
+          "    organization:\n"
+          "    group:\n"
+          "      dev:\n"
+          "      prod:",
+        ) &&
         !turso.contains("server_token_ttl:") &&
         !turso.contains("rotate_legacy_tokens:"),
     "the Turso template must omit default and secret values",
   );
   _expect(
     storage.contains(
-            "    enable: false\n    bucket_name:\n    public_base_url:") &&
-        !storage.contains("binding:") &&
-        !storage.contains("backup:"),
-    "the Storage template must omit default and optional values",
+          "    enable: false\n"
+          "    bucket_name:\n"
+          "    public_base_url:\n"
+          "    backup:\n"
+          "      enable: false\n"
+          "      bucket_name:",
+        ) &&
+        !storage.contains("binding:"),
+    "the Storage template must omit generated binding values",
   );
   _expect(
     tidbSecrets.contains("    management_api:") &&

@@ -140,6 +140,7 @@ class AppGeocodingCliAction extends CliCommand with CliActionMixin {
     );
     await putWranglerSecret(
       wrangler: wrangler,
+      environment: context.flavorContext?.flavor.name ?? "prod",
       name: "MAP_GEOCODING_APIKEY",
       value: geocodingApiKey,
     );

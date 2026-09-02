@@ -93,6 +93,7 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     await addFlutterImport(
       [
         "masamune_auth_firebase",
@@ -111,18 +112,21 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
     if (!applied) {
       return;
     }
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
-        "@mathrunet/masamune_cloudflare_auth",
-      ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
+    final indexFile = File("cloudflare/src/index.ts");
+    final source = await indexFile.readAsString();
+    final updated = CloudflareSourceUtils.replaceFunctionCall(
+      source,
+      "m.FirebaseAuthAdapter",
+      "m.FirebaseAuthAdapter({ projectId: ${jsonEncode(firebaseProjectId)} })",
+    );
+    await indexFile.writeAsString(updated);
+    await installMissingCloudflarePackages(
+      npm: npm,
+      packages: const ["@mathrunet/masamune_cloudflare_auth"],
     );
     await putWranglerSecret(
       wrangler: wrangler,
+      environment: flavor,
       name: "GOOGLE_SERVICE_ACCOUNT",
       value: serviceAccount,
     );

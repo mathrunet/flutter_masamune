@@ -10,6 +10,9 @@ import "package:katana/katana.dart";
 import "package:yaml/yaml.dart";
 import "package:yaml_writer/yaml_writer.dart";
 
+// Project imports:
+import "package:katana_cli/src/flavor.dart";
+
 /// Prefix of the path to trim.
 ///
 /// トリムするパスのプレフィックス。
@@ -39,6 +42,7 @@ class ExecContext {
     required this.yaml,
     required this.args,
     this.secrets = const {},
+    this.flavorContext,
     int index = 1,
   }) : _index = index;
 
@@ -57,6 +61,9 @@ class ExecContext {
   /// コマンドを実行した際の引数。
   final List<String> args;
 
+  /// Resolved deployment environment, when applicable.
+  final FlavorContext? flavorContext;
+
   /// Post action after execution.
   ///
   /// 実行した後のポストアクション。
@@ -65,7 +72,13 @@ class ExecContext {
   final int _index;
 
   ExecContext _copyToChild() {
-    return ExecContext(yaml: yaml, args: args, index: _index + 1);
+    return ExecContext(
+      yaml: yaml,
+      secrets: secrets,
+      args: args,
+      flavorContext: flavorContext,
+      index: _index + 1,
+    );
   }
 
   /// Save [yaml] to `katana.yaml`.

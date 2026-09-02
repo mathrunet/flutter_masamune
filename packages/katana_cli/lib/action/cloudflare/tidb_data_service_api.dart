@@ -208,7 +208,8 @@ class TidbCloudManagementApi implements TidbDataServiceApi {
     Uri uri, {
     Object? body,
   }) async {
-    for (var attempt = 0; attempt < 2; attempt++) {
+    const maxAttempts = 8;
+    for (var attempt = 0; attempt < maxAttempts; attempt++) {
       try {
         final request = await _client.openUrl(method, uri);
         request.headers
@@ -235,6 +236,19 @@ class TidbCloudManagementApi implements TidbDataServiceApi {
             attempt == 0) {
           continue;
         }
+        if (response.statusCode == HttpStatus.tooManyRequests &&
+            attempt < maxAttempts - 1) {
+          final retryAfter = int.tryParse(
+            response.headers.value(HttpHeaders.retryAfterHeader) ?? "",
+          );
+          final fallback = 1 << attempt;
+          await Future<void>.delayed(
+            Duration(
+              seconds: retryAfter ?? (fallback > 30 ? 30 : fallback),
+            ),
+          );
+          continue;
+        }
         if (response.statusCode < 200 || response.statusCode >= 300) {
           final message = decoded["message"] ??
               (decoded["error"] is Map
@@ -254,7 +268,7 @@ class TidbCloudManagementApi implements TidbDataServiceApi {
         )) {
           rethrow;
         }
-        if (attempt == 0) {
+        if (attempt < maxAttempts - 1) {
           continue;
         }
         return _callTidbCloudApiWithCurl(
@@ -501,7 +515,7 @@ Future<Map<String, dynamic>> callTidbDataEndpoint({
   final normalized = decoded is Map
       ? decoded.map((key, value) => MapEntry(key.toString(), value))
       : <String, dynamic>{"data": decoded};
-  _validateTidbDataResult(normalized, uri);
+  validateTidbDataResult(normalized, uri);
   return normalized;
 }
 
@@ -588,7 +602,7 @@ Future<Map<String, dynamic>> _callTidbDataEndpointWithCurl({
     final normalized = decoded is Map
         ? decoded.map((key, value) => MapEntry(key.toString(), value))
         : <String, dynamic>{"data": decoded};
-    _validateTidbDataResult(normalized, uri);
+    validateTidbDataResult(normalized, uri);
     return normalized;
   } finally {
     if (temporaryDirectory.existsSync()) {
@@ -597,7 +611,8 @@ Future<Map<String, dynamic>> _callTidbDataEndpointWithCurl({
   }
 }
 
-void _validateTidbDataResult(Map<String, dynamic> response, Uri uri) {
+/// Validates the SQL result returned by a Data Service endpoint.
+void validateTidbDataResult(Map<String, dynamic> response, [Uri? uri]) {
   final data = response["data"];
   if (data is! Map) {
     return;

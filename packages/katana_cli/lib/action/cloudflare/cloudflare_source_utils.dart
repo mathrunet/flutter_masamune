@@ -1,5 +1,6 @@
 // Dart imports:
 import "dart:async";
+import "dart:convert";
 import "dart:io";
 
 // Project imports:
@@ -246,11 +247,45 @@ Future<bool> applyCloudflareWorkersFunctions({
   return true;
 }
 
+/// Installs only Node packages that are not already declared.
+///
+/// Reinstalling a declared package without a version can rewrite an exact
+/// dependency to npm's configured save prefix, even when nothing changed.
+Future<void> installMissingCloudflarePackages({
+  required String npm,
+  required Iterable<String> packages,
+}) async {
+  final packageJson = File("cloudflare/package.json");
+  final declared = <String>{};
+  if (packageJson.existsSync()) {
+    final decoded = jsonDecode(await packageJson.readAsString());
+    if (decoded is Map) {
+      for (final section in ["dependencies", "devDependencies"]) {
+        final values = decoded[section];
+        if (values is Map) {
+          declared.addAll(values.keys.map((key) => key.toString()));
+        }
+      }
+    }
+  }
+  final missing = packages.where((package) => !declared.contains(package));
+  if (missing.isEmpty) {
+    return;
+  }
+  await command(
+    "Package installation.",
+    [npm, "install", ...missing],
+    workingDirectory: "cloudflare",
+    runInShell: true,
+  );
+}
+
 /// Set a Cloudflare Workers secret with `wrangler secret put`.
 ///
 /// `wrangler secret put`でCloudflare Workersのシークレットを設定します。
 Future<void> putWranglerSecret({
   required String wrangler,
+  required String environment,
   required String name,
   required String value,
   String workingDirectory = "cloudflare",
@@ -262,6 +297,8 @@ Future<void> putWranglerSecret({
       "secret",
       "put",
       name,
+      "--env",
+      environment,
     ],
     workingDirectory: workingDirectory,
     runInShell: true,

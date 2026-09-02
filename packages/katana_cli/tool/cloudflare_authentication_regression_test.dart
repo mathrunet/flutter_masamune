@@ -17,7 +17,7 @@ Future<void> main() async {
   );
   _expect(
     template.contains(
-      "    delete_user:\n      enable: false\n      service_account:",
+      "    delete_user:\n      enable: false\n",
     ),
     "The Cloudflare delete-user configuration must be generated.",
   );
@@ -78,17 +78,26 @@ Future<void> _testSecretsValueTakesPriorityAndApplyIsIdempotent() async {
         ),
         "The configured Firebase project ID must be passed to the Worker.",
       );
+      _expect(
+        index.contains(
+          'new m.FirebaseAuthAdapter({ projectId: "firebase-test" })',
+        ),
+        "The shared Worker source must use the selected flavor's Firebase project.",
+      );
       _expectEqual(
         await fixture.secretOutput.readAsString(),
         "$secretsServiceAccount\n",
         "katana_secrets.yaml must take precedence over katana.yaml.",
       );
-      final npmLog = await fixture.npmLog.readAsLines();
       _expect(
-        npmLog.every(
-          (line) => line == "install @mathrunet/masamune_cloudflare_auth",
+        !fixture.npmLog.existsSync(),
+        "A declared Cloudflare Auth package must not be reinstalled.",
+      );
+      _expect(
+        (await File("cloudflare/package.json").readAsString()).contains(
+          '"@mathrunet/masamune_cloudflare_auth": "3.1.0"',
         ),
-        "The Cloudflare Auth npm package must be installed.",
+        "Applying twice must preserve an exact npm dependency version.",
       );
     },
   );
@@ -126,8 +135,16 @@ Future<void> _withFixture({
     await File("cloudflare/src/index.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 
-export default m.deploy([
-]);
+export default m.deploy([], {
+  auth: new m.FirebaseAuthAdapter({ projectId: "legacy-project" }),
+});
+""");
+    await File("cloudflare/package.json").writeAsString("""
+{
+  "dependencies": {
+    "@mathrunet/masamune_cloudflare_auth": "3.1.0"
+  }
+}
 """);
     if (serviceAccountFile != null) {
       await File("cloudflare/firebase-admin.json")

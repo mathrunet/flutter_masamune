@@ -139,6 +139,7 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
     );
     await putWranglerSecret(
       wrangler: wrangler,
+      environment: context.flavorContext?.flavor.name ?? "prod",
       name: "MAIL_SENDGRID_APIKEY",
       value: sendGridApiKey,
     );

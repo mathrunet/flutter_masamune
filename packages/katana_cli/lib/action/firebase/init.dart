@@ -20,6 +20,224 @@ final _ansiEscapePattern = RegExp(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])");
 /// 矢印キー等を送信するためのエスケープ文字(`ESC`)。
 final _escapeCharacter = String.fromCharCode(0x1B);
 
+/// Returns the Apple build configuration used by FlutterFire for [flavor].
+String firebaseAppleBuildConfigurationForFlavor(String flavor) =>
+    switch (flavor) {
+      "dev" => "Debug",
+      "prod" => "Release",
+      _ => throw ArgumentError.value(
+          flavor,
+          "flavor",
+          "Flavor must be dev or prod.",
+        ),
+    };
+
+/// Returns non-interactive FlutterFire Apple configuration arguments.
+List<String> firebaseAppleBuildConfigurationArgumentsForFlavor(
+  String flavor,
+) {
+  final buildConfiguration = firebaseAppleBuildConfigurationForFlavor(flavor);
+  return [
+    "--ios-build-config=$buildConfiguration",
+    "--macos-build-config=$buildConfiguration",
+  ];
+}
+
+/// Maintains flavor-specific Firebase project aliases in `.firebaserc`.
+class FirebaseProjectAliasSynchronizer {
+  const FirebaseProjectAliasSynchronizer._();
+
+  /// Adds or updates one flavor alias without discarding other CLI settings.
+  static String synchronize(
+    String source, {
+    required String flavor,
+    required String projectId,
+  }) {
+    if (flavor != "dev" && flavor != "prod") {
+      throw ArgumentError.value(
+        flavor,
+        "flavor",
+        "Flavor must be dev or prod.",
+      );
+    }
+    if (projectId.trim().isEmpty) {
+      throw ArgumentError.value(projectId, "projectId", "Must not be empty.");
+    }
+    final root = _decode(source);
+    final projects = root["projects"];
+    if (projects != null && projects is! Map) {
+      throw const FormatException("Firebase projects must be a JSON object.");
+    }
+    final updatedProjects = <String, dynamic>{
+      if (projects is Map)
+        ...projects.map((key, value) => MapEntry(key.toString(), value)),
+      flavor: projectId.trim(),
+    };
+    root["projects"] = updatedProjects;
+    return "${const JsonEncoder.withIndent("  ").convert(root)}\n";
+  }
+
+  /// Restores settings from [from] while preferring values in [source].
+  static String restore(
+    String source, {
+    required String from,
+  }) {
+    final restored = _merge(_decode(from), _decode(source));
+    return "${const JsonEncoder.withIndent("  ").convert(restored)}\n";
+  }
+
+  static Map<String, dynamic> _decode(String source) {
+    final decoded = jsonDecode(source);
+    if (decoded is! Map) {
+      throw const FormatException(".firebaserc must contain a JSON object.");
+    }
+    return decoded.map((key, value) => MapEntry(key.toString(), value));
+  }
+
+  static Map<String, dynamic> _merge(
+    Map<String, dynamic> previous,
+    Map<String, dynamic> current,
+  ) {
+    final result = <String, dynamic>{...previous};
+    for (final entry in current.entries) {
+      final previousValue = result[entry.key];
+      final currentValue = entry.value;
+      if (previousValue is Map && currentValue is Map) {
+        result[entry.key] = _merge(
+          previousValue.map(
+            (key, value) => MapEntry(key.toString(), value),
+          ),
+          currentValue.map(
+            (key, value) => MapEntry(key.toString(), value),
+          ),
+        );
+      } else {
+        result[entry.key] = currentValue;
+      }
+    }
+    return result;
+  }
+}
+
+/// Validates that generated Firebase native configuration belongs to the
+/// project selected by Katana.
+void validateFirebaseProjectConfiguration({
+  required String expectedProjectId,
+  required String androidJson,
+  required List<String> applePlists,
+}) {
+  final androidProjectId = jsonDecodeAsMap(androidJson)
+      .getAsMap("project_info")
+      .get("project_id", "");
+  if (androidProjectId != expectedProjectId) {
+    throw StateError(
+      "Android Firebase project mismatch: expected $expectedProjectId, "
+      "found $androidProjectId.",
+    );
+  }
+  for (final plist in applePlists) {
+    final document = XmlDocument.parse(plist);
+    final projectKey = document.findAllElements("key").firstWhereOrNull(
+          (element) => element.innerText == "PROJECT_ID",
+        );
+    final projectId = projectKey?.nextElementSibling?.innerText ?? "";
+    if (projectId != expectedProjectId) {
+      throw StateError(
+        "Apple Firebase project mismatch: expected $expectedProjectId, "
+        "found $projectId.",
+      );
+    }
+  }
+}
+
+void _validateFirebaseProject({
+  required String projectId,
+  required File googleServicesJson,
+  required List<File> applePlists,
+}) {
+  for (final file in [googleServicesJson, ...applePlists]) {
+    if (!file.existsSync()) {
+      throw StateError(
+          "Firebase configuration was not generated: ${file.path}");
+    }
+  }
+  validateFirebaseProjectConfiguration(
+    expectedProjectId: projectId,
+    androidJson: googleServicesJson.readAsStringSync(),
+    applePlists: applePlists.map((file) => file.readAsStringSync()).toList(),
+  );
+}
+
+Future<void> _writeFirebaseOptionsSelector(String configuredFlavor) async {
+  final root = Directory("lib/katana/firebase");
+  if (!root.existsSync()) {
+    await root.create(recursive: true);
+  }
+  for (final flavor in ["dev", "prod"]) {
+    if (flavor == configuredFlavor) {
+      continue;
+    }
+    final stub = File("${root.path}/$flavor/firebase_options.dart");
+    if (stub.existsSync()) {
+      continue;
+    }
+    await stub.create(recursive: true);
+    await stub.writeAsString('''
+// KATANA FIREBASE STUB
+import "package:firebase_core/firebase_core.dart" show FirebaseOptions;
+
+/// Placeholder options for a Firebase flavor that has not been configured.
+abstract final class DefaultFirebaseOptions {
+  /// Throws because this flavor still requires `katana apply`.
+  static FirebaseOptions get currentPlatform => throw StateError(
+        "Firebase configuration for $flavor has not been generated. "
+        "Run katana apply --flavor $flavor.",
+      );
+}
+''');
+  }
+  await File("${root.path}/firebase_options.dart").writeAsString('''
+import "package:firebase_core/firebase_core.dart" show FirebaseOptions;
+
+import "dev/firebase_options.dart" as dev;
+import "prod/firebase_options.dart" as prod;
+
+// ignore: do_not_use_environment
+const _flavor = String.fromEnvironment("FLAVOR");
+
+/// Returns Firebase options for the selected compile-time flavor.
+///
+/// The `dev` and `prod` flavors select their respective generated options.
+/// Any other flavor throws [StateError] so a build cannot silently use a
+/// different Firebase project.
+FirebaseOptions get currentFirebaseOptions => switch (_flavor) {
+      "dev" => dev.DefaultFirebaseOptions.currentPlatform,
+      "prod" => prod.DefaultFirebaseOptions.currentPlatform,
+      _ => throw StateError("FLAVOR must be dev or prod."),
+    };
+''');
+}
+
+/// Returns whether Firebase CLI project-list JSON contains [projectId].
+bool firebaseProjectListContains(String source, String projectId) {
+  try {
+    bool contains(Object? value) {
+      if (value is Map) {
+        if (value["projectId"] == projectId ||
+            value["project_id"] == projectId) {
+          return true;
+        }
+        return value.values.any(contains);
+      }
+      return value is List && value.any(contains);
+    }
+
+    return contains(jsonDecode(source));
+  } on FormatException {
+    return false;
+  }
+}
+
 /// Whether Firebase CLI-managed project files are required.
 ///
 /// Firebase CLI管理のプロジェクトファイルが必要かどうか。
@@ -94,6 +312,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final repositoryFirebaseWebGithubAction =
         webGithubAction.get("repository", "");
     final projectId = firebase.get("project_id", "");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
     final firestore = firebase.getAsMap("firestore");
@@ -144,6 +363,22 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final firebaseProjects = await Process.run(
+      firebaseCommand,
+      ["projects:list", "--json"],
+      runInShell: true,
+    );
+    if (firebaseProjects.exitCode != 0 ||
+        !firebaseProjectListContains(
+          firebaseProjects.stdout.toString(),
+          projectId,
+        )) {
+      error(
+        "Firebase project `$projectId` does not exist or is not accessible. "
+        "Katana will not create it automatically.",
+      );
+      return;
+    }
     label("Create firebase directory");
     final firebaseDir = Directory("firebase");
     if (!firebaseDir.existsSync()) {
@@ -151,24 +386,42 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     }
     label("Check firebase.json");
     final firebaseJsonFile = File("firebase/firebase.json");
+    final firebaseRcFile = File("firebase/.firebaserc");
+    final previousFirebaseRcSource = firebaseRcFile.existsSync()
+        ? await firebaseRcFile.readAsString()
+        : "{}";
     final firebaseJsonFileExists = firebaseJsonFile.existsSync();
     final firebaseJson = firebaseJsonFileExists
         ? jsonDecodeAsMap(await firebaseJsonFile.readAsString())
         : <String, dynamic>{};
-    final googleServicesJson = File("android/app/google-services.json");
+    final googleServicesJson = File(
+      "android/app/src/katanaFirebase/$flavor/google-services.json",
+    );
     final googleServicesJsonExists = googleServicesJson.existsSync();
-    final googleServicesInfoPlist = File("ios/Runner/GoogleService-Info.plist");
+    final googleServicesInfoPlist =
+        File("ios/Runner/Firebase/$flavor/GoogleService-Info.plist");
     final googleServicesInfoPlistExists = googleServicesInfoPlist.existsSync();
+    final macosGoogleServicesInfoPlist =
+        File("macos/Runner/Firebase/$flavor/GoogleService-Info.plist");
+    final macosGoogleServicesInfoPlistExists =
+        macosGoogleServicesInfoPlist.existsSync();
+    final firebaseOptions =
+        File("lib/katana/firebase/$flavor/firebase_options.dart");
+    final firebaseOptionsExists = firebaseOptions.existsSync() &&
+        !firebaseOptions.readAsStringSync().contains("KATANA FIREBASE STUB");
     label("Check status");
     final firebaseFunctionsIndex = File("firebase/functions/src/index.ts");
     final firebaseFunctionsIndexExists = firebaseFunctionsIndex.existsSync();
     label("Load data");
     final gradle = AppGradle();
     await gradle.load();
-    final androidApplicationId = gradle.android?.defaultConfig.applicationId
-        .trim()
-        .replaceAll('"', "")
-        .replaceAll("'", "");
+    final applicationIdExpression =
+        gradle.android?.defaultConfig.applicationId.trim() ?? "";
+    final androidApplicationId = RegExp(r'''["']([^"']+)["']''')
+            .allMatches(applicationIdExpression)
+            .lastOrNull
+            ?.group(1) ??
+        applicationIdExpression;
     final xcode = XCode();
     await xcode.load();
     final bundleId = xcode.pbxBuildConfiguration
@@ -187,7 +440,20 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    if (!googleServicesJsonExists || !googleServicesInfoPlistExists) {
+    if (!googleServicesJsonExists ||
+        !googleServicesInfoPlistExists ||
+        !macosGoogleServicesInfoPlistExists ||
+        !firebaseOptionsExists) {
+      for (final file in [
+        googleServicesJson,
+        googleServicesInfoPlist,
+        macosGoogleServicesInfoPlist,
+        firebaseOptions,
+      ]) {
+        if (!file.parent.existsSync()) {
+          await file.parent.create(recursive: true);
+        }
+      }
       await command(
         "Run flutterfire configure",
         [
@@ -195,6 +461,11 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "configure",
           "-y",
           "--project=$projectId",
+          "--out=${firebaseOptions.path}",
+          "--android-out=${googleServicesJson.path}",
+          "--ios-out=${googleServicesInfoPlist.path}",
+          "--macos-out=${macosGoogleServicesInfoPlist.path}",
+          ...firebaseAppleBuildConfigurationArgumentsForFlavor(flavor),
           "--ios-bundle-id=$bundleId",
           "--macos-bundle-id=$bundleId",
           if (androidApplicationId.isNotEmpty)
@@ -202,6 +473,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ],
       );
     }
+    _validateFirebaseProject(
+      projectId: projectId,
+      googleServicesJson: googleServicesJson,
+      applePlists: [googleServicesInfoPlist, macosGoogleServicesInfoPlist],
+    );
+    await _writeFirebaseOptionsSelector(flavor);
     await addFlutterImport(
       [
         "firebase_core",
@@ -786,6 +1063,40 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "configProperties[\"flutter.minSdkVersion\"].toInteger()";
     }
     await gradle.save();
+    final appGradleFile = File(
+      gradle.isKotlin
+          ? "android/app/build.gradle.kts"
+          : "android/app/build.gradle",
+    );
+    var appGradleSource = await appGradleFile.readAsString();
+    if (!appGradleSource.contains(
+      AndroidNativeEnvironmentSynchronizer.beginMarker,
+    )) {
+      appGradleSource = AndroidNativeEnvironmentSynchronizer.synchronize(
+        appGradleSource,
+        isKotlin: gradle.isKotlin,
+      );
+    }
+    await appGradleFile.writeAsString(
+      AndroidNativeEnvironmentSynchronizer.synchronizeFirebase(
+        appGradleSource,
+        isKotlin: gradle.isKotlin,
+      ),
+    );
+    for (final path in [
+      "ios/Runner.xcodeproj/project.pbxproj",
+      "macos/Runner.xcodeproj/project.pbxproj",
+    ]) {
+      final project = File(path);
+      if (!project.existsSync()) {
+        continue;
+      }
+      await project.writeAsString(
+        AppleFirebaseEnvironmentSynchronizer.synchronizeProject(
+          await project.readAsString(),
+        ),
+      );
+    }
     label("Edit settings.gradle.");
     final settingsGradle = SettingsGradle();
     await settingsGradle.load();
@@ -801,6 +1112,19 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
     }
     await settingsGradle.save();
+    final currentFirebaseRcSource = firebaseRcFile.existsSync()
+        ? await firebaseRcFile.readAsString()
+        : "{}";
+    await firebaseRcFile.writeAsString(
+      FirebaseProjectAliasSynchronizer.synchronize(
+        FirebaseProjectAliasSynchronizer.restore(
+          currentFirebaseRcSource,
+          from: previousFirebaseRcSource,
+        ),
+        flavor: flavor,
+        projectId: projectId,
+      ),
+    );
     label("Rewrite `package.json`");
     final packageJson = File("firebase/functions/package.json");
     if (packageJson.existsSync()) {
@@ -850,6 +1174,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           [
             firebaseCommand,
             "firestore:indexes",
+            "--project",
+            projectId,
           ],
           workingDirectory: "firebase",
         );
@@ -861,6 +1187,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           [
             firebaseCommand,
             "deploy",
+            "--project",
+            projectId,
             if (enableActions) ...[
               "--except",
               "hosting",
@@ -1050,10 +1378,6 @@ class FirebaseFunctionsIndexCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 import * as mf from "@mathrunet/masamune_firebase";
-import * as admin from "firebase-admin";
-if (admin.apps.length === 0) {
-  admin.initializeApp();
-}
 
 """;
   }

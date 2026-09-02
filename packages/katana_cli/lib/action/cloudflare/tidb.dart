@@ -14,6 +14,26 @@ import "package:katana_cli/katana_cli.dart";
 
 const _managedEndpointTags = {"Masamune", "MasamuneServer"};
 
+/// Splits generated additive schema into independently deployable table jobs.
+List<String> splitTidbAdditiveSchemaMigrations(String source) {
+  final marker = RegExp(
+    r"CREATE DATABASE IF NOT EXISTS `([A-Za-z0-9_]+)`;\s*"
+    r"USE `\1`;\s*",
+  );
+  final matches = marker.allMatches(source).toList();
+  return [
+    for (var index = 0; index < matches.length; index++)
+      "CREATE DATABASE IF NOT EXISTS `${matches[index].group(1)}`;\n"
+          "USE `${matches[index].group(1)}`;\n"
+          "${source.substring(
+                matches[index].end,
+                index + 1 < matches.length
+                    ? matches[index + 1].start
+                    : source.length,
+              ).trim()}",
+  ];
+}
+
 /// Returns whether every generated endpoint has a matching remote method/path.
 ///
 /// The local ownership file is only a record of a previous successful apply;
@@ -65,6 +85,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     final tidb = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
     final mode = tidb.get("mode", "data_service").toString();
     if (mode != "data_service" && mode != "data-service") {
@@ -86,13 +107,16 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final secrets = await _loadSecretsRoot();
     late final TidbManagedStateLoadResult managed;
     try {
-      managed = await loadAndMigrateTidbManagedState(secrets);
+      managed = await loadAndMigrateTidbManagedState(
+        secrets,
+        environment: flavor,
+      );
     } on StateError catch (exception) {
       error(exception.message.toString());
       return;
     }
     if (managed.stateChanged) {
-      await saveTidbManagedState(managed.state);
+      await saveTidbManagedState(managed.state, environment: flavor);
     }
     if (managed.secretsChanged) {
       await _saveSecretsRoot(secrets);
@@ -101,6 +125,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       tidb,
       npm: npm,
       wrangler: wrangler,
+      environment: flavor,
       secrets: secrets,
       managedState: managed.state,
     );
@@ -124,6 +149,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     Map tidb, {
     required String npm,
     required String wrangler,
+    required String environment,
     required Map<String, dynamic> secrets,
     required Map<String, dynamic> managedState,
   }) async {
@@ -148,7 +174,12 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final manifestHash = _stableHash(manifestText);
     final projectId = config["project_id"]?.toString().trim() ?? "";
     final clusterId = config["cluster_id"]?.toString().trim() ?? "";
-    final appName = config["app_name"]?.toString().trim() ?? "masamune";
+    final configuredAppName = config["app_name"]?.toString().trim() ?? "";
+    final appName = configuredAppName.isNotEmpty
+        ? configuredAppName
+        : environment == "prod"
+            ? "masamune"
+            : "masamune-$environment";
     final rateLimit =
         int.tryParse(config["rate_limit_rpm"]?.toString() ?? "") ?? 1000;
     final maxScanRows =
@@ -203,6 +234,11 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           privateKey: managementPrivate,
         );
         try {
+          await _ensureDataSource(
+            api,
+            appId: managedAppId,
+            clusterId: clusterId,
+          );
           final synchronized = await _generatedEndpointsAreSynchronized(
             api,
             appId: managedAppId,
@@ -233,7 +269,10 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       return;
     }
     if (restrictMysql && state == "prepared" && previousHash == manifestHash) {
-      final deployed = await _currentWorkerDeploymentId(wrangler);
+      final deployed = await _currentWorkerDeploymentId(
+        wrangler,
+        environment: environment,
+      );
       final baseline =
           cutover["baseline_worker_deployment_id"]?.toString() ?? "";
       if (deployed.isEmpty || deployed == baseline) {
@@ -274,6 +313,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       }
       await _finishCutover(
         wrangler: wrangler,
+        environment: environment,
         clusterId: clusterId,
         dataService: dataService,
         managementPublic: managementPublic,
@@ -282,7 +322,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       );
       cutover["state"] = "complete";
       cutover["worker_deployment_id"] = deployed;
-      await saveTidbManagedState(managedState);
+      await saveTidbManagedState(managedState, environment: environment);
       return;
     }
 
@@ -321,7 +361,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         rateLimit: rateLimit,
         dataService: dataService,
       );
-      await saveTidbManagedState(managedState);
+      await saveTidbManagedState(managedState, environment: environment);
       await _applyAdditiveSchema(
         api,
         appId: appId,
@@ -345,12 +385,13 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         clusterId: clusterId,
       );
       await _copyRuntimeManifest(manifestText);
-      if (!await _updateWorkersFunction(maxScanRows: maxScanRows)) {
+      if (!await _updateWorkersFunction()) {
         return;
       }
       await _installNodePackage(npm);
       await _putDataServiceSecrets(
         wrangler: wrangler,
+        environment: environment,
         appId: appId,
         region: region,
         maxScanRows: maxScanRows,
@@ -360,12 +401,15 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         label("TiDB Data Service is ready; MySQL public access was retained.");
         return;
       }
-      final baseline = await _currentWorkerDeploymentId(wrangler);
+      final baseline = await _currentWorkerDeploymentId(
+        wrangler,
+        environment: environment,
+      );
       cutover
         ..["manifest_hash"] = manifestHash
         ..["baseline_worker_deployment_id"] = baseline
         ..["state"] = "prepared";
-      await saveTidbManagedState(managedState);
+      await saveTidbManagedState(managedState, environment: environment);
       label("TiDB Data Service preparation completed.");
       stdout.writeln(
         "\nThe MySQL public endpoint is still enabled. "
@@ -544,39 +588,43 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     if (!schema.existsSync()) {
       throw StateError("Generated additive schema.sql was not found.");
     }
-    final source = await schema.readAsString();
-    final marker = RegExp(
-      r"CREATE DATABASE IF NOT EXISTS `([A-Za-z0-9_]+)`;\s*"
-      r"USE `\1`;\s*",
+    final migrations = splitTidbAdditiveSchemaMigrations(
+      await schema.readAsString(),
     );
-    final matches = marker.allMatches(source).toList();
-    if (matches.isEmpty) {
+    if (migrations.isEmpty) {
       throw StateError("Generated additive schema contains no database.");
     }
-    final statements = <String, StringBuffer>{};
-    for (var index = 0; index < matches.length; index++) {
-      final match = matches[index];
-      final database = match.group(1)!;
-      final end =
-          index + 1 < matches.length ? matches[index + 1].start : source.length;
-      statements
-          .putIfAbsent(database, StringBuffer.new)
-          .writeln(source.substring(match.end, end).trim());
+
+    label("Apply additive TiDB schema through temporary table endpoints.");
+    const bootstrapPrefix = "/__masamune/bootstrap_";
+    final existing = await listTidbDataServicePages(
+      api,
+      "dataApps/$appId/endpoints",
+      "endpoints",
+    );
+    for (final endpoint in existing.where(
+      (item) =>
+          (item["path"]?.toString().startsWith(bootstrapPrefix) ?? false) &&
+          _managedEndpointTags.contains(item["tag"]),
+    )) {
+      await deleteTidbDataServiceEndpointAndWait(
+        api,
+        appId: appId,
+        endpointName: endpoint["name"].toString(),
+        maxAttempts: 60,
+      );
     }
 
-    label(
-        "Apply additive TiDB schema through temporary Data Service endpoints.");
     final endpoints = <({String name, String path})>[];
     Object? failure;
     try {
-      for (final entry in statements.entries) {
-        final database = entry.key;
-        final path = "/__masamune/bootstrap_$database";
+      for (var index = 0; index < migrations.length; index++) {
+        final path = "$bootstrapPrefix${index.toString().padLeft(3, "0")}";
         final created = await _createManagedEndpoint(
           api,
           appId,
           {
-            "displayName": "Masamune schema bootstrap $database",
+            "displayName": "Masamune schema bootstrap ${index + 1}",
             "description": "Temporary additive schema endpoint.",
             "path": path,
             "method": "POST",
@@ -590,8 +638,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             },
             "tag": "MasamuneServer",
             "batchOperation": false,
-            "sqlTemplate": "CREATE DATABASE IF NOT EXISTS `$database`;\n"
-                "USE `$database`;\n${entry.value}",
+            "sqlTemplate": migrations[index],
           },
         );
         final name = created["name"]?.toString() ?? "";
@@ -612,6 +659,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             method: "POST",
             body: const <String, dynamic>{},
           ),
+          maxAttempts: 30,
         );
       }
     } on Object catch (exception) {
@@ -622,10 +670,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           api,
           appId: appId,
           endpointName: endpoint.name,
+          maxAttempts: 60,
         );
-      }
-      if (endpoints.isNotEmpty) {
-        await _deployAndWait(api, appId, "Remove schema bootstrap endpoints.");
       }
     }
     if (failure != null) {
@@ -1017,9 +1063,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         .writeAsString(manifestText);
   }
 
-  Future<bool> _updateWorkersFunction({
-    int maxScanRows = 1000,
-  }) async {
+  Future<bool> _updateWorkersFunction() async {
     final index = File("cloudflare/src/index.ts");
     var source = await index.readAsString();
     if (!source.contains(
@@ -1038,10 +1082,9 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             );
       await index.writeAsString(source);
     }
-    final function = """
+    const function = """
     tidb.Functions.tidb({
         dataServiceManifest: tidbDataServiceManifest as tidb.TidbDataServiceManifest,
-        maxScanRows: $maxScanRows,
     }),""";
     return applyCloudflareWorkersFunctions(
       alias: "tidb",
@@ -1051,16 +1094,15 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   }
 
   Future<void> _installNodePackage(String npm) {
-    return command(
-      "Package installation.",
-      [npm, "install", "@mathrunet/masamune_cloudflare_tidb"],
-      workingDirectory: "cloudflare",
-      runInShell: true,
+    return installMissingCloudflarePackages(
+      npm: npm,
+      packages: const ["@mathrunet/masamune_cloudflare_tidb"],
     );
   }
 
   Future<void> _putDataServiceSecrets({
     required String wrangler,
+    required String environment,
     required String appId,
     required String region,
     required int maxScanRows,
@@ -1076,16 +1118,20 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     for (final entry in values.entries) {
       await putWranglerSecret(
         wrangler: wrangler,
+        environment: environment,
         name: entry.key,
         value: entry.value,
       );
     }
   }
 
-  Future<String> _currentWorkerDeploymentId(String wrangler) async {
+  Future<String> _currentWorkerDeploymentId(
+    String wrangler, {
+    required String environment,
+  }) async {
     final result = await Process.run(
       wrangler,
-      ["deployments", "list", "--json"],
+      ["deployments", "list", "--json", "--env", environment],
       workingDirectory: "cloudflare",
       runInShell: true,
     );
@@ -1111,6 +1157,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
 
   Future<void> _finishCutover({
     required String wrangler,
+    required String environment,
     required String clusterId,
     required Map<String, dynamic> dataService,
     required String managementPublic,
@@ -1182,7 +1229,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     }
     final listed = await Process.run(
       wrangler,
-      ["secret", "list", "--format", "json"],
+      ["secret", "list", "--format", "json", "--env", environment],
       workingDirectory: "cloudflare",
       runInShell: true,
     );
@@ -1206,7 +1253,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       }
       final deleted = await Process.run(
         wrangler,
-        ["secret", "delete", obsolete],
+        ["secret", "delete", obsolete, "--env", environment],
         workingDirectory: "cloudflare",
         runInShell: true,
       );

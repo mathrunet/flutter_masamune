@@ -12,7 +12,7 @@ import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/command/cer/cer.dart";
 import "package:katana_cli/command/deploy.dart";
 import "package:katana_cli/command/doctor.dart";
-import "package:katana_cli/command/flavor/flavor.dart";
+import "package:katana_cli/command/fix.dart";
 import "package:katana_cli/command/module.dart";
 import "package:katana_cli/command/store/store.dart";
 import "package:katana_cli/command/test/test.dart";
@@ -35,7 +35,7 @@ const commands = <String, CliCommand>{
   "module": CreateModuleCliCommand(),
   "doctor": DoctorCliCommand(),
   "cer": CerCliCommand(),
-  "flavor": FlavorCliCommand(),
+  "fix": FixCliCommand(),
   "analytics": AnalyticsCliCommand(),
 };
 
@@ -56,12 +56,20 @@ Future<void> main(List<String> args) async {
       if (tmp.key != command) {
         continue;
       }
+      final secrets = katanaSecrets.existsSync()
+          ? modifize(loadYaml(await katanaSecrets.readAsString()))
+          : <dynamic, dynamic>{};
+      final flavorContext = _resolveFlavorContext(
+        command: command,
+        yaml: const {},
+        secrets: secrets,
+        arguments: args,
+      );
       final context = ExecContext(
-        yaml: {},
-        secrets: katanaSecrets.existsSync()
-            ? loadYaml(await katanaSecrets.readAsString())
-            : {},
+        yaml: flavorContext?.yaml ?? const {},
+        secrets: flavorContext?.secrets ?? secrets,
         args: args,
+        flavorContext: flavorContext,
       );
       await tmp.value.exec(context);
       for (final action in context.postActions) {
@@ -90,12 +98,20 @@ Future<void> main(List<String> args) async {
       if (tmp.key != command) {
         continue;
       }
-      final context = ExecContext(
+      final secrets = katanaSecrets.existsSync()
+          ? modifize(loadYaml(await katanaSecrets.readAsString()))
+          : <dynamic, dynamic>{};
+      final flavorContext = _resolveFlavorContext(
+        command: command,
         yaml: yaml,
-        secrets: katanaSecrets.existsSync()
-            ? modifize(loadYaml(await katanaSecrets.readAsString()))
-            : {},
+        secrets: secrets,
+        arguments: args,
+      );
+      final context = ExecContext(
+        yaml: flavorContext?.yaml ?? yaml,
+        secrets: flavorContext?.secrets ?? secrets,
         args: args,
+        flavorContext: flavorContext,
       );
       await tmp.value.exec(context);
       for (final action in context.postActions) {
@@ -110,6 +126,29 @@ Future<void> main(List<String> args) async {
   }
   showReadme();
   exit(0);
+}
+
+FlavorContext? _resolveFlavorContext({
+  required String? command,
+  required Map<dynamic, dynamic> yaml,
+  required Map<dynamic, dynamic> secrets,
+  required List<String> arguments,
+}) {
+  if (command != "apply" && command != "deploy" && command != "fix") {
+    return null;
+  }
+  try {
+    final context = FlavorContext.resolve(
+      yaml: yaml,
+      secrets: secrets,
+      arguments: arguments,
+    );
+    stdout.writeln("Katana flavor: ${context.flavor.name}");
+    return context;
+  } on Object catch (error) {
+    stderr.writeln("Invalid environment configuration: $error");
+    exit(1);
+  }
 }
 
 /// Displays a description of the command.

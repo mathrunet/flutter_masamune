@@ -32,6 +32,7 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
+    final projectId = firebase.get("project_id", "");
     final enableFunctions = firebase.getAsMap("functions").get("enable", false);
     final enableFirestore = firebase.getAsMap("firestore").get("enable", false);
     final scheduler = firebase.getAsMap("scheduler");
@@ -66,6 +67,8 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
       [
         firebaseCommand,
         "firestore:indexes",
+        "--project",
+        projectId,
       ],
       workingDirectory: "firebase",
     );
@@ -123,6 +126,8 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
         "deploy",
         "--only",
         "firestore:indexes",
+        "--project",
+        projectId,
       ],
       workingDirectory: "firebase",
     );

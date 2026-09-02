@@ -9,8 +9,17 @@ import "package:yaml_writer/yaml_writer.dart";
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
 
-/// Path of the TiDB state managed by Katana.
-const tidbManagedStatePath = "cloudflare/tidb.yaml";
+/// Path of the legacy, flavor-independent TiDB state managed by Katana.
+const tidbLegacyManagedStatePath = "cloudflare/tidb.yaml";
+
+/// Returns the path of the flavor-specific TiDB state managed by Katana.
+String tidbManagedStatePathFor(String environment) {
+  final normalized = environment.trim();
+  if (normalized.isEmpty || !RegExp(r"^[A-Za-z0-9_-]+$").hasMatch(normalized)) {
+    throw ArgumentError.value(environment, "environment", "Invalid flavor");
+  }
+  return "cloudflare/tidb.$normalized.yaml";
+}
 
 /// Result of loading and migrating the TiDB managed state.
 class TidbManagedStateLoadResult {
@@ -21,24 +30,31 @@ class TidbManagedStateLoadResult {
     required this.stateChanged,
   });
 
-  /// TiDB state stored in [tidbManagedStatePath].
+  /// Flavor-specific TiDB state stored under `cloudflare/`.
   final Map<String, dynamic> state;
 
   /// Whether `katana_secrets.yaml` was changed by migration.
   final bool secretsChanged;
 
-  /// Whether [tidbManagedStatePath] must be persisted.
+  /// Whether the flavor-specific state must be persisted.
   final bool stateChanged;
 }
 
 /// Loads TiDB state and migrates legacy automatically managed secrets.
 Future<TidbManagedStateLoadResult> loadAndMigrateTidbManagedState(
-  Map<String, dynamic> secrets,
-) async {
-  final file = File(tidbManagedStatePath);
-  final loaded = file.existsSync()
+    Map<String, dynamic> secrets,
+    {String environment = "prod"}) async {
+  final statePath = tidbManagedStatePathFor(environment);
+  final file = File(statePath);
+  final legacyFile = File(tidbLegacyManagedStatePath);
+  final source = file.existsSync()
+      ? file
+      : environment == "prod" && legacyFile.existsSync()
+          ? legacyFile
+          : null;
+  final loaded = source != null
       ? Map<String, dynamic>.from(
-          modifize(loadYaml(await file.readAsString())) as Map? ?? {},
+          modifize(loadYaml(await source.readAsString())) as Map? ?? {},
         )
       : <String, dynamic>{};
   final state = _stringMap(loaded);
@@ -48,10 +64,17 @@ Future<TidbManagedStateLoadResult> loadAndMigrateTidbManagedState(
   var stateChanged = !file.existsSync();
 
   for (final key in const ["data_service", "cutover"]) {
-    final legacy = _meaningfulMap(tidbSecrets[key]);
+    final legacy = environment == "prod"
+        ? _meaningfulMap(tidbSecrets[key])
+        : <String, dynamic>{};
     final current = _meaningfulMap(state[key]);
     if (legacy.isNotEmpty) {
-      final merged = _mergeManagedState(current, legacy, key);
+      final merged = _mergeManagedState(
+        current,
+        legacy,
+        key,
+        statePath,
+      );
       if (!_deepEqual(current, merged)) {
         state[key] = merged;
         stateChanged = true;
@@ -59,7 +82,7 @@ Future<TidbManagedStateLoadResult> loadAndMigrateTidbManagedState(
     } else if (current.isNotEmpty) {
       state[key] = current;
     }
-    if (tidbSecrets.containsKey(key)) {
+    if (environment == "prod" && tidbSecrets.containsKey(key)) {
       tidbSecrets.remove(key);
       secretsChanged = true;
     }
@@ -86,8 +109,11 @@ Future<TidbManagedStateLoadResult> loadAndMigrateTidbManagedState(
 }
 
 /// Saves TiDB managed state without writing secrets into Worker sources.
-Future<void> saveTidbManagedState(Map<String, dynamic> state) async {
-  final file = File(tidbManagedStatePath);
+Future<void> saveTidbManagedState(
+  Map<String, dynamic> state, {
+  String environment = "prod",
+}) async {
+  final file = File(tidbManagedStatePathFor(environment));
   await file.parent.create(recursive: true);
   final temporary = File("${file.path}.tmp");
   await temporary.writeAsString(YamlWriter().write(state));
@@ -109,11 +135,16 @@ Future<void> ensureTidbManagedStateIsGitIgnored() async {
     );
   }
   final lines = await file.readAsLines();
-  if (lines.any((line) => line.trim() == "tidb.yaml")) {
-    return;
+  var changed = false;
+  for (final pattern in const ["tidb.yaml", "tidb.*.yaml"]) {
+    if (!lines.any((line) => line.trim() == pattern)) {
+      lines.add(pattern);
+      changed = true;
+    }
   }
-  lines.add("tidb.yaml");
-  await file.writeAsString("${lines.join("\n")}\n");
+  if (changed) {
+    await file.writeAsString("${lines.join("\n")}\n");
+  }
 }
 
 Map<String, dynamic> _nested(
@@ -172,6 +203,7 @@ Map<String, dynamic> _mergeManagedState(
   Map<String, dynamic> current,
   Map<String, dynamic> legacy,
   String path,
+  String statePath,
 ) {
   final merged = Map<String, dynamic>.from(current);
   for (final entry in legacy.entries) {
@@ -185,13 +217,14 @@ Map<String, dynamic> _mergeManagedState(
         _meaningfulMap(existing),
         _meaningfulMap(entry.value),
         "$path.${entry.key}",
+        statePath,
       );
       continue;
     }
     if (!_deepEqual(existing, entry.value)) {
       throw StateError(
         "TiDB managed state differs between `katana_secrets.yaml` and "
-        "`$tidbManagedStatePath` at `$path.${entry.key}`. Resolve the "
+        "`$statePath` at `$path.${entry.key}`. Resolve the "
         "conflict before running `katana apply` again.",
       );
     }

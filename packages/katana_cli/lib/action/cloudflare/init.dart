@@ -5,6 +5,7 @@ import "dart:io";
 import "package:yaml/yaml.dart";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare initial configuration.
@@ -50,6 +51,15 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final projectIdFromYaml = cloudflare.get("project_id", "");
     final projectId =
         projectIdFromYaml.isEmpty ? projectIdFromPubspec : projectIdFromYaml;
+    final rootProjectIdFromYaml = context.flavorContext?.yamlValue(
+          const ["cloudflare", "project_id"],
+          flavor: KatanaFlavor.prod,
+        )?.toString() ??
+        projectIdFromYaml;
+    final rootProjectId = rootProjectIdFromYaml.isEmpty
+        ? projectIdFromPubspec
+        : rootProjectIdFromYaml;
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     if ((enabledWorkers || enabledPages) && projectId.isEmpty) {
       error(
           "Project ID is not specified. Please enter [project_id] in `katana.yaml`.");
@@ -64,6 +74,8 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final workerIndexFile = File("cloudflare/src/index.ts");
     final pagesIndexFile = File("cloudflare/public/index.html");
     final wranglerJsonc = File("cloudflare/wrangler.jsonc");
+    final previousWranglerSource =
+        wranglerJsonc.existsSync() ? await wranglerJsonc.readAsString() : null;
     final cloudflareDir = Directory("cloudflare");
     final workerRulesFile = File("cloudflare/src/rules.json");
     if (!cloudflareDir.existsSync()) {
@@ -120,20 +132,30 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
         await const CloudflareWorkersRulesCliCode().generateFile("rules.json");
       }
       await CloudflareWranglerCliCode(
-        projectId: projectId,
+        projectId: rootProjectId,
         smartPlacement: smartPlacement,
       ).generateFile("wrangler.jsonc");
-      await command(
-        "Package installation.",
-        [
-          npm,
-          "install",
+      final generatedWranglerSource = await wranglerJsonc.readAsString();
+      // Existing Wrangler files are the source of truth. Rebuilding from the
+      // template would discard routes, triggers, bindings, and other custom
+      // root settings that Katana does not own.
+      final restoredWranglerSource =
+          previousWranglerSource ?? generatedWranglerSource;
+      await wranglerJsonc.writeAsString(
+        WranglerEnvironmentSynchronizer.synchronize(
+          restoredWranglerSource,
+          flavor: flavor,
+          workerName: projectId,
+          rootWorkerName: rootProjectId,
+        ),
+      );
+      await installMissingCloudflarePackages(
+        npm: npm,
+        packages: const [
           "hono",
           "@mathrunet/masamune",
-          "@mathrunet/masamune_cloudflare"
+          "@mathrunet/masamune_cloudflare",
         ],
-        workingDirectory: "cloudflare",
-        runInShell: true,
       );
       await addFlutterImport(
         [

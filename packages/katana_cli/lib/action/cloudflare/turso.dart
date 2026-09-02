@@ -31,6 +31,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final turso = cloudflare.getAsMap("turso");
     final secretTurso =
@@ -85,6 +86,27 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final wranglerFile = File("cloudflare/wrangler.jsonc");
+    if (!wranglerFile.existsSync()) {
+      error("The file `cloudflare/wrangler.jsonc` does not exist.");
+      return;
+    }
+    final wranglerSource = WranglerEnvironmentSynchronizer.ensureEnvironment(
+      await wranglerFile.readAsString(),
+      flavor: flavor,
+      workerName: cloudflare.get("project_id", ""),
+    );
+    await wranglerFile.writeAsString(
+      WranglerEnvironmentSynchronizer.upsertVariables(
+        wranglerSource,
+        flavor: flavor,
+        values: {
+          "TURSO_ORGANIZATION": organization,
+          "TURSO_GROUP": group,
+          "TURSO_SERVER_TOKEN_TTL_SECONDS": serverTokenTtl.toString(),
+        },
+      ),
+    );
     await addFlutterImport(
       [
         "masamune_model_turso",
@@ -106,34 +128,21 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final source = await indexFile.readAsString();
     final updated = _updateTursoFunctions(
       source,
-      organization: organization,
-      group: group,
-      serverTokenTtl: serverTokenTtl,
       useSchemaManifest: useSchemaManifest,
     );
     if (updated == null) {
       return;
     }
     await indexFile.writeAsString(updated);
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
-        "@mathrunet/masamune_cloudflare_turso",
-      ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
+    await installMissingCloudflarePackages(
+      npm: npm,
+      packages: const ["@mathrunet/masamune_cloudflare_turso"],
     );
     await putWranglerSecret(
       wrangler: wrangler,
+      environment: flavor,
       name: "TURSO_PLATFORM_API_TOKEN",
       value: platformApiToken,
-    );
-    await putWranglerSecret(
-      wrangler: wrangler,
-      name: "TURSO_SERVER_TOKEN_TTL_SECONDS",
-      value: serverTokenTtl.toString(),
     );
     if (rotateLegacyTokens) {
       await _rotateLegacyTokens(
@@ -146,23 +155,14 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
 
   String? _updateTursoFunctions(
     String source, {
-    required String organization,
-    required String group,
-    required int serverTokenTtl,
     required bool useSchemaManifest,
   }) {
     final tursoFunction = _tursoFunction(
       "turso",
-      organization: organization,
-      group: group,
-      serverTokenTtl: serverTokenTtl,
       useSchemaManifest: useSchemaManifest,
     );
     final tursoTokenFunction = _tursoFunction(
       "tursoToken",
-      organization: organization,
-      group: group,
-      serverTokenTtl: serverTokenTtl,
       useSchemaManifest: useSchemaManifest,
     );
     var updated = _ensureTursoImport(source);
@@ -356,17 +356,11 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
 
   String _tursoFunction(
     String name, {
-    required String organization,
-    required String group,
-    required int serverTokenTtl,
     required bool useSchemaManifest,
   }) {
     return """
     turso.Functions.$name({
-        organization: "$organization",
-        group: "$group",
         autoCreateDatabase: true,
-        serverTokenTtlSeconds: $serverTokenTtl,
 ${useSchemaManifest ? "        schemaManifest: tursoSchemaManifest as turso.TursoSchemaManifest,\n" : ""}    }),""";
   }
 

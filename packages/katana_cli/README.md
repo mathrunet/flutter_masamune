@@ -136,6 +136,48 @@ You must have build_runner installed in your project in order to run it.
 flutter pub add --dev build_runner
 ```
 
+## Development and production environments
+
+New projects use `dart_defines/dev.env` and `dart_defines/prod.env`. Run Flutter
+with `--dart-define-from-file`; Flutter's native `--flavor` option and the
+legacy `katana flavor` pre-copy workflow are not required.
+
+```bash
+flutter run --dart-define-from-file=dart_defines/dev.env
+flutter build appbundle --dart-define-from-file=dart_defines/prod.env
+katana apply --flavor dev
+katana deploy --flavor prod
+```
+
+`FLAVOR` must be `dev` or `prod`. Android may optionally set
+`ANDROID_APPLICATION_ID`; otherwise Android, iOS, and macOS keep the common ID
+created by `katana compose`. Firebase configuration and Wrangler bindings are
+selected with the same `FLAVOR`. Worker endpoints remain explicit Dart adapter
+parameters and are never written to dart-defines.
+
+Run `katana apply --flavor dev` and `katana apply --flavor prod` once for each
+environment. The order does not matter and reapplying one environment preserves
+the other environment. Cloudflare keeps both projects in one `wrangler.jsonc`
+under `env.dev` and `env.prod`. Firebase shares the deploy configuration in
+`firebase/firebase.json` and stores both project mappings as `dev` and `prod`
+aliases in `firebase/.firebaserc`. Katana commands also pass the resolved project
+or environment explicitly, so they do not depend on the Firebase `default`
+alias or Wrangler's top-level environment. Wrangler's top-level Worker name is
+kept fixed to the production/base project so applying dev does not rewrite it.
+When running Wrangler directly, always pass `--env dev` or `--env prod`; use
+`katana deploy --flavor <flavor>` for the guarded deployment flow.
+
+Existing projects can be inspected without changes and migrated explicitly:
+
+```bash
+katana fix
+katana fix --dry-run
+katana fix --apply
+```
+
+Create Firebase and Cloudflare projects before running apply. Katana does not
+create those projects automatically.
+
 ### Automatic code generation
 
 If you want to perform automatic code generation as a one-shot, execute the following command.

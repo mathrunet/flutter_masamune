@@ -428,30 +428,29 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     if (!applied) {
       return;
     }
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
+    await installMissingCloudflarePackages(
+      npm: npm,
+      packages: [
         "@mathrunet/masamune_cloudflare_purchase",
         if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
       ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
     );
     await putWranglerSecret(
       wrangler: wrangler,
+      environment: context.flavorContext?.flavor.name ?? "prod",
       name: "PURCHASE_SUBSCRIPTIONPATH",
       value: "plugins/iap/subscription",
     );
     if (enableGooglePlay) {
       await putWranglerSecret(
         wrangler: wrangler,
+        environment: context.flavorContext?.flavor.name ?? "prod",
         name: "PURCHASE_ANDROID_SERVICEACCOUNT_EMAIL",
         value: androidServiceAccountEmail,
       );
       await putWranglerSecret(
         wrangler: wrangler,
+        environment: context.flavorContext?.flavor.name ?? "prod",
         name: "PURCHASE_ANDROID_SERVICEACCOUNT_PRIVATE_KEY",
         value: androidServiceAccountPrivateKey.replaceAll("\n", "\\n"),
       );
@@ -462,6 +461,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     if (enableAppStore) {
       await putWranglerSecret(
         wrangler: wrangler,
+        environment: context.flavorContext?.flavor.name ?? "prod",
         name: "PURCHASE_IOS_SHAREDSECRET",
         value: appStoreSharedSecret,
       );

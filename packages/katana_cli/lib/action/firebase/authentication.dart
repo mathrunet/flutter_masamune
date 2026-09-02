@@ -46,6 +46,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     final authentication = firebase.getAsMap("authentication");
     final providers = authentication.getAsMap("providers");
     final apple = providers.getAsMap("apple");
@@ -112,14 +113,15 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       label("Load GoogleService-Info.plist.");
       String? reversedClientId;
       String? googleAppId;
-      final googleServicePlist = File("ios/Runner/GoogleService-Info.plist");
+      final googleServicePlist =
+          File("ios/Runner/Firebase/$flavor/GoogleService-Info.plist");
       final googleServiceDocument =
           XmlDocument.parse(await googleServicePlist.readAsString());
       final googleServiceDict =
           googleServiceDocument.findAllElements("dict").firstOrNull;
       if (googleServiceDict == null) {
         throw Exception(
-          "Could not find `dict` element in `ios/Runner/GoogleService-Info.plist`. File is corrupt.",
+          "Could not find `dict` element in `${googleServicePlist.path}`. File is corrupt.",
         );
       }
       if (enableGoogle) {
@@ -735,10 +737,12 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
     }
     if (enableGoogle) {
       label("Load google-services.json");
-      final googleServicesJson = File("android/app/google-services.json");
+      final googleServicesJson = File(
+        "android/app/src/katanaFirebase/$flavor/google-services.json",
+      );
       if (!googleServicesJson.existsSync()) {
         throw Exception(
-          "google-services.json does not exist in `android/app/google-services.json`. Do `katana create` to complete the initial setup of the project.",
+          "google-services.json does not exist in `${googleServicesJson.path}`. Run `katana apply --flavor $flavor` to complete Firebase setup.",
         );
       }
       final googleServices = jsonDecodeAsMap(
@@ -754,7 +758,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       final clientId = oauthClient.get("client_id", "");
       if (clientId.isEmpty) {
         throw Exception(
-          "Could not find `client_id` in `android/app/google-services.json`. File is corrupt.",
+          "Could not find `client_id` in `${googleServicesJson.path}`. File is corrupt.",
         );
       }
       label("Edit index.html");

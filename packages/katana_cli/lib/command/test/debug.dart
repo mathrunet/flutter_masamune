@@ -32,7 +32,7 @@ class TestDebugCliCommand extends CliCommand {
         flutter,
         "test",
         "--dart-define=CI=false",
-        "--dart-define-from-file=dart_defines/test.env",
+        "--dart-define-from-file=dart_defines/dev.env",
         if (target.isNotEmpty) ...[
           "--plain-name",
           target,

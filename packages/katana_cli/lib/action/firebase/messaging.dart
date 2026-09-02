@@ -516,20 +516,17 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     if (!applied) {
       return;
     }
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
+    await installMissingCloudflarePackages(
+      npm: npm,
+      packages: [
         "@mathrunet/masamune_cloudflare_notification",
         if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
       ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
     );
     if (serviceAccount.isNotEmpty) {
       await putWranglerSecret(
         wrangler: wrangler,
+        environment: context.flavorContext?.flavor.name ?? "prod",
         name: "GOOGLE_SERVICE_ACCOUNT",
         value: serviceAccount,
       );

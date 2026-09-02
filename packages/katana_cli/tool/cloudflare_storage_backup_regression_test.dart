@@ -5,18 +5,25 @@ import "package:katana_cli/action/cloudflare/tidb_data_service_api.dart";
 import "package:katana_cli/katana.dart";
 import "package:katana_cli/katana_cli.dart";
 
-Future<void> main() async {
+Future<void> main(List<String> arguments) async {
+  await _testStorageManagedState();
+  if (arguments.contains("--storage-managed-state-only")) {
+    stdout.writeln("All Cloudflare Storage managed state checks passed.");
+    return;
+  }
   await _testTidbEndpointOwnership();
   await _testTidbOwnershipPersistenceOrder();
   await _testWranglerResponseHandling();
+  await _testSharedBackupQueueConsumerOwnership();
 
   final template = katanaYamlCode(true);
-  _expectCount(template, "    backup:", 0);
+  _expectCount(template, "    backup:", 1);
+  _expectCount(template, "      consumer_flavor:", 1);
   _expectCount(template, "      binding: R2_BACKUP_BUCKET", 0);
   _expectCount(template, "      max_concurrency:", 0);
   _expectCount(template, "      max_batch_size: 10", 0);
   _expectCount(template, "      dead_letter_queue:", 0);
-  _expectCount(template, "    bucket_name:", 1);
+  _expectCount(template, "    bucket_name:", 2);
   _expectCount(template, "    public_base_url:", 1);
 
   final originalDirectory = Directory.current;
@@ -26,6 +33,7 @@ Future<void> main() async {
   try {
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
+    await File("cloudflare/.gitignore").writeAsString("node_modules\n");
     await File("cloudflare/src/index.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 
@@ -125,7 +133,22 @@ exit 0
     );
     const action = CloudflareStorageCliAction();
     await action.exec(context);
+    final firstStorageState =
+        await File(storageManagedStatePath).readAsString();
     await action.exec(context);
+
+    final secondStorageState =
+        await File(storageManagedStatePath).readAsString();
+    _expect(
+      firstStorageState == secondStorageState &&
+          firstStorageState.contains("download_url_secret:"),
+      "the generated download URL secret must be reused from storage.yaml",
+    );
+    final ignored = await File("cloudflare/.gitignore").readAsLines();
+    _expect(
+      ignored.where((line) => line == "storage.yaml").length == 1,
+      "storage.yaml must be ignored exactly once",
+    );
 
     final notificationCreates = await File(
       "${wrangler.path}.notification-create-count",
@@ -166,6 +189,285 @@ exit 0
     _expectCount(wranglerSource, '"binding": "EXTRA_QUEUE"', 1);
     _expectCount(wranglerSource, '"queue": "my-app-storage-backup"', 1);
     _expectCount(wranglerSource, '"max_concurrency": 1', 1);
+  } finally {
+    Directory.current = originalDirectory;
+    await temporary.delete(recursive: true);
+  }
+}
+
+Future<void> _testSharedBackupQueueConsumerOwnership() async {
+  final originalDirectory = Directory.current;
+  final temporary = await Directory.systemTemp.createTemp(
+    "katana_cloudflare_shared_backup_queue_",
+  );
+  try {
+    Directory.current = temporary;
+    await Directory("cloudflare/src").create(recursive: true);
+    await File("cloudflare/.gitignore").writeAsString("node_modules\n");
+    await File("cloudflare/src/index.ts").writeAsString("""
+import * as m from "@mathrunet/masamune_cloudflare";
+
+export default m.deploy([
+]);
+""");
+    await File("cloudflare/wrangler.jsonc").writeAsString("""
+{
+  "name": "shared-backup-worker",
+  "main": "src/index.ts",
+  "queues": {
+    "producers": [
+      {
+        "binding": "UNRELATED_QUEUE",
+        "queue": "unrelated-queue"
+      }
+    ]
+  }
+}
+""");
+    await File("pubspec.yaml").writeAsString("""
+name: test_app
+dependencies:
+  masamune_storage_cloudflare: any
+""");
+    final npm = File("${temporary.path}/fake-npm.sh");
+    await npm.writeAsString("""
+#!/bin/sh
+exit 0
+""");
+    final wrangler = File("${temporary.path}/fake-wrangler.sh");
+    await wrangler.writeAsString(r"""
+#!/bin/sh
+if [ "$1" = "queues" ] && [ "$2" = "create" ]; then
+  exit 0
+fi
+if [ "$1" = "r2" ] && [ "$2" = "bucket" ] && [ "$3" = "notification" ] && [ "$4" = "list" ]; then
+  echo "rule_id: rule-1"
+  echo "queue_name: shared-backup-queue"
+  echo "event_type: PutObject, CompleteMultipartUpload, CopyObject"
+  exit 0
+fi
+exit 0
+""");
+    await Process.run("chmod", ["+x", npm.path, wrangler.path]);
+
+    final sourceYaml = <dynamic, dynamic>{
+      "bin": {
+        "npm": npm.path,
+        "wrangler": wrangler.path,
+      },
+      "cloudflare": {
+        "project_id": {
+          "dev": "shared-backup-worker-dev",
+          "prod": "shared-backup-worker",
+        },
+        "storage": {
+          "enable": true,
+          "binding": "R2_BUCKET",
+          "bucket_name": "shared-bucket",
+          "public_base_url": "https://assets.example.com",
+          "backup": {
+            "enable": true,
+            "binding": "R2_BACKUP_BUCKET",
+            "bucket_name": "shared-backup-bucket",
+            "queue_name": "shared-backup-queue",
+            "consumer_flavor": "prod",
+          },
+        },
+      },
+    };
+    const action = CloudflareStorageCliAction();
+    Future<void> applyFlavors(List<String> flavors) async {
+      for (final flavor in flavors) {
+        final flavorContext = FlavorContext.resolve(
+          yaml: sourceYaml,
+          secrets: const {},
+          arguments: ["--flavor", flavor],
+        );
+        await action.exec(
+          ExecContext(
+            yaml: flavorContext.yaml,
+            secrets: flavorContext.secrets,
+            args: ["--flavor", flavor],
+            flavorContext: flavorContext,
+          ),
+        );
+      }
+    }
+
+    await applyFlavors(["dev", "prod", "dev"]);
+
+    var generated = await File("cloudflare/wrangler.jsonc").readAsString();
+    _expectCount(generated, '"queue": "shared-backup-queue"', 1);
+    _expectCount(generated, '"binding": "UNRELATED_QUEUE"', 1);
+    _expectCount(generated, '"name": "shared-backup-worker-dev"', 1);
+    _expectCount(generated, '"name": "shared-backup-worker"', 2);
+    final devStart = generated.indexOf('"dev"');
+    final prodStart = generated.indexOf('"prod"', devStart + 1);
+    _expect(
+      devStart >= 0 &&
+          prodStart > devStart &&
+          !generated
+              .substring(devStart, prodStart)
+              .contains('"queue": "shared-backup-queue"'),
+      "the non-owner dev environment must not declare the shared consumer",
+    );
+    _expect(
+      prodStart >= 0 &&
+          generated
+              .substring(prodStart)
+              .contains('"queue": "shared-backup-queue"'),
+      "the configured prod environment must own the shared consumer",
+    );
+
+    final backup =
+        ((sourceYaml["cloudflare"] as Map)["storage"] as Map)["backup"] as Map;
+    backup["consumer_flavor"] = "dev";
+    await applyFlavors(["prod", "dev", "prod"]);
+    generated = await File("cloudflare/wrangler.jsonc").readAsString();
+    _expectCount(generated, '"queue": "shared-backup-queue"', 1);
+    final explicitDevStart = generated.indexOf('"dev"');
+    final explicitProdStart = generated.indexOf(
+      '"prod"',
+      explicitDevStart + 1,
+    );
+    _expect(
+      generated
+              .substring(explicitDevStart, explicitProdStart)
+              .contains('"queue": "shared-backup-queue"') &&
+          !generated
+              .substring(explicitProdStart)
+              .contains('"queue": "shared-backup-queue"'),
+      "consumer_flavor dev must move the declaration to the dev environment",
+    );
+
+    backup.remove("consumer_flavor");
+    await applyFlavors(["dev", "prod", "dev"]);
+    generated = await File("cloudflare/wrangler.jsonc").readAsString();
+    _expectCount(generated, '"queue": "shared-backup-queue"', 1);
+    final defaultDevStart = generated.indexOf('"dev"');
+    final defaultProdStart = generated.indexOf('"prod"', defaultDevStart + 1);
+    _expect(
+      !generated
+              .substring(defaultDevStart, defaultProdStart)
+              .contains('"queue": "shared-backup-queue"') &&
+          generated
+              .substring(defaultProdStart)
+              .contains('"queue": "shared-backup-queue"'),
+      "prod must own a shared Queue by default when Workers differ",
+    );
+
+    backup["queue_name"] = {
+      "dev": "shared-backup-queue-dev",
+      "prod": "shared-backup-queue-prod",
+    };
+    await File("cloudflare/wrangler.jsonc").writeAsString("""
+{
+  "name": "shared-backup-worker",
+  "main": "src/index.ts",
+  "queues": {
+    "producers": [
+      {
+        "binding": "UNRELATED_QUEUE",
+        "queue": "unrelated-queue"
+      }
+    ]
+  }
+}
+""");
+    await applyFlavors(["prod", "dev", "prod"]);
+    generated = await File("cloudflare/wrangler.jsonc").readAsString();
+    _expectCount(generated, '"queue": "shared-backup-queue-dev"', 1);
+    _expectCount(generated, '"queue": "shared-backup-queue-prod"', 1);
+    _expectCount(generated, '"binding": "UNRELATED_QUEUE"', 1);
+  } finally {
+    Directory.current = originalDirectory;
+    await temporary.delete(recursive: true);
+  }
+}
+
+Future<void> _testStorageManagedState() async {
+  final originalDirectory = Directory.current;
+  final temporary = await Directory.systemTemp.createTemp(
+    "katana_cloudflare_storage_managed_state_",
+  );
+  try {
+    Directory.current = temporary;
+    await Directory("cloudflare").create();
+    await File("cloudflare/.gitignore").writeAsString("node_modules\n");
+    final secrets = <String, dynamic>{
+      "cloudflare": {
+        "storage": {"download_url_secret": "legacy-secret"},
+      },
+    };
+
+    final migrated = await loadAndMigrateStorageManagedState(secrets);
+    _expect(migrated.secretsChanged, "legacy secret must be migrated");
+    _expect(migrated.stateChanged, "new managed state must be persisted");
+    _expect(
+      migrated.downloadUrlSecret == "legacy-secret",
+      "legacy secret must be preserved during migration",
+    );
+    _expect(
+      !((secrets["cloudflare"] as Map)["storage"] as Map)
+          .containsKey("download_url_secret"),
+      "legacy secret must be removed from katana_secrets.yaml",
+    );
+    await saveStorageManagedState(migrated.state);
+    await ensureStorageManagedStateIsGitIgnored();
+    await ensureStorageManagedStateIsGitIgnored();
+
+    final reloaded = await loadAndMigrateStorageManagedState(secrets);
+    _expect(
+      !reloaded.secretsChanged &&
+          !reloaded.stateChanged &&
+          reloaded.downloadUrlSecret == "legacy-secret",
+      "stored secret must be reused without rewriting managed state",
+    );
+    final ignored = await File("cloudflare/.gitignore").readAsLines();
+    _expect(
+      ignored.where((line) => line == "storage.yaml").length == 1,
+      "storage.yaml must be ignored exactly once",
+    );
+
+    final conflictingSecrets = <String, dynamic>{
+      "cloudflare": {
+        "storage": {"download_url_secret": "different-secret"},
+      },
+    };
+    var conflictRejected = false;
+    try {
+      await loadAndMigrateStorageManagedState(conflictingSecrets);
+    } on StateError catch (exception) {
+      _expect(
+        exception.message.toString().contains("differs"),
+        "managed state conflict must explain the mismatch",
+      );
+      conflictRejected = true;
+    }
+    _expect(
+      conflictRejected,
+      "conflicting Storage managed state must be rejected",
+    );
+
+    await File(storageManagedStatePath).delete();
+    final generated = await loadAndMigrateStorageManagedState(
+      <String, dynamic>{},
+      generateSecret: () => "generated-secret",
+    );
+    _expect(
+      generated.downloadUrlSecret == "generated-secret",
+      "missing download URL secret must be generated",
+    );
+    await saveStorageManagedState(generated.state);
+    final generatedReloaded = await loadAndMigrateStorageManagedState(
+      <String, dynamic>{},
+      generateSecret: () => "unexpected-replacement",
+    );
+    _expect(
+      generatedReloaded.downloadUrlSecret == "generated-secret" &&
+          !generatedReloaded.stateChanged,
+      "generated download URL secret must be stable across apply runs",
+    );
   } finally {
     Directory.current = originalDirectory;
     await temporary.delete(recursive: true);
@@ -354,6 +656,7 @@ Future<_WranglerScenarioResult> _runWranglerScenario({
   try {
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
+    await File("cloudflare/.gitignore").writeAsString("node_modules\n");
     await File("cloudflare/src/index.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 

@@ -38,6 +38,10 @@ class _FirebaseDeployPostAction extends PostAction {
     }
     final bin = context.yaml.getAsMap("bin");
     final firebaseCommand = bin.get("firebase", "firebase");
+    final projectId = context.yaml.getAsMap("firebase").get("project_id", "");
+    if (projectId.isEmpty) {
+      throw StateError("firebase.project_id is required for deployment.");
+    }
     await command(
       "Deploy firebase products.",
       [
@@ -45,6 +49,8 @@ class _FirebaseDeployPostAction extends PostAction {
         "deploy",
         "--only",
         types.map((e) => e.name).join(","),
+        "--project",
+        projectId,
       ],
       workingDirectory: "firebase",
     );

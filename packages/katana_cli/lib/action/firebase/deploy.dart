@@ -52,13 +52,7 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
     final enableFirestore = firestore.get("enable", false);
     final firestorePrimaryRemoteIndex =
         firestore.get("primary_remote_index", false);
-    // Cloudflare Workersが有効な場合はFunctionsのデプロイ先をCloudflareに優先する。
-    final cloudflare = context.yaml.getAsMap("cloudflare");
-    final enableCloudflareWorkers =
-        cloudflare.getAsMap("workers").get("enable", false);
-    final enableFunctions =
-        firebase.getAsMap("functions").get("enable", false) &&
-            !enableCloudflareWorkers;
+    final enableFunctions = firebase.getAsMap("functions").get("enable", false);
     final enableDataConnect =
         firebase.getAsMap("dataconnect").get("enable", false);
     if (projectId.isEmpty) {
@@ -67,6 +61,11 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    // ignore: avoid_print
+    print(
+      "Firebase deploy target: "
+      "${context.flavorContext?.flavor.name ?? "prod"} ($projectId)",
+    );
     label("Check firebase directory");
     final firebaseDir = Directory("firebase");
     if (!firebaseDir.existsSync()) {
@@ -85,6 +84,8 @@ class FirebaseDeployCliAction extends CliCommand with CliActionMixin {
           [
             firebaseCommand,
             "firestore:indexes",
+            "--project",
+            projectId,
           ],
           workingDirectory: firebaseDir.path,
         );

@@ -1,3 +1,6 @@
+// Dart imports:
+import "dart:io";
+
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
 
@@ -28,11 +31,30 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final wrangler = bin.get("wrangler", "wrangler");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
+    final projectId = context.yaml.getAsMap("cloudflare").get("project_id", "");
+    // ignore: avoid_print
+    print("Cloudflare deploy target: $flavor ($projectId)");
+    final existing = await Process.run(
+      wrangler,
+      ["deployments", "list", "--json", "--env", flavor],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    if (existing.exitCode != 0) {
+      error(
+        "Cloudflare Worker `$projectId` does not exist or is not accessible. "
+        "Katana will not create it automatically.",
+      );
+      return;
+    }
     await command(
       "Run cloudflare deploy",
       [
         wrangler,
         "deploy",
+        "--env",
+        flavor,
       ],
       workingDirectory: "cloudflare",
     );

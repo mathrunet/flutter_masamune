@@ -557,19 +557,6 @@ jobs:
           echo -n "\$IOS_API_AUTHKEY_P8" | base64 --decode --output `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
         timeout-minutes: 3
 
-      # Copy dart_defines/prod.env to DartDefine.xcconfig if exists.
-      # dart_defines/prod.envファイルが存在する場合、DartDefine.xcconfigにコピー。
-      - name: Copy dart_defines/prod.env to DartDefine.xcconfig
-        run: |
-          if [ -f "dart_defines/prod.env" ]; then
-            echo "Copying dart_defines/prod.env to ios/Flutter/DartDefine.xcconfig"
-            cp dart_defines/prod.env ios/Flutter/DartDefine.xcconfig
-            echo "DartDefine.xcconfig has been updated with prod.env contents"
-          else
-            echo "dart_defines/prod.env not found, skipping copy"
-          fi
-        timeout-minutes: 3
-
       # Flutter build.
       # Flutterのビルド。
       - name: Run flutter build

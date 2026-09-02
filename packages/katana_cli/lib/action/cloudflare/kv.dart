@@ -2,6 +2,7 @@
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process for KV.
@@ -26,6 +27,7 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final cloudflare = context.yaml.getAsMap("cloudflare");
@@ -76,21 +78,25 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
     }
     await indexFile.writeAsString(updated);
     label("Add Cloudflare KV namespace binding");
-    await wranglerFile.writeAsString(_updateWranglerKvNamespace(
-      await wranglerFile.readAsString(),
-      binding: binding,
-      namespaceId: namespaceId,
-      previewId: previewId,
-    ));
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
-        "@mathrunet/masamune_cloudflare_kv",
-      ],
-      workingDirectory: "cloudflare",
-      runInShell: true,
+    await wranglerFile.writeAsString(
+      WranglerEnvironmentSynchronizer.transformEnvironment(
+        WranglerEnvironmentSynchronizer.ensureEnvironment(
+          await wranglerFile.readAsString(),
+          flavor: flavor,
+          workerName: cloudflare.get("project_id", ""),
+        ),
+        flavor: flavor,
+        transform: (environment) => _updateWranglerKvNamespace(
+          environment,
+          binding: binding,
+          namespaceId: namespaceId,
+          previewId: previewId,
+        ),
+      ),
+    );
+    await installMissingCloudflarePackages(
+      npm: npm,
+      packages: const ["@mathrunet/masamune_cloudflare_kv"],
     );
     await addFlutterImport(
       [

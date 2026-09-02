@@ -425,7 +425,7 @@ enum AndroidManifestPermissionType {
   /// Permissions for billing.
   ///
   /// 課金用のパーミッション。
-  billing("BILLING"),
+  billing("com.android.vending.BILLING"),
 
   /// Permissions for alarm scheduling.
   ///
@@ -446,6 +446,11 @@ enum AndroidManifestPermissionType {
   ///
   /// パーミッションのID。
   final String id;
+
+  /// Fully qualified permission name written to AndroidManifest.xml.
+  ///
+  /// AndroidManifest.xmlへ書き込む完全修飾パーミッション名。
+  String get permissionName => id.contains(".") ? id : "android.permission.$id";
 
   /// Maximum SDK version to be applied.
   ///
@@ -474,7 +479,7 @@ enum AndroidManifestPermissionType {
         p0.name.toString() == "uses-permission" &&
         p0.attributes.any((p1) =>
             p1.name.toString() == "android:name" &&
-            p1.value == "android.permission.$id"))) {
+            p1.value == permissionName))) {
       switch (this) {
         case AndroidManifestPermissionType.readPrivilegedPhoneState:
           manifest.first.children.add(
@@ -483,7 +488,7 @@ enum AndroidManifestPermissionType {
               [
                 XmlAttribute(
                   XmlName("android:name"),
-                  "android.permission.$id",
+                  permissionName,
                 ),
                 XmlAttribute(
                   XmlName("tools:ignore"),
@@ -506,7 +511,7 @@ enum AndroidManifestPermissionType {
               [
                 XmlAttribute(
                   XmlName("android:name"),
-                  "android.permission.$id",
+                  permissionName,
                 ),
                 if (maxSdkVersion.isNotEmpty)
                   XmlAttribute(

@@ -240,6 +240,8 @@ cloudflare:
   # Set the Cloudflare project ID.
   # CloudflareのプロジェクトIDを設定します。
   project_id:
+    dev:
+    prod:
 
   # Enable Cloudflare Workers.
   # To use Firebase Authentication with Workers, please set `[enable_firebase_auth]` to `true`.
@@ -268,7 +270,6 @@ cloudflare:
     # `katana_secrets.yaml`に空でない値がある場合は、そちらを優先します。
     delete_user:
       enable: false
-      service_account:
 
   # Enable Cloudflare Pages.
   # Cloudflare Pagesを有効にします。
@@ -293,6 +294,8 @@ cloudflare:
     enable: false
     organization:
     group:
+      dev:
+      prod:
 
   # Enable TiDB Data Service via Workers and specify its project and cluster.
   # Store the Management API public/private keys in `katana_secrets.yaml`.
@@ -302,6 +305,8 @@ cloudflare:
     enable: false
     project_id:
     cluster_id:
+      dev:
+      prod:
 
   # If you want to use Cloudflare KV via Workers, set [enable] to `true`.
   # Specify the KV binding name in [binding] and the KV namespace ID in [namespace_id].
@@ -311,6 +316,8 @@ cloudflare:
     enable: false
     binding: CLOUDFLARE_KV
     namespace_id:
+      dev:
+      prod:
 
   # If you want to use Cloudflare R2 Storage via Workers, set [enable] to `true`.
   # Specify the R2 bucket name and public R2/custom domain.
@@ -322,6 +329,14 @@ cloudflare:
     enable: false
     bucket_name:
     public_base_url:
+    backup:
+      enable: false
+      bucket_name:
+      # Select the only Worker environment that consumes a shared backup Queue.
+      # Leave empty to use prod when dev/prod Workers share the same Queue.
+      # 共有バックアップQueueを消費する唯一のWorker環境を指定します。
+      # 空の場合、dev/prodのWorkerが同じQueueを共有するとprodが選択されます。
+      consumer_flavor: prod
 
   # Enable Firebase Messaging via Workers.
   # Specify ChannelNotificationId for Android in [channel_id].
@@ -363,6 +378,8 @@ firebase:
   # Set the Firebase project ID.
   # FirebaseのプロジェクトIDを設定します。
   project_id:
+    dev:
+    prod:
 
   # Enable Firebase Firestore.
   # Set [generate_rules_and_indexes] to `true` to automatically generate Firestore security rules and indexes.
@@ -374,6 +391,7 @@ firebase:
   # [database]にはFirestoreのデータベース名を指定します。複数指定可能です。
   firestore:
     enable: false
+    location_id: "nam5"
     generate_rules_and_indexes: false
     primary_remote_index: false
     database:
@@ -1021,6 +1039,7 @@ cloudflare:
 
   tidb:
     # Organization Management API key used only by `katana apply`.
+    # `katana apply`でのみ利用されるOrganization Management APIキー。
     management_api:
       public_key:
       private_key:
@@ -1049,4 +1068,9 @@ github:
     #    https://w1625424953-rox450381.slack.com/apps/A0F7XDUAZ--incoming-webhook-?tab=more_info
     # 
     incoming_webhook_url: 
+
+# Describe OpenAI secret information.
+# OpenAIのシークレット情報を記述します。
+openai:
+  api_key:
 """;
