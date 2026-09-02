@@ -641,11 +641,11 @@ class TursoModelAdapter extends ModelAdapter {
   ///
   /// Tursoを利用できるようにしたモデルアダプター。
   const TursoModelAdapter({
+    required String? prefix,
     super.defaultAutoDisposeWhenUnreferenced,
     this.useDirectClient = true,
     this.directClientSession,
     FunctionsAdapter? functionsAdapter,
-    String? prefix,
     this.tokenTtlSeconds = 3600,
     this.retryDelays = _tursoRetryDelays,
     NoSqlDatabase? cachedRuntimeDatabase,

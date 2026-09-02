@@ -115,6 +115,7 @@ void main() {
       () async {
     final functionsAdapter = _RecordingFunctionsAdapter();
     final adapter = TursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
     );
@@ -149,6 +150,7 @@ void main() {
       tokenError: Exception("Failed to post: 500"),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       retryDelays: const [],
     );
@@ -184,6 +186,7 @@ void main() {
       clientFactory: (_) async => throw Exception(_dnsPanicMessage),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
       retryDelays: const [],
@@ -211,6 +214,7 @@ void main() {
       clientFactory: (_) async => throw Exception(_dnsPanicMessage),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
       retryDelays: const [],
@@ -237,6 +241,7 @@ void main() {
       clientFactory: (_) async => throw StateError("permission denied"),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
       retryDelays: const [],
@@ -287,6 +292,7 @@ void main() {
       },
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
     );
@@ -362,6 +368,7 @@ void main() {
       clientFactory: (_) async => _TestLibsqlClient(onSync: () => syncCount++),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
     );
@@ -434,6 +441,7 @@ void main() {
       ),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
       retryDelays: const [Duration.zero],
@@ -489,6 +497,7 @@ void main() {
       ),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
     );
@@ -533,6 +542,7 @@ void main() {
       ),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
     );
@@ -559,6 +569,7 @@ void main() {
       clientFactory: (_) async => _TestLibsqlClient(),
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       directClientSession: session,
     );
@@ -590,6 +601,7 @@ void main() {
       ],
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
     );
@@ -628,6 +640,7 @@ void main() {
       prefix: "dev",
     );
     final prod = TursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: prodFunctions,
       cachedRuntimeDatabase: cache,
@@ -662,6 +675,7 @@ void main() {
       },
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -725,6 +739,7 @@ void main() {
       },
     );
     final adapter = TursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -855,6 +870,7 @@ void main() {
       ],
     );
     final firstAdapter = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: firstFunctions,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -873,6 +889,7 @@ void main() {
       ],
     );
     final secondAdapter = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: secondFunctions,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -908,6 +925,7 @@ void main() {
       ],
     );
     final adapter = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -944,6 +962,7 @@ void main() {
     });
     final functionsAdapter = _RecordingFunctionsAdapter();
     final adapter = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -964,6 +983,7 @@ void main() {
   test("CachedTursoModelAdapter applies cacheFilter.", () async {
     final localDatabase = NoSqlDatabase();
     final adapter = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: _RecordingFunctionsAdapter(
         responseData: const [
@@ -1001,6 +1021,7 @@ void main() {
       cachedLocalDatabase: localDatabase,
     );
     final prod = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: _RecordingFunctionsAdapter(
         responseData: const [
@@ -1024,6 +1045,7 @@ void main() {
       cachedLocalDatabase: localDatabase,
     );
     final cachedProd = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: cachedProdFunctions,
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -1040,6 +1062,7 @@ void main() {
       () async {
     final localDatabase = NoSqlDatabase();
     final adapter = CachedTursoModelAdapter(
+      prefix: null,
       useDirectClient: false,
       functionsAdapter: _RecordingFunctionsAdapter(),
       cachedRuntimeDatabase: NoSqlDatabase(),

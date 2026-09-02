@@ -14,6 +14,7 @@ import "package:masamune_model_tidb/masamune_model_tidb.dart";
 void main() {
   test("ModelQueryBase uses the resolved adapter auto-dispose default.", () {
     const adapter = TidbModelAdapter(
+      prefix: null,
       defaultAutoDisposeWhenUnreferenced: true,
     );
     const query = _TestModelQuery(
@@ -148,6 +149,7 @@ void main() {
       () async {
     final functionsAdapter = _RecordingFunctionsAdapter();
     final adapter = TidbModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
     );
     const query = ModelAdapterDocumentQuery(
@@ -189,6 +191,7 @@ void main() {
       ],
     );
     final adapter = TidbModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
     );
     const documentQuery = ModelAdapterDocumentQuery(
@@ -227,6 +230,7 @@ void main() {
       prefix: "dev",
     );
     final prod = TidbModelAdapter(
+      prefix: null,
       functionsAdapter: prodFunctions,
       cachedRuntimeDatabase: cache,
     );
@@ -260,6 +264,7 @@ void main() {
       },
     );
     final adapter = TidbModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
     );
@@ -322,6 +327,7 @@ void main() {
       },
     );
     final adapter = TidbModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
     );
@@ -372,6 +378,7 @@ void main() {
       ],
     );
     final firstAdapter = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: firstFunctions,
       cachedRuntimeDatabase: NoSqlDatabase(),
       cachedLocalDatabase: localDatabase,
@@ -389,6 +396,7 @@ void main() {
       ],
     );
     final secondAdapter = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: secondFunctions,
       cachedRuntimeDatabase: NoSqlDatabase(),
       cachedLocalDatabase: localDatabase,
@@ -423,6 +431,7 @@ void main() {
       ],
     );
     final adapter = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
       cachedLocalDatabase: localDatabase,
@@ -458,6 +467,7 @@ void main() {
     });
     final functionsAdapter = _RecordingFunctionsAdapter();
     final adapter = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: functionsAdapter,
       cachedRuntimeDatabase: NoSqlDatabase(),
       cachedLocalDatabase: localDatabase,
@@ -477,6 +487,7 @@ void main() {
   test("CachedTidbModelAdapter applies cacheFilter.", () async {
     final localDatabase = NoSqlDatabase();
     final adapter = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: _RecordingFunctionsAdapter(
         responseData: const [
           {"id": "user_1", "name": "Alice", "private": true},
@@ -511,6 +522,7 @@ void main() {
       cachedLocalDatabase: localDatabase,
     );
     final prod = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: _RecordingFunctionsAdapter(
         responseData: const [
           {"id": "user_1", "name": "Production"},
@@ -532,6 +544,7 @@ void main() {
       cachedLocalDatabase: localDatabase,
     );
     final cachedProd = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: cachedProdFunctions,
       cachedRuntimeDatabase: NoSqlDatabase(),
       cachedLocalDatabase: localDatabase,
@@ -547,6 +560,7 @@ void main() {
       () async {
     final localDatabase = NoSqlDatabase();
     final adapter = CachedTidbModelAdapter(
+      prefix: null,
       functionsAdapter: _RecordingFunctionsAdapter(),
       cachedRuntimeDatabase: NoSqlDatabase(),
       cachedLocalDatabase: localDatabase,

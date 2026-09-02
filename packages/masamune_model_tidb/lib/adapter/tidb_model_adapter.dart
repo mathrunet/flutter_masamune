@@ -12,9 +12,9 @@ class TidbModelAdapter extends ModelAdapter {
   ///
   /// TiDBを利用できるようにしたモデルアダプター。
   const TidbModelAdapter({
+    required String? prefix,
     super.defaultAutoDisposeWhenUnreferenced,
     FunctionsAdapter? functionsAdapter,
-    String? prefix,
     NoSqlDatabase? cachedRuntimeDatabase,
   })  : _functionsAdapter = functionsAdapter,
         _prefix = prefix,

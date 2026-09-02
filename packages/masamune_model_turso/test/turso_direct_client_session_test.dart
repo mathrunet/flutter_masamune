@@ -106,6 +106,7 @@ const _documentLoadScopes = [
 
 TursoModelAdapter _adapter(TursoDirectClientSession session) {
   return TursoModelAdapter(
+    prefix: null,
     functionsAdapter: const _FakeFunctionsAdapter(),
     directClientSession: session,
   );

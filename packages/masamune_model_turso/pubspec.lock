@@ -453,7 +453,7 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "3.3.0"
+    version: "3.4.1"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
@@ -467,7 +467,7 @@ packages:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "3.3.2"
+    version: "3.3.4"
   leak_tracker:
     dependency: transitive
     description:
@@ -522,7 +522,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "3.5.17"
+    version: "3.5.19"
   masamune_annotation:
     dependency: "direct overridden"
     description:

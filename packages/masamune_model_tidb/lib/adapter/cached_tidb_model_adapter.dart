@@ -18,9 +18,9 @@ class CachedTidbModelAdapter extends TidbModelAdapter {
   ///
   /// 永続ローカルキャッシュを持つTiDBモデルアダプターを作成します。
   const CachedTidbModelAdapter({
+    required super.prefix,
     super.defaultAutoDisposeWhenUnreferenced,
     super.functionsAdapter,
-    super.prefix,
     super.cachedRuntimeDatabase,
     NoSqlDatabase? cachedLocalDatabase,
     this.collectionLoaders = const [],
