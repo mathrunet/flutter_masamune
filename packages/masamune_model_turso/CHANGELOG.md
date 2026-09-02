@@ -1,3 +1,7 @@
+## 3.7.8
+
+ - **FIX**(masamune_model_tidb,masamune_model_turso): update dependency versions and refactor adapter constructors. ([1643cd70](https://github.com/mathrunet/flutter_masamune/commit/1643cd7091c81e1f3c37965e72148af0590cff6a))
+
 ## 3.7.7
 
  - **FIX**(tidb): migrate to Data Service model and enhance state management. ([773aa5a5](https://github.com/mathrunet/flutter_masamune/commit/773aa5a57efbae84718c95cfefc163b10f07a413))

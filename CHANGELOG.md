@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.25.0`](#katana_cli---v3250)
+ - [`masamune_ai` - `v3.3.0`](#masamune_ai---v330)
+ - [`masamune_ai_debugger` - `v3.5.0`](#masamune_ai_debugger---v350)
+ - [`masamune_model_tidb` - `v3.5.10`](#masamune_model_tidb---v3510)
+ - [`masamune_model_turso` - `v3.7.8`](#masamune_model_turso---v378)
+ - [`masamune_ai_openai` - `v3.3.20`](#masamune_ai_openai---v3320)
+ - [`masamune_ai_firebase` - `v3.2.20`](#masamune_ai_firebase---v3220)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_ai_openai` - `v3.3.20`
+ - `masamune_ai_firebase` - `v3.2.20`
+
+---
+
+#### `katana_cli` - `v3.25.0`
+
+ - **FEAT**(katana_cli): introduce environment-specific configurations and enhance flavor management. ([bad7c5d7](https://github.com/mathrunet/flutter_masamune/commit/bad7c5d7f25362f1363a70efb3bc280e3415a9fb))
+
+#### `masamune_ai` - `v3.3.0`
+
+ - **FEAT**(masamune_ai_debugger): add debug authentication and purchase controls. ([e200523e](https://github.com/mathrunet/flutter_masamune/commit/e200523e6dd33d6f06d3d56769d111a9b13ae181))
+
+#### `masamune_ai_debugger` - `v3.5.0`
+
+ - **FEAT**(masamune_ai_debugger): add debug authentication and purchase controls. ([e200523e](https://github.com/mathrunet/flutter_masamune/commit/e200523e6dd33d6f06d3d56769d111a9b13ae181))
+
+#### `masamune_model_tidb` - `v3.5.10`
+
+ - **FIX**(masamune_model_tidb,masamune_model_turso): update dependency versions and refactor adapter constructors. ([1643cd70](https://github.com/mathrunet/flutter_masamune/commit/1643cd7091c81e1f3c37965e72148af0590cff6a))
+
+#### `masamune_model_turso` - `v3.7.8`
+
+ - **FIX**(masamune_model_tidb,masamune_model_turso): update dependency versions and refactor adapter constructors. ([1643cd70](https://github.com/mathrunet/flutter_masamune/commit/1643cd7091c81e1f3c37965e72148af0590cff6a))
+
+
 ## 2026-08-31
 
 ### Changes

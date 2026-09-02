@@ -1,3 +1,7 @@
+## 3.25.0
+
+ - **FEAT**(katana_cli): introduce environment-specific configurations and enhance flavor management. ([bad7c5d7](https://github.com/mathrunet/flutter_masamune/commit/bad7c5d7f25362f1363a70efb3bc280e3415a9fb))
+
 ## 3.24.1
 
  - **FIX**(tidb): migrate to Data Service model and enhance state management. ([773aa5a5](https://github.com/mathrunet/flutter_masamune/commit/773aa5a57efbae84718c95cfefc163b10f07a413))
