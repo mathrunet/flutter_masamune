@@ -2,8 +2,10 @@
 import "package:flutter/foundation.dart";
 
 // Package imports:
-import "package:masamune_purchase/masamune_purchase.dart";
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_purchase/masamune_purchase.dart";
 
 void main() {
   group("Purchase debug force state", () {
