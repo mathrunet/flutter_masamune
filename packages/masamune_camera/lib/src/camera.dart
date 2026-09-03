@@ -33,7 +33,9 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   bool get initialized => _initialized;
   bool _initialized = false;
 
-  Completer<void>? _initializeCompleter;
+  Future<void>? _initializeFuture;
+  bool _disposed = false;
+  int _initializationGeneration = 0;
 
   /// [Future] is returned during shooting.
   ///
@@ -66,28 +68,40 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   /// Initialize the camera.
   ///
   /// カメラの初期化を行います。
-  Future<void> initialize() async {
+  Future<void> initialize() {
+    if (_disposed) {
+      return Future<void>.error(
+        StateError("Camera has already been disposed."),
+      );
+    }
     if (_initialized && _controller != null) {
-      return;
+      return Future<void>.value();
     }
-    if (_initializeCompleter != null) {
-      return _initializeCompleter!.future;
+    final initializeFuture = _initializeFuture;
+    if (initializeFuture != null) {
+      return initializeFuture;
     }
-    _initializeCompleter = Completer<void>();
+    final future = _initialize().whenComplete(() {
+      _initializeFuture = null;
+    });
+    return _initializeFuture = future;
+  }
+
+  Future<void> _initialize() async {
+    final generation = _initializationGeneration;
     try {
-      _controller ??=
+      final initializedController = _controller ??
           await adapter.initialize(resolutionPreset: resolutionPreset);
+      if (_disposed || generation != _initializationGeneration) {
+        adapter.dispose(controller: initializedController);
+        throw StateError("Camera was disposed during initialization.");
+      }
+      _controller = initializedController;
       _initialized = true;
-      _initializeCompleter?.complete();
-      _initializeCompleter = null;
       notifyListeners();
-    } catch (e, stacktrace) {
+    } catch (_) {
       _initialized = false;
-      _initializeCompleter?.completeError(e, stacktrace);
-      _initializeCompleter = null;
-    } finally {
-      _initializeCompleter?.complete();
-      _initializeCompleter = null;
+      rethrow;
     }
   }
 
@@ -297,6 +311,9 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
 
   @override
   void dispose() {
+    _disposed = true;
+    _initializationGeneration++;
+    _initialized = false;
     if (_controller == null) {
       super.dispose();
       return;

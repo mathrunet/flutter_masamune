@@ -1,3 +1,11 @@
+## 3.3.21
+
+ - **FIX**: Dispose delayed camera initialization results after the camera has been disposed.
+
+## 3.3.20
+
+ - **FIX**: Propagate camera initialization errors and share concurrent initialization.
+
 ## 3.3.19
 
  - Update a dependency to the latest release.
@@ -496,4 +504,3 @@
 ## 2.1.0
 
  - **FEAT**: Initial commit. ([eebf7256](https://github.com/mathrunet/flutter_masamune/commit/eebf72565a2fb2b6187b4a1d4de2735f28141585))
-
