@@ -1,3 +1,7 @@
+## 3.3.22
+
+ - **FIX**(masamune_camera): improve camera initialization and disposal handling. ([909ad31b](https://github.com/mathrunet/flutter_masamune/commit/909ad31b6dce4e248ac001dff5f77da7e2ca046f))
+
 ## 3.3.21
 
  - **FIX**: Dispose delayed camera initialization results after the camera has been disposed.

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_camera` - `v3.3.22`](#masamune_camera---v3322)
+
+---
+
+#### `masamune_camera` - `v3.3.22`
+
+ - **FIX**(masamune_camera): improve camera initialization and disposal handling. ([909ad31b](https://github.com/mathrunet/flutter_masamune/commit/909ad31b6dce4e248ac001dff5f77da7e2ca046f))
+
+
 ## 2026-09-02
 
 ### Changes
