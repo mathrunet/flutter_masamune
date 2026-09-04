@@ -1,3 +1,7 @@
+## 3.6.0
+
+ - **FEAT**(masamune_ai_debugger): add debug camera functionality. ([018523bb](https://github.com/mathrunet/flutter_masamune/commit/018523bbda4aefa53200bc26ee13a3e05687e684))
+
 ## 3.5.0
 
  - **FEAT**(masamune_ai_debugger): add debug authentication and purchase controls. ([e200523e](https://github.com/mathrunet/flutter_masamune/commit/e200523e6dd33d6f06d3d56769d111a9b13ae181))

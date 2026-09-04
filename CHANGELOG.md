@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_debugger` - `v3.6.0`](#masamune_ai_debugger---v360)
+ - [`masamune_camera` - `v3.4.0`](#masamune_camera---v340)
+
+---
+
+#### `masamune_ai_debugger` - `v3.6.0`
+
+ - **FEAT**(masamune_ai_debugger): add debug camera functionality. ([018523bb](https://github.com/mathrunet/flutter_masamune/commit/018523bbda4aefa53200bc26ee13a3e05687e684))
+
+#### `masamune_camera` - `v3.4.0`
+
+ - **FEAT**(masamune_ai_debugger): add debug camera functionality. ([018523bb](https://github.com/mathrunet/flutter_masamune/commit/018523bbda4aefa53200bc26ee13a3e05687e684))
+
+
 ## 2026-09-03
 
 ### Changes

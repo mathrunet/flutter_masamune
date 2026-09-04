@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**(masamune_ai_debugger): add debug camera functionality. ([018523bb](https://github.com/mathrunet/flutter_masamune/commit/018523bbda4aefa53200bc26ee13a3e05687e684))
+
 ## 3.3.22
 
  - **FIX**(masamune_camera): improve camera initialization and disposal handling. ([909ad31b](https://github.com/mathrunet/flutter_masamune/commit/909ad31b6dce4e248ac001dff5f77da7e2ca046f))
