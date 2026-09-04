@@ -157,6 +157,27 @@ ElevatedButton(
 
 `CameraValue` includes metadata such as `path`, `duration`, `format`, and `bytes`.
 
+### Debug Pictures
+
+Set an `ImageProvider` when you want the camera preview and every captured
+photo to use a fixed image. This works with both `MockCameraMasamuneAdapter`
+and `MobileCameraMasamuneAdapter` without accessing camera hardware.
+
+```dart
+camera.setDebugPicture(
+  const AssetImage("assets/debug_camera.jpg"),
+);
+
+// The preview and this result both use debug_camera.jpg.
+final photo = await camera.takePicture();
+
+// Return to the adapter's normal preview and capture behavior.
+camera.unsetDebugPicture();
+```
+
+The debug picture is kept in memory only and is cleared when the `Camera`
+controller is disposed or the app restarts. Video recording is not affected.
+
 ### Permissions
 
 The camera controller automatically requests permissions when needed. You can also manually request:
@@ -184,11 +205,13 @@ Use `MockCameraMasamuneAdapter` for deterministic results in tests or platforms 
 
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
-  
-  const MockCameraMasamuneAdapter(
-    mockImagePath: 'assets/test_image.jpg',  // Path to mock image
-  ),
+  const MockCameraMasamuneAdapter(),
 ];
+
+final camera = Camera(adapter: const MockCameraMasamuneAdapter());
+camera.setDebugPicture(
+  const AssetImage("assets/test_image.jpg"),
+);
 ```
 
 The mock adapter returns predefined images/videos without accessing actual hardware, making tests fast and reliable.

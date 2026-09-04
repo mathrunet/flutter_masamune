@@ -82,7 +82,7 @@ APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値�
 
 フローティングアイコンはタップするとそのまま開き、長押しすると現在画面のスクリーンショットを撮影してから開きます。
 
-## デバッグ認証・デバッグ課金
+## デバッグ認証・デバッグ課金・デバッグカメラ
 
 認証用の3コールバックをすべて指定すると、AI指示欄の上にログイン／ログアウトボタンが表示されます。
 課金用の4コールバックをすべて指定すると、同じ行に課金管理ボタンが表示されます。これらのUIと
@@ -123,6 +123,63 @@ final aiDebugger = AIDebuggerMasamuneAdapter(
 UIへ即座に反映されます。コールバック内で実際のストア購入や解約を行うのではなく、アプリのデバッグ用
 状態を切り替える実装を渡してください。
 
+### デバッグカメラ画像
+
+カメラ用の4コールバックをすべて指定すると、AI Debuggerからカメラのデバッグ画像を
+選択・解除できます。画像そのものはAI Debuggerへ渡さず、軽量な
+`AIDebugCameraPicture`のIDをアプリ側で`ImageProvider`へ変換します。
+テスト画像はFlutter assetとしてアプリへ同梱しておくと、ネットワークや端末ギャラリーに
+依存せず、Maestroから決定的に選択できます。
+
+```dart
+const debugCameraPictures = [
+  AIDebugCameraPicture(id: "receipt", label: "レシート"),
+  AIDebugCameraPicture(id: "identity_card", label: "本人確認書類"),
+];
+
+const debugCameraProviders = <String, ImageProvider>{
+  "receipt": AssetImage("assets/debug/receipt.png"),
+  "identity_card": AssetImage("assets/debug/identity_card.png"),
+};
+
+String? activeDebugCameraPictureId;
+
+final aiDebugger = AIDebuggerMasamuneAdapter(
+  cameraPictures: () => debugCameraPictures,
+  setCameraPicture: (picture) {
+    camera.setDebugPicture(debugCameraProviders[picture.id]!);
+    activeDebugCameraPictureId = picture.id;
+  },
+  unsetCameraPicture: () {
+    camera.unsetDebugPicture();
+    activeDebugCameraPictureId = null;
+  },
+  isCameraPictureSet: (picture) =>
+      activeDebugCameraPictureId == picture.id,
+);
+```
+
+画像assetはアプリの`pubspec.yaml`へ登録してください。対象の`Camera`が作り直された場合は、
+`activeDebugCameraPictureId`も同時に`null`へ戻してください。
+
+MaestroではOSの画像ピッカーを開かず、次のように固定Semanticsラベルと候補名を操作します。
+
+```yaml
+- tapOn: "AI Debuggerを開く"
+- tapOn: "AIデバッガーカメラ管理"
+- tapOn: "デバッグカメラ 画像選択"
+- tapOn: "レシート"
+- tapOn: "デバッグカメラ画像設定実行"
+# カメラを使うテストを実行
+- tapOn: "AI Debuggerを開く"
+- tapOn: "AIデバッガーカメラ管理"
+- tapOn: "カメラ画像解除 receipt"
+```
+
+`masamune_picker`を利用することもできますが、モバイルではOSのメディアピッカーが開き、
+OS・バージョンごとの要素指定や権限処理が必要になります。任意画像を手動で試す用途には適しますが、
+Maestroの標準E2Eフローには上記のassetプリセット方式を推奨します。
+
 Maestroからは次の固定Semanticsラベルを利用できます。
 
 - `AI Debuggerを開く`
@@ -135,6 +192,10 @@ Maestroからは次の固定Semanticsラベルを利用できます。
 - `デバッグ課金 商品選択`
 - `デバッグ強制課金実行`
 - `課金解除 <商品ID>`
+- `AIデバッガーカメラ管理`
+- `デバッグカメラ 画像選択`
+- `デバッグカメラ画像設定実行`
+- `カメラ画像解除 <画像ID>`
 - `AI入力へ戻る`
 
 Maestroの`pressKey`は修飾キー付きショートカットを送信できないため、フォームを直接開くショートカットは

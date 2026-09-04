@@ -52,6 +52,10 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.purchase,
     this.cancelPurchase,
     this.isPurchased,
+    this.cameraPictures,
+    this.setCameraPicture,
+    this.unsetCameraPicture,
+    this.isCameraPictureSet,
   })  : assert(
           (login == null && logout == null && isLoggedIn == null) ||
               (login != null && logout != null && isLoggedIn != null),
@@ -67,6 +71,17 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
                   cancelPurchase != null &&
                   isPurchased != null),
           "purchaseProducts, purchase, cancelPurchase, and isPurchased must be provided together.",
+        ),
+        assert(
+          (cameraPictures == null &&
+                  setCameraPicture == null &&
+                  unsetCameraPicture == null &&
+                  isCameraPictureSet == null) ||
+              (cameraPictures != null &&
+                  setCameraPicture != null &&
+                  unsetCameraPicture != null &&
+                  isCameraPictureSet != null),
+          "cameraPictures, setCameraPicture, unsetCameraPicture, and isCameraPictureSet must be provided together.",
         ),
         controller = AIDebugController(
           projectId: projectId,
@@ -184,6 +199,18 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
 
   /// Returns whether a product is currently purchased.
   final AIDebugIsPurchasedCallback? isPurchased;
+
+  /// Returns the pictures available to the debug camera UI.
+  final AIDebugCameraPicturesCallback? cameraPictures;
+
+  /// Sets a picture as the camera's debug picture.
+  final AIDebugSetCameraPictureCallback? setCameraPicture;
+
+  /// Removes the camera's current debug picture.
+  final AIDebugUnsetCameraPictureCallback? unsetCameraPicture;
+
+  /// Returns whether a picture is currently set on the camera.
+  final AIDebugIsCameraPictureSetCallback? isCameraPictureSet;
 
   /// Controller that manages AI debug runs, incidents, and requests.
   ///
@@ -455,6 +482,10 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
       purchase: purchase,
       cancelPurchase: cancelPurchase,
       isPurchased: isPurchased,
+      cameraPictures: cameraPictures,
+      setCameraPicture: setCameraPicture,
+      unsetCameraPicture: unsetCameraPicture,
+      isCameraPictureSet: isCameraPictureSet,
       child: app,
     );
   }

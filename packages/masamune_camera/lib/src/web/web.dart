@@ -2,7 +2,9 @@
 library;
 
 // Dart imports:
+import "dart:async";
 import "dart:typed_data";
+import "dart:ui" as ui;
 
 // Flutter imports:
 import "package:flutter/widgets.dart";

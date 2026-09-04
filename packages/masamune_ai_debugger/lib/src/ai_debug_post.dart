@@ -112,6 +112,37 @@ class AIDebugPurchaseProduct {
       other is AIDebugPurchaseProduct && other.id == id;
 }
 
+/// A camera picture exposed by the AI debugger's debug camera UI.
+///
+/// AIデバッガーのデバッグカメラUIに表示する画像です。
+@immutable
+class AIDebugCameraPicture {
+  /// Creates a camera picture for debug operations.
+  ///
+  /// デバッグ操作用のカメラ画像を作成します。
+  const AIDebugCameraPicture({
+    required this.id,
+    required this.label,
+  });
+
+  /// Identifier used to resolve the app's actual image provider.
+  ///
+  /// アプリ側の実際の画像プロバイダーを解決するためのID。
+  final String id;
+
+  /// Label displayed in the AI debugger UI.
+  ///
+  /// AIデバッガーUIに表示するラベル。
+  final String label;
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is AIDebugCameraPicture && other.id == id;
+}
+
 /// Signs in a debug user with an email address and password.
 typedef AIDebugLoginCallback = FutureOr<void> Function(
   String email,
@@ -141,6 +172,22 @@ typedef AIDebugCancelPurchaseCallback = FutureOr<void> Function(
 /// Returns whether the supplied product is currently purchased.
 typedef AIDebugIsPurchasedCallback = bool Function(
   AIDebugPurchaseProduct product,
+);
+
+/// Returns the pictures available to the debug camera UI.
+typedef AIDebugCameraPicturesCallback = List<AIDebugCameraPicture> Function();
+
+/// Sets the supplied picture as the camera's debug picture.
+typedef AIDebugSetCameraPictureCallback = FutureOr<void> Function(
+  AIDebugCameraPicture picture,
+);
+
+/// Removes the camera's current debug picture.
+typedef AIDebugUnsetCameraPictureCallback = FutureOr<void> Function();
+
+/// Returns whether the supplied picture is currently set on the camera.
+typedef AIDebugIsCameraPictureSetCallback = bool Function(
+  AIDebugCameraPicture picture,
 );
 
 class _AIDebugContextSanitizer {

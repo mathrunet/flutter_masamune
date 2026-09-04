@@ -27,6 +27,8 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
 
   camera.CameraController? _controller;
 
+  ImageProvider? _debugPicture;
+
   /// Whether the camera is initialized.
   ///
   /// カメラが初期化されているかどうか。
@@ -62,7 +64,45 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
   ///
   /// カメラのプレビュー用のウィジェットを出力します。
   Widget get preview {
+    final debugPicture = _debugPicture;
+    if (debugPicture != null) {
+      return Image(image: debugPicture);
+    }
     return adapter.preview(controller: _controller);
+  }
+
+  /// Sets an image to use instead of the camera preview and captured pictures.
+  ///
+  /// The image is kept only while this [Camera] is alive. Video recording is
+  /// not affected.
+  ///
+  /// カメラのプレビューおよび撮影画像の代わりに使用する画像を設定します。
+  ///
+  /// 画像はこの[Camera]が破棄されるまでの間だけ保持されます。動画撮影には
+  /// 影響しません。
+  void setDebugPicture(ImageProvider picture) {
+    if (_disposed) {
+      throw StateError("Camera has already been disposed.");
+    }
+    if (_debugPicture == picture) {
+      return;
+    }
+    _debugPicture = picture;
+    notifyListeners();
+  }
+
+  /// Removes the image set by [setDebugPicture].
+  ///
+  /// [setDebugPicture]で設定した画像を削除します。
+  void unsetDebugPicture() {
+    if (_disposed) {
+      throw StateError("Camera has already been disposed.");
+    }
+    if (_debugPicture == null) {
+      return;
+    }
+    _debugPicture = null;
+    notifyListeners();
   }
 
   /// Initialize the camera.
@@ -153,14 +193,22 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     if (_recordingCompleter != null) {
       return _recordingCompleter!.future;
     }
-    _recordingCompleter = Completer<CameraValue>();
+    _recordingCompleter = Completer<CameraValue?>();
     try {
-      final value = await _takePicture(
-        width: width,
-        height: height,
-        format: format,
-        retryCount: 0,
-      );
+      final debugPicture = _debugPicture;
+      final value = debugPicture != null
+          ? await CameraValue.fromImageProvider(
+              provider: debugPicture,
+              format: format ?? adapter.defaultImageFormat,
+              width: width,
+              height: height,
+            )
+          : await _takePicture(
+              width: width,
+              height: height,
+              format: format,
+              retryCount: 0,
+            );
       notifyListeners();
       _recordingCompleter?.complete(value);
       _recordingCompleter = null;
@@ -218,7 +266,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
       await _recordingCompleter!.future;
       return;
     }
-    _recordingCompleter = Completer<CameraValue>();
+    _recordingCompleter = Completer<CameraValue?>();
     try {
       await initialize();
       await _startVideoRecording();
@@ -314,6 +362,7 @@ class Camera extends MasamuneControllerBase<void, CameraMasamuneAdapter> {
     _disposed = true;
     _initializationGeneration++;
     _initialized = false;
+    _debugPicture = null;
     if (_controller == null) {
       super.dispose();
       return;

@@ -1,11 +1,14 @@
 // Dart imports:
 import "dart:async";
+import "dart:io";
 
 // Flutter imports:
 import "package:flutter/material.dart";
 
 // Package imports:
 import "package:camera/camera.dart" as camera_plugin;
+import "package:image/image.dart" as image;
+import "package:masamune/masamune.dart";
 import "package:permission_handler/permission_handler.dart";
 import "package:test/test.dart";
 
@@ -14,6 +17,13 @@ import "package:masamune_camera/masamune_camera.dart";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  TestPlatformInfoAdapterScope.setTestAdapter(
+    adapter: RuntimePlatformInfoAdapter(
+      platformType: PlatformType.macOS,
+      applicationId: "masamune_camera_test",
+      temporaryDirectory: Directory.systemTemp.path,
+    ),
+  );
 
   test(
     "initialize propagates a shared failure without an uncaught Zone error and can retry",
@@ -111,12 +121,86 @@ void main() {
       expect(uncaughtErrors, isEmpty);
     },
   );
+
+  group("debug picture", () {
+    final source = image.Image(width: 4, height: 3)
+      ..clear(image.ColorRgb8(255, 0, 0));
+    final provider = MemoryImage(image.encodePng(source));
+    final adapters = <String, CameraMasamuneAdapter>{
+      "mock": const MockCameraMasamuneAdapter(),
+      "mobile": const MobileCameraMasamuneAdapter(),
+    };
+
+    for (final MapEntry(key: name, value: adapter) in adapters.entries) {
+      test("replaces preview and captured image for the $name adapter",
+          () async {
+        final camera = Camera(adapter: adapter);
+        addTearDown(camera.dispose);
+
+        camera.setDebugPicture(provider);
+
+        expect(
+          camera.preview,
+          isA<Image>().having((widget) => widget.image, "image", provider),
+        );
+
+        final value = await camera.takePicture(
+          width: 2,
+          height: 2,
+          format: MediaFormat.png,
+        );
+        final captured = image.decodeImage(value!.bytes!);
+
+        expect(value.format, MediaFormat.png);
+        expect(captured, isNotNull);
+        expect(captured!.width, 2);
+        expect(captured.height, 2);
+        expect(captured.getPixel(0, 0).r, 255);
+        expect(captured.getPixel(0, 0).g, 0);
+        expect(captured.getPixel(0, 0).b, 0);
+      });
+    }
+
+    test("unset restores adapter behavior and only notifies on changes",
+        () async {
+      final adapter = _TestCameraMasamuneAdapter();
+      final camera = Camera(adapter: adapter);
+      addTearDown(camera.dispose);
+      var notificationCount = 0;
+      camera.addListener(() => notificationCount++);
+
+      camera.setDebugPicture(provider);
+      camera.setDebugPicture(provider);
+      camera.unsetDebugPicture();
+      camera.unsetDebugPicture();
+
+      expect(notificationCount, 2);
+      expect(camera.preview, isA<SizedBox>());
+      expect(adapter.previewCount, 1);
+      expect(await camera.takePicture(), isNull);
+      expect(adapter.initializeCount, 1);
+      expect(adapter.takePictureCount, 1);
+    });
+
+    test("dispose removes the debug picture", () {
+      final adapter = _TestCameraMasamuneAdapter();
+      final camera = Camera(adapter: adapter)..setDebugPicture(provider);
+
+      camera.dispose();
+
+      expect(camera.preview, isA<SizedBox>());
+      expect(adapter.previewCount, 1);
+      expect(camera.unsetDebugPicture, throwsStateError);
+    });
+  });
 }
 
 class _TestCameraMasamuneAdapter extends CameraMasamuneAdapter {
   _TestCameraMasamuneAdapter() : super(enableAudio: false);
 
   int initializeCount = 0;
+  int previewCount = 0;
+  int takePictureCount = 0;
   Completer<void>? initializeGate;
   Object? initializeError;
   camera_plugin.CameraController? _controller;
@@ -126,6 +210,7 @@ class _TestCameraMasamuneAdapter extends CameraMasamuneAdapter {
 
   @override
   Widget preview({required camera_plugin.CameraController? controller}) {
+    previewCount++;
     return const SizedBox.shrink();
   }
 
@@ -171,6 +256,7 @@ class _TestCameraMasamuneAdapter extends CameraMasamuneAdapter {
     int? height,
     MediaFormat? format,
   }) async {
+    takePictureCount++;
     return null;
   }
 

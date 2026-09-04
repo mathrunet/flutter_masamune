@@ -9,6 +9,7 @@ enum _AIDebugPanelView {
   prompt,
   login,
   purchase,
+  camera,
 }
 
 class _AIDebugOverlay extends StatefulWidget {
@@ -22,6 +23,10 @@ class _AIDebugOverlay extends StatefulWidget {
     required this.purchase,
     required this.cancelPurchase,
     required this.isPurchased,
+    required this.cameraPictures,
+    required this.setCameraPicture,
+    required this.unsetCameraPicture,
+    required this.isCameraPictureSet,
     required this.child,
   });
 
@@ -34,6 +39,10 @@ class _AIDebugOverlay extends StatefulWidget {
   final AIDebugPurchaseCallback? purchase;
   final AIDebugCancelPurchaseCallback? cancelPurchase;
   final AIDebugIsPurchasedCallback? isPurchased;
+  final AIDebugCameraPicturesCallback? cameraPictures;
+  final AIDebugSetCameraPictureCallback? setCameraPicture;
+  final AIDebugUnsetCameraPictureCallback? unsetCameraPicture;
+  final AIDebugIsCameraPictureSetCallback? isCameraPictureSet;
   final Widget child;
 
   @override
@@ -64,6 +73,9 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   List<AIDebugPurchaseProduct> _purchaseProducts = const [];
   Set<String> _purchasedProductIds = const {};
   AIDebugPurchaseProduct? _selectedPurchaseProduct;
+  List<AIDebugCameraPicture> _cameraPictures = const [];
+  AIDebugCameraPicture? _activeCameraPicture;
+  AIDebugCameraPicture? _selectedCameraPicture;
   String? _status;
   String? _debugOperationError;
   String? _incidentNotification;
@@ -132,6 +144,12 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       widget.purchase != null &&
       widget.cancelPurchase != null &&
       widget.isPurchased != null;
+
+  bool get _hasCamera =>
+      widget.cameraPictures != null &&
+      widget.setCameraPicture != null &&
+      widget.unsetCameraPicture != null &&
+      widget.isCameraPictureSet != null;
 
   bool _readLoginState() {
     if (!_hasAuthentication) return true;
@@ -255,6 +273,69 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     try {
       await operation();
       _refreshPurchaseState();
+    } catch (error) {
+      _debugOperationError = error.toString();
+    } finally {
+      if (mounted) setState(() => _debugOperationRunning = false);
+    }
+  }
+
+  void _refreshCameraState() {
+    final pictures = widget.cameraPictures!();
+    final pictureIds = <String>{};
+    for (final picture in pictures) {
+      if (!pictureIds.add(picture.id)) {
+        throw StateError("カメラ画像IDが重複しています: ${picture.id}");
+      }
+    }
+    final active = pictures
+        .where((picture) => widget.isCameraPictureSet!(picture))
+        .toList();
+    if (active.length > 1) {
+      throw StateError("設定中のカメラ画像が複数あります。");
+    }
+    _cameraPictures = pictures;
+    _activeCameraPicture = active.firstOrNull;
+    final available =
+        pictures.where((picture) => picture != _activeCameraPicture).toList();
+    _selectedCameraPicture = available.contains(_selectedCameraPicture)
+        ? _selectedCameraPicture
+        : available.firstOrNull;
+  }
+
+  void _openCamera() {
+    setState(() {
+      _debugOperationError = null;
+      _panelView = _AIDebugPanelView.camera;
+    });
+    try {
+      _refreshCameraState();
+    } catch (error) {
+      setState(() => _debugOperationError = error.toString());
+    }
+  }
+
+  Future<void> _performSetCameraPicture() async {
+    final picture = _selectedCameraPicture;
+    if (picture == null || _debugOperationRunning) return;
+    await _runCameraOperation(() => widget.setCameraPicture!(picture));
+  }
+
+  Future<void> _performUnsetCameraPicture() async {
+    if (_debugOperationRunning || _activeCameraPicture == null) return;
+    await _runCameraOperation(widget.unsetCameraPicture!);
+  }
+
+  Future<void> _runCameraOperation(
+    FutureOr<void> Function() operation,
+  ) async {
+    setState(() {
+      _debugOperationRunning = true;
+      _debugOperationError = null;
+    });
+    try {
+      await operation();
+      _refreshCameraState();
     } catch (error) {
       _debugOperationError = error.toString();
     } finally {
@@ -643,6 +724,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
               _AIDebugPanelView.prompt => _buildPromptPanel(),
               _AIDebugPanelView.login => _buildLoginPanel(),
               _AIDebugPanelView.purchase => _buildPurchasePanel(),
+              _AIDebugPanelView.camera => _buildCameraPanel(),
             },
           ),
         ),
@@ -683,7 +765,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
 
   Widget _buildPromptPanel() => Column(children: [
         _buildPanelHeader("AI Debugger"),
-        if (_hasAuthentication || _hasPurchase) ...[
+        if (_hasAuthentication || _hasPurchase || _hasCamera) ...[
           SizedBox(
             height: 38,
             child: Row(children: [
@@ -694,6 +776,9 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     button: true,
                     excludeSemantics: true,
                     child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                      ),
                       onPressed:
                           _debugOperationRunning ? null : _openAuthentication,
                       icon: Icon(
@@ -704,7 +789,8 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     ),
                   ),
                 ),
-              if (_hasAuthentication && _hasPurchase) const SizedBox(width: 8),
+              if (_hasAuthentication && (_hasPurchase || _hasCamera))
+                const SizedBox(width: 8),
               if (_hasPurchase)
                 Expanded(
                   child: Semantics(
@@ -712,9 +798,29 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     button: true,
                     excludeSemantics: true,
                     child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                      ),
                       onPressed: _debugOperationRunning ? null : _openPurchase,
                       icon: const Icon(Icons.payments, size: 17),
                       label: const Text("課金管理"),
+                    ),
+                  ),
+                ),
+              if (_hasPurchase && _hasCamera) const SizedBox(width: 8),
+              if (_hasCamera)
+                Expanded(
+                  child: Semantics(
+                    label: "AIデバッガーカメラ管理",
+                    button: true,
+                    excludeSemantics: true,
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                      ),
+                      onPressed: _debugOperationRunning ? null : _openCamera,
+                      icon: const Icon(Icons.camera_alt, size: 17),
+                      label: const Text("カメラ"),
                     ),
                   ),
                 ),
@@ -988,6 +1094,105 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                     ? null
                     : _performPurchase,
             child: Text(_debugOperationRunning ? "処理中…" : "課金する"),
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  Widget _buildCameraPanel() {
+    final available = _cameraPictures
+        .where((picture) => picture != _activeCameraPicture)
+        .toList();
+    return Column(children: [
+      _buildPanelHeader("デバッグカメラ", showBack: true),
+      const Align(
+        alignment: Alignment.centerLeft,
+        child: Text("設定中", style: TextStyle(fontWeight: FontWeight.w600)),
+      ),
+      const SizedBox(height: 6),
+      if (_activeCameraPicture == null)
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text("デバッグ画像は設定されていません"),
+        )
+      else
+        ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          title: Text(_activeCameraPicture!.label),
+          subtitle: Text(_activeCameraPicture!.id),
+          trailing: IconButton(
+            tooltip: "カメラ画像解除: ${_activeCameraPicture!.label}",
+            onPressed:
+                _debugOperationRunning ? null : _performUnsetCameraPicture,
+            icon: Icon(
+              Icons.close,
+              semanticLabel: "カメラ画像解除 ${_activeCameraPicture!.id}",
+            ),
+          ),
+        ),
+      const Divider(),
+      const SizedBox(height: 6),
+      if (_cameraPictures.isEmpty)
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text("カメラ画像がありません"),
+        )
+      else if (available.isEmpty)
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text("選択できるカメラ画像がありません"),
+        )
+      else
+        Semantics(
+          label: "デバッグカメラ 画像選択",
+          container: true,
+          excludeSemantics: true,
+          child: DropdownButtonFormField<AIDebugCameraPicture>(
+            key: ValueKey(
+              "debug-camera-${_selectedCameraPicture?.id}-${_activeCameraPicture?.id}",
+            ),
+            initialValue: _selectedCameraPicture,
+            isExpanded: true,
+            decoration: const InputDecoration(
+              labelText: "カメラ画像",
+              border: OutlineInputBorder(),
+            ),
+            items: available
+                .map(
+                  (picture) => DropdownMenuItem(
+                    value: picture,
+                    child: Text(picture.label),
+                  ),
+                )
+                .toList(),
+            onChanged: _debugOperationRunning
+                ? null
+                : (value) => setState(() => _selectedCameraPicture = value),
+          ),
+        ),
+      if (_debugOperationError != null) ...[
+        const SizedBox(height: 8),
+        Text(
+          _debugOperationError!,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Colors.redAccent, fontSize: 12),
+        ),
+      ],
+      const Spacer(),
+      SizedBox(
+        width: double.infinity,
+        child: Semantics(
+          label: "デバッグカメラ画像設定実行",
+          button: true,
+          excludeSemantics: true,
+          child: FilledButton(
+            onPressed: _debugOperationRunning || _selectedCameraPicture == null
+                ? null
+                : _performSetCameraPicture,
+            child: Text(_debugOperationRunning ? "処理中…" : "設定する"),
           ),
         ),
       ),

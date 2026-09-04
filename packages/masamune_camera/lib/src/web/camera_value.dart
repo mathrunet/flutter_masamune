@@ -49,6 +49,42 @@ class CameraValue {
     }
   }
 
+  /// Generate [CameraValue] from an [ImageProvider].
+  ///
+  /// [ImageProvider]から[CameraValue]を生成します。
+  static Future<CameraValue?> fromImageProvider({
+    required ImageProvider provider,
+    required MediaFormat format,
+    int? width,
+    int? height,
+  }) async {
+    final bytes = await _resolveImageProvider(provider);
+    var source = image.decodeImage(bytes);
+    if (source == null) {
+      throw StateError("The debug picture could not be decoded.");
+    }
+    source = _resizeImage(source, width: width, height: height);
+    final exportedFile = "${uuid()}.${format.extension}";
+    switch (format) {
+      case MediaFormat.jpg:
+        return CameraValue._(
+          uri: Uri(path: exportedFile),
+          name: exportedFile,
+          format: format,
+          bytes: image.encodeJpg(source),
+        );
+      case MediaFormat.png:
+        return CameraValue._(
+          uri: Uri(path: exportedFile),
+          name: exportedFile,
+          format: format,
+          bytes: image.encodePng(source),
+        );
+      case MediaFormat.mp4:
+        return null;
+    }
+  }
+
   /// Generate [CameraValue] from [XFile].
   ///
   /// [XFile]から[CameraValue]を生成します。
@@ -68,28 +104,7 @@ class CameraValue {
         bytes: bytes,
       );
     }
-    if (width != null || height != null) {
-      source = image.copyResize(source, height: height, width: width);
-      if (height != null && width != null) {
-        if (height > width) {
-          source = image.copyCrop(
-            source,
-            x: ((source.width - width) / 2.0).floor(),
-            y: 0,
-            width: width,
-            height: source.height,
-          );
-        } else {
-          source = image.copyCrop(
-            source,
-            x: 0,
-            y: ((source.height - height) / 2.0).floor(),
-            width: source.width,
-            height: height,
-          );
-        }
-      }
-    }
+    source = _resizeImage(source, width: width, height: height);
     switch (format) {
       case MediaFormat.jpg:
         return CameraValue._(
@@ -134,4 +149,65 @@ class CameraValue {
   ///
   /// バイトデータ。サイズ変換された後のデータが入ります。
   final Uint8List? bytes;
+}
+
+image.Image _resizeImage(
+  image.Image source, {
+  required int? width,
+  required int? height,
+}) {
+  if (width == null && height == null) {
+    return source;
+  }
+  var resized = image.copyResize(source, height: height, width: width);
+  if (height == null || width == null) {
+    return resized;
+  }
+  if (height > width) {
+    resized = image.copyCrop(
+      resized,
+      x: ((resized.width - width) / 2.0).floor(),
+      y: 0,
+      width: width,
+      height: resized.height,
+    );
+  } else {
+    resized = image.copyCrop(
+      resized,
+      x: 0,
+      y: ((resized.height - height) / 2.0).floor(),
+      width: resized.width,
+      height: height,
+    );
+  }
+  return resized;
+}
+
+Future<Uint8List> _resolveImageProvider(ImageProvider provider) {
+  final completer = Completer<Uint8List>();
+  final stream = provider.resolve(ImageConfiguration.empty);
+  late final ImageStreamListener listener;
+  listener = ImageStreamListener(
+    (imageInfo, synchronousCall) async {
+      stream.removeListener(listener);
+      try {
+        final data =
+            await imageInfo.image.toByteData(format: ui.ImageByteFormat.png);
+        if (data == null) {
+          throw StateError("The debug picture could not be converted.");
+        }
+        completer.complete(
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+        );
+      } catch (error, stackTrace) {
+        completer.completeError(error, stackTrace);
+      }
+    },
+    onError: (Object error, StackTrace? stackTrace) {
+      stream.removeListener(listener);
+      completer.completeError(error, stackTrace ?? StackTrace.current);
+    },
+  );
+  stream.addListener(listener);
+  return completer.future;
 }

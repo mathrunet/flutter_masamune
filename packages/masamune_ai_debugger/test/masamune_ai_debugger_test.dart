@@ -845,6 +845,10 @@ void main() {
       () => AIDebuggerMasamuneAdapter(purchaseProducts: () => const []),
       throwsAssertionError,
     );
+    expect(
+      () => AIDebuggerMasamuneAdapter(cameraPictures: () => const []),
+      throwsAssertionError,
+    );
   });
 
   testWidgets("debug authentication UI signs in and signs out", (tester) async {
@@ -997,6 +1001,205 @@ void main() {
     await tester.pump();
     expect(purchasedIds, isNot(contains(pro.id)));
     expect(find.bySemanticsLabel("課金解除 pro"), findsNothing);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug camera UI sets and unsets a selected picture",
+      (tester) async {
+    const document = AIDebugCameraPicture(
+      id: "document",
+      label: "Document",
+    );
+    const receipt = AIDebugCameraPicture(id: "receipt", label: "Receipt");
+    String? activePictureId;
+    AIDebugCameraPicture? receivedPicture;
+    var unsetCalls = 0;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-camera",
+      cameraPictures: () => const [document, receipt],
+      setCameraPicture: (picture) {
+        receivedPicture = picture;
+        activePictureId = picture.id;
+      },
+      unsetCameraPicture: () {
+        unsetCalls += 1;
+        activePictureId = null;
+      },
+      isCameraPictureSet: (picture) => activePictureId == picture.id,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+
+    expect(find.bySemanticsLabel("AIデバッガーカメラ管理"), findsOneWidget);
+    expect(find.bySemanticsLabel("AIデバッガー認証"), findsNothing);
+    expect(find.bySemanticsLabel("AIデバッガー課金管理"), findsNothing);
+    await tester.tap(find.bySemanticsLabel("AIデバッガーカメラ管理"));
+    await tester.pump();
+
+    expect(find.text("デバッグカメラ"), findsOneWidget);
+    expect(find.bySemanticsLabel("デバッグカメラ 画像選択"), findsOneWidget);
+    await tester.tap(find.byType(DropdownButton<AIDebugCameraPicture>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text("Receipt").last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel("デバッグカメラ画像設定実行"));
+    await tester.pump();
+
+    expect(receivedPicture, receipt);
+    expect(activePictureId, receipt.id);
+    expect(find.bySemanticsLabel("カメラ画像解除 receipt"), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel("カメラ画像解除 receipt"));
+    await tester.pump();
+
+    expect(unsetCalls, 1);
+    expect(activePictureId, isNull);
+    expect(find.bySemanticsLabel("カメラ画像解除 receipt"), findsNothing);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug camera prevents duplicate asynchronous submits",
+      (tester) async {
+    const picture = AIDebugCameraPicture(id: "receipt", label: "Receipt");
+    final completion = Completer<void>();
+    var calls = 0;
+    var active = false;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-camera-async",
+      cameraPictures: () => const [picture],
+      setCameraPicture: (picture) async {
+        calls += 1;
+        await completion.future;
+        active = true;
+      },
+      unsetCameraPicture: () => active = false,
+      isCameraPictureSet: (picture) => active,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガーカメラ管理"));
+    await tester.pump();
+
+    await tester.tap(find.bySemanticsLabel("デバッグカメラ画像設定実行"));
+    await tester.tap(find.bySemanticsLabel("デバッグカメラ画像設定実行"));
+    await tester.pump();
+    expect(calls, 1);
+    expect(find.text("処理中…"), findsOneWidget);
+
+    completion.complete();
+    await tester.pumpAndSettle();
+    expect(active, isTrue);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug camera reports duplicate picture IDs", (tester) async {
+    const first = AIDebugCameraPicture(id: "same", label: "First");
+    const second = AIDebugCameraPicture(id: "same", label: "Second");
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-camera-duplicates",
+      cameraPictures: () => const [first, second],
+      setCameraPicture: (picture) {},
+      unsetCameraPicture: () {},
+      isCameraPictureSet: (picture) => false,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガーカメラ管理"));
+    await tester.pump();
+
+    expect(find.textContaining("カメラ画像IDが重複しています"), findsOneWidget);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug camera operation errors remain visible", (tester) async {
+    const picture = AIDebugCameraPicture(id: "receipt", label: "Receipt");
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-camera-error",
+      cameraPictures: () => const [picture],
+      setCameraPicture: (picture) => throw StateError("camera failed"),
+      unsetCameraPicture: () {},
+      isCameraPictureSet: (picture) => false,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガーカメラ管理"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("デバッグカメラ画像設定実行"));
+    await tester.pump();
+
+    expect(find.textContaining("camera failed"), findsOneWidget);
+    expect(find.text("デバッグカメラ"), findsOneWidget);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug feature buttons fit together", (tester) async {
+    const product = AIDebugPurchaseProduct(id: "pro", label: "Pro");
+    const picture = AIDebugCameraPicture(id: "receipt", label: "Receipt");
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-all-debug-features",
+      login: (email, password) {},
+      logout: () {},
+      isLoggedIn: () => false,
+      purchaseProducts: () => const [product],
+      purchase: (product) {},
+      cancelPurchase: (product) {},
+      isPurchased: (product) => false,
+      cameraPictures: () => const [picture],
+      setCameraPicture: (picture) {},
+      unsetCameraPicture: () {},
+      isCameraPictureSet: (picture) => false,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+
+    expect(find.bySemanticsLabel("AIデバッガー認証"), findsOneWidget);
+    expect(find.bySemanticsLabel("AIデバッガー課金管理"), findsOneWidget);
+    expect(find.bySemanticsLabel("AIデバッガーカメラ管理"), findsOneWidget);
+    expect(tester.takeException(), isNull);
     await adapter.controller.end();
   });
 
