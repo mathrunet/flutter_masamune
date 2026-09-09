@@ -160,6 +160,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       ...legacy,
       ...Map<String, dynamic>.from(tidb),
     }..remove("data_service");
+    final mode = config["mode"]?.toString() ?? "data_service";
     final directory = config["directory"]?.toString() ?? "tidb/data_service";
     final manifestFile = File("$directory/__generated_manifest.json");
     if (!manifestFile.existsSync()) {
@@ -264,6 +265,10 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         } finally {
           api.close();
         }
+      }
+      await _copyRuntimeManifest(manifestText);
+      if (!await _updateWorkersFunction(mode)) {
+        return;
       }
       label("TiDB Data Service-only cutover is already complete.");
       return;
@@ -385,7 +390,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         clusterId: clusterId,
       );
       await _copyRuntimeManifest(manifestText);
-      if (!await _updateWorkersFunction()) {
+      if (!await _updateWorkersFunction(mode)) {
         return;
       }
       await _installNodePackage(npm);
@@ -1063,7 +1068,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         .writeAsString(manifestText);
   }
 
-  Future<bool> _updateWorkersFunction() async {
+  Future<bool> _updateWorkersFunction(String mode) async {
     final index = File("cloudflare/src/index.ts");
     var source = await index.readAsString();
     if (!source.contains(
@@ -1082,10 +1087,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             );
       await index.writeAsString(source);
     }
-    const function = """
-    tidb.Functions.tidb({
-        dataServiceManifest: tidbDataServiceManifest as tidb.TidbDataServiceManifest,
-    }),""";
+    final function = buildTidbWorkersFunctionDefinition(mode);
     return applyCloudflareWorkersFunctions(
       alias: "tidb",
       package: "@mathrunet/masamune_cloudflare_tidb",
@@ -1329,4 +1331,13 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   List<Map<String, dynamic>> _listOfMaps(dynamic value) {
     return value is List ? value.map(_mapValue).toList() : const [];
   }
+}
+
+/// Builds the Worker registration emitted for the configured TiDB mode.
+String buildTidbWorkersFunctionDefinition(String mode) {
+  final dataServiceMode = mode == "data_service" || mode == "data-service";
+  return """
+    tidb.Functions.tidb({
+${dataServiceMode ? '        mode: "data-service",\n' : ""}        dataServiceManifest: tidbDataServiceManifest as tidb.TidbDataServiceManifest,
+    }),""";
 }
