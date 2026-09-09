@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(masamune_firebase_app_check): add web provider support and update dependencies. ([ebbb4713](https://github.com/mathrunet/flutter_masamune/commit/ebbb4713a416fb832fce25a28309586bf67134fe))
+
 ## 3.1.21
 
  - Add support for configuring Firebase App Check providers on Web.

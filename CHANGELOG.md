@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.25.1`](#katana_cli---v3251)
+ - [`masamune_ai_debugger` - `v3.7.0`](#masamune_ai_debugger---v370)
+ - [`masamune_camera` - `v3.5.0`](#masamune_camera---v350)
+ - [`masamune_firebase_app_check` - `v3.2.0`](#masamune_firebase_app_check---v320)
+
+---
+
+#### `katana_cli` - `v3.25.1`
+
+ - **FIX**(cloudflare): enhance TiDB CLI action with mode handling and worker function updates. ([9324e500](https://github.com/mathrunet/flutter_masamune/commit/9324e5002a0e501ca3d061cf48b3255b34ec87ab))
+
+#### `masamune_ai_debugger` - `v3.7.0`
+
+ - **FEAT**(masamune_ai_debugger): add anonymous login functionality. ([0e609611](https://github.com/mathrunet/flutter_masamune/commit/0e609611f0e30e1e4fcbffd44ac8a8fbe03352f8))
+
+#### `masamune_camera` - `v3.5.0`
+
+ - **FIX**(masamune_camera): improve camera initialization and disposal handling. ([909ad31b](https://github.com/mathrunet/flutter_masamune/commit/909ad31b6dce4e248ac001dff5f77da7e2ca046f))
+ - **FEAT**(masamune_ai_debugger): add debug camera functionality. ([018523bb](https://github.com/mathrunet/flutter_masamune/commit/018523bbda4aefa53200bc26ee13a3e05687e684))
+
+#### `masamune_firebase_app_check` - `v3.2.0`
+
+ - **FEAT**(masamune_firebase_app_check): add web provider support and update dependencies. ([ebbb4713](https://github.com/mathrunet/flutter_masamune/commit/ebbb4713a416fb832fce25a28309586bf67134fe))
+
+
 ## 2026-09-04
 
 ### Changes

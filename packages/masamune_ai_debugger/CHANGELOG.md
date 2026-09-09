@@ -1,3 +1,7 @@
+## 3.7.0
+
+ - **FEAT**(masamune_ai_debugger): add anonymous login functionality. ([0e609611](https://github.com/mathrunet/flutter_masamune/commit/0e609611f0e30e1e4fcbffd44ac8a8fbe03352f8))
+
 ## 3.6.0
 
  - **FEAT**(masamune_ai_debugger): add debug camera functionality. ([018523bb](https://github.com/mathrunet/flutter_masamune/commit/018523bbda4aefa53200bc26ee13a3e05687e684))
