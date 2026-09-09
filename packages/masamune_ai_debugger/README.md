@@ -85,6 +85,7 @@ APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値�
 ## デバッグ認証・デバッグ課金・デバッグカメラ
 
 認証用の3コールバックをすべて指定すると、AI指示欄の上にログイン／ログアウトボタンが表示されます。
+さらに`anonymousLogin`を指定すると、認証情報入力フォームに匿名ログインボタンが表示されます。
 課金用の4コールバックをすべて指定すると、同じ行に課金管理ボタンが表示されます。これらのUIと
 コールバックは他のAIデバッガー機能と同様にDebugビルドでのみ有効です。
 
@@ -103,9 +104,15 @@ final purchaseProductsById = <String, PurchaseProduct>{
 };
 
 final aiDebugger = AIDebuggerMasamuneAdapter(
-  login: (email, password) => debugAuth.signIn(email, password),
-  logout: debugAuth.signOut,
-  isLoggedIn: () => debugAuth.isSignedIn,
+  login: (email, password) => appAuth.signIn(
+    EmailAndPasswordAuthQuery.signIn(
+      email: email,
+      password: password,
+    ),
+  ),
+  anonymousLogin: () => appAuth.signIn(AnonymouslyAuthQuery.signIn()),
+  logout: appAuth.signOut,
+  isLoggedIn: () => appAuth.isSignedIn,
   purchaseProducts: () => debugProducts,
   purchase: (item) => debugPurchase.forcePurchase(
     purchaseProductsById[item.id]!,
@@ -188,6 +195,7 @@ Maestroからは次の固定Semanticsラベルを利用できます。
 - `デバッグログイン メールアドレス`
 - `デバッグログイン パスワード`
 - `デバッグログイン実行`
+- `デバッグ匿名ログイン実行`
 - `AIデバッガー課金管理`
 - `デバッグ課金 商品選択`
 - `デバッグ強制課金実行`

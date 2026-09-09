@@ -17,6 +17,7 @@ class _AIDebugOverlay extends StatefulWidget {
     required this.controller,
     required this.maxScreenshots,
     required this.login,
+    required this.anonymousLogin,
     required this.logout,
     required this.isLoggedIn,
     required this.purchaseProducts,
@@ -33,6 +34,7 @@ class _AIDebugOverlay extends StatefulWidget {
   final AIDebugController controller;
   final int maxScreenshots;
   final AIDebugLoginCallback? login;
+  final AIDebugAnonymousLoginCallback? anonymousLogin;
   final AIDebugLogoutCallback? logout;
   final AIDebugIsLoggedInCallback? isLoggedIn;
   final AIDebugPurchaseProductsCallback? purchaseProducts;
@@ -204,6 +206,29 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     });
     try {
       await widget.login!(email, password);
+      final stateRead = _readLoginState();
+      if (!mounted) return;
+      if (stateRead && _loggedIn) {
+        _passwordController.clear();
+        setState(() => _panelView = _AIDebugPanelView.prompt);
+      } else if (stateRead) {
+        setState(() => _debugOperationError = "ログイン状態を確認できませんでした");
+      }
+    } catch (error) {
+      if (mounted) setState(() => _debugOperationError = error.toString());
+    } finally {
+      if (mounted) setState(() => _debugOperationRunning = false);
+    }
+  }
+
+  Future<void> _performAnonymousLogin() async {
+    if (_debugOperationRunning || widget.anonymousLogin == null) return;
+    setState(() {
+      _debugOperationRunning = true;
+      _debugOperationError = null;
+    });
+    try {
+      await widget.anonymousLogin!();
       final stateRead = _readLoginState();
       if (!mounted) return;
       if (stateRead && _loggedIn) {
@@ -988,6 +1013,24 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             ),
           ),
         ),
+        if (widget.anonymousLogin != null) ...[
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: Semantics(
+              label: "デバッグ匿名ログイン実行",
+              button: true,
+              excludeSemantics: true,
+              child: OutlinedButton(
+                onPressed:
+                    _debugOperationRunning ? null : _performAnonymousLogin,
+                child: Text(
+                  _debugOperationRunning ? "ログイン中…" : "匿名ログイン",
+                ),
+              ),
+            ),
+          ),
+        ],
       ]);
 
   Widget _buildPurchasePanel() {

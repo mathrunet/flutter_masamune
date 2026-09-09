@@ -149,6 +149,9 @@ typedef AIDebugLoginCallback = FutureOr<void> Function(
   String password,
 );
 
+/// Signs in a debug user anonymously.
+typedef AIDebugAnonymousLoginCallback = FutureOr<void> Function();
+
 /// Signs out the current debug user.
 typedef AIDebugLogoutCallback = FutureOr<void> Function();
 

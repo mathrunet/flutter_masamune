@@ -46,6 +46,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
     AIDebugUploadEventsCallback? uploadEvents,
     this.login,
+    this.anonymousLogin,
     this.logout,
     this.isLoggedIn,
     this.purchaseProducts,
@@ -60,6 +61,11 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
           (login == null && logout == null && isLoggedIn == null) ||
               (login != null && logout != null && isLoggedIn != null),
           "login, logout, and isLoggedIn must be provided together.",
+        ),
+        assert(
+          anonymousLogin == null ||
+              (login != null && logout != null && isLoggedIn != null),
+          "anonymousLogin requires login, logout, and isLoggedIn.",
         ),
         assert(
           (purchaseProducts == null &&
@@ -181,6 +187,9 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
 
   /// Signs in a debug user with an email address and password.
   final AIDebugLoginCallback? login;
+
+  /// Signs in a debug user anonymously.
+  final AIDebugAnonymousLoginCallback? anonymousLogin;
 
   /// Signs out the current debug user.
   final AIDebugLogoutCallback? logout;
@@ -476,6 +485,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
       controller: controller,
       maxScreenshots: maxScreenshots,
       login: login,
+      anonymousLogin: anonymousLogin,
       logout: logout,
       isLoggedIn: isLoggedIn,
       purchaseProducts: purchaseProducts,

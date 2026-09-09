@@ -842,6 +842,10 @@ void main() {
       throwsAssertionError,
     );
     expect(
+      () => AIDebuggerMasamuneAdapter(anonymousLogin: () {}),
+      throwsAssertionError,
+    );
+    expect(
       () => AIDebuggerMasamuneAdapter(purchaseProducts: () => const []),
       throwsAssertionError,
     );
@@ -893,6 +897,10 @@ void main() {
       find.bySemanticsLabel("デバッグログイン パスワード"),
       findsOneWidget,
     );
+    expect(
+      find.bySemanticsLabel("デバッグ匿名ログイン実行"),
+      findsNothing,
+    );
     expect(find.bySemanticsLabel("AI入力へ戻る"), findsOneWidget);
 
     await tester.enterText(find.byType(TextField).at(0), "debug@example.com");
@@ -909,6 +917,92 @@ void main() {
     await tester.pump();
     expect(loggedIn, isFalse);
     expect(find.text("デバッグログイン"), findsNothing);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug authentication UI signs in anonymously", (tester) async {
+    var calls = 0;
+    var loggedIn = false;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-anonymous-auth",
+      login: (email, password) {},
+      anonymousLogin: () {
+        calls += 1;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+
+    expect(
+      find.bySemanticsLabel("デバッグ匿名ログイン実行"),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(OutlinedButton, "匿名ログイン"),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.bySemanticsLabel("デバッグ匿名ログイン実行"));
+    await tester.pump();
+
+    expect(calls, 1);
+    expect(loggedIn, isTrue);
+    expect(find.text("AI Debugger"), findsOneWidget);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug anonymous authentication prevents duplicate submits",
+      (tester) async {
+    var calls = 0;
+    var loggedIn = false;
+    final completion = Completer<void>();
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-anonymous-auth-async",
+      login: (email, password) {},
+      anonymousLogin: () async {
+        calls += 1;
+        await completion.future;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+
+    await tester.tap(find.bySemanticsLabel("デバッグ匿名ログイン実行"));
+    await tester.tap(find.bySemanticsLabel("デバッグ匿名ログイン実行"));
+    await tester.pump();
+    expect(calls, 1);
+
+    completion.complete();
+    await tester.pumpAndSettle();
+    expect(loggedIn, isTrue);
     await adapter.controller.end();
   });
 
@@ -1230,6 +1324,36 @@ void main() {
     await tester.pump();
 
     expect(find.textContaining("login failed"), findsOneWidget);
+    expect(find.text("デバッグログイン"), findsOneWidget);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug anonymous login errors remain visible in the form",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-anonymous-auth-error",
+      login: (email, password) {},
+      anonymousLogin: () => throw StateError("anonymous login failed"),
+      logout: () {},
+      isLoggedIn: () => false,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("デバッグ匿名ログイン実行"));
+    await tester.pump();
+
+    expect(find.textContaining("anonymous login failed"), findsOneWidget);
     expect(find.text("デバッグログイン"), findsOneWidget);
     await adapter.controller.end();
   });
