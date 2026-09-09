@@ -60,8 +60,9 @@ final masamuneAdapters = <MasamuneAdapter>[
   FirebaseAppCheckMasamuneAdapter(
     options: DefaultFirebaseOptions.currentPlatform,  // From firebase_options.dart
     activateTiming: FirebaseAppCheckActivateTiming.onPreRunApp,  // When to activate
+    webProvider: ReCaptchaV3Provider("YOUR_RECAPTCHA_SITE_KEY"),  // Web provider
     androidProvider: FirebaseAppCheckAndroidProvider.playIntegrity,  // Android provider
-    iosProvider: FirebaseAppCheckIOSProvider.deviceCheck,           // iOS provider
+    iosProvider: FirebaseAppCheckIOSProvider.appAttestWithDeviceCheckFallback,  // iOS provider
   ),
 ];
 ```
@@ -106,8 +107,9 @@ Choose the appropriate provider for each platform based on your app's requiremen
 - `platformDependent`: Automatically selects based on build mode
 
 **iOS/macOS Providers**:
-- `deviceCheck` (recommended): Apple's DeviceCheck API
-- `appAttest`: More advanced attestation (iOS 14+)
+- `appAttestWithDeviceCheckFallback` (recommended): App Attest with DeviceCheck fallback
+- `deviceCheck`: Apple's DeviceCheck API
+- `appAttest`: App Attest for iOS 14+
 - `debug`: For development and testing
 - `platformDependent`: Automatically selects based on build mode
 
@@ -175,7 +177,17 @@ For web support, supply `webOptions` and configure reCAPTCHA v3:
 FirebaseAppCheckMasamuneAdapter(
   options: DefaultFirebaseOptions.currentPlatform,
   webOptions: DefaultFirebaseOptions.web,
-  webRecaptchaSiteKey: "YOUR_RECAPTCHA_SITE_KEY",
+  webProvider: ReCaptchaV3Provider("YOUR_RECAPTCHA_SITE_KEY"),
+)
+```
+
+For local Web development, use `WebDebugProvider` and register the token
+printed to the browser console in Firebase Console:
+
+```dart
+FirebaseAppCheckMasamuneAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  webProvider: WebDebugProvider(),
 )
 ```
 

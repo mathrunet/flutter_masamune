@@ -25,6 +25,7 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
     this.macosOptions,
     FirebaseAppCheck? appCheck,
     this.activateTiming = FirebaseAppCheckActivateTiming.onPreRunApp,
+    this.webProvider,
     this.androidProvider = FirebaseAppCheckAndroidProvider.platformDependent,
     this.iosProvider = FirebaseAppCheckIOSProvider.platformDependent,
   })  : _options = options,
@@ -41,6 +42,11 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   ///
   /// iOSのプロバイダー。
   final FirebaseAppCheckIOSProvider iosProvider;
+
+  /// The provider for Web.
+  ///
+  /// Webのプロバイダー。
+  final WebProvider? webProvider;
 
   /// The timing to activate AppCheck.
   ///
@@ -198,6 +204,7 @@ class FirebaseAppCheckMasamuneAdapter extends MasamuneAdapter {
   Future<void> _activate() async {
     await FirebaseCore.initialize(options: options);
     await appCheck.activate(
+      providerWeb: webProvider,
       providerAndroid: androidProvider._toAndroidProvider(),
       providerApple: iosProvider._toAppleProvider(),
     );

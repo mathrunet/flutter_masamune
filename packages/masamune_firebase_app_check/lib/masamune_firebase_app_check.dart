@@ -22,6 +22,13 @@ import "package:firebase_app_check/firebase_app_check.dart";
 import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
 
+export "package:firebase_app_check_platform_interface/firebase_app_check_platform_interface.dart"
+    show
+        ReCaptchaEnterpriseProvider,
+        ReCaptchaV3Provider,
+        WebDebugProvider,
+        WebProvider;
+
 part "adapter/firebase_app_check_masamune_adapter.dart";
 
 part "src/firebase_app_check_android_provider.dart";
