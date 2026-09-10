@@ -1,5 +1,8 @@
-import "package:masamune_firebase_app_check/masamune_firebase_app_check.dart";
+// Package imports:
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_firebase_app_check/masamune_firebase_app_check.dart";
 
 void main() {
   group("FirebaseAppCheckMasamuneAdapter", () {
