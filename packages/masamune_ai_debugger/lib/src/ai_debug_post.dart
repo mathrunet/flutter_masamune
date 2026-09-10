@@ -5,16 +5,32 @@ part of '/masamune_ai_debugger.dart';
 /// AI Debuggerセッションで利用できるモデル。
 enum AIDebugModel {
   /// Fastest model.
-  haiku,
+  luna,
 
   /// Balanced model.
-  sonnet,
+  terra,
 
   /// High-capability model.
-  opus,
+  sol,
 
   /// Highest-capability model.
-  mythos,
+  astra;
+
+  /// Legacy alias for [luna].
+  @Deprecated("Use AIDebugModel.luna instead.")
+  static const AIDebugModel haiku = luna;
+
+  /// Legacy alias for [terra].
+  @Deprecated("Use AIDebugModel.terra instead.")
+  static const AIDebugModel sonnet = terra;
+
+  /// Legacy alias for [sol].
+  @Deprecated("Use AIDebugModel.sol instead.")
+  static const AIDebugModel opus = sol;
+
+  /// Legacy alias for [astra].
+  @Deprecated("Use AIDebugModel.astra instead.")
+  static const AIDebugModel mythos = astra;
 }
 
 /// Permission modes available to AI Debugger sessions.
@@ -249,11 +265,11 @@ class _AIDebugContextSanitizer {
 class AIDebugSettings {
   /// Creates AI Debugger settings.
   const AIDebugSettings({
-    this.manualModel = AIDebugModel.opus,
+    this.manualModel = AIDebugModel.sol,
     this.manualPermissionMode = AIDebugPermissionMode.plan,
-    this.errorModel = AIDebugModel.opus,
+    this.errorModel = AIDebugModel.sol,
     this.errorPermissionMode = AIDebugPermissionMode.plan,
-    this.performanceModel = AIDebugModel.opus,
+    this.performanceModel = AIDebugModel.sol,
     this.performancePermissionMode = AIDebugPermissionMode.plan,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
@@ -329,6 +345,20 @@ class AIDebugSettings {
       );
     }
 
+    AIDebugModel modelValue(Object? value, AIDebugModel defaultValue) {
+      final name = switch (value?.toString()) {
+        "mythos" => AIDebugModel.astra.name,
+        "opus" => AIDebugModel.sol.name,
+        "sonnet" => AIDebugModel.terra.name,
+        "haiku" => AIDebugModel.luna.name,
+        final name => name,
+      };
+      return AIDebugModel.values.firstWhere(
+        (item) => item.name == name,
+        orElse: () => defaultValue,
+      );
+    }
+
     Duration durationValue(Object? value, Duration defaultValue) {
       final milliseconds = value is num ? value.toInt() : null;
       if (milliseconds == null || milliseconds <= 0) return defaultValue;
@@ -336,31 +366,20 @@ class AIDebugSettings {
     }
 
     return AIDebugSettings(
-      manualModel: enumValue(
-        json["manualModel"],
-        AIDebugModel.values,
-        fallback.manualModel,
-      ),
+      manualModel: modelValue(json["manualModel"], fallback.manualModel),
       manualPermissionMode: enumValue(
         json["manualPermissionMode"],
         AIDebugPermissionMode.values,
         fallback.manualPermissionMode,
       ),
-      errorModel: enumValue(
-        json["errorModel"],
-        AIDebugModel.values,
-        fallback.errorModel,
-      ),
+      errorModel: modelValue(json["errorModel"], fallback.errorModel),
       errorPermissionMode: enumValue(
         json["errorPermissionMode"],
         AIDebugPermissionMode.values,
         fallback.errorPermissionMode,
       ),
-      performanceModel: enumValue(
-        json["performanceModel"],
-        AIDebugModel.values,
-        fallback.performanceModel,
-      ),
+      performanceModel:
+          modelValue(json["performanceModel"], fallback.performanceModel),
       performancePermissionMode: enumValue(
         json["performancePermissionMode"],
         AIDebugPermissionMode.values,

@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:convert";
 import "dart:typed_data";
 
 import "package:flutter/material.dart";
@@ -402,11 +403,11 @@ void main() {
       maxSessionsPerHour: 6,
     );
     const saved = AIDebugSettings(
-      manualModel: AIDebugModel.mythos,
+      manualModel: AIDebugModel.astra,
       manualPermissionMode: AIDebugPermissionMode.bypassPermissions,
-      errorModel: AIDebugModel.opus,
+      errorModel: AIDebugModel.sol,
       errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
-      performanceModel: AIDebugModel.haiku,
+      performanceModel: AIDebugModel.luna,
       modelLoadTimeout: Duration(milliseconds: 2500),
       indicatorTimeout: Duration(seconds: 17),
     );
@@ -425,16 +426,67 @@ void main() {
       maxSessionsPerHour: 6,
     ).loadSettings();
 
-    expect(restored.manualModel, AIDebugModel.mythos);
+    expect(restored.manualModel, AIDebugModel.astra);
     expect(
       restored.manualPermissionMode,
       AIDebugPermissionMode.bypassPermissions,
     );
-    expect(restored.errorModel, AIDebugModel.opus);
-    expect(restored.performanceModel, AIDebugModel.haiku);
+    expect(restored.errorModel, AIDebugModel.sol);
+    expect(restored.performanceModel, AIDebugModel.luna);
     expect(restored.modelLoadTimeout, const Duration(milliseconds: 2500));
     expect(restored.indicatorTimeout, const Duration(seconds: 17));
-    expect(otherProject.manualModel, AIDebugModel.opus);
+    expect(otherProject.manualModel, AIDebugModel.sol);
+  });
+
+  test("legacy model aliases migrate from persisted settings", () async {
+    const aliases = {
+      "mythos": AIDebugModel.astra,
+      "opus": AIDebugModel.sol,
+      "sonnet": AIDebugModel.terra,
+      "haiku": AIDebugModel.luna,
+    };
+    SharedPreferences.setMockInitialValues({
+      for (final alias in aliases.keys)
+        "masamune_ai_debugger.settings.v2.Users-example-settings-$alias":
+            jsonEncode({
+          "manualModel": alias,
+          "manualPermissionMode": "plan",
+          "errorModel": alias,
+          "errorPermissionMode": "plan",
+          "performanceModel": alias,
+          "performancePermissionMode": "bypassPermissions",
+          "modelLoadTimeoutMs": 5000,
+          "indicatorTimeoutMs": 10000,
+        }),
+    });
+
+    for (final entry in aliases.entries) {
+      final restored = await AIDebugController(
+        projectId: "Users-example-settings-${entry.key}",
+        endpoint: "",
+        apiKey: "",
+        maxSessionsPerHour: 6,
+      ).loadSettings();
+
+      expect(restored.manualModel, entry.value);
+      expect(restored.errorModel, entry.value);
+      expect(restored.performanceModel, entry.value);
+      expect(
+        restored.performancePermissionMode,
+        AIDebugPermissionMode.bypassPermissions,
+      );
+    }
+  });
+
+  test("legacy public model aliases resolve to canonical names", () {
+    // ignore: deprecated_member_use
+    expect(AIDebugModel.mythos.name, "astra");
+    // ignore: deprecated_member_use
+    expect(AIDebugModel.opus.name, "sol");
+    // ignore: deprecated_member_use
+    expect(AIDebugModel.sonnet.name, "terra");
+    // ignore: deprecated_member_use
+    expect(AIDebugModel.haiku.name, "luna");
   });
 
   test("manual and incident requests include selected model and mode",
@@ -455,7 +507,7 @@ void main() {
         },
       ),
       settings: const AIDebugSettings(
-        errorModel: AIDebugModel.opus,
+        errorModel: AIDebugModel.sol,
         errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
       ),
       post: (url, headers, body) async {
@@ -467,7 +519,7 @@ void main() {
     await controller.send(
       "manual",
       const [],
-      model: AIDebugModel.mythos,
+      model: AIDebugModel.astra,
       permissionMode: AIDebugPermissionMode.bypassPermissions,
     );
     await controller.reportError(StateError("configured"), StackTrace.current);
@@ -478,9 +530,9 @@ void main() {
     final incident = requests.singleWhere(
       (request) => request.key.endsWith("/incidents"),
     );
-    expect(manual.value["model"], "mythos");
+    expect(manual.value["model"], "astra");
     expect(manual.value["permissionMode"], "bypassPermissions");
-    expect(incident.value["model"], "opus");
+    expect(incident.value["model"], "sol");
     expect(incident.value["permissionMode"], "bypassPermissions");
     for (final request in [manual, incident]) {
       final context = request.value["context"] as Map<String, Object?>;
@@ -597,7 +649,7 @@ void main() {
     expect(find.bySemanticsLabel("不具合修正"), findsOneWidget);
     expect(find.byIcon(Icons.bug_report), findsOneWidget);
     expect(find.bySemanticsLabel("Mode Plan"), findsOneWidget);
-    expect(find.bySemanticsLabel("Model Opus"), findsOneWidget);
+    expect(find.bySemanticsLabel("Model Sol"), findsOneWidget);
     expect(find.byIcon(Icons.send), findsOneWidget);
     final textField = tester.widget<TextField>(find.byType(TextField));
     expect(textField.textAlignVertical, TextAlignVertical.top);
@@ -636,7 +688,7 @@ void main() {
     expect(find.text("AI Debugger設定"), findsOneWidget);
     expect(find.text("エラー時"), findsOneWidget);
     expect(find.text("計測超過時"), findsOneWidget);
-    await tester.tap(find.widgetWithText(ChoiceChip, "Opus").first);
+    await tester.tap(find.widgetWithText(ChoiceChip, "Sol").first);
     await tester.tap(
       find.widgetWithText(ChoiceChip, "bypassPermissions").first,
     );
@@ -647,7 +699,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final settings = adapter.controller.settings;
-    expect(settings.errorModel, AIDebugModel.opus);
+    expect(settings.errorModel, AIDebugModel.sol);
     expect(
       settings.errorPermissionMode,
       AIDebugPermissionMode.bypassPermissions,
@@ -738,7 +790,7 @@ void main() {
       stackTrace: "stack",
       timestamp: DateTime.now(),
       metadata: const {},
-      model: AIDebugModel.opus,
+      model: AIDebugModel.sol,
       permissionMode: AIDebugPermissionMode.plan,
     );
     await tester.pump();
@@ -761,7 +813,7 @@ void main() {
       stackTrace: "stack",
       timestamp: DateTime.now(),
       metadata: const {},
-      model: AIDebugModel.opus,
+      model: AIDebugModel.sol,
       permissionMode: AIDebugPermissionMode.plan,
     );
     await tester.pump();
@@ -778,7 +830,7 @@ void main() {
       stackTrace: "",
       timestamp: DateTime.now(),
       metadata: const {"thresholdMs": 5000},
-      model: AIDebugModel.sonnet,
+      model: AIDebugModel.terra,
       permissionMode: AIDebugPermissionMode.plan,
     );
     await tester.pump();

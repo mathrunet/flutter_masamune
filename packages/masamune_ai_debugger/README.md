@@ -44,11 +44,11 @@ A floating UI will be added to the Debug build of the Masamune app that sends in
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 
 final aiDebugger = AIDebuggerMasamuneAdapter(
-  manualModel: AIDebugModel.opus,
+  manualModel: AIDebugModel.sol,
   manualPermissionMode: AIDebugPermissionMode.plan,
-  errorModel: AIDebugModel.opus,
+  errorModel: AIDebugModel.sol,
   errorPermissionMode: AIDebugPermissionMode.plan,
-  performanceModel: AIDebugModel.opus,
+  performanceModel: AIDebugModel.sol,
   performancePermissionMode: AIDebugPermissionMode.plan,
   modelLoadTimeout: const Duration(seconds: 5),
   indicatorTimeout: const Duration(seconds: 10),
@@ -210,7 +210,7 @@ Maestroの`pressKey`は修飾キー付きショートカットを送信できな
 提供していません。固定Semanticsラベルを`tapOn`／`inputText`で操作してください。
 
 メッセージフォーム下部のMode／Modelボタンでは、次に手動送信するセッションの
-`plan / bypassPermissions`と`haiku / sonnet / opus / mythos`を選択できます。
+`plan / bypassPermissions`と`luna / terra / sol / astra`を選択できます。
 設定ボタンでは、未処理エラー時と計測超過時のMode／Model、およびモデル読込と
 インジケーターの超過判定時間を個別に設定できます。これらの値は端末内へ保存され、
 同じproject IDの次回起動時に復元されます。

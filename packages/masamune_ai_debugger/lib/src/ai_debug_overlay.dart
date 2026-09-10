@@ -519,10 +519,10 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
 
   void _cycleManualModel() {
     const values = [
-      AIDebugModel.mythos,
-      AIDebugModel.opus,
-      AIDebugModel.sonnet,
-      AIDebugModel.haiku,
+      AIDebugModel.astra,
+      AIDebugModel.sol,
+      AIDebugModel.terra,
+      AIDebugModel.luna,
     ];
     final index = values.indexOf(_settings.manualModel);
     unawaited(_persistSettings(_settings.copyWith(
@@ -570,24 +570,24 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   }
 
   MaterialColor _modelColor(AIDebugModel model) => switch (model) {
-        AIDebugModel.mythos => Colors.red,
-        AIDebugModel.opus => Colors.purple,
-        AIDebugModel.sonnet => Colors.orange,
-        AIDebugModel.haiku => Colors.green,
+        AIDebugModel.astra => Colors.red,
+        AIDebugModel.sol => Colors.purple,
+        AIDebugModel.terra => Colors.orange,
+        AIDebugModel.luna => Colors.green,
       };
 
   IconData _modelIcon(AIDebugModel model) => switch (model) {
-        AIDebugModel.mythos => Icons.workspace_premium,
-        AIDebugModel.opus => Icons.star,
-        AIDebugModel.sonnet => Icons.bolt,
-        AIDebugModel.haiku => Icons.air,
+        AIDebugModel.astra => Icons.workspace_premium,
+        AIDebugModel.sol => Icons.star,
+        AIDebugModel.terra => Icons.bolt,
+        AIDebugModel.luna => Icons.air,
       };
 
   String _modelLabel(AIDebugModel model) => switch (model) {
-        AIDebugModel.mythos => "Mythos",
-        AIDebugModel.opus => "Opus",
-        AIDebugModel.sonnet => "Sonnet",
-        AIDebugModel.haiku => "Haiku",
+        AIDebugModel.astra => "Astra",
+        AIDebugModel.sol => "Sol",
+        AIDebugModel.terra => "Terra",
+        AIDebugModel.luna => "Luna",
       };
 
   MaterialColor _modeColor(AIDebugPermissionMode mode) =>
