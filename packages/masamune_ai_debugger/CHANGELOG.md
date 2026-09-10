@@ -1,3 +1,7 @@
+## 3.7.1
+
+ - **FIX**(masamune_ai_debugger): update AI models and introduce legacy aliases. ([7dab0c69](https://github.com/mathrunet/flutter_masamune/commit/7dab0c69fec642ff9e439f50e2e9f0bb8a27db79))
+
 ## 3.7.0
 
  - **FEAT**(masamune_ai_debugger): add anonymous login functionality. ([0e609611](https://github.com/mathrunet/flutter_masamune/commit/0e609611f0e30e1e4fcbffd44ac8a8fbe03352f8))

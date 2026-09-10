@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_firestore` - `v3.4.0`](#katana_model_firestore---v340)
+ - [`masamune_ai_debugger` - `v3.7.1`](#masamune_ai_debugger---v371)
+ - [`masamune_firebase_app_check` - `v3.3.0`](#masamune_firebase_app_check---v330)
+ - [`masamune_model_firestore` - `v3.2.0`](#masamune_model_firestore---v320)
+ - [`masamune_model_algolia` - `v3.2.21`](#masamune_model_algolia---v3221)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_model_algolia` - `v3.2.21`
+
+---
+
+#### `katana_model_firestore` - `v3.4.0`
+
+ - **FEAT**(katana_model_firestore): enable Firestore persistent cache index auto-creation by default. ([03236b5f](https://github.com/mathrunet/flutter_masamune/commit/03236b5fde052b767e6d15ab60f257d09725b6fa))
+
+#### `masamune_ai_debugger` - `v3.7.1`
+
+ - **FIX**(masamune_ai_debugger): update AI models and introduce legacy aliases. ([7dab0c69](https://github.com/mathrunet/flutter_masamune/commit/7dab0c69fec642ff9e439f50e2e9f0bb8a27db79))
+
+#### `masamune_firebase_app_check` - `v3.3.0`
+
+ - **REFACTOR**(firebase_app_check_masamune_adapter_test): reorder import statements for clarity. ([0e4044f5](https://github.com/mathrunet/flutter_masamune/commit/0e4044f5e5bd70a6212acb03d20b9191c1e74a8a))
+ - **FEAT**(masamune_firebase_app_check): add web provider support and update dependencies. ([ebbb4713](https://github.com/mathrunet/flutter_masamune/commit/ebbb4713a416fb832fce25a28309586bf67134fe))
+
+#### `masamune_model_firestore` - `v3.2.0`
+
+ - **FEAT**(katana_model_firestore): enable Firestore persistent cache index auto-creation by default. ([03236b5f](https://github.com/mathrunet/flutter_masamune/commit/03236b5fde052b767e6d15ab60f257d09725b6fa))
+
+
 ## 2026-09-09
 
 ### Changes

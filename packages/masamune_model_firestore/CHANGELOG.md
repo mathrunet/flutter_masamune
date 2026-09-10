@@ -1,3 +1,7 @@
+## 3.2.0
+
+ - **FEAT**(katana_model_firestore): enable Firestore persistent cache index auto-creation by default. ([03236b5f](https://github.com/mathrunet/flutter_masamune/commit/03236b5fde052b767e6d15ab60f257d09725b6fa))
+
 ## Unreleased
 
  - **FEAT**: Expose the Firestore persistent cache index auto-creation option from cached adapters.

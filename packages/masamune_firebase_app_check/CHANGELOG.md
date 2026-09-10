@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **REFACTOR**(firebase_app_check_masamune_adapter_test): reorder import statements for clarity. ([0e4044f5](https://github.com/mathrunet/flutter_masamune/commit/0e4044f5e5bd70a6212acb03d20b9191c1e74a8a))
+ - **FEAT**(masamune_firebase_app_check): add web provider support and update dependencies. ([ebbb4713](https://github.com/mathrunet/flutter_masamune/commit/ebbb4713a416fb832fce25a28309586bf67134fe))
+
 ## 3.2.0
 
  - **FEAT**(masamune_firebase_app_check): add web provider support and update dependencies. ([ebbb4713](https://github.com/mathrunet/flutter_masamune/commit/ebbb4713a416fb832fce25a28309586bf67134fe))
