@@ -14,6 +14,8 @@ part of "/katana_model_firestore.dart";
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
+/// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// Firestoreのすべてのドキュメントの変更を監視し、リモート側で変更があればそれを通知します。
@@ -27,6 +29,8 @@ part of "/katana_model_firestore.dart";
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+///
+/// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
 class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     implements FirestoreModelAdapterBase {
   /// Model adapter with Firebase Firestore available.
@@ -43,6 +47,8 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
+  /// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+  ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// Firestoreのすべてのドキュメントの変更を監視し、リモート側で変更があればそれを通知します。
@@ -56,6 +62,8 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  ///
+  /// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
   const ListenableFirestoreModelAdapter({
     super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
@@ -72,6 +80,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     super.validator,
     super.onInitialize,
     super.databaseId,
+    super.enablePersistentCacheIndexAutoCreation,
   });
 
   @override
@@ -85,11 +94,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     if (validator != null) {
       await validator!.onPreloadCollection(query);
     }
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     CachedFirestoreModelCollectionLoaderResponse? cache =
         await onPreloadCollection(query);
     Map<String, DynamicMap>? map = cache?.value;
@@ -210,11 +215,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
     if (validator != null) {
       await validator!.onPreloadDocument(query);
     }
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     DynamicMap? map = await onPreloadDocument(query);
     if (map != null) {
       if (validator != null) {
@@ -312,11 +313,7 @@ class ListenableFirestoreModelAdapter extends FirestoreModelAdapter
       "[splitLength] must be greater than 0 and less than or equal to 500 in Firestore.",
     );
     _assert();
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
     await wait(

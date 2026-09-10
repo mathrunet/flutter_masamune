@@ -18,6 +18,8 @@ const _kLocalDatabaseId = "localfirestore://";
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
+/// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// また、Firestoreから読み込まれたドキュメントデータやコレクションデータを[cachedLocalDatabase]に保存しておき、次回以降読み込む際はそちらを優先的に読み込みFirestoreの料金を削減することができます。
@@ -33,6 +35,8 @@ const _kLocalDatabaseId = "localfirestore://";
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+///
+/// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
 class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     implements FirestoreModelAdapterBase {
   /// Model adapter with Firebase Firestore available.
@@ -51,6 +55,8 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
+  /// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+  ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// また、Firestoreから読み込まれたドキュメントデータやコレクションデータを[cachedLocalDatabase]に保存しておき、次回以降読み込む際はそちらを優先的に読み込みFirestoreの料金を削減することができます。
@@ -66,6 +72,8 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  ///
+  /// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
   const CachedFirestoreModelAdapter({
     super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
@@ -83,6 +91,7 @@ class CachedFirestoreModelAdapter extends FirestoreModelAdapter
     super.validator,
     super.onInitialize,
     super.databaseId,
+    super.enablePersistentCacheIndexAutoCreation,
     this.collectionLoaders = const [],
     this.cacheFilter,
   }) : _cachedLocalDatabase = cachedLocalDatabase;

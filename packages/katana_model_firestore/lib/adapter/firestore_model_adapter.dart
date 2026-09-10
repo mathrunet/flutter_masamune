@@ -3,6 +3,9 @@ part of "/katana_model_firestore.dart";
 const _kTypeKey = "@type";
 const _kTargetKey = "@target";
 
+final Expando<Future<void>> _persistentCacheIndexAutoCreationFutures =
+    Expando<Future<void>>();
+
 /// Model adapter with Firebase Firestore available.
 ///
 /// Firestore application settings must be completed in advance and [FirebaseCore.initialize] must be executed.
@@ -15,6 +18,8 @@ const _kTargetKey = "@target";
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
+/// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
@@ -26,6 +31,8 @@ const _kTargetKey = "@target";
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+///
+/// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
 class FirestoreModelAdapter extends ModelAdapter
     implements FirestoreModelAdapterBase {
   /// Model adapter with Firebase Firestore available.
@@ -40,6 +47,8 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
+  /// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+  ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
@@ -51,6 +60,8 @@ class FirestoreModelAdapter extends ModelAdapter
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  ///
+  /// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
   const FirestoreModelAdapter({
     super.defaultAutoDisposeWhenUnreferenced,
     this.initialValue,
@@ -67,6 +78,7 @@ class FirestoreModelAdapter extends ModelAdapter
     this.validator,
     this.onInitialize,
     this.databaseId,
+    this.enablePersistentCacheIndexAutoCreation = true,
     this.vectorConverter = const RuntimeVectorConverter(),
   })  : _database = database,
         _options = options,
@@ -150,6 +162,15 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// 初期化を行う場合のコールバック。これが指定されている場合通常の初期化は行われません。
   final Future<void> Function(FirebaseOptions? options)? onInitialize;
+
+  /// Whether to automatically create persistent cache indexes on supported platforms.
+  ///
+  /// The setting is enabled once per [FirebaseFirestore] instance. Concurrent initialization is coalesced, and a failed attempt can be retried by a later operation.
+  ///
+  /// 対応プラットフォームで永続キャッシュのインデックスを自動作成するかどうか。
+  ///
+  /// [FirebaseFirestore]インスタンスごとに1回だけ有効化します。並行する初期化は1つにまとめられ、失敗した場合は後続操作で再試行できます。
+  final bool enablePersistentCacheIndexAutoCreation;
 
   /// Actual data when used as a mock-up.
   ///
@@ -342,6 +363,47 @@ class FirestoreModelAdapter extends ModelAdapter
   ) =>
       Future.value();
 
+  Future<void> _initialize() async {
+    if (onInitialize != null) {
+      await onInitialize?.call(options);
+    } else {
+      await FirebaseCore.initialize(options: options);
+    }
+    if (!enablePersistentCacheIndexAutoCreation) {
+      return;
+    }
+    final firestore = database;
+    final initialized = _persistentCacheIndexAutoCreationFutures[firestore];
+    if (initialized != null) {
+      await initialized;
+      return;
+    }
+    late final Future<void> future;
+    future = Future<void>.sync(() async {
+      if (!_platformInfo.isAndroid &&
+          !_platformInfo.isIOS &&
+          !_platformInfo.isMacOS) {
+        return;
+      }
+      PersistentCacheIndexManager? manager;
+      try {
+        manager = firestore.persistentCacheIndexManager();
+      } on NoSuchMethodError {
+        // Some FirebaseFirestore test doubles predate this optional API.
+        return;
+      }
+      await manager?.enableIndexAutoCreation();
+    }).onError((error, stackTrace) {
+      if (identical(
+          _persistentCacheIndexAutoCreationFutures[firestore], future)) {
+        _persistentCacheIndexAutoCreationFutures[firestore] = null;
+      }
+      Error.throwWithStackTrace(error!, stackTrace);
+    });
+    _persistentCacheIndexAutoCreationFutures[firestore] = future;
+    await future;
+  }
+
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     _assert();
@@ -350,11 +412,7 @@ class FirestoreModelAdapter extends ModelAdapter
           _FirestoreCache.getCache(options).get(_path(query.query.path));
       await validator!.onDeleteDocument(query, oldValue);
     }
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     await _documentReference(query).delete();
     await cachedRuntimeDatabase.deleteDocument(query, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path));
@@ -367,11 +425,7 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPreloadDocument(query);
     }
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     DynamicMap? res = await onPreloadDocument(query);
     if (res == null) {
       final snapshot = await _documentReference(query).get();
@@ -415,11 +469,7 @@ class FirestoreModelAdapter extends ModelAdapter
     if (validator != null) {
       await validator!.onPreloadCollection(query);
     }
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     CachedFirestoreModelCollectionLoaderResponse? cache =
         await onPreloadCollection(query);
     Map<String, DynamicMap>? res = cache?.value.map(
@@ -475,11 +525,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAggregateQuery aggregateQuery,
   ) async {
     _assert();
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     switch (aggregateQuery.type) {
       case ModelAggregateQueryType.count:
         final snapshot = await Future.wait<AggregateQuerySnapshot>(
@@ -557,11 +603,7 @@ class FirestoreModelAdapter extends ModelAdapter
         newValue: value,
       );
     }
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
 
     final converted = _convertTo(
       value,
@@ -711,11 +753,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ) transaction,
   ) async {
     _assert();
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     await database.runTransaction((handler) async {
       final ref = FirestoreModelTransactionRef._(handler);
       for (final tr in ref._preLocalTransaction) {
@@ -765,11 +803,7 @@ class FirestoreModelAdapter extends ModelAdapter
       "[splitLength] must be greater than 0 and less than or equal to 500 in Firestore.",
     );
     _assert();
-    if (onInitialize != null) {
-      await onInitialize?.call(options);
-    } else {
-      await FirebaseCore.initialize(options: options);
-    }
+    await _initialize();
     final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
     await wait(

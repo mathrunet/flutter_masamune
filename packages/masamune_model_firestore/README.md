@@ -119,6 +119,8 @@ final modelAdapter = CachedListenableFirestoreModelAdapter(
 );
 ```
 
+Both cached adapters enable Firestore persistent cache index auto-creation by default on supported platforms. To opt out completely, pass `enablePersistentCacheIndexAutoCreation: false` to either constructor.
+
 ### Basic Operations
 
 **Load a Collection**:

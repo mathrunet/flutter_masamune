@@ -1,7 +1,11 @@
+// Dart imports:
+import "dart:async";
+
 // Package imports:
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:fake_cloud_firestore/fake_cloud_firestore.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
+import "package:katana_platform_info/katana_platform_info.dart";
 import "package:test/test.dart";
 
 // Project imports:
@@ -41,7 +45,149 @@ class TestValueCollectionModel extends CollectionBase<TestValueDocumentModel> {
   }
 }
 
+class _TestPersistentCacheIndexManager implements PersistentCacheIndexManager {
+  int enableCount = 0;
+  Completer<void>? enableGate;
+  Object? enableError;
+
+  @override
+  Future<void> enableIndexAutoCreation() async {
+    enableCount++;
+    final gate = enableGate;
+    if (gate != null) {
+      await gate.future;
+    }
+    final error = enableError;
+    enableError = null;
+    if (error != null) {
+      throw error;
+    }
+  }
+
+  @override
+  Future<void> disableIndexAutoCreation() => Future.value();
+
+  @override
+  Future<void> deleteAllIndexes() => Future.value();
+}
+
+class _IndexManagerFakeFirebaseFirestore extends FakeFirebaseFirestore {
+  _IndexManagerFakeFirebaseFirestore(this.indexManager);
+
+  final PersistentCacheIndexManager? indexManager;
+
+  @override
+  PersistentCacheIndexManager? persistentCacheIndexManager() => indexManager;
+}
+
 void main() {
+  TestPlatformInfoAdapterScope.setTestAdapter(
+    adapter: const RuntimePlatformInfoAdapter(
+      platformType: PlatformType.android,
+      applicationId: "katana_model_firestore_test",
+    ),
+  );
+
+  test("firestoreModelAdapter enables persistent cache indexes by default",
+      () async {
+    final manager = _TestPersistentCacheIndexManager();
+    final firestore = _IndexManagerFakeFirebaseFirestore(manager);
+    final adapter = FirestoreModelAdapter(
+      database: firestore,
+      onInitialize: (options) => Future.value(),
+    );
+
+    await TestValueDocumentModel(
+      DocumentModelQuery("index/default", adapter: adapter),
+    ).load();
+
+    expect(adapter.enablePersistentCacheIndexAutoCreation, isTrue);
+    expect(manager.enableCount, 1);
+  });
+
+  test("firestoreModelAdapter can opt out of persistent cache indexes",
+      () async {
+    final manager = _TestPersistentCacheIndexManager();
+    final firestore = _IndexManagerFakeFirebaseFirestore(manager);
+    final adapter = FirestoreModelAdapter(
+      database: firestore,
+      onInitialize: (options) => Future.value(),
+      enablePersistentCacheIndexAutoCreation: false,
+    );
+
+    await TestValueDocumentModel(
+      DocumentModelQuery("index/disabled", adapter: adapter),
+    ).load();
+
+    expect(adapter.enablePersistentCacheIndexAutoCreation, isFalse);
+    expect(manager.enableCount, 0);
+  });
+
+  test("firestoreModelAdapter coalesces concurrent index initialization",
+      () async {
+    final manager = _TestPersistentCacheIndexManager()
+      ..enableGate = Completer<void>();
+    final firestore = _IndexManagerFakeFirebaseFirestore(manager);
+    final firstAdapter = FirestoreModelAdapter(
+      database: firestore,
+      onInitialize: (options) => Future.value(),
+    );
+    final secondAdapter = FirestoreModelAdapter(
+      database: firestore,
+      onInitialize: (options) => Future.value(),
+    );
+    final first = TestValueDocumentModel(
+      DocumentModelQuery("index/concurrent1", adapter: firstAdapter),
+    ).load();
+    final second = TestValueDocumentModel(
+      DocumentModelQuery("index/concurrent2", adapter: secondAdapter),
+    ).load();
+
+    await Future<void>.delayed(Duration.zero);
+    expect(manager.enableCount, 1);
+    manager.enableGate!.complete();
+    await Future.wait([first, second]);
+    await TestValueDocumentModel(
+      DocumentModelQuery("index/afterInitialization", adapter: firstAdapter),
+    ).load();
+
+    expect(manager.enableCount, 1);
+  });
+
+  test("firestoreModelAdapter retries index initialization after failure",
+      () async {
+    final failure = StateError("index initialization failed");
+    final manager = _TestPersistentCacheIndexManager()..enableError = failure;
+    final firestore = _IndexManagerFakeFirebaseFirestore(manager);
+    final adapter = FirestoreModelAdapter(
+      database: firestore,
+      onInitialize: (options) => Future.value(),
+    );
+    final query = ModelAdapterDocumentQuery(
+      query: DocumentModelQuery("index/retry", adapter: adapter),
+    );
+
+    await expectLater(adapter.loadDocument(query), throwsA(same(failure)));
+    await adapter.loadDocument(query);
+
+    expect(manager.enableCount, 2);
+  });
+
+  test("firestoreModelAdapter skips index initialization without a manager",
+      () async {
+    final firestore = _IndexManagerFakeFirebaseFirestore(null);
+    final adapter = FirestoreModelAdapter(
+      database: firestore,
+      onInitialize: (options) => Future.value(),
+    );
+
+    await TestValueDocumentModel(
+      DocumentModelQuery("index/noManager", adapter: adapter),
+    ).load();
+
+    expect(adapter.enablePersistentCacheIndexAutoCreation, isTrue);
+  });
+
   test("firestoreModelAdapter.saveAndLoadAndDeleteOnDoc", () async {
     final firestore = FakeFirebaseFirestore();
     final localDatabase = NoSqlDatabase();

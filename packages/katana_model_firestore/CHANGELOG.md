@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **FEAT**: Enable Firestore persistent cache index auto-creation by default on supported platforms, with an opt-out option.
+
 ## 3.3.9
 
  - Update a dependency to the latest release.
@@ -1156,4 +1160,3 @@
 ## 1.0.1
 
  - Update a dependency to the latest release.
-

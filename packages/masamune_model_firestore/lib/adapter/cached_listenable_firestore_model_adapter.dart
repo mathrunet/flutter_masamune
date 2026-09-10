@@ -18,6 +18,8 @@ part of "/masamune_model_firestore.dart";
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
+/// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// また、Firestoreから読み込まれたドキュメントデータやコレクションデータを[cachedLocalDatabase]に保存しておき、次回以降読み込む際はそちらを優先的に読み込みFirestoreの料金を削減することができます。
@@ -35,6 +37,8 @@ part of "/masamune_model_firestore.dart";
 /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+///
+/// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
 class CachedListenableFirestoreModelAdapter
     extends ListenableFirestoreModelAdapter
     implements FirestoreModelAdapterBase {
@@ -56,6 +60,8 @@ class CachedListenableFirestoreModelAdapter
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
+  /// Persistent cache index auto-creation is enabled by default on supported platforms. Set [enablePersistentCacheIndexAutoCreation] to `false` to opt out.
+  ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// また、Firestoreから読み込まれたドキュメントデータやコレクションデータを[cachedLocalDatabase]に保存しておき、次回以降読み込む際はそちらを優先的に読み込みFirestoreの料金を削減することができます。
@@ -73,6 +79,8 @@ class CachedListenableFirestoreModelAdapter
   /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  ///
+  /// 対応プラットフォームでは永続キャッシュのインデックス自動作成がデフォルトで有効です。無効にする場合は[enablePersistentCacheIndexAutoCreation]に`false`を指定します。
   const CachedListenableFirestoreModelAdapter({
     super.defaultAutoDisposeWhenUnreferenced,
     super.initialValue,
@@ -90,6 +98,7 @@ class CachedListenableFirestoreModelAdapter
     super.validator,
     super.onInitialize,
     super.databaseId,
+    super.enablePersistentCacheIndexAutoCreation,
     this.collectionLoaders = const [],
     this.cacheFilter,
   }) : _cachedLocalDatabase = cachedLocalDatabase;

@@ -193,6 +193,19 @@ The models all inherit from `ChangeNotifier`, and if updates are monitored by `a
 
 # Implementation
 
+## Persistent cache indexes
+
+`FirestoreModelAdapter` and `ListenableFirestoreModelAdapter` enable Firestore persistent cache index auto-creation by default on Android and Apple platforms when a `PersistentCacheIndexManager` is available. Initialization is performed once per `FirebaseFirestore` instance, and concurrent calls share the same initialization.
+
+To opt out completely, set `enablePersistentCacheIndexAutoCreation` to `false`.
+
+```dart
+final modelAdapter = FirestoreModelAdapter(
+  options: DefaultFirebaseOptions.currentPlatform,
+  enablePersistentCacheIndexAutoCreation: false,
+);
+```
+
 ## Advance preparation
 
 Place the `ModelAdapterScope` on top of the MaterialApp, for example, and specify the `ModelAdapter`.
