@@ -396,7 +396,7 @@ packages:
       path: "../katana_model_firestore"
       relative: true
     source: path
-    version: "3.3.9"
+    version: "3.4.0"
   katana_model_local:
     dependency: "direct overridden"
     description:

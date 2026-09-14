@@ -375,7 +375,7 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "3.7.3"
+    version: "3.8.0"
   katana_platform_info:
     dependency: "direct main"
     description:

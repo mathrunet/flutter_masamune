@@ -45,9 +45,26 @@ Future<void> main(List<String> args) async {
     exit(0);
   }
   final command = args.firstOrNull;
-  if (command == "help") {
+  if (command == "help" || command == "--help" || command == "-h") {
     showReadme();
     exit(0);
+  }
+  final selectedCommand = commands[command];
+  if (selectedCommand == null) {
+    showReadme();
+    exit(0);
+  }
+  if (args.skip(1).any(_isHelpArgument)) {
+    showCommandHelp(command!, selectedCommand);
+    exit(0);
+  }
+  if (command == "apply") {
+    final invalidArgument = _validateApplyArguments(args.skip(1).toList());
+    if (invalidArgument != null) {
+      stderr.writeln(invalidArgument);
+      showCommandHelp(command!, selectedCommand);
+      exit(1);
+    }
   }
   final katana = File("katana.yaml");
   final katanaSecrets = File("katana_secrets.yaml");
@@ -128,6 +145,40 @@ Future<void> main(List<String> args) async {
   exit(0);
 }
 
+bool _isHelpArgument(String argument) =>
+    argument == "--help" || argument == "-h";
+
+String? _validateApplyArguments(List<String> arguments) {
+  if (arguments.length == 2 &&
+      arguments[0] == "keystore" &&
+      arguments[1] == "init") {
+    return null;
+  }
+  var hasFlavor = false;
+  for (var i = 0; i < arguments.length; i++) {
+    final argument = arguments[i];
+    String? flavor;
+    if (argument == "--flavor") {
+      if (i + 1 >= arguments.length) {
+        return "Invalid argument: --flavor requires one value.";
+      }
+      flavor = arguments[++i];
+    } else if (argument.startsWith("--flavor=")) {
+      flavor = argument.substring("--flavor=".length);
+    } else {
+      return "Unknown argument for `katana apply`: $argument";
+    }
+    if (hasFlavor) {
+      return "Invalid argument: --flavor was specified more than once.";
+    }
+    if (flavor != "dev" && flavor != "prod") {
+      return "Invalid argument: --flavor must be dev or prod.";
+    }
+    hasFlavor = true;
+  }
+  return null;
+}
+
 FlavorContext? _resolveFlavorContext({
   required String? command,
   required Map<dynamic, dynamic> yaml,
@@ -162,5 +213,15 @@ Katana command line interfaces.
 
 ${commands.toList((key, value) => "$key:\r\n    - ${value.description}").join("\r\n")}
 """,
+  );
+}
+
+/// Displays usage and a description of one command.
+///
+/// 1つのコマンドの使用方法と説明を表示します。
+void showCommandHelp(String name, CliCommand command) {
+  // ignore: avoid_print
+  print(
+    "Usage: ${command.example ?? "katana $name"}\n\n${command.description}",
   );
 }

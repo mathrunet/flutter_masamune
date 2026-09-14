@@ -397,7 +397,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "3.3.2"
+    version: "3.3.3"
   katana_logger:
     dependency: "direct overridden"
     description:

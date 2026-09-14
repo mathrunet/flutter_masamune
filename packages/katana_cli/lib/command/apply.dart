@@ -102,8 +102,34 @@ const _actions = <CliActionMixin>[
   MailSendGridCliAction(),
   AppGeocodingCliAction(),
   EcosystemCliAction(),
+  AndroidManifestQueryFinalizeCliAction(),
   AndroidManifestPlaceholderFinalizeCliAction(),
 ];
+
+/// 全プラグインの設定後に、ブラウザ認証に必要なManifest queryを整えます。
+class AndroidManifestQueryFinalizeCliAction extends CliCommand
+    with CliActionMixin {
+  /// Manifest queryの最終処理。
+  const AndroidManifestQueryFinalizeCliAction();
+
+  @override
+  String get description => "AndroidManifestのqueryを修復し、ブラウザ認証の設定を反映します。";
+
+  @override
+  bool checkEnabled(ExecContext context) =>
+      const AndroidManifestQuerySynchronizer().hasFile;
+
+  @override
+  Future<void> exec(ExecContext context) async {
+    final firebase = context.yaml.getAsMap("firebase");
+    final authentication = firebase.getAsMap("authentication");
+    await const AndroidManifestQuerySynchronizer().apply(enable: [
+      if (firebase.get("project_id", "").isNotEmpty &&
+          authentication.get("enable", false))
+        AndroidManifestQueryType.customTabs,
+    ]);
+  }
+}
 
 /// Synchronizes Dart define placeholders in AndroidManifest with Gradle.
 ///

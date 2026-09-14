@@ -531,6 +531,152 @@ enum AndroidManifestPermissionType {
   }
 }
 
+/// AndroidManifestの既知のqueryを修復し、必要なqueryを追加します。
+class AndroidManifestQuerySynchronizer {
+  /// 対象Manifestを指定します。
+  const AndroidManifestQuerySynchronizer({
+    this.manifestPath = "android/app/src/main/AndroidManifest.xml",
+  });
+
+  /// AndroidManifest.xmlへのパス。
+  final String manifestPath;
+
+  /// Android以外のプロジェクトでは処理を省略します。
+  bool get hasFile => File(manifestPath).existsSync();
+
+  /// 既存queryの条件を保持して修復します。指定したqueryだけ新規追加します。
+  Future<void> apply({
+    Iterable<AndroidManifestQueryType> enable = const [],
+  }) async {
+    final file = File(manifestPath);
+    if (!file.existsSync()) {
+      return;
+    }
+    final original = await file.readAsString();
+    final document = XmlDocument.parse(original);
+    final manifest = document.rootElement;
+    if (manifest.name.toString() != "manifest") {
+      throw const FormatException("AndroidManifest.xmlにmanifest要素がありません。");
+    }
+    final queries = manifest.findElements("queries").toList();
+    final known = <String, XmlElement>{};
+    var changed = false;
+    for (final query in queries) {
+      for (final intent in query.findElements("intent").toList()) {
+        final type = _knownType(intent);
+        if (type == null) {
+          continue;
+        }
+        final value = type.scheme ?? type.mimeType;
+        if (value != null) {
+          final attribute =
+              type.scheme == null ? "android:mimeType" : "android:scheme";
+          for (final data in intent.findElements("data")) {
+            // CLIが生成した既知の誤属性だけを変換します。競合した条件は保持します。
+            if (data.getAttribute("android:data") == value &&
+                (data.getAttribute(attribute) == null ||
+                    data.getAttribute(attribute) == value)) {
+              data.setAttribute(attribute, value);
+              data.removeAttribute("android:data");
+              changed = true;
+            }
+          }
+        }
+        final signature = _signature(intent);
+        final previous = known[signature];
+        if (previous == null) {
+          known[signature] = intent;
+        } else {
+          // 重複したintent内のコメントも失わないよう、残すintentへ移します。
+          previous.children.addAll(
+            intent.descendants
+                .whereType<XmlComment>()
+                .map((node) => node.copy())
+                .toList(),
+          );
+          intent.parent!.children.remove(intent);
+          changed = true;
+        }
+      }
+    }
+    for (final type in enable) {
+      final intent = _intent(type);
+      final signature = _signature(intent);
+      if (known.containsKey(signature)) {
+        continue;
+      }
+      if (queries.isEmpty) {
+        final query = XmlElement(XmlName("queries"));
+        manifest.children.add(query);
+        queries.add(query);
+      }
+      queries.first.children.add(intent);
+      known[signature] = intent;
+      changed = true;
+    }
+    if (changed) {
+      await file.writeAsString(
+        document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+      );
+    }
+  }
+
+  static AndroidManifestQueryType? _knownType(XmlElement intent) {
+    final actions = intent.findElements("action").toList();
+    // 複数actionはユーザー定義の複合queryとして扱います。
+    if (actions.length != 1) {
+      return null;
+    }
+    final id = actions.single.getAttribute("android:name");
+    return AndroidManifestQueryType.values.firstWhereOrNull((type) {
+      if (type.id != id) {
+        return false;
+      }
+      final value = type.scheme ?? type.mimeType;
+      if (value == null) {
+        return intent.findElements("data").isEmpty;
+      }
+      final attribute =
+          type.scheme == null ? "android:mimeType" : "android:scheme";
+      return intent.findElements("data").any((data) =>
+          data.getAttribute(attribute) == value ||
+          data.getAttribute("android:data") == value);
+    });
+  }
+
+  static XmlElement _intent(AndroidManifestQueryType type) {
+    XmlElement element(String name, String key, String value) => XmlElement(
+          XmlName(name),
+          [XmlAttribute(XmlName(key), value)],
+        );
+    return XmlElement(XmlName("intent"), [], [
+      element("action", "android:name", type.id),
+      if (type.category != null)
+        element("category", "android:name", type.category!),
+      if (type.scheme != null) element("data", "android:scheme", type.scheme!),
+      if (type.mimeType != null)
+        element("data", "android:mimeType", type.mimeType!),
+    ]);
+  }
+
+  // 属性・子要素の順序、空白、コメントを除き、すべての条件を比較します。
+  static String _signature(XmlElement element) {
+    final attributes = element.attributes
+        .map((attribute) => attribute.toXmlString())
+        .toList()
+      ..sort();
+    final children = element.children
+        .where((node) =>
+            node is! XmlComment &&
+            !(node is XmlText && node.value.trim().isEmpty))
+        .map((node) =>
+            node is XmlElement ? _signature(node) : node.toXmlString())
+        .toList()
+      ..sort();
+    return "<${element.name} ${attributes.join(' ')}>${children.join()}</${element.name}>";
+  }
+}
+
 /// Query type for AndroidManifest.
 ///
 /// AndroidManifest用のクエリータイプ。
@@ -567,12 +713,20 @@ enum AndroidManifestQueryType {
   /// Enables other data to be sent.
   ///
   /// その他データを送れるようにします。
-  sendAny("android.intent.action.SEND", scheme: "*/*");
+  sendAny("android.intent.action.SEND", mimeType: "*/*"),
+
+  /// ブラウザ認証でCustom Tabs対応サービスを検出できるようにします。
+  customTabs("android.support.customtabs.action.CustomTabsService");
 
   /// Query type for AndroidManifest.
   ///
   /// AndroidManifest用のクエリータイプ。
-  const AndroidManifestQueryType(this.id, {this.scheme, this.category});
+  const AndroidManifestQueryType(
+    this.id, {
+    this.scheme,
+    this.mimeType,
+    this.category,
+  });
 
   /// ID of the query.
   ///
@@ -583,6 +737,9 @@ enum AndroidManifestQueryType {
   ///
   /// スキーム名。
   final String? scheme;
+
+  /// 送信データのMIMEタイプ。
+  final String? mimeType;
 
   /// Category Name.
   ///
@@ -599,106 +756,6 @@ enum AndroidManifestQueryType {
         "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`. Do `katana create` to complete the initial setup of the project.",
       );
     }
-    final document = XmlDocument.parse(await file.readAsString());
-    final manifest = document.findAllElements("manifest");
-    if (manifest.isEmpty) {
-      throw Exception(
-        "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
-      );
-    }
-    final queries = manifest.first.children.firstWhereOrNull(
-            (p0) => p0 is XmlElement && p0.name.toString() == "queries") ??
-        () {
-          final q = XmlElement(XmlName("queries"), [], []);
-          manifest.first.children.insertFirst(q);
-          return q;
-        }();
-    if (scheme.isEmpty) {
-      if (!queries.children.any((p0) =>
-          p0 is XmlElement &&
-          p0.name.toString() == "intent" &&
-          p0.children.any((p1) =>
-              p1 is XmlElement &&
-              p1.name.toString() == "action" &&
-              p1.attributes.any((p2) =>
-                  p2.name.toString() == "android:name" && p2.value == id)))) {
-        queries.children.add(
-          XmlElement(
-            XmlName("intent"),
-            [],
-            [
-              XmlElement(
-                XmlName("action"),
-                [
-                  XmlAttribute(
-                    XmlName("android:name"),
-                    id,
-                  ),
-                ],
-                [],
-              ),
-            ],
-          ),
-        );
-      }
-    } else {
-      if (!queries.children.any((p0) =>
-          p0 is XmlElement &&
-          p0.name.toString() == "intent" &&
-          p0.children.any((p1) =>
-              p1 is XmlElement &&
-              p1.name.toString() == "action" &&
-              p1.attributes.any((p2) =>
-                  p2.name.toString() == "android:name" && p2.value == id)) &&
-          p0.children.any((p1) =>
-              p1 is XmlElement &&
-              p1.name.toString() == "data" &&
-              p1.attributes.any((p2) =>
-                  p2.name.toString() == "android:data" &&
-                  p2.value == scheme)))) {
-        queries.children.add(
-          XmlElement(
-            XmlName("intent"),
-            [],
-            [
-              XmlElement(
-                XmlName("action"),
-                [
-                  XmlAttribute(
-                    XmlName("android:name"),
-                    id,
-                  ),
-                ],
-                [],
-              ),
-              if (category != null)
-                XmlElement(
-                  XmlName("category"),
-                  [
-                    XmlAttribute(
-                      XmlName("android:name"),
-                      category!,
-                    ),
-                  ],
-                  [],
-                ),
-              XmlElement(
-                XmlName("data"),
-                [
-                  XmlAttribute(
-                    XmlName("android:data"),
-                    scheme!,
-                  ),
-                ],
-                [],
-              ),
-            ],
-          ),
-        );
-      }
-    }
-    await file.writeAsString(
-      document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
-    );
+    await const AndroidManifestQuerySynchronizer().apply(enable: [this]);
   }
 }
