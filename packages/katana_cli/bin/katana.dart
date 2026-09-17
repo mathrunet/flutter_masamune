@@ -10,6 +10,7 @@ import "package:yaml/yaml.dart";
 import "package:katana_cli/command/analytics/analytics.dart";
 import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/command/cer/cer.dart";
+import "package:katana_cli/command/debug/debug.dart";
 import "package:katana_cli/command/deploy.dart";
 import "package:katana_cli/command/doctor.dart";
 import "package:katana_cli/command/fix.dart";
@@ -37,6 +38,7 @@ const commands = <String, CliCommand>{
   "cer": CerCliCommand(),
   "fix": FixCliCommand(),
   "analytics": AnalyticsCliCommand(),
+  "debug": DebugCliCommand(),
 };
 
 Future<void> main(List<String> args) async {
