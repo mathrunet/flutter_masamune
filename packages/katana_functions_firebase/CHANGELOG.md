@@ -1,3 +1,7 @@
+## 3.1.3
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.1.2
 
  - **DOCS**(firebase_functions_adapter): update npm package reference in comments to 'masamune_firebase'. ([3520abcc](https://github.com/mathrunet/flutter_masamune/commit/3520abcc88c6c8beea4760a708d9a3bdcfad6368))

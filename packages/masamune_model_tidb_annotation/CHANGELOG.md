@@ -1,3 +1,7 @@
+## 3.3.4
+
+ - Update a dependency to the latest release.
+
 ## 3.3.3
 
  - **FIX**(tidb): migrate to Data Service model and enhance state management. ([773aa5a5](https://github.com/mathrunet/flutter_masamune/commit/773aa5a57efbae84718c95cfefc163b10f07a413))

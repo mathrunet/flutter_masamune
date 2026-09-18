@@ -3,6 +3,492 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v3.4.1`](#katana---v341)
+ - [`katana_auth` - `v3.1.4`](#katana_auth---v314)
+ - [`katana_auth_firebase` - `v3.3.3`](#katana_auth_firebase---v333)
+ - [`katana_cli` - `v3.26.0`](#katana_cli---v3260)
+ - [`katana_firebase` - `v3.1.2`](#katana_firebase---v312)
+ - [`katana_form` - `v3.2.4`](#katana_form---v324)
+ - [`katana_functions` - `v3.1.2`](#katana_functions---v312)
+ - [`katana_functions_firebase` - `v3.1.3`](#katana_functions_firebase---v313)
+ - [`katana_indicator` - `v3.3.5`](#katana_indicator---v335)
+ - [`katana_localization` - `v3.1.2`](#katana_localization---v312)
+ - [`katana_localization_annotation` - `v3.2.2`](#katana_localization_annotation---v322)
+ - [`katana_localization_builder` - `v3.2.5`](#katana_localization_builder---v325)
+ - [`katana_logger` - `v3.3.1`](#katana_logger---v331)
+ - [`katana_model` - `v3.8.1`](#katana_model---v381)
+ - [`katana_model_local` - `v3.3.9`](#katana_model_local---v339)
+ - [`katana_platform_info` - `v3.2.2`](#katana_platform_info---v322)
+ - [`katana_router` - `v3.3.4`](#katana_router---v334)
+ - [`katana_router_annotation` - `v3.1.2`](#katana_router_annotation---v312)
+ - [`katana_router_builder` - `v3.1.6`](#katana_router_builder---v316)
+ - [`katana_scoped` - `v3.1.4`](#katana_scoped---v314)
+ - [`katana_shorten` - `v3.1.2`](#katana_shorten---v312)
+ - [`katana_storage` - `v3.1.2`](#katana_storage---v312)
+ - [`katana_storage_firebase` - `v3.1.2`](#katana_storage_firebase---v312)
+ - [`katana_test` - `v3.1.1`](#katana_test---v311)
+ - [`katana_theme` - `v3.4.2`](#katana_theme---v342)
+ - [`katana_theme_annotation` - `v3.1.2`](#katana_theme_annotation---v312)
+ - [`katana_theme_builder` - `v3.1.5`](#katana_theme_builder---v315)
+ - [`masamune` - `v3.5.20`](#masamune---v3520)
+ - [`masamune_ads_google` - `v3.1.21`](#masamune_ads_google---v3121)
+ - [`masamune_agora` - `v3.2.12`](#masamune_agora---v3212)
+ - [`masamune_ai_firebase` - `v3.2.22`](#masamune_ai_firebase---v3222)
+ - [`masamune_ai_openai` - `v3.3.22`](#masamune_ai_openai---v3322)
+ - [`masamune_animate` - `v3.1.20`](#masamune_animate---v3120)
+ - [`masamune_annotation` - `v3.1.2`](#masamune_annotation---v312)
+ - [`masamune_app_review` - `v3.1.20`](#masamune_app_review---v3120)
+ - [`masamune_auth_apple` - `v3.1.20`](#masamune_auth_apple---v3120)
+ - [`masamune_auth_apple_firebase` - `v3.1.20`](#masamune_auth_apple_firebase---v3120)
+ - [`masamune_auth_facebook` - `v3.1.20`](#masamune_auth_facebook---v3120)
+ - [`masamune_auth_firebase` - `v3.1.20`](#masamune_auth_firebase---v3120)
+ - [`masamune_auth_github_firebase` - `v3.4.20`](#masamune_auth_github_firebase---v3420)
+ - [`masamune_auth_google` - `v3.2.14`](#masamune_auth_google---v3214)
+ - [`masamune_auth_google_firebase` - `v3.1.20`](#masamune_auth_google_firebase---v3120)
+ - [`masamune_calendar` - `v3.1.20`](#masamune_calendar---v3120)
+ - [`masamune_camera` - `v3.5.1`](#masamune_camera---v351)
+ - [`masamune_deeplink` - `v3.1.20`](#masamune_deeplink---v3120)
+ - [`masamune_force_updater` - `v3.1.20`](#masamune_force_updater---v3120)
+ - [`masamune_functions_cloudflare` - `v3.2.11`](#masamune_functions_cloudflare---v3211)
+ - [`masamune_google_cloud` - `v3.2.21`](#masamune_google_cloud---v3221)
+ - [`masamune_handover` - `v3.1.0`](#masamune_handover---v310)
+ - [`masamune_introduction` - `v3.4.20`](#masamune_introduction---v3420)
+ - [`masamune_location` - `v3.1.21`](#masamune_location---v3121)
+ - [`masamune_location_background` - `v3.1.20`](#masamune_location_background---v3120)
+ - [`masamune_location_geocoding` - `v3.1.20`](#masamune_location_geocoding---v3120)
+ - [`masamune_location_google` - `v3.1.20`](#masamune_location_google---v3120)
+ - [`masamune_location_platform_interface` - `v3.1.20`](#masamune_location_platform_interface---v3120)
+ - [`masamune_logger_firebase` - `v3.1.20`](#masamune_logger_firebase---v3120)
+ - [`masamune_mail` - `v3.2.14`](#masamune_mail---v3214)
+ - [`masamune_markdown` - `v3.6.16`](#masamune_markdown---v3616)
+ - [`masamune_model_algolia` - `v3.2.22`](#masamune_model_algolia---v3222)
+ - [`masamune_model_cloudflare_kv` - `v3.2.11`](#masamune_model_cloudflare_kv---v3211)
+ - [`masamune_model_docs_builder` - `v3.2.7`](#masamune_model_docs_builder---v327)
+ - [`masamune_model_firebase_data_connect` - `v3.2.20`](#masamune_model_firebase_data_connect---v3220)
+ - [`masamune_model_firebase_data_connect_annotation` - `v3.1.2`](#masamune_model_firebase_data_connect_annotation---v312)
+ - [`masamune_model_firebase_remote_config` - `v3.2.20`](#masamune_model_firebase_remote_config---v3220)
+ - [`masamune_model_firestore` - `v3.3.0`](#masamune_model_firestore---v330)
+ - [`masamune_model_firestore_builder` - `v3.2.7`](#masamune_model_firestore_builder---v327)
+ - [`masamune_model_functions` - `v3.4.20`](#masamune_model_functions---v3420)
+ - [`masamune_model_github` - `v3.6.17`](#masamune_model_github---v3617)
+ - [`masamune_model_tidb` - `v3.5.11`](#masamune_model_tidb---v3511)
+ - [`masamune_model_turso` - `v3.7.9`](#masamune_model_turso---v379)
+ - [`masamune_notification` - `v3.2.20`](#masamune_notification---v3220)
+ - [`masamune_notification_firebase` - `v3.1.20`](#masamune_notification_firebase---v3120)
+ - [`masamune_notification_local` - `v3.1.20`](#masamune_notification_local---v3120)
+ - [`masamune_painter` - `v3.3.24`](#masamune_painter---v3324)
+ - [`masamune_picker` - `v3.2.20`](#masamune_picker---v3220)
+ - [`masamune_purchase_mobile` - `v3.1.21`](#masamune_purchase_mobile---v3121)
+ - [`masamune_purchase_stripe` - `v3.7.20`](#masamune_purchase_stripe---v3720)
+ - [`masamune_scheduler` - `v3.1.20`](#masamune_scheduler---v3120)
+ - [`masamune_speech_to_text` - `v3.2.20`](#masamune_speech_to_text---v3220)
+ - [`masamune_speech_to_text_google` - `v3.2.21`](#masamune_speech_to_text_google---v3221)
+ - [`masamune_speech_to_text_mobile` - `v3.2.20`](#masamune_speech_to_text_mobile---v3220)
+ - [`masamune_storage_cloudflare` - `v3.2.11`](#masamune_storage_cloudflare---v3211)
+ - [`masamune_storage_functions` - `v3.2.20`](#masamune_storage_functions---v3220)
+ - [`masamune_test` - `v3.3.21`](#masamune_test---v3321)
+ - [`masamune_text_to_speech` - `v3.1.20`](#masamune_text_to_speech---v3120)
+ - [`masamune_universal_ui` - `v3.2.21`](#masamune_universal_ui---v3221)
+ - [`masamune_util` - `v3.1.20`](#masamune_util---v3120)
+ - [`masamune_workflow` - `v3.3.14`](#masamune_workflow---v3314)
+ - [`katana_builder` - `v3.2.4`](#katana_builder---v324)
+ - [`masamune_ai` - `v3.4.1`](#masamune_ai---v341)
+ - [`katana_ui` - `v3.3.5`](#katana_ui---v335)
+ - [`masamune_ai_debugger` - `v3.7.2`](#masamune_ai_debugger---v372)
+ - [`masamune_model_firebase_data_connect_builder` - `v3.2.7`](#masamune_model_firebase_data_connect_builder---v327)
+ - [`katana_model_firestore` - `v3.4.1`](#katana_model_firestore---v341)
+ - [`masamune_builder` - `v3.1.7`](#masamune_builder---v317)
+ - [`masamune_firebase_app_check` - `v3.3.1`](#masamune_firebase_app_check---v331)
+ - [`masamune_purchase` - `v3.2.1`](#masamune_purchase---v321)
+ - [`masamune_model_tidb_annotation` - `v3.3.4`](#masamune_model_tidb_annotation---v334)
+ - [`masamune_model_tidb_builder` - `v3.4.5`](#masamune_model_tidb_builder---v345)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_builder` - `v3.2.4`
+ - `masamune_ai` - `v3.4.1`
+ - `katana_ui` - `v3.3.5`
+ - `masamune_ai_debugger` - `v3.7.2`
+ - `masamune_model_firebase_data_connect_builder` - `v3.2.7`
+ - `katana_model_firestore` - `v3.4.1`
+ - `masamune_builder` - `v3.1.7`
+ - `masamune_firebase_app_check` - `v3.3.1`
+ - `masamune_purchase` - `v3.2.1`
+ - `masamune_model_tidb_annotation` - `v3.3.4`
+ - `masamune_model_tidb_builder` - `v3.4.5`
+
+---
+
+#### `katana` - `v3.4.1`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_auth` - `v3.1.4`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_auth_firebase` - `v3.3.3`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_cli` - `v3.26.0`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+ - **FEAT**(katana_cli): add application handover support. ([bbf9e1a8](https://github.com/mathrunet/flutter_masamune/commit/bbf9e1a8b55ad5d5c407240c47c5993e25bdd5a7))
+ - **FEAT**(katana_cli): add debug command for capturing Firebase App Check tokens. ([a720a4d5](https://github.com/mathrunet/flutter_masamune/commit/a720a4d58748de5d0eff62c78f14e903e74162bc))
+
+#### `katana_firebase` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_form` - `v3.2.4`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_functions` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_functions_firebase` - `v3.1.3`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_indicator` - `v3.3.5`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_localization` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_localization_annotation` - `v3.2.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_localization_builder` - `v3.2.5`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_logger` - `v3.3.1`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_model` - `v3.8.1`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_model_local` - `v3.3.9`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_platform_info` - `v3.2.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_router` - `v3.3.4`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_router_annotation` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_router_builder` - `v3.1.6`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_scoped` - `v3.1.4`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_shorten` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_storage` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_storage_firebase` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_test` - `v3.1.1`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_theme` - `v3.4.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_theme_annotation` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `katana_theme_builder` - `v3.1.5`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune` - `v3.5.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_ads_google` - `v3.1.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_agora` - `v3.2.12`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_ai_firebase` - `v3.2.22`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_ai_openai` - `v3.3.22`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_animate` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_annotation` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_app_review` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_apple` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_apple_firebase` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_facebook` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_firebase` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_github_firebase` - `v3.4.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_google` - `v3.2.14`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_auth_google_firebase` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_calendar` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_camera` - `v3.5.1`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_deeplink` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_force_updater` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_functions_cloudflare` - `v3.2.11`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_google_cloud` - `v3.2.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_handover` - `v3.1.0`
+
+ - **FEAT**(masamune_handover): initial release of the Handover plugin. ([445f7246](https://github.com/mathrunet/flutter_masamune/commit/445f7246c8b37647ea061c4cf92e713af5a02621))
+
+#### `masamune_introduction` - `v3.4.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_location` - `v3.1.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_location_background` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_location_geocoding` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_location_google` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_location_platform_interface` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_logger_firebase` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_mail` - `v3.2.14`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_markdown` - `v3.6.16`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_algolia` - `v3.2.22`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_cloudflare_kv` - `v3.2.11`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_docs_builder` - `v3.2.7`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_firebase_data_connect` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_firebase_data_connect_annotation` - `v3.1.2`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_firebase_remote_config` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_firestore` - `v3.3.0`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+ - **FEAT**(katana_model_firestore): enable Firestore persistent cache index auto-creation by default. ([03236b5f](https://github.com/mathrunet/flutter_masamune/commit/03236b5fde052b767e6d15ab60f257d09725b6fa))
+
+#### `masamune_model_firestore_builder` - `v3.2.7`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_functions` - `v3.4.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_github` - `v3.6.17`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_model_tidb` - `v3.5.11`
+
+ - **FIX**(tidb_adapter,turso_adapter): implement retry logic for transient errors. ([7fdd454c](https://github.com/mathrunet/flutter_masamune/commit/7fdd454c78d0ec425f64c9f6e38f1992209f979a))
+
+#### `masamune_model_turso` - `v3.7.9`
+
+ - **FIX**(tidb_adapter,turso_adapter): implement retry logic for transient errors. ([7fdd454c](https://github.com/mathrunet/flutter_masamune/commit/7fdd454c78d0ec425f64c9f6e38f1992209f979a))
+
+#### `masamune_notification` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_notification_firebase` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_notification_local` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_painter` - `v3.3.24`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_picker` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_purchase_mobile` - `v3.1.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_purchase_stripe` - `v3.7.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_scheduler` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_speech_to_text` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_speech_to_text_google` - `v3.2.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_speech_to_text_mobile` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_storage_cloudflare` - `v3.2.11`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_storage_functions` - `v3.2.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_test` - `v3.3.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_text_to_speech` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_universal_ui` - `v3.2.21`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_util` - `v3.1.20`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+#### `masamune_workflow` - `v3.3.14`
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
+
 ## 2026-09-10
 
 ### Changes

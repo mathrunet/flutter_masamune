@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - Update a dependency to the latest release.
+
 ## 3.3.0
 
  - **REFACTOR**(firebase_app_check_masamune_adapter_test): reorder import statements for clarity. ([0e4044f5](https://github.com/mathrunet/flutter_masamune/commit/0e4044f5e5bd70a6212acb03d20b9191c1e74a8a))

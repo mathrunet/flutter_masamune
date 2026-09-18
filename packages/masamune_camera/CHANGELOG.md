@@ -1,3 +1,7 @@
+## 3.5.1
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.5.0
 
  - **FIX**(masamune_camera): improve camera initialization and disposal handling. ([909ad31b](https://github.com/mathrunet/flutter_masamune/commit/909ad31b6dce4e248ac001dff5f77da7e2ca046f))

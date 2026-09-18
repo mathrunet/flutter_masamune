@@ -1,3 +1,7 @@
+## 3.4.1
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.4.0
 
  - **FEAT**: Add URLEncode related features. ([68c196e6](https://github.com/mathrunet/flutter_masamune/commit/68c196e6049e951342c3e0f6232367f99d161770))

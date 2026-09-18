@@ -1,3 +1,9 @@
+## 3.26.0
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+ - **FEAT**(katana_cli): add application handover support. ([bbf9e1a8](https://github.com/mathrunet/flutter_masamune/commit/bbf9e1a8b55ad5d5c407240c47c5993e25bdd5a7))
+ - **FEAT**(katana_cli): add debug command for capturing Firebase App Check tokens. ([a720a4d5](https://github.com/mathrunet/flutter_masamune/commit/a720a4d58748de5d0eff62c78f14e903e74162bc))
+
 ## 3.25.1
 
  - **FIX**(cloudflare): enhance TiDB CLI action with mode handling and worker function updates. ([9324e500](https://github.com/mathrunet/flutter_masamune/commit/9324e5002a0e501ca3d061cf48b3255b34ec87ab))

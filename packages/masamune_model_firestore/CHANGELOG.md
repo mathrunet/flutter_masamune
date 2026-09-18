@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+ - **FEAT**(katana_model_firestore): enable Firestore persistent cache index auto-creation by default. ([03236b5f](https://github.com/mathrunet/flutter_masamune/commit/03236b5fde052b767e6d15ab60f257d09725b6fa))
+
 ## 3.2.0
 
  - **FEAT**(katana_model_firestore): enable Firestore persistent cache index auto-creation by default. ([03236b5f](https://github.com/mathrunet/flutter_masamune/commit/03236b5fde052b767e6d15ab60f257d09725b6fa))

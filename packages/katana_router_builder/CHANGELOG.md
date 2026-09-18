@@ -1,3 +1,7 @@
+## 3.1.6
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.1.5
 
  - **FIX**: update source_gen dependency across multiple packages to version 4.0.0 and increment version numbers for related packages. ([bbaf46bb](https://github.com/mathrunet/flutter_masamune/commit/bbaf46bb2d928259ef2ff9b46c0fe76e3bd9adf3))

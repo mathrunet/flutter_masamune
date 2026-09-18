@@ -1,3 +1,7 @@
+## 3.8.1
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.8.0
 
  - **FEAT**(dependencies): update package versions and enhance model adapter functionality. ([8237cbe1](https://github.com/mathrunet/flutter_masamune/commit/8237cbe1f8dde71c7e9e005774fc35157c6d2ec1))

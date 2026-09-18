@@ -1,3 +1,7 @@
+## 3.1.7
+
+ - Update a dependency to the latest release.
+
 ## 3.1.6
 
  - **FIX**(masamune_builder): update parameter type handling in code generation. ([d54bffc9](https://github.com/mathrunet/flutter_masamune/commit/d54bffc9105fefb9a265da16d929a41a7875b47b))

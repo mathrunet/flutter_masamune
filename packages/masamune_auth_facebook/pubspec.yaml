@@ -1,6 +1,6 @@
 name: masamune_auth_facebook
 description: Authentication plugin for Masamune that can implement Facebook(Meta) sign-in.
-version: 3.1.19
+version: 3.1.20
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_facebook
 
@@ -12,13 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^3.4.0
-  masamune: ^3.5.19
+  katana: ^3.4.1
+  masamune: ^3.5.20
   flutter_facebook_auth: ^7.1.2
 
 dev_dependencies:
   test: ^1.25.0
-  katana_test: ^3.1.0
+  katana_test: ^3.1.1
   flutter_lints: ^6.0.0
   import_sorter: ^4.6.0
 

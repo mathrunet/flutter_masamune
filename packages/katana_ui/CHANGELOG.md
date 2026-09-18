@@ -1,3 +1,7 @@
+## 3.3.5
+
+ - Update a dependency to the latest release.
+
 ## 3.3.4
 
  - **FIX**(square_avatar): ensure fixed dimensions are passed to inner image. ([7632432e](https://github.com/mathrunet/flutter_masamune/commit/7632432ee08f29ebb4a8087fe38aed8a7cf50690))

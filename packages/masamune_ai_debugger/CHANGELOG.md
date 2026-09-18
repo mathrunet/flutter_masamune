@@ -1,3 +1,7 @@
+## 3.7.2
+
+ - Update a dependency to the latest release.
+
 ## 3.7.1
 
  - **FIX**(masamune_ai_debugger): update AI models and introduce legacy aliases. ([7dab0c69](https://github.com/mathrunet/flutter_masamune/commit/7dab0c69fec642ff9e439f50e2e9f0bb8a27db79))

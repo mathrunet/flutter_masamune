@@ -1,3 +1,7 @@
+## 3.3.5
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.3.4
 
  - **FIX**(katana_indicator): shorten Firebase Performance trace names to comply with iOS SDK limits. ([8d9e51cc](https://github.com/mathrunet/flutter_masamune/commit/8d9e51cc27163273214b025d189076a51439fd05))

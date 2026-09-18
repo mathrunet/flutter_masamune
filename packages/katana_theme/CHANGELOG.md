@@ -1,3 +1,7 @@
+## 3.4.2
+
+ - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
+
 ## 3.4.1
 
  - **FIX**(katana_theme): release version 3.4.0 with image caching improvements. ([f4f06b7f](https://github.com/mathrunet/flutter_masamune/commit/f4f06b7ff0bffd56f0abeff3ad57f4f978fb23c3))

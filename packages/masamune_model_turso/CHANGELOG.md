@@ -1,3 +1,7 @@
+## 3.7.9
+
+ - **FIX**(tidb_adapter,turso_adapter): implement retry logic for transient errors. ([7fdd454c](https://github.com/mathrunet/flutter_masamune/commit/7fdd454c78d0ec425f64c9f6e38f1992209f979a))
+
 ## 3.7.8
 
  - **FIX**(masamune_model_tidb,masamune_model_turso): update dependency versions and refactor adapter constructors. ([1643cd70](https://github.com/mathrunet/flutter_masamune/commit/1643cd7091c81e1f3c37965e72148af0590cff6a))
