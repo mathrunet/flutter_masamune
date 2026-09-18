@@ -1,0 +1,22 @@
+name: masamune_handover
+description: Plug-in for Masamune that remotely controls maintenance mode, announcements, feature flags and endpoint switching for application handover (buyout) scenarios.
+version: 3.0.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_handover
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  katana: ^3.4.0
+  masamune: ^3.5.19
+  shared_preferences: ^2.5.3
+dev_dependencies:
+  test: ^1.25.0
+  katana_test: ^3.1.0
+  flutter_lints: ^6.0.0
+  import_sorter: ^4.6.0
