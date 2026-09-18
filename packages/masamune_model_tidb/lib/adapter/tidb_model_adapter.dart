@@ -1,5 +1,17 @@
 part of "/masamune_model_tidb.dart";
 
+/// Retry delays for transient TiDB Data Service errors (429 / 5xx / network).
+///
+/// TiDB Data Service の一時的なエラー（429 / 5xx / ネットワーク断）用のリトライ待機時間。
+const _tidbRetryDelays = [
+  Duration(milliseconds: 200),
+  Duration(milliseconds: 400),
+  Duration(milliseconds: 800),
+  Duration(milliseconds: 1600),
+  Duration(milliseconds: 3200),
+  Duration(milliseconds: 5000),
+];
+
 /// A model adapter that enables the use of TiDB.
 ///
 /// It accesses TiDB through Cloudflare Workers.
@@ -176,12 +188,14 @@ class TidbModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     final path = TidbModelPath.fromDocumentQuery(query);
-    await functionsAdapter.execute(TidbDeleteModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      indexKey: path.indexKey,
-    ));
+    await _retryTidbTransient(() async {
+      await functionsAdapter.execute(TidbDeleteModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        indexKey: path.indexKey,
+      ));
+    });
     await _deleteCachedDocument(query);
   }
 
@@ -356,26 +370,30 @@ class TidbModelAdapter extends ModelAdapter {
     TidbModelPath path,
     TidbQueryPayload payload,
   ) async {
-    final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      where: payload.where,
-      orderBy: payload.orderBy,
-      limit: payload.limit,
-    ));
-    return _rowsToMap(res.data, table: path.table);
+    return await _retryTidbTransient(() async {
+      final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        where: payload.where,
+        orderBy: payload.orderBy,
+        limit: payload.limit,
+      ));
+      return _rowsToMap(res.data, table: path.table);
+    });
   }
 
   Future<DynamicMap> _loadDocumentFunctions(TidbModelPath path) async {
-    final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      indexKey: path.indexKey,
-    ));
-    final rows = _rowsToList(res.data, table: path.table);
-    return rows.isEmpty ? <String, dynamic>{} : rows.first;
+    return await _retryTidbTransient(() async {
+      final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        indexKey: path.indexKey,
+      ));
+      final rows = _rowsToList(res.data, table: path.table);
+      return rows.isEmpty ? <String, dynamic>{} : rows.first;
+    });
   }
 
   @override
@@ -462,12 +480,14 @@ class TidbModelAdapter extends ModelAdapter {
 
   Future<void> _saveDocumentFunctions(
       TidbModelPath path, DynamicMap row) async {
-    await functionsAdapter.execute(TidbPostModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      value: row,
-    ));
+    await _retryTidbTransient(() async {
+      await functionsAdapter.execute(TidbPostModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        value: row,
+      ));
+    });
   }
 
   Future<void> _runOperations(
@@ -520,6 +540,45 @@ class TidbModelAdapter extends ModelAdapter {
     return Map.fromEntries(_rowsToList(data, table: table).map((row) {
       return MapEntry(row.get("id", ""), row);
     }).where((entry) => entry.key.isNotEmpty));
+  }
+
+  /// Retry the given [callback] when TiDB Data Service returns a transient
+  /// error (HTTP 429, 5xx, or a network failure). Uses exponential backoff
+  /// with full jitter to avoid a thundering herd against the Data API's
+  /// rate limit.
+  ///
+  /// TiDB Data Service が一時的なエラー（HTTP 429・5xx・ネットワーク断）を
+  /// 返した際、[callback] を指数バックオフとフルジッターで再試行する。
+  Future<T> _retryTidbTransient<T>(Future<T> Function() callback) async {
+    Object? lastError;
+    StackTrace? lastStackTrace;
+    const delays = _tidbRetryDelays;
+    for (var attempt = 0; attempt <= delays.length; attempt++) {
+      try {
+        return await callback();
+      } catch (error, stackTrace) {
+        lastError = error;
+        lastStackTrace = stackTrace;
+        if (!_isTidbRetryableError(error) || attempt == delays.length) {
+          rethrow;
+        }
+        final baseMs = delays[attempt].inMilliseconds;
+        final jitteredMs = (baseMs ~/ 4) +
+            (baseMs == 0
+                ? 0
+                : (baseMs * (DateTime.now().microsecondsSinceEpoch % 1000)) ~/
+                    1000);
+        await Future<void>.delayed(Duration(milliseconds: jitteredMs));
+      }
+    }
+    Error.throwWithStackTrace(lastError!, lastStackTrace!);
+  }
+
+  bool _isTidbRetryableError(Object error) {
+    final message = error.toString();
+    return RegExp(
+      r"(?:Failed to post:?|status=?|status:\s*)\s*(429|500|502|503|504)",
+    ).hasMatch(message);
   }
 
   @override

@@ -1169,19 +1169,21 @@ class TursoModelAdapter extends ModelAdapter {
     TursoModelPath path,
     TursoQueryPayload payload,
   ) async {
-    final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      where: payload.where,
-      orderBy: payload.orderBy,
-      limit: payload.limit,
-    ));
-    return _rowsToMap(
-      res.data,
-      database: path.database,
-      table: path.table,
-    );
+    return await _retryTursoTransient(() async {
+      final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        where: payload.where,
+        orderBy: payload.orderBy,
+        limit: payload.limit,
+      ));
+      return _rowsToMap(
+        res.data,
+        database: path.database,
+        table: path.table,
+      );
+    });
   }
 
   Future<DynamicMap> _loadDocumentDirect(TursoModelPath path) async {
@@ -1216,18 +1218,20 @@ class TursoModelAdapter extends ModelAdapter {
   }
 
   Future<DynamicMap> _loadDocumentFunctions(TursoModelPath path) async {
-    final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      indexKey: path.indexKey,
-    ));
-    final rows = _rowsToList(
-      res.data,
-      database: path.database,
-      table: path.table,
-    );
-    return rows.isEmpty ? <String, dynamic>{} : rows.first;
+    return await _retryTursoTransient(() async {
+      final res = await functionsAdapter.execute(TursoGetModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        indexKey: path.indexKey,
+      ));
+      final rows = _rowsToList(
+        res.data,
+        database: path.database,
+        table: path.table,
+      );
+      return rows.isEmpty ? <String, dynamic>{} : rows.first;
+    });
   }
 
   @override
@@ -1402,12 +1406,14 @@ class TursoModelAdapter extends ModelAdapter {
 
   Future<void> _saveDocumentFunctions(
       TursoModelPath path, DynamicMap row) async {
-    await functionsAdapter.execute(TursoPostModelFunctionsAction(
-      database: path.database,
-      table: path.table,
-      prefix: prefix,
-      value: row,
-    ));
+    await _retryTursoTransient(() async {
+      await functionsAdapter.execute(TursoPostModelFunctionsAction(
+        database: path.database,
+        table: path.table,
+        prefix: prefix,
+        value: row,
+      ));
+    });
   }
 
   Future<void> _runOperations(
