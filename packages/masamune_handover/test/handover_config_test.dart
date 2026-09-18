@@ -4,8 +4,10 @@
 import "dart:ui";
 
 // Package imports:
-import "package:masamune_handover/masamune_handover.dart";
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_handover/masamune_handover.dart";
 
 void main() {
   group("HandoverConfig.fromJson", () {
