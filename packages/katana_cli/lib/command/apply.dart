@@ -11,6 +11,7 @@ import "package:katana_cli/action/app/csr.dart";
 import "package:katana_cli/action/app/deeplink.dart";
 import "package:katana_cli/action/app/force_updater.dart";
 import "package:katana_cli/action/app/geocoding.dart";
+import "package:katana_cli/action/app/handover.dart";
 import "package:katana_cli/action/app/icon.dart";
 import "package:katana_cli/action/app/info.dart";
 import "package:katana_cli/action/app/introduction.dart";
@@ -87,6 +88,7 @@ const _actions = <CliActionMixin>[
   AppAnimateCliAction(),
   AppIntroductionCliAction(),
   AppForceUpdaterCliAction(),
+  AppHandoverCliAction(),
   AppReviewCliAction(),
   AppCameraCliAction(),
   AppCalendarCliAction(),

@@ -232,6 +232,16 @@ ${showAllConfig ? """
   # アプリレビュー機能を実装します。
   app_review:
     enable: false
+
+  # Implement remote control for application handover (buyout) scenarios.
+  # The configuration is retrieved from https://api.mathru.net/apps/{app_id}.json.
+  # Absence of the file is a normal condition (the app runs in normal mode).
+  # アプリケーションハンドオーバー（バイアウト）シナリオ向けのリモート制御を実装します。
+  # 設定はhttps://api.mathru.net/apps/{app_id}.jsonから取得されます。
+  # ファイルが存在しないことは正常系です（アプリは通常モードで動作します）。
+  handover:
+    enable: true
+    app_id:
 """ : ""}
 
 # Configure Cloudflare settings.
