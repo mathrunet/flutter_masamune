@@ -18,6 +18,7 @@ class CloudflareKVModelAdapter extends ModelAdapter {
   const CloudflareKVModelAdapter({
     super.defaultAutoDisposeWhenUnreferenced,
     FunctionsAdapter? functionsAdapter,
+    this.vectorConverter = const PassVectorConverter(),
   }) : _functionsAdapter = functionsAdapter;
 
   /// Functions adapter for obtaining and reading/writing temporary tokens.
@@ -30,7 +31,7 @@ class CloudflareKVModelAdapter extends ModelAdapter {
   final FunctionsAdapter? _functionsAdapter;
 
   @override
-  VectorConverter get vectorConverter => const PassVectorConverter();
+  final VectorConverter vectorConverter;
 
   @override
   bool get availableListen => false;
@@ -90,9 +91,43 @@ class CloudflareKVModelAdapter extends ModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
       ModelAdapterCollectionQuery query) async {
+    DynamicMap? nearest;
+    int? limit;
+    for (final filter in query.query.filters) {
+      switch (filter.type) {
+        case ModelQueryFilterType.nearest:
+          if (nearest != null || filter.key.isEmpty) {
+            throw ArgumentError("nearestは1フィールドだけ指定できます。");
+          }
+          final value = filter.value;
+          nearest = {
+            "key": filter.key,
+            "value": value is String
+                ? await vectorConverter.toVector(value)
+                : value is VectorValue
+                    ? {"vector": value.vector, "measure": value.measure.name}
+                    : value is ModelFieldValue
+                        ? value.toJson()
+                        : value,
+          };
+        case ModelQueryFilterType.limit:
+          if (filter.value is! int || (filter.value as int) <= 0) {
+            throw ArgumentError("limitは正の整数で指定してください。");
+          }
+          limit = filter.value as int;
+        case ModelQueryFilterType.collectionGroup:
+        case ModelQueryFilterType.notifyDocumentChanges:
+          continue;
+        default:
+          throw UnsupportedError(
+              "CloudflareKVModelAdapter does not support ${filter.type.name}.");
+      }
+    }
     final res =
         await functionsAdapter.execute(CloudflareKvGetCollectionFunctionsAction(
       key: query.query.path,
+      nearest: nearest,
+      limit: limit,
     ));
     return res.data.map((key, value) {
       if (value is DynamicMap) {

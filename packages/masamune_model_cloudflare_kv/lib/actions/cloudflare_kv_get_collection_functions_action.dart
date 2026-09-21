@@ -10,6 +10,8 @@ class CloudflareKvGetCollectionFunctionsAction
   /// Cloudflare KVのドキュメントをコレクションとして読み込むためのFunctionsAction。
   const CloudflareKvGetCollectionFunctionsAction({
     required this.key,
+    this.nearest,
+    this.limit,
     this.action = "kv",
   });
 
@@ -18,6 +20,12 @@ class CloudflareKvGetCollectionFunctionsAction
   /// KVのキー。
   final String key;
 
+  /// Vector search condition.
+  final DynamicMap? nearest;
+
+  /// Maximum number of results.
+  final int? limit;
+
   @override
   final String action;
 
@@ -25,7 +33,15 @@ class CloudflareKvGetCollectionFunctionsAction
   ApiMethod get method => ApiMethod.get;
 
   @override
-  String get path => _buildCloudflareKvActionPath(action, "collection", key);
+  String get path => _buildCloudflareKvActionPath(
+        action,
+        "collection",
+        key,
+        queryParameters: {
+          if (nearest != null) "nearest": jsonEncode(nearest),
+          if (limit != null) "limit": limit!.toString(),
+        },
+      );
 
   @override
   DynamicMap? toMap() {

@@ -60,8 +60,8 @@ key: config/app
 value: {"maintenance":false,"version":12}
 ```
 
-`loadCollection` is supported only as a Remote Config compatible pseudo
-collection. It returns the loaded document as `__default__`.
+Without a nearest filter, `loadCollection` is supported as a Remote Config
+compatible pseudo collection. It returns the loaded document as `__default__`.
 
 ```dart
 {
@@ -71,6 +71,23 @@ collection. It returns the loaded document as `__default__`.
   }
 }
 ```
+
+With `ModelQueryFilter.nearest`, the adapter calls the server-side Vectorize
+coordinator and returns matching KV documents by their document IDs. A
+`VectorValue` or `ModelVectorValue` can be sent directly. String values are
+converted through the adapter's `vectorConverter`.
+
+```dart
+final adapter = CloudflareKVModelAdapter(
+  functionsAdapter: FunctionsAdapter.primary,
+  vectorConverter: myEmbeddingConverter,
+);
+```
+
+The Worker must configure `vectors`, a Vectorize binding, and the
+`MasamuneKvVectorCoordinator` SQLite Durable Object. Search results are
+eventually consistent. Old generations are excluded immediately, so a recent
+update can temporarily produce fewer results until the new generation appears.
 
 Listening, aggregation, batch, and transactions are not supported. Cloudflare KV
 is eventually consistent, so use Turso or TiDB for data that requires immediate

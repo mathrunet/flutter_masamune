@@ -3,14 +3,16 @@ part of "/masamune_model_cloudflare_kv.dart";
 String _buildCloudflareKvActionPath(
   String action,
   String type,
-  String key,
-) {
+  String key, {
+  Map<String, String>? queryParameters,
+}) {
   return Uri(
     pathSegments: [
       ...action.split("/").where((segment) => segment.isNotEmpty),
       type,
       ...key.split("/").where((segment) => segment.isNotEmpty),
     ],
+    queryParameters: queryParameters?.isEmpty ?? true ? null : queryParameters,
   ).toString();
 }
 

@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - Add Vectorize nearest search and string embedding conversion through `vectorConverter`.
+
 ## 3.2.11
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
@@ -53,4 +57,3 @@
 ## 3.1.0
 
  - **FEAT**(masamune_functions_cloudflare): initialize Cloudflare functions package. ([2ea294d2](https://github.com/mathrunet/flutter_masamune/commit/2ea294d21b9ecc7cfc3dc187b485669759e2cb9e))
-

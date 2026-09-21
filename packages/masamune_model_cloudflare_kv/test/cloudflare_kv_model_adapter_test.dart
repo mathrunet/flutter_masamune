@@ -1,3 +1,5 @@
+import "dart:convert";
+
 // Package imports:
 import "package:masamune/masamune.dart";
 import "package:test/test.dart";
@@ -6,6 +8,28 @@ import "package:test/test.dart";
 import "package:masamune_model_cloudflare_kv/masamune_model_cloudflare_kv.dart";
 
 void main() {
+  test("nearestをvectorへ変換しlimitとともに送信する", () async {
+    final functions = _RecordingFunctionsAdapter();
+    final adapter = CloudflareKVModelAdapter(
+      functionsAdapter: functions,
+      vectorConverter: const _FixtureConverter(),
+    );
+    final query = ModelAdapterCollectionQuery(
+      query: CollectionModelQuery("items", adapter: adapter)
+          .nearest("embedding", "猫")
+          .limitTo(3),
+    );
+    expect((await adapter.loadCollection(query)).keys, ["a"]);
+    final parameters =
+        Uri.parse(functions.actions.single.path!).queryParameters;
+    expect(parameters["limit"], "3");
+    expect(
+        parameters["nearest"],
+        jsonEncode({
+          "key": "embedding",
+          "value": [1.0, 0.0, 0.0]
+        }));
+  });
   test("loads a document by using the model path as the KV key", () async {
     final functions = _MockFunctionsAdapter({
       "kv/document/config/app": {
@@ -120,6 +144,28 @@ void main() {
       throwsA(isA<UnsupportedError>()),
     );
   });
+}
+
+class _FixtureConverter extends PassVectorConverter {
+  const _FixtureConverter();
+  @override
+  List<double> toVector(String value) => [1, 0, 0];
+}
+
+class _RecordingFunctionsAdapter extends FunctionsAdapter {
+  final List<FunctionsAction<dynamic>> actions = [];
+  @override
+  String get endpoint => "https://example.com";
+  @override
+  Future<TResponse> execute<TResponse>(
+      FunctionsAction<TResponse> action) async {
+    actions.add(action);
+    return action.toResponse({
+      "data": {
+        "a": {"id": "a"}
+      }
+    });
+  }
 }
 
 class _MockFunctionsAdapter extends FunctionsAdapter {

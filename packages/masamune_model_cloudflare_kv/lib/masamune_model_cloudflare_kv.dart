@@ -10,6 +10,7 @@ library;
 
 // Dart imports:
 import "dart:async";
+import "dart:convert";
 
 // Package imports:
 import "package:masamune/masamune.dart";
