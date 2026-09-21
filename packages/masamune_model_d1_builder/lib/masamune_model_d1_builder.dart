@@ -21,8 +21,8 @@ import "package:masamune_model_d1_annotation/masamune_model_d1_annotation.dart";
 import "package:source_gen/source_gen.dart";
 
 // Project imports:
-import "src/schema_spec.dart";
 import "src/prefixes.dart";
+import "src/schema_spec.dart";
 
 export "src/schema_spec.dart";
 

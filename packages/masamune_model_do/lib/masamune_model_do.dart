@@ -14,12 +14,15 @@ library;
 import "dart:async";
 import "dart:convert";
 
-import "src/do_socket.dart";
-export "src/do_socket.dart";
-
 // Package imports:
 import "package:masamune/masamune.dart";
 import "package:meta/meta.dart";
+
+// Project imports:
+import "src/do_socket.dart";
+
+export "src/do_socket.dart";
+
 
 part "actions/do_delete_model_functions_action.dart";
 part "actions/do_get_model_functions_action.dart";

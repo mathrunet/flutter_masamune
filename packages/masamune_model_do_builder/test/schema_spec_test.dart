@@ -1,5 +1,8 @@
-import "package:masamune_model_do_builder/masamune_model_do_builder.dart";
+// Package imports:
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_model_do_builder/masamune_model_do_builder.dart";
 
 void main() {
   test("SQLiteの型・予約カラム・indexと安定hashを生成する", () {

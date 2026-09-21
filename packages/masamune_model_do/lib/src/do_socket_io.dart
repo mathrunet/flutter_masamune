@@ -1,4 +1,7 @@
+// Dart imports:
 import "dart:io";
+
+// Project imports:
 import "do_socket.dart";
 
 /// ネイティブの接続。

@@ -1,5 +1,8 @@
-import "package:masamune_model_d1_builder/masamune_model_d1_builder.dart";
+// Package imports:
 import "package:test/test.dart";
+
+// Project imports:
+import "package:masamune_model_d1_builder/masamune_model_d1_builder.dart";
 
 void main() {
   test("JSONベクトル定義・次元・bindingをmanifestへ保持する", () {
@@ -37,9 +40,20 @@ void main() {
 
   test("Vectorizeの実API次元範囲を検証する", () {
     for (final dimensions in [1, 3, 31, 1537]) {
-      expect(() => D1SchemaSpec.schemaManifest([
-        D1TableSpec(database: "main", table: "items", columns: const [D1ColumnSpec(name: "embedding", sqlType: "JSON")], vectors: [{"field": "embedding", "binding": "VECTORS", "dimensions": dimensions, "metric": "cosine"}])
-      ]), throwsArgumentError);
+      expect(
+          () => D1SchemaSpec.schemaManifest([
+                D1TableSpec(database: "main", table: "items", columns: const [
+                  D1ColumnSpec(name: "embedding", sqlType: "JSON")
+                ], vectors: [
+                  {
+                    "field": "embedding",
+                    "binding": "VECTORS",
+                    "dimensions": dimensions,
+                    "metric": "cosine"
+                  }
+                ])
+              ]),
+          throwsArgumentError);
     }
   });
 

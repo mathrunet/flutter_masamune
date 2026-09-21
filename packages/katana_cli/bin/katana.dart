@@ -7,8 +7,8 @@ import "dart:io";
 import "package:yaml/yaml.dart";
 
 // Project imports:
-import "package:katana_cli/command/analytics/analytics.dart";
 import "package:katana_cli/action/cloudflare/d1.dart";
+import "package:katana_cli/command/analytics/analytics.dart";
 import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/command/cer/cer.dart";
 import "package:katana_cli/command/debug/debug.dart";

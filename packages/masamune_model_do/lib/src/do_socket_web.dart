@@ -1,7 +1,11 @@
 // SDK 3.0からの既存互換性を保つ。追加依存なしでブラウザーAPIへ接続する。
 // ignore_for_file: deprecated_member_use, avoid_web_libraries_in_flutter
+
+// Dart imports:
 import "dart:async";
 import "dart:html" as html;
+
+// Project imports:
 import "do_socket.dart";
 
 /// ブラウザーの接続。

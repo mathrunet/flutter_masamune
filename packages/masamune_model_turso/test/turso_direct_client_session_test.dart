@@ -3,8 +3,8 @@ import "dart:async";
 
 // Package imports:
 import "package:flutter_test/flutter_test.dart";
-import "package:masamune/masamune.dart";
 import "package:libsql_dart/libsql_dart.dart";
+import "package:masamune/masamune.dart";
 
 // Project imports:
 import "package:masamune_model_turso/masamune_model_turso.dart";
