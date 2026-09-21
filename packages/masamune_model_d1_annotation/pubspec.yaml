@@ -1,0 +1,16 @@
+name: masamune_model_d1_annotation
+description: Define shared D1 schema annotations for Masamune models.
+version: 3.1.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_d1_annotation
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  masamune_annotation: ^3.1.2
+
+dev_dependencies:
+  test: ^1.26.3
+  flutter_lints: ^6.0.0
+  import_sorter: ^4.6.0
