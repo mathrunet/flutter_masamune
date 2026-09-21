@@ -1,0 +1,24 @@
+builders:
+  masamune_model_do_builder:
+    import: "package:masamune_model_do_builder/masamune_model_do_builder.dart"
+    builder_factories: ["masamuneModelDurableObjectBuilderFactory"]
+    build_extensions: {".dart": [".do_schema"]}
+    auto_apply: all_packages
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+
+targets:
+  $default:
+    builders:
+      masamune_model_do_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
