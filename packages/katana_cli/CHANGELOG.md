@@ -1,3 +1,7 @@
+## 3.28.0
+
+ - **FEAT**(katana_cli): release version 4.0.0 with migration support. ([26742b9b](https://github.com/mathrunet/flutter_masamune/commit/26742b9b19c2f46525057af6f191a21d88e560be))
+
 ## 3.27.0
 
 - Add katana migrate and separate DDL from katana apply. Verify secrets for direct TiDB connections, shared schema aggregation, incremental generation, and reapplication consistency. Remove the legacy Data Service administration API.

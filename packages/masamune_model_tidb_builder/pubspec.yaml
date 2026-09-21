@@ -1,6 +1,6 @@
 name: masamune_model_tidb_builder
 description: Generate shared TiDB schema manifests for Workers and migrations.
-version: 3.5.0
+version: 3.6.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_tidb_builder
 
@@ -12,7 +12,7 @@ dependencies:
   build: ^3.1.0
   source_gen: ^4.0.0
   masamune_annotation: ^3.1.2
-  masamune_model_tidb_annotation: ^3.4.0
+  masamune_model_tidb_annotation: ^3.5.0
 
 dev_dependencies:
   test: ^1.26.3

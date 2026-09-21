@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v3.28.0`](#katana_cli---v3280)
+ - [`masamune_ai_debugger` - `v3.8.0`](#masamune_ai_debugger---v380)
+ - [`masamune_handover` - `v3.1.1`](#masamune_handover---v311)
+ - [`masamune_model_cloudflare_kv` - `v3.4.0`](#masamune_model_cloudflare_kv---v340)
+ - [`masamune_model_d1` - `v3.2.0`](#masamune_model_d1---v320)
+ - [`masamune_model_d1_annotation` - `v3.2.0`](#masamune_model_d1_annotation---v320)
+ - [`masamune_model_d1_builder` - `v3.2.0`](#masamune_model_d1_builder---v320)
+ - [`masamune_model_do` - `v3.2.0`](#masamune_model_do---v320)
+ - [`masamune_model_do_annotation` - `v3.2.0`](#masamune_model_do_annotation---v320)
+ - [`masamune_model_do_builder` - `v3.2.0`](#masamune_model_do_builder---v320)
+ - [`masamune_model_tidb` - `v3.7.0`](#masamune_model_tidb---v370)
+ - [`masamune_model_tidb_annotation` - `v3.5.0`](#masamune_model_tidb_annotation---v350)
+ - [`masamune_model_tidb_builder` - `v3.6.0`](#masamune_model_tidb_builder---v360)
+ - [`masamune_model_turso` - `v3.9.0`](#masamune_model_turso---v390)
+
+---
+
+#### `katana_cli` - `v3.28.0`
+
+ - **FEAT**(katana_cli): release version 4.0.0 with migration support. ([26742b9b](https://github.com/mathrunet/flutter_masamune/commit/26742b9b19c2f46525057af6f191a21d88e560be))
+
+#### `masamune_ai_debugger` - `v3.8.0`
+
+ - **FEAT**(masamune_ai_debugger): enhance login UI with selectable debug accounts. ([457514de](https://github.com/mathrunet/flutter_masamune/commit/457514debd65856dca5065e894ff9f8306e3f234))
+
+#### `masamune_handover` - `v3.1.1`
+
+ - **REFACTOR**(handover_config_test): reorder import statements for clarity. ([f20f3d9a](https://github.com/mathrunet/flutter_masamune/commit/f20f3d9a2e9df6e713d9473e1a9a64930dbcd7dc))
+
+#### `masamune_model_cloudflare_kv` - `v3.4.0`
+
+ - **FEAT**(masamune_model_cloudflare_kv): release version 3.3.0 with vector search capabilities. ([1469d708](https://github.com/mathrunet/flutter_masamune/commit/1469d708cb06706225bb897d4367458804a3dc65))
+
+#### `masamune_model_d1` - `v3.2.0`
+
+ - **FEAT**(masamune_model_d1): initial release with D1 support. ([c1c442e0](https://github.com/mathrunet/flutter_masamune/commit/c1c442e07c8b0bfa375483745f926037edc073b0))
+
+#### `masamune_model_d1_annotation` - `v3.2.0`
+
+ - **FEAT**(masamune_model_d1): initial release with D1 support. ([c1c442e0](https://github.com/mathrunet/flutter_masamune/commit/c1c442e07c8b0bfa375483745f926037edc073b0))
+
+#### `masamune_model_d1_builder` - `v3.2.0`
+
+ - **FEAT**(masamune_model_d1): initial release with D1 support. ([c1c442e0](https://github.com/mathrunet/flutter_masamune/commit/c1c442e07c8b0bfa375483745f926037edc073b0))
+
+#### `masamune_model_do` - `v3.2.0`
+
+ - **FEAT**(masamune_model_do): initial setup for Durable Objects support. ([1a576f6b](https://github.com/mathrunet/flutter_masamune/commit/1a576f6beafacd7c00152aa9d63b79bc4dce6875))
+
+#### `masamune_model_do_annotation` - `v3.2.0`
+
+ - **FEAT**(masamune_model_do): initial setup for Durable Objects support. ([1a576f6b](https://github.com/mathrunet/flutter_masamune/commit/1a576f6beafacd7c00152aa9d63b79bc4dce6875))
+
+#### `masamune_model_do_builder` - `v3.2.0`
+
+ - **FEAT**(masamune_model_do): initial setup for Durable Objects support. ([1a576f6b](https://github.com/mathrunet/flutter_masamune/commit/1a576f6beafacd7c00152aa9d63b79bc4dce6875))
+
+#### `masamune_model_tidb` - `v3.7.0`
+
+ - **FEAT**(masamune_model_tidb): release version 3.6.0 with nearest-neighbor queries. ([5bc2d30f](https://github.com/mathrunet/flutter_masamune/commit/5bc2d30fc78fd3f9a8912ec354b9e2bd36290da3))
+
+#### `masamune_model_tidb_annotation` - `v3.5.0`
+
+ - **FEAT**(masamune_model_tidb): release version 3.6.0 with nearest-neighbor queries. ([5bc2d30f](https://github.com/mathrunet/flutter_masamune/commit/5bc2d30fc78fd3f9a8912ec354b9e2bd36290da3))
+
+#### `masamune_model_tidb_builder` - `v3.6.0`
+
+ - **FEAT**(masamune_model_tidb): release version 3.6.0 with nearest-neighbor queries. ([5bc2d30f](https://github.com/mathrunet/flutter_masamune/commit/5bc2d30fc78fd3f9a8912ec354b9e2bd36290da3))
+
+#### `masamune_model_turso` - `v3.9.0`
+
+ - **FEAT**(masamune_model_turso): release version 3.8.0 with worker-based CRUD and group preference. ([1b95c963](https://github.com/mathrunet/flutter_masamune/commit/1b95c963ca1ec6af9f839fe298d16a87fd11463a))
+
+
 ## 2026-09-18
 
 ### Changes

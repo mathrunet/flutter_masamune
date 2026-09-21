@@ -1,6 +1,6 @@
 name: masamune_model_d1_annotation
 description: Define shared D1 schema annotations for Masamune models.
-version: 3.1.0
+version: 3.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_d1_annotation
 

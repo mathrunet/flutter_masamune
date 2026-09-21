@@ -1,3 +1,7 @@
+## 3.7.0
+
+ - **FEAT**(masamune_model_tidb): release version 3.6.0 with nearest-neighbor queries. ([5bc2d30f](https://github.com/mathrunet/flutter_masamune/commit/5bc2d30fc78fd3f9a8912ec354b9e2bd36290da3))
+
 ## 3.6.0
 
 - Add nearest-neighbor queries, vectorConverter, and preservation of server rankings in the cached adapter.
