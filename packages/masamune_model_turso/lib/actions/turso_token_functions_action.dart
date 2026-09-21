@@ -12,6 +12,7 @@ class TursoTokenFunctionsAction
     required this.database,
     required this.targets,
     String? prefix,
+    this.group,
     this.operations = const [],
     this.ttlSeconds = 600,
     this.action = "turso/token",
@@ -28,6 +29,10 @@ class TursoTokenFunctionsAction
   String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
 
   final String? _prefix;
+
+  /// 未作成DBの配置希望グループ。省略時はサーバーが自動選択します。
+  /// 既存DBの所属先は変更しません。
+  final String? group;
 
   /// Requested database-level operations.
   ///
@@ -59,6 +64,7 @@ class TursoTokenFunctionsAction
   DynamicMap? toMap() {
     return {
       if (prefix != null) "prefix": prefix,
+      if (group != null) "group": group,
       if (operations.isNotEmpty) "operations": operations,
       if (targets.isNotEmpty)
         "targets": targets.map((item) => item.toMap()).toList(),
@@ -72,6 +78,8 @@ class TursoTokenFunctionsAction
       token: map.get("token", ""),
       expiresAt: map.getAsInt("expiresAt"),
       url: map.get("url", ""),
+      group: map["group"] as String?,
+      primaryRegion: map["primaryRegion"] as String?,
       readMode: map.get("readMode", "direct"),
       writeMode: map.get("writeMode", "direct"),
       scopes: TursoTokenScopeResponse.fromList(map["targets"] ?? map["scopes"]),
@@ -124,6 +132,8 @@ class TursoTokenFunctionsActionResponse extends FunctionsActionResponse {
     required this.token,
     required this.expiresAt,
     this.url = "",
+    this.group,
+    this.primaryRegion,
     this.readMode = "direct",
     this.writeMode = "direct",
     this.scopes = const [],
@@ -143,6 +153,12 @@ class TursoTokenFunctionsActionResponse extends FunctionsActionResponse {
   ///
   /// Workersバックエンドで解決されたTurso/libSQLのURL。
   final String url;
+
+  /// サーバーが確認したDBの所属グループ。旧サーバーではnullです。
+  final String? group;
+
+  /// サーバーが確認したDBのprimary region。未取得時はnullです。
+  final String? primaryRegion;
 
   /// Read mode resolved by the Workers backend.
   ///

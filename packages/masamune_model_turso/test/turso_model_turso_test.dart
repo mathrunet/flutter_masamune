@@ -1,3 +1,6 @@
+// キャッシュ保存先そのものの検証でprotectedな名前空間を参照します。
+// ignore_for_file: invalid_use_of_protected_member
+
 // Dart imports:
 import "dart:convert";
 
@@ -9,7 +12,87 @@ import "package:test/test.dart";
 // Project imports:
 import "package:masamune_model_turso/masamune_model_turso.dart";
 
+class _NativeVectorConverter extends PassVectorConverter {
+  const _NativeVectorConverter();
+  @override
+  List<double> toVector(String value) => [1, 0, 0];
+}
+
 void main() {
+  test("Cached近傍検索は古い集合を混ぜず毎回サーバー順位へ置換する", () async {
+    var calls = 0;
+    final functions = _RecordingFunctionsAdapter(
+        responseForAction: (_) => ++calls == 1
+            ? [
+                {"id": "z"},
+                {"id": "a"}
+              ]
+            : [
+                {"id": "b"},
+                {"id": "z"}
+              ]);
+    final adapter = CachedTursoModelAdapter(
+        vectorConverter: const _NativeVectorConverter(),
+        prefix: null,
+        functionsAdapter: functions,
+        nativeVectors: true,
+        cachedRuntimeDatabase: NoSqlDatabase(),
+        cachedLocalDatabase: NoSqlDatabase());
+    final query = ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("database/main/items", adapter: adapter)
+            .nearest("embedding", "猫"));
+    expect((await adapter.loadCollection(query)).keys, ["z", "a"]);
+    expect((await adapter.loadCollection(query)).keys, ["b", "z"]);
+    expect(calls, 2);
+  });
+
+  test("native vectorの保存はWorkerへ送り直接接続の型推定を拒否する", () async {
+    final functions = _RecordingFunctionsAdapter();
+    const query = ModelAdapterDocumentQuery(
+        query: DocumentModelQuery("database/main/items/one"));
+    const value = {
+      "embedding": {
+        "@vector": [1.0, 0.0, 0.0],
+        "@measure": "cosine"
+      }
+    };
+    final direct = TursoModelAdapter(prefix: null, functionsAdapter: functions);
+    await expectLater(
+        direct.saveDocument(query, value), throwsUnsupportedError);
+    expect(functions.actions, isEmpty);
+    final native = TursoModelAdapter(
+        prefix: null, functionsAdapter: functions, nativeVectors: true);
+    await native.saveDocument(query, value);
+    expect(functions.actions.single, isA<TursoPostModelFunctionsAction>());
+    expect(
+        (functions.actions.single as TursoPostModelFunctionsAction)
+            .value["embedding"],
+        value["embedding"]);
+  });
+
+  test("nearest文字列を変換しサーバー順位を保持する", () async {
+    final functions = _RecordingFunctionsAdapter(responseData: const [
+      {"id": "z"},
+      {"id": "a"}
+    ]);
+    final adapter = TursoModelAdapter(
+        prefix: null,
+        functionsAdapter: functions,
+        vectorConverter: const _NativeVectorConverter(),
+        nativeVectors: true);
+    final query = ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("database/main/items", adapter: adapter)
+            .nearest("embedding", "猫"));
+    expect((await adapter.loadCollection(query)).keys, ["z", "a"]);
+    final params = Uri.parse(functions.actions.last.path!).queryParameters;
+    expect(jsonDecode(params["nearest"]!), {
+      "key": "embedding",
+      "value": [1.0, 0.0, 0.0]
+    });
+    await adapter.loadCollection(query);
+    expect(functions.actions.length, 2);
+  });
+
   test("TursoGetModelFunctionsAction builds path based URL.", () {
     final action = TursoGetModelFunctionsAction(
       database: "main",
@@ -904,7 +987,10 @@ void main() {
     );
     expect(reloaded["name"], "Bob");
     expect(secondFunctions.actions, hasLength(1));
-    expect((await localDatabase.loadDocument(query))?["name"], "Bob");
+    expect(
+        (await localDatabase.loadDocument(query,
+            prefix: secondAdapter.cachePrefix))?["name"],
+        "Bob");
   });
 
   test("CachedTursoModelAdapter merges collection cache and remote data.",
@@ -916,15 +1002,13 @@ void main() {
         adapter: RuntimeModelAdapter(),
       ),
     );
-    await localDatabase.saveCollection(query, const {
-      "user_1": {"name": "Alice"},
-    });
     final functionsAdapter = _RecordingFunctionsAdapter(
       responseData: const [
         {"id": "user_2", "name": "Bob"},
       ],
     );
-    final adapter = CachedTursoModelAdapter(
+    late final CachedTursoModelAdapter adapter;
+    adapter = CachedTursoModelAdapter(
       prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
@@ -933,18 +1017,26 @@ void main() {
       collectionLoaders: [
         (query, _) async {
           return CachedTursoModelCollectionLoaderResponse(
-            value: await localDatabase.loadCollection(query) ?? {},
+            value: await adapter.loadCachedCollection(query) ?? {},
             query: query,
           );
         },
       ],
     );
 
+    await localDatabase.saveCollection(
+        query,
+        const {
+          "user_1": {"name": "Alice"},
+        },
+        prefix: adapter.cachePrefix);
     final result = await adapter.loadCollection(query);
 
     expect(result.keys, containsAll(["user_1", "user_2"]));
     expect(functionsAdapter.actions, hasLength(1));
-    expect((await localDatabase.loadCollection(query))?.keys,
+    expect(
+        (await localDatabase.loadCollection(query, prefix: adapter.cachePrefix))
+            ?.keys,
         containsAll(["user_1", "user_2"]));
   });
 
@@ -957,11 +1049,9 @@ void main() {
         adapter: RuntimeModelAdapter(),
       ),
     );
-    await localDatabase.saveCollection(query, const {
-      "user_1": {"name": "Alice"},
-    });
     final functionsAdapter = _RecordingFunctionsAdapter();
-    final adapter = CachedTursoModelAdapter(
+    late final CachedTursoModelAdapter adapter;
+    adapter = CachedTursoModelAdapter(
       prefix: null,
       useDirectClient: false,
       functionsAdapter: functionsAdapter,
@@ -970,12 +1060,18 @@ void main() {
       collectionLoaders: [
         (query, _) async {
           return CachedTursoModelCollectionLoaderResponse(
-            value: await localDatabase.loadCollection(query) ?? {},
+            value: await adapter.loadCachedCollection(query) ?? {},
           );
         },
       ],
     );
 
+    await localDatabase.saveCollection(
+        query,
+        const {
+          "user_1": {"name": "Alice"},
+        },
+        prefix: adapter.cachePrefix);
     expect((await adapter.loadCollection(query))["user_1"]?["name"], "Alice");
     expect(functionsAdapter.actions, isEmpty);
   });
@@ -1000,7 +1096,8 @@ void main() {
 
     await adapter.loadDocument(query);
 
-    expect(await localDatabase.loadDocument(query), isNull);
+    expect(await localDatabase.loadDocument(query, prefix: adapter.cachePrefix),
+        isNull);
   });
 
   test("CachedTursoModelAdapter isolates persistent cache by prefix.",
@@ -1076,24 +1173,179 @@ void main() {
     );
 
     await adapter.saveDocument(firstQuery, const {"name": "Alice"});
-    expect((await localDatabase.loadDocument(firstQuery))?["name"], "Alice");
+    expect(
+        (await localDatabase.loadDocument(firstQuery,
+            prefix: adapter.cachePrefix))?["name"],
+        "Alice");
 
     await adapter.runBatch((ref) {
       adapter.saveOnBatch(ref, secondQuery, const {"name": "Bob"});
     }, 100);
-    expect((await localDatabase.loadDocument(secondQuery))?["name"], "Bob");
+    expect(
+        (await localDatabase.loadDocument(secondQuery,
+            prefix: adapter.cachePrefix))?["name"],
+        "Bob");
 
     await adapter.runTransaction((ref) {
       adapter.deleteOnTransaction(ref, secondQuery);
     });
-    expect(await localDatabase.loadDocument(secondQuery), isNull);
+    expect(
+        await localDatabase.loadDocument(secondQuery,
+            prefix: adapter.cachePrefix),
+        isNull);
 
     await adapter.deleteDocument(firstQuery);
-    expect(await localDatabase.loadDocument(firstQuery), isNull);
+    expect(
+        await localDatabase.loadDocument(firstQuery,
+            prefix: adapter.cachePrefix),
+        isNull);
 
     await adapter.saveDocument(firstQuery, const {"name": "Alice"});
     await adapter.clearCache();
-    expect(await localDatabase.loadDocument(firstQuery), isNull);
+    expect(
+        await localDatabase.loadDocument(firstQuery,
+            prefix: adapter.cachePrefix),
+        isNull);
+  });
+
+  test("グループ希望を全Actionで伝え、既存DBパスを維持する", () {
+    final get = TursoGetModelFunctionsAction(
+        database: "alice", table: "items", group: "prod-eu");
+    expect(Uri.parse(get.path).path, "turso/database/alice/items");
+    expect(Uri.parse(get.path).queryParameters["group"], "prod-eu");
+    final actions = <FunctionsAction>[
+      const TursoPostModelFunctionsAction(
+          database: "alice", table: "items", group: "prod-eu", value: {}),
+      const TursoPutModelFunctionsAction(
+          database: "alice", table: "items", group: "prod-eu", value: {}),
+      const TursoDeleteModelFunctionsAction(
+          database: "alice", table: "items", group: "prod-eu"),
+      const TursoTokenFunctionsAction(
+          database: "alice", group: "prod-eu", targets: []),
+    ];
+    for (final action in actions) {
+      expect(action.toMap()?["group"], "prod-eu");
+      expect(action.path, contains("database/alice"));
+    }
+    const tokenAction =
+        TursoTokenFunctionsAction(database: "alice", targets: []);
+    expect(tokenAction.toMap()!.containsKey("group"), isFalse);
+    final response = tokenAction
+        .toResponse({"group": "prod-eu", "primaryRegion": "verified-region"});
+    expect(response.group, "prod-eu");
+    expect(response.primaryRegion, "verified-region");
+    expect(tokenAction.toResponse({}).group, isNull);
+    expect(tokenAction.toResponse({}).primaryRegion, isNull);
+  });
+
+  test("アダプターの希望グループをCRUD・batchへ伝搬する", () async {
+    final functions = _RecordingFunctionsAdapter();
+    final adapter = TursoModelAdapter(
+        prefix: null,
+        group: "prod-eu",
+        useDirectClient: false,
+        functionsAdapter: functions,
+        cachedRuntimeDatabase: NoSqlDatabase());
+    const query = ModelAdapterDocumentQuery(
+        query: DocumentModelQuery("database/alice/items/one"));
+    await adapter.loadDocument(query);
+    await adapter.saveDocument(query, const {"name": "one"});
+    await adapter.deleteDocument(query);
+    await adapter.runBatch((ref) {
+      adapter.saveOnBatch(ref, query, const {"name": "two"});
+      adapter.deleteOnBatch(ref, query);
+    }, 100);
+    expect(functions.actions.length, greaterThanOrEqualTo(5));
+    for (final action in functions.actions) {
+      final selected = action is TursoGetModelFunctionsAction
+          ? Uri.parse(action.path).queryParameters["group"]
+          : action.toMap()?["group"];
+      expect(selected, "prod-eu");
+    }
+  });
+
+  test("接続先とグループが異なる永続キャッシュを混在させない", () async {
+    final cache = NoSqlDatabase();
+    const query = ModelAdapterDocumentQuery(
+        query: DocumentModelQuery("database/alice/items/one"));
+    CachedTursoModelAdapter adapter(
+            String endpoint, String? group, String name) =>
+        CachedTursoModelAdapter(
+          prefix: null,
+          group: group,
+          useDirectClient: false,
+          cachedRuntimeDatabase: NoSqlDatabase(),
+          cachedLocalDatabase: cache,
+          functionsAdapter:
+              _RecordingFunctionsAdapter(endpoint: endpoint, responseData: [
+            {"id": "one", "name": name}
+          ]),
+        );
+    final eu = adapter("https://one.test", "prod-eu", "eu");
+    final us = adapter("https://one.test", "prod-us", "us");
+    final other = adapter("https://two.test", "prod-eu", "other");
+    expect((await eu.loadDocument(query))["name"], "eu");
+    expect((await us.loadDocument(query))["name"], "us");
+    expect((await other.loadDocument(query))["name"], "other");
+    expect((await eu.loadDocument(query))["name"], "eu");
+  });
+
+  test("prewarmと直接接続セッションで希望グループを分離する", () async {
+    final functions =
+        _RecordingFunctionsAdapter(responseForAction: _directTokenResponse);
+    final session = TursoDirectClientSession(
+        sessionKey: () => "alice",
+        clientFactory: (_) async => _TestLibsqlClient());
+    final eu = TursoModelAdapter(
+        prefix: null,
+        group: "prod-eu",
+        functionsAdapter: functions,
+        directClientSession: session);
+    final us = TursoModelAdapter(
+        prefix: null,
+        group: "prod-us",
+        functionsAdapter: functions,
+        directClientSession: session);
+    final auto = TursoModelAdapter(
+        prefix: null,
+        functionsAdapter: functions,
+        directClientSession: session);
+    const scopes = [
+      TursoTokenScope(table: "items", operations: ["read"])
+    ];
+    await eu.prewarm(database: "alice", scopes: scopes);
+    await eu.prewarm(database: "alice", scopes: scopes);
+    await us.prewarm(database: "alice", scopes: scopes);
+    await auto.prewarm(database: "alice", scopes: scopes);
+    expect(
+        functions.actions
+            .whereType<TursoTokenFunctionsAction>()
+            .map((action) => action.group)
+            .toList(),
+        ["prod-eu", "prod-us", null]);
+    await session.clear();
+  });
+
+  test("直接接続失敗後のFunctions fallbackも配置希望を保持する", () async {
+    final functions = _RecordingFunctionsAdapter(
+        tokenError: Exception("Failed to post: 500"));
+    final adapter = TursoModelAdapter(
+        prefix: null,
+        group: "prod-eu",
+        functionsAdapter: functions,
+        retryDelays: const []);
+    const query = ModelAdapterDocumentQuery(
+        query: DocumentModelQuery("database/alice/items/one"));
+    await adapter.saveDocument(query, const {"name": "one"});
+    expect(
+        functions.actions.whereType<TursoTokenFunctionsAction>().single.group,
+        "prod-eu");
+    expect(
+        functions.actions
+            .whereType<TursoPostModelFunctionsAction>()
+            .single
+            .group,
+        "prod-eu");
   });
 }
 
@@ -1125,6 +1377,7 @@ Object? _directTokenResponse(FunctionsAction<dynamic> action) {
 class _RecordingFunctionsAdapter extends FunctionsAdapter {
   _RecordingFunctionsAdapter({
     this.tokenError,
+    this.endpoint = "",
     this.responseData = const [],
     this.responseForAction,
   });
@@ -1138,7 +1391,7 @@ class _RecordingFunctionsAdapter extends FunctionsAdapter {
   final List<FunctionsAction<dynamic>> actions = [];
 
   @override
-  String get endpoint => "";
+  final String endpoint;
 
   @override
   Future<TResponse> execute<TResponse>(

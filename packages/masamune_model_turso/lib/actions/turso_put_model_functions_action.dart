@@ -13,6 +13,7 @@ class TursoPutModelFunctionsAction
     required this.table,
     required this.value,
     String? prefix,
+    this.group,
     this.indexKey,
     this.where = const [],
     this.action = "turso",
@@ -34,6 +35,10 @@ class TursoPutModelFunctionsAction
   String? get prefix => _normalizeTursoDatabasePrefix(_prefix);
 
   final String? _prefix;
+
+  /// 未作成DBの配置希望グループ。省略時はサーバーが自動選択します。
+  /// 既存DBの所属先は変更しません。
+  final String? group;
 
   /// Document ID.
   ///
@@ -73,6 +78,7 @@ class TursoPutModelFunctionsAction
   DynamicMap? toMap() {
     return {
       if (prefix != null) "prefix": prefix,
+      if (group != null) "group": group,
       if (where.isNotEmpty) "where": _normalizeTursoWhere(where),
       "value": _sanitizeTursoSaveValue(value),
     };

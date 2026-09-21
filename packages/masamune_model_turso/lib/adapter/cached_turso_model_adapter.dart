@@ -19,10 +19,13 @@ class CachedTursoModelAdapter extends TursoModelAdapter {
   /// 永続ローカルキャッシュを持つTursoモデルアダプターを作成します。
   const CachedTursoModelAdapter({
     required super.prefix,
+    super.group,
     super.defaultAutoDisposeWhenUnreferenced,
     super.useDirectClient,
     super.directClientSession,
     super.functionsAdapter,
+    super.vectorConverter,
+    super.nativeVectors,
     super.tokenTtlSeconds,
     super.retryDelays,
     super.cachedRuntimeDatabase,

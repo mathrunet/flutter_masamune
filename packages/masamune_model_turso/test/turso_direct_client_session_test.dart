@@ -1,12 +1,9 @@
-// ignore_for_file: depend_on_referenced_packages
-
 // Dart imports:
 import "dart:async";
 
 // Package imports:
 import "package:flutter_test/flutter_test.dart";
-import "package:katana_functions/katana_functions.dart";
-import "package:katana_model/katana_model.dart";
+import "package:masamune/masamune.dart";
 import "package:libsql_dart/libsql_dart.dart";
 
 // Project imports:

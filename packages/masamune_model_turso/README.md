@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://mathru.net">
-    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
+    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"><br/>
   </a>
   <h1 align="center">Masamune Model Turso</h1>
 </p>
@@ -43,6 +43,7 @@ with a scoped short-lived token.
 
 ```dart
 final adapter = TursoModelAdapter(
+  prefix: null,
   functionsAdapter: CloudflareFunctionsAdapter(
     endpoint: "https://example.workers.dev",
   ),
@@ -56,6 +57,38 @@ database/<database_id>/<table_id>/<document_id>
 database/<database_id>/<table_id>
 ```
 
+## Automatic region selection without an explicit group
+
+Configure the available `groups` and their country and continent mappings on the Node side to let Flutter omit the group.
+
+```dart
+final adapter = TursoModelAdapter(
+  prefix: null,
+  functionsAdapter: cloudflareFunctionsAdapter,
+);
+// The path remains database/user-abc/items/one.
+```
+
+For a new database, the Worker chooses a group using the request's region. For an existing database, it resolves the URL of its actual group, so the same database is used even when the user's location changes. Requests without region information use the Node-side default `group`, or the first entry in `groups` when no default is specified.
+
+To request a placement for a new database, specify a group name registered on the server.
+
+```dart
+final adapter = CachedTursoModelAdapter(
+  prefix: null,
+  group: "prod-eu",
+  functionsAdapter: cloudflareFunctionsAdapter,
+);
+```
+
+`group` is a placement preference for new databases; it does not move existing databases or create a different database. The server resolver makes the final decision. `TursoGet/Put/Post/DeleteModelFunctionsAction` and `TursoTokenFunctionsAction` also accept an optional group. GET sends it as a query parameter; other methods send it in the JSON body. Model paths remain unchanged.
+
+`TursoTokenFunctionsActionResponse.group` and `.primaryRegion` expose actual placement information when available. They are null with older servers or responses that do not resolve a database. Update the server before enabling explicit group selection in Flutter.
+
+Connection sessions and caches distinguish endpoints, prefixes, and groups. When a session key is provided, local caches also distinguish authentication sessions. Old cache namespaces are not reused; the first read after upgrading fetches data again. To read stored data from `collectionLoaders`, use `adapter.loadCachedCollection(query)`.
+
+See the [Node README](https://github.com/mathrunet/node_masamune/tree/main/packages/masamune_cloudflare_turso#multiple-groups-and-automatic-region-selection) for Node configuration and Katana YAML examples. Actual data access permissions are still evaluated by rules.
+
 ## Persistent local cache
 
 Use `CachedTursoModelAdapter` when loaded data should remain available from a
@@ -63,6 +96,7 @@ device-local cache after the app restarts.
 
 ```dart
 final adapter = CachedTursoModelAdapter(
+  prefix: null,
   functionsAdapter: CloudflareFunctionsAdapter(
     endpoint: "https://example.workers.dev",
   ),
@@ -81,6 +115,7 @@ rows only or return a modified query to merge additional Turso rows.
 ```dart
 late final CachedTursoModelAdapter adapter;
 adapter = CachedTursoModelAdapter(
+  prefix: null,
   cacheFilter: (_, value) => value["private"] != true,
   collectionLoaders: [
     (query, _) async {
@@ -125,6 +160,7 @@ Set `useDirectClient`. The adapter requests a token through
 
 ```dart
 final adapter = TursoModelAdapter(
+  prefix: null,
   functionsAdapter: CloudflareFunctionsAdapter(
     endpoint: "https://example.workers.dev",
   ),
@@ -188,8 +224,9 @@ Workers request conditions.
 - `orderByDesc`
 - `limit`
 
-`geoHash`, `nearest`, `and`, `or`, and `raw` are not supported in the first
-implementation. `arrayContains` and `arrayContainsAny` are rejected by direct
+`nearest` queries are routed through the Worker; see [Native vectors](#native-vectors)
+for schema requirements and limits. `geoHash`, `and`, `or`, and `raw` are not
+supported. `arrayContains` and `arrayContainsAny` are rejected by direct
 SQL and Workers SQL until JSON1 behavior is fixed across both paths.
 
 ## Schema migration
@@ -201,6 +238,15 @@ migrated.
 
 Workers access delegates database/table creation and additive migration to
 `@mathrunet/masamune_cloudflare_turso`.
+
+## Native vectors
+
+`TursoModelAdapter` and `CachedTursoModelAdapter` convert query text with `vectorConverter` and send `CollectionModelQuery.nearest("embedding", "search text")` to the Worker. Nearest-neighbor searches always query the Worker, including with the cached adapter, without merging stale local results or rankings. Document caching continues as usual.
+
+`@TidbSchema(extraColumns: [TidbSchemaColumn("embedding", "VECTOR(3)", vectorMetric: "euclidean")])` declares the dimensions and distance metric of a `ModelVectorValue` column. Run `katana code generate` after adding it. The default metric is cosine. Use matching local versions of the annotation, builder, CLI, and Worker.
+For Turso, also set `nativeVectors: true`. This routes all CRUD through the Worker and avoids the existing direct-connection TEXT type inference. The CLI converts VECTOR(N) to TursoDB F32_BLOB(N) while preserving the distance metric.
+See the [Node README](https://github.com/mathrunet/node_masamune/tree/main/packages/masamune_cloudflare_turso#native-vectors) for input, query, and migration constraints. ANN indexes are not generated automatically.
+
 
 # GitHub Sponsors
 

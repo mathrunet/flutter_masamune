@@ -642,9 +642,12 @@ class TursoModelAdapter extends ModelAdapter {
   /// Tursoを利用できるようにしたモデルアダプター。
   const TursoModelAdapter({
     required String? prefix,
+    this.group,
     super.defaultAutoDisposeWhenUnreferenced,
     this.useDirectClient = true,
     this.directClientSession,
+    this.vectorConverter = const PassVectorConverter(),
+    this.nativeVectors = false,
     FunctionsAdapter? functionsAdapter,
     this.tokenTtlSeconds = 3600,
     this.retryDelays = _tursoRetryDelays,
@@ -669,12 +672,23 @@ class TursoModelAdapter extends ModelAdapter {
 
   final String? _prefix;
 
+  /// 未作成DBの配置希望。nullの場合はWorkerが地域情報から自動選択します。
+  /// 既存DBはこの値によらず所属先へ接続します。
+  final String? group;
+
+  String get _connectionKey => jsonEncode([functionsAdapter.endpoint, group]);
+
   /// Prefix used to isolate runtime and persistent cache entries.
   ///
   /// ランタイムキャッシュと永続キャッシュのエントリーを分離するプレフィックス。
   @protected
-  String? get cachePrefix =>
-      prefix == null ? null : "__database_prefix__/$prefix";
+  String? get cachePrefix => "__turso_connection__/${jsonEncode([
+            functionsAdapter.endpoint,
+            prefix,
+            group,
+            directClientSession?.sessionKey(),
+            nativeVectors,
+          ]).toSHA1()}";
 
   /// Whether to use direct client access.
   ///
@@ -711,9 +725,12 @@ class TursoModelAdapter extends ModelAdapter {
   static final NoSqlDatabase sharedRuntimeDatabase = NoSqlDatabase();
 
   @override
-  VectorConverter get vectorConverter => const PassVectorConverter();
+  final VectorConverter vectorConverter;
 
-  bool get _directEnabled => useDirectClient;
+  /// vectorモデルは宣言schemaを持つWorkerへCRUDを統一します。
+  final bool nativeVectors;
+
+  bool get _directEnabled => useDirectClient && !nativeVectors;
 
   @override
   bool get availableListen => false;
@@ -741,7 +758,7 @@ class TursoModelAdapter extends ModelAdapter {
     }
     final totalStopwatch = Stopwatch()..start();
     final routeStopwatch = Stopwatch()..start();
-    final connectionKey = functionsAdapter.endpoint;
+    final connectionKey = _connectionKey;
     final resolved = await session._resolve(
       connectionKey: connectionKey,
       database: database,
@@ -750,6 +767,7 @@ class TursoModelAdapter extends ModelAdapter {
       loader: (targets) => functionsAdapter.execute(TursoTokenFunctionsAction(
         database: database,
         prefix: prefix,
+        group: group,
         targets: targets,
         ttlSeconds: tokenTtlSeconds,
       )),
@@ -838,6 +856,16 @@ class TursoModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
     Map<String, DynamicMap> value,
   ) async {
+    if (query.query.filters
+        .any((f) => f.type == ModelQueryFilterType.nearest)) {
+      for (final entry in value.entries) {
+        await _syncCachedDocument(
+            ModelAdapterDocumentQuery(query: query.query.create(entry.key)),
+            entry.value);
+      }
+      return;
+    }
+
     await cachedRuntimeDatabase.syncCollection(
       query,
       value,
@@ -891,6 +919,7 @@ class TursoModelAdapter extends ModelAdapter {
             database: path.database,
             table: path.table,
             prefix: prefix,
+            group: group,
             indexKey: path.indexKey,
           ));
         },
@@ -907,6 +936,7 @@ class TursoModelAdapter extends ModelAdapter {
         database: path.database,
         table: path.table,
         prefix: prefix,
+        group: group,
         indexKey: path.indexKey,
       ));
     }
@@ -963,6 +993,9 @@ class TursoModelAdapter extends ModelAdapter {
     }
     final path = TursoModelPath.fromCollectionQuery(query);
     final payload = TursoQueryPayload.fromFilters(query.query.filters);
+    if (payload.nearest != null) {
+      throw UnsupportedError("nearestの集計は未対応です。");
+    }
     Object? count;
     if (_directEnabled) {
       count = await _withDirectClient(
@@ -976,6 +1009,7 @@ class TursoModelAdapter extends ModelAdapter {
             database: path.database,
             table: path.table,
             prefix: prefix,
+            group: group,
             where: payload.where,
             count: true,
           ));
@@ -1003,6 +1037,7 @@ class TursoModelAdapter extends ModelAdapter {
         database: path.database,
         table: path.table,
         prefix: prefix,
+        group: group,
         where: payload.where,
         count: true,
       ));
@@ -1018,7 +1053,9 @@ class TursoModelAdapter extends ModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
       ModelAdapterCollectionQuery query) async {
-    final cache = await onPreloadCollection(query);
+    final nearest =
+        query.query.filters.any((f) => f.type == ModelQueryFilterType.nearest);
+    final cache = nearest ? null : await onPreloadCollection(query);
     var data = cache?.value;
     if (data == null || cache?.query != null) {
       if (cache?.query != null) {
@@ -1026,7 +1063,7 @@ class TursoModelAdapter extends ModelAdapter {
       }
       final path = TursoModelPath.fromCollectionQuery(query);
       final payload = TursoQueryPayload.fromFilters(query.query.filters);
-      final remote = _directEnabled
+      final remote = _directEnabled && payload.nearest == null
           ? await _loadCollectionDirect(path, payload)
           : await _loadCollectionFunctions(path, payload);
       data = {
@@ -1165,6 +1202,17 @@ class TursoModelAdapter extends ModelAdapter {
     );
   }
 
+  Future<DynamicMap?> _nearestPayload(DynamicMap? nearest) async {
+    if (nearest == null) {
+      return null;
+    }
+    final value = nearest["value"];
+    return {
+      ...nearest,
+      "value": value is String ? await vectorConverter.toVector(value) : value
+    };
+  }
+
   Future<Map<String, DynamicMap>> _loadCollectionFunctions(
     TursoModelPath path,
     TursoQueryPayload payload,
@@ -1174,9 +1222,11 @@ class TursoModelAdapter extends ModelAdapter {
         database: path.database,
         table: path.table,
         prefix: prefix,
+        group: group,
         where: payload.where,
         orderBy: payload.orderBy,
         limit: payload.limit,
+        nearest: await _nearestPayload(payload.nearest),
       ));
       return _rowsToMap(
         res.data,
@@ -1223,6 +1273,7 @@ class TursoModelAdapter extends ModelAdapter {
         database: path.database,
         table: path.table,
         prefix: prefix,
+        group: group,
         indexKey: path.indexKey,
       ));
       final rows = _rowsToList(
@@ -1343,6 +1394,7 @@ class TursoModelAdapter extends ModelAdapter {
           database: database,
           table: table,
           prefix: prefix,
+          group: group,
           where: [
             {
               "type": ModelQueryFilterType.whereIn.name,
@@ -1411,6 +1463,7 @@ class TursoModelAdapter extends ModelAdapter {
         database: path.database,
         table: path.table,
         prefix: prefix,
+        group: group,
         value: row,
       ));
     });
@@ -1500,7 +1553,7 @@ class TursoModelAdapter extends ModelAdapter {
   }) async {
     final mergedScopes = _mergeScopes(scopes);
     final session = directClientSession;
-    final connectionKey = functionsAdapter.endpoint;
+    final connectionKey = _connectionKey;
     final requiresWrite = _requiresWrite(scopes);
     final cachedMode = session?._cachedMode(
       connectionKey: connectionKey,
@@ -1529,6 +1582,7 @@ class TursoModelAdapter extends ModelAdapter {
             ? await functionsAdapter.execute(TursoTokenFunctionsAction(
                 database: database,
                 prefix: prefix,
+                group: group,
                 targets: mergedScopes,
                 ttlSeconds: tokenTtlSeconds,
               ))
@@ -1541,6 +1595,7 @@ class TursoModelAdapter extends ModelAdapter {
                     functionsAdapter.execute(TursoTokenFunctionsAction(
                   database: database,
                   prefix: prefix,
+                  group: group,
                   targets: targets,
                   ttlSeconds: tokenTtlSeconds,
                 )),
@@ -1683,6 +1738,11 @@ class TursoModelAdapter extends ModelAdapter {
   }
 
   DynamicMap _buildSaveRow(TursoModelPath path, DynamicMap value) {
+    if (_directEnabled &&
+        value.values.any((v) =>
+            v is ModelVectorValue || (v is Map && v.containsKey("@vector")))) {
+      throw UnsupportedError("native vectorモデルにはnativeVectors: trueを指定してください。");
+    }
     final now = DateTime.now().millisecondsSinceEpoch;
     final sanitizedValue = _sanitizeTursoSaveValue(value);
     return {
@@ -1856,7 +1916,7 @@ class TursoModelAdapter extends ModelAdapter {
   }
 
   String _boolFieldsCacheKey(String database, String table) {
-    return "${prefix ?? ""}\u0000$database\u0000$table";
+    return "$cachePrefix\u0000$database\u0000$table";
   }
 
   Map<String, DynamicMap> _rowsToMap(
@@ -1878,9 +1938,12 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   int get hashCode {
-    return runtimeType.hashCode ^
+    return vectorConverter.hashCode ^
+        nativeVectors.hashCode ^
+        runtimeType.hashCode ^
         functionsAdapter.hashCode ^
         prefix.hashCode ^
+        group.hashCode ^
         useDirectClient.hashCode ^
         directClientSession.hashCode ^
         retryDelays.hashCode ^
@@ -1999,6 +2062,7 @@ class _TursoDeleteOperation extends _TursoOperation {
       database: path.database,
       table: path.table,
       prefix: adapter.prefix,
+      group: adapter.group,
       indexKey: path.indexKey,
     ));
     await syncCache(adapter);

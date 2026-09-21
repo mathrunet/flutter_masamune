@@ -1,3 +1,11 @@
+## 3.8.0
+
+- Add Worker-based CRUD with nativeVectors, nearest-neighbor queries, vectorConverter, and ranking preservation in the cached adapter.
+
+
+- Add an optional group preference for new databases to adapters and FunctionsAction. The Worker selects a group automatically when omitted.
+- Support group and primaryRegion in token responses and isolate caches by endpoint and authentication session. Refetch data on the first read instead of reusing old local caches.
+
 ## 3.7.9
 
  - **FIX**(tidb_adapter,turso_adapter): implement retry logic for transient errors. ([7fdd454c](https://github.com/mathrunet/flutter_masamune/commit/7fdd454c78d0ec425f64c9f6e38f1992209f979a))
@@ -45,7 +53,7 @@
 ## 3.6.2
 
  - **REFACTOR**(masamune_model_turso): update dependencies and enhance documentation. ([bcf5634a](https://github.com/mathrunet/flutter_masamune/commit/bcf5634ab6f588657b438147bb9ac8ab5c3a33e1))
- - **FIX**(masamune_model_turso): 使用中のTursoクライアント破棄によるクラッシュを修正. ([f43fed07](https://github.com/mathrunet/flutter_masamune/commit/f43fed07950b1c964873cbdd0cbb00f2eca59c37))
+ - **FIX**(masamune_model_turso): fix a crash caused by disposing a Turso client while it is in use. ([f43fed07](https://github.com/mathrunet/flutter_masamune/commit/f43fed07950b1c964873cbdd0cbb00f2eca59c37))
 
 ## 3.6.1
 
