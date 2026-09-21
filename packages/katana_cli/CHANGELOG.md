@@ -1,7 +1,7 @@
-## 4.0.0
+## 3.27.0
 
-- katana migrateを追加し、DDLとkatana applyを分離。TiDB直結用secret設定、共通schema統合、増分生成・再applyの整合性を検証。旧Data Service管理APIを撤去。
-- DO／KVのvector schemaからVectorize indexとbindingを照合し、KV用SQLite coordinator class・migration・Worker設定を生成。
+- Add katana migrate and separate DDL from katana apply. Verify secrets for direct TiDB connections, shared schema aggregation, incremental generation, and reapplication consistency. Remove the legacy Data Service administration API.
+- Validate Vectorize indexes and bindings against DO/KV vector schemas, and generate the KV SQLite coordinator class, migrations, and Worker configuration.
 
 ## 3.26.0
 
@@ -177,16 +177,16 @@
  - **REFACTOR**: Rename AGENTS.md to CLAUDE.md and remove unused Claude Code AI agent functionality. ([7f4489d7](https://github.com/mathrunet/flutter_masamune/commit/7f4489d73b3d0d90d22ae7d72a169b6db0982ffe))
  - **REFACTOR**: Update asset paths in create.dart for consistency and portability. ([a05814fa](https://github.com/mathrunet/flutter_masamune/commit/a05814fa63a0a6ed839b569e9217156b8a3aa4b1))
  - **FIX**: escape dollar signs in workflow-related strings. ([bfc5754b](https://github.com/mathrunet/flutter_masamune/commit/bfc5754b2095190eb9019dea33197ffe55d4b11a))
- - **FIX**: AIドキュメントにTheme利用方法のガイドを追加. ([a22a3865](https://github.com/mathrunet/flutter_masamune/commit/a22a386510f5aaa3e00a9ec050d8a315d6e6253f))
+ - **FIX**: add a Theme usage guide to the AI documentation. ([a22a3865](https://github.com/mathrunet/flutter_masamune/commit/a22a386510f5aaa3e00a9ec050d8a315d6e6253f))
  - **FIX**: add new localized keys for "Region" and "Language". ([cac3f73d](https://github.com/mathrunet/flutter_masamune/commit/cac3f73dc12c328551ae16c9b23150ad3968979b))
  - **FIX**: add guest login subscription registration messages in multiple languages. ([02dc8312](https://github.com/mathrunet/flutter_masamune/commit/02dc8312802a1e392447fd793b0a5b53ebe8b4ed))
  - **FIX**(claude_code): escape dollar signs in completion messages. ([c1c8db5b](https://github.com/mathrunet/flutter_masamune/commit/c1c8db5b43c2bf700cac3cff4a79fb1f4dfefd0c))
- - **FIX**: プラグインドキュメント生成機能を追加. ([e985a9c9](https://github.com/mathrunet/flutter_masamune/commit/e985a9c9341abd4168a4be23059b6d647c45bfc5))
+ - **FIX**: add plugin documentation generation. ([e985a9c9](https://github.com/mathrunet/flutter_masamune/commit/e985a9c9341abd4168a4be23059b6d647c45bfc5))
  - **FIX**: Enhance template generation by creating parent directories for code views. ([64ecd88f](https://github.com/mathrunet/flutter_masamune/commit/64ecd88fc8a64454955c996f70e7bf14834adc68))
  - **FIX**: Introduce Firebase workflow configuration and related actions. ([86b0741a](https://github.com/mathrunet/flutter_masamune/commit/86b0741addb25a80663ace60af76b67b018dbee1))
  - **FIX**: Add store.yaml generation and asset creation command. ([c6fdf4a6](https://github.com/mathrunet/flutter_masamune/commit/c6fdf4a64f50ba3b11e83a28e4d7ad510a1e75ff))
  - **FEAT**(katana_cli): add CLAUDE.md generator for AI agent integration. ([6afd8f36](https://github.com/mathrunet/flutter_masamune/commit/6afd8f36890d15be47860e330da11a8787e20fe5))
- - **DOCS**(plugins): Workflowプラグインドキュメントとプラグイン一覧を追加. ([de9fd138](https://github.com/mathrunet/flutter_masamune/commit/de9fd138f6e7c101dc798feaaa36fdf0c9d45c44))
+ - **DOCS**(plugins): add Workflow plugin documentation and a plugin list. ([de9fd138](https://github.com/mathrunet/flutter_masamune/commit/de9fd138f6e7c101dc798feaaa36fdf0c9d45c44))
  - **DOCS**: Enhance purchase and workflow documentation for usage tracking and subscription management. ([288861f3](https://github.com/mathrunet/flutter_masamune/commit/288861f3b50c7009c2d3687244c5eb8a2c919af3))
  - **DOCS**: Add comments to clarify CollectionModel update mechanism. ([46afad65](https://github.com/mathrunet/flutter_masamune/commit/46afad6515889b45a89c9170df110b583563a3f6))
  - **DOCS**: Enhance model filter conditions and usage documentation. ([4c956c58](https://github.com/mathrunet/flutter_masamune/commit/4c956c589d69130ced05aa276559ee87cada52d3))
@@ -196,7 +196,7 @@
  - **DOCS**: Update pre-commit and testing documentation for CI image generation. ([01e49657](https://github.com/mathrunet/flutter_masamune/commit/01e4965722f63b5f29cdddf8fd0f92000c2abf2d))
  - **DOCS**: Enhance workflow configuration documentation and automate Firebase setup. ([bfe79304](https://github.com/mathrunet/flutter_masamune/commit/bfe79304cd4c6428caaa849f686eef5f5f15b7f5))
  - **DOCS**: Add comprehensive guide for URL recognition and MCP server selection in Claude Code. ([f1043227](https://github.com/mathrunet/flutter_masamune/commit/f10432275db13af534ca7cd30091153d4f1c834f))
- - **DOCS**(cli): フォームコンポーネントAIドキュメントを追加. ([6fd709f3](https://github.com/mathrunet/flutter_masamune/commit/6fd709f39ffc090eef55e52779bbaf2167ec8b3e))
+ - **DOCS**(cli): add AI documentation for form components. ([6fd709f3](https://github.com/mathrunet/flutter_masamune/commit/6fd709f39ffc090eef55e52779bbaf2167ec8b3e))
 
 ## 3.9.1
 
@@ -238,7 +238,7 @@
  - **FIX**: I decided to create settings.local.json. ([59994a8f](https://github.com/mathrunet/flutter_masamune/commit/59994a8f8b7659183d23fada14aa71982ea9cadb))
  - **FIX**: Add translation. ([75634eb6](https://github.com/mathrunet/flutter_masamune/commit/75634eb65ec83ca309c6ccd538e6b12d3b468bd5))
  - **FIX**: Add documentation for ModelVectorValue. ([c35b8dee](https://github.com/mathrunet/flutter_masamune/commit/c35b8deebe34ad034e5fa047a622d2569e97608c))
- - **FIX**: MCPのシークレットの取扱を修正. ([40fd36b3](https://github.com/mathrunet/flutter_masamune/commit/40fd36b34715946d57acbf5126f6068cc42c3c81))
+ - **FIX**: fix MCP secret handling. ([40fd36b3](https://github.com/mathrunet/flutter_masamune/commit/40fd36b34715946d57acbf5126f6068cc42c3c81))
  - **FIX**: Corrected widget name mismatch. ([75a6c3a6](https://github.com/mathrunet/flutter_masamune/commit/75a6c3a6d9e65dfadf5cba82d7d58a580eab721e))
  - **FIX**: Correct the error caused by the line break. ([c5d0d2b8](https://github.com/mathrunet/flutter_masamune/commit/c5d0d2b886ca598c8077ac4c249507eb38b58031))
  - **FIX**: Add documentation for ClaudeCode. ([11d25e18](https://github.com/mathrunet/flutter_masamune/commit/11d25e18123fd7f3d51ce26ea2fe8b8eb8871d81))
@@ -846,7 +846,7 @@
 
 ## 2.18.8
 
- - **FIX**: PrivacyManifest対応。. ([da71970b](https://github.com/mathrunet/flutter_masamune/commit/da71970b1eaf7fc0f52a4e248065c93bf7610138))
+ - **FIX**: add PrivacyManifest support. ([da71970b](https://github.com/mathrunet/flutter_masamune/commit/da71970b1eaf7fc0f52a4e248065c93bf7610138))
 
 ## 2.18.7
 
@@ -1011,7 +1011,7 @@
 ## 2.12.2
 
  - **FIX**: Added an argument to skip Functions commands. ([b1c31aa3](https://github.com/mathrunet/flutter_masamune/commit/b1c31aa340bf355674ef7ac0f7c0a32a05616246))
- - **FIX**: コマンド周りの不具合を修正. ([bf05b40f](https://github.com/mathrunet/flutter_masamune/commit/bf05b40f71aa5a2817e1a03d3124aa2b702ebe34))
+ - **FIX**: fix command-related issues. ([bf05b40f](https://github.com/mathrunet/flutter_masamune/commit/bf05b40f71aa5a2817e1a03d3124aa2b702ebe34))
 
 ## 2.12.1
 
@@ -1233,7 +1233,7 @@
 
 ## 2.8.11
 
- - **FIX**: モジュールの生成コードを変更。. ([59f66c8f](https://github.com/mathrunet/flutter_masamune/commit/59f66c8fe746dd7cba11fa5d38cb537af6116627))
+ - **FIX**: update generated module code. ([59f66c8f](https://github.com/mathrunet/flutter_masamune/commit/59f66c8fe746dd7cba11fa5d38cb537af6116627))
 
 ## 2.8.10
 
@@ -1675,7 +1675,7 @@
 
 ## 1.8.15
 
- - **FIX**: UniversalMasamuneAdapterを最初から定義するように変更。. ([094e779c](https://github.com/mathrunet/flutter_masamune/commit/094e779ce96934f79fba451b64add0279fc71d76))
+ - **FIX**: define UniversalMasamuneAdapter from the start. ([094e779c](https://github.com/mathrunet/flutter_masamune/commit/094e779ce96934f79fba451b64add0279fc71d76))
 
 ## 1.8.14
 
@@ -1915,7 +1915,7 @@
  - **FIX**: Slight change to Code. ([6040f2b5](https://github.com/mathrunet/flutter_masamune/commit/6040f2b51bb2a5f1edbddd002b3f0cb2cfc2ff97))
  - **FIX**: Fixes around code creation. ([45c14426](https://github.com/mathrunet/flutter_masamune/commit/45c144263dcfea8e75c2a8e22874a64fbe6e8fe4))
  - **FIX**: Added Code generation function. ([6d3d6461](https://github.com/mathrunet/flutter_masamune/commit/6d3d64618b05942ba8b6cef30c0541f2d778d57d))
- - **FEAT**: keystoreのコマンドを追加。. ([60e8c089](https://github.com/mathrunet/flutter_masamune/commit/60e8c0899e3eb48b039ae3ee8e272e4a9cc41779))
+ - **FEAT**: add keystore commands. ([60e8c089](https://github.com/mathrunet/flutter_masamune/commit/60e8c0899e3eb48b039ae3ee8e272e4a9cc41779))
  - **FEAT**: Creation of app name localization data by app info. ([c5cfaf4c](https://github.com/mathrunet/flutter_masamune/commit/c5cfaf4c76be834810c4cbe4e7161c6fa1c7ffcf))
  - **FEAT**: Add app info command. ([5ed6610b](https://github.com/mathrunet/flutter_masamune/commit/5ed6610b9b7375f741f2d24443b9eb5d26cc3fe6))
  - **FEAT**: Add value and redirect_query to code. ([34fe089f](https://github.com/mathrunet/flutter_masamune/commit/34fe089ff8cb0a6b95c17f713b746cb85c6f6fe9))
