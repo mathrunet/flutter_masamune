@@ -1,5 +1,6 @@
 // Dart imports:
 import "dart:io";
+import "dart:convert";
 
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
@@ -38,6 +39,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         context.secrets.getAsMap("cloudflare").getAsMap("turso");
     final organization = turso.get("organization", "");
     final group = turso.get("group", "");
+    final groups = parseTursoGroups(turso["groups"]);
     final secretPlatformApiToken = secretTurso.get("platform_api_token", "");
     final platformApiToken = secretPlatformApiToken.isNotEmpty
         ? secretPlatformApiToken
@@ -45,7 +47,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final serverTokenTtl = turso.get("server_token_ttl", 3600);
     final schemaManifestPath = turso.get(
       "schema_manifest",
-      "tidb/data_service/__generated_schema_manifest.json",
+      "tidb/schema/schema.json",
     );
     final rotateLegacyTokens = turso.get("rotate_legacy_tokens", false);
     if (organization.isEmpty) {
@@ -54,11 +56,16 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    if (group.isEmpty) {
+    if (group.isEmpty && groups.isEmpty) {
       error(
-        "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[group].",
+        "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[group] or [groups].",
       );
       return;
+    }
+    if (groups.isNotEmpty &&
+        group.isNotEmpty &&
+        !groups.any((item) => item["name"] == group)) {
+      throw const FormatException("既定groupはgroupsに含めてください。");
     }
     if (platformApiToken.isEmpty) {
       error(
@@ -103,6 +110,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         values: {
           "TURSO_ORGANIZATION": organization,
           "TURSO_GROUP": group,
+          "TURSO_GROUPS": groups.isEmpty ? "" : jsonEncode(groups),
           "TURSO_SERVER_TOKEN_TTL_SECONDS": serverTokenTtl.toString(),
         },
       ),
@@ -119,14 +127,39 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final schemaManifest = File(schemaManifestPath);
     final useSchemaManifest = schemaManifest.existsSync();
     if (useSchemaManifest) {
-      await schemaManifest.copy("cloudflare/src/turso_schema_manifest.json");
+      final schema = jsonDecode(await schemaManifest.readAsString()) as Map;
+      final tables = schema["tables"];
+      final compatible = tables is List
+          ? {
+              "version": schema["sourceHash"] ?? schema["version"],
+              "tables": {
+                for (final table in tables)
+                  "${table["database"]}\u0000${table["table"]}": {
+                    "database": table["database"],
+                    "table": table["table"],
+                    "columns": [
+                      for (final column in table["columns"])
+                        {
+                          "name": column["name"],
+                          "type": tursoNativeColumnType(
+                              column["sqlType"] as String),
+                          if (column["vectorMetric"] != null)
+                            "vectorMetric": column["vectorMetric"]
+                        }
+                    ],
+                  }
+              },
+            }
+          : schema;
+      await File("cloudflare/src/turso_schema_manifest.json")
+          .writeAsString(jsonEncode(compatible));
     } else {
       label(
         "Turso schema manifest was not found at `$schemaManifestPath`; runtime value inference remains enabled.",
       );
     }
     final source = await indexFile.readAsString();
-    final updated = _updateTursoFunctions(
+    final updated = updateTursoFunctions(
       source,
       useSchemaManifest: useSchemaManifest,
     );
@@ -145,15 +178,20 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       value: platformApiToken,
     );
     if (rotateLegacyTokens) {
-      await _rotateLegacyTokens(
-        organization: organization,
-        group: group,
-        platformApiToken: platformApiToken,
-      );
+      for (final name in groups.isEmpty
+          ? [group]
+          : groups.map((item) => item["name"] as String)) {
+        await _rotateLegacyTokens(
+          organization: organization,
+          group: name,
+          platformApiToken: platformApiToken,
+        );
+      }
     }
   }
 
-  String? _updateTursoFunctions(
+  /// 既存のオプション・resolverを保持してTurso関数を追加します。
+  String? updateTursoFunctions(
     String source, {
     required bool useSchemaManifest,
   }) {
@@ -250,12 +288,89 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       if (range == null) {
         break;
       }
-      final next = replaced ? "" : replacement;
+      // ユーザーのgroups/resolverや共通設定への参照を削除しません。
+      final call = updated.substring(range.start, range.end);
+      final next = replaced ? "" : _mergeFunctionDefaults(call, replacement);
       updated = updated.replaceRange(range.start, range.end, next);
       searchStart = range.start + next.length;
       replaced = true;
     }
     return updated;
+  }
+
+  String _mergeFunctionDefaults(String call, String replacement) {
+    final open = call.indexOf("(");
+    final close = _findClosing(call, open, "(", ")");
+    final argument = call.substring(open + 1, close).trim();
+    if (argument.isEmpty) {
+      return replacement;
+    }
+    // 共通設定オブジェクトへの参照はアプリ側が所有します。
+    if (!argument.startsWith("{") ||
+        _findClosing(argument, 0, "{", "}") != argument.length - 1) {
+      return call;
+    }
+    final additions = <String>[];
+    for (final property in ["autoCreateDatabase", "schemaManifest"]) {
+      if (RegExp("\\b$property\\b").hasMatch(argument)) {
+        continue;
+      }
+      final match = RegExp("$property: ([^\\n]+),").firstMatch(replacement);
+      if (match != null) {
+        additions.add("        $property: ${match[1]},");
+      }
+    }
+    if (additions.isEmpty) {
+      return call;
+    }
+    final objectStart = call.indexOf("{", open);
+    return call.replaceRange(
+        objectStart + 1, objectStart + 1, "\n${additions.join("\n")}\n");
+  }
+
+  /// katana.yamlのグループ定義を検証します。名前の順序がfallback順です。
+  static List<Map<String, dynamic>> parseTursoGroups(Object? value) {
+    if (value == null) {
+      return const [];
+    }
+    if (value is! List) {
+      throw const FormatException("turso.groupsは配列で指定してください。");
+    }
+    final names = <String>{};
+    final countryCodes = <String>{};
+    final continentCodes = <String>{};
+    return value.map((item) {
+      if (item is! Map ||
+          item["name"] is! String ||
+          !RegExp(r"^[A-Za-z0-9_-]+$").hasMatch(item["name"] as String) ||
+          !names.add(item["name"] as String)) {
+        throw const FormatException("turso.groupsのnameは重複しない識別子が必要です。");
+      }
+      final result = <String, dynamic>{"name": item["name"]};
+      for (final key in ["countries", "continents"]) {
+        final codes = item[key];
+        if (codes == null) {
+          continue;
+        }
+        final seen = key == "countries" ? countryCodes : continentCodes;
+        if (codes is! List ||
+            codes.any((code) =>
+                code is! String ||
+                !RegExp(r"^[A-Z]{2}$").hasMatch(code) ||
+                (key == "continents" &&
+                    !const ["AF", "AN", "AS", "EU", "NA", "OC", "SA"]
+                        .contains(code)))) {
+          throw FormatException("turso.groups.$keyは大文字の地域コード配列が必要です。");
+        }
+        for (final code in codes.cast<String>()) {
+          if (!seen.add(code)) {
+            throw FormatException("turso.groups.$keyが重複しています: $code");
+          }
+        }
+        result[key] = codes.cast<String>().toList();
+      }
+      return result;
+    }).toList();
   }
 
   _SourceRange? _findDeployFunctions(String source) {
@@ -399,4 +514,17 @@ class _SourceRange {
   final int start;
 
   final int end;
+}
+
+/// 共通schemaのVECTOR列をTursoDBのnative vector列へ対応付ける。
+String tursoNativeColumnType(String type) {
+  final normalized = type.trim().toUpperCase();
+  final match = RegExp(r"^VECTOR\(([1-9][0-9]*)\)$").firstMatch(normalized);
+  if (match == null) {
+    return type;
+  }
+  if (int.parse(match.group(1)!) > 16383) {
+    throw ArgumentError("VECTOR dimensionsは1〜16383です。");
+  }
+  return normalized.replaceFirst("VECTOR", "F32_BLOB");
 }

@@ -565,6 +565,19 @@ class ComposeCliCommand extends CliCommand {
       );
       return;
     }
+    // 外部コマンドやファイル生成の前に環境変数を検証します。
+    late final List<DartDefinesCliCode> dartDefines;
+    try {
+      dartDefines = [
+        for (final flavor in flavors)
+          DartDefinesCliCode.fromEnvironment(flavor: flavor),
+      ];
+    } on FormatException catch (exception) {
+      error(exception.message);
+      return;
+    } catch (_) {
+      rethrow;
+    }
     await command(
       "Create a Flutter project.",
       [
@@ -637,10 +650,8 @@ class ComposeCliCommand extends CliCommand {
     // label("Create a build.yaml");
     // await const BuildCliCode().generateFile("build.yaml");
     label("Create a dart_defines/**.env");
-    for (final flavor in flavors) {
-      await DartDefinesCliCode(
-        flavor: flavor,
-      ).generateFile("$flavor.env");
+    for (final code in dartDefines) {
+      await code.generateFile("${code.flavor}.env");
     }
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
@@ -3604,7 +3615,36 @@ class DartDefinesCliCode extends CliCode {
   /// dart_defines/**.envの中身。
   const DartDefinesCliCode({
     required this.flavor,
+    this.aiDebuggerApiKey,
+    this.aiDebuggerAccounts,
   });
+
+  /// compose用に、対象の環境変数だけを取り込みます。
+  factory DartDefinesCliCode.fromEnvironment({
+    required String flavor,
+    Map<String, String>? environment,
+  }) {
+    final values = environment ?? Platform.environment;
+    String? read(String key) {
+      final value = values[key];
+      if (value != null && (value.contains("\n") || value.contains("\r"))) {
+        throw FormatException("$key に改行は指定できません。");
+      }
+      return value;
+    }
+
+    return DartDefinesCliCode(
+      flavor: flavor,
+      aiDebuggerApiKey: read("MASAMUNE_AI_DEBUGGER_API_KEY"),
+      aiDebuggerAccounts: read("MASAMUNE_AI_DEBUGGER_ACCOUNTS"),
+    );
+  }
+
+  /// 環境変数から渡されたAPIキー。未設定の場合は行を生成しません。
+  final String? aiDebuggerApiKey;
+
+  /// 環境変数から渡されたアカウント一覧。未設定の場合は行を生成しません。
+  final String? aiDebuggerAccounts;
 
   /// Flavor.
   ///
@@ -3636,9 +3676,14 @@ class DartDefinesCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return """
-FLAVOR=$flavor
-""";
+    final content = StringBuffer("FLAVOR=$flavor\n");
+    if (aiDebuggerApiKey != null) {
+      content.writeln("MASAMUNE_AI_DEBUGGER_API_KEY=$aiDebuggerApiKey");
+    }
+    if (aiDebuggerAccounts != null) {
+      content.writeln("MASAMUNE_AI_DEBUGGER_ACCOUNTS=$aiDebuggerAccounts");
+    }
+    return content.toString();
   }
 }
 

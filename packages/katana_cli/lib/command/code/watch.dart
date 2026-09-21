@@ -21,10 +21,21 @@ class CodeWatchCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
-    final builderArguments = _tidbDataServiceBuilderArguments(context);
+    final builderArguments = _tidbSchemaBuilderArguments(context);
     final builderShellArguments = _shellArguments(builderArguments);
     final builderShellSuffix =
         builderShellArguments.isEmpty ? "" : " $builderShellArguments";
+    var output = "";
+    void onOutput(Process process, String chunk) {
+      output += chunk;
+      if (output.contains("Built with build_runner")) {
+        _finalizeTidbSchemas(context);
+        output = "";
+      } else if (output.length > 4096) {
+        output = output.substring(output.length - 2048);
+      }
+    }
+
     if (File("melos.yaml").existsSync()) {
       await command(
         "Watch build_runner for all packages to generate code.",
@@ -35,6 +46,9 @@ class CodeWatchCliCommand extends CliCommand {
           "$flutter packages pub run build_runner watch "
               "--delete-conflicting-outputs$builderShellSuffix",
         ],
+        action: onOutput,
+        catchError: true,
+        failOnStderr: false,
       );
     } else {
       await command(
@@ -49,6 +63,9 @@ class CodeWatchCliCommand extends CliCommand {
           "--delete-conflicting-outputs",
           ...builderArguments,
         ],
+        action: onOutput,
+        catchError: true,
+        failOnStderr: false,
       );
     }
   }

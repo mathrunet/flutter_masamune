@@ -219,6 +219,11 @@ class DebuggableProjectSynchronizer {
       "MASAMUNE_AI_DEBUGGER_API_KEY",
       "",
     );
+    content = _appendMissingEnvironmentValue(
+      content,
+      "MASAMUNE_AI_DEBUGGER_ACCOUNTS",
+      "",
+    );
     if (content != original) {
       await file.writeAsString(content);
     }

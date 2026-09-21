@@ -1,3 +1,8 @@
+## 4.0.0
+
+- katana migrateを追加し、DDLとkatana applyを分離。TiDB直結用secret設定、共通schema統合、増分生成・再applyの整合性を検証。旧Data Service管理APIを撤去。
+- DO／KVのvector schemaからVectorize indexとbindingを照合し、KV用SQLite coordinator class・migration・Worker設定を生成。
+
 ## 3.26.0
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))

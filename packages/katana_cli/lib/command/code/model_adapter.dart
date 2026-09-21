@@ -53,6 +53,10 @@ class CodeModelAdapterCliCommand extends CliCodeCommand {
 
   @override
   String import(String path, String baseName, String className) {
+    if (["listenable_durable_object", "cached_listenable_durable_object"]
+        .contains(baseName)) {
+      return 'import "package:masamune_model_do/masamune_model_do.dart";';
+    }
     final packageName = retrievePackageName();
     return """
 // ignore: unused_import, unnecessary_import
@@ -75,6 +79,19 @@ import "package:$packageName/main.dart";
 
   @override
   String body(String path, String baseName, String className) {
+    if (["listenable_durable_object", "cached_listenable_durable_object"]
+        .contains(baseName)) {
+      final cached = baseName.startsWith("cached_");
+      final type = cached
+          ? "CachedListenableDurableObjectModelAdapter"
+          : "ListenableDurableObjectModelAdapter";
+      return """
+/// 認証切替時は以前のsession.reset()を呼び、新しいsessionで作り直す。
+$type create${className}Adapter(DurableObjectModelSession session) {
+  return $type(prefix: null, session: session${cached ? ", cachedLocalDatabase: CachedDurableObjectModelAdapter.sharedLocalDatabase" : ""});
+}
+""";
+    }
     return """
 
 /// Model adapter for use with DocumentModel and CollectionModel.

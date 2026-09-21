@@ -1,8 +1,10 @@
 // Dart imports:
+import "dart:convert";
 import "dart:io";
 
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
+import "package:katana_cli/action/cloudflare/d1.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process for KV.
@@ -35,6 +37,13 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
     final binding = kv.get("binding", "MASAMUNE_KV");
     final namespaceId = kv.get("namespace_id", "");
     final previewId = kv.get("preview_id", "");
+    final vectors = kv
+        .get("vectors", const <dynamic>[])
+        .map((value) => Map<String, dynamic>.from(value as Map))
+        .toList();
+    final coordinatorBinding = kv
+        .get("coordinator_binding", "MASAMUNE_KV_VECTOR_COORDINATOR")
+        .toString();
     if (binding.isEmpty) {
       error(
         "If [cloudflare]->[kv]->[enable] is enabled, please include [cloudflare]->[kv]->[binding].",
@@ -72,28 +81,72 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
     await addFlutterImport(["masamune_model_cloudflare_kv"]);
     label("Add Cloudflare Workers functions");
     final source = await indexFile.readAsString();
-    final updated = _updateKvFunctions(source, binding: binding);
+    final updated = _updateKvFunctions(source,
+        binding: binding,
+        vectors: vectors,
+        coordinatorBinding: coordinatorBinding);
     if (updated == null) {
       return;
     }
     await indexFile.writeAsString(updated);
     label("Add Cloudflare KV namespace binding");
-    await wranglerFile.writeAsString(
-      WranglerEnvironmentSynchronizer.transformEnvironment(
-        WranglerEnvironmentSynchronizer.ensureEnvironment(
-          await wranglerFile.readAsString(),
-          flavor: flavor,
-          workerName: cloudflare.get("project_id", ""),
-        ),
+    var wranglerSource = WranglerEnvironmentSynchronizer.transformEnvironment(
+      WranglerEnvironmentSynchronizer.ensureEnvironment(
+        await wranglerFile.readAsString(),
         flavor: flavor,
-        transform: (environment) => _updateWranglerKvNamespace(
-          environment,
-          binding: binding,
-          namespaceId: namespaceId,
-          previewId: previewId,
-        ),
+        workerName: cloudflare.get("project_id", ""),
+      ),
+      flavor: flavor,
+      transform: (environment) => _updateWranglerKvNamespace(
+        environment,
+        binding: binding,
+        namespaceId: namespaceId,
+        previewId: previewId,
       ),
     );
+    if (vectors.isNotEmpty) {
+      final specs = <String, Map<String, dynamic>>{};
+      for (final vector in vectors) {
+        final vectorBinding = vector["binding"]?.toString() ?? "";
+        final previous = specs[vectorBinding];
+        if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(vectorBinding) ||
+            previous != null &&
+                (previous["dimensions"] != vector["dimensions"] ||
+                    previous["metric"] != vector["metric"])) {
+          throw StateError("KV vector定義が不正です。");
+        }
+        specs[vectorBinding] = vector;
+      }
+      final names = kv.getAsMap("vectorize").getAsMap(flavor);
+      wranglerSource = await ensureCloudflareVectorizeBindings(
+        source: updateKvVectorCoordinatorBinding(wranglerSource,
+            binding: coordinatorBinding,
+            className: "MasamuneKvVectorCoordinator",
+            tag: kv
+                .get("class_migration_tag", "masamune-kv-vector-v1")
+                .toString()),
+        wrangler: bin.get("wrangler", "wrangler"),
+        account: kv.get("account_id", cloudflare.get("account_id", "")),
+        flavor: flavor,
+        specs: specs,
+        names: {
+          for (final vectorBinding in specs.keys)
+            vectorBinding: names.get(vectorBinding, "").toString(),
+        },
+      );
+      final generated = File("cloudflare/src/masamune_kv_vector.ts");
+      await generated.writeAsString('''
+import { KvVectorCoordinator } from "@mathrunet/masamune_cloudflare_kv";
+export class MasamuneKvVectorCoordinator extends KvVectorCoordinator {}
+''');
+      var indexSource = await indexFile.readAsString();
+      const exportLine =
+          'export { MasamuneKvVectorCoordinator } from "./masamune_kv_vector";';
+      indexSource =
+          "$exportLine\n${indexSource.replaceAll(RegExp(r'''export\s*\{\s*MasamuneKvVectorCoordinator\s*\}\s*from\s*["']\./masamune_kv_vector["'];?\r?\n?'''), "")}";
+      await indexFile.writeAsString(indexSource);
+    }
+    await wranglerFile.writeAsString(wranglerSource);
     await installMissingCloudflarePackages(
       npm: npm,
       packages: const ["@mathrunet/masamune_cloudflare_kv"],
@@ -105,9 +158,12 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
     );
   }
 
-  String? _updateKvFunctions(String source, {required String binding}) {
+  String? _updateKvFunctions(String source,
+      {required String binding,
+      required List<Map<String, dynamic>> vectors,
+      required String coordinatorBinding}) {
     final kvFunction = """
-    kv.Functions.kv({ bindingName: "$binding" }),""";
+    kv.Functions.kv({ bindingName: "$binding"${vectors.isEmpty ? "" : ", coordinatorBinding: ${jsonEncode(coordinatorBinding)}, vectors: ${jsonEncode(vectors)}"} }),""";
     var updated = _ensureKvImport(source);
     updated = _replaceFunction(updated, "kv.Functions.kv", kvFunction);
     if (updated.contains("kv.Functions.kv(")) {
@@ -313,6 +369,89 @@ $namespace
 ${previewId.isEmpty ? "" : '\t\t\t"preview_id": "$previewId"'}
 \t\t}""";
   }
+}
+
+/// KV Vectorize coordinator用DO bindingとclass migrationを冪等に追加する。
+String updateKvVectorCoordinatorBinding(String source,
+    {required String binding, required String className, required String tag}) {
+  for (final name in [binding, className]) {
+    if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(name)) {
+      throw ArgumentError("KV vector coordinator識別子が不正です。");
+    }
+  }
+  final bindingPattern = RegExp(
+      r'"durable_objects"\s*:\s*\{\s*"bindings"\s*:\s*(\[[\s\S]*?\])\s*\}');
+  final found = bindingPattern.firstMatch(source);
+  final bindings = found == null
+      ? <dynamic>[]
+      : jsonDecode(found.group(1)!) as List<dynamic>;
+  final same = bindings.where((value) => value["name"] == binding);
+  if (same.any((value) => value["class_name"] != className)) {
+    throw StateError("既存KV coordinator bindingの接続先が異なります。");
+  }
+  if (same.isEmpty) {
+    bindings.add({"name": binding, "class_name": className});
+  }
+  final property = '"durable_objects":{"bindings":${jsonEncode(bindings)}}';
+  source = found == null
+      ? source.replaceFirst("{", "{$property,")
+      : source.replaceRange(found.start, found.end, property);
+  final migrationMatch = _kvArrayProperty(source, "migrations");
+  final migrations =
+      migrationMatch == null ? <dynamic>[] : migrationMatch.value;
+  final desired = {
+    "tag": tag,
+    "new_sqlite_classes": [className]
+  };
+  final tagged = migrations.where((value) => value["tag"] == tag);
+  if (tagged.any((value) => jsonEncode(value) != jsonEncode(desired))) {
+    throw StateError("KV coordinator migration tagが競合しています。");
+  }
+  if (tagged.isEmpty) {
+    migrations.add(desired);
+  }
+  final migrationProperty = '"migrations":${jsonEncode(migrations)}';
+  return migrationMatch == null
+      ? source.replaceFirst("{", "{$migrationProperty,")
+      : source.replaceRange(
+          migrationMatch.start, migrationMatch.end, migrationProperty);
+}
+
+({int start, int end, List<dynamic> value})? _kvArrayProperty(
+    String source, String property) {
+  final match = RegExp('"$property"\\s*:\\s*\\[').firstMatch(source);
+  if (match == null) {
+    return null;
+  }
+  final begin = source.indexOf("[", match.start);
+  var depth = 0;
+  String? quote;
+  var escaped = false;
+  for (var index = begin; index < source.length; index++) {
+    final character = source[index];
+    if (quote != null) {
+      if (escaped) {
+        escaped = false;
+      } else if (character == r"\") {
+        escaped = true;
+      } else if (character == quote) {
+        quote = null;
+      }
+      continue;
+    }
+    if (character == '"' || character == "'") {
+      quote = character;
+    } else if (character == "[") {
+      depth++;
+    } else if (character == "]" && --depth == 0) {
+      return (
+        start: match.start,
+        end: index + 1,
+        value: jsonDecode(source.substring(begin, index + 1)) as List<dynamic>
+      );
+    }
+  }
+  throw StateError("migrations配列が閉じていません。");
 }
 
 class _SourceRange {

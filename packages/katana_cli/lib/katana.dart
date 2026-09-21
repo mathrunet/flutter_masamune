@@ -306,17 +306,70 @@ cloudflare:
     group:
       dev:
       prod:
+    # 複数リージョンを利用する場合は既存グループを列挙します。
+    # 未指定クライアントはcountry→continent→group（省略時は先頭）の順で配置します。
+    # 例: [{name: prod-apac, continents: [AS, OC]}, {name: prod-us, continents: [NA, SA]}, {name: prod-eu, continents: [EU, AF]}]
+    groups:
+      dev:
+      prod:
 
-  # Enable TiDB Data Service via Workers and specify its project and cluster.
-  # Store the Management API public/private keys in `katana_secrets.yaml`.
-  # Workersを通してTiDB Data Serviceを使う場合は有効化し、projectとclusterを指定します。
-  # Management APIのpublic/private keyは`katana_secrets.yaml`に記載してください。
+  # ユーザー単位Durable Objects。SQLの承認はmigrate --backend doで行います。
+  durable_object:
+    enable: false
+    binding: MASAMUNE_DO
+    coordinator_binding: MASAMUNE_QUEUE
+    class_migration_tag: masamune-do-v1
+    database:
+      dev: dev_main
+      prod: main
+    schema: do/schema/schema.json
+    approved: cloudflare/src/do_revisions.json
+    prefixes: [dev]
+    migrations:
+      dev: do/migrations/dev
+      prod: do/migrations/prod
+
+  # D1設定。DBのDDLはkatana migrate --backend d1で別途適用します。
+  d1:
+    # Vectorize binding名→index名。D1Schema.vectorsを指定する場合に設定。
+    vectorize:
+      dev: {}
+      prod: {}
+    enable: false
+    account_id:
+      dev: ""
+      prod: ""
+    database_id:
+      dev: ""
+      prod: ""
+    database_name:
+      dev: ""
+      prod: ""
+    database:
+      dev: dev_main
+      prod: main
+    binding: MASAMUNE_D1
+    schema: d1/schema/schema.json
+    migrations:
+      dev: d1/migrations/dev
+      prod: d1/migrations/prod
+    prefixes: [dev]
+  # TiDBへWorkerから直結します。DDLはkatana migrateで別途適用します。
+  # katana_secrets.yamlにusername/passwordとmigration_username/migration_passwordを分離して保存します。
   tidb:
     enable: false
-    project_id:
     cluster_id:
       dev:
       prod:
+    host:
+      dev:
+      prod:
+    database:
+      dev:
+      prod:
+    schema: tidb/schema/schema.json
+    migrations: tidb/migrations
+    prefixes: [dev]
 
   # If you want to use Cloudflare KV via Workers, set [enable] to `true`.
   # Specify the KV binding name in [binding] and the KV namespace ID in [namespace_id].

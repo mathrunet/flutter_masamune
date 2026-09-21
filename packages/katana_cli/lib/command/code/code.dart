@@ -5,9 +5,13 @@ import "dart:io";
 
 // Package imports:
 import "package:archive/archive_io.dart";
+import "package:yaml/yaml.dart";
 
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
+import "package:katana_cli/action/cloudflare/tidb.dart";
+import "package:katana_cli/action/cloudflare/d1.dart";
+import "package:katana_cli/action/cloudflare/durable_object.dart";
 import "package:katana_cli/snippet/snippet.dart";
 import "package:katana_cli/src/debuggable.dart";
 import "server/server.dart";
@@ -41,14 +45,63 @@ part "localize.dart";
 part "debug.dart";
 part "debuggable.dart";
 
-const _tidbDataServiceBuilderKey =
+const _tidbSchemaBuilderKey =
     "masamune_model_tidb_builder:masamune_model_tidb_builder";
 
-List<String> _tidbDataServiceBuilderArguments(ExecContext context) {
+void _finalizeTidbSchemas(ExecContext context) {
+  final roots = <Directory>[Directory.current];
+  if (File("melos.yaml").existsSync()) {
+    roots.clear();
+    void collect(Directory directory) {
+      for (final entry in directory.listSync(followLinks: false)) {
+        if (entry is! Directory) {
+          continue;
+        }
+        final name = entry.path.split(Platform.pathSeparator).last;
+        if (name.startsWith(".") || {"build", "node_modules"}.contains(name)) {
+          continue;
+        }
+        if (File("${entry.path}/pubspec.yaml").existsSync()) {
+          roots.add(entry);
+        }
+        collect(entry);
+      }
+    }
+
+    collect(Directory.current);
+  }
+  for (final root in roots) {
+    final config = File("${root.path}/katana.yaml");
+    final yaml = config.existsSync()
+        ? modifize(loadYaml(config.readAsStringSync())) as Map
+        : context.yaml;
+    finalizeDurableObjectSchema(
+        root: root.path,
+        outputPath: yaml
+            .getAsMap("cloudflare")
+            .getAsMap("durable_object")
+            .get("schema", "do/schema/schema.json")
+            .toString());
+    finalizeD1Schema(
+        root: root.path,
+        outputPath: yaml
+            .getAsMap("cloudflare")
+            .getAsMap("d1")
+            .get("schema", "d1/schema/schema.json")
+            .toString());
+    finalizeTidbSchema(
+        root: root.path,
+        outputPath: yaml
+            .getAsMap("cloudflare")
+            .getAsMap("tidb")
+            .get("schema", "tidb/schema/schema.json")
+            .toString());
+  }
+}
+
+List<String> _tidbSchemaBuilderArguments(ExecContext context) {
   final tidb = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
-  final configuredPrefixes = tidb.getAsList("prefixes").isNotEmpty
-      ? tidb.getAsList("prefixes")
-      : tidb.getAsMap("data_service").getAsList("prefixes");
+  final configuredPrefixes = tidb.getAsList("prefixes");
   final prefixes = <String>{};
   for (final value in configuredPrefixes) {
     var prefix = value.toString().trim();
@@ -60,17 +113,22 @@ List<String> _tidbDataServiceBuilderArguments(ExecContext context) {
       throw ArgumentError.value(
         value,
         "cloudflare.tidb.prefixes",
-        "TiDB Data Service prefixes must be valid identifiers.",
+        "TiDB schema prefixes must be valid identifiers.",
       );
     }
     prefixes.add(prefix);
   }
   if (prefixes.isEmpty) {
-    return const [];
+    return [
+      ..._d1SchemaBuilderArguments(context),
+      ..._doSchemaBuilderArguments(context)
+    ];
   }
   return [
+    ..._d1SchemaBuilderArguments(context),
+    ..._doSchemaBuilderArguments(context),
     "--define",
-    "$_tidbDataServiceBuilderKey=prefixes=${prefixes.join(",")}",
+    "$_tidbSchemaBuilderKey=prefixes=${prefixes.join(",")}",
   ];
 }
 
@@ -191,4 +249,40 @@ class ${className}Plugin {
 }
 """;
   }
+}
+
+List<String> _d1SchemaBuilderArguments(ExecContext context) {
+  final prefixes = context.yaml
+      .getAsMap("cloudflare")
+      .getAsMap("d1")
+      .getAsList("prefixes")
+      .map((e) => e.toString())
+      .toList();
+  if (prefixes.any((e) => !RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(e))) {
+    throw ArgumentError("D1 prefixが不正です。");
+  }
+  return prefixes.isEmpty
+      ? []
+      : [
+          "--define",
+          "masamune_model_d1_builder:masamune_model_d1_builder=prefixes=${prefixes.join(",")}"
+        ];
+}
+
+List<String> _doSchemaBuilderArguments(ExecContext context) {
+  final prefixes = context.yaml
+      .getAsMap("cloudflare")
+      .getAsMap("durable_object")
+      .getAsList("prefixes")
+      .map((e) => e.toString())
+      .toList();
+  if (prefixes.any((e) => !RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(e))) {
+    throw ArgumentError("DO prefixが不正です。");
+  }
+  return prefixes.isEmpty
+      ? []
+      : [
+          "--define",
+          "masamune_model_do_builder:masamune_model_do_builder=prefixes=${prefixes.join(",")}"
+        ];
 }

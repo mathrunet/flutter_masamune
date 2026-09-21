@@ -22,7 +22,7 @@ class CodeGenerateCliCommand extends CliCommand {
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
     final isClean = context.args.get(2, "");
-    final builderArguments = _tidbDataServiceBuilderArguments(context);
+    final builderArguments = _tidbSchemaBuilderArguments(context);
     final builderShellArguments = _shellArguments(builderArguments);
     final builderShellSuffix =
         builderShellArguments.isEmpty ? "" : " $builderShellArguments";
@@ -47,6 +47,8 @@ class CodeGenerateCliCommand extends CliCommand {
           "$flutter packages pub run build_runner build "
               "--delete-conflicting-outputs$builderShellSuffix",
         ],
+        catchError: true,
+        failOnStderr: false,
       );
     } else {
       if (isClean.isNotEmpty) {
@@ -74,7 +76,12 @@ class CodeGenerateCliCommand extends CliCommand {
           "--delete-conflicting-outputs",
           ...builderArguments,
         ],
+        catchError: true,
+        failOnStderr: false,
       );
+    }
+    if (!isError) {
+      _finalizeTidbSchemas(context);
     }
   }
 }

@@ -29,6 +29,8 @@ import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/cloudflare/kv.dart";
 import "package:katana_cli/action/cloudflare/storage.dart";
 import "package:katana_cli/action/cloudflare/tidb.dart";
+import "package:katana_cli/action/cloudflare/d1.dart";
+import "package:katana_cli/action/cloudflare/durable_object.dart";
 import "package:katana_cli/action/cloudflare/turso.dart";
 import "package:katana_cli/action/ecosystem/ecosystem.dart";
 import "package:katana_cli/action/firebase/algolia.dart";
@@ -72,6 +74,8 @@ const _actions = <CliActionMixin>[
   CloudflareStorageCliAction(),
   CloudflareTursoCliAction(),
   CloudflareTidbCliAction(),
+  CloudflareD1CliAction(),
+  CloudflareDurableObjectCliAction(),
   FirebaseInitCliAction(),
   FirebaseAuthenticationCliAction(),
   FirebaseSchedulerCliAction(),

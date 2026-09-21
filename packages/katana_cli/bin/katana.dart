@@ -8,6 +8,7 @@ import "package:yaml/yaml.dart";
 
 // Project imports:
 import "package:katana_cli/command/analytics/analytics.dart";
+import "package:katana_cli/action/cloudflare/d1.dart";
 import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/command/cer/cer.dart";
 import "package:katana_cli/command/debug/debug.dart";
@@ -28,6 +29,7 @@ const commands = <String, CliCommand>{
   "test": TestCliCommand(),
   "git": GitCliCommand(),
   "apply": ApplyCliCommand(),
+  "migrate": ModelMigrateCliCommand(),
   "create": CreateCliCommand(),
   "package": PackageCliCommand(),
   "compose": ComposeCliCommand(),
@@ -187,7 +189,10 @@ FlavorContext? _resolveFlavorContext({
   required Map<dynamic, dynamic> secrets,
   required List<String> arguments,
 }) {
-  if (command != "apply" && command != "deploy" && command != "fix") {
+  if (command != "apply" &&
+      command != "deploy" &&
+      command != "fix" &&
+      command != "migrate") {
     return null;
   }
   try {

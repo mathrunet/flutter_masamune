@@ -1,6 +1,39 @@
 import "package:katana_cli/katana_cli.dart";
 
 void main() {
+  final tidb = FlavorContext.resolve(yaml: {
+    "cloudflare": {
+      "tidb": {
+        "host": {"dev": "dev.invalid", "prod": "prod.invalid"},
+        "database": {"dev": "dev_main", "prod": "main"},
+      }
+    },
+  }, secrets: {
+    "cloudflare": {
+      "tidb": {
+        "username": {"dev": "runtime_dev", "prod": "runtime_prod"},
+        "migration_username": {"dev": "admin_dev", "prod": "admin_prod"},
+        "migration_password": {"dev": "fixture_dev", "prod": "fixture_prod"},
+      }
+    }
+  }, arguments: const [
+    "migrate",
+    "status",
+    "--flavor",
+    "dev"
+  ]);
+  final tidbConfig = (tidb.yaml["cloudflare"] as Map)["tidb"] as Map;
+  final tidbSecrets = (tidb.secrets["cloudflare"] as Map)["tidb"] as Map;
+  _expect(
+      tidbConfig["host"] == "dev.invalid" &&
+          tidbConfig["database"] == "dev_main",
+      "TiDBの接続先がdevへ解決されませんでした。");
+  _expect(
+      tidbSecrets["username"] == "runtime_dev" &&
+          tidbSecrets["migration_username"] == "admin_dev" &&
+          tidbSecrets["migration_password"] == "fixture_dev",
+      "TiDBのruntime/migration資格情報の環境解決に失敗しました。");
+
   final inferred = FlavorContext.resolve(
     yaml: {
       "firebase": {
