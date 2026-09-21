@@ -1,12 +1,11 @@
 // Copyright (c) 2025 mathru. All rights reserved.
 
-/// Builder for TiDB Data Service Configuration as Code.
+/// Builder for TiDB共通スキーマ.
 library;
 
 // Dart imports:
 import "dart:async";
 import "dart:convert";
-import "dart:io";
 
 // Package imports:
 import "package:analyzer/dart/element/element.dart";
@@ -15,18 +14,16 @@ import "package:masamune_model_tidb_annotation/masamune_model_tidb_annotation.da
 import "package:source_gen/source_gen.dart";
 
 // Project imports:
-import "src/endpoint_spec.dart";
+import "src/schema_spec.dart";
 import "src/prefixes.dart";
-import "src/rules_reader.dart";
 
-export "src/endpoint_spec.dart";
-export "src/rules_reader.dart";
+export "src/schema_spec.dart";
 
 part "src/builder.dart";
 
-/// Creates the TiDB Data Service aggregate builder.
+/// Creates the TiDBスキーマ aggregate builder.
 ///
-/// TiDB Data Serviceの集約Builderを作成します。
+/// TiDBスキーマの集約Builderを作成します。
 Builder masamuneModelTidbBuilderFactory(BuilderOptions options) {
   return _MasamuneModelTidbBuilder(
     readTidbDatabasePrefixOption(options.config["prefixes"]),

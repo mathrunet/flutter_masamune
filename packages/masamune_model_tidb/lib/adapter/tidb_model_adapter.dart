@@ -1,8 +1,8 @@
 part of "/masamune_model_tidb.dart";
 
-/// Retry delays for transient TiDB Data Service errors (429 / 5xx / network).
+/// Retry delays for transient TiDB Worker errors (429 / 5xx / network).
 ///
-/// TiDB Data Service の一時的なエラー（429 / 5xx / ネットワーク断）用のリトライ待機時間。
+/// TiDB Worker の一時的なエラー（429 / 5xx / ネットワーク断）用のリトライ待機時間。
 const _tidbRetryDelays = [
   Duration(milliseconds: 200),
   Duration(milliseconds: 400),
@@ -26,6 +26,7 @@ class TidbModelAdapter extends ModelAdapter {
   const TidbModelAdapter({
     required String? prefix,
     super.defaultAutoDisposeWhenUnreferenced,
+    this.vectorConverter = const PassVectorConverter(),
     FunctionsAdapter? functionsAdapter,
     NoSqlDatabase? cachedRuntimeDatabase,
   })  : _functionsAdapter = functionsAdapter,
@@ -70,7 +71,7 @@ class TidbModelAdapter extends ModelAdapter {
   static final NoSqlDatabase sharedRuntimeDatabase = NoSqlDatabase();
 
   @override
-  VectorConverter get vectorConverter => const PassVectorConverter();
+  final VectorConverter vectorConverter;
 
   @override
   bool get availableListen => false;
@@ -146,6 +147,16 @@ class TidbModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
     Map<String, DynamicMap> value,
   ) async {
+    if (query.query.filters
+        .any((f) => f.type == ModelQueryFilterType.nearest)) {
+      for (final entry in value.entries) {
+        await _syncCachedDocument(
+            ModelAdapterDocumentQuery(query: query.query.create(entry.key)),
+            entry.value);
+      }
+      return;
+    }
+
     await cachedRuntimeDatabase.syncCollection(
       query,
       value,
@@ -188,14 +199,12 @@ class TidbModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     final path = TidbModelPath.fromDocumentQuery(query);
-    await _retryTidbTransient(() async {
-      await functionsAdapter.execute(TidbDeleteModelFunctionsAction(
-        database: path.database,
-        table: path.table,
-        prefix: prefix,
-        indexKey: path.indexKey,
-      ));
-    });
+    await functionsAdapter.execute(TidbDeleteModelFunctionsAction(
+      database: path.database,
+      table: path.table,
+      prefix: prefix,
+      indexKey: path.indexKey,
+    ));
     await _deleteCachedDocument(query);
   }
 
@@ -248,6 +257,9 @@ class TidbModelAdapter extends ModelAdapter {
     }
     final path = TidbModelPath.fromCollectionQuery(query);
     final payload = TidbQueryPayload.fromFilters(query.query.filters);
+    if (payload.nearest != null) {
+      throw UnsupportedError("nearestの集計は未対応です。");
+    }
     final res = await functionsAdapter.execute(TidbGetModelFunctionsAction(
       database: path.database,
       table: path.table,
@@ -266,7 +278,9 @@ class TidbModelAdapter extends ModelAdapter {
   @override
   Future<Map<String, DynamicMap>> loadCollection(
       ModelAdapterCollectionQuery query) async {
-    final cache = await onPreloadCollection(query);
+    final nearest =
+        query.query.filters.any((f) => f.type == ModelQueryFilterType.nearest);
+    final cache = nearest ? null : await onPreloadCollection(query);
     var data = cache?.value;
     if (data == null || cache?.query != null) {
       if (cache?.query != null) {
@@ -366,6 +380,17 @@ class TidbModelAdapter extends ModelAdapter {
     ref._operations.add(_TidbSaveOperation(query, value));
   }
 
+  Future<DynamicMap?> _nearestPayload(DynamicMap? nearest) async {
+    if (nearest == null) {
+      return null;
+    }
+    final value = nearest["value"];
+    return {
+      ...nearest,
+      "value": value is String ? await vectorConverter.toVector(value) : value
+    };
+  }
+
   Future<Map<String, DynamicMap>> _loadCollectionFunctions(
     TidbModelPath path,
     TidbQueryPayload payload,
@@ -378,6 +403,7 @@ class TidbModelAdapter extends ModelAdapter {
         where: payload.where,
         orderBy: payload.orderBy,
         limit: payload.limit,
+        nearest: await _nearestPayload(payload.nearest),
       ));
       return _rowsToMap(res.data, table: path.table);
     });
@@ -480,14 +506,12 @@ class TidbModelAdapter extends ModelAdapter {
 
   Future<void> _saveDocumentFunctions(
       TidbModelPath path, DynamicMap row) async {
-    await _retryTidbTransient(() async {
-      await functionsAdapter.execute(TidbPostModelFunctionsAction(
-        database: path.database,
-        table: path.table,
-        prefix: prefix,
-        value: row,
-      ));
-    });
+    await functionsAdapter.execute(TidbPostModelFunctionsAction(
+      database: path.database,
+      table: path.table,
+      prefix: prefix,
+      value: row,
+    ));
   }
 
   Future<void> _runOperations(
@@ -542,13 +566,7 @@ class TidbModelAdapter extends ModelAdapter {
     }).where((entry) => entry.key.isNotEmpty));
   }
 
-  /// Retry the given [callback] when TiDB Data Service returns a transient
-  /// error (HTTP 429, 5xx, or a network failure). Uses exponential backoff
-  /// with full jitter to avoid a thundering herd against the Data API's
-  /// rate limit.
-  ///
-  /// TiDB Data Service が一時的なエラー（HTTP 429・5xx・ネットワーク断）を
-  /// 返した際、[callback] を指数バックオフとフルジッターで再試行する。
+  /// 読み取りだけを一時エラー時に再試行する。結果不明の変更処理には使用しない。
   Future<T> _retryTidbTransient<T>(Future<T> Function() callback) async {
     Object? lastError;
     StackTrace? lastStackTrace;
@@ -586,7 +604,8 @@ class TidbModelAdapter extends ModelAdapter {
 
   @override
   int get hashCode {
-    return runtimeType.hashCode ^
+    return vectorConverter.hashCode ^
+        runtimeType.hashCode ^
         functionsAdapter.hashCode ^
         prefix.hashCode ^
         cachedRuntimeDatabase.hashCode;

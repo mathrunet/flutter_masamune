@@ -22,7 +22,7 @@ List<String> readTidbDatabasePrefixOption(Object? value) {
   throw ArgumentError.value(
     value,
     "prefixes",
-    "TiDB Data Service prefixes must be a list or comma-separated string.",
+    "TiDB schema prefixes must be a list or comma-separated string.",
   );
 }
 
@@ -41,7 +41,7 @@ List<String> normalizeTidbDatabasePrefixes(Iterable<String?> values) {
       throw ArgumentError.value(
         value,
         "prefixes",
-        "TiDB Data Service prefixes must be valid identifiers.",
+        "TiDB schema prefixes must be valid identifiers.",
       );
     }
     prefixes.add("${normalized}_");

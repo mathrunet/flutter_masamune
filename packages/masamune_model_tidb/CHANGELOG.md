@@ -1,3 +1,9 @@
+## 3.6.0
+
+- Add nearest-neighbor queries, vectorConverter, and preservation of server rankings in the cached adapter.
+
+- Do not automatically retry saves or deletes with unknown outcomes. Verify that direct-connection responses preserve large integers and DECIMAL values as strings.
+
 ## 3.5.11
 
  - **FIX**(tidb_adapter,turso_adapter): implement retry logic for transient errors. ([7fdd454c](https://github.com/mathrunet/flutter_masamune/commit/7fdd454c78d0ec425f64c9f6e38f1992209f979a))

@@ -21,6 +21,7 @@ class CachedTidbModelAdapter extends TidbModelAdapter {
     required super.prefix,
     super.defaultAutoDisposeWhenUnreferenced,
     super.functionsAdapter,
+    super.vectorConverter,
     super.cachedRuntimeDatabase,
     NoSqlDatabase? cachedLocalDatabase,
     this.collectionLoaders = const [],

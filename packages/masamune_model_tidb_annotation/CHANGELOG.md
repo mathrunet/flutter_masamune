@@ -1,3 +1,9 @@
+## 3.4.0
+
+- Add vectorMetric to TidbSchemaColumn.
+
+- Replace Data Service annotations with TidbSchema, non-unique indexes, and server-owned schema definitions.
+
 ## 3.3.4
 
  - Update a dependency to the latest release.

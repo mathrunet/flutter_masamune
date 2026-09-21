@@ -1,3 +1,9 @@
+## 3.5.0
+
+- Add validation of fixed-dimension vectors and distance metrics, and include them in generated manifests.
+
+- Remove Data Service CaC generation. Generate build_runner-managed schema fragments with stable hashes, which Katana CLI aggregates into a shared manifest.
+
 ## 3.4.5
 
  - Update a dependency to the latest release.

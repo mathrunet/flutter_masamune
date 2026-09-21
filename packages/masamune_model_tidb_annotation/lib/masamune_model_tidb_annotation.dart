@@ -10,4 +10,4 @@ library;
 
 export "package:masamune_annotation/masamune_annotation.dart";
 
-part "src/tidb_data_service.dart";
+part "src/tidb_schema.dart";

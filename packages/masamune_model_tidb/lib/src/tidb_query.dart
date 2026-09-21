@@ -12,6 +12,7 @@ class TidbQueryPayload {
     this.where = const [],
     this.orderBy = const [],
     this.limit,
+    this.nearest,
   });
 
   /// Create from model filters.
@@ -21,6 +22,7 @@ class TidbQueryPayload {
     final where = <DynamicMap>[];
     final orderBy = <DynamicMap>[];
     int? limit;
+    DynamicMap? nearest;
     for (final filter in filters) {
       final key = filter.key;
       switch (filter.type) {
@@ -63,8 +65,15 @@ class TidbQueryPayload {
             throw UnsupportedError("Tidb limit must be a positive integer.");
           }
           limit = value;
-        case ModelQueryFilterType.geoHash:
         case ModelQueryFilterType.nearest:
+          if (nearest != null || key == null || key.isEmpty) {
+            throw ArgumentError("nearestは1フィールドだけ指定できます。");
+          }
+          nearest = {
+            "key": _toTidbColumnKey(key),
+            "value": _encodeTidbValue(filter.value)
+          };
+        case ModelQueryFilterType.geoHash:
         case ModelQueryFilterType.and:
         case ModelQueryFilterType.or:
         case ModelQueryFilterType.raw:
@@ -73,7 +82,12 @@ class TidbQueryPayload {
           );
       }
     }
-    return TidbQueryPayload(where: where, orderBy: orderBy, limit: limit);
+    if (nearest != null &&
+        (orderBy.isNotEmpty || (limit != null && limit > 100))) {
+      throw ArgumentError("nearestはorderBy併用不可、limitは1〜100です。");
+    }
+    return TidbQueryPayload(
+        where: where, orderBy: orderBy, limit: limit, nearest: nearest);
   }
 
   /// Where conditions.
@@ -90,11 +104,17 @@ class TidbQueryPayload {
   ///
   /// 取得件数。
   final int? limit;
+
+  /// ネイティブvector近傍検索。
+  final DynamicMap? nearest;
 }
 
 Object? _encodeTidbValue(Object? value) {
   if (value == null) {
     return null;
+  }
+  if (value is VectorValue) {
+    return {"vector": value.vector, "measure": value.measure.name};
   }
   if (value is Enum) {
     return value.name;

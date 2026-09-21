@@ -11,7 +11,115 @@ import "package:test/test.dart";
 // Project imports:
 import "package:masamune_model_tidb/masamune_model_tidb.dart";
 
+class _NativeVectorConverter extends PassVectorConverter {
+  const _NativeVectorConverter();
+  @override
+  List<double> toVector(String value) => [1, 0, 0];
+}
+
 void main() {
+  test("Cached近傍検索は古い集合を混ぜず毎回サーバー順位へ置換する", () async {
+    var calls = 0;
+    final functions = _RecordingFunctionsAdapter(
+        responseForAction: (_) => ++calls == 1
+            ? [
+                {"id": "z"},
+                {"id": "a"}
+              ]
+            : [
+                {"id": "b"},
+                {"id": "z"}
+              ]);
+    final adapter = CachedTidbModelAdapter(
+        vectorConverter: const _NativeVectorConverter(),
+        prefix: null,
+        functionsAdapter: functions,
+        cachedRuntimeDatabase: NoSqlDatabase(),
+        cachedLocalDatabase: NoSqlDatabase());
+    final query = ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("database/main/items", adapter: adapter)
+            .nearest("embedding", "猫"));
+    expect((await adapter.loadCollection(query)).keys, ["z", "a"]);
+    expect((await adapter.loadCollection(query)).keys, ["b", "z"]);
+    expect(calls, 2);
+  });
+
+  test("nearest文字列を変換しサーバー順位を保持する", () async {
+    final functions = _RecordingFunctionsAdapter(responseData: const [
+      {"id": "z"},
+      {"id": "a"}
+    ]);
+    final adapter = TidbModelAdapter(
+        prefix: null,
+        functionsAdapter: functions,
+        vectorConverter: const _NativeVectorConverter());
+    final query = ModelAdapterCollectionQuery(
+        query: CollectionModelQuery("database/main/items", adapter: adapter)
+            .nearest("embedding", "猫"));
+    expect((await adapter.loadCollection(query)).keys, ["z", "a"]);
+    final params = Uri.parse(functions.actions.last.path!).queryParameters;
+    expect(jsonDecode(params["nearest"]!), {
+      "key": "embedding",
+      "value": [1.0, 0.0, 0.0]
+    });
+    await adapter.loadCollection(query);
+    expect(functions.actions.length, 2);
+  });
+
+  test("Workerが型付けした応答をキー名や文字列の見た目で再解釈しない", () async {
+    final value = <String, dynamic>{
+      "id": "one",
+      "active": "1",
+      "text": '{"name":"文字列"}',
+      "decimal": "9007199254740993.000001",
+      "flag": true,
+      "structured": {
+        "list": [1, null]
+      },
+    };
+    final adapter = TidbModelAdapter(
+        prefix: null,
+        functionsAdapter: _RecordingFunctionsAdapter(responseData: [value]));
+    const query = ModelAdapterDocumentQuery(
+        query: DocumentModelQuery("database/test/users/one"));
+    final result = await adapter.loadDocument(query);
+    for (final entry in value.entries) {
+      expect(result[entry.key], entry.value);
+    }
+  });
+  test("結果不明の書き込み・削除を自動再送しない", () async {
+    final functions = _RecordingFunctionsAdapter(responseForAction: (_) {
+      throw Exception("status=502 mutation outcome may be unknown");
+    });
+    final adapter = TidbModelAdapter(prefix: null, functionsAdapter: functions);
+    const query = ModelAdapterDocumentQuery(
+        query: DocumentModelQuery("database/test/users/one"));
+    await expectLater(
+        adapter.saveDocument(query, const {"name": "one"}), throwsException);
+    expect(functions.actions, hasLength(1));
+    functions.actions.clear();
+    await expectLater(adapter.deleteDocument(query), throwsException);
+    expect(functions.actions, hasLength(1));
+  });
+  test("直結応答のDECIMALとsafe integer範囲外の整数を文字列のまま保持する", () {
+    final action =
+        TidbGetModelFunctionsAction(database: "main", table: "items");
+    final value = <String, Object?>{
+      "id": "one",
+      "decimal": "12345678901234567890.1234567890",
+      "integer": "9007199254740993",
+      "flag": true,
+      "json": {
+        "日本語": [1, null]
+      },
+      "vector": [0.1, 0.2, 0.3],
+      "date": "2026-09-20T00:00:00.000Z",
+    };
+    final response = action.toResponse(jsonDecode(jsonEncode({
+      "data": [value]
+    })) as Map<String, dynamic>);
+    expect(response.data, [value]);
+  });
   test("ModelQueryBase uses the resolved adapter auto-dispose default.", () {
     const adapter = TidbModelAdapter(
       prefix: null,
@@ -185,7 +293,7 @@ void main() {
         {
           "id": "user_1",
           "name": "Alice",
-          "isActive": 0,
+          "isActive": false,
           "updated_at": 1234,
         },
       ],

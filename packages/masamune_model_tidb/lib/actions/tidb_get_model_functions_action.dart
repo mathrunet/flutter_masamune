@@ -30,6 +30,7 @@ class TidbGetModelFunctionsAction
     this.where = const [],
     this.orderBy = const [],
     this.limit,
+    this.nearest,
     this.count = false,
     this.action = "tidb",
   }) : _prefix = prefix;
@@ -71,6 +72,9 @@ class TidbGetModelFunctionsAction
   /// 取得件数。
   final int? limit;
 
+  /// ネイティブvector近傍検索。
+  final DynamicMap? nearest;
+
   /// Whether to count rows.
   ///
   /// 件数を取得するかどうか。
@@ -90,6 +94,7 @@ class TidbGetModelFunctionsAction
       if (orderBy.isNotEmpty)
         "orderBy": jsonEncode(_normalizeTidbOrderBy(orderBy)),
       if (limit != null) "limit": limit!.toString(),
+      if (nearest != null) "nearest": jsonEncode(nearest),
       if (count) "count": "true",
     };
     return _buildTidbActionPath(

@@ -58,26 +58,8 @@ List<DynamicMap> _normalizeTidbOrderBy(List<DynamicMap> orderBy) {
 }
 
 DynamicMap _decodeTidbRow(Map<String, dynamic> row) {
-  final result = <String, dynamic>{};
-  for (final entry in row.entries) {
-    final value = entry.value;
-    final boolValue = _decodeTidbBooleanValue(entry.key, value);
-    if (boolValue != null) {
-      result[entry.key] = boolValue;
-      continue;
-    }
-    if (value is String &&
-        ((value.startsWith("{") && value.endsWith("}")) ||
-            (value.startsWith("[") && value.endsWith("]")))) {
-      try {
-        result[entry.key] = jsonDecode(value);
-        continue;
-      } catch (_) {
-        // Use the original string.
-      }
-    }
-    result[entry.key] = value;
-  }
+  // 型はWorkerのschemaで確定済み。TEXTやDECIMALを値の見た目で再解釈しない。
+  final result = Map<String, dynamic>.from(row);
   final id = result["id"];
   if (id != null) {
     result[kUidFieldKey] = id;
@@ -87,25 +69,4 @@ DynamicMap _decodeTidbRow(Map<String, dynamic> row) {
     result[kTimeFieldKey] = updatedAt;
   }
   return result;
-}
-
-bool? _decodeTidbBooleanValue(String key, Object? value) {
-  if (!_isTidbBooleanKey(key)) {
-    return null;
-  }
-  if (value is bool) {
-    return value;
-  }
-  if (value is num && (value == 0 || value == 1)) {
-    return value == 1;
-  }
-  if (value is String && (value == "0" || value == "1")) {
-    return value == "1";
-  }
-  return null;
-}
-
-bool _isTidbBooleanKey(String key) {
-  return RegExp(r"^(?:is[A-Z_]|has[A-Z_]|can[A-Z_]|should[A-Z_]|active$)")
-      .hasMatch(key);
 }

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://mathru.net">
-    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
+    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"><br/>
   </a>
   <h1 align="center">Masamune Model TiDB</h1>
 </p>
@@ -110,31 +110,24 @@ separated by prefix.
 
 # Katana CLI
 
-Enable TiDB in `katana.yaml` and run `katana apply`.
+`@TidbSchema(database: "main", indexes: {"by_updated": ["updated_at"]})` on a model generates `tidb/schema/schema.json` through `katana code generate`. Use `TidbSchemaColumn` and `TidbSchemaTable` for server-owned definitions. Set `cloudflare.tidb.prefixes: [dev]` to generate development physical databases as well.
 
-```yaml
-cloudflare:
-  tidb:
-    enable: true
-    project_id: "123"
-    cluster_id: "456"
-```
+Manage database changes with `katana migrate generate/apply/status --flavor dev`. The `apply` subcommand defaults to a dry run; execution requires `--apply`. `katana apply` only configures Worker connections and does not create or modify DDL or Data Services.
 
-TiDB uses Data Service only. Store the Organization Management API public and
-private keys under `cloudflare.tidb.management_api` in `katana_secrets.yaml`.
-Katana-generated Data App, Data API key, region, and cutover state are stored
-in the Git-ignored `cloudflare/tidb.yaml`.
+Under `cloudflare.tidb` in `katana_secrets.yaml`, store runtime `username/password` separately from administrative `migration_username/migration_password`. Only runtime credentials are passed to the Worker. Prepare the database, SQL users, and public connectivity separately.
 
-Define shared prefixes once in `katana.yaml`. Every
-`@tidbDataService` model uses the same list, and `katana apply` creates the
-generated physical databases through additive schema SQL.
+Data Service annotations, CaC generation, and custom endpoints have been removed. Update the annotation, builder, CLI, and Node package together. Existing apps and databases are not migrated automatically. See the Node package's [migration guide](https://github.com/mathrunet/node_masamune/blob/main/packages/masamune_cloudflare_tidb/MIGRATION.md).
 
-```yaml
-cloudflare:
-  tidb:
-    prefixes:
-      - dev
-```
+DECIMAL values and BIGINT values outside the safe integer range are returned as strings. Use String fields in Dart models when precision must be preserved. Saves and deletes with an unknown outcome are not retried automatically. Dart batches and `runTransaction` execute operations sequentially and do not provide database transaction atomicity.
+
+## Native vectors
+
+`TidbModelAdapter` and `CachedTidbModelAdapter` convert query text with `vectorConverter` and send `CollectionModelQuery.nearest("embedding", "search text")` to the Worker. Nearest-neighbor searches always query the Worker, including with the cached adapter, without merging stale local results or rankings. Document caching continues as usual.
+
+`@TidbSchema(extraColumns: [TidbSchemaColumn("embedding", "VECTOR(3)", vectorMetric: "euclidean")])` declares the dimensions and distance metric of a `ModelVectorValue` column. Run `katana code generate` after adding it. The default metric is cosine. Use matching local versions of the annotation, builder, CLI, and Worker.
+Saving, type restoration, searching, preserving unloaded values, and deleting have been verified with generated models and the package's adapter against a dedicated TiDB database and Worker.
+See the [Node README](https://github.com/mathrunet/node_masamune/tree/main/packages/masamune_cloudflare_tidb#native-vectors) for input, query, and migration constraints. ANN indexes are not generated automatically.
+
 
 # GitHub Sponsors
 
