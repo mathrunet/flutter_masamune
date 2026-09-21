@@ -159,6 +159,71 @@ class AIDebugCameraPicture {
       identical(this, other) || other is AIDebugCameraPicture && other.id == id;
 }
 
+/// A debug account selectable from the AI debugger's login UI.
+///
+/// AIデバッガーのログインUIから選択できるデバッグアカウントです。
+///
+/// パスワードはUIに一切表示されず、選択時に[AIDebugLoginCallback]へ内部的に
+/// 引き渡されます。
+@immutable
+class AIDebugAccount {
+  /// Creates a selectable debug account.
+  ///
+  /// 選択可能なデバッグアカウントを作成します。
+  const AIDebugAccount({
+    required this.id,
+    required this.password,
+  });
+
+  /// Identifier (typically an email) shown in the UI and passed to
+  /// [AIDebugLoginCallback].
+  ///
+  /// UIに表示され、[AIDebugLoginCallback]へ渡されるID（通常はメールアドレス）。
+  final String id;
+
+  /// Password resolved internally. Never displayed in the UI.
+  ///
+  /// 内部でのみ解決されるパスワード。UIには一切表示されません。
+  final String password;
+
+  /// Parses a `id1:pass1,id2:pass2` formatted string into a list of accounts.
+  ///
+  /// `id1:pass1,id2:pass2`形式の文字列をアカウントの一覧としてパースします。
+  ///
+  /// - カンマで区切り、各エントリを`trim`します。
+  /// - 各エントリは**最初のコロン**でid/passwordに分割します。
+  ///   パスワード側にコロンを含めることが可能です。
+  /// - コロンを含まないエントリ、id部が空、password部が空のエントリは
+  ///   静かにスキップされます。
+  /// - 同一IDが複数現れた場合は最初のエントリを採用します。
+  ///
+  /// dart-define由来のenv文字列を安全にパースするためのエントリポイントです。
+  static List<AIDebugAccount> parse(String source) {
+    if (source.isEmpty) return const [];
+    final accounts = <AIDebugAccount>[];
+    final seenIds = <String>{};
+    for (final rawEntry in source.split(",")) {
+      final entry = rawEntry.trim();
+      if (entry.isEmpty) continue;
+      final separator = entry.indexOf(":");
+      if (separator <= 0 || separator >= entry.length - 1) continue;
+      final id = entry.substring(0, separator).trim();
+      final password = entry.substring(separator + 1);
+      if (id.isEmpty || password.isEmpty) continue;
+      if (!seenIds.add(id)) continue;
+      accounts.add(AIDebugAccount(id: id, password: password));
+    }
+    return accounts;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is AIDebugAccount && other.id == id;
+}
+
 /// Signs in a debug user with an email address and password.
 typedef AIDebugLoginCallback = FutureOr<void> Function(
   String email,

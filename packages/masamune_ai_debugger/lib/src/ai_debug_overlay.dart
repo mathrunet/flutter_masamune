@@ -16,6 +16,7 @@ class _AIDebugOverlay extends StatefulWidget {
   const _AIDebugOverlay({
     required this.controller,
     required this.maxScreenshots,
+    required this.accounts,
     required this.login,
     required this.anonymousLogin,
     required this.logout,
@@ -33,6 +34,7 @@ class _AIDebugOverlay extends StatefulWidget {
 
   final AIDebugController controller;
   final int maxScreenshots;
+  final List<AIDebugAccount> accounts;
   final AIDebugLoginCallback? login;
   final AIDebugAnonymousLoginCallback? anonymousLogin;
   final AIDebugLogoutCallback? logout;
@@ -210,6 +212,28 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       if (!mounted) return;
       if (stateRead && _loggedIn) {
         _passwordController.clear();
+        setState(() => _panelView = _AIDebugPanelView.prompt);
+      } else if (stateRead) {
+        setState(() => _debugOperationError = "ログイン状態を確認できませんでした");
+      }
+    } catch (error) {
+      if (mounted) setState(() => _debugOperationError = error.toString());
+    } finally {
+      if (mounted) setState(() => _debugOperationRunning = false);
+    }
+  }
+
+  Future<void> _performAccountLogin(AIDebugAccount account) async {
+    if (_debugOperationRunning || widget.login == null) return;
+    setState(() {
+      _debugOperationRunning = true;
+      _debugOperationError = null;
+    });
+    try {
+      await widget.login!(account.id, account.password);
+      final stateRead = _readLoginState();
+      if (!mounted) return;
+      if (stateRead && _loggedIn) {
         setState(() => _panelView = _AIDebugPanelView.prompt);
       } else if (stateRead) {
         setState(() => _debugOperationError = "ログイン状態を確認できませんでした");
@@ -953,7 +977,14 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
               style: const TextStyle(fontSize: 10)),
       ]);
 
-  Widget _buildLoginPanel() => Column(children: [
+  Widget _buildLoginPanel() {
+    if (widget.accounts.isNotEmpty) {
+      return _buildAccountSelectionLoginPanel();
+    }
+    return _buildManualLoginPanel();
+  }
+
+  Widget _buildManualLoginPanel() => Column(children: [
         _buildPanelHeader("デバッグログイン", showBack: true),
         Expanded(
           child: SingleChildScrollView(
@@ -1013,25 +1044,68 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             ),
           ),
         ),
-        if (widget.anonymousLogin != null) ...[
-          const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: Semantics(
-              label: "デバッグ匿名ログイン実行",
-              button: true,
-              excludeSemantics: true,
-              child: OutlinedButton(
-                onPressed:
-                    _debugOperationRunning ? null : _performAnonymousLogin,
-                child: Text(
-                  _debugOperationRunning ? "ログイン中…" : "匿名ログイン",
+        _buildAnonymousLoginButton(),
+      ]);
+
+  Widget _buildAccountSelectionLoginPanel() => Column(children: [
+        _buildPanelHeader("デバッグログイン", showBack: true),
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.accounts.length,
+            itemBuilder: (context, index) {
+              final account = widget.accounts[index];
+              return Semantics(
+                label: "デバッグアカウントログイン ${account.id}",
+                button: true,
+                excludeSemantics: true,
+                child: ListTile(
+                  dense: true,
+                  title: Text(account.id),
+                  trailing: _debugOperationRunning
+                      ? const SizedBox.square(
+                          dimension: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.login),
+                  onTap: _debugOperationRunning
+                      ? null
+                      : () => _performAccountLogin(account),
                 ),
-              ),
+              );
+            },
+          ),
+        ),
+        if (_debugOperationError != null) ...[
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              _debugOperationError!,
+              style: const TextStyle(color: Colors.redAccent, fontSize: 12),
             ),
           ),
         ],
+        _buildAnonymousLoginButton(),
       ]);
+
+  Widget _buildAnonymousLoginButton() {
+    if (widget.anonymousLogin == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: SizedBox(
+        width: double.infinity,
+        child: Semantics(
+          label: "デバッグ匿名ログイン実行",
+          button: true,
+          excludeSemantics: true,
+          child: OutlinedButton(
+            onPressed: _debugOperationRunning ? null : _performAnonymousLogin,
+            child: Text(_debugOperationRunning ? "ログイン中…" : "匿名ログイン"),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildPurchasePanel() {
     final purchased = _purchaseProducts

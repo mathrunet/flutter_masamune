@@ -45,6 +45,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     AIDebugReportIncidentCallback? reportIncident,
     AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
     AIDebugUploadEventsCallback? uploadEvents,
+    List<AIDebugAccount>? accounts,
     this.login,
     this.anonymousLogin,
     this.logout,
@@ -57,7 +58,11 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.setCameraPicture,
     this.unsetCameraPicture,
     this.isCameraPictureSet,
-  })  : assert(
+  })  : accounts = accounts ??
+            AIDebugAccount.parse(
+              const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_ACCOUNTS"),
+            ),
+        assert(
           (login == null && logout == null && isLoggedIn == null) ||
               (login != null && logout != null && isLoggedIn != null),
           "login, logout, and isLoggedIn must be provided together.",
@@ -184,6 +189,22 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
 
   /// Supplies page, route, and selected state for manual and automatic sends.
   final AIDebugContextProvider? contextProvider;
+
+  /// Debug accounts shown as a selectable list in the login UI.
+  ///
+  /// When non-empty, the login panel replaces the email/password text
+  /// fields with a list of selectable IDs. Passwords are resolved
+  /// internally and never displayed. Defaults to the parsed value of the
+  /// `MASAMUNE_AI_DEBUGGER_ACCOUNTS` dart-define
+  /// (`id1:pass1,id2:pass2` format).
+  ///
+  /// ログインUIに選択リストとして表示するデバッグアカウント。
+  ///
+  /// 非空の場合、ログインパネルは従来のメール・パスワード入力欄を選択式の
+  /// ID一覧に置き換えます。パスワードは内部で解決されUIには一切表示されません。
+  /// 既定値は`MASAMUNE_AI_DEBUGGER_ACCOUNTS`
+  /// （`id1:pass1,id2:pass2`形式）のdart-defineを解析した結果です。
+  final List<AIDebugAccount> accounts;
 
   /// Signs in a debug user with an email address and password.
   final AIDebugLoginCallback? login;
@@ -484,6 +505,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     return _AIDebugOverlay(
       controller: controller,
       maxScreenshots: maxScreenshots,
+      accounts: accounts,
       login: login,
       anonymousLogin: anonymousLogin,
       logout: logout,

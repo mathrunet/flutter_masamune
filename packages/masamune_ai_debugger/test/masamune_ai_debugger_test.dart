@@ -888,6 +888,153 @@ void main() {
     await adapter.controller.end();
   });
 
+  group("AIDebugAccount.parse", () {
+    test("returns empty list for empty source", () {
+      expect(AIDebugAccount.parse(""), isEmpty);
+    });
+
+    test("parses simple id:password entries", () {
+      final accounts =
+          AIDebugAccount.parse("a@example.com:p1,b@example.com:p2");
+      expect(accounts, hasLength(2));
+      expect(accounts[0].id, "a@example.com");
+      expect(accounts[0].password, "p1");
+      expect(accounts[1].id, "b@example.com");
+      expect(accounts[1].password, "p2");
+    });
+
+    test("trims whitespace around entries and ids", () {
+      final accounts = AIDebugAccount.parse(" a:p1 , b:p2 ");
+      expect(accounts.map((e) => e.id).toList(), ["a", "b"]);
+      expect(accounts.map((e) => e.password).toList(), ["p1", "p2"]);
+    });
+
+    test("skips empty entries such as trailing commas", () {
+      final accounts = AIDebugAccount.parse("a:p1,,b:p2,");
+      expect(accounts.map((e) => e.id).toList(), ["a", "b"]);
+    });
+
+    test("splits on the first colon so passwords may contain colons", () {
+      final accounts = AIDebugAccount.parse("user:pa:ss:word");
+      expect(accounts, hasLength(1));
+      expect(accounts[0].id, "user");
+      expect(accounts[0].password, "pa:ss:word");
+    });
+
+    test("skips entries without colon, without id, or without password", () {
+      expect(AIDebugAccount.parse("invalid"), isEmpty);
+      expect(AIDebugAccount.parse(":password"), isEmpty);
+      expect(AIDebugAccount.parse("id:"), isEmpty);
+    });
+
+    test("keeps only the first entry for a duplicated id", () {
+      final accounts = AIDebugAccount.parse("a:p1,a:p2");
+      expect(accounts, hasLength(1));
+      expect(accounts[0].password, "p1");
+    });
+  });
+
+  testWidgets("debug login UI shows account list when accounts are provided",
+      (tester) async {
+    var loggedIn = false;
+    String? receivedEmail;
+    String? receivedPassword;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-accounts",
+      accounts: const [
+        AIDebugAccount(id: "admin@example.com", password: "adminPass"),
+        AIDebugAccount(id: "user@example.com", password: "userPass"),
+      ],
+      login: (email, password) {
+        receivedEmail = email;
+        receivedPassword = password;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+
+    expect(
+      find.bySemanticsLabel("デバッグログイン メールアドレス"),
+      findsNothing,
+    );
+    expect(
+      find.bySemanticsLabel("デバッグログイン パスワード"),
+      findsNothing,
+    );
+    expect(find.bySemanticsLabel("デバッグログイン実行"), findsNothing);
+    expect(find.text("admin@example.com"), findsOneWidget);
+    expect(find.text("user@example.com"), findsOneWidget);
+    expect(find.text("adminPass"), findsNothing);
+    expect(find.text("userPass"), findsNothing);
+
+    await tester.tap(
+      find.bySemanticsLabel("デバッグアカウントログイン admin@example.com"),
+    );
+    await tester.pump();
+
+    expect(receivedEmail, "admin@example.com");
+    expect(receivedPassword, "adminPass");
+    expect(loggedIn, isTrue);
+    expect(find.text("AI Debugger"), findsOneWidget);
+    await adapter.controller.end();
+  });
+
+  testWidgets("debug login account UI keeps anonymous login button",
+      (tester) async {
+    var loggedIn = false;
+    var anonymousCalls = 0;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-accounts-anonymous",
+      accounts: const [
+        AIDebugAccount(id: "a@example.com", password: "p1"),
+      ],
+      login: (email, password) => loggedIn = true,
+      anonymousLogin: () {
+        anonymousCalls += 1;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
+    await tester.pump();
+
+    expect(find.text("a@example.com"), findsOneWidget);
+    expect(find.bySemanticsLabel("デバッグ匿名ログイン実行"), findsOneWidget);
+
+    await tester.tap(find.bySemanticsLabel("デバッグ匿名ログイン実行"));
+    await tester.pump();
+
+    expect(anonymousCalls, 1);
+    expect(loggedIn, isTrue);
+    await adapter.controller.end();
+  });
+
   test("debug feature callbacks must be provided as complete groups", () {
     expect(
       () => AIDebuggerMasamuneAdapter(login: (email, password) {}),

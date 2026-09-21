@@ -73,8 +73,23 @@ Do not embed the connection target and API key in the source code; specify them 
 flutter run \
   --dart-define=MASAMUNE_AI_DEBUGGER_PROJECT_ID=Users-mathru-Documents-github-myapp \
   --dart-define=MASAMUNE_AI_DEBUGGER_ENDPOINT=https://your-tailnet-host/__samurai \
-  --dart-define=MASAMUNE_AI_DEBUGGER_API_KEY=your-key
+  --dart-define=MASAMUNE_AI_DEBUGGER_API_KEY=your-key \
+  --dart-define=MASAMUNE_AI_DEBUGGER_ACCOUNTS=admin@example.com:pass1,user@example.com:pass2
 ```
+
+`MASAMUNE_AI_DEBUGGER_ACCOUNTS` is optional. When set, the debug login panel
+replaces the email/password text fields with a list of selectable IDs so an AI
+operator never has to type credentials. Passwords are resolved internally and
+never shown in the UI. The format is `id1:pass1,id2:pass2` and each entry is
+split on the first colon so passwords may contain colons. When the value is
+empty or unset, the panel keeps the traditional email/password form.
+
+`MASAMUNE_AI_DEBUGGER_ACCOUNTS` は省略可能です。値を設定すると、デバッグ
+ログインパネルはメール・パスワード入力欄の代わりに選択可能なID一覧を表示し、
+AIオペレーターが機密情報を入力する必要をなくします。パスワードは内部で
+解決されUIには一切表示されません。形式は`id1:pass1,id2:pass2`で、各エントリは
+最初のコロンで分割されるためパスワードにコロンを含めることが可能です。
+未設定または空の場合は従来のメール・パスワード入力式パネルになります。
 
 APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値は含まれるため、配布せず、不要になったキーは無効化してください。スクリーンショットは手動操作時、未処理エラー検出時、性能閾値超過時だけ送信されます。
 
