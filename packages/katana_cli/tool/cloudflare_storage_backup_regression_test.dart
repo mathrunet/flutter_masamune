@@ -12,6 +12,7 @@ Future<void> main(List<String> arguments) async {
   }
   await _testWranglerResponseHandling();
   await _testSharedBackupQueueConsumerOwnership();
+  await _testCustomBackupWorkerPreserved();
 
   final template = katanaYamlCode(true);
   _expectCount(template, "    backup:", 1);
@@ -57,6 +58,7 @@ export default m.deploy([
     ]
   }
 }
+
 """);
     await File("pubspec.yaml").writeAsString("""
 name: test_app
@@ -188,6 +190,102 @@ exit 0
     _expectCount(wranglerSource, '"max_concurrency": 1', 1);
   } finally {
     Directory.current = originalDirectory;
+    await temporary.delete(recursive: true);
+  }
+}
+
+Future<void> _testCustomBackupWorkerPreserved() async {
+  final previous = Directory.current;
+  final temporary = await Directory.systemTemp.createTemp(
+    "katana_cloudflare_custom_backup_",
+  );
+  try {
+    Directory.current = temporary;
+    await Directory("cloudflare/src/workers").create(recursive: true);
+    await File("cloudflare/src/workers/custom_backup.ts").writeAsString("""
+export class CustomBackupWorker extends mc.QueueProcessWorkdersBase {
+  process(batch, env) {
+    const source = env.R2_BUCKET;
+    const backup = env.R2_BACKUP_BUCKET;
+  }
+}
+""");
+    await File("cloudflare/src/index.ts").writeAsString("""
+import * as m from "@mathrunet/masamune_cloudflare";
+import * as storage from "@mathrunet/masamune_cloudflare_storage";
+import { CustomBackupWorker } from "./workers/custom_backup";
+export default m.deploy([
+  new CustomBackupWorker(),
+  storage.Functions.storageCloudflare({
+    bucketBindingName: "R2_BUCKET",
+    publicBaseUrl: "https://assets.example.com",
+  }),
+  storage.Functions.storageCloudflareBackup({
+    sourceBucketBindingName: "R2_BUCKET",
+    backupBucketBindingName: "R2_BACKUP_BUCKET",
+    sourceBucketName: "fixture",
+  }),
+]);
+""");
+    await File("cloudflare/wrangler.jsonc").writeAsString(
+      '{"name":"fixture","main":"src/index.ts"}',
+    );
+    await File("cloudflare/.gitignore").writeAsString("node_modules\n");
+    await File("cloudflare/package.json").writeAsString(
+      '{"dependencies":{"@mathrunet/masamune_cloudflare_storage":"1.0.0"}}',
+    );
+    await File("pubspec.yaml").writeAsString(
+      "name: fixture\ndependencies:\n  masamune_storage_cloudflare: any\n",
+    );
+    final wrangler = File("${temporary.path}/fake-wrangler.sh");
+    await wrangler.writeAsString("""
+#!/bin/sh
+if [ "\$1" = "secret" ]; then cat >/dev/null; fi
+exit 0
+""");
+    await Process.run("chmod", ["+x", wrangler.path]);
+    final context = ExecContext(yaml: {
+      "bin": {"npm": wrangler.path, "wrangler": wrangler.path},
+      "cloudflare": {
+        "project_id": "fixture",
+        "workers": {"enable": true},
+        "storage": {
+          "enable": true,
+          "bucket_name": "fixture",
+          "public_base_url": "https://assets.example.com",
+          "backup": {"enable": true, "bucket_name": "fixture-backup"},
+        },
+      },
+    }, args: const []);
+    const action = CloudflareStorageCliAction();
+    await action.exec(context);
+    final first = await File("cloudflare/src/index.ts").readAsString();
+    _expectCount(first, "new CustomBackupWorker()", 1);
+    _expectCount(first, "storage.Functions.storageCloudflareBackup(", 0);
+    await action.exec(context);
+    _expect(
+      await File("cloudflare/src/index.ts").readAsString() == first,
+      "Custom Queue backup Worker must remain stable on repeated apply.",
+    );
+    await File("cloudflare/src/workers/maintenance.ts").writeAsString("""
+export class MaintenanceWorker extends mc.QueueProcessWorkdersBase {
+  process(batch, env) {
+    const source = env.R2_BUCKET;
+    const backup = env.R2_BACKUP_BUCKET;
+  }
+}
+""");
+    await File("cloudflare/src/index.ts").writeAsString(
+      first
+          .replaceAll("CustomBackupWorker", "MaintenanceWorker")
+          .replaceAll("./workers/custom_backup", "./workers/maintenance"),
+    );
+    await action.exec(context);
+    final unrelated = await File("cloudflare/src/index.ts").readAsString();
+    _expectCount(unrelated, "new MaintenanceWorker()", 1);
+    _expectCount(unrelated, "storage.Functions.storageCloudflareBackup(", 1);
+  } finally {
+    Directory.current = previous;
     await temporary.delete(recursive: true);
   }
 }

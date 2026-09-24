@@ -212,9 +212,13 @@ const _yamlEnvironmentPaths = <List<String>>[
   ["cloudflare", "storage", "backup", "preview_bucket_name"],
   ["cloudflare", "storage", "backup", "queue_name"],
   ["cloudflare", "storage", "backup", "dead_letter_queue"],
+  ["cloudflare", "authentication", "delete_user", "service_account"],
+  ["firebase", "messaging", "service_account"],
 ];
 
 const _secretEnvironmentPaths = <List<String>>[
+  ["cloudflare", "authentication", "delete_user", "service_account"],
+  ["firebase", "messaging", "service_account"],
   ["cloudflare", "tidb", "username"],
   ["cloudflare", "tidb", "password"],
   ["cloudflare", "tidb", "migration_username"],

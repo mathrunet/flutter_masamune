@@ -78,6 +78,30 @@ void main() {
         withVariables.contains('"FLAVOR": "dev"'),
     "Public database settings must remain inside the selected Worker env.",
   );
+  final withFirebaseDev = WranglerEnvironmentSynchronizer.upsertVariables(
+    withVariables,
+    flavor: "dev",
+    values: const {"FIREBASE_PROJECT_ID": "firebase-dev"},
+  );
+  final withFirebaseProd = WranglerEnvironmentSynchronizer.upsertVariables(
+    withFirebaseDev,
+    flavor: "prod",
+    values: const {"FIREBASE_PROJECT_ID": "firebase-prod"},
+  );
+  final firebaseDevSection = withFirebaseProd.substring(
+    withFirebaseProd.indexOf('"dev"'),
+    withFirebaseProd.indexOf('"prod"'),
+  );
+  final firebaseProdSection =
+      withFirebaseProd.substring(withFirebaseProd.indexOf('"prod"'));
+  _expect(
+    firebaseDevSection.contains('"FIREBASE_PROJECT_ID": "firebase-dev"') &&
+        !firebaseDevSection.contains("firebase-prod") &&
+        firebaseProdSection
+            .contains('"FIREBASE_PROJECT_ID": "firebase-prod"') &&
+        !firebaseProdSection.contains("firebase-dev"),
+    "Each Worker environment must keep its own Firebase project ID.",
+  );
   _expect(
     WranglerEnvironmentSynchronizer.synchronize(
           both,

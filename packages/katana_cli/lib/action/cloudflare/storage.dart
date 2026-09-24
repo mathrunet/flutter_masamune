@@ -535,7 +535,8 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       "storage.Functions.storageCloudflare",
       storageFunction,
     );
-    final backupFunction = backupEnabled
+    final hasCustomBackupConsumer = _hasCustomStorageBackupConsumer(updated);
+    final backupFunction = backupEnabled && !hasCustomBackupConsumer
         ? """
     storage.Functions.storageCloudflareBackup({
         sourceBucketBindingName: "$binding",
@@ -549,6 +550,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       backupFunction,
     );
     if (backupEnabled &&
+        !hasCustomBackupConsumer &&
         !updated.contains("storage.Functions.storageCloudflareBackup(")) {
       final deployFunctions = _findDeployFunctions(updated);
       if (deployFunctions == null) {
@@ -582,6 +584,46 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       deployFunctions.end,
       insert,
     );
+  }
+
+  bool _hasCustomStorageBackupConsumer(String source) {
+    final instantiatedClasses = RegExp(r"\bnew\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(")
+        .allMatches(source)
+        .map((match) => match.group(1)!)
+        .toSet();
+    if (instantiatedClasses.isEmpty) {
+      return false;
+    }
+    final sourceDirectory = Directory("cloudflare/src");
+    if (!sourceDirectory.existsSync()) {
+      return false;
+    }
+    for (final file in sourceDirectory
+        .listSync(recursive: true, followLinks: false)
+        .whereType<File>()) {
+      if (!file.path.endsWith(".ts")) {
+        continue;
+      }
+      final workerSource = file.readAsStringSync();
+      if (!workerSource.contains("R2_BUCKET") ||
+          !workerSource.contains("R2_BACKUP_BUCKET")) {
+        continue;
+      }
+      for (final className in instantiatedClasses) {
+        if (!className.endsWith("BackupWorker") &&
+            !className.endsWith("BackupQueueWorker")) {
+          continue;
+        }
+        final declaration = RegExp(
+          "\\bclass\\s+${RegExp.escape(className)}\\s+extends\\s+"
+          "(?:[A-Za-z_][A-Za-z0-9_]*\\.)?QueueProcessWorkdersBase\\b",
+        );
+        if (declaration.hasMatch(workerSource)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   String _ensureStorageImport(String source) {
@@ -672,7 +714,10 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     if (end < source.length && source[end] == ",") {
       end++;
     }
-    return _SourceRange(start, end);
+    final lineStart = source.lastIndexOf("\n", start - 1) + 1;
+    final replacementStart =
+        source.substring(lineStart, start).trim().isEmpty ? lineStart : start;
+    return _SourceRange(replacementStart, end);
   }
 
   int _findClosing(

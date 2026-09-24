@@ -164,14 +164,22 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
       // root settings that Katana does not own.
       final restoredWranglerSource =
           previousWranglerSource ?? generatedWranglerSource;
-      await wranglerJsonc.writeAsString(
-        WranglerEnvironmentSynchronizer.synchronize(
-          restoredWranglerSource,
-          flavor: flavor,
-          workerName: projectId,
-          rootWorkerName: rootProjectId,
-        ),
+      var synchronizedWranglerSource =
+          WranglerEnvironmentSynchronizer.synchronize(
+        restoredWranglerSource,
+        flavor: flavor,
+        workerName: projectId,
+        rootWorkerName: rootProjectId,
       );
+      if (enableFirebaseAuth) {
+        synchronizedWranglerSource =
+            WranglerEnvironmentSynchronizer.upsertVariables(
+          synchronizedWranglerSource,
+          flavor: flavor,
+          values: {"FIREBASE_PROJECT_ID": firebaseProjectId},
+        );
+      }
+      await wranglerJsonc.writeAsString(synchronizedWranglerSource);
       await installMissingCloudflarePackages(
         npm: npm,
         packages: const [
@@ -230,6 +238,7 @@ class CloudflareWorkersIndexCliCode extends CliCode {
     return """
 import * as m from "@mathrunet/masamune_cloudflare";
 import rules from "./rules.json";
+${firebaseProjectId != null ? 'import type { MiddlewareHandler } from "hono";' : ''}
 """;
   }
 
@@ -244,13 +253,24 @@ import rules from "./rules.json";
 // Define [m.Functions.xxxx] for the functions to be added to Workers.
 //
 // Workersに追加する機能を[m.Functions.xxxx]を定義してください。
+${firebaseProjectId != null ? """
+class EnvironmentFirebaseAuthAdapter extends m.WorkersAuthAdapterBase {
+    build(): MiddlewareHandler {
+        return async (context, next) => {
+            const projectId = context.env?.FIREBASE_PROJECT_ID;
+            if (typeof projectId !== "string" || !projectId) {
+                return context.text("Firebase project is not configured.", 503);
+            }
+            return await new m.FirebaseAuthAdapter({ projectId }).build()(context, next);
+        };
+    }
+}
+""" : """"""}
 export default m.deploy([
 ${firebaseProjectId != null ? """
 ], {
     rules: rules as m.RulesConfig,
-    auth: new m.FirebaseAuthAdapter({
-        projectId: "$firebaseProjectId",
-    }),
+    auth: new EnvironmentFirebaseAuthAdapter(),
 });
 """ : """
 ], {

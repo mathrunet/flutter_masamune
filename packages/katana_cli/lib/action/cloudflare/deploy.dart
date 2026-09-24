@@ -2,6 +2,7 @@
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process.
@@ -33,6 +34,40 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
     final wrangler = bin.get("wrangler", "wrangler");
     final flavor = context.flavorContext?.flavor.name ?? "prod";
     final projectId = context.yaml.getAsMap("cloudflare").get("project_id", "");
+    final firebaseProjectId =
+        context.yaml.getAsMap("firebase").get("project_id", "");
+    final workerIndex = File("cloudflare/src/index.ts");
+    if (firebaseProjectId.isNotEmpty && workerIndex.existsSync()) {
+      CloudflareSourceUtils.validateFirebaseProjectId(
+        await workerIndex.readAsString(),
+        firebaseProjectId,
+      );
+      final wranglerFile = File("cloudflare/wrangler.jsonc");
+      if (!wranglerFile.existsSync()) {
+        throw StateError(
+            "cloudflare/wrangler.jsonc is required for deployment.");
+      }
+      final source = await wranglerFile.readAsString();
+      String? environment;
+      WranglerEnvironmentSynchronizer.transformEnvironment(
+        source,
+        flavor: flavor,
+        transform: (value) {
+          environment = value;
+          return value;
+        },
+      );
+      final vars = RegExp(r'"vars"\s*:\s*\{([^}]*)\}')
+          .firstMatch(environment ?? "")
+          ?.group(1);
+      if (vars == null ||
+          _wranglerVariable(vars, "FLAVOR") != flavor ||
+          _wranglerVariable(vars, "FIREBASE_PROJECT_ID") != firebaseProjectId) {
+        throw StateError(
+          "Wrangler $flavor FLAVOR/FIREBASE_PROJECT_ID does not match the selected Firebase project.",
+        );
+      }
+    }
     // ignore: avoid_print
     print("Cloudflare deploy target: $flavor ($projectId)");
     final existing = await Process.run(
@@ -58,5 +93,12 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
       ],
       workingDirectory: "cloudflare",
     );
+  }
+
+  String? _wranglerVariable(String vars, String name) {
+    final matches = RegExp('"${RegExp.escape(name)}"\\s*:\\s*"([^"]*)"')
+        .allMatches(vars)
+        .toList();
+    return matches.length == 1 ? matches.single.group(1) : null;
   }
 }

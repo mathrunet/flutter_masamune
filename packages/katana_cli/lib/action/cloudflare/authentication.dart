@@ -32,8 +32,6 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final workers = cloudflare.getAsMap("workers");
-    final deleteUser =
-        cloudflare.getAsMap("authentication").getAsMap("delete_user");
     final firebase = context.yaml.getAsMap("firebase");
     final firebaseProjectId = firebase.get("project_id", "");
     final enableFirebaseAuthentication =
@@ -69,31 +67,22 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final serviceAccount = await _resolveServiceAccountJson(
-      yamlValue: deleteUser.get("service_account", ""),
-      secretsValue: context.secrets
-          .getAsMap("cloudflare")
-          .getAsMap("authentication")
-          .getAsMap("delete_user")
-          .get("service_account", ""),
+    final serviceAccount = await resolveCloudflareFirebaseServiceAccount(
+      context,
+      projectId: firebaseProjectId,
     );
-    if (serviceAccount.isEmpty) {
-      error(
-        "Firebase Admin SDK service account JSON was not found. Set [cloudflare]->[authentication]->[delete_user]->[service_account] in `katana_secrets.yaml` (recommended) or `katana.yaml`, or place a service account JSON under `cloudflare/` or `android/`.",
-      );
-      return;
-    }
-    if (!_isServiceAccountJson(serviceAccount)) {
-      error(
-        "The configured delete-user service account is not a valid Firebase Admin SDK service account JSON.",
-      );
-      return;
-    }
 
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
     final flavor = context.flavorContext?.flavor.name ?? "prod";
+    final indexFile = File("cloudflare/src/index.ts");
+    if (indexFile.existsSync()) {
+      CloudflareSourceUtils.validateFirebaseProjectId(
+        await indexFile.readAsString(),
+        firebaseProjectId,
+      );
+    }
     await addFlutterImport(
       [
         "masamune_auth_firebase",
@@ -105,21 +94,13 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
       alias: "auth",
       package: "@mathrunet/masamune_cloudflare_auth",
       functions: {
-        "auth.Functions.deleteUser":
-            "    auth.Functions.deleteUser({ projectId: ${jsonEncode(firebaseProjectId)} }),",
+        "auth.Functions.deleteUser": "    auth.Functions.deleteUser(),",
       },
+      replaceExisting: false,
     );
     if (!applied) {
       return;
     }
-    final indexFile = File("cloudflare/src/index.ts");
-    final source = await indexFile.readAsString();
-    final updated = CloudflareSourceUtils.replaceFunctionCall(
-      source,
-      "m.FirebaseAuthAdapter",
-      "m.FirebaseAuthAdapter({ projectId: ${jsonEncode(firebaseProjectId)} })",
-    );
-    await indexFile.writeAsString(updated);
     await installMissingCloudflarePackages(
       npm: npm,
       packages: const ["@mathrunet/masamune_cloudflare_auth"],
@@ -131,56 +112,130 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
       value: serviceAccount,
     );
   }
+}
 
-  Future<String> _resolveServiceAccountJson({
-    required String yamlValue,
-    required String secretsValue,
-  }) async {
-    if (secretsValue.isNotEmpty) {
-      return secretsValue;
+/// Resolves one Firebase Admin SDK credential for a Cloudflare Worker flavor.
+///
+/// Explicit Authentication and Messaging values must identify the same key.
+/// File discovery only accepts a unique key for the selected Firebase project.
+Future<String> resolveCloudflareFirebaseServiceAccount(
+  ExecContext context, {
+  required String projectId,
+}) async {
+  final authYaml = context.yaml
+      .getAsMap("cloudflare")
+      .getAsMap("authentication")
+      .getAsMap("delete_user")
+      .get<Object?>("service_account", null);
+  final authSecrets = context.secrets
+      .getAsMap("cloudflare")
+      .getAsMap("authentication")
+      .getAsMap("delete_user")
+      .get<Object?>("service_account", null);
+  final messagingYaml = context.yaml
+      .getAsMap("firebase")
+      .getAsMap("messaging")
+      .get<Object?>("service_account", null);
+  final messagingSecrets = context.secrets
+      .getAsMap("firebase")
+      .getAsMap("messaging")
+      .get<Object?>("service_account", null);
+  if ([authSecrets, authYaml, messagingSecrets, messagingYaml]
+      .any((value) => value != null && value is! String)) {
+    throw StateError(
+      "Firebase service account must be a JSON string resolved for the selected flavor.",
+    );
+  }
+  final auth = authSecrets is String && authSecrets.trim().isNotEmpty
+      ? authSecrets
+      : authYaml;
+  final messaging =
+      messagingSecrets is String && messagingSecrets.trim().isNotEmpty
+          ? messagingSecrets
+          : messagingYaml;
+  final configured = <String>[
+    if (auth is String && auth.trim().isNotEmpty) auth,
+    if (messaging is String && messaging.trim().isNotEmpty) messaging,
+  ];
+  if (configured.isNotEmpty) {
+    final selected = _parseFirebaseServiceAccount(configured.first);
+    if (selected == null || selected["project_id"] != projectId) {
+      throw StateError(
+        "The configured Firebase service account does not match firebase.project_id for this flavor.",
+      );
     }
-    if (yamlValue.isNotEmpty) {
-      return yamlValue;
-    }
-    final jsonNamePattern = RegExp(r"^([a-zA-Z0-9_-]+)\.json$");
-    for (final directoryName in ["cloudflare", "android"]) {
-      final directory = Directory(directoryName);
-      if (!directory.existsSync()) {
-        continue;
+    for (final value in configured.skip(1)) {
+      final candidate = _parseFirebaseServiceAccount(value);
+      if (candidate == null ||
+          candidate["project_id"] != projectId ||
+          candidate["client_email"] != selected["client_email"] ||
+          candidate["private_key"] != selected["private_key"]) {
+        throw StateError(
+          "Authentication and Messaging configure different Firebase service accounts for one Worker secret.",
+        );
       }
-      final files = await directory
-          .list(recursive: false, followLinks: false)
-          .where((entity) => entity is File)
-          .cast<File>()
-          .toList();
-      files.sort((a, b) => a.path.compareTo(b.path));
-      for (final file in files) {
-        final name = file.path.split(Platform.pathSeparator).last;
-        if (!jsonNamePattern.hasMatch(name)) {
-          continue;
-        }
-        try {
-          final content = await file.readAsString();
-          if (_isServiceAccountJson(content)) {
-            return content;
-          }
-        } on FileSystemException {
-          continue;
-        }
-      }
     }
-    return "";
+    return configured.first;
   }
 
-  bool _isServiceAccountJson(String value) {
-    try {
-      final json = jsonDecode(value);
-      return json is Map &&
-          json["type"] == "service_account" &&
-          json["client_email"] is String &&
-          json["private_key"] is String;
-    } on FormatException {
-      return false;
+  final matches = <String, String>{};
+  final jsonNamePattern = RegExp(r"^([a-zA-Z0-9_-]+)\.json$");
+  for (final directoryName in ["cloudflare", "android"]) {
+    final directory = Directory(directoryName);
+    if (!directory.existsSync()) {
+      continue;
     }
+    final files = await directory
+        .list(recursive: false, followLinks: false)
+        .where((entity) => entity is File)
+        .cast<File>()
+        .toList();
+    files.sort((a, b) => a.path.compareTo(b.path));
+    for (final file in files) {
+      final name = file.path.split(Platform.pathSeparator).last;
+      if (!jsonNamePattern.hasMatch(name)) {
+        continue;
+      }
+      try {
+        final content = await file.readAsString();
+        final parsed = _parseFirebaseServiceAccount(content);
+        if (parsed?["project_id"] == projectId) {
+          final identity = jsonEncode([
+            parsed!["client_email"],
+            parsed["private_key"],
+          ]);
+          matches.putIfAbsent(identity, () => content);
+        }
+      } on FileSystemException {
+        continue;
+      }
+    }
+  }
+  if (matches.length != 1) {
+    throw StateError(
+      matches.isEmpty
+          ? "No Firebase service account matches firebase.project_id for this flavor."
+          : "Multiple Firebase service accounts match firebase.project_id for this flavor. Configure one explicitly.",
+    );
+  }
+  return matches.values.single;
+}
+
+Map<String, dynamic>? _parseFirebaseServiceAccount(String value) {
+  try {
+    final decoded = jsonDecode(value);
+    if (decoded is! Map ||
+        decoded["type"] != "service_account" ||
+        decoded["project_id"] is! String ||
+        (decoded["project_id"] as String).isEmpty ||
+        decoded["client_email"] is! String ||
+        (decoded["client_email"] as String).isEmpty ||
+        decoded["private_key"] is! String ||
+        (decoded["private_key"] as String).isEmpty) {
+      return null;
+    }
+    return Map<String, dynamic>.from(decoded);
+  } on FormatException {
+    return null;
   }
 }

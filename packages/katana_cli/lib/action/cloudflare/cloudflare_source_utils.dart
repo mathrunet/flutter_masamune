@@ -51,6 +51,28 @@ class CloudflareSourceUtils {
     return source.contains("$functionName(");
   }
 
+  /// Rejects a Worker entrypoint pinned to a different Firebase project.
+  ///
+  /// Runtime expressions such as `resolveFirebaseProjectId(env)` remain valid.
+  static void validateFirebaseProjectId(String source, String projectId) {
+    for (final functionName in [
+      "m.FirebaseAuthAdapter",
+      "auth.Functions.deleteUser",
+    ]) {
+      final pattern = RegExp(
+        "${RegExp.escape(functionName)}\\s*\\(\\s*\\{\\s*projectId\\s*:\\s*['\"]([^'\"]+)['\"]",
+      );
+      for (final match in pattern.allMatches(source)) {
+        if (match.group(1) != projectId) {
+          throw StateError(
+            "cloudflare/src/index.ts pins $functionName to a different Firebase project. "
+            "Use a runtime environment-based project ID before applying or deploying this flavor.",
+          );
+        }
+      }
+    }
+  }
+
   /// 既存の関数呼び出しの引数を取得し、認可などの設定を保持する。
   static String? functionArguments(String source, String functionName) {
     final start = source.indexOf("$functionName(");
@@ -229,6 +251,7 @@ Future<bool> applyCloudflareWorkersFunctions({
   required String alias,
   required String package,
   required Map<String, String> functions,
+  bool replaceExisting = true,
 }) async {
   final indexFile = File("cloudflare/src/index.ts");
   if (!indexFile.existsSync()) {
@@ -245,11 +268,13 @@ Future<bool> applyCloudflareWorkersFunctions({
   );
   final inserts = <String>[];
   for (final entry in functions.entries) {
-    source = CloudflareSourceUtils.replaceFunctionCall(
-      source,
-      entry.key,
-      entry.value,
-    );
+    if (replaceExisting) {
+      source = CloudflareSourceUtils.replaceFunctionCall(
+        source,
+        entry.key,
+        entry.value,
+      );
+    }
     if (!CloudflareSourceUtils.containsFunctionCall(source, entry.key)) {
       inserts.add(entry.value);
     }

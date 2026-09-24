@@ -10,6 +10,7 @@ import "package:yaml/yaml.dart";
 
 Future<void> main() async {
   await _testWorkersGeneration();
+  await _testWorkerFirebaseProjectsByFlavor();
   await _testTursoRegions();
   final template = katanaYamlCode(true);
   final yaml = loadYaml(template) as Map;
@@ -38,6 +39,72 @@ Future<void> main() async {
   );
 }
 
+Future<void> _testWorkerFirebaseProjectsByFlavor() async {
+  final previous = Directory.current;
+  final temp = Directory.systemTemp.createTempSync("katana-worker-firebase-");
+  try {
+    Directory.current = temp;
+    Directory("cloudflare/src").createSync(recursive: true);
+    File("cloudflare/wrangler.jsonc").writeAsStringSync(
+      '{"name":"worker-prod","main":"src/index.ts"}',
+    );
+    File("cloudflare/.gitignore").writeAsStringSync(".dev.vars*\n");
+    File("cloudflare/package.json").writeAsStringSync(jsonEncode({
+      "dependencies": {
+        "hono": "1.0.0",
+        "@mathrunet/masamune": "1.0.0",
+        "@mathrunet/masamune_cloudflare": "1.0.0",
+      },
+    }));
+    File("pubspec.yaml").writeAsStringSync(
+      "name: test_app\ndependencies:\n  masamune_functions_cloudflare: any\n",
+    );
+    final yaml = <String, Object>{
+      "firebase": {
+        "project_id": {"dev": "firebase-dev", "prod": "firebase-prod"}
+      },
+      "cloudflare": {
+        "project_id": {"dev": "worker-dev", "prod": "worker-prod"},
+        "workers": {"enable": true, "enable_firebase_auth": true},
+      },
+    };
+    for (final flavor in ["dev", "prod"]) {
+      final args = ["apply", "--flavor", flavor];
+      final resolved = FlavorContext.resolve(
+        yaml: yaml,
+        secrets: const {},
+        arguments: args,
+      );
+      await const CloudflareInitCliAction().exec(
+        ExecContext(yaml: resolved.yaml, args: args, flavorContext: resolved),
+      );
+    }
+    final source = File("cloudflare/src/index.ts").readAsStringSync();
+    _expect(
+      source.contains("context.env?.FIREBASE_PROJECT_ID") &&
+          !source.contains("firebase-dev") &&
+          !source.contains("firebase-prod"),
+      "初回に生成したWorkerは後続flavorへ固定されません。",
+    );
+    final wrangler = File("cloudflare/wrangler.jsonc").readAsStringSync();
+    final dev = wrangler.substring(
+      wrangler.indexOf('"dev"'),
+      wrangler.indexOf('"prod"'),
+    );
+    final prod = wrangler.substring(wrangler.indexOf('"prod"'));
+    _expect(
+      dev.contains('"FIREBASE_PROJECT_ID": "firebase-dev"') &&
+          !dev.contains("firebase-prod") &&
+          prod.contains('"FIREBASE_PROJECT_ID": "firebase-prod"') &&
+          !prod.contains("firebase-dev"),
+      "Wranglerのdev/prodは別々のFirebase projectを指定します。",
+    );
+  } finally {
+    Directory.current = previous;
+    temp.deleteSync(recursive: true);
+  }
+}
+
 Future<void> _testWorkersGeneration() async {
   for (final projectId in [null, "firebase-test"]) {
     final template =
@@ -50,6 +117,14 @@ Future<void> _testWorkersGeneration() async {
     if (projectId != null) {
       _expect(source.contains("new $alias.FirebaseAuthAdapter("),
           "FirebaseAuthAdapterは宣言されたimport別名を使います。");
+      _expect(
+          source.contains(
+                  "class EnvironmentFirebaseAuthAdapter extends $alias.WorkersAuthAdapterBase") &&
+              source.contains("context.env?.FIREBASE_PROJECT_ID") &&
+              source.contains("auth: new EnvironmentFirebaseAuthAdapter()") &&
+              !source.contains('import { env } from "cloudflare:workers";') &&
+              !source.contains('projectId: "$projectId"'),
+          "生成Workerはリクエスト環境からFirebase project IDを読む必要があります。");
     }
     final inserted = CloudflareSourceUtils.insertDeployFunctions(
         source, ["    customFunction(),"]);
@@ -66,6 +141,7 @@ Future<void> _testWorkersGeneration() async {
     final executable = updated
         .replaceAll(RegExp(r"^import .*;$", multiLine: true), "")
         .replaceAll(" as $alias.RulesConfig", "")
+        .replaceAll("build(): MiddlewareHandler", "build()")
         .replaceFirst("export default", "return");
     final result = await Process.run("node", [
       "-e",
@@ -78,12 +154,25 @@ if (process.env.KATANA_TYPESCRIPT_MODULE) {
 }
 const worker = {
   deploy: (functions, options) => ({ functions, options }),
-  FirebaseAuthAdapter: class { constructor(options) { this.projectId = options.projectId; } },
+  WorkersAuthAdapterBase: class {},
+  FirebaseAuthAdapter: class {
+    constructor(options) { this.projectId = options.projectId; }
+    build() { return () => this.projectId; }
+  },
 };
 const turso = { Functions: { turso: () => "query", tursoToken: () => "token" } };
 const result = new Function(${jsonEncode(alias)}, "turso", "rules", ${jsonEncode(executable)})(worker, turso, {});
 assert.deepEqual(result.functions, ["query", "token"]);
-assert.equal(result.options.auth?.projectId ?? null, ${jsonEncode(projectId)});
+async function verify() {
+if (${projectId != null}) {
+  for (const selected of ["firebase-dev", "firebase-prod"]) {
+    const middleware = result.options.auth.build();
+    assert.equal(await middleware({ env: { FIREBASE_PROJECT_ID: selected } }, () => {}), selected);
+  }
+  assert.equal(await result.options.auth.build()({ env: {}, text: (_, status) => status }, () => {}), 503);
+}
+}
+verify().catch((error) => { console.error(error); process.exitCode = 1; });
 ''',
     ]);
     _expect(result.exitCode == 0, "生成コードの実行検証に失敗: ${result.stderr}");

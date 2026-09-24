@@ -6,6 +6,7 @@ import "package:image/image.dart";
 import "package:xml/xml.dart";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/authentication.dart";
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 import "package:katana_cli/katana_cli.dart";
@@ -439,7 +440,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final enableCloudflareWorkers =
         cloudflare.getAsMap("workers").get("enable", false);
     if (enableCloudflareWorkers) {
-      await _execCloudflare(context, messaging);
+      await _execCloudflare(context);
     } else if (Directory("firebase/functions").existsSync()) {
       label("Add firebase functions");
       final functions = Functions();
@@ -468,10 +469,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     }
   }
 
-  Future<void> _execCloudflare(
-    ExecContext context,
-    Map messaging,
-  ) async {
+  Future<void> _execCloudflare(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
@@ -484,6 +482,12 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final serviceAccount = isLocalApply
+        ? null
+        : await resolveCloudflareFirebaseServiceAccount(
+            context,
+            projectId: context.yaml.getAsMap("firebase").get("project_id", ""),
+          );
     label("Add Cloudflare Workers functions");
     // Tursoが有効な場合はコレクション/ドキュメントターゲットの解決用に
     // TursoDatabaseAdapterを注入する。
@@ -509,6 +513,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       functions: {
         "notification.Functions.sendNotification": sendNotificationFunction,
       },
+      replaceExisting: false,
     );
     if (!applied) {
       return;
@@ -524,61 +529,11 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       label("--local: Messagingのローカル生成を完了しました。Cloudflare secretの更新は行いません。");
       return;
     }
-    final serviceAccount = await _resolveServiceAccountJson(
-      messaging.get("service_account", ""),
+    await putWranglerSecret(
+      wrangler: wrangler,
+      environment: context.flavorContext?.flavor.name ?? "prod",
+      name: "GOOGLE_SERVICE_ACCOUNT",
+      value: serviceAccount!,
     );
-    if (serviceAccount.isNotEmpty) {
-      await putWranglerSecret(
-        wrangler: wrangler,
-        environment: context.flavorContext?.flavor.name ?? "prod",
-        name: "GOOGLE_SERVICE_ACCOUNT",
-        value: serviceAccount,
-      );
-    } else {
-      label(
-        "Service account JSON was not found. Please place a Firebase Admin SDK service account JSON under the `cloudflare/` directory (recommended) or the `android/` directory, specify [cloudflare]->[messaging]->[service_account] in katana.yaml, or set the secret manually with `wrangler secret put GOOGLE_SERVICE_ACCOUNT` in the `cloudflare` directory.",
-      );
-    }
-  }
-
-  /// Resolves the Firebase Admin SDK service account JSON string.
-  ///
-  /// Priority:
-  ///   1. [yamlValue] (raw JSON string written in katana.yaml).
-  ///   2. First JSON file under `cloudflare/` whose `type` field is `service_account`.
-  ///   3. First JSON file under `android/` whose `type` field is `service_account`
-  ///      (shared with Purchase).
-  ///
-  /// Returns an empty string if none of them match.
-  Future<String> _resolveServiceAccountJson(String yamlValue) async {
-    if (yamlValue.isNotEmpty) {
-      return yamlValue;
-    }
-    final jsonNamePattern = RegExp(r"^([a-z0-9_-]+)\.json$");
-    for (final dirName in ["cloudflare", "android"]) {
-      final root = Directory(dirName);
-      if (!root.existsSync()) {
-        continue;
-      }
-      await for (final entity in root.list(recursive: false)) {
-        if (entity is! File) {
-          continue;
-        }
-        final name = entity.path.trimQuery().last();
-        if (!jsonNamePattern.hasMatch(name)) {
-          continue;
-        }
-        try {
-          final content = await entity.readAsString();
-          final map = content.toJsonMap();
-          if (map.get("type", "") == "service_account") {
-            return content;
-          }
-        } catch (_) {
-          continue;
-        }
-      }
-    }
-    return "";
   }
 }

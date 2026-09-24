@@ -9,7 +9,12 @@ Future<void> main(List<String> arguments) async {
   final packageRoot = File.fromUri(Platform.script).parent.parent;
   final cli = File("${packageRoot.path}/bin/katana.dart");
 
-  await _verifyLocalCloudflareSecrets();
+  await _verifyLocalCloudflareSecrets(
+      messagingOnly: arguments.contains("--messaging-only"));
+  if (arguments.contains("--messaging-only")) {
+    stdout.writeln("Messaging local regression checks passed.");
+    return;
+  }
   if (arguments.contains("--secrets-only")) {
     stdout.writeln("Messaging/Purchase local regression checks passed.");
     return;
@@ -422,9 +427,9 @@ Future<void> _verifyLocalCloudflare(File cli) async {
   }
 }
 
-Future<void> _verifyLocalCloudflareSecrets() async {
+Future<void> _verifyLocalCloudflareSecrets({bool messagingOnly = false}) async {
   final failures = <String>[];
-  for (final messaging in [true, false]) {
+  for (final messaging in [true, if (!messagingOnly) false]) {
     for (final local in [true, false]) {
       final root =
           await Directory.systemTemp.createTemp("katana_local_secrets_");
@@ -533,7 +538,7 @@ android {
               "enable": true,
               "channel_id": "fixture",
               "service_account":
-                  '{"type":"service_account","private_key":"fixture-secret"}'
+                  '{"type":"service_account","project_id":"fixture","client_email":"fixture@example.com","private_key":"fixture-secret"}'
             }
           },
           "cloudflare": {

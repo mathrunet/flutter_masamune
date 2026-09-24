@@ -399,31 +399,10 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         return;
       }
     }
-    final applied = await applyCloudflareWorkersFunctions(
-      alias: "purchase",
-      package: "@mathrunet/masamune_cloudflare_purchase",
-      functions: {
-        if (enableAppStore) ...{
-          "purchase.Functions.consumableVerifyIOS":
-              "    purchase.Functions.consumableVerifyIOS($options),",
-          "purchase.Functions.nonconsumableVerifyIOS":
-              "    purchase.Functions.nonconsumableVerifyIOS($options),",
-          "purchase.Functions.subscriptionVerifyIOS":
-              "    purchase.Functions.subscriptionVerifyIOS($options),",
-          "purchase.Functions.purchaseWebhookIOS":
-              "    purchase.Functions.purchaseWebhookIOS($options),",
-        },
-        if (enableGooglePlay) ...{
-          "purchase.Functions.consumableVerifyAndroid":
-              "    purchase.Functions.consumableVerifyAndroid($options),",
-          "purchase.Functions.nonconsumableVerifyAndroid":
-              "    purchase.Functions.nonconsumableVerifyAndroid($options),",
-          "purchase.Functions.subscriptionVerifyAndroid":
-              "    purchase.Functions.subscriptionVerifyAndroid($options),",
-          "purchase.Functions.purchaseWebhookAndroid":
-              "    purchase.Functions.purchaseWebhookAndroid($options),",
-        },
-      },
+    final applied = await applyPurchaseCloudflareFunctions(
+      enableAppStore: enableAppStore,
+      enableGooglePlay: enableGooglePlay,
+      options: options,
     );
     if (!applied) {
       return;
@@ -475,3 +454,37 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     }
   }
 }
+
+/// Adds missing purchase handlers to the Cloudflare Worker entrypoint.
+Future<bool> applyPurchaseCloudflareFunctions({
+  required bool enableAppStore,
+  required bool enableGooglePlay,
+  required String options,
+}) =>
+    applyCloudflareWorkersFunctions(
+      alias: "purchase",
+      package: "@mathrunet/masamune_cloudflare_purchase",
+      functions: {
+        if (enableAppStore) ...{
+          "purchase.Functions.consumableVerifyIOS":
+              "    purchase.Functions.consumableVerifyIOS($options),",
+          "purchase.Functions.nonconsumableVerifyIOS":
+              "    purchase.Functions.nonconsumableVerifyIOS($options),",
+          "purchase.Functions.subscriptionVerifyIOS":
+              "    purchase.Functions.subscriptionVerifyIOS($options),",
+          "purchase.Functions.purchaseWebhookIOS":
+              "    purchase.Functions.purchaseWebhookIOS($options),",
+        },
+        if (enableGooglePlay) ...{
+          "purchase.Functions.consumableVerifyAndroid":
+              "    purchase.Functions.consumableVerifyAndroid($options),",
+          "purchase.Functions.nonconsumableVerifyAndroid":
+              "    purchase.Functions.nonconsumableVerifyAndroid($options),",
+          "purchase.Functions.subscriptionVerifyAndroid":
+              "    purchase.Functions.subscriptionVerifyAndroid($options),",
+          "purchase.Functions.purchaseWebhookAndroid":
+              "    purchase.Functions.purchaseWebhookAndroid($options),",
+        },
+      },
+      replaceExisting: false,
+    );
