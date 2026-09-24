@@ -1,4 +1,429 @@
 {
   "schema": 1,
-  "packages": {}
+  "packages": {
+    "katana": {
+      "version": "3.4.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_auth": {
+      "version": "3.1.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_auth_firebase": {
+      "version": "3.3.3",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_builder": {
+      "version": "3.2.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_cli": {
+      "version": "3.28.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "katana_firebase": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_form": {
+      "version": "3.2.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_functions": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_functions_firebase": {
+      "version": "3.1.3",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_indicator": {
+      "version": "3.3.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_localization": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_localization_annotation": {
+      "version": "3.2.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_localization_builder": {
+      "version": "3.2.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_logger": {
+      "version": "3.3.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_model": {
+      "version": "3.8.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_model_firestore": {
+      "version": "3.4.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_model_local": {
+      "version": "3.3.9",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_platform_info": {
+      "version": "3.2.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_router": {
+      "version": "3.3.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_router_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_router_builder": {
+      "version": "3.1.6",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_scoped": {
+      "version": "3.1.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_shorten": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_storage": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_storage_firebase": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_test": {
+      "version": "3.1.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_theme": {
+      "version": "3.4.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_theme_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_theme_builder": {
+      "version": "3.1.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "katana_ui": {
+      "version": "3.3.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune": {
+      "version": "3.5.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_ads_google": {
+      "version": "3.1.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_agora": {
+      "version": "3.2.12",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_ai": {
+      "version": "3.4.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_ai_debugger": {
+      "version": "3.8.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad"
+    },
+    "masamune_ai_firebase": {
+      "version": "3.2.22",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_ai_openai": {
+      "version": "3.3.22",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_animate": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_app_review": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_apple": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_apple_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_facebook": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_github_firebase": {
+      "version": "3.4.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_google": {
+      "version": "3.2.14",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_auth_google_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_builder": {
+      "version": "3.1.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_calendar": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_camera": {
+      "version": "3.5.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_deeplink": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_firebase_app_check": {
+      "version": "3.3.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_force_updater": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_functions_cloudflare": {
+      "version": "3.2.11",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_google_cloud": {
+      "version": "3.2.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_handover": {
+      "version": "3.1.1",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad"
+    },
+    "masamune_introduction": {
+      "version": "3.4.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_lints": {
+      "version": "4.0.0",
+      "sourceSha": "e4cc3b8fb297436d961ec8647c8ccc768c4a81f2"
+    },
+    "masamune_location": {
+      "version": "3.1.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_location_background": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_location_geocoding": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_location_google": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_location_platform_interface": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_logger_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_mail": {
+      "version": "3.2.14",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_markdown": {
+      "version": "3.6.16",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_algolia": {
+      "version": "3.2.22",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_cloudflare_kv": {
+      "version": "3.4.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_model_d1": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_model_d1_annotation": {
+      "version": "3.2.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad"
+    },
+    "masamune_model_d1_builder": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_model_do": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_model_do_annotation": {
+      "version": "3.2.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad"
+    },
+    "masamune_model_do_builder": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_model_docs_builder": {
+      "version": "3.2.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_firebase_data_connect": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_firebase_data_connect_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_firebase_data_connect_builder": {
+      "version": "3.2.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_firebase_remote_config": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_firestore": {
+      "version": "3.3.0",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_firestore_builder": {
+      "version": "3.2.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_functions": {
+      "version": "3.4.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_github": {
+      "version": "3.6.17",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_model_tidb": {
+      "version": "3.7.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad"
+    },
+    "masamune_model_tidb_annotation": {
+      "version": "3.5.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad"
+    },
+    "masamune_model_tidb_builder": {
+      "version": "3.6.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_model_turso": {
+      "version": "3.9.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6"
+    },
+    "masamune_notification": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_notification_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_notification_local": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_painter": {
+      "version": "3.3.24",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_picker": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_purchase": {
+      "version": "3.2.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_purchase_mobile": {
+      "version": "3.1.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_purchase_stripe": {
+      "version": "3.7.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_scheduler": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_speech_to_text": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_speech_to_text_google": {
+      "version": "3.2.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_speech_to_text_mobile": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_storage_cloudflare": {
+      "version": "3.2.11",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_storage_functions": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_test": {
+      "version": "3.3.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_text_to_speech": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_universal_ui": {
+      "version": "3.2.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_util": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    },
+    "masamune_workflow": {
+      "version": "3.3.14",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
+    }
+  }
 }

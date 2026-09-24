@@ -1,0 +1,856 @@
+{
+  "schema": 1,
+  "verifiedOn": "2026-09-24",
+  "sourceSha": "3b1d3896c64c60bbe47a38e9b7c2dd1e78035885",
+  "method": "pub.devアーカイブのSHA-256を検証し、履歴と共有する全追跡ファイルをバイト単位で比較。公開物のpubspec.yaml、CHANGELOG、lib/とbin/の全ファイルが基準ソースに存在し一致することを確認。",
+  "packages": {
+    "katana": {
+      "version": "3.4.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana-3.4.1.tar.gz",
+      "archiveSha256": "2eb53bcf0c2c4bef1eb912e6e3cc3fdd4ad3a688847c7324192d48daa6f2f51b",
+      "matchedFiles": 79,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_auth": {
+      "version": "3.1.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_auth-3.1.4.tar.gz",
+      "archiveSha256": "f8736c1a9b9506efe93ad4343b8af4d493f723069ad0a609709c5643344bcbad",
+      "matchedFiles": 30,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_auth_firebase": {
+      "version": "3.3.3",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_auth_firebase-3.3.3.tar.gz",
+      "archiveSha256": "2755c4f57f167ca94fa1c09e3ec6e3270d6b4e2689aa0e6bc4e721887ef2f738",
+      "matchedFiles": 10,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_builder": {
+      "version": "3.2.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_builder-3.2.4.tar.gz",
+      "archiveSha256": "04c053bda203b70980dbeb8ef4f7611f87a3a2c4720eeaaeebb71a3563ba7517",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_cli": {
+      "version": "3.28.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/katana_cli-3.28.0.tar.gz",
+      "archiveSha256": "e19d9aa7e4d819798507102af5cc326d46c68d19420d6f3dfdea7b4fbfd5f112",
+      "matchedFiles": 205,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_firebase": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_firebase-3.1.2.tar.gz",
+      "archiveSha256": "3d5ec06319f5d5410f9aa4c0ff0eb98f19ac111ef5946d0d80c69b73f8976e95",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_form": {
+      "version": "3.2.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_form-3.2.4.tar.gz",
+      "archiveSha256": "d0152eba1b096bfcf78f292f670bcb32ce7f0a073730b2dc59320b3ed9012598",
+      "matchedFiles": 47,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_functions": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_functions-3.1.2.tar.gz",
+      "archiveSha256": "0be51b42676aea7a3198e5b02d2db13429965cb38edc1cc333022bd27fe488d9",
+      "matchedFiles": 16,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_functions_firebase": {
+      "version": "3.1.3",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_functions_firebase-3.1.3.tar.gz",
+      "archiveSha256": "ccd8de01059c6189a661d265047e8d446288ec6c4403ffe46e4c1ae43445ab3c",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_indicator": {
+      "version": "3.3.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_indicator-3.3.5.tar.gz",
+      "archiveSha256": "d17dfd5968b90218563842ac9c6efc1563962f36666ba951285dac3141c5899d",
+      "matchedFiles": 14,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_localization": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_localization-3.1.2.tar.gz",
+      "archiveSha256": "0b752f7e8003585cd9033bd8f8bca08a951c56ce30d7f4346ece93d7f8786904",
+      "matchedFiles": 15,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_localization_annotation": {
+      "version": "3.2.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_localization_annotation-3.2.2.tar.gz",
+      "archiveSha256": "8661ca75429e1aef03e18ab4880e8b265be6937409370f5775ed6a8b59cb7d63",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_localization_builder": {
+      "version": "3.2.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_localization_builder-3.2.5.tar.gz",
+      "archiveSha256": "c05d3927595e1660c66eb03861231f887f4ebad174af50c9c02550afa9459dfd",
+      "matchedFiles": 17,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_logger": {
+      "version": "3.3.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_logger-3.3.1.tar.gz",
+      "archiveSha256": "0af01c4accfa6dcd6ab35e15d02ba5323843a23ed8a9344cd9d7b1bad882d000",
+      "matchedFiles": 25,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_model": {
+      "version": "3.8.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_model-3.8.1.tar.gz",
+      "archiveSha256": "04dab1fa5eeda096432fd3b585da04d9bad1d58df5c7b9b0651106411f8e6481",
+      "matchedFiles": 68,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_model_firestore": {
+      "version": "3.4.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_model_firestore-3.4.1.tar.gz",
+      "archiveSha256": "6b6ea0f8210475e3d74eb69fd1b2ea830a700845975c8767a7677a0a4880125b",
+      "matchedFiles": 53,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_model_local": {
+      "version": "3.3.9",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_model_local-3.3.9.tar.gz",
+      "archiveSha256": "07d46472811a338e4ef0d068d26314c195b6bc1311151dd9a99272790aead730",
+      "matchedFiles": 21,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_platform_info": {
+      "version": "3.2.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_platform_info-3.2.2.tar.gz",
+      "archiveSha256": "9da4ca779a2b1a729a26c717f0a2587b389c46d9721f1a14736ea344c1bcb7e3",
+      "matchedFiles": 14,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_router": {
+      "version": "3.3.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_router-3.3.4.tar.gz",
+      "archiveSha256": "431bd1a78b87a64d184a6390aec46dd0de12977f93e8348394683876086c1952",
+      "matchedFiles": 25,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_router_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_router_annotation-3.1.2.tar.gz",
+      "archiveSha256": "86c9947b6fc84f780302bb7f8832410585c41b17181986c3b081bc712e41ec8f",
+      "matchedFiles": 11,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_router_builder": {
+      "version": "3.1.6",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_router_builder-3.1.6.tar.gz",
+      "archiveSha256": "61d256b3d5a0f53810a300fcffd544ebfa799c08cd46e7d3c91e25ff32ded3c9",
+      "matchedFiles": 20,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_scoped": {
+      "version": "3.1.4",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_scoped-3.1.4.tar.gz",
+      "archiveSha256": "5f50815ed265d7463a2714318eb318c6d6353943bc463ca87734a4c004e5902a",
+      "matchedFiles": 43,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_shorten": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_shorten-3.1.2.tar.gz",
+      "archiveSha256": "e1786858c8f12813a3901aa25f99bf8d9bfc64586544ef5926c1825c374b1214",
+      "matchedFiles": 16,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_storage": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_storage-3.1.2.tar.gz",
+      "archiveSha256": "d960495be72820c0eb6c8282ef7e922863fdc758bf675f6697216b47ccd4c2d4",
+      "matchedFiles": 22,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_storage_firebase": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_storage_firebase-3.1.2.tar.gz",
+      "archiveSha256": "6520c32fde293b20b380f8521d79a72699cbe6e55bd4deb78a1183c8340df576",
+      "matchedFiles": 10,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_test": {
+      "version": "3.1.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_test-3.1.1.tar.gz",
+      "archiveSha256": "2ed75f3553a1d374e24bf616fc0ee9f021099019bbe02636aa43ae3520def764",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_theme": {
+      "version": "3.4.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_theme-3.4.2.tar.gz",
+      "archiveSha256": "e069d8f7141575f94ea1100c72543bd24f65ba9299e7fa53ccf3bf05fcf01320",
+      "matchedFiles": 34,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_theme_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_theme_annotation-3.1.2.tar.gz",
+      "archiveSha256": "4476f47ad7e3245ab1460091a280e07738f4281d77c704599161f5e2a58c1ba0",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_theme_builder": {
+      "version": "3.1.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_theme_builder-3.1.5.tar.gz",
+      "archiveSha256": "132d0dc5034a0fec3025a4d05dffeda2ecc0e46a29d51606751cb1bb5b611928",
+      "matchedFiles": 15,
+      "runtimeAndChangelogMatch": true
+    },
+    "katana_ui": {
+      "version": "3.3.5",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/katana_ui-3.3.5.tar.gz",
+      "archiveSha256": "e26c03a47436f145b533355c02885c5cdf70e7233856025a101dde358f9a5bcd",
+      "matchedFiles": 28,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune": {
+      "version": "3.5.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune-3.5.20.tar.gz",
+      "archiveSha256": "aaed0964f0c3cbbd45a9f53e662172a073a075037cfb7b08f2a1f9736bd2f5ae",
+      "matchedFiles": 41,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_ads_google": {
+      "version": "3.1.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_ads_google-3.1.21.tar.gz",
+      "archiveSha256": "e74466ca676e63abfb8b004abd9ea6c89fcf0d8664bf77c83eb85ec5573eef41",
+      "matchedFiles": 20,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_agora": {
+      "version": "3.2.12",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_agora-3.2.12.tar.gz",
+      "archiveSha256": "b323aa913320db8506f5192597f86a691636aa3d29e08da20ccb058fa9a40752",
+      "matchedFiles": 24,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_ai": {
+      "version": "3.4.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_ai-3.4.1.tar.gz",
+      "archiveSha256": "b466f58f5a21b29d71b6113ac60aeeb6c5ce90ca044c95497ee9f95d78bae23c",
+      "matchedFiles": 29,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_ai_debugger": {
+      "version": "3.8.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_ai_debugger-3.8.0.tar.gz",
+      "archiveSha256": "8539e94037d9654524b15d0dd6d77b94558cc069de941f602f7d3780de8aa742",
+      "matchedFiles": 13,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_ai_firebase": {
+      "version": "3.2.22",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_ai_firebase-3.2.22.tar.gz",
+      "archiveSha256": "513969912d89ad3b5cde474e129c59233b87cded7af40f2fbb973bcdb52d6ef5",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_ai_openai": {
+      "version": "3.3.22",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_ai_openai-3.3.22.tar.gz",
+      "archiveSha256": "82a82e8b83b4dd8ab1bbd9024f953ea4bf17f1df221b515ab3eb3e66a2a2672d",
+      "matchedFiles": 10,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_animate": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_animate-3.1.20.tar.gz",
+      "archiveSha256": "5ccc88f8360d0bbd255e4c3052d376817a20c32be579b50b6ce34eac7b7a7b11",
+      "matchedFiles": 23,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_annotation-3.1.2.tar.gz",
+      "archiveSha256": "a6917cb05f39b8d018f83083af59976e9d1bdd4df4fc400355136d2d66489ecc",
+      "matchedFiles": 19,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_app_review": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_app_review-3.1.20.tar.gz",
+      "archiveSha256": "39b7970fda42ff9c5c189462fbe6be7a4fcf2a1835fae7f617e736cb8676a1a1",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_apple": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_apple-3.1.20.tar.gz",
+      "archiveSha256": "8a20131d33c52cdd4649fca7057213b60b8efe5d4dd7d8dedec8bea872d93aff",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_apple_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_apple_firebase-3.1.20.tar.gz",
+      "archiveSha256": "9c39b4f3ddb83c3b64f351459358fd326c98a8fb2af785a735c1e021c99888e2",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_facebook": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_facebook-3.1.20.tar.gz",
+      "archiveSha256": "41f232d2654d962743987789ce6462379a2cddd7e2ed18d0113dbab77d7a6c3c",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_firebase-3.1.20.tar.gz",
+      "archiveSha256": "9ee8360e09a60cdc81a4d45dfb4e1273c10a6970e533bb695e303dce7abf4a05",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_github_firebase": {
+      "version": "3.4.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_github_firebase-3.4.20.tar.gz",
+      "archiveSha256": "ca7af2c7832ff7a282e646f397f3428e022ab91367f6f5a38450e452701f421d",
+      "matchedFiles": 10,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_google": {
+      "version": "3.2.14",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_google-3.2.14.tar.gz",
+      "archiveSha256": "c601a5d66aeea453fa11a109f1c447d2bd7ef792b56a711b88dd8746e580cf19",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_auth_google_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_auth_google_firebase-3.1.20.tar.gz",
+      "archiveSha256": "8e8466f9355de557757832e1a944aecf6e4939ab804a8302c4619a973f09824f",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_builder": {
+      "version": "3.1.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_builder-3.1.7.tar.gz",
+      "archiveSha256": "03f75a6b6dd393a5c5d173aef79c73c45830c73c8645872c9b6046f7a1f69334",
+      "matchedFiles": 30,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_calendar": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_calendar-3.1.20.tar.gz",
+      "archiveSha256": "b5166bae201081c149a8963724279b8cd75da693f49f0c92cc8147068dc139c4",
+      "matchedFiles": 21,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_camera": {
+      "version": "3.5.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_camera-3.5.1.tar.gz",
+      "archiveSha256": "6224d4030f930fa6e1a784c47b3e9b48441144c48943d7b85acd70d162943dfa",
+      "matchedFiles": 22,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_deeplink": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_deeplink-3.1.20.tar.gz",
+      "archiveSha256": "c39094df025e3d2b5d6449b0c422576e550e7266583f4a909da5a75fe83fbc7a",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_firebase_app_check": {
+      "version": "3.3.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_firebase_app_check-3.3.1.tar.gz",
+      "archiveSha256": "7af783883547d1ecc75476af898d8986412f2429dfda624db05201043eaedaab",
+      "matchedFiles": 11,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_force_updater": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_force_updater-3.1.20.tar.gz",
+      "archiveSha256": "fedc6f4ef1ef52f4d383c79d1c37d9fed1a30adfa917b59ca6fa24056cc46ddb",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_functions_cloudflare": {
+      "version": "3.2.11",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_functions_cloudflare-3.2.11.tar.gz",
+      "archiveSha256": "e635fdd5d883461ed0c414ece1d141c90bec406d5cdec29ca15b4f3676cee328",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_google_cloud": {
+      "version": "3.2.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_google_cloud-3.2.21.tar.gz",
+      "archiveSha256": "8c5de7cd101a609468df6de0a0835abf7987efeab340f6befaeee4d483b99a8b",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_handover": {
+      "version": "3.1.1",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_handover-3.1.1.tar.gz",
+      "archiveSha256": "c8dd321987ee821154720eb62ef26e16b48cbe56a954258fd0747fd005be8ba7",
+      "matchedFiles": 25,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_introduction": {
+      "version": "3.4.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_introduction-3.4.20.tar.gz",
+      "archiveSha256": "d8845a704885e8017c52da4fe8cba6484a74d58b648467c46cabb03040985ba5",
+      "matchedFiles": 14,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_lints": {
+      "version": "4.0.0",
+      "sourceSha": "e4cc3b8fb297436d961ec8647c8ccc768c4a81f2",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_lints-4.0.0.tar.gz",
+      "archiveSha256": "95ddf16f61082a17fca10938f2599717b3ccfbddbfbd230cd7099d559186a944",
+      "matchedFiles": 23,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_location": {
+      "version": "3.1.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_location-3.1.21.tar.gz",
+      "archiveSha256": "e9594cf5584752f693dec40dadd881100f489377a39c6c6b662b04e5ac290b24",
+      "matchedFiles": 19,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_location_background": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_location_background-3.1.20.tar.gz",
+      "archiveSha256": "69b0d4d8bfa3922d37da6a4e4b453cadda615a678426e8647e20fb01b1fea8a7",
+      "matchedFiles": 14,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_location_geocoding": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_location_geocoding-3.1.20.tar.gz",
+      "archiveSha256": "d87474363808a47600151869ce99394cdcd93be2a958fc05dad07d3bed15b820",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_location_google": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_location_google-3.1.20.tar.gz",
+      "archiveSha256": "3f51309b7a3555a843c7938458fe0b26e0276385c9389293473fc2032965ff4b",
+      "matchedFiles": 19,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_location_platform_interface": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_location_platform_interface-3.1.20.tar.gz",
+      "archiveSha256": "c1ae38f1c01ddcab93ac20aa05d303ef7fa3814cea738154803f05a92d00cc69",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_logger_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_logger_firebase-3.1.20.tar.gz",
+      "archiveSha256": "75e21274690e08897d270304b2f6f8861028d23b77fc15f7d82cd454bebe5541",
+      "matchedFiles": 23,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_mail": {
+      "version": "3.2.14",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_mail-3.2.14.tar.gz",
+      "archiveSha256": "f2f0bbab7dabc4b118da0e0346b993e1c094eec8a11c6718a93fd638f9948cf4",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_markdown": {
+      "version": "3.6.16",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_markdown-3.6.16.tar.gz",
+      "archiveSha256": "ab640586d69f16773636aa9be8fdd8fd2ef71849e9403296f1d546c8cd75128e",
+      "matchedFiles": 84,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_algolia": {
+      "version": "3.2.22",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_algolia-3.2.22.tar.gz",
+      "archiveSha256": "41d97e9b203b445521c0c7b350cdd5b587ccbe40c199b0f3ea8d98493f7436f7",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_cloudflare_kv": {
+      "version": "3.4.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_cloudflare_kv-3.4.0.tar.gz",
+      "archiveSha256": "13dd910bae58f42097a4bb401c103c447456795faf0d12f20679e85a3f7f6c3c",
+      "matchedFiles": 12,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_d1": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_d1-3.2.0.tar.gz",
+      "archiveSha256": "cc0741ee1e53d4fd7d47ffd42d001142d280940696246ddbd754d58f8a856177",
+      "matchedFiles": 20,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_d1_annotation": {
+      "version": "3.2.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_d1_annotation-3.2.0.tar.gz",
+      "archiveSha256": "bb7c08ab63ced19e21a8c277d3a78aca248f71406b3e6e453f6f28b6051c1dee",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_d1_builder": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_d1_builder-3.2.0.tar.gz",
+      "archiveSha256": "5182f326deda30b10a482099f0b9dbed33aa4d4d4211cf59027f6a7d342c8f97",
+      "matchedFiles": 11,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_do": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_do-3.2.0.tar.gz",
+      "archiveSha256": "ec8106780c99e1144977dd0705ebc0b2b3989c74d5fdccaa0b674eb539e6e7ab",
+      "matchedFiles": 27,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_do_annotation": {
+      "version": "3.2.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_do_annotation-3.2.0.tar.gz",
+      "archiveSha256": "99b895191594f8303d63d48c0fc53916c2ad5bb71ef96bfd545ed8aa37faff14",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_do_builder": {
+      "version": "3.2.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_do_builder-3.2.0.tar.gz",
+      "archiveSha256": "8d9157d5cc814583140dd35cfad82b8fb56173f55edfb262d5d73b29ed2b92a6",
+      "matchedFiles": 11,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_docs_builder": {
+      "version": "3.2.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_docs_builder-3.2.7.tar.gz",
+      "archiveSha256": "6092a779b95622da908aa054ff7c3ffbc8de9e461dead1b4938c66227e75bcac",
+      "matchedFiles": 12,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_firebase_data_connect": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_firebase_data_connect-3.2.20.tar.gz",
+      "archiveSha256": "409bc652ac94f33aa35e2a97820c59058130f65fcd986f8724590cad3ae7a47f",
+      "matchedFiles": 29,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_firebase_data_connect_annotation": {
+      "version": "3.1.2",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_firebase_data_connect_annotation-3.1.2.tar.gz",
+      "archiveSha256": "5146c938b0381b0fabc7680e2a3b2880b3d4bf19abbbd558fa38c61b30de7b5f",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_firebase_data_connect_builder": {
+      "version": "3.2.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_firebase_data_connect_builder-3.2.7.tar.gz",
+      "archiveSha256": "62875cad756a98a77aa2b5c50750d6fc58b06640ba61541398297a8e84994991",
+      "matchedFiles": 16,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_firebase_remote_config": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_firebase_remote_config-3.2.20.tar.gz",
+      "archiveSha256": "111f834c275502177fdd032359b58fc23e419c04689646efa35fcdc93bed504d",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_firestore": {
+      "version": "3.3.0",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_firestore-3.3.0.tar.gz",
+      "archiveSha256": "72bb13b328190e323acfc5e8860149695f372f8ff1f10320712e269e98806a93",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_firestore_builder": {
+      "version": "3.2.7",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_firestore_builder-3.2.7.tar.gz",
+      "archiveSha256": "6bfdf64aebf43c091e2f00583858638927044b5691f9a671dc2d957b153ac62f",
+      "matchedFiles": 14,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_functions": {
+      "version": "3.4.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_functions-3.4.20.tar.gz",
+      "archiveSha256": "32fec2bd6d92913e1d0e22e5974305c7c18d34eacb2bf51ad92534f80b9e9ff7",
+      "matchedFiles": 10,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_github": {
+      "version": "3.6.17",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_github-3.6.17.tar.gz",
+      "archiveSha256": "a87d11e3911b2cef2a7743b669b0c9af0be1a6fb56bdc12f80bcb9fb6c8b653f",
+      "matchedFiles": 106,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_tidb": {
+      "version": "3.7.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_tidb-3.7.0.tar.gz",
+      "archiveSha256": "becfc4f6ecdaade21d5b5fe77ff3d7d07b43cbd68532184a1f7a6c314c69996b",
+      "matchedFiles": 18,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_tidb_annotation": {
+      "version": "3.5.0",
+      "sourceSha": "992a7fed8a2106edd9c3d3251af963364c1a56ad",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_tidb_annotation-3.5.0.tar.gz",
+      "archiveSha256": "daf979b5726eb146a0121113f0c1479c78a0c9f8b8aed5ac657875263f5c8f33",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_tidb_builder": {
+      "version": "3.6.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_tidb_builder-3.6.0.tar.gz",
+      "archiveSha256": "aeacaae61c7ea0883c096f082ac7e15c4211fdf037c051a3c37b7ef2d1edadef",
+      "matchedFiles": 12,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_model_turso": {
+      "version": "3.9.0",
+      "sourceSha": "5e7e3617273d2c52d8c44f390abc2a106597ceb6",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_model_turso-3.9.0.tar.gz",
+      "archiveSha256": "010465a1b7bbe0704ee1dc48c0e4d4cd437b16eeaaefa632badf5847d55d80d8",
+      "matchedFiles": 20,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_notification": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_notification-3.2.20.tar.gz",
+      "archiveSha256": "766d6c509ebe55e111d5745190c208080c5d5bc3ee2c844a242a69559a858222",
+      "matchedFiles": 30,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_notification_firebase": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_notification_firebase-3.1.20.tar.gz",
+      "archiveSha256": "e199560e2944e829b5e12602bb9bc4b4d0aa19f068c765ff2f4fc6a682e02b8d",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_notification_local": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_notification_local-3.1.20.tar.gz",
+      "archiveSha256": "4b201b5a11ba88103f3c8830090c2d76178c154208c4328c8134f9b2ed3d9030",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_painter": {
+      "version": "3.3.24",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_painter-3.3.24.tar.gz",
+      "archiveSha256": "690591dc6ce1f3afd9f8191e43c30d5377b03bb296199d7df0c9ee2bb309570a",
+      "matchedFiles": 88,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_picker": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_picker-3.2.20.tar.gz",
+      "archiveSha256": "0d201c209106f3a5683daff4ca6ee0b52db19edfea452121f1bf6df06d1ff1be",
+      "matchedFiles": 20,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_purchase": {
+      "version": "3.2.1",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_purchase-3.2.1.tar.gz",
+      "archiveSha256": "f6132d012729777cfc9f0e32b07a8b3cc230cf3e4c6104bad96d8bf740142206",
+      "matchedFiles": 31,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_purchase_mobile": {
+      "version": "3.1.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_purchase_mobile-3.1.21.tar.gz",
+      "archiveSha256": "956ae11acdddcbf444593879170af146be21c538679556374dad8e4bb2bbb26f",
+      "matchedFiles": 11,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_purchase_stripe": {
+      "version": "3.7.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_purchase_stripe-3.7.20.tar.gz",
+      "archiveSha256": "f46137a27bf187404c4b606a227ac6ec1d70b6f7555e1604413130072e5cabdf",
+      "matchedFiles": 53,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_scheduler": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_scheduler-3.1.20.tar.gz",
+      "archiveSha256": "530ade98c4b9452f4934da3408014d51e1be9b234a4d1c951f351e9ca8138b85",
+      "matchedFiles": 11,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_speech_to_text": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_speech_to_text-3.2.20.tar.gz",
+      "archiveSha256": "97d424c4d5f5d8df24c30bda2f8de4593fbf5b68254cda9d38e37b42a619e7e7",
+      "matchedFiles": 10,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_speech_to_text_google": {
+      "version": "3.2.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_speech_to_text_google-3.2.21.tar.gz",
+      "archiveSha256": "7df7dc9d3029a43ba05944494d09f9d8b2fa68fb0707a3872e3971968e65f746",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_speech_to_text_mobile": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_speech_to_text_mobile-3.2.20.tar.gz",
+      "archiveSha256": "de32f655efbbadd4a465ffb8ead486c98797d82d2e2768ee5ef34e2173485ccf",
+      "matchedFiles": 8,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_storage_cloudflare": {
+      "version": "3.2.11",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_storage_cloudflare-3.2.11.tar.gz",
+      "archiveSha256": "1ff06e15e6fc2180f90ea2f9ac6e20c262543310fe509863c124dee37373878d",
+      "matchedFiles": 12,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_storage_functions": {
+      "version": "3.2.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_storage_functions-3.2.20.tar.gz",
+      "archiveSha256": "0363c0458e15ed3f96b99c47c78281a884a5c8ac50e608aed8c9b7cffb6a13f7",
+      "matchedFiles": 12,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_test": {
+      "version": "3.3.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_test-3.3.21.tar.gz",
+      "archiveSha256": "6d5de3503236b5b02d3a37277d5c51ef4b5d5d2f08716dfb49c559d9ff289590",
+      "matchedFiles": 15,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_text_to_speech": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_text_to_speech-3.1.20.tar.gz",
+      "archiveSha256": "b43cd5a82e00a7007d7d1af622eadea9fb699d22eae05a1a2dc65869922ea197",
+      "matchedFiles": 9,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_universal_ui": {
+      "version": "3.2.21",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_universal_ui-3.2.21.tar.gz",
+      "archiveSha256": "ba6c2d92bc96eca01bae34a1524459aa33275a98d5137f8cfcba01ea6c61d36e",
+      "matchedFiles": 32,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_util": {
+      "version": "3.1.20",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_util-3.1.20.tar.gz",
+      "archiveSha256": "324011dde85e4f97b414a870b1eaa226ca437039a2e6779aa24e3f00679055cf",
+      "matchedFiles": 7,
+      "runtimeAndChangelogMatch": true
+    },
+    "masamune_workflow": {
+      "version": "3.3.14",
+      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_workflow-3.3.14.tar.gz",
+      "archiveSha256": "52be86fc8260f8685891612515e0991bbcc49c0d471ca938877ff4dc4a275756",
+      "matchedFiles": 70,
+      "runtimeAndChangelogMatch": true
+    }
+  }
+}
