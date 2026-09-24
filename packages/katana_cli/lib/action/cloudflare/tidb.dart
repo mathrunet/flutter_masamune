@@ -2,8 +2,12 @@
 import "dart:convert";
 import "dart:io";
 
+// Package imports:
+import "package:yaml/yaml.dart";
+
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
+import "package:katana_cli/action/cloudflare/tidb_migration_credentials.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// build_runnerが管理するfragmentを統合する。未変更モデルも含め、削除済み入力は除く。
@@ -114,22 +118,55 @@ class TidbMigrateCliCommand extends CliCommand {
     }
     final config = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
     final secrets = context.secrets.getAsMap("cloudflare").getAsMap("tidb");
+    final environment = context.flavorContext!.flavor.name;
+    final rawHost = (config["host"] ?? "");
+    final host = rawHost is Map
+        ? rawHost[environment]?.toString() ?? ""
+        : rawHost.toString();
+    final rawCluster = (config["cluster_id"] ?? "");
+    final cluster = rawCluster is Map
+        ? rawCluster[environment]?.toString() ?? ""
+        : rawCluster.toString();
+    final rawDatabase = (config["database"] ?? "");
+    final database = rawDatabase is Map
+        ? rawDatabase[environment]?.toString() ?? ""
+        : rawDatabase.toString();
+    final credentials = await resolveTidbMigrationCredentials(
+      environment: environment,
+      cluster: cluster,
+      host: host,
+      database: database,
+      node: context.yaml.getAsMap("bin").get("node", "node").toString(),
+      legacySecrets: Map<String, dynamic>.from(secrets),
+      publicKey: Platform.environment["TIDBCLOUD_PUBLIC_KEY"] ??
+          _tidbApiKeyValue(
+              Map<String, dynamic>.from(secrets), "public_key", environment),
+      privateKey: Platform.environment["TIDBCLOUD_PRIVATE_KEY"] ??
+          _tidbApiKeyValue(
+              Map<String, dynamic>.from(secrets), "private_key", environment),
+      authMode: _tidbEnvironmentSetting(config, "migration_auth", environment,
+          fallback: "api_key"),
+      oauthProfile: _tidbEnvironmentSetting(
+          config, "migration_auth_profile", environment,
+          fallback: "default"),
+      allowProvision: false,
+    );
     final input = {
       "command": command,
       "root": Directory.current.path,
       "schemaPath": config.get("schema", "tidb/schema/schema.json"),
       "directory": config.get("migrations", "tidb/migrations"),
       "target": {
-        "environment": context.flavorContext!.flavor.name,
-        "cluster": config.get("cluster_id", "").toString(),
-        "host": config.get("host", "").toString(),
-        "database": config.get("database", "").toString(),
-        "principal": secrets.get("migration_username", "").toString(),
+        "environment": environment,
+        "cluster": cluster,
+        "host": host,
+        "database": database,
+        "principal": credentials.username,
       },
       "version": version,
       "apply": apply,
-      "username": secrets.get("migration_username", ""),
-      "password": secrets.get("migration_password", ""),
+      "username": credentials.username,
+      "password": credentials.password,
     };
     // node_modulesの既存packageを使い、暗黙のinstallやnpx取得をしない。
     final node = context.yaml.getAsMap("bin").get("node", "node");
@@ -167,7 +204,141 @@ process.stdin.on("end", async () => {
   }
 }
 
-/// WorkerへTiDB接続設定と共通manifestを反映する。DDLは実行しない。
+Map<String, dynamic> _tidbPlainMap(Map value) => value.map(
+      (key, value) => MapEntry(key.toString(), _tidbPlainValue(value)),
+    );
+
+Object? _tidbPlainValue(Object? value) {
+  if (value is Map) {
+    return _tidbPlainMap(value);
+  }
+  if (value is List) {
+    return value.map(_tidbPlainValue).toList();
+  }
+  return value;
+}
+
+String _tidbSecretValue(
+    Map<String, dynamic> secrets, String key, String environment) {
+  final value = secrets[key] ?? "";
+  if (value is Map) {
+    return value[environment]?.toString() ?? "";
+  }
+  return value.toString();
+}
+
+/// 管理APIキーは[cloudflare]->[tidb]直下を正とし、旧テンプレの[management_api]配下も読む。
+String _tidbApiKeyValue(
+    Map<String, dynamic> secrets, String key, String environment) {
+  final direct = _tidbSecretValue(secrets, key, environment);
+  if (direct.isNotEmpty) {
+    return direct;
+  }
+  final legacy = secrets["management_api"];
+  if (legacy is Map) {
+    return _tidbSecretValue(
+        Map<String, dynamic>.from(legacy), key, environment);
+  }
+  return "";
+}
+
+String _tidbEnvironmentSetting(
+    Map<String, dynamic> config, String key, String environment,
+    {required String fallback}) {
+  final value = config[key] ?? fallback;
+  if (value is Map) {
+    return value[environment]?.toString() ?? fallback;
+  }
+  return value.toString();
+}
+
+Future<Map<String, dynamic>> _loadTidbCredentialState() async {
+  final file = File("cloudflare/tidb.yaml");
+  if (!await file.exists()) {
+    return <String, dynamic>{};
+  }
+  final value = loadYaml(await file.readAsString());
+  if (value is! Map) {
+    throw const FormatException("cloudflare/tidb.yamlの形式が不正です。");
+  }
+  return _tidbPlainMap(value);
+}
+
+Future<void> _runTidbRuntimeProvision({
+  required ExecContext context,
+  required String environment,
+  required String cluster,
+  required String host,
+  required String database,
+  required Map<String, dynamic> state,
+  required List<Map<String, String>> tables,
+  required Map<String, dynamic> secrets,
+  required Map<String, dynamic> existing,
+  required String authMode,
+  required String oauthProfile,
+}) async {
+  final node = context.yaml.getAsMap("bin").get("node", "node").toString();
+  final credentials = await resolveTidbMigrationCredentials(
+    environment: environment,
+    cluster: cluster,
+    host: host,
+    database: database,
+    node: node,
+    legacySecrets: secrets,
+    publicKey: Platform.environment["TIDBCLOUD_PUBLIC_KEY"] ??
+        _tidbApiKeyValue(secrets, "public_key", environment),
+    privateKey: Platform.environment["TIDBCLOUD_PRIVATE_KEY"] ??
+        _tidbApiKeyValue(secrets, "private_key", environment),
+    authMode: authMode,
+    oauthProfile: oauthProfile,
+  );
+  const script =
+      'require(require.resolve("@mathrunet/masamune_cloudflare_tidb/dist/migrate.js"))';
+  final process = await Process.start(
+    node,
+    [
+      "-e",
+      '''
+const migration = $script;
+let input = "";
+process.stdin.setEncoding("utf8");
+process.stdin.on("data", chunk => { input += chunk; if (input.length > 1048576) process.exit(2); });
+process.stdin.on("end", async () => {
+  try { console.log(JSON.stringify(await migration.provisionRuntimeUser(JSON.parse(input)))); }
+  catch (error) { console.error(error instanceof Error ? error.message : "TiDB runtime userの準備に失敗しました。"); process.exitCode = 1; }
+});
+'''
+    ],
+    workingDirectory: "cloudflare",
+  );
+  final output = process.stdout.transform(utf8.decoder).join();
+  final failure = process.stderr.transform(utf8.decoder).join();
+  process.stdin.write(jsonEncode({
+    "root": Directory.current.path,
+    "host": host,
+    "database": database,
+    "migrationUsername": credentials.username,
+    "migrationPassword": credentials.password,
+    "runtimeUsername": existing.get("username", "").toString(),
+    "runtimePassword": existing.get("password", "").toString(),
+    "runtimeRole": existing.get("role", "").toString(),
+    "environment": environment,
+    "credentialState": credentials.state,
+    "tables": tables,
+  }));
+  await process.stdin.close();
+  final status = await process.exitCode;
+  final failureText = await failure;
+  if (status != 0) {
+    throw StateError(failureText.trim().isEmpty
+        ? "TiDB runtime userの準備に失敗しました。"
+        : failureText.trim());
+  }
+  // stdoutには非秘密の状態だけが返るため、内容はログへ出さず破棄する。
+  await output;
+}
+
+/// WorkerへTiDB接続設定と共通manifestを反映する。DDLはmigrateへ分離する。
 class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   /// TiDB接続設定。
   const CloudflareTidbCliAction();
@@ -178,6 +349,18 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       context.yaml.getAsMap("cloudflare").getAsMap("tidb").get("enable", false);
   @override
   Future<void> exec(ExecContext context) async {
+    final config = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
+    final configuredDatabase = config["database"];
+    final configuredHost = config["host"];
+    final configuredCluster = config["cluster_id"];
+    if ((configuredDatabase is Map ||
+            configuredHost is Map ||
+            configuredCluster is Map) &&
+        context.flavorContext?.explicit != true) {
+      error(
+          "TiDBのdatabaseが環境別設定です。対象を明示して katana apply --flavor <dev|prod> を実行してください。");
+      return;
+    }
     await _applyDirect(context,
         wrangler: context.yaml.getAsMap("bin").get("wrangler", "wrangler"),
         environment: context.flavorContext?.flavor.name ?? "prod");
@@ -207,11 +390,26 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     }
     final config = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
     final secrets = context.secrets.getAsMap("cloudflare").getAsMap("tidb");
-    final host = config.get("host", "").toString();
-    final username = secrets.get("username", "").toString();
-    final password = secrets.get("password", "").toString();
-    if (host.isEmpty || username.isEmpty || password.isEmpty) {
-      error("TiDB直結のhost、Worker用username/passwordが必要です。migration用資格情報は流用しません。");
+    final rawHost = (config["host"] ?? "");
+    final rawDatabase = (config["database"] ?? "");
+    if (environment != "dev" &&
+        environment != "prod" &&
+        (rawHost is Map || rawDatabase is Map)) {
+      label("TiDBの環境別設定はdev/prodのみです。$environmentではTiDB secretsを変更しません。");
+      return;
+    }
+    final host = rawHost is Map
+        ? rawHost[environment]?.toString() ?? ""
+        : rawHost.toString();
+    final database = rawDatabase is Map
+        ? rawDatabase[environment]?.toString() ?? ""
+        : rawDatabase.toString();
+    final rawCluster = (config["cluster_id"] ?? "");
+    final cluster = rawCluster is Map
+        ? rawCluster[environment]?.toString() ?? ""
+        : rawCluster.toString();
+    if (host.isEmpty || database.isEmpty) {
+      error("TiDB直結のhostとdatabaseが必要です。");
       return;
     }
     final schemaPath =
@@ -234,6 +432,28 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       error("共通schemaの形式が不正です。");
       return;
     }
+    final tablesByKey = <String, Map<String, String>>{};
+    for (final raw in manifest["tables"] as List) {
+      if (raw is! Map ||
+          raw["database"] is! String ||
+          raw["table"] is! String) {
+        error("共通schemaのtable定義が不正です。");
+        return;
+      }
+      if (raw["database"] == database) {
+        final table = <String, String>{
+          "database": raw["database"].toString(),
+          "table": raw["table"].toString(),
+        };
+        tablesByKey["${table["database"]}\u0000${table["table"]}"] = table;
+      }
+    }
+    if (tablesByKey.isEmpty) {
+      error(
+          "共通schemaに対象databaseのtableがありません。katana code generateとkatana migrate generateを確認してください。");
+      return;
+    }
+    // package・登録位置の不備でruntime userを作成しないよう先に検査する。
     final package = File(
         "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js");
     if (!package.existsSync()) {
@@ -246,26 +466,117 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     if (!source.contains(statement)) {
       source = "$statement\n$source";
     }
-    source = source.replaceAll(
-        RegExp(
-            r'^import tidbDataServiceManifest from "./tidb_data_service_manifest.json";\r?\n',
-            multiLine: true),
-        "");
-    // 設定生成とsecret投入だけを行い、DBのDDLはmigrateへ分離する。
-    await File("cloudflare/src/tidb_schema.json").writeAsString(manifestText);
-    await index.writeAsString(source);
-    final updated = await applyCloudflareWorkersFunctions(
-      alias: "tidb",
-      package: "@mathrunet/masamune_cloudflare_tidb",
-      functions: {
-        "tidb.Functions.tidb":
-            "tidb.Functions.tidb({ schemaManifest: tidbSchemaManifest as tidb.SchemaManifest })"
-      },
-    );
-    if (!updated) {
+    source = CloudflareSourceUtils.ensureImport(source,
+        alias: "tidb", package: "@mathrunet/masamune_cloudflare_tidb");
+    const functionName = "tidb.Functions.tidb";
+    final arguments =
+        CloudflareSourceUtils.functionArguments(source, functionName)
+            ?.replaceFirst(RegExp(r",\s*$"), "");
+    const schemaOption =
+        "schemaManifest: tidbSchemaManifest as tidb.SchemaManifest";
+    // 既存のrules・prefixなどを保持し、manifestだけを生成物へ同期する。
+    final options = arguments == null || arguments.isEmpty
+        ? "{ $schemaOption }"
+        : arguments == "{ $schemaOption }" ||
+                arguments.endsWith(", $schemaOption }")
+            ? arguments
+            : "{ ...($arguments), $schemaOption }";
+    final replacement = "$functionName($options),";
+    final hasCall = arguments != null;
+    source = CloudflareSourceUtils.replaceFunctionCall(
+        source, functionName, replacement);
+    final preparedSource = CloudflareSourceUtils.insertDeployFunctions(
+        source, hasCall ? const [] : [replacement]);
+    if (preparedSource == null) {
       error("WorkerへのTiDB登録位置を特定できません。");
       return;
     }
+    Map<String, dynamic> credentialState;
+    try {
+      credentialState = await _loadTidbCredentialState();
+    } on FormatException catch (e) {
+      error(e.message);
+      return;
+    }
+    final stored = credentialState
+        .getAsMap("cloudflare")
+        .getAsMap("tidb")
+        .getAsMap("runtime_users")
+        .getAsMap(environment);
+    var username = stored.get("username", "").toString();
+    var password = stored.get("password", "").toString();
+    final role = stored.get("role", "").toString();
+    if (username.isNotEmpty && password.isNotEmpty && role.isNotEmpty) {
+      try {
+        await _runTidbRuntimeProvision(
+          context: context,
+          environment: environment,
+          cluster: cluster,
+          host: host,
+          database: database,
+          state: credentialState,
+          tables: tablesByKey.values.toList(),
+          secrets: secrets,
+          existing: stored,
+          authMode: _tidbEnvironmentSetting(
+              config, "migration_auth", environment,
+              fallback: "api_key"),
+          oauthProfile: _tidbEnvironmentSetting(
+              config, "migration_auth_profile", environment,
+              fallback: "default"),
+        );
+      } on StateError catch (e) {
+        error(e.message);
+        return;
+      }
+    } else {
+      // Backward compatibility: keep using an already provisioned credentials pair from katana_secrets.yaml.
+      username = _tidbSecretValue(secrets, "username", environment);
+      password = _tidbSecretValue(secrets, "password", environment);
+      if (username.isEmpty || password.isEmpty) {
+        try {
+          await _runTidbRuntimeProvision(
+            context: context,
+            environment: environment,
+            cluster: cluster,
+            host: host,
+            database: database,
+            state: credentialState,
+            tables: tablesByKey.values.toList(),
+            secrets: secrets,
+            existing: const <String, dynamic>{},
+            authMode: _tidbEnvironmentSetting(
+                config, "migration_auth", environment,
+                fallback: "api_key"),
+            oauthProfile: _tidbEnvironmentSetting(
+                config, "migration_auth_profile", environment,
+                fallback: "default"),
+          );
+          credentialState = await _loadTidbCredentialState();
+        } on StateError catch (e) {
+          error(e.message);
+          return;
+        } on FormatException catch (e) {
+          error(e.message);
+          return;
+        }
+        final provisioned = credentialState
+            .getAsMap("cloudflare")
+            .getAsMap("tidb")
+            .getAsMap("runtime_users")
+            .getAsMap(environment);
+        username = provisioned.get("username", "").toString();
+        password = provisioned.get("password", "").toString();
+      }
+    }
+    if (username.isEmpty || password.isEmpty) {
+      error(
+          "cloudflare/tidb.yamlまたは互換用katana_secrets.yamlからruntime user資格情報を取得できません。");
+      return;
+    }
+    // ローカルの前提がすべて揃った後で、準備済みの設定を書き込む。
+    await File("cloudflare/src/tidb_schema.json").writeAsString(manifestText);
+    await index.writeAsString(preparedSource);
     for (final entry in {
       "TIDB_HOST": host,
       "TIDB_USERNAME": username,

@@ -43,6 +43,10 @@ class GitPreCommitCliAction extends CliCommand with CliActionMixin {
     await const LefthookCliCode().generateFile(
       "${relativePath.isEmpty ? "" : "$relativePath/"}lefthook.yaml",
     );
+    // ローカル適用は設定生成までとし、Git hook の有効化は通常applyに委ねます。
+    if (isLocalApply) {
+      return;
+    }
     await command(
       "Install lefthook.",
       [

@@ -42,37 +42,6 @@ Future<void> buildIOS(
     );
     return;
   }
-  final p12File = await find(
-    Directory("ios"),
-    RegExp(r".p12$"),
-  );
-  if (p12File == null) {
-    error(
-      "Cannot find the `distribution/development.p12` file, download the cer file from AppleDeveloperProgram and create a p12 file with `katana app p12`. `distribution/development.p12`ファイルが見つかりません。cerファイルをAppleDeveloperProgramからダウンロードし、`katana app p12`でp12ファイルを作成してください。",
-    );
-    return;
-  }
-  final mobileProvisionFile = await find(
-    Directory("ios"),
-    RegExp("([^/.]+).mobileprovision"),
-  );
-  final passwordFile = File("ios/ios_certificate_password.key");
-  if (!passwordFile.existsSync()) {
-    error(
-      "Cannot find password file for Certificate. Please create a p12 file with `katana app p12`. Certificate用のパスワードファイルが見つかりません。`katana app p12`でp12ファイルを作成してください。",
-    );
-    return;
-  }
-  final p8File = await find(
-    Directory("ios"),
-    RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$"),
-  );
-  if (p8File == null) {
-    error(
-      "Cannot find the `AuthKey` file, please download the file from AppStoreConnect and place it under the IOS folder. `AuthKey`ファイルが見つかりません。AppStoreConnectからファイルをダウンロードしiosフォルダ以下に配置してください。",
-    );
-    return;
-  }
   String? firebaseAppId;
   if (enableLogger) {
     final googleServicePlist = await find(
@@ -136,81 +105,115 @@ Future<void> buildIOS(
   await xcconfigFile.writeAsString(xcconfig.join("\n"));
   label("Create ExportOptions.plist");
   await const ExportOptionsCliCode().generateFile("ExportOptions.plist");
-  final p8 = base64.encode(await p8File.readAsBytes());
-  final p8Key =
-      RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$").firstMatch(p8File.path)!.group(1)!;
-  final p12 = base64.encode(await p12File.readAsBytes());
-  final password = await passwordFile.readAsString();
-  if (mobileProvisionFile != null) {
-    final mobileProvision =
-        base64.encode(await mobileProvisionFile.readAsBytes());
+  if (!isLocalApply) {
+    final p12File = await find(
+      Directory("ios"),
+      RegExp(r".p12$"),
+    );
+    if (p12File == null) {
+      error(
+        "Cannot find the `distribution/development.p12` file, download the cer file from AppleDeveloperProgram and create a p12 file with `katana app p12`. `distribution/development.p12`ファイルが見つかりません。cerファイルをAppleDeveloperProgramからダウンロードし、`katana app p12`でp12ファイルを作成してください。",
+      );
+      return;
+    }
+    final mobileProvisionFile = await find(
+      Directory("ios"),
+      RegExp("([^/.]+).mobileprovision"),
+    );
+    final passwordFile = File("ios/ios_certificate_password.key");
+    if (!passwordFile.existsSync()) {
+      error(
+        "Cannot find password file for Certificate. Please create a p12 file with `katana app p12`. Certificate用のパスワードファイルが見つかりません。`katana app p12`でp12ファイルを作成してください。",
+      );
+      return;
+    }
+    final p8File = await find(
+      Directory("ios"),
+      RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$"),
+    );
+    if (p8File == null) {
+      error(
+        "Cannot find the `AuthKey` file, please download the file from AppStoreConnect and place it under the IOS folder. `AuthKey`ファイルが見つかりません。AppStoreConnectからファイルをダウンロードしiosフォルダ以下に配置してください。",
+      );
+      return;
+    }
+    final p8 = base64.encode(await p8File.readAsBytes());
+    final p8Key = RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$")
+        .firstMatch(p8File.path)!
+        .group(1)!;
+    final p12 = base64.encode(await p12File.readAsBytes());
+    final password = await passwordFile.readAsString();
+    if (mobileProvisionFile != null) {
+      final mobileProvision =
+          base64.encode(await mobileProvisionFile.readAsBytes());
+      await command(
+        "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}`.",
+        [
+          gh,
+          "secret",
+          "set",
+          "IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}",
+          "--body",
+          mobileProvision,
+        ],
+      );
+    }
     await command(
-      "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}`.",
+      "Store `${p12File.path.last()}` in `secrets.IOS_CERTIFICATES_P12_${appName.toUpperCase()}`.",
       [
         gh,
         "secret",
         "set",
-        "IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}",
+        "IOS_CERTIFICATES_P12_${appName.toUpperCase()}",
         "--body",
-        mobileProvision,
+        p12,
+      ],
+    );
+    await command(
+      "Store `ios_certificate_password.key` in `secrets.IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}",
+        "--body",
+        password,
+      ],
+    );
+    await command(
+      "Store API key id in `secrets.IOS_API_KEY_ID_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "IOS_API_KEY_ID_${appName.toUpperCase()}",
+        "--body",
+        p8Key,
+      ],
+    );
+    await command(
+      "Store `${p8File.path}` in `secrets.IOS_API_AUTHKEY_P8_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "IOS_API_AUTHKEY_P8_${appName.toUpperCase()}",
+        "--body",
+        p8,
+      ],
+    );
+    await command(
+      "Store Issuer ID in `secrets.IOS_API_ISSUER_ID_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "IOS_API_ISSUER_ID_${appName.toUpperCase()}",
+        "--body",
+        issuerId,
       ],
     );
   }
-  await command(
-    "Store `${p12File.path.last()}` in `secrets.IOS_CERTIFICATES_P12_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "IOS_CERTIFICATES_P12_${appName.toUpperCase()}",
-      "--body",
-      p12,
-    ],
-  );
-  await command(
-    "Store `ios_certificate_password.key` in `secrets.IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}",
-      "--body",
-      password,
-    ],
-  );
-  await command(
-    "Store API key id in `secrets.IOS_API_KEY_ID_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "IOS_API_KEY_ID_${appName.toUpperCase()}",
-      "--body",
-      p8Key,
-    ],
-  );
-  await command(
-    "Store `${p8File.path}` in `secrets.IOS_API_AUTHKEY_P8_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "IOS_API_AUTHKEY_P8_${appName.toUpperCase()}",
-      "--body",
-      p8,
-    ],
-  );
-  await command(
-    "Store Issuer ID in `secrets.IOS_API_ISSUER_ID_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "IOS_API_ISSUER_ID_${appName.toUpperCase()}",
-      "--body",
-      issuerId,
-    ],
-  );
   final gitDir = await findGitDirectory(Directory.current);
   await GitStatusCheckActionCliCode(
     workingDirectory: gitDir,

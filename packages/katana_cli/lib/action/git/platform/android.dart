@@ -21,33 +21,35 @@ Future<void> buildAndroid(
   final changesNotSentForReview =
       android.get("changes_not_sent_for_review", nullOfBool);
   final status = android.get("status", "draft");
-  final keystoreFile = File("android/app/appkey.keystore");
   final secretGithub = context.secrets.getAsMap("github");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
-  if (!keystoreFile.existsSync()) {
-    error(
-      "Cannot find `android/app/appkey.keystore`. Run `katana app keystore` to create the keystore file. `android/app/appkey.keystore`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
+  if (!isLocalApply) {
+    final keystoreFile = File("android/app/appkey.keystore");
+    if (!keystoreFile.existsSync()) {
+      error(
+        "Cannot find `android/app/appkey.keystore`. Run `katana app keystore` to create the keystore file. `android/app/appkey.keystore`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
+      );
+      return;
+    }
+    final keyPropertiesFile = File("android/key.properties");
+    if (!keyPropertiesFile.existsSync()) {
+      error(
+        "Cannot find `android/key.properties`. Run `katana app keystore` to create the keystore file. `android/key.properties`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
+      );
+      return;
+    }
+    final serviceAccountFile = await find(
+      Directory("android"),
+      RegExp("([a-z0-9_-]+).json"),
+      recursive: false,
     );
-    return;
-  }
-  final keyPropertiesFile = File("android/key.properties");
-  if (!keyPropertiesFile.existsSync()) {
-    error(
-      "Cannot find `android/key.properties`. Run `katana app keystore` to create the keystore file. `android/key.properties`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
-    );
-    return;
-  }
-  final serviceAccountFile = await find(
-    Directory("android"),
-    RegExp("([a-z0-9_-]+).json"),
-    recursive: false,
-  );
-  if (serviceAccountFile == null) {
-    error(
-      "Json for service account not found, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up. サービスアカウント用のJsonが見つかりません。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。",
-    );
-    return;
+    if (serviceAccountFile == null) {
+      error(
+        "Json for service account not found, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up. サービスアカウント用のJsonが見つかりません。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。",
+      );
+      return;
+    }
   }
   final gradle = AppGradle();
   await gradle.load();
@@ -58,42 +60,52 @@ Future<void> buildAndroid(
     );
     return;
   }
-  final keystore = base64.encode(await keystoreFile.readAsBytes());
-  final keyProperties = base64.encode(await keyPropertiesFile.readAsBytes());
-  final serviceAccount = base64.encode(await serviceAccountFile.readAsBytes());
-  await command(
-    "Store `appkey.keystore` in `secrets.ANDROID_KEYSTORE_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "ANDROID_KEYSTORE_${appName.toUpperCase()}",
-      "--body",
-      keystore,
-    ],
-  );
-  await command(
-    "Store `key.properties` in `secrets.ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}",
-      "--body",
-      keyProperties,
-    ],
-  );
-  await command(
-    "Store `service_account.json` in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}",
-      "--body",
-      serviceAccount,
-    ],
-  );
+  if (!isLocalApply) {
+    final keystoreFile = File("android/app/appkey.keystore");
+    final keyPropertiesFile = File("android/key.properties");
+    final serviceAccountFile = await find(
+      Directory("android"),
+      RegExp("([a-z0-9_-]+).json"),
+      recursive: false,
+    );
+    final keystore = base64.encode(await keystoreFile.readAsBytes());
+    final keyProperties = base64.encode(await keyPropertiesFile.readAsBytes());
+    final serviceAccount =
+        base64.encode(await serviceAccountFile!.readAsBytes());
+    await command(
+      "Store `appkey.keystore` in `secrets.ANDROID_KEYSTORE_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "ANDROID_KEYSTORE_${appName.toUpperCase()}",
+        "--body",
+        keystore,
+      ],
+    );
+    await command(
+      "Store `key.properties` in `secrets.ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}",
+        "--body",
+        keyProperties,
+      ],
+    );
+    await command(
+      "Store `service_account.json` in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}",
+        "--body",
+        serviceAccount,
+      ],
+    );
+  }
   final gitDir = await findGitDirectory(Directory.current);
   await GitStatusCheckActionCliCode(
     workingDirectory: gitDir,

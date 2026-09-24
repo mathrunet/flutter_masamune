@@ -477,9 +477,6 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final wrangler = bin.get("wrangler", "wrangler");
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final enableTurso = cloudflare.getAsMap("turso").get("enable", false);
-    final serviceAccount = await _resolveServiceAccountJson(
-      messaging.get("service_account", ""),
-    );
     final cloudflareDir = Directory("cloudflare");
     if (!cloudflareDir.existsSync()) {
       error(
@@ -522,6 +519,13 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         "@mathrunet/masamune_cloudflare_notification",
         if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
       ],
+    );
+    if (isLocalApply) {
+      label("--local: Messagingのローカル生成を完了しました。Cloudflare secretの更新は行いません。");
+      return;
+    }
+    final serviceAccount = await _resolveServiceAccountJson(
+      messaging.get("service_account", ""),
     );
     if (serviceAccount.isNotEmpty) {
       await putWranglerSecret(

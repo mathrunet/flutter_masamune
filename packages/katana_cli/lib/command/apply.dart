@@ -174,15 +174,51 @@ class ApplyCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。";
+      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。";
 
   @override
-  String? get example => "katana apply";
+  String? get example => "katana apply [--local] [--flavor dev|prod]";
 
   @override
   Future<void> exec(ExecContext context) async {
+    await runApplyCommands(() => _apply(context),
+        local: context.args.contains("--local"));
+  }
+
+  Future<void> _apply(ExecContext context) async {
     final enabled =
         _actions.where((element) => element.checkEnabled(context)).toList();
+    if (isLocalApply) {
+      for (final action in enabled) {
+        if (action is AppSpreadSheetCliAction ||
+            action is StripeCliAction ||
+            action is FirebaseSchedulerCliAction ||
+            action is CloudflareAuthenticationCliAction ||
+            action is CloudflareKvCliAction ||
+            action is CloudflareTidbCliAction ||
+            action is CloudflareD1CliAction ||
+            action is CloudflareDurableObjectCliAction) {
+          throw StateError(
+              "--local 未対応の外部設定があります: ${action.runtimeType}。設定を無効化せず個別の対応を確認してください。");
+        }
+      }
+      const cloudflare = CloudflareInitCliAction();
+      if (cloudflare.checkEnabled(context)) {
+        cloudflare.validateLocal(context);
+      }
+      const turso = CloudflareTursoCliAction();
+      if (turso.checkEnabled(context)) {
+        turso.validateLocal(context);
+      }
+      const storage = CloudflareStorageCliAction();
+      if (storage.checkEnabled(context)) {
+        storage.validateLocal(context);
+      }
+      const firebase = FirebaseInitCliAction();
+      if (firebase.checkEnabled(context)) {
+        await firebase.validateLocal(context);
+      }
+    }
     for (final action in enabled) {
       // ignore: avoid_print
       print(
@@ -198,6 +234,9 @@ ${action.description}
 """,
       );
       await action.exec(context);
+      if (isError) {
+        throw StateError("設定反映に失敗しました: ${action.runtimeType}");
+      }
     }
   }
 }

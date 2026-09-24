@@ -53,6 +53,8 @@ class _FirebaseDeployPostAction extends PostAction {
         projectId,
       ],
       workingDirectory: "firebase",
+      catchError: true,
+      failOnStderr: false,
     );
   }
 }
@@ -65,6 +67,9 @@ extension FirebaseDeployPostActionExecContextExtensions on ExecContext {
   ///
   /// 処理終了後にまとめてデプロイします。
   void requestFirebaseDeploy(FirebaseDeployPostActionType type) {
+    if (isLocalApply) {
+      return;
+    }
     final action = postActions.firstWhereOrNull(
       (item) => item is _FirebaseDeployPostAction,
     );

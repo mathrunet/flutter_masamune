@@ -165,8 +165,57 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     return storage.get("enable", false);
   }
 
+  /// 依存と設定を検証し、外部操作なしで同期可能か確認します。
+  void validateLocal(ExecContext context) {
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final storage = cloudflare.getAsMap("storage");
+    if (!cloudflare.getAsMap("workers").get("enable", false)) {
+      throw StateError("Storageのローカル適用にはWorkersの有効化が必要です。");
+    }
+    for (final key in ["bucket_name", "public_base_url"]) {
+      if (storage.get(key, "").isEmpty) {
+        throw StateError("Storageのローカル設定が不正です: $key");
+      }
+    }
+    final binding = storage.get("binding", "R2_BUCKET");
+    if (binding.isEmpty) {
+      throw StateError("Storageのローカル設定が不正です: binding");
+    }
+    final backup = storage.getAsMap("backup");
+    if (backup.get("enable", false)) {
+      final consumer = backup.get("consumer_flavor", "").toString().trim();
+      final backupBinding = backup.get("binding", "R2_BACKUP_BUCKET");
+      final bucket = storage.get("bucket_name", "");
+      if ((consumer.isNotEmpty && consumer != "dev" && consumer != "prod") ||
+          backupBinding.isEmpty ||
+          backupBinding == binding ||
+          backup.get("bucket_name", "").isEmpty ||
+          backup.get("bucket_name", "") == bucket ||
+          backup.get("queue_name", "$bucket-backup").isEmpty ||
+          backup.get("max_batch_size", 10) <= 0 ||
+          backup.get("max_batch_timeout", 5) < 0 ||
+          backup.get("max_retries", 3) < 0) {
+        throw StateError("Storageのローカル設定が不正です: backup");
+      }
+    }
+    for (final path in [
+      "cloudflare/src/index.ts",
+      "cloudflare/wrangler.jsonc"
+    ]) {
+      if (!File(path).existsSync()) {
+        throw StateError("--local に必要な初期設定がありません: $path");
+      }
+    }
+    validateLocalCloudflarePackages(
+        const ["@mathrunet/masamune_cloudflare_storage"]);
+    validateLocalFlutterDependencies(const ["masamune_storage_cloudflare"]);
+  }
+
   @override
   Future<void> exec(ExecContext context) async {
+    if (isLocalApply) {
+      validateLocal(context);
+    }
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
@@ -277,30 +326,33 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    try {
-      await ensureStorageManagedStateIsGitIgnored();
-    } on StateError catch (exception) {
-      error(exception.message.toString());
-      return;
+    var downloadUrlSecret = "";
+    if (!isLocalApply) {
+      try {
+        await ensureStorageManagedStateIsGitIgnored();
+      } on StateError catch (exception) {
+        error(exception.message.toString());
+        return;
+      }
+      final secrets = await _loadSecretsRoot();
+      late final StorageManagedStateLoadResult managed;
+      try {
+        managed = await loadAndMigrateStorageManagedState(
+          secrets,
+          configuredSecret: configuredDownloadUrlSecret,
+        );
+      } on StateError catch (exception) {
+        error(exception.message.toString());
+        return;
+      }
+      if (managed.stateChanged) {
+        await saveStorageManagedState(managed.state);
+      }
+      if (managed.secretsChanged) {
+        await _saveSecretsRoot(secrets);
+      }
+      downloadUrlSecret = managed.downloadUrlSecret;
     }
-    final secrets = await _loadSecretsRoot();
-    late final StorageManagedStateLoadResult managed;
-    try {
-      managed = await loadAndMigrateStorageManagedState(
-        secrets,
-        configuredSecret: configuredDownloadUrlSecret,
-      );
-    } on StateError catch (exception) {
-      error(exception.message.toString());
-      return;
-    }
-    if (managed.stateChanged) {
-      await saveStorageManagedState(managed.state);
-    }
-    if (managed.secretsChanged) {
-      await _saveSecretsRoot(secrets);
-    }
-    final downloadUrlSecret = managed.downloadUrlSecret;
     final ownsBackupConsumer = _ownsBackupQueueConsumer(
       context,
       queueName: backupQueueName,
@@ -368,6 +420,9 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
         "masamune_storage_cloudflare",
       ],
     );
+    if (isLocalApply) {
+      return;
+    }
     await _putWranglerSecret(
       wrangler: wrangler,
       environment: flavor,

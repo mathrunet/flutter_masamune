@@ -355,12 +355,22 @@ cloudflare:
       prod: d1/migrations/prod
     prefixes: [dev]
   # TiDBへWorkerから直結します。DDLはkatana migrateで別途適用します。
-  # katana_secrets.yamlにusername/passwordとmigration_username/migration_passwordを分離して保存します。
+  # migration/runtime SQL userはkatana applyが作成し、cloudflare/tidb.yaml（gitignore対象）に保存します。
+  # [migration_auth]はSQL user作成に使うTiDB Cloud管理APIの認証方式です。
+  # `api_key`はkatana_secrets.yamlの[cloudflare]->[tidb]->[public_key]/[private_key]
+  # （または環境変数TIDBCLOUD_PUBLIC_KEY/TIDBCLOUD_PRIVATE_KEY）、
+  # `ticloud_oauth`は`ticloud auth login`済みprofile（[migration_auth_profile]、既定`default`）を使います。
   tidb:
     enable: false
     cluster_id:
       dev:
       prod:
+    migration_auth:
+      dev: api_key
+      prod: api_key
+    migration_auth_profile:
+      dev: default
+      prod: default
     host:
       dev:
       prod:
@@ -1101,11 +1111,13 @@ cloudflare:
     platform_api_token:
 
   tidb:
-    # Organization Management API key used only by `katana apply`.
-    # `katana apply`でのみ利用されるOrganization Management APIキー。
-    management_api:
-      public_key:
-      private_key:
+    # TiDB Cloud API key used only by `katana apply` to create SQL users
+    # when [cloudflare]->[tidb]->[migration_auth] is `api_key`.
+    # Environment variables TIDBCLOUD_PUBLIC_KEY / TIDBCLOUD_PRIVATE_KEY take precedence.
+    # [cloudflare]->[tidb]->[migration_auth]が`api_key`の場合に`katana apply`がSQL user作成へ利用するTiDB Cloud APIキー。
+    # 環境変数TIDBCLOUD_PUBLIC_KEY / TIDBCLOUD_PRIVATE_KEYが優先されます。
+    public_key:
+    private_key:
 
 # Describe purchase secret information.
 # 課金のシークレット情報を記述します。

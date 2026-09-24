@@ -45,14 +45,15 @@ Future<void> main() async {
 
   await _testSecretsValueTakesPriorityAndApplyIsIdempotent();
   await _testServiceAccountFileDiscovery();
+  await _testSelectsMatchingProjectAndPreservesCustomWorker();
   stdout.writeln("All Cloudflare Authentication checks passed.");
 }
 
 Future<void> _testSecretsValueTakesPriorityAndApplyIsIdempotent() async {
   const yamlServiceAccount =
-      '{"type":"service_account","client_email":"yaml@example.com","private_key":"yaml-key"}';
+      '{"type":"service_account","project_id":"firebase-test","client_email":"yaml@example.com","private_key":"yaml-key"}';
   const secretsServiceAccount =
-      '{"type":"service_account","client_email":"secret@example.com","private_key":"secret-key"}';
+      '{"type":"service_account","project_id":"firebase-test","client_email":"secret@example.com","private_key":"secret-key"}';
   await _withFixture(
     serviceAccountFile: null,
     run: (fixture) async {
@@ -105,7 +106,7 @@ Future<void> _testSecretsValueTakesPriorityAndApplyIsIdempotent() async {
 
 Future<void> _testServiceAccountFileDiscovery() async {
   const discoveredServiceAccount =
-      '{"type":"service_account","client_email":"file@example.com","private_key":"file-key"}';
+      '{"type":"service_account","project_id":"firebase-test","client_email":"file@example.com","private_key":"file-key"}';
   await _withFixture(
     serviceAccountFile: discoveredServiceAccount,
     run: (fixture) async {
@@ -117,6 +118,34 @@ Future<void> _testServiceAccountFileDiscovery() async {
         "$discoveredServiceAccount\n",
         "A service account JSON under cloudflare/ must be discovered.",
       );
+    },
+  );
+}
+
+Future<void> _testSelectsMatchingProjectAndPreservesCustomWorker() async {
+  const selected =
+      '{"type":"service_account","project_id":"firebase-test","client_email":"dev@example.com","private_key":"dev-key"}';
+  const other =
+      '{"type":"service_account","project_id":"other-project","client_email":"prod@example.com","private_key":"prod-key"}';
+  await _withFixture(
+    serviceAccountFile: other,
+    run: (fixture) async {
+      await File("cloudflare/selected.json").writeAsString(selected);
+      const custom = '''
+import * as m from "@mathrunet/masamune_cloudflare";
+import * as auth from "@mathrunet/masamune_cloudflare_auth";
+
+class EnvironmentFirebaseAuthAdapter {}
+export default m.deploy([
+  auth.Functions.deleteUser({ projectId: resolveFirebaseProjectId }),
+], { auth: new EnvironmentFirebaseAuthAdapter() });
+''';
+      await File("cloudflare/src/index.ts").writeAsString(custom);
+      await const CloudflareAuthenticationCliAction().exec(fixture.context());
+      _expectEqual(await fixture.secretOutput.readAsString(), "$selected\n",
+          "The account must match the selected Firebase project.");
+      _expectEqual(await File("cloudflare/src/index.ts").readAsString(),
+          custom, "Apply must preserve a custom Worker entrypoint.");
     },
   );
 }

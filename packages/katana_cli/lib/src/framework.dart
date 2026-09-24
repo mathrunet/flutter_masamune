@@ -719,6 +719,43 @@ bool validateFilePath(String path) {
   return true;
 }
 
+/// apply 実行中だけ内部コマンドの終了コードを必須検証します。
+Future<T> runApplyCommands<T>(Future<T> Function() body,
+        {bool local = false}) =>
+    runZoned(body,
+        zoneValues: {_applyCommandScope: true, _localApplyScope: local});
+
+final _applyCommandScope = Object();
+final _localApplyScope = Object();
+
+/// 依存変更と外部操作を禁止するローカル適用の実行状態。
+bool get isLocalApply => Zone.current[_localApplyScope] == true;
+
+/// ローカル適用で使用する、宣言済み・解決済みの Dart 依存を確認します。
+void validateLocalFlutterDependencies(List<String> packages,
+    {bool development = false}) {
+  final pubspec = loadYaml(File("pubspec.yaml").readAsStringSync()) as Map;
+  final lock = loadYaml(File("pubspec.lock").readAsStringSync()) as Map;
+  final configFile = File(".dart_tool/package_config.json");
+  final config = jsonDecode(configFile.readAsStringSync()) as Map;
+  final installed = {
+    for (final item in config["packages"] as List) item["name"]: item
+  };
+  final declared =
+      pubspec[development ? "dev_dependencies" : "dependencies"] as Map? ?? {};
+  for (final name in packages) {
+    final entry = installed[name];
+    if (!declared.containsKey(name) ||
+        !(lock["packages"] as Map? ?? {}).containsKey(name) ||
+        entry == null ||
+        !Directory.fromUri(
+                configFile.absolute.uri.resolve(entry["rootUri"] as String))
+            .existsSync()) {
+      throw StateError("ローカル適用に必要な Dart 依存が未導入です: $name。依存の承認・整合後に再実行してください。");
+    }
+  }
+}
+
 /// Run command.
 ///
 /// Enter the command in [executable] and the arguments in [arguments].
@@ -750,50 +787,54 @@ Future<String> command(
   bool failOnStderr = true,
   void Function(Process process, String line)? action,
 }) async {
-  String? prevDirectory;
-  stdout.add(utf8.encode("\r\n#### $title"));
+  if (Zone.current[_applyCommandScope] == true) {
+    catchError = true;
+    failOnStderr = false;
+  }
   if (commands.isEmpty) {
     throw Exception("At least one command is required.");
   }
+  if (isLocalApply) {
+    final executable = commands.first.split("/").last;
+    final arguments = commands.skip(1).toList();
+    final localTool = commands.first.startsWith("node_modules/.bin/") &&
+        const ["eslint", "ts-jest", "eslint.cmd", "ts-jest.cmd"]
+            .contains(executable);
+    final dependencyCheck = arguments.join(" ") == "ls --offline --all";
+    if (!localTool && !dependencyCheck) {
+      throw StateError("--local ではこのプロセスを実行できません: $title");
+    }
+  }
+  stdout.add(utf8.encode("\r\n#### $title"));
   if (action != null) {
     var res = "";
     var err = false;
-    if (workingDirectory != null) {
-      prevDirectory = Directory.current.path;
-      Directory.current = workingDirectory.startsWith("/")
-          ? workingDirectory
-          : "${Directory.current.path}/$workingDirectory";
-    }
     final process = await Process.start(
       commands.first,
       commands.sublist(1, commands.length),
       runInShell: runInShell,
       mode: ProcessStartMode.normal,
+      workingDirectory: workingDirectory,
     );
-    unawaited(
-      process.stderr.forEach((e) {
-        final line = const Utf8Decoder(allowMalformed: true).convert(e);
-        err = true;
-        res += line;
-        stderr.add(e);
-      }),
-    );
-    unawaited(
-      process.stdout.forEach((e) {
-        final line = const Utf8Decoder(allowMalformed: true).convert(e);
-        res += line;
-        stdout.add(e);
-        action.call(process, line);
-      }),
-    );
+    final stderrDone = process.stderr.forEach((e) {
+      final line = const Utf8Decoder(allowMalformed: true).convert(e);
+      err = true;
+      res += line;
+      stderr.add(e);
+    });
+    final stdoutDone = process.stdout.forEach((e) {
+      final line = const Utf8Decoder(allowMalformed: true).convert(e);
+      res += line;
+      stdout.add(e);
+      // Prompts can span multiple stdout chunks, including the selected menu item.
+      action.call(process, res);
+    });
     final exitCode = await process.exitCode;
+    await Future.wait([stdoutDone, stderrDone]);
     if (catchError && exitCode != 0) {
       throw Exception(
         "An error has occurred. Please check the log above for details.",
       );
-    }
-    if (workingDirectory != null) {
-      Directory.current = prevDirectory!;
     }
     if (catchError && failOnStderr && err) {
       throw Exception(
@@ -802,20 +843,12 @@ Future<String> command(
     }
     return res;
   } else {
-    if (workingDirectory != null) {
-      prevDirectory = Directory.current.path;
-      Directory.current = workingDirectory.startsWith("/")
-          ? workingDirectory
-          : "${Directory.current.path}/$workingDirectory";
-    }
     final res = await Process.start(
       commands.first,
       commands.sublist(1, commands.length),
       runInShell: runInShell,
+      workingDirectory: workingDirectory,
     ).print(catchError, failOnStderr: failOnStderr);
-    if (workingDirectory != null) {
-      Directory.current = prevDirectory!;
-    }
     return res;
   }
 }
@@ -832,6 +865,10 @@ Future<void> addFlutterImport(
   bool development = false,
   String flutterCommand = "flutter",
 }) async {
+  if (isLocalApply) {
+    validateLocalFlutterDependencies(packages, development: development);
+    return;
+  }
   final addPackages = <String>[];
   final pubspecFile = File("pubspec.yaml");
   final pubspec = loadYaml(await pubspecFile.readAsString()) as Map;
@@ -889,6 +926,21 @@ Future<void> addNpmImport(
   bool development = false,
   String npmCommand = "npm",
 }) async {
+  if (isLocalApply) {
+    final data =
+        jsonDecode(File("firebase/functions/package.json").readAsStringSync())
+            as Map;
+    final declared =
+        data[development ? "devDependencies" : "dependencies"] as Map? ?? {};
+    for (final name in packages) {
+      if (!declared.containsKey(name) ||
+          !File("firebase/functions/node_modules/$name/package.json")
+              .existsSync()) {
+        throw StateError("ローカル適用に必要な npm 依存が未導入です: $name");
+      }
+    }
+    return;
+  }
   final addPackages = <String>[];
   final packageJsonFile = File("firebase/functions/package.json");
   final packageJson = jsonDecodeAsMap(await packageJsonFile.readAsString());
@@ -1051,22 +1103,19 @@ extension ProcessExtensions on Future<Process> {
     final process = await this;
     var res = "";
     var err = false;
-    unawaited(
-      process.stderr.forEach((e) {
-        final line = const Utf8Decoder(allowMalformed: true).convert(e);
-        err = true;
-        res += line;
-        stderr.add(e);
-      }),
-    );
-    unawaited(
-      process.stdout.forEach((e) {
-        final line = const Utf8Decoder(allowMalformed: true).convert(e);
-        res += line;
-        stdout.add(e);
-      }),
-    );
+    final stderrDone = process.stderr.forEach((e) {
+      final line = const Utf8Decoder(allowMalformed: true).convert(e);
+      err = true;
+      res += line;
+      stderr.add(e);
+    });
+    final stdoutDone = process.stdout.forEach((e) {
+      final line = const Utf8Decoder(allowMalformed: true).convert(e);
+      res += line;
+      stdout.add(e);
+    });
     final exitCode = await process.exitCode;
+    await Future.wait([stdoutDone, stderrDone]);
     if (catchError && exitCode != 0) {
       throw Exception(
         "An error has occurred. Please check the log above for details.",

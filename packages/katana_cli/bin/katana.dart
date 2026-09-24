@@ -161,6 +161,9 @@ String? _validateApplyArguments(List<String> arguments) {
   var hasFlavor = false;
   for (var i = 0; i < arguments.length; i++) {
     final argument = arguments[i];
+    if (argument == "--local") {
+      continue;
+    }
     String? flavor;
     if (argument == "--flavor") {
       if (i + 1 >= arguments.length) {

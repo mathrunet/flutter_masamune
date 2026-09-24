@@ -60,8 +60,8 @@ Future<void> main() async {
         .createSync(recursive: true);
     File("cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js")
         .writeAsStringSync("");
-    File("cloudflare/src/index.ts")
-        .writeAsStringSync("export default m.deploy([]);\n");
+    File("cloudflare/src/index.ts").writeAsStringSync(
+        'export default m.deploy([tidb.Functions.tidb({ rules: rules, databasePrefix: "dev_" },), other()]);\n');
     final wrangler = File("${temporary.path}/wrangler-fixture.sh");
     wrangler.writeAsStringSync(r'''
 #!/bin/sh
@@ -69,7 +69,12 @@ set -eu
 [ "$1" = "secret" ] && [ "$2" = "put" ]
 [ "$4" = "--env" ] && [ "$5" = "prod" ]
 case "$3" in TIDB_HOST|TIDB_USERNAME|TIDB_PASSWORD) ;; *) exit 1;; esac
-cat >/dev/null
+IFS= read -r value
+case "$3" in
+  TIDB_HOST) [ "$value" = "fixture.invalid" ] ;;
+  TIDB_USERNAME) [ "$value" = "runtime" ] ;;
+  TIDB_PASSWORD) [ "$value" = "fixture" ] ;;
+esac
 printf '%s\n' "$3" >> secret-names.txt
 '''
         .trimLeft());
@@ -77,13 +82,13 @@ printf '%s\n' "$3" >> secret-names.txt
     final context = ExecContext(yaml: {
       "bin": {"wrangler": wrangler.path},
       "cloudflare": {
-        "tidb": {"enable": true, "host": "fixture.invalid"}
+        "tidb": {"enable": true, "host": "fixture.invalid", "database": "main"}
       },
     }, secrets: {
       "cloudflare": {
         "tidb": {
-          "username": "runtime",
-          "password": "fixture",
+          "username": {"prod": "runtime", "dev": "other"},
+          "password": {"prod": "fixture", "dev": "other"},
           "migration_username": "admin",
           "migration_password": "never_send"
         }
@@ -96,9 +101,14 @@ printf '%s\n' "$3" >> secret-names.txt
         "再applyで登録が重複しました。");
     check(RegExp(r"tidb.Functions.tidb\(").allMatches(first).length == 1,
         "公開入口が重複しました。");
+    check(first.contains('rules: rules, databasePrefix: "dev_"'),
+        "既存の認可・prefix設定を失いました。");
+    check(first.contains("}), other()"), "既存の後続functionとの区切りを失いました。");
+    check(!first.contains("},),"), "末尾カンマ付きの引数を不正なspread式へ変換しました。");
     check(!first.contains("never_send"), "管理者資格情報を公開コードへ出力しました。");
     check(File("cloudflare/secret-names.txt").readAsLinesSync().length == 6,
         "runtimeの3secret以外を投入しました。");
+    await testTidbPreflight();
     stdout.writeln("TiDB schema統合・削除反映・apply再実行・管理者資格情報分離: 成功");
   } finally {
     Directory.current = original;
@@ -110,4 +120,65 @@ void check(bool condition, String message) {
   if (!condition) {
     throw StateError(message);
   }
+}
+
+/// 外部SQL操作より先にローカルの不足を検出する。
+Future<void> testTidbPreflight() async {
+  final node = File("${Directory.current.path}/node-fixture.sh");
+  node.writeAsStringSync(r"""
+#!/bin/sh
+cat >/dev/null
+printf invoked > node-invoked.txt
+exit 1
+"""
+      .trimLeft());
+  await Process.run("chmod", ["+x", node.path]);
+  File("cloudflare/tidb.yaml").writeAsStringSync("""
+cloudflare:
+  tidb:
+    runtime_users:
+      prod:
+        username: runtime
+        password: fixture
+        role: runtime_role
+""");
+  final package = File(
+      "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js");
+  final index = File("cloudflare/src/index.ts");
+  final before = index.readAsStringSync();
+  final context = ExecContext(yaml: {
+    "bin": {"node": node.path},
+    "cloudflare": {
+      "tidb": {
+        "enable": true,
+        "host": "fixture.invalid",
+        "database": "main",
+        "cluster_id": "fixture-cluster"
+      }
+    },
+  }, secrets: {
+    "cloudflare": {
+      "tidb": {"migration_username": "admin", "migration_password": "fixture"}
+    },
+  }, args: const []);
+  for (final scenario in ["missing-package", "invalid-registration"]) {
+    if (scenario == "missing-package") {
+      package.deleteSync();
+    } else {
+      package.writeAsStringSync("");
+      index.writeAsStringSync("export default {};\n");
+    }
+    final sourceBefore = index.readAsStringSync();
+    await const CloudflareTidbCliAction().exec(context);
+    check(!File("cloudflare/node-invoked.txt").existsSync(),
+        "$scenario: ローカル前提不足なのに外部SQL操作を起動しました。");
+    check(index.readAsStringSync() == sourceBefore,
+        "$scenario: 失敗したapplyがWorkerを変更しました。");
+    check(
+        !File("cloudflare/tidb.yaml")
+            .readAsStringSync()
+            .contains("migration_users"),
+        "$scenario: 失敗したapplyが資格情報状態を変更しました。");
+  }
+  index.writeAsStringSync(before);
 }

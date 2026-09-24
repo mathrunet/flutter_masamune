@@ -1,12 +1,15 @@
 import "dart:convert";
 import "dart:io";
 
+import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
+import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/cloudflare/turso.dart";
 import "package:katana_cli/katana.dart";
 import "package:katana_cli/katana_cli.dart";
 import "package:yaml/yaml.dart";
 
 Future<void> main() async {
+  await _testWorkersGeneration();
   await _testTursoRegions();
   final template = katanaYamlCode(true);
   final yaml = loadYaml(template) as Map;
@@ -33,6 +36,72 @@ Future<void> main() async {
     resolved.flavor == KatanaFlavor.dev,
     "A generated environment-aware template must default to dev.",
   );
+}
+
+Future<void> _testWorkersGeneration() async {
+  for (final projectId in [null, "firebase-test"]) {
+    final template =
+        CloudflareWorkersIndexCliCode(firebaseProjectId: projectId);
+    final source = template.import("", "", "") + template.body("", "", "");
+    final alias =
+        RegExp(r'import \* as (\w+) from "@mathrunet/masamune_cloudflare"')
+            .firstMatch(source)!
+            .group(1)!;
+    if (projectId != null) {
+      _expect(source.contains("new $alias.FirebaseAuthAdapter("),
+          "FirebaseAuthAdapterは宣言されたimport別名を使います。");
+    }
+    final inserted = CloudflareSourceUtils.insertDeployFunctions(
+        source, ["    customFunction(),"]);
+    _expect(inserted != null, "生成されたdeployへ共通関数を挿入できます。");
+    final updated = const CloudflareTursoCliAction()
+        .updateTursoFunctions(source, useSchemaManifest: false);
+    _expect(updated != null, "生成されたdeployへTurso関数を挿入できます。");
+    _expect(
+        const CloudflareTursoCliAction()
+                .updateTursoFunctions(updated!, useSchemaManifest: false) ==
+            updated,
+        "生成直後のTurso関数追加は冪等です。");
+    // 型注釈だけを除去し、生成コードの括弧と実行時の参照をNodeで検証します。
+    final executable = updated
+        .replaceAll(RegExp(r"^import .*;$", multiLine: true), "")
+        .replaceAll(" as $alias.RulesConfig", "")
+        .replaceFirst("export default", "return");
+    final result = await Process.run("node", [
+      "-e",
+      '''
+const assert = require("node:assert/strict");
+if (process.env.KATANA_TYPESCRIPT_MODULE) {
+  const ts = require(process.env.KATANA_TYPESCRIPT_MODULE);
+  const parsed = ts.createSourceFile("index.ts", ${jsonEncode(updated)}, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  assert.deepEqual(parsed.parseDiagnostics.map(d => ts.flattenDiagnosticMessageText(d.messageText, "\\n")), []);
+}
+const worker = {
+  deploy: (functions, options) => ({ functions, options }),
+  FirebaseAuthAdapter: class { constructor(options) { this.projectId = options.projectId; } },
+};
+const turso = { Functions: { turso: () => "query", tursoToken: () => "token" } };
+const result = new Function(${jsonEncode(alias)}, "turso", "rules", ${jsonEncode(executable)})(worker, turso, {});
+assert.deepEqual(result.functions, ["query", "token"]);
+assert.equal(result.options.auth?.projectId ?? null, ${jsonEncode(projectId)});
+''',
+    ]);
+    _expect(result.exitCode == 0, "生成コードの実行検証に失敗: ${result.stderr}");
+  }
+  for (final alias in ["m", "mc", "worker"]) {
+    final source = '''
+import * as $alias from "@mathrunet/masamune_cloudflare";
+export default $alias.deploy([], { rules: {} });
+''';
+    final common = CloudflareSourceUtils.insertDeployFunctions(
+        source, ["    customFunction(),"]);
+    _expect(common?.contains("customFunction(),") ?? false,
+        "共通挿入は既存のimport別名 $alias を保持します。");
+    final turso = const CloudflareTursoCliAction()
+        .updateTursoFunctions(source, useSchemaManifest: false);
+    _expect(turso?.contains("turso.Functions.turso(") ?? false,
+        "Turso挿入は既存のimport別名 $alias を保持します。");
+  }
 }
 
 // organizationやbindingは既存テンプレートで環境共通。DB識別子とは分けて検証する。

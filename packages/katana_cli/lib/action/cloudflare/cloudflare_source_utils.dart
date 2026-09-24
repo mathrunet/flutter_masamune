@@ -51,6 +51,20 @@ class CloudflareSourceUtils {
     return source.contains("$functionName(");
   }
 
+  /// 既存の関数呼び出しの引数を取得し、認可などの設定を保持する。
+  static String? functionArguments(String source, String functionName) {
+    final start = source.indexOf("$functionName(");
+    if (start < 0) {
+      return null;
+    }
+    final open = start + functionName.length;
+    final close = _findClosing(source, open, "(", ")");
+    if (close < 0) {
+      throw const FormatException("Workerの関数呼び出しを解析できません。");
+    }
+    return source.substring(open + 1, close).trim();
+  }
+
   /// Replace all calls to [functionName] in [source] with [replacement].
   ///
   /// [source]内の[functionName]の呼び出しをすべて[replacement]に置き換えます。
@@ -103,14 +117,18 @@ class CloudflareSourceUtils {
   }
 
   static _SourceRange? _findDeployFunctions(String source) {
-    final deployStart = source.indexOf("m.deploy(");
-    if (deployStart < 0) {
+    // 既存ファイルが使う名前空間を保持してdeploy配列を探します。
+    final namespace = RegExp(
+          r'''import\s+\*\s+as\s+(\w+)\s+from\s+["']@mathrunet/masamune_cloudflare["']''',
+        ).firstMatch(source)?.group(1) ??
+        "m";
+    final deploy = RegExp(
+      "${RegExp.escape(namespace)}\\s*\\.\\s*deploy\\s*\\(\\s*\\[",
+    ).firstMatch(source);
+    if (deploy == null) {
       return null;
     }
-    final functionsStart = source.indexOf("[", deployStart);
-    if (functionsStart < 0) {
-      return null;
-    }
+    final functionsStart = deploy.end - 1;
     final functionsEnd = _findClosing(source, functionsStart, "[", "]");
     if (functionsEnd < 0) {
       return null;
@@ -239,12 +257,39 @@ Future<bool> applyCloudflareWorkersFunctions({
   final updated = CloudflareSourceUtils.insertDeployFunctions(source, inserts);
   if (updated == null) {
     error(
-      "Could not find `m.deploy([` in `cloudflare/src/index.ts`. Please check the Cloudflare Workers entrypoint.",
+      "Could not find the Cloudflare deploy array in `cloudflare/src/index.ts`. Please check the namespace import and Workers entrypoint.",
     );
     return false;
   }
   await indexFile.writeAsString(updated);
   return true;
+}
+
+/// ローカル適用に必要な宣言・lock・実体を、依存を変更せず検証します。
+void validateLocalCloudflarePackages(Iterable<String> packages) {
+  final manifest =
+      jsonDecode(File("cloudflare/package.json").readAsStringSync()) as Map;
+  final lock =
+      jsonDecode(File("cloudflare/package-lock.json").readAsStringSync())
+          as Map;
+  final declared = <String, dynamic>{
+    ...Map<String, dynamic>.from(manifest["dependencies"] as Map? ?? {}),
+    ...Map<String, dynamic>.from(manifest["devDependencies"] as Map? ?? {}),
+  };
+  final locked = lock["packages"] as Map? ?? {};
+  for (final name in packages) {
+    final installed = File("cloudflare/node_modules/$name/package.json");
+    final entry = locked["node_modules/$name"];
+    if (!declared.containsKey(name) ||
+        entry is! Map ||
+        !installed.existsSync()) {
+      throw StateError("ローカル適用に必要な Cloudflare npm 依存が未導入です: $name");
+    }
+    final actual = jsonDecode(installed.readAsStringSync()) as Map;
+    if (entry["version"] == null || actual["version"] != entry["version"]) {
+      throw StateError("Cloudflare npm 依存の実体とlockが一致しません: $name");
+    }
+  }
 }
 
 /// Installs only Node packages that are not already declared.
@@ -255,6 +300,10 @@ Future<void> installMissingCloudflarePackages({
   required String npm,
   required Iterable<String> packages,
 }) async {
+  if (isLocalApply) {
+    validateLocalCloudflarePackages(packages);
+    return;
+  }
   final packageJson = File("cloudflare/package.json");
   final declared = <String>{};
   if (packageJson.existsSync()) {
@@ -290,6 +339,9 @@ Future<void> putWranglerSecret({
   required String value,
   String workingDirectory = "cloudflare",
 }) async {
+  if (isLocalApply) {
+    throw StateError("--local ではCloudflare secretを更新できません。");
+  }
   label("Set Cloudflare Workers secret: $name");
   final process = await Process.start(
     wrangler,

@@ -31,8 +31,31 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     return enabledWorkers || enabledPages;
   }
 
+  /// 初期化済みのローカル設定と依存を、生成前に検証します。
+  void validateLocal(ExecContext context) {
+    for (final path in ["cloudflare/wrangler.jsonc", "cloudflare/.gitignore"]) {
+      if (!File(path).existsSync()) {
+        throw StateError("--local に必要な初期設定がありません: $path。初期化の承認と実施が必要です。");
+      }
+    }
+    if (context.yaml
+        .getAsMap("cloudflare")
+        .getAsMap("workers")
+        .get("enable", false)) {
+      validateLocalCloudflarePackages(const [
+        "hono",
+        "@mathrunet/masamune",
+        "@mathrunet/masamune_cloudflare"
+      ]);
+      validateLocalFlutterDependencies(const ["masamune_functions_cloudflare"]);
+    }
+  }
+
   @override
   Future<void> exec(ExecContext context) async {
+    if (isLocalApply) {
+      validateLocal(context);
+    }
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
@@ -205,7 +228,7 @@ class CloudflareWorkersIndexCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-import * as mc from "@mathrunet/masamune_cloudflare";
+import * as m from "@mathrunet/masamune_cloudflare";
 import rules from "./rules.json";
 """;
   }
@@ -221,17 +244,17 @@ import rules from "./rules.json";
 // Define [m.Functions.xxxx] for the functions to be added to Workers.
 //
 // Workersに追加する機能を[m.Functions.xxxx]を定義してください。
-export default mc.deploy([
+export default m.deploy([
 ${firebaseProjectId != null ? """
 ], {
-    rules: rules as mc.RulesConfig,
+    rules: rules as m.RulesConfig,
     auth: new m.FirebaseAuthAdapter({
         projectId: "$firebaseProjectId",
     }),
-}
+});
 """ : """
 ], {
-    rules: rules as mc.RulesConfig,
+    rules: rules as m.RulesConfig,
 });
 """}
 """;

@@ -4,6 +4,7 @@ import "dart:io";
 
 // Package imports:
 import "package:xml/xml.dart";
+import "package:yaml/yaml.dart";
 
 // Project imports:
 import "package:katana_cli/action/firebase/authentication.dart";
@@ -250,6 +251,25 @@ bool requiresFirebaseCliScaffold({
 }) =>
     firestore || dataconnect || storage || hosting || functions;
 
+/// Returns Firebase CLI deploy targets enabled for the current flavor.
+///
+/// Hosting deployed by GitHub Actions is excluded from the local deploy.
+List<String> firebaseDeployTargets({
+  required bool firestore,
+  required bool functions,
+  required bool storage,
+  required bool dataconnect,
+  required bool hosting,
+  required bool hostingGithubActions,
+}) =>
+    [
+      if (firestore) "firestore",
+      if (functions) "functions",
+      if (storage) "storage",
+      if (dataconnect) "dataconnect",
+      if (hosting && !hostingGithubActions) "hosting",
+    ];
+
 /// Firebase initial configuration.
 ///
 /// Firebaseの初期設定を行います。
@@ -295,6 +315,109 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             gemini);
   }
 
+  /// 外部接続や依存変更の前にローカル適用の前提を検証します。
+  Future<void> validateLocal(ExecContext context) async {
+    final firebase = context.yaml.getAsMap("firebase");
+    final flavor = context.flavorContext?.flavor.name ?? "prod";
+    final projectId = firebase.get("project_id", "");
+    final android =
+        File("android/app/src/katanaFirebase/$flavor/google-services.json");
+    final ios = File("ios/Runner/Firebase/$flavor/GoogleService-Info.plist");
+    final macos =
+        File("macos/Runner/Firebase/$flavor/GoogleService-Info.plist");
+    final options = File("lib/katana/firebase/$flavor/firebase_options.dart");
+    for (final file in [android, ios, macos, options]) {
+      if (!file.existsSync() ||
+          file.readAsStringSync().contains("KATANA FIREBASE STUB")) {
+        throw StateError("--local に必要な既存の Firebase 設定がありません: ${file.path}");
+      }
+    }
+    _validateFirebaseProject(
+        projectId: projectId,
+        googleServicesJson: android,
+        applePlists: [ios, macos]);
+    final jsonFile = File("firebase/firebase.json");
+    final config = jsonFile.existsSync()
+        ? jsonDecode(jsonFile.readAsStringSync()) as Map
+        : {};
+    for (final service in [
+      "firestore",
+      "dataconnect",
+      "storage",
+      "hosting",
+      "functions"
+    ]) {
+      if (firebase.getAsMap(service).get("enable", false) &&
+          !config.containsKey(service)) {
+        throw StateError("--local に必要な Firebase $service の初期設定がありません。");
+      }
+    }
+    final pubspec = loadYaml(File("pubspec.yaml").readAsStringSync()) as Map;
+    for (final section in ["dependencies", "dev_dependencies"]) {
+      validateLocalFlutterDependencies(
+          (pubspec[section] as Map? ?? {}).keys.cast<String>().toList(),
+          development: section == "dev_dependencies");
+    }
+    if (firebase.getAsMap("functions").get("enable", false)) {
+      final packageFile = File("firebase/functions/package.json");
+      final lockFile = File("firebase/functions/package-lock.json");
+      if (!packageFile.existsSync() || !lockFile.existsSync()) {
+        throw StateError(
+            "--local に必要な Functions の package.json / package-lock.json がありません。");
+      }
+      final package = jsonDecode(packageFile.readAsStringSync()) as Map;
+      final lock = jsonDecode(lockFile.readAsStringSync()) as Map;
+      final lockedRoot = (lock["packages"] as Map?)?[""] as Map?;
+      if (lockedRoot == null) {
+        throw StateError("--local は root package 情報を持つ既存の npm lock を必要とします。");
+      }
+      for (final section in [
+        "dependencies",
+        "devDependencies",
+        "optionalDependencies"
+      ]) {
+        final declared = package[section] as Map? ?? {};
+        final locked = lockedRoot[section] as Map? ?? {};
+        if (declared.length != locked.length ||
+            declared.entries.any((e) => locked[e.key] != e.value)) {
+          throw StateError(
+              "Functions の $section と package-lock.json が不整合です。依存変更を承認・解決してから再実行してください。");
+        }
+      }
+      for (final name in [
+        "@mathrunet/masamune",
+        "jest",
+        "ts-jest",
+        "@types/jest",
+        "typescript",
+        "eslint"
+      ]) {
+        if (!(package["dependencies"] as Map? ?? {}).containsKey(name) &&
+            !(package["devDependencies"] as Map? ?? {}).containsKey(name)) {
+          throw StateError("--local に必要な Functions 依存がありません: $name");
+        }
+      }
+      for (final name in ["eslint", "ts-jest"]) {
+        if (!File(
+                "firebase/functions/node_modules/.bin/$name${Platform.isWindows ? ".cmd" : ""}")
+            .existsSync()) {
+          throw StateError("--local に必要なローカル実行ファイルがありません: $name");
+        }
+      }
+      await command(
+          "Functions の導入済み依存を検証",
+          [
+            context.yaml.getAsMap("bin").get("npm", "npm"),
+            "ls",
+            "--offline",
+            "--all"
+          ],
+          workingDirectory: "firebase/functions",
+          catchError: true,
+          failOnStderr: false);
+    }
+  }
+
   @override
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
@@ -319,6 +442,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final dataconnect = firebase.getAsMap("dataconnect");
     // final overwriteFirestoreRule = firestore.get("overwrite_rule", false);
     final enabledFirestore = firestore.get("enable", false);
+    final firestoreLocationId = firestore.get("location_id", "nam5");
     final firestorePrimaryRemoteIndex =
         firestore.get("primary_remote_index", false);
     final firestoreGenerateRulesAndIndexes =
@@ -363,21 +487,23 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final firebaseProjects = await Process.run(
-      firebaseCommand,
-      ["projects:list", "--json"],
-      runInShell: true,
-    );
-    if (firebaseProjects.exitCode != 0 ||
-        !firebaseProjectListContains(
-          firebaseProjects.stdout.toString(),
-          projectId,
-        )) {
-      error(
-        "Firebase project `$projectId` does not exist or is not accessible. "
-        "Katana will not create it automatically.",
+    if (!isLocalApply) {
+      final firebaseProjects = await Process.run(
+        firebaseCommand,
+        ["projects:list", "--json"],
+        runInShell: true,
       );
-      return;
+      if (firebaseProjects.exitCode != 0 ||
+          !firebaseProjectListContains(
+            firebaseProjects.stdout.toString(),
+            projectId,
+          )) {
+        error(
+          "Firebase project `$projectId` does not exist or is not accessible. "
+          "Katana will not create it automatically.",
+        );
+        return;
+      }
     }
     label("Create firebase directory");
     final firebaseDir = Directory("firebase");
@@ -545,6 +671,18 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           runInShell: true,
           workingDirectory: "firebase",
           action: (process, line) {
+            // Confirm only when Firebase has selected the configured region.
+            final normalized = line.replaceAll(_ansiEscapePattern, "");
+            if (firestoreLocationId.isNotEmpty &&
+                RegExp("❯ ${RegExp.escape(firestoreLocationId)}(?:\\r?\\n|\$)")
+                    .hasMatch(normalized)) {
+              _runCommandStack(
+                line,
+                "? Please select the location of your Firestore database:",
+                commandStack,
+                () => process.stdin.write("\n"),
+              );
+            }
             _runCommandStack(
               line,
               "? Are you ready to proceed?",
@@ -924,37 +1062,40 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           await firebaseDataConnect.rename("firebase/functions");
         }
       }
-      await command(
-        "Package installation.",
-        [
-          npm,
-          "install",
-          "@mathrunet/masamune",
-        ],
-        workingDirectory: "firebase/functions",
-      );
-      await command(
-        "Package uninstallation for dev.",
-        [
-          npm,
-          "uninstall",
-          "typescript",
-        ],
-        workingDirectory: "firebase/functions",
-      );
-      await command(
-        "Package installation for dev.",
-        [
-          npm,
-          "install",
-          "--save-dev",
-          "jest",
-          "ts-jest",
-          "@types/jest",
-          "typescript",
-        ],
-        workingDirectory: "firebase/functions",
-      );
+      if (!isLocalApply) {
+        await command(
+          "Package uninstallation for dev.",
+          [
+            npm,
+            "uninstall",
+            "typescript",
+          ],
+          workingDirectory: "firebase/functions",
+        );
+        await command(
+          "Package installation.",
+          [
+            npm,
+            "install",
+            "@mathrunet/masamune",
+            "@mathrunet/masamune_firebase",
+          ],
+          workingDirectory: "firebase/functions",
+        );
+        await command(
+          "Package installation for dev.",
+          [
+            npm,
+            "install",
+            "--save-dev",
+            "jest",
+            "ts-jest",
+            "@types/jest",
+            "typescript@^5.9.3",
+          ],
+          workingDirectory: "firebase/functions",
+        );
+      }
       final toolingPlan = FirebaseFunctionsToolingPlan.create(
         functionsDirectory: Directory("firebase/functions"),
       );
@@ -964,6 +1105,30 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           toolingPlan.initializeJestCommand,
           workingDirectory: "firebase/functions",
         );
+      }
+      final jestConfig = File("firebase/functions/jest.config.js");
+      if (jestConfig.existsSync()) {
+        final source = await jestConfig.readAsString();
+        if (source.contains('require("ts-jest")') &&
+            source.contains("createDefaultPreset") &&
+            source.contains("...tsJestTransformCfg")) {
+          await jestConfig.writeAsString(
+            'module.exports = {\n  preset: "ts-jest",\n  testEnvironment: "node",\n};\n',
+          );
+        }
+      }
+      final devTsconfig = File("firebase/functions/tsconfig.dev.json");
+      if (devTsconfig.existsSync()) {
+        final config = jsonDecodeAsMap(await devTsconfig.readAsString());
+        final include =
+            (config["include"] as List?)?.cast<String>() ?? <String>[];
+        if (!include.contains("jest.config.js")) {
+          include.add("jest.config.js");
+          config["include"] = include;
+          await devTsconfig.writeAsString(
+            "${const JsonEncoder.withIndent('  ').convert(config)}\n",
+          );
+        }
       }
       if (!firebaseFunctionsIndexExists) {
         label("Data replacement for Firebase Functions.");
@@ -1127,7 +1292,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     );
     label("Rewrite `package.json`");
     final packageJson = File("firebase/functions/package.json");
-    if (packageJson.existsSync()) {
+    if (packageJson.existsSync() && !isLocalApply) {
       final json = jsonDecodeAsMap(await packageJson.readAsString());
       final scripts = json.getAsMap("scripts");
       scripts["test"] = "firebase emulators:exec --only firestore 'npx jest'";
@@ -1166,7 +1331,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       }
     }
     if (enabledFirestore) {
-      if (firestorePrimaryRemoteIndex) {
+      if (firestorePrimaryRemoteIndex && !isLocalApply) {
         label("Import firestore.indexes.json");
         final firestoreIndexes = File("firebase/firestore.indexes.json");
         final indexData = await command(
@@ -1181,22 +1346,28 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         );
         await firestoreIndexes.writeAsString(indexData);
       }
-      if (firebaseJsonFileExists) {
-        await command(
-          "Run firebase deploy",
-          [
-            firebaseCommand,
-            "deploy",
-            "--project",
-            projectId,
-            if (enableActions) ...[
-              "--except",
-              "hosting",
-            ]
-          ],
-          workingDirectory: "firebase",
-        );
-      }
+    }
+    final deployTargets = firebaseDeployTargets(
+      firestore: enabledFirestore,
+      functions: enabledFunctions,
+      storage: enabledStorage,
+      dataconnect: enabledDataconnect,
+      hosting: enabledHosting,
+      hostingGithubActions: enableActions,
+    );
+    if (firebaseJsonFileExists && !isLocalApply && deployTargets.isNotEmpty) {
+      await command(
+        "Run firebase deploy",
+        [
+          firebaseCommand,
+          "deploy",
+          "--only",
+          deployTargets.join(","),
+          "--project",
+          projectId,
+        ],
+        workingDirectory: "firebase",
+      );
     }
     if (enabledAppCheck) {
       label("Add AppCheck to Runner.xcscheme");

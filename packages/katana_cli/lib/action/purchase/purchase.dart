@@ -435,6 +435,10 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
       ],
     );
+    if (isLocalApply) {
+      label("--local: Purchaseのローカル生成を完了しました。Cloudflare secretの更新は行いません。");
+      return;
+    }
     await putWranglerSecret(
       wrangler: wrangler,
       environment: context.flavorContext?.flavor.name ?? "prod",

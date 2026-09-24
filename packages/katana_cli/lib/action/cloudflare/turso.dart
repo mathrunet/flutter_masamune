@@ -27,8 +27,41 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     return enableTurso;
   }
 
+  /// Tursoのローカル同期に必要な既存設定と依存を検証します。
+  void validateLocal(ExecContext context) {
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final turso = cloudflare.getAsMap("turso");
+    if (!cloudflare.getAsMap("workers").get("enable", false)) {
+      throw StateError("Tursoのローカル適用にはWorkersの有効化が必要です。");
+    }
+    if (turso.get("rotate_legacy_tokens", false)) {
+      throw StateError(
+          "--local はTurso token rotationを適用できません。外部操作の承認を確認してください。");
+    }
+    final groups = parseTursoGroups(turso["groups"]);
+    final group = turso.get("group", "");
+    if (turso.get("organization", "").isEmpty ||
+        (group.isEmpty && groups.isEmpty) ||
+        (groups.isNotEmpty &&
+            group.isNotEmpty &&
+            !groups.any((item) => item["name"] == group)) ||
+        turso.get("server_token_ttl", 3600) <= 60) {
+      throw StateError(
+          "Tursoのローカル設定が不正です。organization/group/server_token_ttlを確認してください。");
+    }
+    if (!File("cloudflare/src/index.ts").existsSync()) {
+      throw StateError("--local に必要な初期設定がありません: cloudflare/src/index.ts");
+    }
+    validateLocalCloudflarePackages(
+        const ["@mathrunet/masamune_cloudflare_turso"]);
+    validateLocalFlutterDependencies(const ["masamune_model_turso"]);
+  }
+
   @override
   Future<void> exec(ExecContext context) async {
+    if (isLocalApply) {
+      validateLocal(context);
+    }
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
@@ -40,10 +73,11 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final organization = turso.get("organization", "");
     final group = turso.get("group", "");
     final groups = parseTursoGroups(turso["groups"]);
-    final secretPlatformApiToken = secretTurso.get("platform_api_token", "");
+    final secretPlatformApiToken =
+        isLocalApply ? "" : secretTurso.get("platform_api_token", "");
     final platformApiToken = secretPlatformApiToken.isNotEmpty
         ? secretPlatformApiToken
-        : turso.get("platform_api_token", "");
+        : (isLocalApply ? "" : turso.get("platform_api_token", ""));
     final serverTokenTtl = turso.get("server_token_ttl", 3600);
     final schemaManifestPath = turso.get(
       "schema_manifest",
@@ -67,7 +101,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         !groups.any((item) => item["name"] == group)) {
       throw const FormatException("既定groupはgroupsに含めてください。");
     }
-    if (platformApiToken.isEmpty) {
+    if (!isLocalApply && platformApiToken.isEmpty) {
       error(
         "If [cloudflare]->[turso]->[enable] is enabled, please include [cloudflare]->[turso]->[platform_api_token] in `katana_secrets.yaml` or `katana.yaml`.",
       );
@@ -171,6 +205,10 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       npm: npm,
       packages: const ["@mathrunet/masamune_cloudflare_turso"],
     );
+    if (isLocalApply) {
+      label("Tursoのローカル設定を同期しました。secret設定・token rotationは外部適用時に実行します。");
+      return;
+    }
     await putWranglerSecret(
       wrangler: wrangler,
       environment: flavor,
@@ -220,20 +258,15 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     if (functions.isEmpty) {
       return updated;
     }
-    final deployFunctions = _findDeployFunctions(updated);
-    if (deployFunctions == null) {
+    final inserted =
+        CloudflareSourceUtils.insertDeployFunctions(updated, functions);
+    if (inserted == null) {
       error(
-        "Could not find `m.deploy([` in `cloudflare/src/index.ts`. Please check the Cloudflare Workers entrypoint.",
+        "Could not find the Cloudflare deploy array in `cloudflare/src/index.ts`. Please check the namespace import and Workers entrypoint.",
       );
       return null;
     }
-    final insert =
-        "${_needsLeadingComma(updated, deployFunctions) ? "," : ""}\n${functions.join("\n")}";
-    return updated.replaceRange(
-      deployFunctions.end,
-      deployFunctions.end,
-      insert,
-    );
+    return inserted;
   }
 
   String _ensureTursoImport(String source) {
@@ -371,33 +404,6 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       }
       return result;
     }).toList();
-  }
-
-  _SourceRange? _findDeployFunctions(String source) {
-    final deployStart = source.indexOf("m.deploy(");
-    if (deployStart < 0) {
-      return null;
-    }
-    final functionsStart = source.indexOf("[", deployStart);
-    if (functionsStart < 0) {
-      return null;
-    }
-    final functionsEnd = _findClosing(source, functionsStart, "[", "]");
-    if (functionsEnd < 0) {
-      return null;
-    }
-    return _SourceRange(functionsStart + 1, functionsEnd);
-  }
-
-  bool _needsLeadingComma(String source, _SourceRange range) {
-    for (var i = range.end - 1; i >= range.start; i--) {
-      final char = source[i];
-      if (char.trim().isEmpty) {
-        continue;
-      }
-      return char != ",";
-    }
-    return false;
   }
 
   _SourceRange? _findFunctionCall(
