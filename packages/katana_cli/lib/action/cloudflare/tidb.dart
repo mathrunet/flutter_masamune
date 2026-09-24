@@ -117,6 +117,11 @@ class TidbMigrateCliCommand extends CliCommand {
       return;
     }
     final config = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
+    if (config.isEmpty) {
+      error(
+          "katana.yamlの[cloudflare]->[tidb]が見つかりません。プロジェクトルートでkatana migrateを実行してください。");
+      return;
+    }
     final secrets = context.secrets.getAsMap("cloudflare").getAsMap("tidb");
     final environment = context.flavorContext!.flavor.name;
     final rawHost = (config["host"] ?? "");
@@ -463,7 +468,15 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     final index = File("cloudflare/src/index.ts");
     var source = await index.readAsString();
     const statement = 'import tidbSchemaManifest from "./tidb_schema.json";';
-    if (!source.contains(statement)) {
+    // 既存の`tidbSchemaManifest` importは参照先だけを生成物へ差し替え、重複宣言を作らない。
+    final existingManifestImport = RegExp(
+      r'^import tidbSchemaManifest from "[^"]+";[ \t]*$',
+      multiLine: true,
+    ).firstMatch(source);
+    if (existingManifestImport != null) {
+      source = source.replaceRange(
+          existingManifestImport.start, existingManifestImport.end, statement);
+    } else if (!source.contains(statement)) {
       source = "$statement\n$source";
     }
     source = CloudflareSourceUtils.ensureImport(source,
@@ -475,10 +488,12 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     const schemaOption =
         "schemaManifest: tidbSchemaManifest as tidb.SchemaManifest";
     // 既存のrules・prefixなどを保持し、manifestだけを生成物へ同期する。
+    final hasSchemaOption = RegExp(
+            r"schemaManifest\s*:\s*tidbSchemaManifest\s+as\s+tidb\.SchemaManifest")
+        .hasMatch(arguments ?? "");
     final options = arguments == null || arguments.isEmpty
         ? "{ $schemaOption }"
-        : arguments == "{ $schemaOption }" ||
-                arguments.endsWith(", $schemaOption }")
+        : hasSchemaOption
             ? arguments
             : "{ ...($arguments), $schemaOption }";
     final replacement = "$functionName($options),";

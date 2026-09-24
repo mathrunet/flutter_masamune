@@ -164,6 +164,19 @@ String? _validateApplyArguments(List<String> arguments) {
     if (argument == "--local") {
       continue;
     }
+    if (argument == "--only") {
+      if (i + 1 >= arguments.length || arguments[i + 1].startsWith("--")) {
+        return "Invalid argument: --only requires one value.";
+      }
+      i++;
+      continue;
+    }
+    if (argument.startsWith("--only=")) {
+      if (argument.length == "--only=".length) {
+        return "Invalid argument: --only requires one value.";
+      }
+      continue;
+    }
     String? flavor;
     if (argument == "--flavor") {
       if (i + 1 >= arguments.length) {

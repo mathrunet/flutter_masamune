@@ -60,8 +60,10 @@ Future<void> main() async {
         .createSync(recursive: true);
     File("cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js")
         .writeAsStringSync("");
+    // 既存projectと同じく、旧参照先のmanifest importとschemaManifest指定を持つ入口から始める。
     File("cloudflare/src/index.ts").writeAsStringSync(
-        'export default m.deploy([tidb.Functions.tidb({ rules: rules, databasePrefix: "dev_" },), other()]);\n');
+        'import tidbSchemaManifest from "../../tidb/schema/schema.json";\n'
+        'export default m.deploy([tidb.Functions.tidb({ schemaManifest: tidbSchemaManifest as tidb.SchemaManifest, rules: rules, databasePrefix: "dev_" },), other()]);\n');
     final wrangler = File("${temporary.path}/wrangler-fixture.sh");
     wrangler.writeAsStringSync(r'''
 #!/bin/sh
@@ -105,6 +107,16 @@ printf '%s\n' "$3" >> secret-names.txt
         "既存の認可・prefix設定を失いました。");
     check(first.contains("}), other()"), "既存の後続functionとの区切りを失いました。");
     check(!first.contains("},),"), "末尾カンマ付きの引数を不正なspread式へ変換しました。");
+    check(
+        RegExp(r"^import tidbSchemaManifest from ", multiLine: true)
+                .allMatches(first)
+                .length ==
+            1,
+        "manifest importが重複しました。");
+    check(
+        first.contains('import tidbSchemaManifest from "./tidb_schema.json";'),
+        "manifest importの参照先を生成物へ差し替えていません。");
+    check(!first.contains("...("), "schemaManifest指定済みの引数をspread式で包みました。");
     check(!first.contains("never_send"), "管理者資格情報を公開コードへ出力しました。");
     check(File("cloudflare/secret-names.txt").readAsLinesSync().length == 6,
         "runtimeの3secret以外を投入しました。");

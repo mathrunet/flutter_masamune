@@ -174,10 +174,11 @@ class ApplyCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。";
+      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。--only <name,...> は名前（例: tidb, turso, storage）に一致する有効なアクションだけを実行します。";
 
   @override
-  String? get example => "katana apply [--local] [--flavor dev|prod]";
+  String? get example =>
+      "katana apply [--local] [--only <name,...>] [--flavor dev|prod]";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -186,8 +187,14 @@ class ApplyCliCommand extends CliCommand {
   }
 
   Future<void> _apply(ExecContext context) async {
-    final enabled =
-        _actions.where((element) => element.checkEnabled(context)).toList();
+    final only = _onlyFilters(context.args);
+    final enabled = _actions
+        .where((element) => element.checkEnabled(context))
+        .where((element) => only.isEmpty || _matchesOnly(element, only))
+        .toList();
+    if (only.isNotEmpty && enabled.isEmpty) {
+      throw StateError("--only に一致する有効なアクションがありません: ${only.join(", ")}");
+    }
     if (isLocalApply) {
       for (final action in enabled) {
         if (action is AppSpreadSheetCliAction ||
@@ -219,6 +226,9 @@ class ApplyCliCommand extends CliCommand {
         await firebase.validateLocal(context);
       }
     }
+    if (only.isNotEmpty) {
+      label("--only: ${enabled.map(_actionName).join(", ")} のみ実行します。");
+    }
     for (final action in enabled) {
       // ignore: avoid_print
       print(
@@ -239,4 +249,35 @@ ${action.description}
       }
     }
   }
+}
+
+/// `--only a,b` / `--only=a,b` を小文字のトークン一覧へ正規化する。
+List<String> _onlyFilters(List<String> args) {
+  final tokens = <String>[];
+  for (var i = 0; i < args.length; i++) {
+    final argument = args[i];
+    String? value;
+    if (argument == "--only" && i + 1 < args.length) {
+      value = args[++i];
+    } else if (argument.startsWith("--only=")) {
+      value = argument.substring("--only=".length);
+    }
+    if (value == null) {
+      continue;
+    }
+    tokens.addAll(value
+        .split(",")
+        .map((e) => e.trim().toLowerCase())
+        .where((e) => e.isNotEmpty));
+  }
+  return tokens;
+}
+
+/// `CloudflareTidbCliAction` → `cloudflaretidb` のように比較用の名前へ変換する。
+String _actionName(CliCommand action) =>
+    action.runtimeType.toString().toLowerCase().replaceAll("cliaction", "");
+
+bool _matchesOnly(CliCommand action, List<String> only) {
+  final name = _actionName(action);
+  return only.any((token) => name == token || name.endsWith(token));
 }
