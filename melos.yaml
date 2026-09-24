@@ -23,7 +23,7 @@ scripts:
     melos exec -- "dart format ."
   
   publish: >
-    melos publish --no-dry-run -y
+    echo 'Use /dev:masamune:release flutter to publish through GitHub Actions.' && exit 1
   
   upgrade: >
     melos exec -- "flutter pub upgrade"

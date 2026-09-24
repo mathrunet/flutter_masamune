@@ -1,0 +1,53 @@
+name: Release validation
+on:
+  pull_request:
+    branches: [master]
+    paths: ['.release/request.json']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      RELEASE_TOOL_SHA: ${{ vars.RELEASE_TOOL_SHA }}
+      RELEASE_BOT_LOGIN: ${{ vars.RELEASE_BOT_LOGIN }}
+    steps:
+      - name: 共通ツールの固定を確認
+        run: test "${#RELEASE_TOOL_SHA}" -eq 40 && [[ "$RELEASE_TOOL_SHA" =~ ^[a-f0-9]+$ ]]
+      - name: リリース用Appからのイベントを確認
+        env:
+          EVENT_ACTOR: ${{ github.actor }}
+        run: test -n "$RELEASE_BOT_LOGIN" && test "$EVENT_ACTOR" = "$RELEASE_BOT_LOGIN"
+      - uses: actions/create-github-app-token@v2
+        id: tools-reader
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          owner: mathrunet
+          repositories: masamune
+          permission-contents: read
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: package-repo
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: mathrunet/masamune
+          token: ${{ steps.tools-reader.outputs.token }}
+          ref: ${{ vars.RELEASE_TOOL_SHA }}
+          path: .release-tools
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: flutter-actions/setup-flutter@6e2468fd827c4a7337cd4b835a6049b78bc0bd1f
+        with:
+          version: '3.44.4'
+      - uses: ./.release-tools/.github/actions/package-release
+        env:
+          GH_TOKEN: ${{ steps.tools-reader.outputs.token }}
+        with:
+          mode: validate

@@ -1,0 +1,59 @@
+name: Publish package
+run-name: Publish ${{ github.ref_name }}
+on:
+  push:
+    tags: ['*-v*']
+permissions:
+  contents: read
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RELEASE_TOOL_SHA: ${{ vars.RELEASE_TOOL_SHA }}
+      RELEASE_BOT_LOGIN: ${{ vars.RELEASE_BOT_LOGIN }}
+    steps:
+      - name: 共通ツールの固定を確認
+        run: test "${#RELEASE_TOOL_SHA}" -eq 40 && [[ "$RELEASE_TOOL_SHA" =~ ^[a-f0-9]+$ ]]
+      - name: リリース用Appからのイベントを確認
+        env:
+          EVENT_ACTOR: ${{ github.actor }}
+        run: test -n "$RELEASE_BOT_LOGIN" && test "$EVENT_ACTOR" = "$RELEASE_BOT_LOGIN"
+      - uses: actions/create-github-app-token@v2
+        id: tools-reader
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          owner: mathrunet
+          repositories: masamune
+          permission-contents: read
+      - uses: actions/checkout@v4
+        with:
+          path: package-repo
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: mathrunet/masamune
+          token: ${{ steps.tools-reader.outputs.token }}
+          ref: ${{ vars.RELEASE_TOOL_SHA }}
+          path: .release-tools
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+      - uses: flutter-actions/setup-flutter@6e2468fd827c4a7337cd4b835a6049b78bc0bd1f
+        with:
+          version: '3.44.4'
+      - uses: ./.release-tools/.github/actions/package-release
+        env:
+          GH_TOKEN: ${{ steps.tools-reader.outputs.token }}
+        with:
+          mode: publish
