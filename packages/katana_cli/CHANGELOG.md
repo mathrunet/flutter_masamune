@@ -1,3 +1,9 @@
+## 3.29.0
+
+ - **CO-AUTHORED-BY**: Claude Fable 5.1 <noreply@anthropic.com> ([fb3adcf3](https://github.com/mathrunet/flutter_masamune/commit/fb3adcf33d87fb44ade2d14d298ae415dd31cdcb))
+ - **FEAT**(katana_cli): provision TiDB migration and runtime SQL users from katana apply ([fb3adcf3](https://github.com/mathrunet/flutter_masamune/commit/fb3adcf33d87fb44ade2d14d298ae415dd31cdcb))
+ - **FIX**(katana_cli): preserve Cloudflare flavor configuration on apply and deploy ([3b1d3896](https://github.com/mathrunet/flutter_masamune/commit/3b1d3896c64c60bbe47a38e9b7c2dd1e78035885))
+
 ## 3.28.0
 
  - **FEAT**(katana_cli): release version 4.0.0 with migration support. ([26742b9b](https://github.com/mathrunet/flutter_masamune/commit/26742b9b19c2f46525057af6f191a21d88e560be))
