@@ -263,8 +263,25 @@ cloudflare:
     enable: false
     enable_firebase_auth: true
     # Run Workers closer to regional databases and upstream APIs when faster.
+    # This applies only to the edge Worker (`cloudflare/wrangler.jsonc`).
     # リージョンDBや外部APIに近い場所でWorkerを実行し、通信を高速化します。
+    # edge Worker（`cloudflare/wrangler.jsonc`）にのみ適用されます。
     smart_placement: false
+    # Split fixed-region backends such as TiDB into a separate region Worker.
+    # When [enable] is `true`, `katana apply` generates `cloudflare/src/region.ts` and
+    # `cloudflare/wrangler.region.jsonc` (Worker name `<project_id>-region`) and pins it to
+    # [placement] (e.g. `aws:us-east-1`). The edge Worker (`cloudflare/src/edge.ts`) keeps
+    # Turso, KV, R2, D1, Durable Objects, authentication, notifications, purchases, etc.
+    # TiDBなど固定リージョンのバックエンドを別のregion Workerに分離します。
+    # [enable]を`true`にすると`katana apply`が`cloudflare/src/region.ts`と
+    # `cloudflare/wrangler.region.jsonc`（Worker名`<project_id>-region`）を生成し、
+    # [placement]（例：`aws:us-east-1`）のリージョンに固定します。edge Worker（`cloudflare/src/edge.ts`）には
+    # Turso・KV・R2・D1・Durable Objects・認証・通知・課金などが残ります。
+    region:
+      enable: false
+      placement:
+        dev: aws:us-east-1
+        prod: aws:us-east-1
 
   # Configure Firebase Authentication features running on Cloudflare Workers.
   # Cloudflare Workers上で動作するFirebase Authentication機能を設定します。
@@ -292,26 +309,46 @@ cloudflare:
   # The Platform API Token can be obtained by following the steps below:
   # 1. Go to `https://app.turso.tech/mathru/settings/api-tokens`
   # 2. Click the `Create Token` button
-  # 3. Specify a `name` and be sure to specify a `Group`.
+  # 3. Specify a `name`. To let `katana apply` create groups automatically,
+  #    do not specify a `Group` so that the token covers the whole organization.
   # Workersを通してTrusoDBを使いたい場合は[enable]を`true`にしてください。
   # TursoのOrganizationとGroupを[organization]と[group]に指定します。
   # TursoのPlatform API Tokenは`katana_secrets.yaml`に記載してください。
   # Platform API Tokenは下記の手順で取得可能です。
   # 1. `https://app.turso.tech/mathru/settings/api-tokens`にアクセス
   # 2. `Create Token`ボタンをクリック
-  # 3. `name`を指定し、`Group`を必ず指定します。
+  # 3. `name`を指定します。`katana apply`によるgroup自動作成を使う場合は、
+  #    `Group`を指定せずorganization全体のトークンを作成してください。
   turso:
     enable: false
     organization:
     group:
-      dev:
-      prod:
-    # 複数リージョンを利用する場合は既存グループを列挙します。
+      dev: dev-apac
+      prod: prod-apac
+    # List the groups for multiple regions. By default, production uses 3 groups
+    # (Tokyo, Virginia, Ireland) and testing uses Tokyo only.
+    # Clients are placed by country -> continent -> group (the first group if omitted).
+    # A group with [location] is created by `katana apply` if it does not exist
+    # (existing groups are not modified; multiple groups require the Scaler plan or higher).
+    # 複数リージョンを利用する場合はグループを列挙します。既定では本番は東京・バージニア・アイルランドの3group、
+    # テストは東京のみです。
     # 未指定クライアントはcountry→continent→group（省略時は先頭）の順で配置します。
-    # 例: [{name: prod-apac, continents: [AS, OC]}, {name: prod-us, continents: [NA, SA]}, {name: prod-eu, continents: [EU, AF]}]
+    # [location]があるgroupは、存在しなければ`katana apply`が作成します
+    # （既存groupは変更しません。複数groupの利用にはScaler以上のプランが必要です）。
     groups:
       dev:
+        - name: dev-apac
+          location: aws-ap-northeast-1
       prod:
+        - name: prod-apac
+          location: aws-ap-northeast-1
+          continents: [AS, OC]
+        - name: prod-us
+          location: aws-us-east-1
+          continents: [NA, SA]
+        - name: prod-eu
+          location: aws-eu-west-1
+          continents: [EU, AF]
 
   # ユーザー単位Durable Objects。SQLの承認はmigrate --backend doで行います。
   durable_object:

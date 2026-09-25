@@ -4,6 +4,7 @@ import "dart:io";
 
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
+import "package:katana_cli/action/cloudflare/turso_platform_api.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process for Turso.
@@ -12,8 +13,17 @@ import "package:katana_cli/katana_cli.dart";
 class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
   /// Cloudflare deployment process for Turso.
   ///
+  /// [platformApiBaseUrl] replaces the Turso Platform API endpoint (for tests).
+  ///
   /// Cloudflare用のTursoのデプロイ処理を行います。
-  const CloudflareTursoCliAction();
+  ///
+  /// [platformApiBaseUrl]でTurso Platform APIのエンドポイントを差し替えます（テスト用）。
+  const CloudflareTursoCliAction({this.platformApiBaseUrl});
+
+  /// Endpoint of the Turso Platform API. Defaults to `https://api.turso.tech`.
+  ///
+  /// Turso Platform APIのエンドポイント。既定は`https://api.turso.tech`。
+  final String? platformApiBaseUrl;
 
   @override
   String get description =>
@@ -49,8 +59,10 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       throw StateError(
           "Tursoのローカル設定が不正です。organization/group/server_token_ttlを確認してください。");
     }
-    if (!File("cloudflare/src/index.ts").existsSync()) {
-      throw StateError("--local に必要な初期設定がありません: cloudflare/src/index.ts");
+    // The legacy `index.ts` is migrated to `edge.ts` by the Cloudflare init action.
+    if (!File(cloudflareEdgeEntryPath).existsSync() &&
+        !File(cloudflareLegacyEntryPath).existsSync()) {
+      throw StateError("--local に必要な初期設定がありません: $cloudflareEdgeEntryPath");
     }
     validateLocalCloudflarePackages(
         const ["@mathrunet/masamune_cloudflare_turso"]);
@@ -120,10 +132,10 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final indexFile = File("cloudflare/src/index.ts");
+    final indexFile = File(cloudflareEdgeEntryPath);
     if (!indexFile.existsSync()) {
       error(
-        "The file `cloudflare/src/index.ts` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+        "The file `$cloudflareEdgeEntryPath` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
       );
       return;
     }
@@ -144,7 +156,13 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         values: {
           "TURSO_ORGANIZATION": organization,
           "TURSO_GROUP": group,
-          "TURSO_GROUPS": groups.isEmpty ? "" : jsonEncode(groups),
+          // `location` is only used by `katana apply` to create groups.
+          "TURSO_GROUPS": groups.isEmpty
+              ? ""
+              : jsonEncode([
+                  for (final item in groups)
+                    Map<String, dynamic>.of(item)..remove("location"),
+                ]),
           "TURSO_SERVER_TOKEN_TTL_SECONDS": serverTokenTtl.toString(),
         },
       ),
@@ -209,6 +227,21 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       label("Tursoのローカル設定を同期しました。secret設定・token rotationは外部適用時に実行します。");
       return;
     }
+    // Create only the groups with `location` that do not exist yet.
+    final api = TursoPlatformApi(
+      token: platformApiToken,
+      baseUrl:
+          platformApiBaseUrl == null ? null : Uri.parse(platformApiBaseUrl!),
+    );
+    try {
+      await ensureTursoGroups(
+        api: api,
+        organization: organization,
+        groups: groups,
+      );
+    } finally {
+      api.close();
+    }
     await putWranglerSecret(
       wrangler: wrangler,
       environment: flavor,
@@ -262,7 +295,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         CloudflareSourceUtils.insertDeployFunctions(updated, functions);
     if (inserted == null) {
       error(
-        "Could not find the Cloudflare deploy array in `cloudflare/src/index.ts`. Please check the namespace import and Workers entrypoint.",
+        "Could not find the Cloudflare deploy array in `$cloudflareEdgeEntryPath`. Please check the namespace import and Workers entrypoint.",
       );
       return null;
     }
@@ -361,7 +394,11 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         objectStart + 1, objectStart + 1, "\n${additions.join("\n")}\n");
   }
 
+  /// Validates the group definitions in katana.yaml. The order of names is the fallback order.
+  /// An optional `location` is kept and used only to create missing groups.
+  ///
   /// katana.yamlのグループ定義を検証します。名前の順序がfallback順です。
+  /// 任意の`location`は保持され、存在しないgroupの作成にのみ使われます。
   static List<Map<String, dynamic>> parseTursoGroups(Object? value) {
     if (value == null) {
       return const [];
@@ -380,6 +417,15 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
         throw const FormatException("turso.groupsのnameは重複しない識別子が必要です。");
       }
       final result = <String, dynamic>{"name": item["name"]};
+      final location = item["location"];
+      if (location != null) {
+        if (location is! String ||
+            !RegExp(r"^[a-z0-9]+(-[a-z0-9]+)*$").hasMatch(location)) {
+          throw const FormatException(
+              "turso.groups.locationはTursoのlocationコード（例: aws-ap-northeast-1）で指定してください。");
+        }
+        result["location"] = location;
+      }
       for (final key in ["countries", "continents"]) {
         final codes = item[key];
         if (codes == null) {

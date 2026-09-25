@@ -324,10 +324,10 @@ Future<void> _verifyLocalCloudflare(File cli) async {
             '{"name":"$p","version":"1.0.0"}');
       }
       await write("cloudflare/.gitignore", "node_modules\n");
-      await write("cloudflare/src/index.ts",
+      await write("cloudflare/src/edge.ts",
           'import * as m from "@mathrunet/masamune_cloudflare";\nexport default m.deploy([], { rules: {} });\n');
       await write("cloudflare/wrangler.jsonc",
-          '{"name":"fixture","main":"src/index.ts","routes":["example.invalid/*"]}');
+          '{"name":"fixture","main":"src/edge.ts","routes":["example.invalid/*"]}');
       final marker = File("${root.path}/external-called");
       await write("external.sh", "#!/bin/sh\ntouch '${marker.path}'\nexit 9\n");
       await Process.run("chmod", ["+x", "${root.path}/external.sh"]);
@@ -394,12 +394,12 @@ Future<void> _verifyLocalCloudflare(File cli) async {
         _expectEqual(
             result.exitCode, 0, "Workers/Tursoのローカル適用に成功する: ${result.stderr}");
         _expect(
-            File("${root.path}/cloudflare/src/index.ts")
+            File("${root.path}/cloudflare/src/edge.ts")
                 .readAsStringSync()
                 .contains("turso.Functions.turso("),
             "Turso関数を実際に同期する");
         final source =
-            File("${root.path}/cloudflare/src/index.ts").readAsStringSync();
+            File("${root.path}/cloudflare/src/edge.ts").readAsStringSync();
         _expect(
             source.contains("storage.Functions.storageCloudflare(") &&
                 source.contains("storage.Functions.storageCloudflareBackup("),
@@ -469,7 +469,7 @@ Future<void> _verifyLocalCloudflareSecrets({bool messagingOnly = false}) async {
           await write("cloudflare/node_modules/$p/package.json",
               '{"name":"$p","version":"1.0.0"}');
         }
-        await write("cloudflare/src/index.ts",
+        await write("cloudflare/src/edge.ts",
             'import * as m from "@mathrunet/masamune_cloudflare";\nexport default m.deploy([], { rules: {} });\n');
         await write("android/app/build.gradle.kts", """
 plugins {
@@ -575,7 +575,7 @@ android {
             await const PurchaseCliAction().exec(context);
           }
         }, local: local);
-        final source = File("cloudflare/src/index.ts").readAsStringSync();
+        final source = File("cloudflare/src/edge.ts").readAsStringSync();
         final functions = messaging
             ? ["notification.Functions.sendNotification"]
             : [

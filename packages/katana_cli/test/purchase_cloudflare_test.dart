@@ -31,7 +31,7 @@ Future<String> _applyInTemporaryProject(
       await Directory.systemTemp.createTemp("katana-purchase-");
   try {
     Directory.current = temporaryDirectory;
-    final index = File("cloudflare/src/index.ts");
+    final index = File("cloudflare/src/edge.ts");
     await index.parent.create(recursive: true);
     await index.writeAsString(original);
     _check(

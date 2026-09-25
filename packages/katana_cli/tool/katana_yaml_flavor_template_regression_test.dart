@@ -12,6 +12,7 @@ Future<void> main() async {
   await _testWorkersGeneration();
   await _testWorkerFirebaseProjectsByFlavor();
   await _testTursoRegions();
+  await _testRegionWorkerGeneration();
   final template = katanaYamlCode(true);
   final yaml = loadYaml(template) as Map;
 
@@ -27,6 +28,15 @@ Future<void> main() async {
   _expectEnvironmentMap(yaml, ["cloudflare", "kv", "namespace_id"]);
   _expectSharedField(yaml, ["cloudflare", "storage", "bucket_name"]);
   _expectSharedField(yaml, ["cloudflare", "storage", "public_base_url"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "workers", "region", "placement"]);
+  _expectSharedField(yaml, ["cloudflare", "workers", "smart_placement"]);
+  _expectSharedField(yaml, ["cloudflare", "workers", "region", "enable"]);
+  final templateCloudflare = yaml["cloudflare"] as Map;
+  _expect(
+    (templateCloudflare["workers"] as Map)["region"]["enable"] == false &&
+        (templateCloudflare["turso"] as Map)["enable"] == false,
+    "region Worker and Turso must stay disabled in the template.",
+  );
 
   final resolved = FlavorContext.resolve(
     yaml: yaml,
@@ -37,6 +47,164 @@ Future<void> main() async {
     resolved.flavor == KatanaFlavor.dev,
     "A generated environment-aware template must default to dev.",
   );
+  for (final flavor in KatanaFlavor.values) {
+    final context = FlavorContext.resolve(
+      yaml: yaml,
+      secrets: const {},
+      arguments: ["apply", "--flavor", flavor.name],
+    );
+    final cloudflare = context.yaml["cloudflare"] as Map;
+    final turso = cloudflare["turso"] as Map;
+    final region = (cloudflare["workers"] as Map)["region"] as Map;
+    _expect(region["placement"] == "aws:us-east-1",
+        "region placement must resolve to a string for ${flavor.name}.");
+    _expect(turso["groups"] is List,
+        "turso.groups must resolve to a List for ${flavor.name}.");
+    final groups = CloudflareTursoCliAction.parseTursoGroups(turso["groups"]);
+    final expected = flavor == KatanaFlavor.dev
+        ? {"dev-apac": "aws-ap-northeast-1"}
+        : {
+            "prod-apac": "aws-ap-northeast-1",
+            "prod-us": "aws-us-east-1",
+            "prod-eu": "aws-eu-west-1",
+          };
+    _expect(
+      groups.length == expected.length &&
+          groups
+              .every((group) => expected[group["name"]] == group["location"]) &&
+          turso["group"] == groups.first["name"],
+      "turso.groups/group defaults are wrong for ${flavor.name}: $groups",
+    );
+  }
+  for (final invalid in ["AWS_TOKYO", "aws--tokyo", 1]) {
+    var rejected = false;
+    try {
+      CloudflareTursoCliAction.parseTursoGroups([
+        {"name": "bad", "location": invalid}
+      ]);
+    } on FormatException {
+      rejected = true;
+    }
+    _expect(rejected, "An invalid Turso location must be rejected: $invalid");
+  }
+}
+
+/// region有効時に、edge/regionの両Workerを生成・同期する。
+Future<void> _testRegionWorkerGeneration() async {
+  final previous = Directory.current;
+  final temp = Directory.systemTemp.createTempSync("katana-region-worker-");
+  try {
+    Directory.current = temp;
+    Directory("cloudflare/src").createSync(recursive: true);
+    File("cloudflare/wrangler.jsonc").writeAsStringSync(
+      const CloudflareWranglerCliCode(projectId: "worker-prod")
+          .body("", "", ""),
+    );
+    File("cloudflare/.gitignore").writeAsStringSync(".dev.vars*\n");
+    File("cloudflare/package.json").writeAsStringSync(jsonEncode({
+      "dependencies": {
+        "hono": "1.0.0",
+        "@mathrunet/masamune": "1.0.0",
+        "@mathrunet/masamune_cloudflare": "1.0.0",
+      },
+    }));
+    File("pubspec.yaml").writeAsStringSync(
+      "name: test_app\ndependencies:\n  masamune_functions_cloudflare: any\n",
+    );
+    final wrangler = File("${temp.path}/fake-wrangler.sh");
+    wrangler.writeAsStringSync(
+        "#!/bin/sh\nprintf '%s\\n' \"\$*\" >> ${temp.path}/wrangler-calls.txt\n");
+    await Process.run("chmod", ["+x", wrangler.path]);
+    final yaml = <String, Object>{
+      "bin": {"wrangler": wrangler.path},
+      "firebase": {
+        "project_id": {"dev": "firebase-dev", "prod": "firebase-prod"}
+      },
+      "cloudflare": {
+        "project_id": {"dev": "worker-dev", "prod": "worker-prod"},
+        "workers": {
+          "enable": true,
+          "enable_firebase_auth": true,
+          "smart_placement": true,
+          "region": {
+            "enable": true,
+            "placement": {"dev": "aws:ap-northeast-1", "prod": "aws:us-east-1"},
+          },
+        },
+      },
+    };
+    for (final flavor in ["dev", "prod", "dev"]) {
+      final args = ["apply", "--flavor", flavor];
+      final resolved = FlavorContext.resolve(
+        yaml: yaml,
+        secrets: const {},
+        arguments: args,
+      );
+      await const CloudflareInitCliAction().exec(
+        ExecContext(yaml: resolved.yaml, args: args, flavorContext: resolved),
+      );
+    }
+    final region = File("cloudflare/wrangler.region.jsonc").readAsStringSync();
+    final managedStart =
+        region.indexOf(WranglerEnvironmentSynchronizer.beginMarker);
+    final root = region.substring(0, managedStart);
+    final managed = region.substring(managedStart);
+    final dev =
+        managed.substring(managed.indexOf('"dev"'), managed.indexOf('"prod"'));
+    final prod = managed.substring(managed.indexOf('"prod"'));
+    _expect(
+      root.contains('"name": "worker-prod-region"') &&
+          root.contains('"main": "src/region.ts"') &&
+          root.contains('"placement": { "region": "aws:us-east-1" }') &&
+          !root.contains('"assets"') &&
+          !root.contains("smart"),
+      "wrangler.region.jsonc root must pin the prod placement without assets/smart: $root",
+    );
+    _expect(
+      dev.contains('"name": "worker-dev-region"') &&
+          dev.contains('"FIREBASE_PROJECT_ID": "firebase-dev"') &&
+          dev.contains('"placement": { "region": "aws:ap-northeast-1" }') &&
+          !dev.contains("firebase-prod"),
+      "The dev region environment is wrong: $dev",
+    );
+    _expect(
+      prod.contains('"name": "worker-prod-region"') &&
+          prod.contains('"FIREBASE_PROJECT_ID": "firebase-prod"') &&
+          prod.contains('"placement": { "region": "aws:us-east-1" }') &&
+          !prod.contains("firebase-dev"),
+      "The prod region environment is wrong: $prod",
+    );
+    final edgeWrangler = File("cloudflare/wrangler.jsonc").readAsStringSync();
+    _expect(
+      edgeWrangler.contains('"main": "src/edge.ts"') &&
+          edgeWrangler.contains('"name": "worker-prod"') &&
+          !edgeWrangler.contains('"region":'),
+      "The edge Wrangler must not receive the region placement.",
+    );
+    final regionEntry = File("cloudflare/src/region.ts").readAsStringSync();
+    final edgeEntry = File("cloudflare/src/edge.ts").readAsStringSync();
+    _expect(
+      regionEntry.contains('type: "region"') &&
+          regionEntry.contains("fixed-region backends") &&
+          edgeEntry.contains('type: "edge"'),
+      "Worker entrypoints must declare their kind.",
+    );
+    // 生成物は2回目以降のapplyで変わらない。
+    final before = File("cloudflare/wrangler.region.jsonc").readAsStringSync();
+    final args = ["apply", "--flavor", "dev"];
+    final resolved =
+        FlavorContext.resolve(yaml: yaml, secrets: const {}, arguments: args);
+    await const CloudflareInitCliAction().exec(
+      ExecContext(yaml: resolved.yaml, args: args, flavorContext: resolved),
+    );
+    _expect(
+      File("cloudflare/wrangler.region.jsonc").readAsStringSync() == before,
+      "Re-applying must keep wrangler.region.jsonc unchanged.",
+    );
+  } finally {
+    Directory.current = previous;
+    temp.deleteSync(recursive: true);
+  }
 }
 
 Future<void> _testWorkerFirebaseProjectsByFlavor() async {
@@ -46,7 +214,7 @@ Future<void> _testWorkerFirebaseProjectsByFlavor() async {
     Directory.current = temp;
     Directory("cloudflare/src").createSync(recursive: true);
     File("cloudflare/wrangler.jsonc").writeAsStringSync(
-      '{"name":"worker-prod","main":"src/index.ts"}',
+      '{"name":"worker-prod","main":"src/edge.ts"}',
     );
     File("cloudflare/.gitignore").writeAsStringSync(".dev.vars*\n");
     File("cloudflare/package.json").writeAsStringSync(jsonEncode({
@@ -79,7 +247,7 @@ Future<void> _testWorkerFirebaseProjectsByFlavor() async {
         ExecContext(yaml: resolved.yaml, args: args, flavorContext: resolved),
       );
     }
-    final source = File("cloudflare/src/index.ts").readAsStringSync();
+    final source = File("cloudflare/src/edge.ts").readAsStringSync();
     _expect(
       source.contains("context.env?.FIREBASE_PROJECT_ID") &&
           !source.contains("firebase-dev") &&
@@ -106,9 +274,16 @@ Future<void> _testWorkerFirebaseProjectsByFlavor() async {
 }
 
 Future<void> _testWorkersGeneration() async {
-  for (final projectId in [null, "firebase-test"]) {
-    final template =
-        CloudflareWorkersIndexCliCode(firebaseProjectId: projectId);
+  for (final (entry, projectId) in [
+    ("edge", null),
+    ("edge", "firebase-test"),
+    ("region", null),
+    ("region", "firebase-test"),
+  ]) {
+    final template = CloudflareWorkersEntryCliCode(
+        entry: entry, firebaseProjectId: projectId);
+    _expect(template.name == entry && template.prefix == entry,
+        "The entry template must be named after the entry.");
     final source = template.import("", "", "") + template.body("", "", "");
     final alias =
         RegExp(r'import \* as (\w+) from "@mathrunet/masamune_cloudflare"')
@@ -163,6 +338,7 @@ const worker = {
 const turso = { Functions: { turso: () => "query", tursoToken: () => "token" } };
 const result = new Function(${jsonEncode(alias)}, "turso", "rules", ${jsonEncode(executable)})(worker, turso, {});
 assert.deepEqual(result.functions, ["query", "token"]);
+assert.equal(result.options.type, ${jsonEncode(entry)});
 async function verify() {
 if (${projectId != null}) {
   for (const selected of ["firebase-dev", "firebase-prod"]) {
@@ -298,9 +474,9 @@ export default m.deploy([
   try {
     Directory.current = temp;
     Directory("cloudflare/src").createSync(recursive: true);
-    File("cloudflare/src/index.ts").writeAsStringSync(source);
+    File("cloudflare/src/edge.ts").writeAsStringSync(source);
     File("cloudflare/wrangler.jsonc").writeAsStringSync(
-        jsonEncode({"name": "test-worker", "main": "src/index.ts"}));
+        jsonEncode({"name": "test-worker", "main": "src/edge.ts"}));
     File("pubspec.yaml").writeAsStringSync(
         "name: test_app\ndependencies:\n  masamune_model_turso: any\n");
     File("cloudflare/package.json").writeAsStringSync(jsonEncode({
@@ -321,10 +497,10 @@ export default m.deploy([
       },
     }, args: const []);
     await action.exec(context);
-    final firstIndex = File("cloudflare/src/index.ts").readAsStringSync();
+    final firstIndex = File("cloudflare/src/edge.ts").readAsStringSync();
     final firstWrangler = File("cloudflare/wrangler.jsonc").readAsStringSync();
     await action.exec(context);
-    _expect(firstIndex == File("cloudflare/src/index.ts").readAsStringSync(),
+    _expect(firstIndex == File("cloudflare/src/edge.ts").readAsStringSync(),
         "再生成でresolverを変更しません。");
     _expect(
         firstWrangler == File("cloudflare/wrangler.jsonc").readAsStringSync(),

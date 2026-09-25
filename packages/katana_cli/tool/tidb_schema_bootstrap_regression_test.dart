@@ -61,7 +61,7 @@ Future<void> main() async {
     File("cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js")
         .writeAsStringSync("");
     // 既存projectと同じく、旧参照先のmanifest importとschemaManifest指定を持つ入口から始める。
-    File("cloudflare/src/index.ts").writeAsStringSync(
+    File("cloudflare/src/edge.ts").writeAsStringSync(
         'import tidbSchemaManifest from "../../tidb/schema/schema.json";\n'
         'export default m.deploy([tidb.Functions.tidb({ schemaManifest: tidbSchemaManifest as tidb.SchemaManifest, rules: rules, databasePrefix: "dev_" },), other()]);\n');
     final wrangler = File("${temporary.path}/wrangler-fixture.sh");
@@ -97,9 +97,9 @@ printf '%s\n' "$3" >> secret-names.txt
       }
     }, args: const []);
     await const CloudflareTidbCliAction().exec(context);
-    final first = File("cloudflare/src/index.ts").readAsStringSync();
+    final first = File("cloudflare/src/edge.ts").readAsStringSync();
     await const CloudflareTidbCliAction().exec(context);
-    check(File("cloudflare/src/index.ts").readAsStringSync() == first,
+    check(File("cloudflare/src/edge.ts").readAsStringSync() == first,
         "再applyで登録が重複しました。");
     check(RegExp(r"tidb.Functions.tidb\(").allMatches(first).length == 1,
         "公開入口が重複しました。");
@@ -156,7 +156,7 @@ cloudflare:
 """);
   final package = File(
       "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js");
-  final index = File("cloudflare/src/index.ts");
+  final index = File("cloudflare/src/edge.ts");
   final before = index.readAsStringSync();
   final context = ExecContext(yaml: {
     "bin": {"node": node.path},

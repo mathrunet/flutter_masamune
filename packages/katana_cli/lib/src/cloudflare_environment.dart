@@ -245,6 +245,49 @@ class WranglerEnvironmentSynchronizer {
     );
   }
 
+  /// Adds or updates `"placement": { "region": [region] }` only in the
+  /// selected environment object, preserving the other environment.
+  ///
+  /// 選択した環境オブジェクトだけに`"placement": { "region": [region] }`を
+  /// 追加・更新し、他の環境は保持します。
+  static String upsertPlacementRegion(
+    String source, {
+    required String flavor,
+    required String region,
+  }) {
+    final trimmed = region.trim();
+    if (trimmed.isEmpty) {
+      throw ArgumentError.value(region, "region", "Must not be empty.");
+    }
+    final placement = '{ "region": ${jsonEncode(trimmed)} }';
+    return transformEnvironment(
+      source,
+      flavor: flavor,
+      transform: (environment) {
+        final match =
+            RegExp(r'''"placement"\s*:\s*\{''').firstMatch(environment);
+        if (match != null) {
+          final open = environment.indexOf("{", match.start);
+          final close = _findClosingBrace(environment, open);
+          if (close < 0) {
+            throw const FormatException(
+                "Wrangler placement object is malformed.");
+          }
+          return environment.replaceRange(open, close + 1, placement);
+        }
+        final close = _findClosingBrace(environment, 0);
+        if (close < 0) {
+          throw FormatException("Wrangler environment is malformed: $flavor");
+        }
+        final before = environment.substring(0, close).trimRight();
+        final comma = before.endsWith(",") || before.endsWith("{") ? "" : ",";
+        return "$before$comma\n"
+            '      "placement": $placement\n'
+            "    ${environment.substring(close)}";
+      },
+    );
+  }
+
   static int _findClosingBrace(String source, int open) {
     var depth = 0;
     var escaped = false;

@@ -63,10 +63,10 @@ class CloudflareKvCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final indexFile = File("cloudflare/src/index.ts");
+    final indexFile = File(cloudflareEdgeEntryPath);
     if (!indexFile.existsSync()) {
       error(
-        "The file `cloudflare/src/index.ts` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+        "The file `$cloudflareEdgeEntryPath` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
       );
       return;
     }
@@ -172,7 +172,7 @@ export class MasamuneKvVectorCoordinator extends KvVectorCoordinator {}
     final deployFunctions = _findDeployFunctions(updated);
     if (deployFunctions == null) {
       error(
-        "Could not find `m.deploy([` in `cloudflare/src/index.ts`. Please check the Cloudflare Workers entrypoint.",
+        "Could not find `m.deploy([` in `$cloudflareEdgeEntryPath`. Please check the Cloudflare Workers entrypoint.",
       );
       return null;
     }

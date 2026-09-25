@@ -76,7 +76,7 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
     final npm = bin.get("npm", "npm");
     final wrangler = bin.get("wrangler", "wrangler");
     final flavor = context.flavorContext?.flavor.name ?? "prod";
-    final indexFile = File("cloudflare/src/index.ts");
+    final indexFile = File(cloudflareEdgeEntryPath);
     if (indexFile.existsSync()) {
       CloudflareSourceUtils.validateFirebaseProjectId(
         await indexFile.readAsString(),

@@ -387,7 +387,7 @@ export function setSharedHubAuthorize(authorize: SharedHubOptions["authorize"]) 
 export const sharedHubOptions: SharedHubOptions = {...$sharedJson, authorize: (context, scope) => sharedAuthorize(context, scope)};
 """ : ""}
 ''');
-    final index = File("cloudflare/src/index.ts");
+    final index = File(cloudflareEdgeEntryPath);
     var text = index.readAsStringSync();
     final exports =
         'export { MasamuneUserDatabase, MasamuneQueueCoordinator${sharedEnabled ? ", MasamuneSharedHub" : ""} } from "./masamune_do";';

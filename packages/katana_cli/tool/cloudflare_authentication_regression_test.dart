@@ -71,7 +71,7 @@ Future<void> _testSecretsValueTakesPriorityAndApplyIsIdempotent() async {
       await action.exec(context);
       await action.exec(context);
 
-      final index = await File("cloudflare/src/index.ts").readAsString();
+      final index = await File("cloudflare/src/edge.ts").readAsString();
       _expectCount(
         index,
         'import * as auth from "@mathrunet/masamune_cloudflare_auth";',
@@ -153,7 +153,7 @@ export default m.deploy([
   auth.Functions.deleteUser(),
 ], { auth: new EnvironmentFirebaseAuthAdapter() });
 ''';
-      await File("cloudflare/src/index.ts").writeAsString(custom);
+      await File("cloudflare/src/edge.ts").writeAsString(custom);
       for (final (projectId, expected) in [
         ("firebase-test", selected),
         ("other-project", other),
@@ -164,7 +164,7 @@ export default m.deploy([
         _expectEqual(await fixture.secretOutput.readAsString(), "$expected\n",
             "The account must match the selected Firebase project.");
         _expectEqual(
-            await File("cloudflare/src/index.ts").readAsString(),
+            await File("cloudflare/src/edge.ts").readAsString(),
             custom,
             "Repeated apply must preserve TABELIA's Worker entrypoint.");
       }
@@ -181,7 +181,7 @@ Future<void> _testRejectedAccountsDoNotWrite() async {
     serviceAccountFile: first,
     run: (fixture) async {
       await File("cloudflare/second.json").writeAsString(second);
-      final source = await File("cloudflare/src/index.ts").readAsString();
+      final source = await File("cloudflare/src/edge.ts").readAsString();
       await _expectFails(
         () => const CloudflareAuthenticationCliAction().exec(fixture.context()),
         "Multiple Firebase service accounts",
@@ -202,7 +202,7 @@ Future<void> _testRejectedAccountsDoNotWrite() async {
       );
       _expect(!fixture.secretOutput.existsSync(),
           "Rejected accounts must not be uploaded.");
-      _expectEqual(await File("cloudflare/src/index.ts").readAsString(), source,
+      _expectEqual(await File("cloudflare/src/edge.ts").readAsString(), source,
           "Rejected accounts must not alter Worker source.");
     },
   );
@@ -212,14 +212,14 @@ Future<void> _testDeployRejectsStaticProjectMismatch() async {
   await _withFixture(
     serviceAccountFile: null,
     run: (fixture) async {
-      final source = await File("cloudflare/src/index.ts").readAsString();
+      final source = await File("cloudflare/src/edge.ts").readAsString();
       await _expectFails(
         () => const CloudflareDeployCliAction().exec(
           fixture.context(firebaseProjectId: "other-project"),
         ),
         "different Firebase project",
       );
-      _expectEqual(await File("cloudflare/src/index.ts").readAsString(), source,
+      _expectEqual(await File("cloudflare/src/edge.ts").readAsString(), source,
           "Deploy must not alter Worker source.");
       _expect(!fixture.secretOutput.existsSync(),
           "Deploy must not upload Worker secrets.");
@@ -240,7 +240,7 @@ class EnvironmentFirebaseAuthAdapter {
 }
 export default m.deploy([], { auth: new EnvironmentFirebaseAuthAdapter() });
 ''';
-      await File("cloudflare/src/index.ts").writeAsString(source);
+      await File("cloudflare/src/edge.ts").writeAsString(source);
       final wrangler = File("cloudflare/wrangler.jsonc");
       await wrangler.writeAsString(_wranglerFixture("dev", "other-project"));
       await _expectFails(
@@ -271,7 +271,7 @@ export default m.deploy([], { auth: new EnvironmentFirebaseAuthAdapter() });
           "A matching runtime source must be deployable.");
       _expect(!calls.any((call) => call.startsWith("secret put")),
           "Deploy must never write a Worker secret.");
-      _expectEqual(await File("cloudflare/src/index.ts").readAsString(), source,
+      _expectEqual(await File("cloudflare/src/edge.ts").readAsString(), source,
           "Deploy must preserve runtime Worker source.");
     },
   );
@@ -363,7 +363,7 @@ Future<void> _withFixture({
   try {
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
-    await File("cloudflare/src/index.ts").writeAsString("""
+    await File("cloudflare/src/edge.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 
 export default m.deploy([], {

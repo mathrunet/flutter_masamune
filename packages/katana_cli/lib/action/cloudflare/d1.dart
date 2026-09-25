@@ -218,7 +218,7 @@ class CloudflareD1CliAction extends CliCommand with CliActionMixin {
     }
     final schemaFile = File(schemaPath);
     final wranglerFile = File("cloudflare/wrangler.jsonc");
-    final indexFile = File("cloudflare/src/index.ts");
+    final indexFile = File(cloudflareEdgeEntryPath);
     if (!schemaFile.existsSync() ||
         !wranglerFile.existsSync() ||
         !indexFile.existsSync() ||

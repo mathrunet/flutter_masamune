@@ -6,9 +6,45 @@ import "dart:io";
 // Project imports:
 import "package:katana_cli/katana_cli.dart";
 
-/// Utilities for editing `cloudflare/src/index.ts`.
+/// Path of the edge Worker entrypoint (no placement; Turso, KV, R2, D1, DO, auth, etc.).
 ///
-/// `cloudflare/src/index.ts`を編集するためのユーティリティ。
+/// edge Worker（placementなし。Turso・KV・R2・D1・DO・認証など）のエントリファイルのパス。
+const cloudflareEdgeEntryPath = "cloudflare/src/edge.ts";
+
+/// Path of the region Worker entrypoint (fixed placement; TiDB, etc.).
+///
+/// region Worker（placement固定。TiDBなど）のエントリファイルのパス。
+const cloudflareRegionEntryPath = "cloudflare/src/region.ts";
+
+/// Legacy Worker entrypoint path used before the edge/region split.
+///
+/// edge/region分割前に使われていた旧Workerエントリファイルのパス。
+const cloudflareLegacyEntryPath = "cloudflare/src/index.ts";
+
+/// Wrangler configuration file name of the region Worker (relative to `cloudflare/`).
+///
+/// region WorkerのWrangler設定ファイル名（`cloudflare/`からの相対パス）。
+const cloudflareRegionWranglerConfig = "wrangler.region.jsonc";
+
+/// Returns true if the region Worker is enabled in [yaml] (`cloudflare.workers.region.enable`).
+///
+/// [yaml]でregion Worker（`cloudflare.workers.region.enable`）が有効な場合trueを返します。
+bool isCloudflareRegionWorkerEnabled(Map yaml) {
+  final cloudflare = yaml["cloudflare"];
+  if (cloudflare is! Map) {
+    return false;
+  }
+  final workers = cloudflare["workers"];
+  if (workers is! Map || workers["enable"] != true) {
+    return false;
+  }
+  final region = workers["region"];
+  return region is Map && region["enable"] == true;
+}
+
+/// Utilities for editing Cloudflare Worker entrypoints such as `cloudflare/src/edge.ts`.
+///
+/// `cloudflare/src/edge.ts`などのCloudflare Workerエントリファイルを編集するためのユーティリティ。
 class CloudflareSourceUtils {
   CloudflareSourceUtils._();
 
@@ -54,7 +90,11 @@ class CloudflareSourceUtils {
   /// Rejects a Worker entrypoint pinned to a different Firebase project.
   ///
   /// Runtime expressions such as `resolveFirebaseProjectId(env)` remain valid.
-  static void validateFirebaseProjectId(String source, String projectId) {
+  static void validateFirebaseProjectId(
+    String source,
+    String projectId, {
+    String path = cloudflareEdgeEntryPath,
+  }) {
     for (final functionName in [
       "m.FirebaseAuthAdapter",
       "auth.Functions.deleteUser",
@@ -65,7 +105,7 @@ class CloudflareSourceUtils {
       for (final match in pattern.allMatches(source)) {
         if (match.group(1) != projectId) {
           throw StateError(
-            "cloudflare/src/index.ts pins $functionName to a different Firebase project. "
+            "$path pins $functionName to a different Firebase project. "
             "Use a runtime environment-based project ID before applying or deploying this flavor.",
           );
         }
@@ -237,13 +277,14 @@ class CloudflareSourceUtils {
   }
 }
 
-/// Apply Cloudflare Workers functions to `cloudflare/src/index.ts`.
+/// Apply Cloudflare Workers functions to the Worker entrypoint [entry]
+/// (defaults to `cloudflare/src/edge.ts`).
 ///
 /// Ensures the import of [package] with [alias], and inserts each entry of
 /// [functions] (a map of function name to the code to insert) into
 /// `m.deploy([...])` if it does not already exist. Existing calls are replaced.
 ///
-/// `cloudflare/src/index.ts`にCloudflare WorkersのFunctionを適用します。
+/// Workerのエントリファイル[entry]（既定は`cloudflare/src/edge.ts`）にCloudflare WorkersのFunctionを適用します。
 ///
 /// [alias]付きの[package]のimportを保証し、[functions]（関数名から挿入コードへのマップ)の
 /// 各エントリーが存在しない場合は`m.deploy([...])`に挿入します。既存の呼び出しは置き換えられます。
@@ -252,11 +293,12 @@ Future<bool> applyCloudflareWorkersFunctions({
   required String package,
   required Map<String, String> functions,
   bool replaceExisting = true,
+  String entry = cloudflareEdgeEntryPath,
 }) async {
-  final indexFile = File("cloudflare/src/index.ts");
+  final indexFile = File(entry);
   if (!indexFile.existsSync()) {
     error(
-      "The file `cloudflare/src/index.ts` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+      "The file `$entry` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
     );
     return false;
   }
@@ -282,7 +324,7 @@ Future<bool> applyCloudflareWorkersFunctions({
   final updated = CloudflareSourceUtils.insertDeployFunctions(source, inserts);
   if (updated == null) {
     error(
-      "Could not find the Cloudflare deploy array in `cloudflare/src/index.ts`. Please check the namespace import and Workers entrypoint.",
+      "Could not find the Cloudflare deploy array in `$entry`. Please check the namespace import and Workers entrypoint.",
     );
     return false;
   }
@@ -356,13 +398,19 @@ Future<void> installMissingCloudflarePackages({
 
 /// Set a Cloudflare Workers secret with `wrangler secret put`.
 ///
+/// If [config] is specified, `-c <config>` is passed to target another Wrangler configuration
+/// (e.g. `wrangler.region.jsonc`).
+///
 /// `wrangler secret put`でCloudflare Workersのシークレットを設定します。
+///
+/// [config]を指定すると`-c <config>`を渡し、別のWrangler設定（例：`wrangler.region.jsonc`）を対象にします。
 Future<void> putWranglerSecret({
   required String wrangler,
   required String environment,
   required String name,
   required String value,
   String workingDirectory = "cloudflare",
+  String? config,
 }) async {
   if (isLocalApply) {
     throw StateError("--local ではCloudflare secretを更新できません。");
@@ -376,6 +424,7 @@ Future<void> putWranglerSecret({
       name,
       "--env",
       environment,
+      if (config != null) ...["-c", config],
     ],
     workingDirectory: workingDirectory,
     runInShell: true,

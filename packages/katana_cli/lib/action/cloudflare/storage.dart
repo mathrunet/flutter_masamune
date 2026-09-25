@@ -198,11 +198,11 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
         throw StateError("Storageのローカル設定が不正です: backup");
       }
     }
-    for (final path in [
-      "cloudflare/src/index.ts",
-      "cloudflare/wrangler.jsonc"
-    ]) {
-      if (!File(path).existsSync()) {
+    for (final path in [cloudflareEdgeEntryPath, "cloudflare/wrangler.jsonc"]) {
+      // The legacy `index.ts` is migrated to `edge.ts` by the Cloudflare init action.
+      if (!File(path).existsSync() &&
+          !(path == cloudflareEdgeEntryPath &&
+              File(cloudflareLegacyEntryPath).existsSync())) {
         throw StateError("--local に必要な初期設定がありません: $path");
       }
     }
@@ -312,10 +312,10 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final indexFile = File("cloudflare/src/index.ts");
+    final indexFile = File(cloudflareEdgeEntryPath);
     if (!indexFile.existsSync()) {
       error(
-        "The file `cloudflare/src/index.ts` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
+        "The file `$cloudflareEdgeEntryPath` does not exist. Initialize Cloudflare Workers by enabling [cloudflare]->[workers]->[enable] and executing `katana apply`.",
       );
       return;
     }
@@ -555,7 +555,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       final deployFunctions = _findDeployFunctions(updated);
       if (deployFunctions == null) {
         error(
-          "Could not find `m.deploy([` in `cloudflare/src/index.ts`. Please check the Cloudflare Workers entrypoint.",
+          "Could not find `m.deploy([` in `$cloudflareEdgeEntryPath`. Please check the Cloudflare Workers entrypoint.",
         );
         return null;
       }
@@ -573,7 +573,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final deployFunctions = _findDeployFunctions(updated);
     if (deployFunctions == null) {
       error(
-        "Could not find `m.deploy([` in `cloudflare/src/index.ts`. Please check the Cloudflare Workers entrypoint.",
+        "Could not find `m.deploy([` in `$cloudflareEdgeEntryPath`. Please check the Cloudflare Workers entrypoint.",
       );
       return null;
     }

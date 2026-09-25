@@ -343,6 +343,27 @@ process.stdin.on("end", async () => {
   await output;
 }
 
+/// Removes the TiDB function registration and its now-unused imports from a Worker entrypoint [source].
+///
+/// Workerエントリ[source]からTiDB関数の登録と、不要になったimportを除去します。
+String removeTidbFromCloudflareEntry(String source) {
+  var updated = CloudflareSourceUtils.replaceFunctionCall(
+      source, "tidb.Functions.tidb", "");
+  final manifestImport = RegExp(
+      r'^import tidbSchemaManifest from "[^"]+";[ \t]*\r?\n?',
+      multiLine: true);
+  if (!updated.replaceAll(manifestImport, "").contains("tidbSchemaManifest")) {
+    updated = updated.replaceAll(manifestImport, "");
+  }
+  final tidbImport = RegExp(
+      r'^import \* as tidb from "@mathrunet/masamune_cloudflare_tidb";[ \t]*\r?\n?',
+      multiLine: true);
+  if (!updated.replaceAll(tidbImport, "").contains("tidb.")) {
+    updated = updated.replaceAll(tidbImport, "");
+  }
+  return updated;
+}
+
 /// WorkerへTiDB接続設定と共通manifestを反映する。DDLはmigrateへ分離する。
 class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
   /// TiDB接続設定。
@@ -371,15 +392,25 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         environment: context.flavorContext?.flavor.name ?? "prod");
   }
 
-  bool _validateCloudflareFiles() {
+  bool _validateCloudflareFiles({required bool regionEnabled}) {
     if (!Directory("cloudflare").existsSync()) {
       error(
         "The directory `cloudflare` does not exist. Enable Cloudflare Workers and execute `katana apply` first.",
       );
       return false;
     }
-    if (!File("cloudflare/src/index.ts").existsSync()) {
-      error("The file `cloudflare/src/index.ts` does not exist.");
+    final entry =
+        regionEnabled ? cloudflareRegionEntryPath : cloudflareEdgeEntryPath;
+    if (!File(entry).existsSync()) {
+      error(regionEnabled
+          ? "The file `$entry` does not exist. Run `katana apply` with [cloudflare]->[workers]->[region]->[enable] set to `true` to generate the region Worker."
+          : "The file `$entry` does not exist.");
+      return false;
+    }
+    if (regionEnabled &&
+        !File("cloudflare/$cloudflareRegionWranglerConfig").existsSync()) {
+      error(
+          "The file `cloudflare/$cloudflareRegionWranglerConfig` does not exist. Run `katana apply` to generate the region Worker.");
       return false;
     }
     return true;
@@ -390,7 +421,9 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     required String wrangler,
     required String environment,
   }) async {
-    if (!_validateCloudflareFiles()) {
+    // TiDB runs on the region Worker when it is enabled, otherwise on the edge Worker.
+    final regionEnabled = isCloudflareRegionWorkerEnabled(context.yaml);
+    if (!_validateCloudflareFiles(regionEnabled: regionEnabled)) {
       return;
     }
     final config = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
@@ -465,7 +498,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       error("直結対応のmasamune_cloudflare_tidbが未導入です。承認済みのpackage導入後に再実行してください。");
       return;
     }
-    final index = File("cloudflare/src/index.ts");
+    final index = File(
+        regionEnabled ? cloudflareRegionEntryPath : cloudflareEdgeEntryPath);
     var source = await index.readAsString();
     const statement = 'import tidbSchemaManifest from "./tidb_schema.json";';
     // 既存の`tidbSchemaManifest` importは参照先だけを生成物へ差し替え、重複宣言を作らない。
@@ -592,6 +626,19 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
     // ローカルの前提がすべて揃った後で、準備済みの設定を書き込む。
     await File("cloudflare/src/tidb_schema.json").writeAsString(manifestText);
     await index.writeAsString(preparedSource);
+    if (regionEnabled) {
+      // Move the TiDB registration from the edge Worker to the region Worker.
+      final edge = File(cloudflareEdgeEntryPath);
+      if (edge.existsSync()) {
+        final edgeSource = await edge.readAsString();
+        if (CloudflareSourceUtils.containsFunctionCall(
+            edgeSource, functionName)) {
+          await edge.writeAsString(removeTidbFromCloudflareEntry(edgeSource));
+          label(
+              "Removed `$functionName` from `$cloudflareEdgeEntryPath` because TiDB is registered in `$cloudflareRegionEntryPath`.");
+        }
+      }
+    }
     for (final entry in {
       "TIDB_HOST": host,
       "TIDB_USERNAME": username,
@@ -601,7 +648,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           wrangler: wrangler,
           environment: environment,
           name: entry.key,
-          value: entry.value);
+          value: entry.value,
+          config: regionEnabled ? cloudflareRegionWranglerConfig : null);
     }
     label("TiDB直結設定を反映しました。DB適用はkatana migrate、Worker公開はdeployで実行してください。");
   }

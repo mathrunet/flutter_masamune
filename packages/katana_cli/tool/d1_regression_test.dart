@@ -95,10 +95,10 @@ Future<void> main() async {
         .createSync(recursive: true);
     File("cloudflare/node_modules/@mathrunet/masamune_cloudflare_d1/dist/worker.js")
         .writeAsStringSync("");
-    File("cloudflare/src/index.ts")
+    File("cloudflare/src/edge.ts")
         .writeAsStringSync("export default m.deploy([]);");
     File("cloudflare/wrangler.jsonc")
-        .writeAsStringSync('{"name":"fixture","main":"src/index.ts"}');
+        .writeAsStringSync('{"name":"fixture","main":"src/edge.ts"}');
     File("d1/schema/schema.json").writeAsStringSync(jsonEncode({
       "dialect": "sqlite",
       "tables": [
@@ -152,10 +152,10 @@ esac
     final context =
         ExecContext(yaml: ctx.yaml, secrets: {}, args: [], flavorContext: ctx);
     await const CloudflareD1CliAction().exec(context);
-    final worker = File("cloudflare/src/index.ts").readAsStringSync();
+    final worker = File("cloudflare/src/edge.ts").readAsStringSync();
     final wranglerSource = File("cloudflare/wrangler.jsonc").readAsStringSync();
     await const CloudflareD1CliAction().exec(context);
-    check(worker == File("cloudflare/src/index.ts").readAsStringSync(),
+    check(worker == File("cloudflare/src/edge.ts").readAsStringSync(),
         "再applyでWorker登録が重複");
     check(
         wranglerSource == File("cloudflare/wrangler.jsonc").readAsStringSync(),

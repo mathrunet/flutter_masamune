@@ -32,7 +32,7 @@ Future<void> main(List<String> arguments) async {
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
     await File("cloudflare/.gitignore").writeAsString("node_modules\n");
-    await File("cloudflare/src/index.ts").writeAsString("""
+    await File("cloudflare/src/edge.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 
 export default m.deploy([
@@ -41,7 +41,7 @@ export default m.deploy([
     await File("cloudflare/wrangler.jsonc").writeAsString("""
 {
   "name": "test-worker",
-  "main": "src/index.ts",
+  "main": "src/edge.ts",
   "upload_source_maps": true,
   "r2_buckets": [
     {
@@ -176,7 +176,7 @@ exit 0
       "Only Cloudflare API code 11015 may be treated as an empty list.",
     );
 
-    final index = await File("cloudflare/src/index.ts").readAsString();
+    final index = await File("cloudflare/src/edge.ts").readAsString();
     _expectCount(index, "storage.Functions.storageCloudflare(", 1);
     _expectCount(index, "storage.Functions.storageCloudflareBackup(", 1);
 
@@ -210,7 +210,7 @@ export class CustomBackupWorker extends mc.QueueProcessWorkdersBase {
   }
 }
 """);
-    await File("cloudflare/src/index.ts").writeAsString("""
+    await File("cloudflare/src/edge.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 import * as storage from "@mathrunet/masamune_cloudflare_storage";
 import { CustomBackupWorker } from "./workers/custom_backup";
@@ -228,7 +228,7 @@ export default m.deploy([
 ]);
 """);
     await File("cloudflare/wrangler.jsonc").writeAsString(
-      '{"name":"fixture","main":"src/index.ts"}',
+      '{"name":"fixture","main":"src/edge.ts"}',
     );
     await File("cloudflare/.gitignore").writeAsString("node_modules\n");
     await File("cloudflare/package.json").writeAsString(
@@ -259,12 +259,12 @@ exit 0
     }, args: const []);
     const action = CloudflareStorageCliAction();
     await action.exec(context);
-    final first = await File("cloudflare/src/index.ts").readAsString();
+    final first = await File("cloudflare/src/edge.ts").readAsString();
     _expectCount(first, "new CustomBackupWorker()", 1);
     _expectCount(first, "storage.Functions.storageCloudflareBackup(", 0);
     await action.exec(context);
     _expect(
-      await File("cloudflare/src/index.ts").readAsString() == first,
+      await File("cloudflare/src/edge.ts").readAsString() == first,
       "Custom Queue backup Worker must remain stable on repeated apply.",
     );
     await File("cloudflare/src/workers/maintenance.ts").writeAsString("""
@@ -275,13 +275,13 @@ export class MaintenanceWorker extends mc.QueueProcessWorkdersBase {
   }
 }
 """);
-    await File("cloudflare/src/index.ts").writeAsString(
+    await File("cloudflare/src/edge.ts").writeAsString(
       first
           .replaceAll("CustomBackupWorker", "MaintenanceWorker")
           .replaceAll("./workers/custom_backup", "./workers/maintenance"),
     );
     await action.exec(context);
-    final unrelated = await File("cloudflare/src/index.ts").readAsString();
+    final unrelated = await File("cloudflare/src/edge.ts").readAsString();
     _expectCount(unrelated, "new MaintenanceWorker()", 1);
     _expectCount(unrelated, "storage.Functions.storageCloudflareBackup(", 1);
   } finally {
@@ -299,7 +299,7 @@ Future<void> _testSharedBackupQueueConsumerOwnership() async {
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
     await File("cloudflare/.gitignore").writeAsString("node_modules\n");
-    await File("cloudflare/src/index.ts").writeAsString("""
+    await File("cloudflare/src/edge.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 
 export default m.deploy([
@@ -308,7 +308,7 @@ export default m.deploy([
     await File("cloudflare/wrangler.jsonc").writeAsString("""
 {
   "name": "shared-backup-worker",
-  "main": "src/index.ts",
+  "main": "src/edge.ts",
   "queues": {
     "producers": [
       {
@@ -458,7 +458,7 @@ exit 0
     await File("cloudflare/wrangler.jsonc").writeAsString("""
 {
   "name": "shared-backup-worker",
-  "main": "src/index.ts",
+  "main": "src/edge.ts",
   "queues": {
     "producers": [
       {
@@ -752,7 +752,7 @@ Future<_WranglerScenarioResult> _runWranglerScenario({
     Directory.current = temporary;
     await Directory("cloudflare/src").create(recursive: true);
     await File("cloudflare/.gitignore").writeAsString("node_modules\n");
-    await File("cloudflare/src/index.ts").writeAsString("""
+    await File("cloudflare/src/edge.ts").writeAsString("""
 import * as m from "@mathrunet/masamune_cloudflare";
 
 export default m.deploy([
@@ -761,7 +761,7 @@ export default m.deploy([
     await File("cloudflare/wrangler.jsonc").writeAsString("""
 {
   "name": "test-worker",
-  "main": "src/index.ts"
+  "main": "src/edge.ts"
 }
 """);
     await File("pubspec.yaml").writeAsString("""

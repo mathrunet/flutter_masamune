@@ -7,7 +7,15 @@ import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process.
 ///
+/// Deploys the edge Worker (`cloudflare/wrangler.jsonc`) and, when
+/// [cloudflare]->[workers]->[region]->[enable] is `true`, the region Worker
+/// (`cloudflare/wrangler.region.jsonc`) in this order.
+///
 /// Cloudflareのデプロイ処理を行います。
+///
+/// edge Worker（`cloudflare/wrangler.jsonc`）をデプロイし、
+/// [cloudflare]->[workers]->[region]->[enable]が`true`の場合はregion Worker
+/// （`cloudflare/wrangler.region.jsonc`）をその後にデプロイします。
 class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
   /// Cloudflare deployment process.
   ///
@@ -36,16 +44,41 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
     final projectId = context.yaml.getAsMap("cloudflare").get("project_id", "");
     final firebaseProjectId =
         context.yaml.getAsMap("firebase").get("project_id", "");
-    final workerIndex = File("cloudflare/src/index.ts");
-    if (firebaseProjectId.isNotEmpty && workerIndex.existsSync()) {
-      CloudflareSourceUtils.validateFirebaseProjectId(
-        await workerIndex.readAsString(),
-        firebaseProjectId,
+    final regionEnabled = isCloudflareRegionWorkerEnabled(context.yaml);
+    final targets = <_CloudflareDeployTarget>[
+      _CloudflareDeployTarget(
+        entry: cloudflareEdgeEntryPath,
+        config: null,
+        workerName: projectId,
+      ),
+      if (regionEnabled)
+        _CloudflareDeployTarget(
+          entry: cloudflareRegionEntryPath,
+          config: cloudflareRegionWranglerConfig,
+          workerName: "$projectId-region",
+        ),
+    ];
+    if (regionEnabled && !File(cloudflareRegionEntryPath).existsSync()) {
+      error(
+        "The file `$cloudflareRegionEntryPath` does not exist. Run `katana apply` with [cloudflare]->[workers]->[region]->[enable] set to `true` first.",
       );
-      final wranglerFile = File("cloudflare/wrangler.jsonc");
+      return;
+    }
+    // Validate every target before deploying anything.
+    for (final target in targets) {
+      final workerEntry = File(target.entry);
+      if (firebaseProjectId.isEmpty || !workerEntry.existsSync()) {
+        continue;
+      }
+      CloudflareSourceUtils.validateFirebaseProjectId(
+        await workerEntry.readAsString(),
+        firebaseProjectId,
+        path: target.entry,
+      );
+      final wranglerPath = "cloudflare/${target.config ?? "wrangler.jsonc"}";
+      final wranglerFile = File(wranglerPath);
       if (!wranglerFile.existsSync()) {
-        throw StateError(
-            "cloudflare/wrangler.jsonc is required for deployment.");
+        throw StateError("$wranglerPath is required for deployment.");
       }
       final source = await wranglerFile.readAsString();
       String? environment;
@@ -64,35 +97,46 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
           _wranglerVariable(vars, "FLAVOR") != flavor ||
           _wranglerVariable(vars, "FIREBASE_PROJECT_ID") != firebaseProjectId) {
         throw StateError(
-          "Wrangler $flavor FLAVOR/FIREBASE_PROJECT_ID does not match the selected Firebase project.",
+          "Wrangler $flavor FLAVOR/FIREBASE_PROJECT_ID in $wranglerPath does not match the selected Firebase project.",
         );
       }
     }
-    // ignore: avoid_print
-    print("Cloudflare deploy target: $flavor ($projectId)");
-    final existing = await Process.run(
-      wrangler,
-      ["deployments", "list", "--json", "--env", flavor],
-      workingDirectory: "cloudflare",
-      runInShell: true,
-    );
-    if (existing.exitCode != 0) {
-      error(
-        "Cloudflare Worker `$projectId` does not exist or is not accessible. "
-        "Katana will not create it automatically.",
-      );
-      return;
-    }
-    await command(
-      "Run cloudflare deploy",
-      [
+    for (final target in targets) {
+      final config = target.config;
+      final configArguments =
+          config == null ? const <String>[] : ["-c", config];
+      // ignore: avoid_print
+      print("Cloudflare deploy target: $flavor (${target.workerName})");
+      final existing = await Process.run(
         wrangler,
-        "deploy",
-        "--env",
-        flavor,
-      ],
-      workingDirectory: "cloudflare",
-    );
+        ["deployments", "list", "--json", ...configArguments, "--env", flavor],
+        workingDirectory: "cloudflare",
+        runInShell: true,
+      );
+      if (existing.exitCode != 0) {
+        error(
+          "Cloudflare Worker `${target.workerName}` does not exist or is not accessible. "
+          "Katana will not create it automatically.",
+        );
+        return;
+      }
+      await command(
+        config == null
+            ? "Run cloudflare deploy"
+            : "Run cloudflare deploy ($config)",
+        [
+          wrangler,
+          "deploy",
+          ...configArguments,
+          "--env",
+          flavor,
+        ],
+        workingDirectory: "cloudflare",
+        // Stop before the region Worker when the edge Worker fails.
+        catchError: regionEnabled,
+        failOnStderr: false,
+      );
+    }
   }
 
   String? _wranglerVariable(String vars, String name) {
@@ -101,4 +145,18 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
         .toList();
     return matches.length == 1 ? matches.single.group(1) : null;
   }
+}
+
+class _CloudflareDeployTarget {
+  const _CloudflareDeployTarget({
+    required this.entry,
+    required this.config,
+    required this.workerName,
+  });
+
+  final String entry;
+
+  final String? config;
+
+  final String workerName;
 }
