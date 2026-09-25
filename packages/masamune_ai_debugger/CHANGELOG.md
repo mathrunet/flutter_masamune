@@ -1,3 +1,8 @@
+## 3.8.1
+
+
+ - Update dependencies: masamune.
+
 ## 3.8.0
 
  - **FEAT**(masamune_ai_debugger): enhance login UI with selectable debug accounts. ([457514de](https://github.com/mathrunet/flutter_masamune/commit/457514debd65856dca5065e894ff9f8306e3f234))
