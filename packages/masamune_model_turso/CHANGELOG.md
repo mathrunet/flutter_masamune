@@ -1,3 +1,8 @@
+## 3.9.1
+
+
+ - Update dependencies: masamune.
+
 ## 3.9.0
 
  - **FEAT**(masamune_model_turso): release version 3.8.0 with worker-based CRUD and group preference. ([1b95c963](https://github.com/mathrunet/flutter_masamune/commit/1b95c963ca1ec6af9f839fe298d16a87fd11463a))

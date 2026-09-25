@@ -1,3 +1,9 @@
+## 3.3.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([0a587ee0](https://github.com/mathrunet/flutter_masamune/commit/0a587ee08a8244896780e0f558df9c65f5ab659b))
+ - **FEAT**(masamune_functions_cloudflare): route region actions to regionEndpoint ([0a587ee0](https://github.com/mathrunet/flutter_masamune/commit/0a587ee08a8244896780e0f558df9c65f5ab659b))
+ - Update dependencies: masamune.
+
 ## 3.2.11
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))

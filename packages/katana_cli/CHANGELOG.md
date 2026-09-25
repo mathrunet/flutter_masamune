@@ -1,3 +1,12 @@
+## 3.32.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([26b99840](https://github.com/mathrunet/flutter_masamune/commit/26b9984049e8a62b3a6ca953a4c481bdd8c60104))
+ - **FIX**(katana_cli): deploy Cloudflare Pages from a static directory without building Flutter web ([26b99840](https://github.com/mathrunet/flutter_masamune/commit/26b9984049e8a62b3a6ca953a4c481bdd8c60104))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([499a83a1](https://github.com/mathrunet/flutter_masamune/commit/499a83a1bcf9db9dd6f39af6bc8de39a48f11b35))
+ - **FIX**(katana_cli): attach Cloudflare Pages domains through the Cloudflare API ([499a83a1](https://github.com/mathrunet/flutter_masamune/commit/499a83a1bcf9db9dd6f39af6bc8de39a48f11b35))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([54e4a9f5](https://github.com/mathrunet/flutter_masamune/commit/54e4a9f5dee5ec1fdfa79688c5edd554ac5d76fb))
+ - **FEAT**(katana_cli): register generated Workers in edge.ts or region.ts with --region ([54e4a9f5](https://github.com/mathrunet/flutter_masamune/commit/54e4a9f5dee5ec1fdfa79688c5edd554ac5d76fb))
+
 ## 3.31.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([ecfea50d](https://github.com/mathrunet/flutter_masamune/commit/ecfea50d76ecc3faf6336df1f29a4ee06590fd51))

@@ -1,3 +1,8 @@
+## 3.4.1
+
+
+ - Update dependencies: masamune.
+
 ## 3.4.0
 
  - **FEAT**(masamune_model_cloudflare_kv): release version 3.3.0 with vector search capabilities. ([1469d708](https://github.com/mathrunet/flutter_masamune/commit/1469d708cb06706225bb897d4367458804a3dc65))
