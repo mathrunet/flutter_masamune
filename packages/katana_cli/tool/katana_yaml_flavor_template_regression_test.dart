@@ -33,6 +33,7 @@ Future<void> main() async {
   _expectEnvironmentMap(
       yaml, ["cloudflare", "storage", "backup", "bucket_name"]);
   _expectSharedField(yaml, ["cloudflare", "zone_id"]);
+  _expectSharedField(yaml, ["cloudflare", "account_id"]);
   _expectEnvironmentMap(yaml, ["cloudflare", "workers", "custom_domain"]);
   _expectEnvironmentMap(
       yaml, ["cloudflare", "workers", "region", "custom_domain"]);

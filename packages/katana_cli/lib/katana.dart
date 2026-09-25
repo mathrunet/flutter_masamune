@@ -252,9 +252,14 @@ cloudflare:
   project_id:
     dev:
     prod:
-  # Zone ID of `<domain>` used for R2 custom domains.
-  # R2カスタムドメインに使用する`<domain>`のZone ID。
+  # Zone ID of `<domain>` used for R2 and Pages custom domains.
+  # R2・Pagesのカスタムドメインに使用する`<domain>`のZone ID。
   zone_id:
+  # Cloudflare account ID used by the Cloudflare API (e.g. Pages custom domains).
+  # If empty, `CLOUDFLARE_ACCOUNT_ID`, `cloudflare/wrangler.jsonc` and `wrangler whoami` are used.
+  # Cloudflare API（Pagesのカスタムドメインなど）で使用するCloudflareのアカウントID。
+  # 空の場合は`CLOUDFLARE_ACCOUNT_ID`、`cloudflare/wrangler.jsonc`、`wrangler whoami`を使用します。
+  account_id:
 
   # Enable Cloudflare Workers.
   # To use Firebase Authentication with Workers, please set `[enable_firebase_auth]` to `true`.
@@ -316,6 +321,11 @@ cloudflare:
   # Enable Cloudflare Pages. It works the same way as Firebase Hosting.
   # `katana apply` creates the Pages project, attaches the custom domain and
   # creates [public_dir] (with a minimal `index.html`) if it does not exist.
+  # The custom domain is attached through the Cloudflare API with
+  # [cloudflare]->[api_token] in `katana_secrets.yaml` (or `wrangler auth token`).
+  # When [zone_id] is in the same account, the proxied CNAME record
+  # `<custom_domain>` -> `<project>.pages.dev` is created as well.
+  # If the token lacks permissions, the manual steps are shown as a warning.
   # `katana deploy` deploys the files in [public_dir] as they are.
   # Neither `katana apply` nor `katana deploy` builds Flutter web.
   # To host a Flutter web app, build it separately (e.g. in CI) and copy
@@ -325,6 +335,11 @@ cloudflare:
   # Cloudflare Pagesを有効にします。Firebase Hostingと同じ考え方で動作します。
   # `katana apply`がPagesプロジェクトを作成してカスタムドメインを接続し、
   # [public_dir]が存在しない場合は最小限の`index.html`を含めて作成します。
+  # カスタムドメインは`katana_secrets.yaml`の[cloudflare]->[api_token]
+  # （無い場合は`wrangler auth token`）を使ってCloudflare APIで接続します。
+  # [zone_id]が同じアカウントにある場合は、プロキシ有効なCNAMEレコード
+  # `<custom_domain>` -> `<project>.pages.dev`も作成します。
+  # トークンの権限が足りない場合は、手動手順を警告として表示します。
   # `katana deploy`は[public_dir]内のファイルをそのままデプロイします。
   # `katana apply`・`katana deploy`のどちらもFlutter Webのビルドは行いません。
   # Flutter Webアプリを配信する場合はCIなどで別途ビルドし、
@@ -1207,6 +1222,16 @@ String katanaSecretsYamlCode() => """
 # Describe Cloudflare secret information.
 # Cloudflareのシークレット情報を記述します。
 cloudflare:
+  # Cloudflare API token used by `katana apply` (e.g. Pages custom domains).
+  # Required permissions: `Account > Cloudflare Pages > Edit`, and
+  # `Zone > Zone > Read` / `Zone > DNS > Edit` to create the CNAME record.
+  # If empty, `CLOUDFLARE_API_TOKEN` or `wrangler auth token` is used.
+  # `katana apply`が使用するCloudflare APIトークン（Pagesのカスタムドメインなど）。
+  # 必要な権限：`Account > Cloudflare Pages > Edit`、CNAMEレコードの作成には
+  # `Zone > Zone > Read`・`Zone > DNS > Edit`。
+  # 空の場合は`CLOUDFLARE_API_TOKEN`または`wrangler auth token`を使用します。
+  api_token:
+
   authentication:
     delete_user:
       # Firebase Admin SDK service account JSON used by the delete-user Worker.

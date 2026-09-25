@@ -1,7 +1,9 @@
 // Dart imports:
+import "dart:convert";
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/cloudflare/cloudflare_api.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare Pages configuration.
@@ -13,7 +15,22 @@ import "package:katana_cli/katana_cli.dart";
 /// it does not exist. Katana never builds Flutter web; build it separately
 /// (e.g. in CI) and copy the output into the public directory.
 ///
+/// The custom domain is attached through the Cloudflare API (Pages domains
+/// API) because Wrangler has no command for it. The API token is taken from
+/// [cloudflare]->[api_token] in `katana_secrets.yaml`, the environment variable
+/// `CLOUDFLARE_API_TOKEN`, or `wrangler auth token` in this order. When the
+/// domain waits for its CNAME record and [cloudflare]->[zone_id] belongs to the
+/// same account, a proxied CNAME record to `<project>.pages.dev` is created.
+/// Missing permissions only produce a warning with the manual steps.
+///
 /// Cloudflare Pagesの設定を行います。
+///
+/// Wranglerにコマンドが無いため、カスタムドメインはCloudflare API（Pages domains API）で
+/// 接続します。APIトークンは`katana_secrets.yaml`の[cloudflare]->[api_token]、
+/// 環境変数`CLOUDFLARE_API_TOKEN`、`wrangler auth token`の順に取得します。
+/// ドメインがCNAMEレコード待ちで、[cloudflare]->[zone_id]が同じアカウントにある場合は
+/// `<project>.pages.dev`へのプロキシ有効なCNAMEレコードを作成します。
+/// 権限が足りない場合は手動手順を警告として表示するだけで、処理は停止しません。
 ///
 /// `katana.yaml`の[cloudflare]->[pages]を元にPagesプロジェクトを作成し、
 /// カスタムドメインを接続します。Firebase Hosting（`firebase/hosting`）と同様に、
@@ -24,8 +41,25 @@ import "package:katana_cli/katana_cli.dart";
 class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
   /// Cloudflare Pages configuration.
   ///
+  /// [apiBaseUrl] replaces the Cloudflare API endpoint and [environment]
+  /// replaces the process environment variables (for tests).
+  ///
   /// Cloudflare Pagesの設定を行います。
-  const CloudflarePagesCliAction();
+  ///
+  /// [apiBaseUrl]でCloudflare APIのエンドポイントを、[environment]で
+  /// プロセスの環境変数を差し替えます（テスト用）。
+  const CloudflarePagesCliAction({this.apiBaseUrl, this.environment});
+
+  /// Environment variables. Defaults to [Platform.environment].
+  ///
+  /// 環境変数。既定は[Platform.environment]。
+  final Map<String, String>? environment;
+
+  /// Endpoint of the Cloudflare API. Defaults to
+  /// `https://api.cloudflare.com/client/v4/`.
+  ///
+  /// Cloudflare APIのエンドポイント。既定は`https://api.cloudflare.com/client/v4/`。
+  final String? apiBaseUrl;
 
   @override
   String get description =>
@@ -103,6 +137,7 @@ class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
     await _ensureProject(wrangler: wrangler, projectName: projectName);
     if (customDomain.isNotEmpty) {
       await _ensureDomain(
+        context,
         wrangler: wrangler,
         projectName: projectName,
         domain: customDomain,
@@ -179,42 +214,262 @@ class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
     }
   }
 
-  Future<void> _ensureDomain({
+  Future<void> _ensureDomain(
+    ExecContext context, {
     required String wrangler,
     required String projectName,
     required String domain,
   }) async {
     label("Ensure Cloudflare Pages custom domain `$domain`.");
-    final list = await Process.run(
-      wrangler,
-      ["pages", "domain", "list", "--project-name", projectName],
-      workingDirectory: workingDirectory,
-      runInShell: true,
-    );
-    if (list.exitCode != 0) {
-      stdout.write("${list.stdout}\n${list.stderr}");
-      throw Exception(
-        "Failed to list Cloudflare Pages domains of `$projectName`.",
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final token = await _resolveApiToken(context, wrangler: wrangler);
+    if (token == null) {
+      _warning(
+        "No Cloudflare API token is available, so the custom domain `$domain` was not attached to Pages project `$projectName`. "
+        "Set [cloudflare]->[api_token] in `katana_secrets.yaml` (or run `wrangler login`) and run `katana apply` again, "
+        "or attach it manually in the dashboard (Workers & Pages > $projectName > Custom domains). "
+        "Cloudflare APIトークンが取得できないため、カスタムドメイン`$domain`をPagesプロジェクト`$projectName`へ接続できませんでした。 "
+        "`katana_secrets.yaml`の[cloudflare]->[api_token]を設定する（または`wrangler login`を実行する）かして`katana apply`を再実行するか、 "
+        "ダッシュボード（Workers & Pages > $projectName > Custom domains）から手動で接続してください。",
       );
-    }
-    if (_containsToken(list.stdout.toString().toLowerCase(), domain)) {
       return;
     }
-    final add = await Process.run(
-      wrangler,
-      ["pages", "domain", "add", domain, "--project-name", projectName],
-      workingDirectory: workingDirectory,
-      runInShell: true,
+    final api = CloudflareApi(
+      token: token,
+      baseUrl: apiBaseUrl == null ? null : Uri.parse(apiBaseUrl!),
     );
-    final addOutput = "${add.stdout}\n${add.stderr}";
-    if (addOutput.trim().isNotEmpty) {
-      stdout.write(addOutput);
+    try {
+      final accountId = await _resolveAccountId(
+        cloudflare,
+        api: api,
+        wrangler: wrangler,
+        projectName: projectName,
+      );
+      if (accountId == null) {
+        _warning(
+          "Could not determine the Cloudflare account of Pages project `$projectName`, so `$domain` was not attached. "
+          "Set [cloudflare]->[account_id] in `katana.yaml` and run `katana apply` again. "
+          "Pagesプロジェクト`$projectName`のCloudflareアカウントを特定できないため、`$domain`を接続できませんでした。 "
+          "`katana.yaml`の[cloudflare]->[account_id]を設定して`katana apply`を再実行してください。",
+        );
+        return;
+      }
+      final domains = await api.listPagesDomains(accountId, projectName);
+      var current = domains.where((e) => e.name == domain).firstOrNull;
+      if (current == null) {
+        current = await api.addPagesDomain(accountId, projectName, domain);
+        stdout.writeln(
+          "\nAttached `$domain` to Cloudflare Pages project `$projectName`.",
+        );
+      }
+      if (current.needsDnsRecord) {
+        await _ensureCname(
+          api,
+          accountId: accountId,
+          zoneId: _resolveZoneId(cloudflare),
+          projectName: projectName,
+          domain: domain,
+        );
+      }
+    } on CloudflareApiException catch (e) {
+      if (!e.isPermissionError) {
+        rethrow;
+      }
+      _warning(
+        "The Cloudflare API token is not allowed to ${e.operation} (HTTP ${e.statusCode}). "
+        "Use an API token with `Account > Cloudflare Pages > Edit` in [cloudflare]->[api_token] of `katana_secrets.yaml` and run `katana apply` again, "
+        "or attach `$domain` manually in the dashboard (Workers & Pages > $projectName > Custom domains). "
+        "Cloudflare APIトークンに権限が無いため、操作（${e.operation}）に失敗しました（HTTP ${e.statusCode}）。 "
+        "`Account > Cloudflare Pages > Edit`権限を持つAPIトークンを`katana_secrets.yaml`の[cloudflare]->[api_token]に設定して`katana apply`を再実行するか、 "
+        "ダッシュボード（Workers & Pages > $projectName > Custom domains）から`$domain`を手動で接続してください。",
+      );
+    } finally {
+      api.close();
     }
-    if (add.exitCode != 0) {
-      throw Exception(
-        "Failed to attach the custom domain `$domain` to Cloudflare Pages project `$projectName`.",
+  }
+
+  /// Creates the proxied CNAME record `<domain>` -> `<project>.pages.dev`
+  /// when the zone belongs to the same account. Otherwise shows the manual
+  /// steps as a warning.
+  ///
+  /// ゾーンが同じアカウントにある場合、プロキシ有効なCNAMEレコード
+  /// `<domain>` -> `<project>.pages.dev`を作成します。それ以外は手動手順を警告します。
+  Future<void> _ensureCname(
+    CloudflareApi api, {
+    required String accountId,
+    required String zoneId,
+    required String projectName,
+    required String domain,
+  }) async {
+    var target = "$projectName.pages.dev";
+    void manual(String reason, String reasonJa) {
+      _warning(
+        "$reason Create a proxied CNAME record `$domain` -> `$target` in the DNS of `$domain`. "
+        "Pages activates the domain once the record exists. "
+        "$reasonJa `$domain`のDNSにプロキシ有効なCNAMEレコード`$domain` -> `$target`を作成してください。 "
+        "レコードが作成されるとPagesのドメインが有効になります。",
       );
     }
+
+    try {
+      target =
+          await api.getPagesProjectSubdomain(accountId, projectName) ?? target;
+      if (zoneId.isEmpty) {
+        manual(
+          "The custom domain `$domain` waits for its CNAME record and [cloudflare]->[zone_id] is not set.",
+          "カスタムドメイン`$domain`はCNAMEレコード待ちですが、[cloudflare]->[zone_id]が設定されていません。",
+        );
+        return;
+      }
+      final zone = await api.getZone(zoneId);
+      if (zone.accountId != accountId || !zone.contains(domain)) {
+        manual(
+          "The zone [cloudflare]->[zone_id] is not `$domain` in the same account as Pages project `$projectName`.",
+          "[cloudflare]->[zone_id]のゾーンが、Pagesプロジェクト`$projectName`と同じアカウントの`$domain`のゾーンではありません。",
+        );
+        return;
+      }
+      final records = await api.listDnsRecords(zoneId, domain);
+      if (records.any((e) => e.type == "CNAME" && e.content == target)) {
+        return;
+      }
+      if (records.isNotEmpty) {
+        manual(
+          "A DNS record for `$domain` already exists but does not point to `$target`, so Katana does not overwrite it.",
+          "`$domain`のDNSレコードが既に存在し`$target`を指していないため、Katanaは上書きしません。",
+        );
+        return;
+      }
+      await api.createProxiedCname(zoneId, name: domain, content: target);
+      stdout.writeln(
+          "\nCreated the proxied CNAME record `$domain` -> `$target`.");
+    } on CloudflareApiException catch (e) {
+      if (!e.isPermissionError) {
+        rethrow;
+      }
+      manual(
+        "The Cloudflare API token is not allowed to ${e.operation} (HTTP ${e.statusCode}). "
+            "Grant `Zone > Zone > Read` and `Zone > DNS > Edit` to [cloudflare]->[api_token] and run `katana apply` again, or:",
+        "Cloudflare APIトークンに権限が無いため、操作（${e.operation}）に失敗しました（HTTP ${e.statusCode}）。 "
+            "[cloudflare]->[api_token]に`Zone > Zone > Read`と`Zone > DNS > Edit`の権限を付与して`katana apply`を再実行するか、次を行ってください。",
+      );
+    }
+  }
+
+  /// Resolves the Cloudflare API token without printing it.
+  ///
+  /// Cloudflare APIトークンを表示せずに解決します。
+  Future<String?> _resolveApiToken(
+    ExecContext context, {
+    required String wrangler,
+  }) async {
+    final secret =
+        context.secrets.getAsMap("cloudflare").get("api_token", "").trim();
+    if (secret.isNotEmpty) {
+      return secret;
+    }
+    final environment =
+        (_environment["CLOUDFLARE_API_TOKEN"] ?? "").trim();
+    if (environment.isNotEmpty) {
+      return environment;
+    }
+    try {
+      final result = await Process.run(
+        wrangler,
+        ["auth", "token", "--json"],
+        workingDirectory: workingDirectory,
+        runInShell: true,
+      );
+      if (result.exitCode != 0) {
+        return null;
+      }
+      final decoded = jsonDecode(result.stdout.toString());
+      final token = decoded is Map ? decoded["token"] : null;
+      return token is String && token.trim().isNotEmpty ? token.trim() : null;
+    } on Exception {
+      return null;
+    }
+  }
+
+  /// Resolves the account ID from [cloudflare]->[account_id],
+  /// `CLOUDFLARE_ACCOUNT_ID`, `cloudflare/wrangler.jsonc` or `wrangler whoami`.
+  /// With several accounts, the account that owns [projectName] is used.
+  ///
+  /// [cloudflare]->[account_id]、`CLOUDFLARE_ACCOUNT_ID`、`cloudflare/wrangler.jsonc`、
+  /// `wrangler whoami`の順にアカウントIDを解決します。
+  /// 複数のアカウントがある場合は[projectName]を所有するアカウントを使用します。
+  Future<String?> _resolveAccountId(
+    Map cloudflare, {
+    required CloudflareApi api,
+    required String wrangler,
+    required String projectName,
+  }) async {
+    final configured = cloudflare.get("account_id", "").trim();
+    if (configured.isNotEmpty) {
+      return configured;
+    }
+    final environment =
+        (_environment["CLOUDFLARE_ACCOUNT_ID"] ?? "").trim();
+    if (environment.isNotEmpty) {
+      return environment;
+    }
+    final wranglerJsonc = File("cloudflare/wrangler.jsonc");
+    if (wranglerJsonc.existsSync()) {
+      final match = RegExp(r'"account_id"\s*:\s*"([^"]+)"')
+          .firstMatch(wranglerJsonc.readAsStringSync());
+      if (match != null) {
+        return match.group(1);
+      }
+    }
+    final List<String> accounts;
+    try {
+      final result = await Process.run(
+        wrangler,
+        ["whoami", "--json"],
+        workingDirectory: workingDirectory,
+        runInShell: true,
+      );
+      if (result.exitCode != 0) {
+        return null;
+      }
+      final decoded = jsonDecode(result.stdout.toString());
+      final list = decoded is Map ? decoded["accounts"] : null;
+      accounts = list is List
+          ? list
+              .whereType<Map>()
+              .map((e) => e["id"]?.toString() ?? "")
+              .where((e) => e.isNotEmpty)
+              .toList()
+          : const [];
+    } on Exception {
+      return null;
+    }
+    if (accounts.length <= 1) {
+      return accounts.firstOrNull;
+    }
+    final owners = <String>[];
+    for (final account in accounts) {
+      try {
+        await api.getPagesProjectSubdomain(account, projectName);
+        owners.add(account);
+      } on CloudflareApiException {
+        continue;
+      }
+    }
+    return owners.length == 1 ? owners.single : null;
+  }
+
+  String _resolveZoneId(Map cloudflare) {
+    final configured = cloudflare.get("zone_id", "").trim();
+    return configured.isNotEmpty
+        ? configured
+        : (_environment["CLOUDFLARE_ZONE_ID"] ?? "").trim();
+  }
+
+  Map<String, String> get _environment => environment ?? Platform.environment;
+
+  void _warning(String message) {
+    stderr.writeln("\nWarning: $message");
   }
 
   /// Whether [token] appears as a whole word in the table or JSON output.
