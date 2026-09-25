@@ -1,3 +1,8 @@
+## 3.31.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([ecfea50d](https://github.com/mathrunet/flutter_masamune/commit/ecfea50d76ecc3faf6336df1f29a4ee06590fd51))
+ - **FEAT**(katana_cli): add custom domains, R2 bucket provisioning, and Pages deploy ([ecfea50d](https://github.com/mathrunet/flutter_masamune/commit/ecfea50d76ecc3faf6336df1f29a4ee06590fd51))
+
 ## 3.30.0
 
  - **CO-AUTHORED-BY**: Claude Fable 5.1 <noreply@anthropic.com> ([7ed81cce](https://github.com/mathrunet/flutter_masamune/commit/7ed81cce88869e4b5c7b74669544f9d9956dd8b7))
