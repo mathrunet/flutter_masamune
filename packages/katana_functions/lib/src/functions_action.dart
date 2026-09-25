@@ -49,6 +49,11 @@ abstract class FunctionsAction<TResponse> {
   /// パス。
   String? get path => null;
 
+  /// Server-side target that handles this action (e.g. `region`).
+  ///
+  /// Adapters that do not support targets ignore it.
+  String? get target => null;
+
   /// Timeout.
   ///
   /// タイムアウト。
