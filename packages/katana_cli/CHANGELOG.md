@@ -1,3 +1,10 @@
+## 3.30.0
+
+ - **CO-AUTHORED-BY**: Claude Fable 5.1 <noreply@anthropic.com> ([7ed81cce](https://github.com/mathrunet/flutter_masamune/commit/7ed81cce88869e4b5c7b74669544f9d9956dd8b7))
+ - **FEAT**(katana_cli): add katana apply --only and harden TiDB apply/migrate ([7ed81cce](https://github.com/mathrunet/flutter_masamune/commit/7ed81cce88869e4b5c7b74669544f9d9956dd8b7))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([b4a812cb](https://github.com/mathrunet/flutter_masamune/commit/b4a812cb56d8690edf3fc9deef9fdd274199853b))
+ - **FEAT**(katana_cli): split Cloudflare Workers into edge and region entries ([b4a812cb](https://github.com/mathrunet/flutter_masamune/commit/b4a812cb56d8690edf3fc9deef9fdd274199853b))
+
 ## 3.29.0
 
  - **CO-AUTHORED-BY**: Claude Fable 5.1 <noreply@anthropic.com> ([fb3adcf3](https://github.com/mathrunet/flutter_masamune/commit/fb3adcf33d87fb44ade2d14d298ae415dd31cdcb))
