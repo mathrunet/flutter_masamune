@@ -16,24 +16,29 @@ class CodeServerWorkerCliCommand extends CliCodeCommand {
 
   @override
   String get description =>
-      "Create server code for Cloudflare Workers in `$directory/(filepath).ts`. Cloudflare Workers用のサーバーコードを`$directory/(filepath).ts`に作成します。";
+      "Create server code for Cloudflare Workers in `$directory/(filepath).ts` and register it in `cloudflare/src/edge.ts` (or `cloudflare/src/region.ts` with `--region`). Cloudflare Workers用のサーバーコードを`$directory/(filepath).ts`に作成し、`cloudflare/src/edge.ts`（`--region`指定時は`cloudflare/src/region.ts`）に登録します。";
 
   @override
-  String? get example => "katana code server worker [function_name]";
+  String? get example => "katana code server worker [function_name] [--region]";
 
   @override
   Future<void> exec(ExecContext context) async {
-    final path = context.args.get(3, "");
+    final args = context.args.where((arg) => !arg.startsWith("--")).toList();
+    final region = context.args.contains("--region");
+    final path = args.get(3, "");
     if (path.isEmpty) {
       error(
-        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code server worker [path]\r\n",
+        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code server worker [path] [--region]\r\n",
       );
       return;
     }
     if (!validateFilePath(path)) {
       error(
-        "Invalid path: $path. Please enter a valid path according to the following command.\r\nkatana code server worker [path]\r\n",
+        "Invalid path: $path. Please enter a valid path according to the following command.\r\nkatana code server worker [path] [--region]\r\n",
       );
+      return;
+    }
+    if (region && !_checkCloudflareRegionWorker(context)) {
       return;
     }
     label(
@@ -50,8 +55,13 @@ class CodeServerWorkerCliCommand extends CliCodeCommand {
     if (!parentDir.existsSync()) {
       await parentDir.create(recursive: true);
     }
-    await const CodeServerCloudflareFunctionsActionCliCode()
+    await CodeServerCloudflareFunctionsActionCliCode(region: region)
         .generateDartCode("lib/functions/$path", path);
+    await _registerCloudflareWorker(
+      path: path,
+      className: "${_cloudflareClassName(path)}Worker",
+      region: region,
+    );
   }
 
   @override
@@ -144,7 +154,12 @@ export class ${className.toPascalCase()}Worker extends mc.RequestProcessWorkders
 /// Create a FunctionsAction for Cloudflare Workers.
 class CodeServerCloudflareFunctionsActionCliCode extends CliCode {
   /// Create a FunctionsAction for Cloudflare Workers.
-  const CodeServerCloudflareFunctionsActionCliCode();
+  ///
+  /// If [region] is `true`, the action targets the region Worker.
+  const CodeServerCloudflareFunctionsActionCliCode({this.region = false});
+
+  /// Whether the action targets the region Worker.
+  final bool region;
 
   @override
   String get name => "cloudflare_functions_action";
@@ -194,7 +209,10 @@ class ${className.toPascalCase()}FunctionsAction
 
   @override
   String get action => "${className.toSnakeCase()}";
-
+${region ? """
+  @override
+  String? get target => "region";
+""" : ""}
   @override
   DynamicMap? toMap() {
     return {};
@@ -217,4 +235,50 @@ class ${className.toPascalCase()}FunctionsActionResponse extends FunctionsAction
 }
 """;
   }
+}
+
+/// Returns the class name prefix generated from [path].
+String _cloudflareClassName(String path) {
+  return path.split("/").distinct().join("_").toPascalCase();
+}
+
+/// Checks that the region Worker is enabled and `cloudflare/src/region.ts` exists.
+///
+/// region Workerが有効で`cloudflare/src/region.ts`が存在するか確認します。
+bool _checkCloudflareRegionWorker(ExecContext context) {
+  if (!isCloudflareRegionWorkerEnabled(context.yaml)) {
+    error(
+      "`--region` requires [cloudflare]->[workers]->[region]->[enable] to be `true` in `katana.yaml`. `--region`を利用するには`katana.yaml`の[cloudflare]->[workers]->[region]->[enable]を`true`にしてください。\r\n",
+    );
+    return false;
+  }
+  if (!File(cloudflareRegionEntryPath).existsSync()) {
+    error(
+      "The file `$cloudflareRegionEntryPath` does not exist. Run `katana apply` first. `$cloudflareRegionEntryPath`が存在しません。先に`katana apply`を実行してください。\r\n",
+    );
+    return false;
+  }
+  return true;
+}
+
+/// Registers the generated Worker in `edge.ts` or `region.ts`.
+///
+/// 生成したWorkerを`edge.ts`または`region.ts`に登録します。
+Future<void> _registerCloudflareWorker({
+  required String path,
+  required String className,
+  required bool region,
+}) async {
+  final entry = region ? cloudflareRegionEntryPath : cloudflareEdgeEntryPath;
+  if (!region && !File(entry).existsSync()) {
+    label(
+      "WARNING: `$entry` does not exist, so `$className` was not registered. Register it manually after `katana apply`. `$entry`が存在しないため`$className`を登録しませんでした。`katana apply`後に手動で登録してください。",
+    );
+    return;
+  }
+  await registerCloudflareWorker(
+    entry: entry,
+    className: className,
+    importPath: "./workers/$path",
+  );
 }

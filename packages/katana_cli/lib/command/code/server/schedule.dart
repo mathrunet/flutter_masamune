@@ -215,7 +215,12 @@ class CodeServerScheduleCloudflareCliCommand extends CliCodeCommand {
   /// Create a server code for the scheduler in Cloudflare Workers.
   ///
   /// Cloudflare Workers用のスケジューラー用サーバーコードを作成します。
-  const CodeServerScheduleCloudflareCliCommand();
+  ///
+  /// If [region] is `true`, the code for the region Worker is created.
+  const CodeServerScheduleCloudflareCliCommand({this.region = false});
+
+  /// Whether to create the code for the region Worker.
+  final bool region;
 
   @override
   String get name => "schedule_cloudflare";
@@ -228,25 +233,30 @@ class CodeServerScheduleCloudflareCliCommand extends CliCodeCommand {
 
   @override
   String get description =>
-      "Create a server code for the scheduler in Cloudflare Workers in `$directory/(filepath).ts`. Cloudflare Workers用のスケジューラー用サーバーコードを`$directory/(filepath).ts`に作成します。";
+      "Create a server code for the scheduler in Cloudflare Workers in `$directory/(filepath).ts` and register it in `cloudflare/src/edge.ts` (or `cloudflare/src/region.ts` with `--region`). Cloudflare Workers用のスケジューラー用サーバーコードを`$directory/(filepath).ts`に作成し、`cloudflare/src/edge.ts`（`--region`指定時は`cloudflare/src/region.ts`）に登録します。";
 
   @override
   String? get example =>
-      "katana code server schedule cloudflare [function_name]";
+      "katana code server schedule cloudflare [function_name] [--region]";
 
   @override
   Future<void> exec(ExecContext context) async {
-    final path = context.args.get(4, "");
+    final args = context.args.where((arg) => !arg.startsWith("--")).toList();
+    final region = context.args.contains("--region");
+    final path = args.get(4, "");
     if (path.isEmpty) {
       error(
-        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code server schedule cloudflare [path]\r\n",
+        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code server schedule cloudflare [path] [--region]\r\n",
       );
       return;
     }
     if (!validateFilePath(path)) {
       error(
-        "Invalid path: $path. Please enter a valid path according to the following command.\r\nkatana code server schedule cloudflare [path]\r\n\r\n([path] must be entered in snake_case; numbers and underscores cannot be used at the beginning or end of the path. Also, you can create directories by using /.)\r\n",
+        "Invalid path: $path. Please enter a valid path according to the following command.\r\nkatana code server schedule cloudflare [path] [--region]\r\n\r\n([path] must be entered in snake_case; numbers and underscores cannot be used at the beginning or end of the path. Also, you can create directories by using /.)\r\n",
       );
+      return;
+    }
+    if (region && !_checkCloudflareRegionWorker(context)) {
       return;
     }
     label(
@@ -259,7 +269,28 @@ class CodeServerScheduleCloudflareCliCommand extends CliCodeCommand {
         await parentDir.create(recursive: true);
       }
     }
-    await generateDartCode("$directory/$path", path, ext: "ts");
+    await CodeServerScheduleCloudflareCliCommand(region: region)
+        .generateDartCode("$directory/$path", path, ext: "ts");
+    final className = "${_cloudflareClassName(path)}Schedule";
+    await _registerCloudflareWorker(
+      path: path,
+      className: className,
+      region: region,
+    );
+    if (region) {
+      final projectId =
+          context.yaml.getAsMap("cloudflare").get("project_id", "");
+      final name = projectId.isNotEmpty ? projectId : "<project_id>";
+      label(
+        "Next steps for the region schedule `$className`. region用スケジュール`$className`の次の手順:\r\n"
+        "1. Add the cron to `cloudflare/$cloudflareRegionWranglerConfig`. `cloudflare/$cloudflareRegionWranglerConfig`にcronを追加してください。\r\n"
+        "   \"triggers\": { \"crons\": [\"0 * * * *\"] }\r\n"
+        "2. Add the self service binding to `cloudflare/$cloudflareRegionWranglerConfig` (under `env.<flavor>` for each flavor). `cloudflare/$cloudflareRegionWranglerConfig`に自身へのService bindingを追加してください（flavorごとに`env.<flavor>`内）。\r\n"
+        "   \"services\": [{ \"binding\": \"SELF\", \"service\": \"$name-region\" }]\r\n"
+        "3. Set the internal secret for each flavor. flavorごとに内部用secretを設定してください。\r\n"
+        "   cd cloudflare && wrangler secret put MASAMUNE_INTERNAL_SECRET -c $cloudflareRegionWranglerConfig --env <flavor>",
+      );
+    }
   }
 
   @override
@@ -280,6 +311,9 @@ import * as mc from "@mathrunet/masamune_cloudflare";
 
   @override
   String body(String path, String baseName, String className) {
+    if (region) {
+      return _regionBody(className);
+    }
     return """
 /**
  * ${className.toPascalCase()}Schedule
@@ -308,6 +342,53 @@ export class ${className.toPascalCase()}Schedule extends mc.ScheduleProcessWorkd
      * Workersに渡されたExecutionContext。
      */
     async process(
+        event: ScheduledEvent,
+        env: unknown,
+        ctx: ExecutionContext,
+    ): Promise<void> {
+        // TODO: Implement the process to be executed.
+    }
+}
+""";
+  }
+
+  String _regionBody(String className) {
+    return """
+/**
+ * ${className.toPascalCase()}Schedule
+ *
+ * Create a server code for the scheduler in the Cloudflare region Worker.
+ */
+export class ${className.toPascalCase()}Schedule extends mc.RegionScheduleProcessWorkdersBase {
+    /**
+     * @param {string} path
+     * Internal path used to run the scheduled process in the region Worker.
+     *
+     * region Workerでスケジュール処理を実行するための内部パス。
+     */
+    path = "/_masamune/schedule/${className.toSnakeCase()}";
+
+    /**
+     * Specify the actual contents of the scheduled process.
+     *
+     * 実際のスケジュール処理の中身を指定します。
+     *
+     * @param {ScheduledEvent} event
+     * Scheduled event passed to Workers.
+     *
+     * Workersに渡されたScheduledEvent。
+     *
+     * @param {unknown} env
+     * Environment bindings passed to Workers.
+     *
+     * Workersに渡された環境変数やバインディング。
+     *
+     * @param {ExecutionContext} ctx
+     * Execution context passed to Workers.
+     *
+     * Workersに渡されたExecutionContext。
+     */
+    async run(
         event: ScheduledEvent,
         env: unknown,
         ctx: ExecutionContext,

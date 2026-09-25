@@ -98,6 +98,14 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    if (regionEnabled) {
+      final usages = findEdgeTidbUsages();
+      if (usages.isNotEmpty) {
+        label(
+          "WARNING: TiDB is still used by the edge Worker (${usages.join(", ")}). Move it to `$cloudflareRegionEntryPath` to run it in the region placement. edge WorkerでTiDBがまだ使用されています（${usages.join(", ")}）。region placementで動作させるには`$cloudflareRegionEntryPath`へ移動してください。",
+        );
+      }
+    }
     // Validate every target before deploying anything.
     for (final target in targets) {
       final workerEntry = File(target.entry);

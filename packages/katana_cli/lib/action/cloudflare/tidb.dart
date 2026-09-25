@@ -651,6 +651,50 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           value: entry.value,
           config: regionEnabled ? cloudflareRegionWranglerConfig : null);
     }
+    if (regionEnabled && !isLocalApply) {
+      await _checkEdgeTidbSecrets(wrangler: wrangler, environment: environment);
+    }
     label("TiDB直結設定を反映しました。DB適用はkatana migrate、Worker公開はdeployで実行してください。");
+  }
+
+  /// Shows guidance when TiDB secrets remain in the edge Worker after moving TiDB to the region Worker.
+  ///
+  /// TiDBをregion Workerへ移した後、edge WorkerにTiDBのsecretが残っている場合に案内を表示します。
+  Future<void> _checkEdgeTidbSecrets({
+    required String wrangler,
+    required String environment,
+  }) async {
+    try {
+      final result = await Process.run(
+        wrangler,
+        ["secret", "list", "--env", environment],
+        workingDirectory: "cloudflare",
+        runInShell: true,
+      );
+      if (result.exitCode != 0) {
+        return;
+      }
+      final names = RegExp(r"\bTIDB_[A-Z0-9_]+\b")
+          .allMatches(result.stdout.toString())
+          .map((match) => match.group(0)!)
+          .toSet()
+          .toList()
+        ..sort();
+      if (names.isEmpty) {
+        return;
+      }
+      final usages = findEdgeTidbUsages();
+      if (usages.isEmpty) {
+        label(
+          "The edge Worker still has TiDB secrets (${names.join(", ")}) that are no longer used. Remove them with `wrangler secret delete <NAME> --env $environment` in `cloudflare`. edge Workerに使用されなくなったTiDBのsecret（${names.join(", ")}）が残っています。`cloudflare`で`wrangler secret delete <NAME> --env $environment`を実行して削除してください。",
+        );
+      } else {
+        label(
+          "WARNING: The edge Worker still has TiDB secrets (${names.join(", ")}) and custom Workers in the edge Worker still use TiDB (${usages.join(", ")}). Keep the secrets until they are moved to `$cloudflareRegionEntryPath`. edge WorkerにTiDBのsecret（${names.join(", ")}）が残っており、edgeの独自Workerがまだ使用中です（${usages.join(", ")}）。`$cloudflareRegionEntryPath`へ移すまでsecretは削除しないでください。",
+        );
+      }
+    } catch (_) {
+      // The check is informational only and must not change the result.
+    }
   }
 }

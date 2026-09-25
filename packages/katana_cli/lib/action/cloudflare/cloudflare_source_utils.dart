@@ -80,6 +80,74 @@ class CloudflareSourceUtils {
     );
   }
 
+  /// Ensure a named import of [name] from [from] exists in [source].
+  ///
+  /// Does nothing if a named import from [from] already contains [name].
+  /// If a named import from [from] exists without [name], [name] is added to it.
+  /// Otherwise a new import is added after the last import.
+  /// When [from] starts with `./workers/` and existing `./workers/` imports use
+  /// the `.js` extension, the extension is added to [from] as well.
+  ///
+  /// [source]に[from]からの[name]の名前付きimportが存在することを保証します。
+  ///
+  /// [from]からの名前付きimportに[name]が既にあれば何もしません。
+  /// [name]を含まない[from]からの名前付きimportがあればそこへ[name]を追加し、
+  /// なければ最後のimportの後に新しいimportを追加します。
+  /// [from]が`./workers/`で始まり、既存の`./workers/`のimportが`.js`付きの場合は[from]にも`.js`を付けます。
+  static String ensureNamedImport(
+    String source, {
+    required String name,
+    required String from,
+  }) {
+    final base =
+        from.endsWith(".js") ? from.substring(0, from.length - 3) : from;
+    var target = from;
+    if (base.startsWith("./workers/") &&
+        !from.endsWith(".js") &&
+        RegExp(r"""from\s+["']\./workers/[^"']+\.js["']""").hasMatch(source)) {
+      target = "$base.js";
+    }
+    final named = RegExp(
+      "import\\s*(type\\s+)?\\{([^}]*)\\}\\s*from\\s*[\"'](${RegExp.escape(base)}(?:\\.js)?)[\"']\\s*;?",
+    );
+    final matches =
+        named.allMatches(source).where((m) => m.group(1) == null).toList();
+    for (final match in matches) {
+      final names = match
+          .group(2)!
+          .split(",")
+          .map((e) => e.trim().split(RegExp(r"\s+as\s+")).first.trim())
+          .where((e) => e.isNotEmpty);
+      if (names.contains(name)) {
+        return source;
+      }
+    }
+    if (matches.isNotEmpty) {
+      final match = matches.first;
+      var names = match.group(2)!.trim();
+      if (names.endsWith(",")) {
+        names = names.substring(0, names.length - 1).trim();
+      }
+      return source.replaceRange(
+        match.start,
+        match.end,
+        'import { ${names.isEmpty ? name : "$names, $name"} } from "${match.group(3)}";',
+      );
+    }
+    final import = 'import { $name } from "$target";';
+    final imports =
+        RegExp(r"^import\s[^;]*;", multiLine: true).allMatches(source);
+    if (imports.isEmpty) {
+      return "$import\n$source";
+    }
+    final lastImport = imports.last;
+    return source.replaceRange(
+      lastImport.end,
+      lastImport.end,
+      "\n$import",
+    );
+  }
+
   /// Returns true if [source] contains a call to [functionName].
   ///
   /// [source]に[functionName]の呼び出しが含まれている場合はtrueを返します。
@@ -330,6 +398,158 @@ Future<bool> applyCloudflareWorkersFunctions({
   }
   await indexFile.writeAsString(updated);
   return true;
+}
+
+/// Register a generated Worker class [className] in the Worker entrypoint [entry].
+///
+/// Ensures the named import of [className] from [importPath] and inserts
+/// `new [className]()` into `m.deploy([...])` if it is not registered yet.
+/// Shows a warning if the other entrypoint (edge/region) also registers it.
+/// Returns false if [entry] does not exist or the deploy array cannot be found.
+///
+/// 生成したWorkerクラス[className]をWorkerのエントリファイル[entry]に登録します。
+///
+/// [importPath]からの[className]の名前付きimportを保証し、未登録の場合は
+/// `m.deploy([...])`に`new [className]()`を挿入します。
+/// もう一方のエントリファイル（edge/region）にも登録されている場合は警告を表示します。
+/// [entry]が存在しない場合やdeploy配列が見つからない場合はfalseを返します。
+Future<bool> registerCloudflareWorker({
+  required String entry,
+  required String className,
+  required String importPath,
+}) async {
+  final file = File(entry);
+  if (!file.existsSync()) {
+    error(
+      "The file `$entry` does not exist. Run `katana apply` to initialize Cloudflare Workers first. `$entry`が存在しません。先に`katana apply`でCloudflare Workersを初期化してください。",
+    );
+    return false;
+  }
+  final original = await file.readAsString();
+  var source = original;
+  if (!CloudflareSourceUtils.containsFunctionCall(source, "new $className")) {
+    final updated = CloudflareSourceUtils.insertDeployFunctions(
+      source,
+      ["    new $className(),"],
+    );
+    if (updated == null) {
+      error(
+        "Could not find the Cloudflare deploy array in `$entry`. Please register `new $className()` manually. `$entry`のdeploy配列が見つかりません。`new $className()`を手動で登録してください。",
+      );
+      return false;
+    }
+    source = updated;
+  }
+  source = CloudflareSourceUtils.ensureNamedImport(
+    source,
+    name: className,
+    from: importPath,
+  );
+  if (source != original) {
+    await file.writeAsString(source);
+    label("Registered `$className` in `$entry`.");
+  }
+  final other = entry == cloudflareRegionEntryPath
+      ? cloudflareEdgeEntryPath
+      : cloudflareRegionEntryPath;
+  final otherFile = File(other);
+  if (otherFile.existsSync() &&
+      CloudflareSourceUtils.containsFunctionCall(
+        otherFile.readAsStringSync(),
+        "new $className",
+      )) {
+    label(
+      "WARNING: `$className` is also registered in `$other`. Remove it from either entrypoint if it is not intended. `$className`は`$other`にも登録されています。意図しない場合はどちらかから削除してください。",
+    );
+  }
+  return true;
+}
+
+/// Returns the files that use TiDB from the edge Worker [entry].
+///
+/// Follows relative imports of [entry] recursively within `cloudflare/src`
+/// and lists files containing `@mathrunet/masamune_cloudflare_tidb`,
+/// `TidbDirectClient` or `TIDB_HOST`.
+///
+/// edge Worker[entry]からTiDBを使用しているファイルを返します。
+///
+/// [entry]の相対importを`cloudflare/src`内で再帰的に辿り、
+/// `@mathrunet/masamune_cloudflare_tidb`・`TidbDirectClient`・`TIDB_HOST`を含むファイルを列挙します。
+List<String> findEdgeTidbUsages({String entry = cloudflareEdgeEntryPath}) {
+  const root = "cloudflare/src";
+  const markers = [
+    "@mathrunet/masamune_cloudflare_tidb",
+    "TidbDirectClient",
+    "TIDB_HOST",
+  ];
+  final importPattern = RegExp(
+    r"""(?:import|export)\s+(?:[^'";]*?\s+from\s+)?["'](\.{1,2}/[^"']+)["']""",
+  );
+  final visited = <String>{};
+  final usages = <String>[];
+  final queue = <String>[_normalizeCloudflarePath(entry)];
+  while (queue.isNotEmpty) {
+    final path = queue.removeAt(0);
+    if (!visited.add(path)) {
+      continue;
+    }
+    final file = File(path);
+    if (!file.existsSync()) {
+      continue;
+    }
+    final source = file.readAsStringSync();
+    if (markers.any(source.contains)) {
+      usages.add(path);
+    }
+    final directory =
+        path.contains("/") ? path.substring(0, path.lastIndexOf("/")) : "";
+    for (final match in importPattern.allMatches(source)) {
+      final resolved = _resolveCloudflareImport(directory, match.group(1)!);
+      if (resolved != null &&
+          resolved.startsWith("$root/") &&
+          !visited.contains(resolved)) {
+        queue.add(resolved);
+      }
+    }
+  }
+  return usages;
+}
+
+String? _resolveCloudflareImport(String directory, String specifier) {
+  final base = _normalizeCloudflarePath("$directory/$specifier");
+  final stem = RegExp(r"\.(js|mjs|ts)$").hasMatch(base)
+      ? base.substring(0, base.lastIndexOf("."))
+      : base;
+  for (final candidate in [
+    base,
+    "$stem.ts",
+    "$stem.tsx",
+    "$stem.js",
+    "$stem/index.ts",
+    "$stem/index.js",
+  ]) {
+    if (File(candidate).existsSync()) {
+      return candidate;
+    }
+  }
+  return null;
+}
+
+String _normalizeCloudflarePath(String path) {
+  final segments = <String>[];
+  for (final segment in path.split("/")) {
+    if (segment.isEmpty || segment == ".") {
+      continue;
+    }
+    if (segment == "..") {
+      if (segments.isNotEmpty) {
+        segments.removeLast();
+      }
+      continue;
+    }
+    segments.add(segment);
+  }
+  return segments.join("/");
 }
 
 /// ローカル適用に必要な宣言・lock・実体を、依存を変更せず検証します。
