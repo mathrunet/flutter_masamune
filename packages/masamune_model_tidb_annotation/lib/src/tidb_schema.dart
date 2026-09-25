@@ -12,7 +12,8 @@ class TidbSchema {
       this.prefixes = const [],
       this.extraColumns = const [],
       this.additionalTables = const [],
-      this.indexes = const {}});
+      this.indexes = const {},
+      this.uniqueIndexes = const {}});
 
   /// 論理データベース名。
   final String database;
@@ -29,8 +30,11 @@ class TidbSchema {
   /// サーバーだけで使用するテーブル。
   final List<TidbSchemaTable> additionalTables;
 
-  /// 非UNIQUE indexの名前とカラム。
+  /// Names and columns of non-unique indexes.
   final Map<String, List<String>> indexes;
+
+  /// Names and columns of independent unique indexes.
+  final Map<String, List<String>> uniqueIndexes;
 }
 
 /// サーバー所有カラム。
@@ -59,7 +63,8 @@ class TidbSchemaTable {
       {required this.database,
       required this.table,
       required this.columns,
-      this.indexes = const {}});
+      this.indexes = const {},
+      this.uniqueIndexes = const {}});
 
   /// DB名。
   final String database;
@@ -70,6 +75,9 @@ class TidbSchemaTable {
   /// カラム一覧。
   final List<TidbSchemaColumn> columns;
 
-  /// 非UNIQUE index。
+  /// Non-unique indexes.
   final Map<String, List<String>> indexes;
+
+  /// Independent unique indexes.
+  final Map<String, List<String>> uniqueIndexes;
 }

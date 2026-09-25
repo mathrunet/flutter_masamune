@@ -34,6 +34,107 @@ void main() {
     expect((schema["tables"] as List).single["indexes"], isEmpty);
   });
 
+  test("emits independent unique indexes alongside regular indexes", () {
+    const table = TidbTableSpec(
+      database: "main",
+      table: "jobs",
+      columns: [
+        TidbColumnSpec(name: "job_id", sqlType: "VARCHAR(255)"),
+        TidbColumnSpec(name: "subject_hash", sqlType: "VARCHAR(255)"),
+      ],
+      indexes: {
+        "by_subject": ["subject_hash"]
+      },
+      uniqueIndexes: {
+        "unique_job": ["job_id"],
+        "unique_subject": ["subject_hash"],
+      },
+    );
+    final indexes = (TidbSchemaSpec.schemaManifest([table])["tables"] as List)
+        .single["indexes"] as List;
+    expect(indexes, [
+      {
+        "name": "by_subject",
+        "columns": ["subject_hash"],
+        "unique": false
+      },
+      {
+        "name": "unique_job",
+        "columns": ["job_id"],
+        "unique": true
+      },
+      {
+        "name": "unique_subject",
+        "columns": ["subject_hash"],
+        "unique": true
+      },
+    ]);
+  });
+
+  test("rejects invalid unique indexes and duplicate names", () {
+    for (final uniqueIndexes in const [
+      <String, List<String>>{
+        "bad-name": ["job_id"]
+      },
+      <String, List<String>>{
+        "missing": ["unknown"]
+      },
+      <String, List<String>>{"empty": []},
+      <String, List<String>>{
+        "duplicate_columns": ["job_id", "job_id"]
+      },
+      <String, List<String>>{
+        "PRIMARY": ["job_id"]
+      },
+    ]) {
+      expect(
+        () => TidbSchemaSpec.schemaManifest([
+          TidbTableSpec(
+            database: "main",
+            table: "jobs",
+            columns: const [
+              TidbColumnSpec(name: "job_id", sqlType: "VARCHAR(255)")
+            ],
+            uniqueIndexes: uniqueIndexes,
+          ),
+        ]),
+        throwsArgumentError,
+      );
+    }
+    expect(
+      () => TidbSchemaSpec.schemaManifest([
+        const TidbTableSpec(
+          database: "main",
+          table: "jobs",
+          columns: [TidbColumnSpec(name: "job_id", sqlType: "VARCHAR(255)")],
+          indexes: {
+            "same": ["job_id"]
+          },
+          uniqueIndexes: {
+            "same": ["job_id"]
+          },
+        ),
+      ]),
+      throwsArgumentError,
+    );
+    expect(
+      () => TidbSchemaSpec.schemaManifest([
+        const TidbTableSpec(
+          database: "main",
+          table: "jobs",
+          columns: [TidbColumnSpec(name: "job_id", sqlType: "VARCHAR(255)")],
+          indexes: {
+            "Same": ["job_id"]
+          },
+          uniqueIndexes: {
+            "same": ["job_id"]
+          },
+        ),
+      ]),
+      throwsArgumentError,
+    );
+  });
+
   test("SQL型への文混入と予約カラムの型変更を拒否する", () {
     for (final column in const [
       TidbColumnSpec(name: "value", sqlType: "TEXT; DROP TABLE items"),

@@ -64,6 +64,13 @@ class _MasamuneModelTidbBuilder extends Builder {
                 value.toStringValue()!,
             ],
         },
+        uniqueIndexes: {
+          for (final entry in annotation.read("uniqueIndexes").mapValue.entries)
+            entry.key!.toStringValue()!: [
+              for (final value in entry.value!.toListValue()!)
+                value.toStringValue()!,
+            ],
+        },
       );
       tables.addAll(_withDatabasePrefixes(modelTable, prefixes));
       for (final value in annotation.read("additionalTables").listValue) {
@@ -77,6 +84,13 @@ class _MasamuneModelTidbBuilder extends Builder {
               entry.key!.toStringValue()!: [
                 for (final value in entry.value!.toListValue()!)
                   value.toStringValue()!
+              ],
+          },
+          uniqueIndexes: {
+            for (final entry in table.read("uniqueIndexes").mapValue.entries)
+              entry.key!.toStringValue()!: [
+                for (final value in entry.value!.toListValue()!)
+                  value.toStringValue()!,
               ],
           },
         );
@@ -127,6 +141,7 @@ class _MasamuneModelTidbBuilder extends Builder {
           table: table.table,
           columns: table.columns,
           indexes: table.indexes,
+          uniqueIndexes: table.uniqueIndexes,
         ),
     ];
   }

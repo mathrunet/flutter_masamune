@@ -27,4 +27,30 @@ void main() {
     expect(value.extraColumns.single.name, "ownerId");
     expect(value.additionalTables.single.table, "outbox");
   });
+
+  test("accepts independent unique indexes on models and additional tables",
+      () {
+    const value = TidbSchema(
+      indexes: {
+        "by_owner": ["owner_id"]
+      },
+      uniqueIndexes: {
+        "unique_job": ["job_id"]
+      },
+      additionalTables: [
+        TidbSchemaTable(
+          database: "main",
+          table: "transactions",
+          columns: [TidbSchemaColumn("transaction_id", "VARCHAR(255)")],
+          uniqueIndexes: {
+            "unique_transaction": ["transaction_id"]
+          },
+        ),
+      ],
+    );
+    expect(value.indexes["by_owner"], ["owner_id"]);
+    expect(value.uniqueIndexes["unique_job"], ["job_id"]);
+    expect(value.additionalTables.single.uniqueIndexes["unique_transaction"],
+        ["transaction_id"]);
+  });
 }

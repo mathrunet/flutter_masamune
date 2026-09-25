@@ -46,6 +46,7 @@ class TidbTableSpec {
     required this.table,
     required this.columns,
     this.indexes = const {},
+    this.uniqueIndexes = const {},
   });
 
   /// Database name.
@@ -63,8 +64,11 @@ class TidbTableSpec {
   /// Masamuneの予約カラムを含むカラム一覧。
   final List<TidbColumnSpec> columns;
 
-  /// 通常indexの名前とカラム。UNIQUE制約は自動追加しない。
+  /// Names and columns of non-unique indexes.
   final Map<String, List<String>> indexes;
+
+  /// Names and columns of independent unique indexes.
+  final Map<String, List<String>> uniqueIndexes;
 }
 
 /// Workerとmigrationの共通スキーマ仕様。
@@ -108,6 +112,15 @@ class TidbSchemaSpec {
           }
         }
         final indexNames = table.indexes.keys.toList()..sort();
+        final uniqueIndexNames = table.uniqueIndexes.keys.toList()..sort();
+        if (indexNames
+            .map((name) => name.toLowerCase())
+            .toSet()
+            .intersection(
+                uniqueIndexNames.map((name) => name.toLowerCase()).toSet())
+            .isNotEmpty) {
+          throw ArgumentError("Duplicate schema index name.");
+        }
         for (final name in indexNames) {
           _validateIdentifier(name, "index");
           final fields = table.indexes[name]!;
@@ -116,6 +129,16 @@ class TidbSchemaSpec {
               fields.toSet().length != fields.length ||
               fields.any((field) => !columns.any((c) => c.name == field))) {
             throw ArgumentError("Invalid schema index.");
+          }
+        }
+        for (final name in uniqueIndexNames) {
+          _validateIdentifier(name, "index");
+          final fields = table.uniqueIndexes[name]!;
+          if (name.toUpperCase() == "PRIMARY" ||
+              fields.isEmpty ||
+              fields.toSet().length != fields.length ||
+              fields.any((field) => !columns.any((c) => c.name == field))) {
+            throw ArgumentError("Invalid schema unique index.");
           }
         }
         return {
@@ -134,6 +157,12 @@ class TidbSchemaSpec {
           "indexes": [
             for (final name in indexNames)
               {"name": name, "columns": table.indexes[name], "unique": false},
+            for (final name in uniqueIndexNames)
+              {
+                "name": name,
+                "columns": table.uniqueIndexes[name],
+                "unique": true
+              },
           ],
           "vectorFields": columns
               .where((c) => c.sqlType.toUpperCase().startsWith("VECTOR("))
