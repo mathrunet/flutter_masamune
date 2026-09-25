@@ -2,8 +2,8 @@
   "schema": 1,
   "packages": {
     "katana_cli": {
-      "version": "3.29.0",
-      "sourceSha": "4db1a59c1d0e06248290042d9f94cd1cedaadfbe"
+      "version": "3.30.0",
+      "sourceSha": "b4a812cb56d8690edf3fc9deef9fdd274199853b"
     }
   }
 }
