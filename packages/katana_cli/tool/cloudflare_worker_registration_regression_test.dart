@@ -109,12 +109,12 @@ Future<void> _testWorkerRegistersInEdge() async {
     _check(region == _regionSource,
         "region.ts must not be touched without --region: $region");
     final action = File("lib/functions/sample.dart").readAsStringSync();
-    _check(!action.contains("get target"),
-        "The edge FunctionsAction must not override target: $action");
+    _check(!action.contains("get workerType"),
+        "The edge FunctionsAction must not override workerType: $action");
   });
 }
 
-/// --regionはregion.tsのみへ登録し、Dart actionにtarget => "region"を付ける。
+/// --regionはregion.tsのみへ登録し、Dart actionにworkerType => "region"を付ける。
 Future<void> _testWorkerRegistersInRegion() async {
   await _inTemporaryProject("katana-worker-region-", (root) async {
     _writeEntries();
@@ -133,8 +133,8 @@ Future<void> _testWorkerRegistersInRegion() async {
             _count(region, "new HeavyTaskWorker()") == 1,
         "HeavyTaskWorker must be registered once in region.ts: $region");
     final action = File("lib/functions/heavy_task.dart").readAsStringSync();
-    _check(action.contains('String? get target => "region";'),
-        "The region FunctionsAction must target region: $action");
+    _check(action.contains('String? get workerType => "region";'),
+        "The region FunctionsAction must use the region worker type: $action");
   });
 }
 

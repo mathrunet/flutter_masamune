@@ -211,7 +211,7 @@ class ${className.toPascalCase()}FunctionsAction
   String get action => "${className.toSnakeCase()}";
 ${region ? """
   @override
-  String? get target => "region";
+  String? get workerType => "region";
 """ : ""}
   @override
   DynamicMap? toMap() {
