@@ -33,8 +33,14 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
   /// Masamuneフレームワークでは基本的に[FirebaseAuthAdapter]を利用することでセキュリティを担保します。
   const CloudflareFunctionsAdapter({
     required this.endpoint,
+    this.regionEndpoint,
     AuthAdapter? authAdapter,
   }) : _authAdapter = authAdapter;
+
+  /// Endpoint of the region Worker.
+  ///
+  /// Used for actions whose [FunctionsAction.target] is `region`.
+  final String? regionEndpoint;
 
   /// Auth adapter used for authentication.
   ///
@@ -57,6 +63,34 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
     };
   }
 
+  /// Resolves the request URL of [action].
+  @visibleForTesting
+  String resolveUrl(FunctionsAction action) => _url(action);
+
+  String _url(FunctionsAction action) {
+    final String base;
+    switch (action.target) {
+      case null:
+      case "edge":
+        base = endpoint;
+        break;
+      case "region":
+        final region = regionEndpoint;
+        if (region == null || region.isEmpty) {
+          throw StateError(
+            "regionEndpoint is not configured for the region target: ${action.action}",
+          );
+        }
+        base = region;
+        break;
+      default:
+        throw UnsupportedError(
+          "Unsupported functions target: ${action.target}",
+        );
+    }
+    return "${base.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}";
+  }
+
   @override
   Future<TResponse> execute<TResponse>(
       FunctionsAction<TResponse> action) async {
@@ -70,7 +104,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
           switch (action.method ?? ApiMethod.get) {
             case ApiMethod.get:
               final res = await Api.get(
-                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                _url(action),
                 headers: headers,
               );
               if (!res.statusCode.toString().startsWith("2")) {
@@ -79,7 +113,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
               return jsonDecodeAsMap(res.body);
             case ApiMethod.post:
               final res = await Api.post(
-                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                _url(action),
                 headers: headers,
                 body: jsonEncode(map ?? {}),
               );
@@ -89,7 +123,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
               return jsonDecodeAsMap(res.body);
             case ApiMethod.put:
               final res = await Api.put(
-                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                _url(action),
                 headers: headers,
                 body: jsonEncode(map ?? {}),
               );
@@ -99,7 +133,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
               return jsonDecodeAsMap(res.body);
             case ApiMethod.delete:
               final res = await Api.delete(
-                "${endpoint.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}",
+                _url(action),
                 headers: headers,
                 body: map == null || map.isEmpty ? null : jsonEncode(map),
               );
@@ -122,7 +156,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
   }
 
   @override
-  int get hashCode => endpoint.hashCode;
+  int get hashCode => endpoint.hashCode ^ regionEndpoint.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
