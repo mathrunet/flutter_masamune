@@ -38,7 +38,7 @@ Future<void> main() async {
       yaml, ["cloudflare", "workers", "region", "custom_domain"]);
   _expectEnvironmentMap(yaml, ["cloudflare", "pages", "project_name"]);
   _expectEnvironmentMap(yaml, ["cloudflare", "pages", "custom_domain"]);
-  _expectSharedField(yaml, ["cloudflare", "pages", "build_dir"]);
+  _expectSharedField(yaml, ["cloudflare", "pages", "public_dir"]);
   _expectEnvironmentMap(yaml, ["cloudflare", "workers", "region", "placement"]);
   _expectSharedField(yaml, ["cloudflare", "workers", "smart_placement"]);
   _expectSharedField(yaml, ["cloudflare", "workers", "region", "enable"]);

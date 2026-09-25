@@ -7,12 +7,20 @@ import "package:katana_cli/katana_cli.dart";
 /// Cloudflare Pages configuration.
 ///
 /// Creates the Pages project and attaches the custom domain based on
-/// [cloudflare]->[pages] in `katana.yaml`.
+/// [cloudflare]->[pages] in `katana.yaml`. Like Firebase Hosting
+/// (`firebase/hosting`), the public directory ([cloudflare]->[pages]->[public_dir],
+/// `cloudflare/pages` by default) is created with a minimal `index.html` when
+/// it does not exist. Katana never builds Flutter web; build it separately
+/// (e.g. in CI) and copy the output into the public directory.
 ///
 /// Cloudflare Pagesの設定を行います。
 ///
 /// `katana.yaml`の[cloudflare]->[pages]を元にPagesプロジェクトを作成し、
-/// カスタムドメインを接続します。
+/// カスタムドメインを接続します。Firebase Hosting（`firebase/hosting`）と同様に、
+/// 公開ディレクトリ（[cloudflare]->[pages]->[public_dir]、既定は`cloudflare/pages`）が
+/// 存在しない場合は最小限の`index.html`を含めて作成します。
+/// KatanaはFlutter Webのビルドを行いません。CIなどで別途ビルドし、
+/// 成果物を公開ディレクトリへコピーしてください。
 class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
   /// Cloudflare Pages configuration.
   ///
@@ -45,13 +53,27 @@ class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
     return cloudflare.get("project_id", "").trim();
   }
 
-  /// Resolves the directory deployed to Pages.
+  /// Default public directory deployed to Pages.
   ///
-  /// Pagesへデプロイするディレクトリを解決します。
-  static String resolveBuildDir(Map yaml) {
+  /// Pagesへデプロイする既定の公開ディレクトリ。
+  static const defaultPublicDir = "cloudflare/pages";
+
+  /// Resolves the public directory deployed to Pages from
+  /// [cloudflare]->[pages]->[public_dir].
+  ///
+  /// Every file in this directory (Flutter web output copied by CI, and static
+  /// files such as `.well-known/apple-app-site-association`, `_headers` or
+  /// `_redirects`) is deployed as is.
+  ///
+  /// [cloudflare]->[pages]->[public_dir]からPagesへデプロイする公開ディレクトリを解決します。
+  ///
+  /// このディレクトリ内のファイル（CIでコピーしたFlutter Webの成果物や、
+  /// `.well-known/apple-app-site-association`・`_headers`・`_redirects`などの静的ファイル）が
+  /// そのままデプロイされます。
+  static String resolvePublicDir(Map yaml) {
     final pages = yaml.getAsMap("cloudflare").getAsMap("pages");
-    final configured = pages.get("build_dir", "").trim();
-    return configured.isEmpty ? "build/web" : configured;
+    final configured = pages.get("public_dir", "").trim();
+    return configured.isEmpty ? defaultPublicDir : configured;
   }
 
   /// Working directory for `wrangler pages` commands.
@@ -74,6 +96,7 @@ class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    await _ensurePublicDir(resolvePublicDir(context.yaml));
     if (isLocalApply) {
       return;
     }
@@ -86,6 +109,33 @@ class CloudflarePagesCliAction extends CliCommand with CliActionMixin {
       );
     }
   }
+
+  /// Creates the public directory with a minimal `index.html` if it does not
+  /// exist. Existing directories are never modified.
+  ///
+  /// 公開ディレクトリが存在しない場合、最小限の`index.html`を含めて作成します。
+  /// 既存のディレクトリは変更しません。
+  Future<void> _ensurePublicDir(String publicDir) async {
+    final directory = Directory(publicDir);
+    if (directory.existsSync()) {
+      return;
+    }
+    label("Create Cloudflare Pages public directory `$publicDir`.");
+    await directory.create(recursive: true);
+    await File("$publicDir/index.html").writeAsString(_defaultIndexHtml);
+  }
+
+  static const _defaultIndexHtml = """
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+	<body>
+	</body>
+</html>
+""";
 
   Future<void> _ensureProject({
     required String wrangler,

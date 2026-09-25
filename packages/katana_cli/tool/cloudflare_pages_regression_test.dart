@@ -6,6 +6,7 @@ import "package:katana_cli/katana_cli.dart";
 
 Future<void> main() async {
   await _testApplyCreatesProjectAndDomain();
+  await _testApplyCreatesPublicDir();
   await _testDeployPagesOnly();
   await _testDeployWorkersThenPages();
   stdout.writeln("Cloudflare Pages regression checks passed");
@@ -63,7 +64,42 @@ Future<void> _testApplyCreatesProjectAndDomain() async {
   });
 }
 
-/// Workers無効・Pages有効ならWorkersをデプロイせずPagesだけデプロイする。
+/// applyは公開ディレクトリが無い場合だけ最小のindex.htmlを含めて作成し、既存の内容は変更しない。
+Future<void> _testApplyCreatesPublicDir() async {
+  await _inTemporaryProject("katana-pages-public-", (root) async {
+    Directory("cloudflare").createSync();
+    final wrangler = _writeFakeWrangler(root);
+    final yaml = _yaml(wrangler, workers: false);
+    const action = CloudflarePagesCliAction();
+    await action.exec(_context(yaml, "dev"));
+    final index = File("cloudflare/pages/index.html");
+    _check(
+      index.existsSync() && index.readAsStringSync().contains("<html"),
+      "apply must create the default public directory with index.html.",
+    );
+    index.writeAsStringSync("custom");
+    File("cloudflare/pages/_headers").writeAsStringSync("/*\n");
+    await action.exec(_context(yaml, "dev"));
+    _check(
+      index.readAsStringSync() == "custom" &&
+          File("cloudflare/pages/_headers").existsSync(),
+      "apply must not overwrite an existing public directory.",
+    );
+    // public_dirを指定した場合はそのディレクトリを作成する。
+    ((yaml["cloudflare"] as Map)["pages"] as Map)["public_dir"] = "web_public";
+    await action.exec(_context(yaml, "dev"));
+    _check(
+      File("web_public/index.html").existsSync(),
+      "apply must create the configured public_dir.",
+    );
+    _check(
+      !_calls(root).any((call) => call.startsWith("flutter")),
+      "apply must never build Flutter web: ${_calls(root)}",
+    );
+  });
+}
+
+/// Workers無効・Pages有効ならWorkersをデプロイせず、ビルドせずに公開ディレクトリだけデプロイする。
 Future<void> _testDeployPagesOnly() async {
   await _inTemporaryProject("katana-pages-deploy-", (root) async {
     Directory("cloudflare").createSync();
@@ -77,37 +113,56 @@ Future<void> _testDeployPagesOnly() async {
       action.checkEnabled(_context(yaml, "dev")),
       "Deploy must be enabled when only Pages is enabled.",
     );
-    await action.exec(_context(yaml, "dev"));
-    final calls = _calls(root);
-    _check(
-      calls.join("\n") ==
-          [
-            "flutter build web --release --dart-define-from-file=dart_defines/dev.env",
-            "pages deploy build/web --project-name app-dev --branch main --commit-dirty=true",
-          ].join("\n"),
-      "Pages-only deploy must build the web app and deploy it: $calls",
-    );
-    // dart_definesが無いflavorではオプションを付けない。
-    _clearCalls(root);
-    await action.exec(_context(yaml, "prod"));
-    _check(
-      _calls(root).first == "flutter build web --release" &&
-          _calls(root).last ==
-              "pages deploy build/web --project-name app --branch main --commit-dirty=true",
-      "Prod deploy must not pass a missing dart_defines file: ${_calls(root)}",
-    );
-    // ビルド失敗時はPagesへデプロイしない。
-    _clearCalls(root);
-    File("${root.path}/flutter-fail").writeAsStringSync("");
+    // 公開ディレクトリが無い場合はデプロイせずに停止する。
     var failed = false;
     try {
       await action.exec(_context(yaml, "dev"));
-    } on Exception {
+    } on StateError catch (e) {
+      failed = e.message.contains("cloudflare/pages");
+    }
+    _check(
+      failed && _calls(root).isEmpty,
+      "A missing public directory must stop before any command: ${_calls(root)}",
+    );
+    // 空の公開ディレクトリでもデプロイせずに停止する。
+    Directory("cloudflare/pages/.well-known").createSync(recursive: true);
+    failed = false;
+    try {
+      await action.exec(_context(yaml, "dev"));
+    } on StateError {
       failed = true;
     }
     _check(
-      failed && !_calls(root).any((call) => call.startsWith("pages deploy")),
-      "A build failure must stop before Pages deploy: ${_calls(root)}",
+      failed && _calls(root).isEmpty,
+      "An empty public directory must stop before any command: ${_calls(root)}",
+    );
+    // 静的ファイルだけでもそのままデプロイする。
+    File("cloudflare/pages/.well-known/apple-app-site-association")
+        .writeAsStringSync("{}");
+    await action.exec(_context(yaml, "dev"));
+    _check(
+      _calls(root).join("\n") ==
+          "pages deploy cloudflare/pages --project-name app-dev --branch main --commit-dirty=true",
+      "Pages-only deploy must deploy the public directory without building: ${_calls(root)}",
+    );
+    _clearCalls(root);
+    await action.exec(_context(yaml, "prod"));
+    _check(
+      _calls(root).join("\n") ==
+          "pages deploy cloudflare/pages --project-name app --branch main --commit-dirty=true",
+      "Prod deploy must use project_id without building: ${_calls(root)}",
+    );
+    // public_dirを指定した場合はそのディレクトリをデプロイする。
+    _clearCalls(root);
+    Directory("custom_public").createSync();
+    File("custom_public/index.html").writeAsStringSync("<html></html>");
+    ((yaml["cloudflare"] as Map)["pages"] as Map)["public_dir"] =
+        "custom_public";
+    await action.exec(_context(yaml, "dev"));
+    _check(
+      _calls(root).join("\n") ==
+          "pages deploy custom_public --project-name app-dev --branch main --commit-dirty=true",
+      "Deploy must use the configured public_dir: ${_calls(root)}",
     );
   });
 }
@@ -130,6 +185,8 @@ Future<void> _testDeployWorkersThenPages() async {
   ${WranglerEnvironmentSynchronizer.endMarker}
 }
 """);
+    Directory("cloudflare/pages").createSync();
+    File("cloudflare/pages/index.html").writeAsStringSync("<html></html>");
     final wrangler = _writeFakeWrangler(root);
     final flutter = _writeFakeFlutter(root);
     final yaml = _yaml(wrangler, workers: true, flutter: flutter);
@@ -140,8 +197,7 @@ Future<void> _testDeployWorkersThenPages() async {
           [
             "deployments list --json --env dev",
             "deploy --env dev",
-            "flutter build web --release",
-            "pages deploy build/web --project-name app-dev --branch main --commit-dirty=true",
+            "pages deploy cloudflare/pages --project-name app-dev --branch main --commit-dirty=true",
           ].join("\n"),
       "Workers must be deployed before Pages: $calls",
     );
@@ -165,7 +221,6 @@ Map<String, Object> _yaml(File wrangler,
           "dev": "dev.example.com",
           "prod": "example.com",
         },
-        "build_dir": "build/web",
       },
     },
   };
@@ -201,15 +256,13 @@ exit 0
   return wrangler;
 }
 
-/// `build/web`を生成するfake flutter。`flutter-fail`があると失敗する。
+/// 呼び出しを記録するfake flutter。deploy/applyから呼ばれないことの検証に使う。
 File _writeFakeFlutter(Directory root) {
   final flutter = File("${root.path}/fake-flutter.sh");
   final calls = "${root.path}/wrangler-calls.txt";
   flutter.writeAsStringSync("""
 #!/bin/sh
 printf 'flutter %s\\n' "\$*" >> "$calls"
-if [ -f "${root.path}/flutter-fail" ]; then exit 1; fi
-mkdir -p build/web
 exit 0
 """);
   Process.runSync("chmod", ["+x", flutter.path]);

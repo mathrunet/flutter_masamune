@@ -313,12 +313,24 @@ cloudflare:
     delete_user:
       enable: false
 
-  # Enable Cloudflare Pages.
-  # `katana apply` creates the Pages project and attaches the custom domain.
-  # `katana deploy` runs `flutter build web` and deploys [build_dir].
-  # Cloudflare Pagesを有効にします。
-  # `katana apply`がPagesプロジェクトを作成し、カスタムドメインを接続します。
-  # `katana deploy`は`flutter build web`を実行して[build_dir]をデプロイします。
+  # Enable Cloudflare Pages. It works the same way as Firebase Hosting.
+  # `katana apply` creates the Pages project, attaches the custom domain and
+  # creates [public_dir] (with a minimal `index.html`) if it does not exist.
+  # `katana deploy` deploys the files in [public_dir] as they are.
+  # Neither `katana apply` nor `katana deploy` builds Flutter web.
+  # To host a Flutter web app, build it separately (e.g. in CI) and copy
+  # the output of `flutter build web` into [public_dir].
+  # Static files such as `.well-known/apple-app-site-association`, `_headers`
+  # and `_redirects` placed in [public_dir] are deployed together.
+  # Cloudflare Pagesを有効にします。Firebase Hostingと同じ考え方で動作します。
+  # `katana apply`がPagesプロジェクトを作成してカスタムドメインを接続し、
+  # [public_dir]が存在しない場合は最小限の`index.html`を含めて作成します。
+  # `katana deploy`は[public_dir]内のファイルをそのままデプロイします。
+  # `katana apply`・`katana deploy`のどちらもFlutter Webのビルドは行いません。
+  # Flutter Webアプリを配信する場合はCIなどで別途ビルドし、
+  # `flutter build web`の成果物を[public_dir]へコピーしてください。
+  # [public_dir]に置いた`.well-known/apple-app-site-association`、`_headers`、
+  # `_redirects`などの静的ファイルも一緒にデプロイされます。
   pages:
     enable: false
     # Pages project name (e.g. `<app>-dev` / `<app>`). Leave empty to use [project_id].
@@ -331,9 +343,9 @@ cloudflare:
     custom_domain:
       dev:
       prod:
-    # Directory deployed by `katana deploy` (built with `flutter build web`).
-    # `katana deploy`がデプロイするディレクトリ（`flutter build web`で生成）。
-    build_dir: build/web
+    # Public directory deployed by `katana deploy` (like `firebase/hosting`).
+    # `katana deploy`がデプロイする公開ディレクトリ（`firebase/hosting`に相当）。
+    public_dir: cloudflare/pages
 
   # If you want to use TursoDB via Workers, set [enable] to `true`.
   # Specify the Turso Organization and Group in [organization] and [group].

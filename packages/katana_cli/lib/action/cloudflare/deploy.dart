@@ -11,16 +11,29 @@ import "package:katana_cli/katana_cli.dart";
 /// Deploys the edge Worker (`cloudflare/wrangler.jsonc`) and, when
 /// [cloudflare]->[workers]->[region]->[enable] is `true`, the region Worker
 /// (`cloudflare/wrangler.region.jsonc`) in this order. When
-/// [cloudflare]->[pages]->[enable] is `true`, `flutter build web` is run and
-/// the result is deployed to Cloudflare Pages afterwards.
+/// [cloudflare]->[pages]->[enable] is `true`, the public directory
+/// ([cloudflare]->[pages]->[public_dir], `cloudflare/pages` by default) is
+/// deployed to Cloudflare Pages as is afterwards.
+///
+/// As with Firebase Hosting, Flutter web is never built here. Build it
+/// separately (e.g. in CI) and copy the output into the public directory.
+/// Static files placed in the same directory (such as
+/// `.well-known/apple-app-site-association`, `_headers` or `_redirects`) are
+/// deployed together.
 ///
 /// Cloudflareのデプロイ処理を行います。
 ///
 /// edge Worker（`cloudflare/wrangler.jsonc`）をデプロイし、
 /// [cloudflare]->[workers]->[region]->[enable]が`true`の場合はregion Worker
 /// （`cloudflare/wrangler.region.jsonc`）をその後にデプロイします。
-/// [cloudflare]->[pages]->[enable]が`true`の場合は、その後に`flutter build web`を
-/// 実行して結果をCloudflare Pagesへデプロイします。
+/// [cloudflare]->[pages]->[enable]が`true`の場合は、その後に公開ディレクトリ
+/// （[cloudflare]->[pages]->[public_dir]、既定は`cloudflare/pages`）を
+/// そのままCloudflare Pagesへデプロイします。
+///
+/// Firebase Hostingと同様に、ここではFlutter Webのビルドを行いません。
+/// CIなどで別途ビルドし、成果物を公開ディレクトリへコピーしてください。
+/// 同じディレクトリに置いた静的ファイル（`.well-known/apple-app-site-association`、
+/// `_headers`、`_redirects`など）も一緒にデプロイされます。
 class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
   /// Cloudflare deployment process.
   ///
@@ -53,12 +66,7 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
       await _deployWorkers(context, wrangler: wrangler, flavor: flavor);
     }
     if (enabledPages) {
-      await _deployPages(
-        context,
-        wrangler: wrangler,
-        flutter: bin.get("flutter", "flutter"),
-        flavor: flavor,
-      );
+      await _deployPages(context, wrangler: wrangler, flavor: flavor);
     }
   }
 
@@ -165,13 +173,12 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
     }
   }
 
-  /// Builds the Flutter web app and deploys it to Cloudflare Pages.
+  /// Deploys the public directory to Cloudflare Pages without building.
   ///
-  /// Flutter Webアプリをビルドし、Cloudflare Pagesへデプロイします。
+  /// ビルドを行わずに公開ディレクトリをCloudflare Pagesへデプロイします。
   Future<void> _deployPages(
     ExecContext context, {
     required String wrangler,
-    required String flutter,
     required String flavor,
   }) async {
     final projectName = CloudflarePagesCliAction.resolveProjectName(
@@ -183,35 +190,30 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final buildDir = CloudflarePagesCliAction.resolveBuildDir(context.yaml);
-    final dartDefines = File("dart_defines/$flavor.env");
-    // ignore: avoid_print
-    print("Cloudflare Pages deploy target: $flavor ($projectName)");
-    await command(
-      "Build Flutter web",
-      [
-        flutter,
-        "build",
-        "web",
-        "--release",
-        if (dartDefines.existsSync())
-          "--dart-define-from-file=${dartDefines.path}",
-      ],
-      catchError: true,
-      failOnStderr: false,
-    );
-    if (!Directory(buildDir).existsSync()) {
+    final publicDir = CloudflarePagesCliAction.resolvePublicDir(context.yaml);
+    final directory = Directory(publicDir);
+    if (!directory.existsSync() ||
+        !directory
+            .listSync(recursive: true, followLinks: false)
+            .any((entity) => entity is File)) {
       throw StateError(
-        "The Pages build directory `$buildDir` does not exist after `flutter build web`.",
+        "The Cloudflare Pages public directory `$publicDir` does not exist or is empty. "
+        "Run `katana apply` and place the files to deploy (e.g. the output of `flutter build web` built separately) in it. "
+        "Katana does not build Flutter web. "
+        "Cloudflare Pagesの公開ディレクトリ`$publicDir`が存在しないか空です。 "
+        "`katana apply`を実行し、デプロイするファイル（別途ビルドした`flutter build web`の成果物など）を配置してください。 "
+        "KatanaはFlutter Webのビルドを行いません。",
       );
     }
+    // ignore: avoid_print
+    print("Cloudflare Pages deploy target: $flavor ($projectName)");
     await command(
       "Run cloudflare pages deploy",
       [
         wrangler,
         "pages",
         "deploy",
-        buildDir,
+        publicDir,
         "--project-name",
         projectName,
         "--branch",
