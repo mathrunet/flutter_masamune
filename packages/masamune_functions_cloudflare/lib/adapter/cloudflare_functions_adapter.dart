@@ -39,7 +39,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
 
   /// Endpoint of the region Worker.
   ///
-  /// Used for actions whose [FunctionsAction.target] is `region`.
+  /// Used for actions whose [FunctionsAction.workerType] is `region`.
   final String? regionEndpoint;
 
   /// Auth adapter used for authentication.
@@ -69,7 +69,7 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
 
   String _url(FunctionsAction action) {
     final String base;
-    switch (action.target) {
+    switch (action.workerType) {
       case null:
       case "edge":
         base = endpoint;
@@ -78,14 +78,14 @@ class CloudflareFunctionsAdapter extends FunctionsAdapter {
         final region = regionEndpoint;
         if (region == null || region.isEmpty) {
           throw StateError(
-            "regionEndpoint is not configured for the region target: ${action.action}",
+            "regionEndpoint is not configured for the region worker type: ${action.action}",
           );
         }
         base = region;
         break;
       default:
         throw UnsupportedError(
-          "Unsupported functions target: ${action.target}",
+          "Unsupported worker type: ${action.workerType}",
         );
     }
     return "${base.trimQuery().trimString("/")}/${(action.path ?? action.action).trimString("/")}";

@@ -7,12 +7,12 @@ import "package:masamune_functions_cloudflare/masamune_functions_cloudflare.dart
 
 class _TestAction extends FunctionsAction<DynamicMap> {
   const _TestAction({
-    this.target,
+    this.workerType,
     this.path,
   });
 
   @override
-  final String? target;
+  final String? workerType;
 
   @override
   final String? path;
@@ -33,23 +33,23 @@ void main() {
     regionEndpoint: "https://region.example.com/",
   );
 
-  test("target null resolves to endpoint", () {
+  test("workerType null resolves to endpoint", () {
     expect(
       adapter.resolveUrl(const _TestAction()),
       "https://edge.example.com/test_action",
     );
   });
 
-  test("target edge resolves to endpoint", () {
+  test("workerType edge resolves to endpoint", () {
     expect(
-      adapter.resolveUrl(const _TestAction(target: "edge")),
+      adapter.resolveUrl(const _TestAction(workerType: "edge")),
       "https://edge.example.com/test_action",
     );
   });
 
-  test("target region resolves to regionEndpoint", () {
+  test("workerType region resolves to regionEndpoint", () {
     expect(
-      adapter.resolveUrl(const _TestAction(target: "region")),
+      adapter.resolveUrl(const _TestAction(workerType: "region")),
       "https://region.example.com/test_action",
     );
   });
@@ -57,7 +57,7 @@ void main() {
   test("path takes precedence over action", () {
     expect(
       adapter.resolveUrl(
-        const _TestAction(target: "region", path: "/api/nested/path/"),
+        const _TestAction(workerType: "region", path: "/api/nested/path/"),
       ),
       "https://region.example.com/api/nested/path",
     );
@@ -67,19 +67,19 @@ void main() {
     );
   });
 
-  test("region target without regionEndpoint throws StateError", () {
+  test("region workerType without regionEndpoint throws StateError", () {
     const edgeOnly = CloudflareFunctionsAdapter(
       endpoint: "https://edge.example.com",
     );
     expect(
-      () => edgeOnly.resolveUrl(const _TestAction(target: "region")),
+      () => edgeOnly.resolveUrl(const _TestAction(workerType: "region")),
       throwsStateError,
     );
   });
 
-  test("unknown target throws UnsupportedError", () {
+  test("unknown workerType throws UnsupportedError", () {
     expect(
-      () => adapter.resolveUrl(const _TestAction(target: "unknown")),
+      () => adapter.resolveUrl(const _TestAction(workerType: "unknown")),
       throwsUnsupportedError,
     );
   });
