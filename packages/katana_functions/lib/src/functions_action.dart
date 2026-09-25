@@ -49,10 +49,11 @@ abstract class FunctionsAction<TResponse> {
   /// パス。
   String? get path => null;
 
-  /// Server-side target that handles this action (e.g. `region`).
+  /// Cloudflare Worker type that handles this action (e.g. `region`).
   ///
-  /// Adapters that do not support targets ignore it.
-  String? get target => null;
+  /// Matches the `type` option of `m.deploy`.
+  /// Adapters that do not support worker types ignore it.
+  String? get workerType => null;
 
   /// Timeout.
   ///
