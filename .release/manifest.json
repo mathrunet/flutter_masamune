@@ -4,6 +4,14 @@
     "katana_cli": {
       "version": "3.30.0",
       "sourceSha": "b4a812cb56d8690edf3fc9deef9fdd274199853b"
+    },
+    "masamune_model_tidb_annotation": {
+      "version": "3.6.0",
+      "sourceSha": "23782f97aeabf20b74d9e6385d73de1d23faecf2"
+    },
+    "masamune_model_tidb_builder": {
+      "version": "3.7.0",
+      "sourceSha": "23782f97aeabf20b74d9e6385d73de1d23faecf2"
     }
   }
 }

@@ -1,3 +1,8 @@
+## 3.6.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([23782f97](https://github.com/mathrunet/flutter_masamune/commit/23782f97aeabf20b74d9e6385d73de1d23faecf2))
+ - **FEAT**(masamune_model_tidb): support independent unique indexes in TiDB schema generation ([23782f97](https://github.com/mathrunet/flutter_masamune/commit/23782f97aeabf20b74d9e6385d73de1d23faecf2))
+
 ## 3.5.0
 
  - **FEAT**(masamune_model_tidb): release version 3.6.0 with nearest-neighbor queries. ([5bc2d30f](https://github.com/mathrunet/flutter_masamune/commit/5bc2d30fc78fd3f9a8912ec354b9e2bd36290da3))
