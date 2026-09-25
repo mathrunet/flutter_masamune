@@ -74,6 +74,9 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     final regionPlacement = _placementRegion(
       workers.getAsMap("region")["placement"],
     );
+    final edgeCustomDomain = workers.get("custom_domain", "").trim();
+    final regionCustomDomain =
+        workers.getAsMap("region").get("custom_domain", "").trim();
     final rootRegionPlacement = _placementRegion(
       context.flavorContext?.yamlValue(
             const ["cloudflare", "workers", "region", "placement"],
@@ -216,6 +219,11 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
           values: {"FIREBASE_PROJECT_ID": firebaseProjectId},
         );
       }
+      synchronizedWranglerSource = _syncCustomDomainRoutes(
+        synchronizedWranglerSource,
+        flavor: flavor,
+        customDomain: edgeCustomDomain,
+      );
       await wranglerJsonc.writeAsString(synchronizedWranglerSource);
       await installMissingCloudflarePackages(
         npm: npm,
@@ -241,6 +249,7 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
           firebaseProjectId: enableFirebaseAuth ? firebaseProjectId : null,
           placement: regionPlacement,
           rootPlacement: rootRegionPlacement,
+          customDomain: regionCustomDomain,
         );
       }
     }
@@ -262,6 +271,29 @@ String _placementRegion(Object? value) {
   return text.isEmpty ? cloudflareDefaultRegionPlacement : text;
 }
 
+/// Writes `"routes"` with the custom domain into the selected Wrangler
+/// environment, or removes it when [customDomain] is empty.
+///
+/// 選択したWrangler環境へカスタムドメインの`"routes"`を書き込み、
+/// [customDomain]が空の場合は削除します。
+String _syncCustomDomainRoutes(
+  String source, {
+  required String flavor,
+  required String customDomain,
+}) {
+  if (customDomain.trim().isEmpty) {
+    return WranglerEnvironmentSynchronizer.removeRoutes(
+      source,
+      flavor: flavor,
+    );
+  }
+  return WranglerEnvironmentSynchronizer.upsertRoutes(
+    source,
+    flavor: flavor,
+    customDomains: [customDomain],
+  );
+}
+
 /// Generates and synchronizes the region Worker (`cloudflare/src/region.ts` and
 /// `cloudflare/wrangler.region.jsonc`), and creates the Worker on Cloudflare if needed.
 ///
@@ -277,6 +309,7 @@ Future<void> _applyRegionWorker({
   required String? firebaseProjectId,
   required String placement,
   required String rootPlacement,
+  String customDomain = "",
 }) async {
   if (!regionEntryFile.existsSync()) {
     await CloudflareWorkersEntryCliCode(
@@ -310,6 +343,11 @@ Future<void> _applyRegionWorker({
     source,
     flavor: flavor,
     region: placement,
+  );
+  source = _syncCustomDomainRoutes(
+    source,
+    flavor: flavor,
+    customDomain: customDomain,
   );
   await regionWranglerJsonc.writeAsString(source);
   if (isLocalApply) {

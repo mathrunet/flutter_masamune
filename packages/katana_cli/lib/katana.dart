@@ -252,6 +252,9 @@ cloudflare:
   project_id:
     dev:
     prod:
+  # Zone ID of `<domain>` used for R2 custom domains.
+  # R2カスタムドメインに使用する`<domain>`のZone ID。
+  zone_id:
 
   # Enable Cloudflare Workers.
   # To use Firebase Authentication with Workers, please set `[enable_firebase_auth]` to `true`.
@@ -267,6 +270,13 @@ cloudflare:
     # リージョンDBや外部APIに近い場所でWorkerを実行し、通信を高速化します。
     # edge Worker（`cloudflare/wrangler.jsonc`）にのみ適用されます。
     smart_placement: false
+    # Custom domain of the edge Worker (e.g. `api-edge-dev.example.com` / `api-edge.example.com`).
+    # Leave empty to use `<project_id>.<subdomain>.workers.dev`.
+    # edge Workerのカスタムドメイン（例：`api-edge-dev.example.com` / `api-edge.example.com`）。
+    # 空の場合は`<project_id>.<subdomain>.workers.dev`を使用します。
+    custom_domain:
+      dev:
+      prod:
     # Split fixed-region backends such as TiDB into a separate region Worker.
     # When [enable] is `true`, `katana apply` generates `cloudflare/src/region.ts` and
     # `cloudflare/wrangler.region.jsonc` (Worker name `<project_id>-region`) and pins it to
@@ -282,6 +292,11 @@ cloudflare:
       placement:
         dev: aws:us-east-1
         prod: aws:us-east-1
+      # Custom domain of the region Worker (e.g. `api-region-dev.example.com` / `api-region.example.com`).
+      # region Workerのカスタムドメイン（例：`api-region-dev.example.com` / `api-region.example.com`）。
+      custom_domain:
+        dev:
+        prod:
 
   # Configure Firebase Authentication features running on Cloudflare Workers.
   # Cloudflare Workers上で動作するFirebase Authentication機能を設定します。
@@ -299,10 +314,27 @@ cloudflare:
       enable: false
 
   # Enable Cloudflare Pages.
+  # `katana apply` creates the Pages project and attaches the custom domain.
+  # `katana deploy` runs `flutter build web` and deploys [build_dir].
   # Cloudflare Pagesを有効にします。
+  # `katana apply`がPagesプロジェクトを作成し、カスタムドメインを接続します。
+  # `katana deploy`は`flutter build web`を実行して[build_dir]をデプロイします。
   pages:
     enable: false
-  
+    # Pages project name (e.g. `<app>-dev` / `<app>`). Leave empty to use [project_id].
+    # Pagesプロジェクト名（例：`<app>-dev` / `<app>`）。空の場合は[project_id]を使用します。
+    project_name:
+      dev:
+      prod:
+    # Custom domain of the Pages project (e.g. `dev.example.com` / `example.com`).
+    # Pagesプロジェクトのカスタムドメイン（例：`dev.example.com` / `example.com`）。
+    custom_domain:
+      dev:
+      prod:
+    # Directory deployed by `katana deploy` (built with `flutter build web`).
+    # `katana deploy`がデプロイするディレクトリ（`flutter build web`で生成）。
+    build_dir: build/web
+
   # If you want to use TursoDB via Workers, set [enable] to `true`.
   # Specify the Turso Organization and Group in [organization] and [group].
   # Store the Turso Platform API Token in `katana_secrets.yaml`.
@@ -319,6 +351,10 @@ cloudflare:
   # 2. `Create Token`ボタンをクリック
   # 3. `name`を指定します。`katana apply`によるgroup自動作成を使う場合は、
   #    `Group`を指定せずorganization全体のトークンを作成してください。
+  # Naming convention: rename the groups per app as `<app>-dev` (dev) and
+  # `<app>-asia` / `<app>-us` / `<app>-eu` (prod) to keep one Turso organization per app.
+  # 命名規約：アプリごとにgroupを`<app>-dev`（dev）、`<app>-asia` / `<app>-us` / `<app>-eu`（prod）へ
+  # 変更し、アプリ単位でTurso organizationを運用してください。
   turso:
     enable: false
     organization:
@@ -435,13 +471,36 @@ cloudflare:
   # Workersを通してCloudflare R2 Storageを使いたい場合は[enable]を`true`にしてください。
   # R2 bucket名と公開R2/custom domainを指定します。
   # bindingは`R2_BUCKET`、限定ダウンロード用secretは自動設定されます。
+  # [bucket_name] is created by `katana apply` when it does not exist (e.g. `<app>-dev` / `<app>`).
+  # [custom_domain] is attached to the bucket and requires [cloudflare]->[zone_id].
+  # When [public_base_url] is empty, `https://<custom_domain>` is used.
+  # [bucket_name]は存在しなければ`katana apply`が作成します（例：`<app>-dev` / `<app>`）。
+  # [custom_domain]はbucketへ接続され、[cloudflare]->[zone_id]が必要です。
+  # [public_base_url]が空の場合は`https://<custom_domain>`を使用します。
   storage:
     enable: false
     bucket_name:
+      dev:
+      prod:
+    # Custom domain attached to the bucket (e.g. `storage-dev.example.com` / `storage.example.com`).
+    # Requires [cloudflare]->[zone_id]. When set, [public_base_url] defaults to `https://<custom_domain>`.
+    # bucketへ接続するカスタムドメイン（例：`storage-dev.example.com` / `storage.example.com`）。
+    # [cloudflare]->[zone_id]が必要です。設定時は[public_base_url]の既定値が`https://<custom_domain>`になります。
+    custom_domain:
+      dev:
+      prod:
     public_base_url:
+      dev:
+      prod:
+    # Backup bucket (e.g. `<app>-backup`, prod only). It is created by `katana apply` when it does not exist.
+    # バックアップbucket（例：`<app>-backup`、prodのみ）。存在しなければ`katana apply`が作成します。
     backup:
-      enable: false
+      enable:
+        dev: false
+        prod: true
       bucket_name:
+        dev:
+        prod:
       # Select the only Worker environment that consumes a shared backup Queue.
       # Leave empty to use prod when dev/prod Workers share the same Queue.
       # 共有バックアップQueueを消費する唯一のWorker環境を指定します。

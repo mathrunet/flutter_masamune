@@ -3,19 +3,24 @@ import "dart:io";
 
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
+import "package:katana_cli/action/cloudflare/pages.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process.
 ///
 /// Deploys the edge Worker (`cloudflare/wrangler.jsonc`) and, when
 /// [cloudflare]->[workers]->[region]->[enable] is `true`, the region Worker
-/// (`cloudflare/wrangler.region.jsonc`) in this order.
+/// (`cloudflare/wrangler.region.jsonc`) in this order. When
+/// [cloudflare]->[pages]->[enable] is `true`, `flutter build web` is run and
+/// the result is deployed to Cloudflare Pages afterwards.
 ///
 /// Cloudflareのデプロイ処理を行います。
 ///
 /// edge Worker（`cloudflare/wrangler.jsonc`）をデプロイし、
 /// [cloudflare]->[workers]->[region]->[enable]が`true`の場合はregion Worker
 /// （`cloudflare/wrangler.region.jsonc`）をその後にデプロイします。
+/// [cloudflare]->[pages]->[enable]が`true`の場合は、その後に`flutter build web`を
+/// 実行して結果をCloudflare Pagesへデプロイします。
 class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
   /// Cloudflare deployment process.
   ///
@@ -41,6 +46,27 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final wrangler = bin.get("wrangler", "wrangler");
     final flavor = context.flavorContext?.flavor.name ?? "prod";
+    final cloudflare = context.yaml.getAsMap("cloudflare");
+    final enabledWorkers = cloudflare.getAsMap("workers").get("enable", false);
+    final enabledPages = cloudflare.getAsMap("pages").get("enable", false);
+    if (enabledWorkers) {
+      await _deployWorkers(context, wrangler: wrangler, flavor: flavor);
+    }
+    if (enabledPages) {
+      await _deployPages(
+        context,
+        wrangler: wrangler,
+        flutter: bin.get("flutter", "flutter"),
+        flavor: flavor,
+      );
+    }
+  }
+
+  Future<void> _deployWorkers(
+    ExecContext context, {
+    required String wrangler,
+    required String flavor,
+  }) async {
     final projectId = context.yaml.getAsMap("cloudflare").get("project_id", "");
     final firebaseProjectId =
         context.yaml.getAsMap("firebase").get("project_id", "");
@@ -137,6 +163,64 @@ class CloudflareDeployCliAction extends CliCommand with CliActionMixin {
         failOnStderr: false,
       );
     }
+  }
+
+  /// Builds the Flutter web app and deploys it to Cloudflare Pages.
+  ///
+  /// Flutter Webアプリをビルドし、Cloudflare Pagesへデプロイします。
+  Future<void> _deployPages(
+    ExecContext context, {
+    required String wrangler,
+    required String flutter,
+    required String flavor,
+  }) async {
+    final projectName = CloudflarePagesCliAction.resolveProjectName(
+      context.yaml,
+    );
+    if (projectName.isEmpty) {
+      error(
+        "If [cloudflare]->[pages]->[enable] is enabled, please include [cloudflare]->[pages]->[project_name] or [cloudflare]->[project_id].",
+      );
+      return;
+    }
+    final buildDir = CloudflarePagesCliAction.resolveBuildDir(context.yaml);
+    final dartDefines = File("dart_defines/$flavor.env");
+    // ignore: avoid_print
+    print("Cloudflare Pages deploy target: $flavor ($projectName)");
+    await command(
+      "Build Flutter web",
+      [
+        flutter,
+        "build",
+        "web",
+        "--release",
+        if (dartDefines.existsSync())
+          "--dart-define-from-file=${dartDefines.path}",
+      ],
+      catchError: true,
+      failOnStderr: false,
+    );
+    if (!Directory(buildDir).existsSync()) {
+      throw StateError(
+        "The Pages build directory `$buildDir` does not exist after `flutter build web`.",
+      );
+    }
+    await command(
+      "Run cloudflare pages deploy",
+      [
+        wrangler,
+        "pages",
+        "deploy",
+        buildDir,
+        "--project-name",
+        projectName,
+        "--branch",
+        "main",
+        "--commit-dirty=true",
+      ],
+      catchError: true,
+      failOnStderr: false,
+    );
   }
 
   String? _wranglerVariable(String vars, String name) {

@@ -22,7 +22,9 @@ Future<void> main(List<String> arguments) async {
   _expectCount(template, "      max_batch_size: 10", 0);
   _expectCount(template, "      dead_letter_queue:", 0);
   _expectCount(template, "    bucket_name:", 2);
+  _expectCount(template, "    custom_domain:", 4);
   _expectCount(template, "    public_base_url:", 1);
+  _expectCount(template, "  zone_id:", 1);
 
   final originalDirectory = Directory.current;
   final temporary = await Directory.systemTemp.createTemp(
@@ -82,6 +84,17 @@ if [ "$1" = "queues" ] && [ "$2" = "create" ]; then
     exit 1
   fi
   echo "$3" >> "$QUEUE_STATE"
+  exit 0
+fi
+BUCKET_STATE="${0}.buckets"
+if [ "$1" = "r2" ] && [ "$2" = "bucket" ] && [ "$3" = "list" ]; then
+  if [ -f "$BUCKET_STATE" ]; then
+    while IFS= read -r name; do printf 'name:           %s\n' "$name"; done < "$BUCKET_STATE"
+  fi
+  exit 0
+fi
+if [ "$1" = "r2" ] && [ "$2" = "bucket" ] && [ "$3" = "create" ]; then
+  echo "$4" >> "$BUCKET_STATE"
   exit 0
 fi
 if [ "$1" = "r2" ] && [ "$2" = "bucket" ] && [ "$3" = "notification" ] && [ "$4" = "list" ]; then
@@ -179,9 +192,21 @@ exit 0
     final index = await File("cloudflare/src/edge.ts").readAsString();
     _expectCount(index, "storage.Functions.storageCloudflare(", 1);
     _expectCount(index, "storage.Functions.storageCloudflareBackup(", 1);
+    // publicBaseUrl is provided through the Worker variable, not the source.
+    _expectCount(index, "publicBaseUrl", 0);
 
     final wranglerSource =
         await File("cloudflare/wrangler.jsonc").readAsString();
+    _expectCount(
+      wranglerSource,
+      '"STORAGE_PUBLIC_BASE_URL": "https://assets.example.com"',
+      1,
+    );
+    final bucketCreates = await File("${wrangler.path}.buckets").readAsLines();
+    _expect(
+      bucketCreates.toSet().length == 2 && bucketCreates.length == 2,
+      "The source and backup buckets must be created exactly once.",
+    );
     _expectCount(wranglerSource, '"binding": "EXTRA_BUCKET"', 1);
     _expectCount(wranglerSource, '"binding": "R2_BUCKET"', 1);
     _expectCount(wranglerSource, '"binding": "R2_BACKUP_BUCKET"', 1);

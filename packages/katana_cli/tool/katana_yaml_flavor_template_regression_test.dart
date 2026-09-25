@@ -26,8 +26,19 @@ Future<void> main() async {
   _expectEnvironmentMap(yaml, ["cloudflare", "tidb", "cluster_id"]);
   _expectSharedField(yaml, ["cloudflare", "kv", "binding"]);
   _expectEnvironmentMap(yaml, ["cloudflare", "kv", "namespace_id"]);
-  _expectSharedField(yaml, ["cloudflare", "storage", "bucket_name"]);
-  _expectSharedField(yaml, ["cloudflare", "storage", "public_base_url"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "storage", "bucket_name"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "storage", "custom_domain"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "storage", "public_base_url"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "storage", "backup", "enable"]);
+  _expectEnvironmentMap(
+      yaml, ["cloudflare", "storage", "backup", "bucket_name"]);
+  _expectSharedField(yaml, ["cloudflare", "zone_id"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "workers", "custom_domain"]);
+  _expectEnvironmentMap(
+      yaml, ["cloudflare", "workers", "region", "custom_domain"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "pages", "project_name"]);
+  _expectEnvironmentMap(yaml, ["cloudflare", "pages", "custom_domain"]);
+  _expectSharedField(yaml, ["cloudflare", "pages", "build_dir"]);
   _expectEnvironmentMap(yaml, ["cloudflare", "workers", "region", "placement"]);
   _expectSharedField(yaml, ["cloudflare", "workers", "smart_placement"]);
   _expectSharedField(yaml, ["cloudflare", "workers", "region", "enable"]);

@@ -288,6 +288,140 @@ class WranglerEnvironmentSynchronizer {
     );
   }
 
+  /// Replaces `"routes": [...]` of the selected environment object with
+  /// custom-domain routes for [customDomains], preserving the other
+  /// environment. The array is added when it does not exist.
+  ///
+  /// 選択した環境オブジェクトの`"routes": [...]`を[customDomains]の
+  /// カスタムドメインルートで丸ごと置き換え、他の環境は保持します。
+  /// 配列が存在しない場合は追加します。
+  static String upsertRoutes(
+    String source, {
+    required String flavor,
+    required List<String> customDomains,
+  }) {
+    final hosts = customDomains
+        .map((domain) => domain.trim())
+        .where((domain) => domain.isNotEmpty)
+        .toList();
+    if (hosts.isEmpty) {
+      throw ArgumentError.value(
+        customDomains,
+        "customDomains",
+        "Must not be empty.",
+      );
+    }
+    final routes = "[\n"
+        "${hosts.map((host) => '        { "pattern": ${jsonEncode(host)}, "custom_domain": true }').join(",\n")}\n"
+        "      ]";
+    return transformEnvironment(
+      source,
+      flavor: flavor,
+      transform: (environment) {
+        final match = RegExp(r'''"routes"\s*:\s*\[''').firstMatch(environment);
+        if (match != null) {
+          final open = environment.indexOf("[", match.start);
+          final close = _findClosingBracket(environment, open);
+          if (close < 0) {
+            throw const FormatException("Wrangler routes array is malformed.");
+          }
+          return environment.replaceRange(open, close + 1, routes);
+        }
+        final close = _findClosingBrace(environment, 0);
+        if (close < 0) {
+          throw FormatException("Wrangler environment is malformed: $flavor");
+        }
+        final before = environment.substring(0, close).trimRight();
+        final comma = before.endsWith(",") || before.endsWith("{") ? "" : ",";
+        return "$before$comma\n"
+            '      "routes": $routes\n'
+            "    ${environment.substring(close)}";
+      },
+    );
+  }
+
+  /// Removes `"routes"` from the selected environment object, preserving the
+  /// other environment. Nothing changes when the property does not exist.
+  ///
+  /// 選択した環境オブジェクトから`"routes"`を削除し、他の環境は保持します。
+  /// プロパティが存在しない場合は何も変更しません。
+  static String removeRoutes(
+    String source, {
+    required String flavor,
+  }) {
+    return transformEnvironment(
+      source,
+      flavor: flavor,
+      transform: (environment) {
+        final match = RegExp(r'''"routes"\s*:\s*\[''').firstMatch(environment);
+        if (match == null) {
+          return environment;
+        }
+        final open = environment.indexOf("[", match.start);
+        final close = _findClosingBracket(environment, open);
+        if (close < 0) {
+          throw const FormatException("Wrangler routes array is malformed.");
+        }
+        var start = match.start;
+        var end = close + 1;
+        // Remove the trailing comma, or the leading comma for the last entry.
+        final trailing =
+            RegExp(r"^\s*,").firstMatch(environment.substring(end));
+        if (trailing != null) {
+          end += trailing.end;
+        } else {
+          final leading =
+              RegExp(r",\s*$").firstMatch(environment.substring(0, start));
+          if (leading != null) {
+            start = leading.start;
+          }
+        }
+        // Drop whitespace left on the removed line.
+        final lineStart = environment.lastIndexOf("\n", start - 1) + 1;
+        if (environment.substring(lineStart, start).trim().isEmpty) {
+          start = lineStart;
+        }
+        final lineEnd = environment.indexOf("\n", end);
+        if (lineEnd >= 0 &&
+            environment.substring(end, lineEnd).trim().isEmpty) {
+          end = lineEnd + 1;
+        }
+        return environment.replaceRange(start, end, "");
+      },
+    );
+  }
+
+  static int _findClosingBracket(String source, int open) {
+    var depth = 0;
+    var escaped = false;
+    String? quote;
+    for (var index = open; index < source.length; index++) {
+      final character = source[index];
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+      if (character == r"\") {
+        escaped = true;
+        continue;
+      }
+      if (quote != null) {
+        if (character == quote) {
+          quote = null;
+        }
+        continue;
+      }
+      if (character == '"' || character == "'") {
+        quote = character;
+      } else if (character == "[") {
+        depth++;
+      } else if (character == "]" && --depth == 0) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
   static int _findClosingBrace(String source, int open) {
     var depth = 0;
     var escaped = false;

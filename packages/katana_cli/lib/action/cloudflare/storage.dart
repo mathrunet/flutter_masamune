@@ -139,6 +139,21 @@ Map<String, dynamic> _nestedMap(
 Map<String, dynamic> _stringMap(Map<dynamic, dynamic> value) =>
     value.map((key, item) => MapEntry(key.toString(), item));
 
+/// Normalizes a custom domain value to a lowercase host name.
+/// A scheme, path, and trailing dot are removed.
+///
+/// カスタムドメインの値を小文字のホスト名へ正規化します。
+/// スキーム・パス・末尾のドットは除去します。
+String _normalizeHost(String value) {
+  var host = value.trim().toLowerCase();
+  host = host.replaceFirst(RegExp(r"^[a-z][a-z0-9+.-]*://"), "");
+  final slash = host.indexOf("/");
+  if (slash >= 0) {
+    host = host.substring(0, slash);
+  }
+  return host.replaceAll(RegExp(r"\.+$"), "");
+}
+
 String _generateDownloadUrlSecret() {
   final random = Random.secure();
   final bytes = List<int>.generate(48, (_) => random.nextInt(256));
@@ -156,7 +171,7 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
 
   @override
   String get description =>
-      "We will perform the deployment process for Cloudflare R2 Storage. Please create an R2 bucket and set [cloudflare]->[storage]->[bucket_name]. Cloudflare R2 Storageのデプロイ処理を行います。予めR2 bucketを作成し、[cloudflare]->[storage]->[bucket_name]を設定してください。";
+      "We will perform the deployment process for Cloudflare R2 Storage. Set [cloudflare]->[storage]->[bucket_name]; the bucket is created when it does not exist. Cloudflare R2 Storageのデプロイ処理を行います。[cloudflare]->[storage]->[bucket_name]を設定してください。bucketが存在しない場合は作成します。";
 
   @override
   bool checkEnabled(ExecContext context) {
@@ -172,10 +187,12 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     if (!cloudflare.getAsMap("workers").get("enable", false)) {
       throw StateError("Storageのローカル適用にはWorkersの有効化が必要です。");
     }
-    for (final key in ["bucket_name", "public_base_url"]) {
-      if (storage.get(key, "").isEmpty) {
-        throw StateError("Storageのローカル設定が不正です: $key");
-      }
+    if (storage.get("bucket_name", "").isEmpty) {
+      throw StateError("Storageのローカル設定が不正です: bucket_name");
+    }
+    if (storage.get("public_base_url", "").isEmpty &&
+        storage.get("custom_domain", "").isEmpty) {
+      throw StateError("Storageのローカル設定が不正です: public_base_url");
     }
     final binding = storage.get("binding", "R2_BUCKET");
     if (binding.isEmpty) {
@@ -225,7 +242,13 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     final binding = storage.get("binding", "R2_BUCKET");
     final bucketName = storage.get("bucket_name", "");
     final previewBucketName = storage.get("preview_bucket_name", "");
-    final publicBaseUrl = storage.get("public_base_url", "");
+    final customDomain = _normalizeHost(storage.get("custom_domain", ""));
+    final publicBaseUrl = storage.get("public_base_url", "").isEmpty
+        ? (customDomain.isEmpty ? "" : "https://$customDomain")
+        : storage.get("public_base_url", "");
+    final zoneId = cloudflare.get("zone_id", "").isEmpty
+        ? (Platform.environment["CLOUDFLARE_ZONE_ID"] ?? "")
+        : cloudflare.get("zone_id", "");
     final configuredDownloadUrlSecret = storage.get("download_url_secret", "");
     final backup = storage.getAsMap("backup");
     final backupEnabled = backup.get("enable", false);
@@ -259,7 +282,14 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     }
     if (publicBaseUrl.isEmpty) {
       error(
-        "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[public_base_url].",
+        "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[public_base_url] or [cloudflare]->[storage]->[custom_domain].",
+      );
+      return;
+    }
+    if (customDomain.isNotEmpty && zoneId.trim().isEmpty) {
+      error(
+        "If [cloudflare]->[storage]->[custom_domain] is set, please include [cloudflare]->[zone_id] or set the environment variable `CLOUDFLARE_ZONE_ID`. "
+        "[cloudflare]->[storage]->[custom_domain]を設定する場合は[cloudflare]->[zone_id]または環境変数`CLOUDFLARE_ZONE_ID`を設定してください。",
       );
       return;
     }
@@ -365,7 +395,6 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       source,
       binding: binding,
       bucketName: bucketName,
-      publicBaseUrl: publicBaseUrl,
       backupEnabled: backupEnabled,
       backupBinding: backupBinding,
     );
@@ -375,10 +404,14 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     await indexFile.writeAsString(updated);
     label("Add Cloudflare R2 bucket binding");
     final wranglerSource = WranglerEnvironmentSynchronizer.transformEnvironment(
-      WranglerEnvironmentSynchronizer.ensureEnvironment(
-        await wranglerFile.readAsString(),
+      WranglerEnvironmentSynchronizer.upsertVariables(
+        WranglerEnvironmentSynchronizer.ensureEnvironment(
+          await wranglerFile.readAsString(),
+          flavor: flavor,
+          workerName: cloudflare.get("project_id", ""),
+        ),
         flavor: flavor,
-        workerName: cloudflare.get("project_id", ""),
+        values: {"STORAGE_PUBLIC_BASE_URL": publicBaseUrl},
       ),
       flavor: flavor,
       transform: (environment) {
@@ -406,6 +439,12 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
                   updated,
                   queueName: backupQueueName,
                 );
+        } else if (backupQueueName.isNotEmpty) {
+          // Keep the environment clean when backup is disabled for this flavor.
+          updated = _removeWranglerQueueConsumer(
+            updated,
+            queueName: backupQueueName,
+          );
         }
         return updated;
       },
@@ -429,6 +468,18 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
       key: "STORAGE_DOWNLOAD_URL_SECRET",
       value: downloadUrlSecret,
     );
+    await _ensureR2Bucket(wrangler: wrangler, bucketName: bucketName);
+    if (backupEnabled) {
+      await _ensureR2Bucket(wrangler: wrangler, bucketName: backupBucketName);
+    }
+    if (customDomain.isNotEmpty) {
+      await _ensureR2CustomDomain(
+        wrangler: wrangler,
+        bucketName: bucketName,
+        domain: customDomain,
+        zoneId: zoneId.trim(),
+      );
+    }
     if (backupEnabled) {
       await _ensureQueue(wrangler: wrangler, queueName: backupQueueName);
       if (backupDeadLetterQueue.isNotEmpty) {
@@ -520,14 +571,14 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     String source, {
     required String binding,
     required String bucketName,
-    required String publicBaseUrl,
     required bool backupEnabled,
     required String backupBinding,
   }) {
+    // `publicBaseUrl` is read from the `STORAGE_PUBLIC_BASE_URL` Worker
+    // variable of each environment instead of being embedded here.
     final storageFunction = """
     storage.Functions.storageCloudflare({
         bucketBindingName: "$binding",
-        publicBaseUrl: "$publicBaseUrl",
     }),""";
     var updated = _ensureStorageImport(source);
     updated = _replaceFunction(
@@ -1030,6 +1081,139 @@ $propertyIndent]""";
 \t\t\t"bucket_name": "$bucketName"${previewBucketName.isEmpty ? "" : ","}
 ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucketName"'}
 \t\t}""";
+  }
+
+  /// Creates the R2 bucket [bucketName] when `wrangler r2 bucket list` does
+  /// not contain it.
+  ///
+  /// `wrangler r2 bucket list`に[bucketName]が無い場合はR2 bucketを作成します。
+  Future<void> _ensureR2Bucket({
+    required String wrangler,
+    required String bucketName,
+  }) async {
+    label("Ensure Cloudflare R2 bucket `$bucketName`.");
+    final list = await Process.run(
+      wrangler,
+      ["r2", "bucket", "list"],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final listOutput = "${list.stdout}\n${list.stderr}";
+    if (list.exitCode != 0) {
+      stdout.write(listOutput);
+      throw Exception("Failed to list Cloudflare R2 buckets.");
+    }
+    if (_parseR2BucketNames(list.stdout.toString()).contains(bucketName)) {
+      return;
+    }
+    final create = await Process.run(
+      wrangler,
+      ["r2", "bucket", "create", bucketName],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final createOutput = "${create.stdout}\n${create.stderr}";
+    if (createOutput.trim().isNotEmpty) {
+      stdout.write(createOutput);
+    }
+    if (create.exitCode != 0) {
+      throw Exception("Failed to create Cloudflare R2 bucket `$bucketName`.");
+    }
+  }
+
+  /// Parses bucket names from `wrangler r2 bucket list` output.
+  /// JSON output is accepted, otherwise `name: <bucket>` lines are used.
+  ///
+  /// `wrangler r2 bucket list`の出力からbucket名を抽出します。
+  /// JSON出力にも対応し、それ以外は`name: <bucket>`行を使用します。
+  Set<String> _parseR2BucketNames(String output) {
+    final stripped = _stripAnsi(output).trim();
+    if (stripped.startsWith("[") || stripped.startsWith("{")) {
+      try {
+        final decoded = jsonDecode(stripped);
+        final items = decoded is List
+            ? decoded
+            : decoded is Map
+                ? (decoded["buckets"] as List? ??
+                    decoded["result"] as List? ??
+                    const [])
+                : const [];
+        return items
+            .whereType<Map>()
+            .map((item) => item["name"]?.toString() ?? "")
+            .where((name) => name.isNotEmpty)
+            .toSet();
+      } on FormatException {
+        // Fall through to the text format.
+      }
+    }
+    return RegExp(r"^\s*(?:-\s*)?name\s*:\s*(\S+)\s*$", multiLine: true)
+        .allMatches(stripped)
+        .map((match) => match.group(1)!)
+        .toSet();
+  }
+
+  /// Attaches [domain] to the R2 bucket [bucketName] when
+  /// `wrangler r2 bucket domain list` does not contain it.
+  ///
+  /// `wrangler r2 bucket domain list`に[domain]が無い場合はR2 bucketへ
+  /// カスタムドメインを接続します。
+  Future<void> _ensureR2CustomDomain({
+    required String wrangler,
+    required String bucketName,
+    required String domain,
+    required String zoneId,
+  }) async {
+    label("Ensure Cloudflare R2 custom domain `$domain`.");
+    final list = await Process.run(
+      wrangler,
+      ["r2", "bucket", "domain", "list", bucketName],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final listOutput = "${list.stdout}\n${list.stderr}";
+    if (list.exitCode != 0) {
+      stdout.write(listOutput);
+      throw Exception(
+        "Failed to list Cloudflare R2 custom domains for `$bucketName`.",
+      );
+    }
+    final hasDomain = RegExp(
+      "(^|[^A-Za-z0-9.-])${RegExp.escape(domain)}([^A-Za-z0-9.-]|\$)",
+      multiLine: true,
+    ).hasMatch(_stripAnsi(list.stdout.toString()).toLowerCase());
+    if (hasDomain) {
+      return;
+    }
+    final add = await Process.run(
+      wrangler,
+      [
+        "r2",
+        "bucket",
+        "domain",
+        "add",
+        bucketName,
+        "--domain",
+        domain,
+        "--zone-id",
+        zoneId,
+      ],
+      workingDirectory: "cloudflare",
+      runInShell: true,
+    );
+    final addOutput = "${add.stdout}\n${add.stderr}";
+    if (addOutput.trim().isNotEmpty) {
+      stdout.write(addOutput);
+    }
+    if (add.exitCode != 0) {
+      throw Exception(
+        "Failed to attach the custom domain `$domain` to the R2 bucket `$bucketName`. Check [cloudflare]->[zone_id] and that the domain belongs to the zone.",
+      );
+    }
+  }
+
+  String _stripAnsi(String output) {
+    return output.replaceAll(RegExp(r"\x1B\[[0-?]*[ -/]*[@-~]"), "");
   }
 
   Future<void> _ensureQueue({
