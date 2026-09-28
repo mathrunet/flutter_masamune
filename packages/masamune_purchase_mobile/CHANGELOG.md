@@ -1,3 +1,7 @@
+## 3.1.20
+
+ - Update `in_app_purchase` and `in_app_purchase_android` for Google Play Billing 8 compatibility.
+
 ## 3.1.19
 
  - Update a dependency to the latest release.
