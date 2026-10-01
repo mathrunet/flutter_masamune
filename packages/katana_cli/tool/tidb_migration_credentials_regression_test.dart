@@ -13,6 +13,9 @@ class FakeSqlUserApi extends TidbCloudSqlUserApi {
     "prod-cluster": [
       {"userName": "xyz.root", "builtinRole": "role_admin"}
     ],
+    "new-dev-cluster": [
+      {"userName": "new.root", "builtinRole": "role_admin"}
+    ],
     "long-cluster": [],
   };
   int created = 0;
@@ -20,9 +23,11 @@ class FakeSqlUserApi extends TidbCloudSqlUserApi {
   @override
   Future<String> clusterPrefix(String cluster) async => cluster == "dev-cluster"
       ? "abc"
-      : cluster == "long-cluster"
-          ? "abcdefghijklmnop"
-          : "xyz";
+      : cluster == "new-dev-cluster"
+          ? "new"
+          : cluster == "long-cluster"
+              ? "abcdefghijklmnop"
+              : "xyz";
 
   @override
   Future<List<Map<String, dynamic>>> list(String cluster) async =>
@@ -178,8 +183,41 @@ Future<void> main(List<String> arguments) async {
     final second = await resolve("dev");
     check(second.password == first.password && api.created == 1,
         "reapply must not rotate credentials");
+    Future<TidbMigrationCredentials> resolveNewDev(
+            {bool allowProvision = true}) =>
+        resolveTidbMigrationCredentials(
+          environment: "dev",
+          cluster: "new-dev-cluster",
+          host: "fixture.invalid",
+          database: "main",
+          node: "node",
+          legacySecrets: const {},
+          publicKey: "fixture-public",
+          privateKey: "fixture-private",
+          allowProvision: allowProvision,
+          api: api,
+          probe: probe,
+        );
+    await rejects(() => resolveNewDev(allowProvision: false),
+        "dry-run must not provision a new cluster");
+    check(api.created == 1, "dry-run changed the new cluster");
+    final rebound = await resolveNewDev();
+    check(rebound.username == "new.migrate_dev" && api.created == 2,
+        "new dev cluster must get its own migration user");
+    final reboundAgain = await resolveNewDev();
+    check(reboundAgain.password == rebound.password && api.created == 2,
+        "new dev cluster must reuse its saved migration user");
+    final reboundState = await loadTidbCredentialState();
+    check(
+        reboundState["cloudflare"]["tidb"]["migration_users"]["dev"]
+                    ["password"] ==
+                first.password &&
+            reboundState["cloudflare"]["tidb"]["migration_users_by_cluster"]
+                    ["dev"]["new-dev-cluster"]["password"] ==
+                rebound.password,
+        "old and new cluster credentials must remain separate");
     await resolve("prod");
-    check(api.created == 2, "prod and dev must use separate users");
+    check(api.created == 3, "prod and dev must use separate users");
     check(
         (await loadTidbCredentialState())["cloudflare"]["tidb"]
                 ["migration_users"]["dev"]["password"] ==
@@ -193,7 +231,7 @@ Future<void> main(List<String> arguments) async {
       "migration_username": "abc.existing_migration",
       "migration_password": "existing-secret"
     });
-    check(legacy.username == "abc.existing_migration" && api.created == 2,
+    check(legacy.username == "abc.existing_migration" && api.created == 3,
         "legacy credentials must take precedence");
     await inherited.delete(recursive: true);
     api.users["dev-cluster"]!
@@ -212,7 +250,7 @@ Future<void> main(List<String> arguments) async {
     Directory.current = hiddenRoot;
     api.users["dev-cluster"]!.clear();
     final hidden = await resolve("dev");
-    check(hidden.username == "abc.migrate_dev" && api.created == 3,
+    check(hidden.username == "abc.migrate_dev" && api.created == 4,
         "cluster metadata must allow create when IAM list hides root");
     await hiddenRoot.delete(recursive: true);
     api.users["dev-cluster"]!.clear();
@@ -230,14 +268,14 @@ Future<void> main(List<String> arguments) async {
               await saveTidbCredentialState(state);
             }),
         "final-save failure must surface");
-    check(api.created == 4, "interrupted creation count");
+    check(api.created == 5, "interrupted creation count");
     final pending = await loadTidbCredentialState();
     check(
         pending["cloudflare"]["tidb"]["migration_users"]["dev"]["status"] ==
             "pending",
         "pending record must survive");
     final resumed = await resolve("dev");
-    check(api.created == 4 && resumed.username == "abc.migrate_dev",
+    check(api.created == 5 && resumed.username == "abc.migrate_dev",
         "pending user must resume without rotation");
     await interrupted.delete(recursive: true);
 
@@ -364,12 +402,82 @@ Future<void> main(List<String> arguments) async {
         "pending user absent remotely must get a compliant password");
     await oldPassword.delete(recursive: true);
 
+    // Active records are only read. The returned state is forwarded to
+    // provisionRuntimeUser as credentialState and compared with the file on
+    // disk, so resolving must not add empty containers such as
+    // migration_users_by_cluster.<env> = {}.
+    for (final layout in <Map<String, dynamic>>[
+      {
+        "runtime_users": {"dev": <String, dynamic>{}},
+        "migration_users": {
+          "dev": {
+            "username": "abc.migrate_dev",
+            "password": "active-legacy-secret",
+            "cluster_id": "dev-cluster",
+            "owner": "katana-cloudflare-tidb-migration-v1",
+            "status": "active",
+          }
+        },
+      },
+      {
+        "migration_users_by_cluster": {
+          "dev": {
+            "dev-cluster": {
+              "username": "abc.migrate_dev",
+              "password": "active-cluster-secret",
+              "cluster_id": "dev-cluster",
+              "owner": "katana-cloudflare-tidb-migration-v1",
+              "status": "active",
+            }
+          }
+        },
+      },
+    ]) {
+      final activeRoot =
+          await Directory.systemTemp.createTemp("tidb-active-readonly-test-");
+      Directory.current = activeRoot;
+      await saveTidbCredentialState({
+        "cloudflare": {"tidb": layout}
+      });
+      final diskText = await File("cloudflare/tidb.yaml").readAsString();
+      final beforeActive = api.created;
+      var activeSaves = 0;
+      final active = await resolve("dev", save: (state) async {
+        activeSaves++;
+        await saveTidbCredentialState(state);
+      });
+      check(activeSaves == 0 && api.created == beforeActive,
+          "active credentials must be resolved without writes");
+      check(await File("cloudflare/tidb.yaml").readAsString() == diskText,
+          "active resolution must not rewrite cloudflare/tidb.yaml");
+      check(stableJson(active.state) == stableJson(jsonDecode(diskText)),
+          "resolved credentialState must equal cloudflare/tidb.yaml");
+      Directory.current = temporary;
+      await activeRoot.delete(recursive: true);
+    }
+
     check(probes >= 5, "SQL identity probe must run before success");
     stdout.writeln("TiDB migration credentials regression: PASS");
   } finally {
     Directory.current = before;
     await temporary.delete(recursive: true);
   }
+}
+
+/// Canonical JSON with sorted object keys, matching migration.stableJson.
+String stableJson(Object? value) {
+  Object? normalize(Object? item) {
+    if (item is Map) {
+      final keys = item.keys.map((key) => key.toString()).toList()..sort();
+      return {for (final key in keys) key: normalize(item[key])};
+    }
+    if (item is List) {
+      return item.map(normalize).toList();
+    }
+    return item;
+  }
+
+  return jsonEncode(normalize(value));
 }
 
 void check(bool value, String message) {

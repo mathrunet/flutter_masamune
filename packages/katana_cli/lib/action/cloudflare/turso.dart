@@ -169,7 +169,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     );
     await addFlutterImport(
       [
-        "masamune_model_turso",
+        "masamune_model_turso:^3.9.0",
       ],
     );
     label(

@@ -37,6 +37,25 @@ android {
         synchronizedKotlin,
     "Synchronization must be idempotent.",
   );
+  _expect(
+    synchronizedKotlin.startsWith("import java.util.Base64\n") &&
+        !synchronizedKotlin.contains("java.util.Base64.getDecoder()"),
+    "Kotlin Gradle must use the imported Base64 decoder.",
+  );
+  final legacyKotlin = synchronizedKotlin
+      .replaceFirst("import java.util.Base64\n", "")
+      .replaceFirst(
+        "String(Base64.getDecoder()",
+        "String(java.util.Base64.getDecoder()",
+      );
+  _expect(
+    AndroidNativeEnvironmentSynchronizer.synchronize(
+          legacyKotlin,
+          isKotlin: true,
+        ) ==
+        synchronizedKotlin,
+    "Legacy fully qualified Base64 must be migrated to the imported decoder.",
+  );
   const orphanedKotlin = '''
 plugins {
     id("com.android.application")

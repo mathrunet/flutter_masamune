@@ -285,13 +285,28 @@ Future<void> saveTidbCredentialState(Map<String, dynamic> state) async {
   }
 }
 
-Map<String, dynamic> _migrationUsers(Map<String, dynamic> state) {
-  final cloudflare = state.putIfAbsent("cloudflare", () => <String, dynamic>{})
-      as Map<String, dynamic>;
-  final tidb = cloudflare.putIfAbsent("tidb", () => <String, dynamic>{})
-      as Map<String, dynamic>;
-  return tidb.putIfAbsent("migration_users", () => <String, dynamic>{})
-      as Map<String, dynamic>;
+// Read-only lookup. The loaded state is also handed to later steps that compare
+// it with the file on disk, so reading must never add empty containers.
+Map<String, dynamic>? _lookupMap(
+    Map<String, dynamic> state, List<String> path) {
+  Object? current = state;
+  for (final key in path) {
+    if (current is! Map) {
+      return null;
+    }
+    current = current[key];
+  }
+  return current is Map<String, dynamic> ? current : null;
+}
+
+// Creates the nested containers only when an entry is actually written.
+Map<String, dynamic> _ensureMap(Map<String, dynamic> state, List<String> path) {
+  var current = state;
+  for (final key in path) {
+    current = current.putIfAbsent(key, () => <String, dynamic>{})
+        as Map<String, dynamic>;
+  }
+  return current;
 }
 
 String _name(Map<String, dynamic> user) =>
@@ -338,9 +353,36 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
     throw StateError("TiDB migrationのcluster/host/databaseが不足しています。");
   }
   final state = await loadTidbCredentialState();
-  final entries = _migrationUsers(state);
-  final stored = entries[environment] is Map
-      ? Map<String, dynamic>.from(entries[environment] as Map)
+  const legacyPath = ["cloudflare", "tidb", "migration_users"];
+  final legacyEntries =
+      _lookupMap(state, legacyPath) ?? const <String, dynamic>{};
+  final legacyRecord = legacyEntries[environment] is Map
+      ? Map<String, dynamic>.from(legacyEntries[environment] as Map)
+      : null;
+  if (legacyRecord != null &&
+      legacyRecord["cluster_id"] != cluster &&
+      (legacyRecord["owner"] != "katana-cloudflare-tidb-migration-v1" ||
+          (legacyRecord["username"] ?? "").toString().isEmpty ||
+          (legacyRecord["password"] ?? "").toString().isEmpty)) {
+    throw StateError("保存済みTiDB migration資格情報の所有者または状態が不正です。");
+  }
+  final clusterPath = [
+    "cloudflare",
+    "tidb",
+    "migration_users_by_cluster",
+    environment,
+  ];
+  final clusterEntries =
+      _lookupMap(state, clusterPath) ?? const <String, dynamic>{};
+  final useClusterEntry = clusterEntries[cluster] is Map ||
+      (legacyRecord != null && legacyRecord["cluster_id"] != cluster);
+  final entries = useClusterEntry ? clusterEntries : legacyEntries;
+  final entryKey = useClusterEntry ? cluster : environment;
+  // Writable view of [entries]; containers are materialized on first write.
+  Map<String, dynamic> writableEntries() =>
+      _ensureMap(state, useClusterEntry ? clusterPath : legacyPath);
+  final stored = entries[entryKey] is Map
+      ? Map<String, dynamic>.from(entries[entryKey] as Map)
       : <String, dynamic>{};
   final check = probe ?? verifyTidbMigrationSqlUser;
   final persist = save ?? saveTidbCredentialState;
@@ -391,7 +433,7 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
             shortName = "migrate_$environment";
             stored["requested_name"] = shortName;
             stored["username"] = "$prefix.$shortName";
-            entries[environment] = stored;
+            writableEntries()[entryKey] = stored;
             await persist(state);
           }
           final requestedUser = (stored["username"] ?? "").toString();
@@ -409,7 +451,7 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
           if (RegExp(r"^[A-Za-z0-9_-]{43}$").hasMatch(storedPassword)) {
             storedPassword = _randomPassword();
             stored["password"] = storedPassword;
-            entries[environment] = stored;
+            writableEntries()[entryKey] = stored;
             await persist(state);
           }
           final created =
@@ -425,7 +467,7 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
         }
       }
       stored["status"] = "active";
-      entries[environment] = stored;
+      writableEntries()[entryKey] = stored;
       await persist(state);
     } else if (stored["status"] == "active") {
       await check(host, database, storedUser, storedPassword, node);
@@ -438,12 +480,13 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
 
   final legacyUser = (legacySecrets["migration_username"] ?? "").toString();
   final legacyPassword = (legacySecrets["migration_password"] ?? "").toString();
-  if (legacyUser.isNotEmpty || legacyPassword.isNotEmpty) {
+  if (legacyRecord == null &&
+      (legacyUser.isNotEmpty || legacyPassword.isNotEmpty)) {
     if (legacyUser.isEmpty || legacyPassword.isEmpty) {
       throw StateError("既存migration資格情報が不完全です。");
     }
     await check(host, database, legacyUser, legacyPassword, node);
-    entries[environment] = {
+    writableEntries()[entryKey] = {
       "username": legacyUser,
       "password": legacyPassword,
       "cluster_id": cluster,
@@ -474,7 +517,7 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
       throw StateError("同名の未管理TiDB migration userがあります。既存アカウントを確認してください。");
     }
     final password = _randomPassword();
-    entries[environment] = {
+    writableEntries()[entryKey] = {
       "username": username,
       "password": password,
       "cluster_id": cluster,
@@ -488,7 +531,7 @@ Future<TidbMigrationCredentials> resolveTidbMigrationCredentials({
       throw StateError("TiDB Cloudが想定外のSQL user名を返しました。既存記録を保護して停止します。");
     }
     await check(host, database, username, password, node);
-    (entries[environment] as Map<String, dynamic>)["status"] = "active";
+    (writableEntries()[entryKey] as Map<String, dynamic>)["status"] = "active";
     await persist(state);
     return TidbMigrationCredentials(username, password, state);
   } finally {

@@ -9,6 +9,7 @@ import "package:xml/xml.dart";
 import "package:katana_cli/action/cloudflare/authentication.dart";
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
+import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Size list of notification icon.
@@ -521,7 +522,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     await installMissingCloudflarePackages(
       npm: npm,
       packages: [
-        "@mathrunet/masamune_cloudflare_notification",
+        "@mathrunet/masamune_cloudflare_notification@${Config.cloudflareNotificationVersion}",
         if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
       ],
     );

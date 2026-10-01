@@ -269,6 +269,26 @@ Future<Map<String, dynamic>> _loadTidbCredentialState() async {
   return _tidbPlainMap(value);
 }
 
+/// Selects only the runtime identity for the requested cluster.
+Map<String, dynamic> selectTidbRuntimeCredentials(
+    Map<String, dynamic> state, String environment, String cluster) {
+  final tidb = state.getAsMap("cloudflare").getAsMap("tidb");
+  final legacyCluster = tidb
+      .getAsMap("migration_users")
+      .getAsMap(environment)
+      .get("cluster_id", "")
+      .toString();
+  final clusterCredentials = tidb
+      .getAsMap("runtime_users_by_cluster")
+      .getAsMap(environment)
+      .getAsMap(cluster);
+  if (clusterCredentials.isNotEmpty ||
+      (legacyCluster.isNotEmpty && legacyCluster != cluster)) {
+    return clusterCredentials;
+  }
+  return tidb.getAsMap("runtime_users").getAsMap(environment);
+}
+
 Future<void> _runTidbRuntimeProvision({
   required ExecContext context,
   required String environment,
@@ -328,6 +348,7 @@ process.stdin.on("end", async () => {
     "runtimePassword": existing.get("password", "").toString(),
     "runtimeRole": existing.get("role", "").toString(),
     "environment": environment,
+    "cluster": cluster,
     "credentialState": credentials.state,
     "tables": tables,
   }));
@@ -457,9 +478,45 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       error("schemaはproject内の相対パスで指定してください。");
       return;
     }
+    // 最初のapplyではModelとschemaが未生成でも、生成に必要な依存だけを導入する。
+    final bin = context.yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter").toString();
+    await addFlutterImport(
+      const ["masamune_model_tidb", "masamune_model_tidb_annotation"],
+      flutterCommand: flutter,
+    );
+    await addFlutterImport(
+      const ["masamune_model_tidb_builder"],
+      development: true,
+      flutterCommand: flutter,
+    );
+    await installMissingCloudflarePackages(
+      npm: bin.get("npm", "npm").toString(),
+      packages: const ["@mathrunet/masamune_cloudflare_tidb"],
+    );
+    final workerModule = File(
+        "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js");
+    if (!workerModule.existsSync()) {
+      await command(
+        "Install TiDB Workers direct adapter.",
+        [
+          bin.get("npm", "npm").toString(),
+          "install",
+          "@mathrunet/masamune_cloudflare_tidb@^3.7.5"
+        ],
+        workingDirectory: "cloudflare",
+        catchError: true,
+        failOnStderr: false,
+      );
+      if (!workerModule.existsSync()) {
+        throw StateError(
+            "TiDB直結対応のmasamune_cloudflare_tidb（3.7.5以上）のworker.jsがありません。package-lockと導入実体を確認してください。");
+      }
+    }
     final schema = File(schemaPath);
     if (!schema.existsSync()) {
-      error("共通schemaがありません。katana code generateを実行してください。");
+      label(
+          "TiDBの依存を反映しました。Modelを定義してkatana code generateで共通schemaを生成後、再度katana apply --only tidbを実行してください。");
       return;
     }
     final manifestText = await schema.readAsString();
@@ -492,12 +549,6 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       return;
     }
     // package・登録位置の不備でruntime userを作成しないよう先に検査する。
-    final package = File(
-        "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js");
-    if (!package.existsSync()) {
-      error("直結対応のmasamune_cloudflare_tidbが未導入です。承認済みのpackage導入後に再実行してください。");
-      return;
-    }
     final index = File(
         regionEnabled ? cloudflareRegionEntryPath : cloudflareEdgeEntryPath);
     var source = await index.readAsString();
@@ -547,11 +598,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       error(e.message);
       return;
     }
-    final stored = credentialState
-        .getAsMap("cloudflare")
-        .getAsMap("tidb")
-        .getAsMap("runtime_users")
-        .getAsMap(environment);
+    final stored =
+        selectTidbRuntimeCredentials(credentialState, environment, cluster);
     var username = stored.get("username", "").toString();
     var password = stored.get("password", "").toString();
     final role = stored.get("role", "").toString();
@@ -580,8 +628,21 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
       }
     } else {
       // Backward compatibility: keep using an already provisioned credentials pair from katana_secrets.yaml.
-      username = _tidbSecretValue(secrets, "username", environment);
-      password = _tidbSecretValue(secrets, "password", environment);
+      final legacyCluster = credentialState
+          .getAsMap("cloudflare")
+          .getAsMap("tidb")
+          .getAsMap("migration_users")
+          .getAsMap(environment)
+          .get("cluster_id", "")
+          .toString();
+      final useLegacySecrets =
+          legacyCluster.isEmpty || legacyCluster == cluster;
+      username = useLegacySecrets
+          ? _tidbSecretValue(secrets, "username", environment)
+          : "";
+      password = useLegacySecrets
+          ? _tidbSecretValue(secrets, "password", environment)
+          : "";
       if (username.isEmpty || password.isEmpty) {
         try {
           await _runTidbRuntimeProvision(
@@ -609,11 +670,8 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           error(e.message);
           return;
         }
-        final provisioned = credentialState
-            .getAsMap("cloudflare")
-            .getAsMap("tidb")
-            .getAsMap("runtime_users")
-            .getAsMap(environment);
+        final provisioned =
+            selectTidbRuntimeCredentials(credentialState, environment, cluster);
         username = provisioned.get("username", "").toString();
         password = provisioned.get("password", "").toString();
       }

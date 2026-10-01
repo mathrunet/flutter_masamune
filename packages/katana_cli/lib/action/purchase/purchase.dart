@@ -246,37 +246,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         );
       }
       final application = document.findAllElements("application");
-      if (!application.first.children.any(
-        (p0) =>
-            p0 is XmlElement &&
-            p0.name.toString() == "meta-data" &&
-            p0.attributes.any(
-              (p1) =>
-                  p1.name.toString() == "android:name" &&
-                  p1.value == "com.google.android.play.billingclient.version",
-            ),
-      )) {
-        application.first.children.add(
-          XmlElement(
-            XmlName("meta-data"),
-            [
-              XmlAttribute(
-                XmlName("android:name"),
-                "com.google.android.play.billingclient.version",
-              ),
-              XmlAttribute(
-                XmlName("android:value"),
-                Config.androidBillingVersion,
-              ),
-              XmlAttribute(
-                XmlName("tools:replace"),
-                "android:value",
-              ),
-            ],
-            [],
-          ),
-        );
-      }
+      ensureAndroidBillingVersionMetadata(application.first);
       await file.writeAsString(
         document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
       );
@@ -452,6 +422,47 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         "Set the App Store Server Notification URL to `https://<your-workers-domain>/purchase_webhook_ios`.",
       );
     }
+  }
+}
+
+/// Android の課金ライブラリのバージョンを Manifest に反映します。
+void ensureAndroidBillingVersionMetadata(XmlElement application) {
+  XmlElement? billingVersionMetadata;
+  for (final child in application.children.whereType<XmlElement>()) {
+    if (child.name.toString() == "meta-data" &&
+        child.getAttribute("android:name") ==
+            "com.google.android.play.billingclient.version") {
+      billingVersionMetadata = child;
+      break;
+    }
+  }
+  if (billingVersionMetadata == null) {
+    application.children.add(
+      XmlElement(
+        XmlName("meta-data"),
+        [
+          XmlAttribute(
+            XmlName("android:name"),
+            "com.google.android.play.billingclient.version",
+          ),
+          XmlAttribute(
+            XmlName("android:value"),
+            Config.androidBillingVersion,
+          ),
+          XmlAttribute(
+            XmlName("tools:replace"),
+            "android:value",
+          ),
+        ],
+        [],
+      ),
+    );
+  } else {
+    billingVersionMetadata.setAttribute(
+      "android:value",
+      Config.androidBillingVersion,
+    );
+    billingVersionMetadata.setAttribute("tools:replace", "android:value");
   }
 }
 

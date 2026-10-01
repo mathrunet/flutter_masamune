@@ -185,6 +185,120 @@ Future<String?> extractIosSimulatorDebugToken(
   }
 }
 
+/// iOS の App Check SDK がデバッグトークンを保存する UserDefaults のキー。
+///
+/// 新しい AppCheckCore のキーを先に、旧 FirebaseAppCheck のキーを後に並べる。
+const List<String> appCheckDebugTokenIosDefaultsKeys = [
+  "GACAppCheckDebugToken",
+  "FIRAAppCheckDebugToken",
+];
+
+/// iOS の App Check SDK が Firebase 登録済みのトークンに付ける UserDefaults キーの接頭辞。
+const String appCheckDebugTokenIosRegisteredKeyPrefix =
+    "GACAppCheckDebugTokenRegistered___";
+
+/// iOS シミュレータ上のアプリの UserDefaults から読み取ったデバッグトークン。
+class IosSimulatorDebugTokenDefaults {
+  /// iOS シミュレータ上のアプリの UserDefaults から読み取ったデバッグトークン。
+  const IosSimulatorDebugTokenDefaults({
+    required this.token,
+    required this.registered,
+  });
+
+  /// デバッグトークン。
+  final String token;
+
+  /// SDK が Firebase 登録済みと記録しているかどうか。
+  final bool registered;
+}
+
+/// `ios/Runner.xcodeproj/project.pbxproj` からアプリのバンドルIDを解決する。
+///
+/// テストターゲット（`.RunnerTests` など）を除外し、最も多く出現する値を返す。
+/// 見つからない場合は `null` を返す。
+String? resolveIosBundleId({
+  String pbxprojPath = "ios/Runner.xcodeproj/project.pbxproj",
+}) {
+  final file = File(pbxprojPath);
+  if (!file.existsSync()) {
+    return null;
+  }
+  final counts = <String, int>{};
+  final regExp = RegExp(r'PRODUCT_BUNDLE_IDENTIFIER\s*=\s*"?([^";]+)"?;');
+  for (final match in regExp.allMatches(file.readAsStringSync())) {
+    final id = match.group(1)!.trim();
+    if (id.isEmpty || id.contains(r"$") || id.endsWith("Tests")) {
+      continue;
+    }
+    counts[id] = (counts[id] ?? 0) + 1;
+  }
+  if (counts.isEmpty) {
+    return null;
+  }
+  final sorted = counts.entries.toList()
+    ..sort((a, b) => b.value.compareTo(a.value));
+  return sorted.first.key;
+}
+
+/// 指定した iOS シミュレータ上のアプリの UserDefaults からデバッグトークンを読み取る。
+///
+/// App Check の debug provider は初回利用時にトークンを生成して UserDefaults に保存するため、
+/// ログにトークンが出力されていなくても取得できる。
+/// アプリ未インストールやトークン未生成の場合は `null` を返す。
+Future<IosSimulatorDebugTokenDefaults?> readIosSimulatorDebugTokenFromDefaults(
+  String udid, {
+  required String bundleId,
+}) async {
+  try {
+    final container = await Process.run(
+      "xcrun",
+      ["simctl", "get_app_container", udid, bundleId, "data"],
+    );
+    if (container.exitCode != 0) {
+      return null;
+    }
+    final containerPath = (container.stdout as String).trim();
+    if (containerPath.isEmpty) {
+      return null;
+    }
+    final plist = File(
+      "$containerPath/Library/Preferences/$bundleId.plist",
+    );
+    if (!plist.existsSync()) {
+      return null;
+    }
+    // `plutil -convert json` は Data / Date 型を含む plist で失敗するため、キー単位で読む。
+    String? token;
+    for (final key in appCheckDebugTokenIosDefaultsKeys) {
+      final result = await Process.run(
+        "plutil",
+        ["-extract", key, "raw", "-o", "-", plist.path],
+      );
+      if (result.exitCode != 0) {
+        continue;
+      }
+      final value = (result.stdout as String).trim();
+      if (appCheckDebugTokenUuidRegExp.firstMatch(value)?.group(0) == value) {
+        token = value;
+        break;
+      }
+    }
+    if (token == null) {
+      return null;
+    }
+    final printed = await Process.run("plutil", ["-p", plist.path]);
+    final registered = printed.exitCode == 0 &&
+        RegExp(
+          '"${RegExp.escape(appCheckDebugTokenIosRegisteredKeyPrefix)}[^"]*"\\s*=>\\s*(true|1)\\b',
+        ).hasMatch(printed.stdout as String);
+    return IosSimulatorDebugTokenDefaults(token: token, registered: registered);
+  } on ProcessException {
+    return null;
+  } on FormatException {
+    return null;
+  }
+}
+
 /// `.app_check_debug_tokens.json` を管理するストア。
 class AppCheckDebugTokenStore {
   /// 指定した [file] を保存先とするストアを生成する。

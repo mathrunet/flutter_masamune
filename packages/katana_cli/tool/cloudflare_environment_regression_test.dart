@@ -1,3 +1,5 @@
+import "dart:convert";
+
 import "package:katana_cli/katana_cli.dart";
 
 void main() {
@@ -78,6 +80,27 @@ void main() {
     withVariables.contains('"TURSO_GROUP": "group-dev"') &&
         withVariables.contains('"FLAVOR": "dev"'),
     "Public database settings must remain inside the selected Worker env.",
+  );
+  const groups = '[{"name":"tomolia-dev"}]';
+  final withGroups = WranglerEnvironmentSynchronizer.upsertVariables(
+    withVariables,
+    flavor: "dev",
+    values: const {"TURSO_GROUPS": groups},
+  );
+  final updatedGroups = WranglerEnvironmentSynchronizer.upsertVariables(
+    withGroups,
+    flavor: "dev",
+    values: const {"FIREBASE_PROJECT_ID": "firebase-dev"},
+  );
+  _expect(
+    updatedGroups.contains('"TURSO_GROUPS": ${jsonEncode(groups)}') &&
+        WranglerEnvironmentSynchronizer.upsertVariables(
+              updatedGroups,
+              flavor: "dev",
+              values: const {"FIREBASE_PROJECT_ID": "firebase-dev"},
+            ) ==
+            updatedGroups,
+    "Reapplying variables must preserve escaped JSON values and be idempotent.",
   );
   final withFirebaseDev = WranglerEnvironmentSynchronizer.upsertVariables(
     withVariables,

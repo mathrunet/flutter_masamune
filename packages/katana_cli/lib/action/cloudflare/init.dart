@@ -145,23 +145,24 @@ class CloudflareInitCliAction extends CliCommand with CliActionMixin {
     }
     if (enabledWorkers || enabledPages) {
       if (!wranglerJsonc.existsSync()) {
-        await command(
-          "Initialize Cloudflare Workers",
-          [wrangler, "init", projectId, "--yes", "--cwd=cloudflare"],
-          runInShell: true,
-        );
-        // wranglerはcloudflare/{projectId}/配下にファイルを生成するため、cloudflare/直下に移動
-        label("Rename files");
         final generatedDir = Directory("cloudflare/$projectId");
-        await for (final entity
-            in generatedDir.list(recursive: false, followLinks: false)) {
-          final name = entity.path.split(Platform.pathSeparator).last;
-          final targetPath = "${cloudflareDir.path}/$name";
-          await entity.rename(targetPath);
+        if (!generatedDir.existsSync()) {
+          await command(
+            "Initialize Cloudflare Workers",
+            [wrangler, "init", projectId, "--yes", "--cwd=cloudflare"],
+            runInShell: true,
+          );
         }
+        // Keep existing application files when merging the Wrangler scaffold.
+        label("Rename files");
+        await mergeCloudflareScaffold(generatedDir, cloudflareDir);
         await generatedDir.delete(recursive: true);
-        await workerIndexFile.delete();
-        await pagesIndexFile.delete();
+        if (workerIndexFile.existsSync()) {
+          await workerIndexFile.delete();
+        }
+        if (pagesIndexFile.existsSync()) {
+          await pagesIndexFile.delete();
+        }
       }
       label("Rewrite `.gitignore`.");
       final gitignore = File("cloudflare/.gitignore");
@@ -426,6 +427,28 @@ Future<bool> migrateCloudflareLegacyEntry() async {
     "Migrated `$cloudflareLegacyEntryPath` to `$cloudflareEdgeEntryPath` and updated `main` in `cloudflare/wrangler.jsonc`.",
   );
   return true;
+}
+
+/// Moves generated scaffold entries into an existing application directory.
+/// Existing application files take precedence over generated template files.
+Future<void> mergeCloudflareScaffold(Directory source, Directory target) async {
+  await for (final entity
+      in source.list(recursive: false, followLinks: false)) {
+    final name = entity.path.split(Platform.pathSeparator).last;
+    final targetPath = "${target.path}/$name";
+    final targetType =
+        FileSystemEntity.typeSync(targetPath, followLinks: false);
+    if (targetType == FileSystemEntityType.notFound) {
+      await entity.rename(targetPath);
+    } else if (entity is Directory &&
+        targetType == FileSystemEntityType.directory) {
+      await mergeCloudflareScaffold(entity, Directory(targetPath));
+    } else if (entity is Directory ||
+        targetType == FileSystemEntityType.directory) {
+      throw StateError(
+          "Cloudflare scaffold path type conflicts with an existing file: $targetPath");
+    }
+  }
 }
 
 /// Cloudflare Workers entrypoint (`edge.ts` / `region.ts`) codebase.

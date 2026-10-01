@@ -18,6 +18,7 @@ Future<void> main() async {
     await _verifyQueryAuthentication(temporaryRoot);
     await _verifyKotlinDsl(temporaryRoot);
     await _verifyGroovy(temporaryRoot);
+    await _verifyNativeEnvironmentCoexistence(temporaryRoot);
     stdout.writeln("All AndroidManifest placeholder checks passed.");
   } finally {
     await temporaryRoot.delete(recursive: true);
@@ -167,6 +168,76 @@ Future<void> _verifyGroovy(Directory temporaryRoot) async {
     "unknown Groovy content is kept",
   );
 }
+
+Future<void> _verifyNativeEnvironmentCoexistence(
+  Directory temporaryRoot,
+) async {
+  for (final isKotlin in [true, false]) {
+    final project = Directory(
+      "${temporaryRoot.path}/coexistence_${isKotlin ? "kotlin" : "groovy"}",
+    );
+    final manifest = File("${project.path}/AndroidManifest.xml");
+    final gradle = File(
+      "${project.path}/build.gradle${isKotlin ? ".kts" : ""}",
+    );
+    await project.create(recursive: true);
+    await manifest.writeAsString(_manifest(["API_TOKEN"]));
+    await gradle.writeAsString(
+      AndroidNativeEnvironmentSynchronizer.synchronize(
+        isKotlin ? _kotlinCoexistenceFixture : _groovyFixture,
+        isKotlin: isKotlin,
+      ),
+    );
+    final synchronizer = AndroidManifestPlaceholderSynchronizer(
+      manifestPath: manifest.path,
+      kotlinGradlePath: isKotlin ? gradle.path : "${project.path}/missing.kts",
+      groovyGradlePath:
+          isKotlin ? "${project.path}/missing.gradle" : gradle.path,
+    );
+    await synchronizer.apply();
+    final result = await gradle.readAsString();
+    final declaration = isKotlin ? "val" : "def";
+    _expectCount(
+      result,
+      "$declaration katanaDartDefines ",
+      1,
+      "native environment and manifest blocks do not redeclare variables",
+    );
+    _expectCount(
+      result,
+      "$declaration katanaManifestDartDefines ",
+      1,
+      "manifest block uses its own variable",
+    );
+    if (isKotlin) {
+      _expectCount(
+        result,
+        "import java.util.Base64",
+        1,
+        "shared Base64 import is generated once",
+      );
+      _expectNotContains(
+        result,
+        "java.util.Base64.getDecoder()",
+        "Gradle DSL-shadowed fully qualified Base64 is not used",
+      );
+    }
+  }
+}
+
+const _kotlinCoexistenceFixture = r'''
+plugins {
+    id("com.android.application")
+}
+
+android {
+    namespace = "com.example.app"
+
+    defaultConfig {
+        applicationId = "com.example.app"
+    }
+}
+''';
 
 String _manifest(List<String> placeholders) {
   final metadata = placeholders

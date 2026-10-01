@@ -5,6 +5,38 @@ import "package:katana_cli/action/cloudflare/tidb.dart";
 import "package:katana_cli/katana_cli.dart";
 
 Future<void> main() async {
+  final rebindState = <String, dynamic>{
+    "cloudflare": {
+      "tidb": {
+        "migration_users": {
+          "dev": {"cluster_id": "old-cluster"}
+        },
+        "runtime_users": {
+          "dev": {"username": "old.runtime"}
+        },
+        "runtime_users_by_cluster": {
+          "dev": {
+            "new-cluster": {"username": "new.runtime"}
+          }
+        },
+      }
+    }
+  };
+  check(
+      selectTidbRuntimeCredentials(
+              rebindState, "dev", "old-cluster")["username"] ==
+          "old.runtime",
+      "old runtime identity changed");
+  check(
+      selectTidbRuntimeCredentials(
+              rebindState, "dev", "new-cluster")["username"] ==
+          "new.runtime",
+      "new runtime identity not selected");
+  check(
+      selectTidbRuntimeCredentials(rebindState, "dev", "unknown-cluster")
+          .isEmpty,
+      "old runtime identity leaked into another cluster");
+  await testTidbDependencyBootstrap();
   check(tursoNativeColumnType("VECTOR(3)") == "F32_BLOB(3)",
       "native vector変換に失敗しました。");
   check(tursoNativeColumnType("JSON") == "JSON", "通常型を変更しました。");
@@ -55,6 +87,17 @@ Future<void> main() async {
     check((jsonDecode(schema.readAsStringSync())["tables"] as List).length == 1,
         "削除済み入力が残りました。");
     Directory("cloudflare/src").createSync(recursive: true);
+    File("pubspec.yaml").writeAsStringSync("""
+name: fixture
+dependencies:
+  masamune_model_tidb: any
+  masamune_model_tidb_annotation: any
+dev_dependencies:
+  masamune_model_tidb_builder: any
+"""
+        .trimLeft());
+    File("cloudflare/package.json").writeAsStringSync(
+        '{"dependencies":{"@mathrunet/masamune_cloudflare_tidb":"3.7.5"}}\n');
     Directory(
             "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist")
         .createSync(recursive: true);
@@ -128,6 +171,92 @@ printf '%s\n' "$3" >> secret-names.txt
   }
 }
 
+/// 最初のapplyではschemaがまだなくても、生成に必要な依存を正規経路で導入する。
+Future<void> testTidbDependencyBootstrap() async {
+  final original = Directory.current;
+  final temporary = await Directory.systemTemp.createTemp("tidb_bootstrap_");
+  try {
+    Directory.current = temporary;
+    Directory("cloudflare/src").createSync(recursive: true);
+    File("cloudflare/src/edge.ts")
+        .writeAsStringSync("export default m.deploy([]);\n");
+    File("cloudflare/package.json").writeAsStringSync('{"dependencies":{}}\n');
+    File("pubspec.yaml").writeAsStringSync("name: fixture\n");
+    final flutter = File("${temporary.path}/flutter-fixture.sh");
+    flutter.writeAsStringSync(r'''
+#!/bin/sh
+printf '%s\n' "$*" >> flutter-calls.txt
+'''
+        .trimLeft());
+    final npm = File("${temporary.path}/npm-fixture.sh");
+    npm.writeAsStringSync(r'''
+#!/bin/sh
+printf '%s\n' "$*" >> npm-calls.txt
+if [ -f npm-fail ]; then exit 7; fi
+mkdir -p node_modules/@mathrunet/masamune_cloudflare_tidb/dist
+: > node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js
+'''
+        .trimLeft());
+    await Process.run("chmod", ["+x", flutter.path, npm.path]);
+    final context = ExecContext(yaml: {
+      "bin": {"flutter": flutter.path, "npm": npm.path},
+      "cloudflare": {
+        "tidb": {"enable": true, "host": "fixture.invalid", "database": "main"}
+      },
+    }, secrets: const {}, args: const []);
+    await runApplyCommands(() => const CloudflareTidbCliAction().exec(context));
+    final flutterCalls = File("flutter-calls.txt").readAsLinesSync();
+    check(flutterCalls.length == 2, "TiDBのFlutter依存導入が実行されませんでした。");
+    check(
+        flutterCalls.any((line) =>
+            line.contains("masamune_model_tidb") &&
+            line.contains("masamune_model_tidb_annotation") &&
+            !line.contains("--dev")),
+        "runtimeとannotationを導入していません。");
+    check(
+        flutterCalls.any((line) =>
+            line.contains("--dev") &&
+            line.contains("masamune_model_tidb_builder")),
+        "builderを開発依存へ導入していません。");
+    check(
+        File("cloudflare/npm-calls.txt")
+            .readAsStringSync()
+            .contains("install @mathrunet/masamune_cloudflare_tidb"),
+        "Node adapterを導入していません。");
+    check(!File("cloudflare/src/tidb_schema.json").existsSync(),
+        "schema生成前にWorker manifestを変更しました。");
+    // 旧版が宣言・導入済みでもworker.jsがなければ直結版へ更新する。
+    File("cloudflare/package.json").writeAsStringSync(
+        '{"dependencies":{"@mathrunet/masamune_cloudflare_tidb":"^3.5.6"}}\n');
+    final worker = File(
+        "cloudflare/node_modules/@mathrunet/masamune_cloudflare_tidb/dist/worker.js");
+    worker.deleteSync();
+    File("cloudflare/npm-fail").writeAsStringSync("");
+    var failed = false;
+    try {
+      await runApplyCommands(
+          () => const CloudflareTidbCliAction().exec(context));
+    } on Exception {
+      failed = true;
+    }
+    check(failed, "Node adapter導入の失敗をapplyへ伝播していません。");
+    check(!worker.existsSync(), "依存導入失敗後に旧版を成功扱いしました。");
+    check(!File("cloudflare/src/tidb_schema.json").existsSync(),
+        "依存導入失敗後にWorker manifestを変更しました。");
+    File("cloudflare/npm-fail").deleteSync();
+    await runApplyCommands(() => const CloudflareTidbCliAction().exec(context));
+    check(worker.existsSync(), "直結版worker.jsが導入されませんでした。");
+    check(
+        File("cloudflare/npm-calls.txt")
+            .readAsStringSync()
+            .contains("install @mathrunet/masamune_cloudflare_tidb@^3.7.5"),
+        "旧版から直結対応版への導入経路がありません。");
+  } finally {
+    Directory.current = original;
+    await temporary.delete(recursive: true);
+  }
+}
+
 void check(bool condition, String message) {
   if (!condition) {
     throw StateError(message);
@@ -145,6 +274,13 @@ exit 1
 """
       .trimLeft());
   await Process.run("chmod", ["+x", node.path]);
+  final npm = File("${Directory.current.path}/npm-fail-fixture.sh");
+  npm.writeAsStringSync(r"""
+#!/bin/sh
+exit 7
+"""
+      .trimLeft());
+  await Process.run("chmod", ["+x", npm.path]);
   File("cloudflare/tidb.yaml").writeAsStringSync("""
 cloudflare:
   tidb:
@@ -159,7 +295,7 @@ cloudflare:
   final index = File("cloudflare/src/edge.ts");
   final before = index.readAsStringSync();
   final context = ExecContext(yaml: {
-    "bin": {"node": node.path},
+    "bin": {"node": node.path, "npm": npm.path},
     "cloudflare": {
       "tidb": {
         "enable": true,
@@ -181,7 +317,13 @@ cloudflare:
       index.writeAsStringSync("export default {};\n");
     }
     final sourceBefore = index.readAsStringSync();
-    await const CloudflareTidbCliAction().exec(context);
+    try {
+      await const CloudflareTidbCliAction().exec(context);
+    } on Exception {
+      if (scenario != "missing-package") {
+        rethrow;
+      }
+    }
     check(!File("cloudflare/node-invoked.txt").existsSync(),
         "$scenario: ローカル前提不足なのに外部SQL操作を起動しました。");
     check(index.readAsStringSync() == sourceBefore,

@@ -17,7 +17,7 @@ class Config {
   /// Version of the Android Billing Library.
   ///
   /// AndroidのBillingライブラリのバージョン。
-  static const String androidBillingVersion = "7.0.0";
+  static const String androidBillingVersion = "8.0.0";
 
   /// Sdk version at Android billing.
   ///
@@ -28,4 +28,8 @@ class Config {
   ///
   /// AndroidのFirebase時のMinSdkバージョン。
   static const int firebaseMinSdkVersion = 24;
+
+  /// npm version range of `@mathrunet/masamune_cloudflare_notification`
+  /// installed by the Firebase Messaging action for Cloudflare Workers.
+  static const String cloudflareNotificationVersion = "^3.1.4";
 }

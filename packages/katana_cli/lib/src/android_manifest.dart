@@ -235,7 +235,7 @@ class AndroidManifestPlaceholderSynchronizer {
   static String _kotlinDefinitions(List<String> placeholders) {
     final names = placeholders.map((name) => '    "$name",').join("\n");
     return '''
-val katanaDartDefines = sequenceOf("dart-defines", "DART_DEFINES")
+val katanaManifestDartDefines = sequenceOf("dart-defines", "DART_DEFINES")
     .mapNotNull { project.findProperty(it)?.toString() }
     .firstOrNull()
     .orEmpty()
@@ -251,7 +251,7 @@ val katanaManifestPlaceholderNames = setOf(
 $names
 )
 val katanaManifestPlaceholders = katanaManifestPlaceholderNames.associateWith { name ->
-    requireNotNull(katanaDartDefines[name]?.takeIf { it.isNotBlank() }) {
+    requireNotNull(katanaManifestDartDefines[name]?.takeIf { it.isNotBlank() }) {
         "\$name is required via --dart-define-from-file=dart_defines/<flavor>.env"
     }
 }''';
@@ -281,10 +281,10 @@ val katanaManifestPlaceholders = katanaManifestPlaceholderNames.associateWith { 
   static String _groovyDefinitions(List<String> placeholders) {
     final names = placeholders.map((name) => '    "$name",').join("\n");
     return '''
-def katanaDartDefines = ["dart-defines", "DART_DEFINES"]
+def katanaManifestEncodedDartDefines = ["dart-defines", "DART_DEFINES"]
     .collect { project.findProperty(it)?.toString() }
     .find { it != null } ?: ""
-def katanaDecodedDartDefines = katanaDartDefines
+def katanaManifestDartDefines = katanaManifestEncodedDartDefines
     .split(',')
     .findAll { !it.isEmpty() }
     .collectEntries { encoded ->
@@ -299,7 +299,7 @@ def katanaManifestPlaceholderNames = [
 $names
 ] as Set
 def katanaManifestPlaceholders = katanaManifestPlaceholderNames.collectEntries { name ->
-    def value = katanaDecodedDartDefines[name]
+    def value = katanaManifestDartDefines[name]
     if (!value) {
         throw new GradleException("\$name is required via --dart-define-from-file=dart_defines/<flavor>.env")
     }

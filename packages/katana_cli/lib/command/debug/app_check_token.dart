@@ -1,10 +1,12 @@
 part of "debug.dart";
 
-/// Captures Firebase App Check debug tokens from device logs and writes them
-/// as `<deviceId, token>` pairs into `.app_check_debug_tokens.json` at the
+/// Captures Firebase App Check debug tokens from device logs (and, on iOS
+/// simulators, from the app's UserDefaults) and writes them as
+/// `<deviceId, token>` pairs into `.app_check_debug_tokens.json` at the
 /// project root.
 ///
-/// Firebase App Check のデバッグトークンをデバイスのログから捕捉し、
+/// Firebase App Check のデバッグトークンをデバイスのログ（iOS シミュレータではアプリの
+/// UserDefaults も）から捕捉し、
 /// プロジェクト直下の `.app_check_debug_tokens.json` に
 /// `<デバイスID, トークン>` のペアで書き出します。
 class DebugAppCheckTokenCliCommand extends CliCommand {
@@ -15,17 +17,18 @@ class DebugAppCheckTokenCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Capture Firebase App Check debug tokens from Android logcat / iOS simulator logs and save them per device. Firebase App Check のデバッグトークンを Android logcat / iOS シミュレータのログから捕捉し、デバイスごとに保存します。";
+      "Capture Firebase App Check debug tokens from Android logcat / iOS simulator UserDefaults or logs and save them per device. Firebase App Check のデバッグトークンを Android logcat / iOS シミュレータの UserDefaults またはログから捕捉し、デバイスごとに保存します。";
 
   @override
   String? get example =>
-      "katana debug app_check_token [--device <device_id>] [--last <duration>]";
+      "katana debug app_check_token [--device <device_id>] [--last <duration>] [--bundle-id <ios_bundle_id>]";
 
   @override
   Future<void> exec(ExecContext context) async {
     final args = context.args.skip(2).toList();
     String? deviceFilter;
     var last = "1h";
+    String? bundleId;
     for (var i = 0; i < args.length; i++) {
       final argument = args[i];
       if (argument == "--device") {
@@ -44,6 +47,14 @@ class DebugAppCheckTokenCliCommand extends CliCommand {
         last = args[++i];
       } else if (argument.startsWith("--last=")) {
         last = argument.substring("--last=".length);
+      } else if (argument == "--bundle-id") {
+        if (i + 1 >= args.length) {
+          error("Invalid argument: --bundle-id requires one value.");
+          return;
+        }
+        bundleId = args[++i];
+      } else if (argument.startsWith("--bundle-id=")) {
+        bundleId = argument.substring("--bundle-id=".length);
       } else {
         error(
           "Unknown argument for `katana debug app_check_token`: $argument",
@@ -75,8 +86,10 @@ class DebugAppCheckTokenCliCommand extends CliCommand {
       return;
     }
 
+    bundleId ??= resolveIosBundleId();
     final store = AppCheckDebugTokenStore.defaultFile();
     final captured = <AppCheckDebugTokenDevice>[];
+    final unregistered = <AppCheckDebugTokenDevice>[];
     final missed = <AppCheckDebugTokenDevice>[];
 
     for (final device in targets) {
@@ -87,7 +100,24 @@ class DebugAppCheckTokenCliCommand extends CliCommand {
       if (device.platform == "android") {
         token = await extractAndroidDebugToken(device.id, adb: adb);
       } else if (device.platform == "ios_simulator") {
-        token = await extractIosSimulatorDebugToken(device.id, last: last);
+        final defaults = bundleId == null
+            ? null
+            : await readIosSimulatorDebugTokenFromDefaults(
+                device.id,
+                bundleId: bundleId,
+              );
+        if (defaults != null) {
+          token = defaults.token;
+          if (!defaults.registered) {
+            unregistered.add(device);
+          }
+          // ignore: avoid_print
+          print(
+            "  Read from UserDefaults of `$bundleId` (${defaults.registered ? "registered in Firebase" : "NOT registered in Firebase yet"}).",
+          );
+        } else {
+          token = await extractIosSimulatorDebugToken(device.id, last: last);
+        }
       }
       if (token == null) {
         missed.add(device);
@@ -118,6 +148,18 @@ class DebugAppCheckTokenCliCommand extends CliCommand {
         "Register each token in Firebase Console: Project settings -> App Check -> (App) -> Manage debug tokens.",
       );
     }
+    if (unregistered.isNotEmpty) {
+      // ignore: avoid_print
+      print("");
+      // ignore: avoid_print
+      print(
+        "The App Check SDK has not recorded these iOS simulator tokens as registered in Firebase:",
+      );
+      for (final device in unregistered) {
+        // ignore: avoid_print
+        print("  - ${device.platform}: ${device.id} (${device.name})");
+      }
+    }
     if (missed.isNotEmpty) {
       // ignore: avoid_print
       print("");
@@ -133,7 +175,7 @@ class DebugAppCheckTokenCliCommand extends CliCommand {
       );
       // ignore: avoid_print
       print(
-        "iOS note: Firebase App Check debug tokens are not currently emitted from the Masamune adapter on iOS (see FirebaseAppCheckMasamuneAdapter). Check Console.app or the Xcode debug console directly if needed.",
+        "iOS note: tokens are read from the app's UserDefaults${bundleId == null ? " (bundle ID could not be resolved; pass --bundle-id)" : " of `$bundleId`"}. Launch the debug build once so App Check generates a token, then re-run this command.",
       );
     }
   }

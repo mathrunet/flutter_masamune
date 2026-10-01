@@ -219,9 +219,11 @@ class WranglerEnvironmentSynchronizer {
           }
           final current = environment.substring(open + 1, close);
           for (final entry in RegExp(
-            r'''"([^"]+)"\s*:\s*"([^"]*)"''',
+            r'''"((?:\\.|[^"\\])*)"\s*:\s*"((?:\\.|[^"\\])*)"''',
           ).allMatches(current)) {
-            variables[entry.group(1)!] = entry.group(2)!;
+            final key = jsonDecode('"${entry.group(1)!}"') as String;
+            final value = jsonDecode('"${entry.group(2)!}"') as String;
+            variables[key] = value;
           }
           variables.addAll(values);
           final encoded = variables.entries

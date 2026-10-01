@@ -553,6 +553,10 @@ String _normalizeCloudflarePath(String path) {
 }
 
 /// ローカル適用に必要な宣言・lock・実体を、依存を変更せず検証します。
+///
+/// [packages] accepts plain names or versioned specs such as
+/// `@scope/name@^1.2.3`. A versioned spec also requires the locked version
+/// to satisfy the range.
 void validateLocalCloudflarePackages(Iterable<String> packages) {
   final manifest =
       jsonDecode(File("cloudflare/package.json").readAsStringSync()) as Map;
@@ -564,7 +568,8 @@ void validateLocalCloudflarePackages(Iterable<String> packages) {
     ...Map<String, dynamic>.from(manifest["devDependencies"] as Map? ?? {}),
   };
   final locked = lock["packages"] as Map? ?? {};
-  for (final name in packages) {
+  for (final spec in packages) {
+    final (:name, :range) = parseCloudflarePackageSpec(spec);
     final installed = File("cloudflare/node_modules/$name/package.json");
     final entry = locked["node_modules/$name"];
     if (!declared.containsKey(name) ||
@@ -576,13 +581,88 @@ void validateLocalCloudflarePackages(Iterable<String> packages) {
     if (entry["version"] == null || actual["version"] != entry["version"]) {
       throw StateError("Cloudflare npm 依存の実体とlockが一致しません: $name");
     }
+    if (range != null &&
+        !cloudflarePackageVersionSatisfies(
+          entry["version"].toString(),
+          range,
+        )) {
+      throw StateError(
+        "Cloudflare npm 依存の版が要求範囲外です: $name ${entry["version"]}（要求: $range）",
+      );
+    }
   }
+}
+
+/// Splits an npm install spec such as `@scope/name@^1.2.3` into its package
+/// name and version range. The range is `null` for an unversioned spec.
+({String name, String? range}) parseCloudflarePackageSpec(String spec) {
+  final index = spec.lastIndexOf("@");
+  if (index <= 0) {
+    return (name: spec, range: null);
+  }
+  final range = spec.substring(index + 1);
+  return (name: spec.substring(0, index), range: range.isEmpty ? null : range);
+}
+
+/// Returns whether [version] satisfies [range].
+///
+/// Only exact versions (`1.2.3`) and caret ranges (`^1.2.3`) are supported,
+/// which are the forms Katana requests. Prerelease versions never satisfy.
+bool cloudflarePackageVersionSatisfies(String version, String range) {
+  List<int>? parse(String value) {
+    final match = RegExp(r"^(\d+)\.(\d+)\.(\d+)$").firstMatch(value.trim());
+    if (match == null) {
+      return null;
+    }
+    return [1, 2, 3].map((i) => int.parse(match.group(i)!)).toList();
+  }
+
+  int compare(List<int> a, List<int> b) {
+    for (var i = 0; i < 3; i++) {
+      if (a[i] != b[i]) {
+        return a[i].compareTo(b[i]);
+      }
+    }
+    return 0;
+  }
+
+  final caret = range.startsWith("^");
+  final minimum = parse(caret ? range.substring(1) : range);
+  if (minimum == null) {
+    throw ArgumentError.value(range, "range", "Unsupported version range.");
+  }
+  final current = parse(version);
+  if (current == null) {
+    return false;
+  }
+  if (!caret) {
+    return compare(current, minimum) == 0;
+  }
+  if (compare(current, minimum) < 0) {
+    return false;
+  }
+  if (minimum[0] > 0) {
+    return current[0] == minimum[0];
+  }
+  if (minimum[1] > 0) {
+    return current[0] == 0 && current[1] == minimum[1];
+  }
+  return compare(current, minimum) == 0;
 }
 
 /// Installs only Node packages that are not already declared.
 ///
 /// Reinstalling a declared package without a version can rewrite an exact
 /// dependency to npm's configured save prefix, even when nothing changed.
+///
+/// Each entry of [packages] is a plain name or a versioned spec such as
+/// `@scope/name@^1.2.3`. A versioned spec is passed to `npm install` as is, so
+/// npm does not fall back to an older release (for example when
+/// `min-release-age` hides `latest`). A declared package whose locked version
+/// is below the requested range is reinstalled with the spec. Other declared
+/// dependencies are never changed by Katana itself. After installation the
+/// locked versions are verified, so a resolution outside the range fails
+/// explicitly instead of continuing with an older release.
 Future<void> installMissingCloudflarePackages({
   required String npm,
   required Iterable<String> packages,
@@ -591,8 +671,8 @@ Future<void> installMissingCloudflarePackages({
     validateLocalCloudflarePackages(packages);
     return;
   }
-  final packageJson = File("cloudflare/package.json");
   final declared = <String>{};
+  final packageJson = File("cloudflare/package.json");
   if (packageJson.existsSync()) {
     final decoded = jsonDecode(await packageJson.readAsString());
     if (decoded is Map) {
@@ -604,16 +684,72 @@ Future<void> installMissingCloudflarePackages({
       }
     }
   }
-  final missing = packages.where((package) => !declared.contains(package));
-  if (missing.isEmpty) {
+  final lockedBefore = _readCloudflareLockedVersions();
+  final targets = <String>[];
+  final versioned = <({String name, String range})>[];
+  for (final spec in packages) {
+    final (:name, :range) = parseCloudflarePackageSpec(spec);
+    if (range != null) {
+      versioned.add((name: name, range: range));
+    }
+    if (!declared.contains(name)) {
+      targets.add(spec);
+      continue;
+    }
+    final locked = lockedBefore[name];
+    if (range != null &&
+        locked != null &&
+        !cloudflarePackageVersionSatisfies(locked, range)) {
+      label("Update $name from $locked to satisfy $range");
+      targets.add(spec);
+    }
+  }
+  if (targets.isEmpty) {
     return;
   }
   await command(
     "Package installation.",
-    [npm, "install", ...missing],
+    [npm, "install", ...targets],
     workingDirectory: "cloudflare",
     runInShell: true,
   );
+  final lockedAfter = _readCloudflareLockedVersions();
+  for (final (:name, :range) in versioned) {
+    if (!targets.any((spec) => parseCloudflarePackageSpec(spec).name == name)) {
+      continue;
+    }
+    final locked = lockedAfter[name];
+    if (locked == null || !cloudflarePackageVersionSatisfies(locked, range)) {
+      throw StateError(
+        "Cloudflare npm 依存を要求範囲で導入できませんでした: $name ${locked ?? "未導入"}（要求: $range）。npm install のエラー（min-release-age・before・registry）を確認してください。",
+      );
+    }
+  }
+}
+
+Map<String, String> _readCloudflareLockedVersions() {
+  final lockFile = File("cloudflare/package-lock.json");
+  if (!lockFile.existsSync()) {
+    return const {};
+  }
+  final decoded = jsonDecode(lockFile.readAsStringSync());
+  final packages = decoded is Map ? decoded["packages"] : null;
+  if (packages is! Map) {
+    return const {};
+  }
+  final result = <String, String>{};
+  for (final entry in packages.entries) {
+    final key = entry.key.toString();
+    final value = entry.value;
+    if (!key.startsWith("node_modules/") ||
+        key.contains("/node_modules/", 1) ||
+        value is! Map ||
+        value["version"] == null) {
+      continue;
+    }
+    result[key.substring("node_modules/".length)] = value["version"].toString();
+  }
+  return result;
 }
 
 /// Set a Cloudflare Workers secret with `wrangler secret put`.

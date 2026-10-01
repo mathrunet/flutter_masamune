@@ -853,20 +853,36 @@ Future<String> command(
   }
 }
 
-/// Add flutter imports by giving [packages].
+/// Add Flutter dependencies from [packages].
 ///
-/// If it has already been added, it will not be added.
-///
-/// [packages]を与えてflutterのimportを追加します。
-///
-/// すでに追加されている場合は、追加されません。
+/// Existing dependencies are preserved unless an explicit constraint such as
+/// `package:^1.2.3` differs from the declared constraint.
 Future<void> addFlutterImport(
   List<String> packages, {
   bool development = false,
   String flutterCommand = "flutter",
 }) async {
   if (isLocalApply) {
-    validateLocalFlutterDependencies(packages, development: development);
+    validateLocalFlutterDependencies(
+      packages.map((package) => package.split(":").first).toList(),
+      development: development,
+    );
+    final pubspec = loadYaml(File("pubspec.yaml").readAsStringSync()) as Map;
+    final dependencies =
+        pubspec.getAsMap(development ? "dev_dependencies" : "dependencies");
+    for (final package in packages) {
+      final separator = package.indexOf(":");
+      if (separator < 0) {
+        continue;
+      }
+      final name = package.substring(0, separator);
+      final constraint = package.substring(separator + 1);
+      if (dependencies[name] != constraint) {
+        throw StateError(
+          "The declared Flutter dependency $name must use $constraint before local apply.",
+        );
+      }
+    }
     return;
   }
   final addPackages = <String>[];
@@ -875,7 +891,12 @@ Future<void> addFlutterImport(
   if (development) {
     final dependencies = pubspec.getAsMap("dev_dependencies");
     for (final package in packages) {
-      if (dependencies.containsKey(package)) {
+      final separator = package.indexOf(":");
+      final name = separator < 0 ? package : package.substring(0, separator);
+      final constraint =
+          separator < 0 ? null : package.substring(separator + 1);
+      if (dependencies.containsKey(name) &&
+          (constraint == null || dependencies[name] == constraint)) {
         continue;
       }
       addPackages.add(package);
@@ -895,7 +916,12 @@ Future<void> addFlutterImport(
   } else {
     final dependencies = pubspec.getAsMap("dependencies");
     for (final package in packages) {
-      if (dependencies.containsKey(package)) {
+      final separator = package.indexOf(":");
+      final name = separator < 0 ? package : package.substring(0, separator);
+      final constraint =
+          separator < 0 ? null : package.substring(separator + 1);
+      if (dependencies.containsKey(name) &&
+          (constraint == null || dependencies[name] == constraint)) {
         continue;
       }
       addPackages.add(package);
