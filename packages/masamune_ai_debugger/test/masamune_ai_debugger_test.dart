@@ -1054,6 +1054,65 @@ void main() {
     );
   });
 
+  testWidgets(
+      "debug authentication semantics refresh without exposing credentials",
+      (tester) async {
+    var loggedIn = false;
+    var failStateRead = false;
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "Users-example-debug-auth-semantics",
+      login: (email, password) => loggedIn = true,
+      logout: () => loggedIn = false,
+      isLoggedIn: () {
+        if (failStateRead) throw StateError("state unavailable");
+        return loggedIn;
+      },
+    );
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) => adapter.onBuildApp(
+          context,
+          const MaterialApp(home: ColoredBox(color: Colors.blue)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    expect(find.bySemanticsLabel("AI Debugger auth unauthenticated"),
+        findsOneWidget);
+    expect(find.bySemanticsLabel("AIデバッガー認証"), findsOneWidget);
+
+    // A sign-in outside the overlay must be observed when reopening it.
+    await tester.tap(find.bySemanticsLabel("閉じる"));
+    await tester.pump();
+    loggedIn = true;
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    expect(find.bySemanticsLabel("AI Debugger auth authenticated"),
+        findsOneWidget);
+    expect(
+      tester
+          .getSemantics(find.bySemanticsLabel("AI Debugger auth authenticated"))
+          .label,
+      "AI Debugger auth authenticated",
+    );
+    expect(find.bySemanticsLabel("AIデバッガー認証"), findsOneWidget);
+
+    // A failed observation must invalidate the previously successful result.
+    await tester.tap(find.bySemanticsLabel("閉じる"));
+    await tester.pump();
+    failStateRead = true;
+    await tester.tap(find.bySemanticsLabel("AI Debuggerを開く"));
+    await tester.pump();
+    expect(find.bySemanticsLabel("AI Debugger auth unknown"), findsOneWidget);
+    expect(
+        find.bySemanticsLabel("AI Debugger auth authenticated"), findsNothing);
+    expect(find.bySemanticsLabel("AI Debugger auth unauthenticated"),
+        findsNothing);
+    await adapter.controller.end();
+  });
+
   testWidgets("debug authentication UI signs in and signs out", (tester) async {
     var loggedIn = false;
     String? receivedEmail;
@@ -1107,6 +1166,8 @@ void main() {
     await tester.tap(find.bySemanticsLabel("デバッグログイン実行"));
     await tester.pump();
 
+    expect(find.bySemanticsLabel("AI Debugger auth authenticated"),
+        findsOneWidget);
     expect(receivedEmail, "debug@example.com");
     expect(receivedPassword, "password123");
     expect(loggedIn, isTrue);
@@ -1115,6 +1176,8 @@ void main() {
     await tester.tap(find.bySemanticsLabel("AIデバッガー認証"));
     await tester.pump();
     expect(loggedIn, isFalse);
+    expect(find.bySemanticsLabel("AI Debugger auth unauthenticated"),
+        findsOneWidget);
     expect(find.text("デバッグログイン"), findsNothing);
     await adapter.controller.end();
   });
@@ -1241,6 +1304,9 @@ void main() {
     await tester.pump();
     expect(calls, 1);
     expect(find.text("ログイン中…"), findsOneWidget);
+    expect(find.bySemanticsLabel("AI Debugger auth unknown"), findsOneWidget);
+    expect(
+        find.bySemanticsLabel("AI Debugger auth authenticated"), findsNothing);
 
     completion.complete();
     await tester.pumpAndSettle();

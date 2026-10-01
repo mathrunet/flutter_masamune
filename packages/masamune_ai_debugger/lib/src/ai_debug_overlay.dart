@@ -72,6 +72,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   bool _debugOperationRunning = false;
   bool _settingsOpen = false;
   bool _loggedIn = false;
+  bool _loginStateKnown = false;
   _AIDebugPanelView _panelView = _AIDebugPanelView.prompt;
   _AIDebugRequestType _requestType = _AIDebugRequestType.bugFix;
   List<AIDebugPurchaseProduct> _purchaseProducts = const [];
@@ -159,8 +160,10 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     if (!_hasAuthentication) return true;
     try {
       _loggedIn = widget.isLoggedIn!();
+      _loginStateKnown = true;
       return true;
     } catch (error) {
+      _loginStateKnown = false;
       _debugOperationError = error.toString();
       return false;
     }
@@ -646,6 +649,9 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
 
   @override
   Widget build(BuildContext context) {
+    // Sample the app callback on each rebuild, including reopening the panel.
+    // An in-flight operation cannot provide a settled authentication result.
+    if (!_debugOperationRunning) _readLoginState();
     return Stack(
       fit: StackFit.expand,
       alignment: Alignment.topLeft,
@@ -760,21 +766,28 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
         ),
       );
 
-  Widget _buildPanel() => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(),
-        home: Material(
-          color: const Color(0xE6222222),
-          borderRadius: BorderRadius.circular(16),
-          elevation: 12,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: switch (_panelView) {
-              _AIDebugPanelView.prompt => _buildPromptPanel(),
-              _AIDebugPanelView.login => _buildLoginPanel(),
-              _AIDebugPanelView.purchase => _buildPurchasePanel(),
-              _AIDebugPanelView.camera => _buildCameraPanel(),
-            },
+  Widget _buildPanel() => Semantics(
+        container: true,
+        explicitChildNodes: true,
+        label: _hasAuthentication
+            ? "AI Debugger auth ${_debugOperationRunning || !_loginStateKnown ? "unknown" : _loggedIn ? "authenticated" : "unauthenticated"}"
+            : null,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.dark(),
+          home: Material(
+            color: const Color(0xE6222222),
+            borderRadius: BorderRadius.circular(16),
+            elevation: 12,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: switch (_panelView) {
+                _AIDebugPanelView.prompt => _buildPromptPanel(),
+                _AIDebugPanelView.login => _buildLoginPanel(),
+                _AIDebugPanelView.purchase => _buildPurchasePanel(),
+                _AIDebugPanelView.camera => _buildCameraPanel(),
+              },
+            ),
           ),
         ),
       );

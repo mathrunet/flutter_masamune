@@ -216,6 +216,14 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   final AIDebugLogoutCallback? logout;
 
   /// Returns whether a debug user is currently signed in.
+  ///
+  /// The expanded overlay exposes this callback result through the separate
+  /// semantics labels `AI Debugger auth authenticated` and
+  /// `AI Debugger auth unauthenticated`. Failed reads and in-flight debug
+  /// operations expose `AI Debugger auth unknown`. The callback is sampled
+  /// whenever the overlay rebuilds; reopen the panel to request a fresh sample.
+  /// This observation does not validate a Firebase token or backend permissions.
+  /// The existing `AIデバッガー認証` action label is unchanged.
   final AIDebugIsLoggedInCallback? isLoggedIn;
 
   /// Returns the products available to the debug purchase UI.
