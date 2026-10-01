@@ -1,3 +1,10 @@
+## 3.2.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([e9bf58dc](https://github.com/mathrunet/flutter_masamune/commit/e9bf58dc28b07a250d437ca219c94f1b088bdf7a))
+ - **FEAT**(katana_functions): add FunctionsAction.target ([e9bf58dc](https://github.com/mathrunet/flutter_masamune/commit/e9bf58dc28b07a250d437ca219c94f1b088bdf7a))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([9fe35b7b](https://github.com/mathrunet/flutter_masamune/commit/9fe35b7beaa32fa1411bed9831e3d7048610f530))
+ - **FIX**(katana_functions): rename FunctionsAction.target to workerType ([9fe35b7b](https://github.com/mathrunet/flutter_masamune/commit/9fe35b7beaa32fa1411bed9831e3d7048610f530))
+
 ## 3.1.2
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))

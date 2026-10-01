@@ -1,3 +1,8 @@
+## 3.6.18
+
+
+ - Update dependencies: masamune.
+
 ## 3.6.17
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))

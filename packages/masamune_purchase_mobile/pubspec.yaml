@@ -22,7 +22,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-    
+
   katana: ^3.4.1
   masamune: ^3.5.20
   masamune_purchase: ^3.2.1

@@ -1,3 +1,8 @@
+## 3.3.2
+
+
+ - Update dependencies: masamune.
+
 ## 3.3.1
 
  - Update a dependency to the latest release.

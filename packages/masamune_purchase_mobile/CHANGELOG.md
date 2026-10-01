@@ -4,6 +4,7 @@
 
 ## 3.1.22
 
+
  - Update dependencies: masamune, masamune_purchase.
 
 ## 3.1.21

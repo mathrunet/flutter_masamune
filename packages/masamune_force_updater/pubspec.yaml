@@ -1,6 +1,7 @@
 name: masamune_force_updater
-description: Plug-in for Masamune that provides a forced update function and displays dialogs according to conditions.
-version: 3.1.20
+description: Plug-in for Masamune that provides a forced update function and
+  displays dialogs according to conditions.
+version: 3.1.21
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_force_updater
 
@@ -11,9 +12,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
   katana: ^3.4.1
-  masamune: ^3.5.20
+  masamune: ^3.5.21
 dev_dependencies:
   test: ^1.25.0
   katana_test: ^3.1.1

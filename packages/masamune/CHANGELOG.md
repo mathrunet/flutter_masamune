@@ -1,3 +1,8 @@
+## 3.5.21
+
+
+ - Update dependencies: katana_functions.
+
 ## 3.5.20
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
