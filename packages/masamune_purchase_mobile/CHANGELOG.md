@@ -1,3 +1,11 @@
+## 3.1.23
+
+ - **FIX**: Update the Android purchase integration to Google Play Billing Library 8.0.0 through `in_app_purchase_android` 0.5.3.
+
+## 3.1.22
+
+ - Update dependencies: masamune, masamune_purchase.
+
 ## 3.1.21
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))
@@ -1768,4 +1776,3 @@
 ## 2.1.0
 
  - **FEAT**: Initial commit. ([c9ec2374](https://github.com/mathrunet/flutter_masamune/commit/c9ec2374528919769e8bf286e3d65398bad9175f))
-
