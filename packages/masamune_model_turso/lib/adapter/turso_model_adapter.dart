@@ -20,6 +20,10 @@ const _tursoSchemaTable = "__masamune_turso_schema";
 
 final Map<String, Set<String>> _tursoBoolFieldsCache = {};
 
+// Schema preparation belongs to the native connection, not just its URL.
+// Replaced clients must prepare again, and expired clients are not retained.
+final _tursoSchemaApplications = Expando<Map<String, Future<void>>>();
+
 /// Timing breakdown for a Turso prewarm.
 ///
 /// Turso prewarmの処理時間内訳。
@@ -69,8 +73,13 @@ class TursoDirectClientSession {
     this.expirationMargin = const Duration(seconds: 30),
     this.disposeGracePeriod = const Duration(seconds: 5),
     this.useEmbeddedReplica = false,
+    this.maxConnectionsPerDatabase = 4,
     this.clientFactory,
   }) {
+    if (maxConnectionsPerDatabase < 1) {
+      throw ArgumentError.value(maxConnectionsPerDatabase,
+          "maxConnectionsPerDatabase", "Must be positive");
+    }
     if (useEmbeddedReplica) {
       throw UnsupportedError(
         "TursoDB does not support the legacy libSQL Embedded Replica path. "
@@ -83,6 +92,10 @@ class TursoDirectClientSession {
   ///
   /// 現在の認証ユーザー・セッションを識別する安定したキーを返します。
   final String? Function() sessionKey;
+
+  /// Maximum remote connections per database and authenticated session.
+  /// Each connection executes callbacks sequentially to isolate transactions.
+  final int maxConnectionsPerDatabase;
 
   /// Margin before token expiration at which a new token is requested.
   ///
@@ -174,7 +187,7 @@ class TursoDirectClientSession {
     try {
       final token = await future;
       state.resolved = token;
-      if (state.client != null) {
+      if (state.client != null || state.additionalClients.isNotEmpty) {
         await _disposeClient(state);
       }
       return token;
@@ -253,24 +266,39 @@ class TursoDirectClientSession {
         prefix: prefix,
       ),
     );
-    final handle = state.client ??= _TursoDirectClientHandle(
-      _connect(token, key),
-    );
+    final handles = [
+      if (state.client != null) state.client!,
+      ...state.additionalClients
+    ];
+    var handle = handles.firstWhereOrNull((item) => item._active == 0);
+    if (handle == null && handles.length < maxConnectionsPerDatabase) {
+      handle = _TursoDirectClientHandle(_connect(token, key));
+      if (state.client == null) {
+        state.client = handle;
+      } else {
+        state.additionalClients.add(handle);
+      }
+    }
+    handle ??= (handles..sort((a, b) => a._active.compareTo(b._active))).first;
     // Retain before awaiting so a concurrent `clear()` cannot dispose the
     // shared client while this caller is still connecting or querying.
     handle.retain();
     var released = false;
     try {
-      final client = await handle.client;
-      final result = await callback(client);
-      if (write && useEmbeddedReplica) {
-        await client.sync();
-      }
-      return result;
+      final selected = handle;
+      final client = await selected.client;
+      return await selected.runExclusive(() async {
+        final result = await callback(client);
+        if (write && useEmbeddedReplica) {
+          await client.sync();
+        }
+        return result;
+      });
     } catch (_) {
       if (identical(state.client, handle)) {
         state.client = null;
       }
+      state.additionalClients.remove(handle);
       // Release before disposing. `_disposeHandle` waits for the handle to
       // become idle, so holding this caller's own retain would deadlock.
       handle.release();
@@ -406,14 +434,14 @@ class TursoDirectClientSession {
   }
 
   Future<void> _disposeClient(_TursoDirectDatabaseSession state) async {
-    final handle = state.client;
-    // Detach first so later callers open a fresh client instead of joining the
-    // one about to be disposed.
+    final handles = [
+      if (state.client != null) state.client!,
+      ...state.additionalClients
+    ];
+    // Detach the entire pool before waiting for retained and queued callers.
     state.client = null;
-    if (handle == null) {
-      return;
-    }
-    await _disposeHandle(handle);
+    state.additionalClients.clear();
+    await Future.wait(handles.map(_disposeHandle));
   }
 
   Future<void> _disposeHandle(_TursoDirectClientHandle handle) {
@@ -568,6 +596,7 @@ class _TursoDirectDatabaseSession {
   TursoTokenFunctionsActionResponse? resolved;
   Future<TursoTokenFunctionsActionResponse>? resolving;
   _TursoDirectClientHandle? client;
+  final additionalClients = <_TursoDirectClientHandle>[];
 }
 
 /// A single cached [LibsqlClient] together with its in-flight caller count.
@@ -581,6 +610,20 @@ class _TursoDirectClientHandle {
 
   final Future<LibsqlClient> client;
   int _active = 0;
+  Future<void> _tail = Future<void>.value();
+
+  Future<T> runExclusive<T>(Future<T> Function() callback) async {
+    final previous = _tail;
+    final completed = Completer<void>();
+    _tail = completed.future;
+    await previous;
+    try {
+      return await callback();
+    } finally {
+      completed.complete();
+    }
+  }
+
   Completer<void>? _idle;
   Future<void>? disposalRequest;
   Future<void>? nativeDisposal;
@@ -1451,7 +1494,21 @@ class TursoModelAdapter extends ModelAdapter {
       callback: (client) async {
         await _ensureSchema(client, path.table, row, boolFields);
         final insert = _buildTursoInsertSql(path.table, row);
-        await client.execute(insert.sql, positional: insert.args);
+        try {
+          await client.execute(insert.sql, positional: insert.args);
+        } catch (error) {
+          // Retry only a statement rejected because its schema disappeared.
+          // An unknown mutation outcome must not trigger another insert here.
+          if (!RegExp(
+            r"no such table|has no column named|no column named|unknown column",
+            caseSensitive: false,
+          ).hasMatch(error.toString())) {
+            rethrow;
+          }
+          _tursoSchemaApplications[client] = null;
+          await _ensureSchema(client, path.table, row, boolFields);
+          await client.execute(insert.sql, positional: insert.args);
+        }
       },
     );
   }
@@ -1506,7 +1563,9 @@ class TursoModelAdapter extends ModelAdapter {
           final path = operation.path();
           final boolFields = _extractTursoBoolFields(operation.value);
           _cacheTursoBoolFields(path.database, path.table, boolFields);
-          await _ensureSchema(
+          // Explicit multi-statement transactions keep their preparation
+          // outside BEGIN, including recovery after external schema changes.
+          await _prepareSchema(
             client,
             path.table,
             _buildSaveRow(path, operation.value),
@@ -1755,6 +1814,32 @@ class TursoModelAdapter extends ModelAdapter {
   }
 
   Future<void> _ensureSchema(
+    LibsqlClient client,
+    String table,
+    DynamicMap row,
+    Set<String> boolFields,
+  ) async {
+    final columns = row.keys.toList()..sort();
+    final booleans = boolFields.toList()..sort();
+    final key = jsonEncode([
+      table,
+      for (final column in columns)
+        [column, _inferTursoSqlType(row[column], column: column)],
+      booleans,
+    ]);
+    final applications = _tursoSchemaApplications[client] ??= {};
+    final application =
+        applications[key] ??= _prepareSchema(client, table, row, boolFields);
+    try {
+      await application;
+    } catch (_) {
+      applications.removeWhere((candidate, value) =>
+          candidate == key && identical(value, application));
+      rethrow;
+    }
+  }
+
+  Future<void> _prepareSchema(
     LibsqlClient client,
     String table,
     DynamicMap row,
