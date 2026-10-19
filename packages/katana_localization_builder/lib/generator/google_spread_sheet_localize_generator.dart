@@ -12,7 +12,7 @@ class GoogleSpreadSheetLocalizeGenerator
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {

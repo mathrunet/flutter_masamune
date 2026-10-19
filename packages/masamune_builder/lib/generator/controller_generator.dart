@@ -11,7 +11,7 @@ class ControllerGenerator extends GeneratorForAnnotation<Controller> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {

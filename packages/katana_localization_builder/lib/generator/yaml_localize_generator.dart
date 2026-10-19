@@ -11,7 +11,7 @@ class YamlLocalizeGenerator extends GeneratorForAnnotation<YamlLocalize> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {

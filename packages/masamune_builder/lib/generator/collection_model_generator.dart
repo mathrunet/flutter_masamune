@@ -12,7 +12,7 @@ class CollectionModelGenerator
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
@@ -98,7 +98,9 @@ class CollectionModelGenerator
       ).format(
         code.isEmpty ? "// no code." : code,
       );
-    } else if (element is TypeDefiningElement2) {
+    } else if (element is InstanceElement ||
+        element is TypeAliasElement ||
+        element is TypeParameterElement) {
       if (_documentModelPathChecker.hasAnnotationOfExact(element)) {
         throw InvalidGenerationSourceError(
           "You cannot use `@CollectionModelPath()` and `@DocumentModelPath()` at the same time.",

@@ -11,7 +11,7 @@ class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {

@@ -11,7 +11,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
 
   @override
   FutureOr<String> generateForAnnotatedElement(
-    Element2 element,
+    Element element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {

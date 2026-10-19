@@ -22,7 +22,7 @@ class TypedefValue {
   /// Class Element.
   ///
   /// クラスエレメント。
-  final TypeDefiningElement element;
+  final Element element;
 
   /// Class Name.
   ///
