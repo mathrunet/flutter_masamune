@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - Update dependencies: masamune, masamune_builder, masamune_scheduler.
+
 ## 3.2.21
 
 

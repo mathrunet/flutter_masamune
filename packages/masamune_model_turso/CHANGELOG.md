@@ -1,3 +1,9 @@
+## 3.10.0
+
+ - **FEAT**(masamune_model_turso): enhance schema preparation and connection management ([7f8e862e](https://github.com/mathrunet/flutter_masamune/commit/7f8e862e08283d0e34bdbba640526f8302ee7c7a))
+ - **CHORE**: update package versions and dependencies across multiple modules ([ec0f36a7](https://github.com/mathrunet/flutter_masamune/commit/ec0f36a742e6071508389735108f13d17283a286))
+ - Update dependencies: katana, masamune.
+
 ## 3.9.1
 
 

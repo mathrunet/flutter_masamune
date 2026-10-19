@@ -1,3 +1,9 @@
+## 4.1.0
+
+ - **CHORE**(masamune_lints): improve code formatting and organization ([7ad7fc3c](https://github.com/mathrunet/flutter_masamune/commit/7ad7fc3cd82f204864a2c36be380db6504e80535))
+ - **CHORE**(masamune_lints): update pubspec.lock and improve code formatting ([0670b963](https://github.com/mathrunet/flutter_masamune/commit/0670b9633f4a3fba850496053a8d0e61fb5ef87a))
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+
 ## 4.0.0
 
 - **BREAKING**: Require Dart 3.10 or later and migrate completely from

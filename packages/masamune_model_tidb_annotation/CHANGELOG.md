@@ -1,3 +1,8 @@
+## 3.6.1
+
+
+ - Update dependencies: masamune_annotation.
+
 ## 3.6.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([23782f97](https://github.com/mathrunet/flutter_masamune/commit/23782f97aeabf20b74d9e6385d73de1d23faecf2))
