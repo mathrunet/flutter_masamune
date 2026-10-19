@@ -1,3 +1,9 @@
+## 3.1.23
+
+ - **FIX**(masamune_purchase_mobile): update Android purchase integration and dependencies ([3be2f0fd](https://github.com/mathrunet/flutter_masamune/commit/3be2f0fdada1372082c506f082ff885d4da9b603))
+ - **CHORE**: update package versions and dependencies across multiple modules ([ec0f36a7](https://github.com/mathrunet/flutter_masamune/commit/ec0f36a742e6071508389735108f13d17283a286))
+ - Update dependencies: katana, masamune, masamune_purchase.
+
 ## Unreleased
 
  - **FIX**: Update the Android purchase integration to Google Play Billing Library 8.0.0 through `in_app_purchase_android` 0.5.3.

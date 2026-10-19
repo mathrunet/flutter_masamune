@@ -1,3 +1,10 @@
+## 3.9.0
+
+ - **FEAT**(masamune_ai_debugger): enhance authentication semantics and UI feedback ([47ecb661](https://github.com/mathrunet/flutter_masamune/commit/47ecb66139e674d0f5b68b769f6132aaff1eb52a))
+ - **CHORE**: update package versions and dependencies across multiple modules ([ec0f36a7](https://github.com/mathrunet/flutter_masamune/commit/ec0f36a742e6071508389735108f13d17283a286))
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - Update dependencies: katana, masamune.
+
 ## 3.8.1
 
  - **FEAT**(masamune_ai_debugger): add configurable execution provider candidates, persisted selection, and request-scoped provider forwarding.

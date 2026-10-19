@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - Update dependencies: katana, katana_builder, masamune_builder, masamune_model_firebase_data_connect_annotation.
+
 ## 3.2.7
 
  - Update a dependency to the latest release.

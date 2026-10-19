@@ -1,6 +1,6 @@
 name: masamune_model_tidb_annotation
 description: Define shared TiDB schema annotations for Masamune models.
-version: 3.6.0
+version: 3.6.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_tidb_annotation
 
@@ -8,7 +8,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  masamune_annotation: ^3.1.2
+  masamune_annotation: ^3.2.0
 
 dev_dependencies:
   test: ^1.26.3

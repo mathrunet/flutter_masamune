@@ -1,3 +1,8 @@
+## 3.7.2
+
+
+ - Update dependencies: katana, masamune.
+
 ## 3.7.1
 
 
