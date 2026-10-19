@@ -1,7 +1,7 @@
 name: masamune_model_tidb
 description: Masamune plugin package that includes a model adapter to retrieve
   data from TiDB.
-version: 3.7.1
+version: 3.7.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_tidb
 
@@ -15,8 +15,8 @@ dependencies:
 
   meta: ">=1.0.0 <2.0.0"
 
-  katana: ^3.4.1
-  masamune: ^3.5.21
+  katana: ^3.5.0
+  masamune: ^3.6.0
 
 dev_dependencies:
   test: ^1.25.0

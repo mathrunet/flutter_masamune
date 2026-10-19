@@ -1,3 +1,8 @@
+## 3.2.2
+
+
+ - Update dependencies: katana, masamune.
+
 ## 3.2.1
 
 

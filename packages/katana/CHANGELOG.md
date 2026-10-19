@@ -1,3 +1,7 @@
+## 3.5.0
+
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+
 ## 3.4.1
 
  - **FIX**(katana_cli): normalize Android manifest queries. ([0502add0](https://github.com/mathrunet/flutter_masamune/commit/0502add0d1cc57b0bfbfec5c94a9b572828aae1e))

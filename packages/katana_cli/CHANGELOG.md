@@ -1,3 +1,10 @@
+## 3.33.0
+
+ - **FEAT**(katana_cli): update Android billing version and enhance Cloudflare package validation ([a79359be](https://github.com/mathrunet/flutter_masamune/commit/a79359be48fc6e8b2ad72459b4e82f39e96cc27a))
+ - **CHORE**: update package versions and dependencies across multiple modules ([ec0f36a7](https://github.com/mathrunet/flutter_masamune/commit/ec0f36a742e6071508389735108f13d17283a286))
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - Update dependencies: katana.
+
 ## 3.32.0
 
  - **FIX**(katana_cli): migrate explicit legacy deeplink origins without removing unrelated native URL handlers.

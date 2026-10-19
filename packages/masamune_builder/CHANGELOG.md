@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - Update dependencies: katana, katana_builder, katana_localization_annotation, katana_localization_builder, katana_router_annotation, katana_router_builder, katana_theme_annotation, katana_theme_builder, masamune_annotation.
+
 ## 3.1.7
 
  - Update a dependency to the latest release.

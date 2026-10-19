@@ -1,3 +1,8 @@
+## 3.4.0
+
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - Update dependencies: masamune.
+
 ## 3.3.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([0a587ee0](https://github.com/mathrunet/flutter_masamune/commit/0a587ee08a8244896780e0f558df9c65f5ab659b))
