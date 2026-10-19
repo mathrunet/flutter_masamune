@@ -1,3 +1,13 @@
+## 3.2.0
+
+ - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
+ - **REFACTOR**(builders): migrate deprecated analyzer element APIs ([edc0bbc8](https://github.com/mathrunet/flutter_masamune/commit/edc0bbc8d8d60d23a1e7606d04834cf092f48b90))
+
+### BREAKING CHANGES
+
+ - TypedefValue.element now exposes Element to preserve existing constructor inputs after the analyzer deprecated TypeDefiningElement. Cast to a concrete analyzer element type when accessing subtype-specific APIs.
+ - Update dependencies: katana, katana_builder, katana_localization_annotation, katana_localization_builder, katana_router_annotation, katana_router_builder, katana_theme_annotation, katana_theme_builder, masamune_annotation.
+
 ## 3.1.7
 
  - Update a dependency to the latest release.

@@ -1,7 +1,7 @@
 name: masamune_speech_to_text_mobile
 description: Masamune plug-in adapter for use with Speech-to-Text on mobile.
   Provides a controller.
-version: 3.2.21
+version: 3.3.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_speech_to_text_mobile
 
@@ -14,9 +14,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana: ^3.4.1
-  masamune: ^3.5.21
-  masamune_speech_to_text: ^3.2.21
+  katana: ^3.5.0
+  masamune: ^3.6.0
+  masamune_speech_to_text: ^3.3.0
   speech_to_text: ^7.0.0
   speech_to_text_platform_interface: ^2.1.0
   permission_handler: ^12.0.0

@@ -1,7 +1,7 @@
 name: masamune_auth_github_firebase
 description: Authentication plugin for Masamune that can implement Github
   sign-in on Firebase.
-version: 3.4.21
+version: 3.5.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_github_firebase
 
@@ -13,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana: ^3.4.1
-  masamune: ^3.5.21
-  katana_auth_firebase: ^3.3.3
+  katana: ^3.5.0
+  masamune: ^3.6.0
+  katana_auth_firebase: ^3.4.0
   firebase_core: ^4.2.0
   firebase_auth: ^6.1.1
   shared_preferences: ^2.5.3
