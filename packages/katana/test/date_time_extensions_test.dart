@@ -87,7 +87,9 @@ void main() {
   });
   test("DateTimeExtensions.toUnUtc", () {
     final dateTime = DateTime(2022, 12, 23, 10, 32, 10);
-    expect(dateTime.toUnUtc(), DateTime(2022, 12, 23, 19, 32, 10));
+    final localDateTime = dateTime.toUnUtc();
+    expect(localDateTime, DateTime.utc(2022, 12, 23, 10, 32, 10).toLocal());
+    expect(localDateTime.isUtc, isFalse);
   });
   test("DateTimeExtensions.age", () {
     final dateTime = DateTime(1984, 8, 2);
