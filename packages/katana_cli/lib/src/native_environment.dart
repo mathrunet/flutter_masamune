@@ -207,8 +207,14 @@ done
 IFS="$OLD_IFS"
 
 case "$FLAVOR" in
+  test)
+    destination_dir="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
+    if [ -d "$destination_dir" ]; then
+      (cd "$destination_dir" && /bin/rm -f GoogleService-Info.plist)
+    fi
+    exit 0 ;;
   dev|prod) ;;
-  *) echo "error: FLAVOR must be dev or prod." >&2; exit 1 ;;
+  *) echo "error: FLAVOR must be test, dev or prod." >&2; exit 1 ;;
 esac
 
 firebase_root="$PROJECT_DIR/Runner/Firebase"
@@ -227,8 +233,25 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
 
   /// Adds an idempotent shell build phase to the Runner native target.
   static String synchronizeProject(String source) {
+    source = _retireLegacyPlistReferences(source);
+    final escapedScript = shellScript
+        .replaceAll(r"\", r"\\")
+        .replaceAll('"', r'\"')
+        .replaceAll("\n", r"\n");
     if (source.contains("$buildPhaseId /* $buildPhaseName */")) {
-      return source;
+      final phasePattern = RegExp(
+        "$buildPhaseId /\\* $buildPhaseName \\*/ = \\{[\\s\\S]*?\\n[ \\t]*\\};",
+      );
+      final phase = phasePattern.firstMatch(source);
+      if (phase == null) {
+        throw const FormatException(
+            "The managed Firebase build phase was not found.");
+      }
+      final updated = phase.group(0)!.replaceFirst(
+            RegExp(r'shellScript = "(?:\\.|[^"\\])*";'),
+            'shellScript = "$escapedScript";',
+          );
+      return source.replaceRange(phase.start, phase.end, updated);
     }
     final runnerTarget = RegExp(
       r"(?<head>[A-Z0-9]+ /\* Runner \*/ = \{[\s\S]*?buildPhases = \(\n)",
@@ -247,10 +270,6 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
       throw const FormatException(
           "PBXShellScriptBuildPhase section was not found.");
     }
-    final escapedScript = shellScript
-        .replaceAll(r"\", r"\\")
-        .replaceAll('"', r'\"')
-        .replaceAll("\n", r"\n");
     final phase = '''
 \t\t$buildPhaseId /* $buildPhaseName */ = {
 \t\t\tisa = PBXShellScriptBuildPhase;
@@ -271,5 +290,29 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
 ''';
     result = result.replaceRange(sectionIndex, sectionIndex, phase);
     return result;
+  }
+
+  /// Removes the root plist references superseded by the selection phase.
+  static String _retireLegacyPlistReferences(String source) {
+    final references = RegExp(
+      r'^\s*([A-Z0-9]+) /\* GoogleService-Info\.plist \*/ = \{isa = PBXFileReference;[^\n]*path = "?(?:Runner/)?GoogleService-Info\.plist"?;[^\n]*\};[ \t]*$',
+      multiLine: true,
+    ).allMatches(source).map((match) => match.group(1)!).toSet();
+    if (references.isEmpty) {
+      return source;
+    }
+    final buildFiles = RegExp(
+      r"^\s*([A-Z0-9]+) /\* GoogleService-Info\.plist in Resources \*/ = \{isa = PBXBuildFile; fileRef = ([A-Z0-9]+)[^\n]*\};[ \t]*$",
+      multiLine: true,
+    )
+        .allMatches(source)
+        .where((match) => references.contains(match.group(2)))
+        .map((match) => match.group(1)!);
+    final ids = {...references, ...buildFiles};
+    return source
+        .split("\n")
+        .where((line) => !ids.any(
+            (id) => RegExp("^\\s*$id /\\* GoogleService-Info").hasMatch(line)))
+        .join("\n");
   }
 }

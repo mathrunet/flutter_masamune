@@ -97,6 +97,70 @@ APIキーは SamuraiAI の Settings で作成します。Debug APK/IPAにも値�
 
 フローティングアイコンはタップするとそのまま開き、長押しすると現在画面のスクリーンショットを撮影してから開きます。
 
+## Authentication observations for shared automation
+
+`authSnapshot` is an optional **read-only** callback. `authListenable` notifies the
+overlay when authentication or startup changes, even while the panel is closed.
+The application owns and disposes the listenable. Existing `login`, `logout`,
+`anonymousLogin`, and `isLoggedIn` callbacks remain compatible.
+
+```dart
+final aiDebugger = AIDebuggerMasamuneAdapter(
+  authListenable: authDiagnostics,
+  authSnapshot: () => AIDebugAuthSnapshot(
+    state: authDiagnostics.state,
+    restoreState: authDiagnostics.restoreState,
+    bootState: authDiagnostics.bootState,
+    identity: authDiagnostics.opaqueUserIdentity,
+    loginCount: authDiagnostics.signInAttemptCount,
+  ),
+  // Keep the existing login/logout/isLoggedIn callbacks here.
+);
+```
+
+Here `authDiagnostics` is application-owned instrumentation around the **real**
+authentication and startup operations. Set restoration to `completed` only after
+the actual restore future succeeds; do not infer it from a visible screen or a
+signed-in flag. `identity` must be a stable non-secret opaque token derived from
+the actual authenticated user ID, never the selected debug account, email,
+password, or token. Count **all** explicit sign-in attempts since process startup
+in `loginCount`, including automatic sign-in and failed attempts, excluding the
+restore operation itself. Leave `loginCount` null when that guarantee is absent.
+
+In debug builds only, independent semantics identifiers expose single labels:
+
+| Identifier suffix after `ai_debugger_auth_` | Label |
+| --- | --- |
+| `schema_version` | `1` |
+| `state` | `unknown`, `initializing`, `authenticated`, `unauthenticated`, `error` |
+| `identity` | Real opaque user identity, `none` when unauthenticated, or `unsupported` |
+| `restore_state` | `unsupported`, `pending`, `running`, `completed`, `failed` |
+| `boot_state` | `initializing`, `ready`, `error` |
+| `boot_id` | SDK-generated ID stable within a Dart isolate |
+| `login_count` | Application-wide sign-in attempt count, or `unsupported` |
+
+These observations remain accessible with the panel closed. Missing callbacks
+produce `unknown`/`unsupported`, not successful restoration. Hot restart also
+changes `boot_id`, so automation must record an actual process stop/start rather
+than use this ID alone as proof of a cold restart. Verify persistence by comparing
+the real identity before/after that restart, requiring a new boot ID, completed
+restoration, ready startup, and a zero post-restart login count. Do not log in or
+clear application data during the verification interval.
+
+For credential-free account selection, configure `AIDebugAccount` with an optional
+unique `alias` matching `[A-Za-z0-9][A-Za-z0-9_-]{0,63}`. It replaces the displayed
+email/ID and exposes `ai_debugger_auth_account_<alias>`; the original ID and password
+still go only to the login callback. Accounts without an alias expose stable slot IDs
+`account_0`, `account_1`, and so on in their current list order. Shared automation can
+refer to these slots without copying account IDs or credentials into project config.
+Keep the account order stable when using slot IDs. Invalid or duplicate explicit
+aliases do not receive automation identifiers.
+
+Automation opens `ai_debugger_open`, then taps `ai_debugger_auth_login` to reveal
+the account list. When signed in, that button becomes `ai_debugger_auth_logout`
+and signs out directly. `ai_debugger_close` closes any panel. Observation never
+performs login, logout, credential restoration, or account selection.
+
 ## デバッグ認証・デバッグ課金・デバッグカメラ
 
 認証用の3コールバックをすべて指定すると、AI指示欄の上にログイン／ログアウトボタンが表示されます。
@@ -253,6 +317,33 @@ final aiDebugger = AIDebuggerMasamuneAdapter(
 メールアドレスを含む文字列は送信前に秘匿され、ツリー・値の深さ、件数、文字数にも
 上限が適用されます。独自AI providerの既存callbackシグネチャは変わらず、callback内では
 `controller.currentContext`から、その送信に対応するスナップショットを参照できます。
+
+## Execution provider selection
+
+Configure string candidates to add a provider selector to the settings dialog:
+
+```dart
+final aiDebugger = AIDebuggerMasamuneAdapter(
+  providers: const ["codex", "claude", "gemini"],
+  initialProvider: "codex",
+);
+```
+
+The selection applies to manual requests, error incidents, and performance
+incidents, and is persisted per project on the device. Choose **自動** to let the
+backend select the provider. An empty candidate list (the default) hides the
+selector and preserves automatic selection. Blank candidates and duplicates are
+removed. A non-null `initialProvider` must match a configured candidate.
+If a saved candidate is removed, the selection falls back to `initialProvider`
+or automatic selection. Existing settings without a provider use the initial
+selection; an explicitly saved automatic selection remains automatic.
+
+Candidates are strings, so custom integrations can supply their own identifiers.
+The backend must support the selected identifier. SamuraiAI must include the
+app-debug provider forwarding update for the selection to control execution.
+Custom callbacks keep their existing signatures and can read
+`controller.currentProvider` to obtain the selection captured for that request,
+including during concurrent requests. A null value means automatic selection.
 
 ## Custom AI provider
 

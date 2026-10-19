@@ -61,6 +61,30 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
       }
     }
 
+    final dynamic removedHosts = deeplink["remove_hosts"] ?? const <dynamic>[];
+    if (removedHosts is! List) {
+      throw ArgumentError("app.deeplink.remove_hosts must be a list of URLs.");
+    }
+    final removedUris = <Uri>[];
+    for (final value in removedHosts) {
+      final previous = value is String ? Uri.tryParse(value) : null;
+      if (previous == null ||
+          previous.host.isEmpty ||
+          (previous.scheme != "http" && previous.scheme != "https") ||
+          previous.path.isNotEmpty ||
+          previous.hasQuery ||
+          previous.hasFragment ||
+          previous.userInfo.isNotEmpty ||
+          previous.hasPort) {
+        throw ArgumentError(
+            "app.deeplink.remove_hosts accepts HTTP(S) origins only.");
+      }
+      if (previous.scheme == uri.scheme && previous.host == uri.host) {
+        throw ArgumentError("The active deeplink host cannot be removed.");
+      }
+      removedUris.add(previous);
+    }
+
     await addFlutterImport(
       [
         "masamune_deeplink",
@@ -79,6 +103,23 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
       throw Exception(
         "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
       );
+    }
+    for (final filter
+        in activity.first.findElements("intent-filter").toList()) {
+      if (!filter.findElements("action").any((action) =>
+          action.getAttribute("android:name") ==
+          "android.intent.action.VIEW")) {
+        continue;
+      }
+      final data = filter.findElements("data").toList();
+      // Only remove complete filters whose data entries all match explicit origins.
+      // Mixed filters remain untouched to preserve unrelated URL combinations.
+      if (data.isNotEmpty &&
+          data.every((entry) => removedUris.any((previous) =>
+              entry.getAttribute("android:scheme") == previous.scheme &&
+              entry.getAttribute("android:host") == previous.host))) {
+        filter.parent?.children.remove(filter);
+      }
     }
     if (!activity.first.children.any((p0) =>
         p0 is XmlElement &&
@@ -99,10 +140,8 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
         XmlElement(
           XmlName("intent-filter"),
           [
-            XmlAttribute(
-              XmlName("android:autoVerify"),
-              "true",
-            ),
+            if (uri.scheme == "http" || uri.scheme == "https")
+              XmlAttribute(XmlName("android:autoVerify"), "true"),
           ],
           [
             XmlElement(
@@ -156,6 +195,38 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
     await file.writeAsString(
       androidDocument.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
     );
+    final existingEntitlements = File("ios/Runner/Runner.entitlements");
+    if (removedUris.isNotEmpty && existingEntitlements.existsSync()) {
+      final document =
+          XmlDocument.parse(await existingEntitlements.readAsString());
+      final domainKey = document.findAllElements("key").firstWhereOrNull(
+          (key) => key.innerText == "com.apple.developer.associated-domains");
+      final domains = domainKey?.nextElementSibling;
+      if (domains != null && domains.name.local == "array") {
+        final previousDomains =
+            removedUris.map((previous) => previous.host).toSet();
+        final obsolete = domains
+            .findElements("string")
+            .where((entry) =>
+                entry.innerText.startsWith("applinks:") &&
+                previousDomains.contains(entry.innerText
+                    .substring("applinks:".length)
+                    .split("?")
+                    .first))
+            .toList();
+        if (obsolete.isNotEmpty) {
+          for (final entry in obsolete) {
+            domains.children.remove(entry);
+          }
+          if (domains.findElements("string").isEmpty) {
+            domains.parent?.children.remove(domainKey);
+            domains.parent?.children.remove(domains);
+          }
+          await existingEntitlements.writeAsString(document.toXmlString(
+              pretty: true, indent: "    ", newLine: "\n"));
+        }
+      }
+    }
     if (uri.scheme == "http" || uri.scheme == "https") {
       label("Edit Runner.entitlements.");
       final runnerEntitlements = File("ios/Runner/Runner.entitlements");

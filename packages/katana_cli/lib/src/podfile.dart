@@ -137,3 +137,44 @@ flutter_additional_ios_build_settings(target)
     }
   }
 }
+
+/// Synchronizes permission_handler and geolocator location compilation flags.
+///
+/// When Always access is disabled, the native binaries only request WhenInUse.
+Future<void> synchronizeLocationPodfilePermissions({
+  required bool requireAlwaysPermission,
+}) async {
+  final file = File("ios/Podfile");
+  var source = await file.readAsString();
+  final definitions = RegExp(
+    r"config\.build_settings\['GCC_PREPROCESSOR_DEFINITIONS'\] \|\|= \[([^\]]*)\]",
+  );
+  if (!definitions.hasMatch(source)) {
+    await PodfilePermissionType.locationUsage.enablePermissionToPodfile();
+    source = await file.readAsString();
+  }
+  if (!definitions.hasMatch(source)) {
+    throw StateError(
+        "Could not synchronize location permissions in ios/Podfile.");
+  }
+  final locationFlags = RegExp(
+    r"""^['"](?:PERMISSION_LOCATION(?:_WHENINUSE|_ALWAYS)?|BYPASS_PERMISSION_LOCATION_ALWAYS)(?:=[01])?['"]$""",
+  );
+  final updated = source.replaceAllMapped(definitions, (match) {
+    final flags = match
+        .group(1)!
+        .split(",")
+        .map((flag) => flag.trim())
+        .where((flag) => flag.isNotEmpty && !locationFlags.hasMatch(flag))
+        .toList();
+    flags.addAll(requireAlwaysPermission
+        ? ["'PERMISSION_LOCATION=1'"]
+        : [
+            "'PERMISSION_LOCATION_WHENINUSE=1'",
+            "'BYPASS_PERMISSION_LOCATION_ALWAYS=1'"
+          ]);
+    return "config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [\n"
+        "${flags.map((flag) => "        $flag,").join("\n")}\n      ]";
+  });
+  await file.writeAsString(updated);
+}

@@ -28,6 +28,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.reportHandledErrors = true,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
+    List<String> providers = const [],
+    this.initialProvider,
     this.manualModel = AIDebugModel.sol,
     this.manualPermissionMode = AIDebugPermissionMode.plan,
     this.errorModel = AIDebugModel.sol,
@@ -50,6 +52,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.anonymousLogin,
     this.logout,
     this.isLoggedIn,
+    this.authSnapshot,
+    this.authListenable,
     this.purchaseProducts,
     this.purchase,
     this.cancelPurchase,
@@ -101,7 +105,9 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
           maxSessionsPerHour: maxSessionsPerHour,
           reportHandledErrors: reportHandledErrors,
           contextProvider: contextProvider,
+          providers: providers,
           settings: AIDebugSettings(
+            provider: initialProvider,
             manualModel: manualModel,
             manualPermissionMode: manualPermissionMode,
             errorModel: errorModel,
@@ -169,6 +175,14 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   /// インジケーター表示をパフォーマンスインシデントとして報告するまでの時間。
   final Duration indicatorTimeout;
 
+  /// Execution provider candidates shown in the settings dialog.
+  /// Empty entries and duplicates are removed; an empty list hides the selector.
+  List<String> get providers => controller.providers;
+
+  /// Initial execution provider, or null for automatic backend selection.
+  /// A non-null value must be included in [providers].
+  final String? initialProvider;
+
   /// Initial model used by manual requests before persisted settings load.
   final AIDebugModel manualModel;
 
@@ -225,6 +239,14 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   /// This observation does not validate a Firebase token or backend permissions.
   /// The existing `AIデバッガー認証` action label is unchanged.
   final AIDebugIsLoggedInCallback? isLoggedIn;
+
+  /// Read-only real authentication observation for shared automation.
+  /// Missing instrumentation is reported as unsupported, never as success.
+  final AIDebugAuthSnapshotCallback? authSnapshot;
+
+  /// Notifies the overlay when authentication or startup state changes.
+  /// Ownership remains with the application; the adapter never disposes it.
+  final Listenable? authListenable;
 
   /// Returns the products available to the debug purchase UI.
   final AIDebugPurchaseProductsCallback? purchaseProducts;
@@ -349,6 +371,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
       {
         "instruction": instruction,
         "screenshotNames": screenshotNames,
+        if (controller.currentProvider != null)
+          "provider": controller.currentProvider,
         "model": model.name,
         "permissionMode": permissionMode.name,
         if (context != null) "context": context._toJson(),
@@ -407,6 +431,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
         "stackTrace": stackTrace,
         "timestamp": timestamp.toUtc().toIso8601String(),
         if (metadata.isNotEmpty) "metadata": metadata,
+        if (controller.currentProvider != null)
+          "provider": controller.currentProvider,
         "model": model.name,
         "permissionMode": permissionMode.name,
         if (context != null) "context": context._toJson(),
@@ -518,6 +544,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
       anonymousLogin: anonymousLogin,
       logout: logout,
       isLoggedIn: isLoggedIn,
+      authSnapshot: authSnapshot,
+      authListenable: authListenable,
       purchaseProducts: purchaseProducts,
       purchase: purchase,
       cancelPurchase: cancelPurchase,

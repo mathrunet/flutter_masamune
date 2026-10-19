@@ -1,5 +1,9 @@
 ## 3.32.0
 
+ - **FIX**(katana_cli): migrate explicit legacy deeplink origins without removing unrelated native URL handlers.
+
+ - **FIX**(katana_cli): separate background location capability from Always authorization and synchronize native permission flags.
+
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([26b99840](https://github.com/mathrunet/flutter_masamune/commit/26b9984049e8a62b3a6ca953a4c481bdd8c60104))
  - **FIX**(katana_cli): deploy Cloudflare Pages from a static directory without building Flutter web ([26b99840](https://github.com/mathrunet/flutter_masamune/commit/26b9984049e8a62b3a6ca953a4c481bdd8c60104))
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([499a83a1](https://github.com/mathrunet/flutter_masamune/commit/499a83a1bcf9db9dd6f39af6bc8de39a48f11b35))

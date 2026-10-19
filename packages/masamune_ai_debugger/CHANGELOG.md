@@ -1,5 +1,10 @@
 ## 3.8.1
 
+ - **FEAT**(masamune_ai_debugger): add configurable execution provider candidates, persisted selection, and request-scoped provider forwarding.
+
+ - **FEAT**(masamune_ai_debugger): add read-only authentication snapshots, startup restoration semantics, and non-secret account aliases for shared automation.
+ - **FEAT**(masamune_ai_debugger): expose stable account-slot selectors when an explicit alias is not configured.
+
 
  - Update dependencies: masamune.
 

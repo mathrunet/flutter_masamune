@@ -273,6 +273,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
     try {
       final tmpValue = _value;
       _loadCompleter = Completer<CollectionBase<TModel>>();
+      // Observe the shared future even when only the calling operation is awaited.
+      _loadCompleter!.future.ignore();
       if (!loaded) {
         final res = await loadRequest();
         final limitValue = modelQuery.filters
@@ -293,8 +295,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
       }
       _loadCompleter?.complete(this);
       _loadCompleter = null;
-    } catch (e) {
-      _loadCompleter?.completeError(e);
+    } catch (e, stackTrace) {
+      _loadCompleter?.completeError(e, stackTrace);
       _loadCompleter = null;
       rethrow;
     } finally {
@@ -319,11 +321,13 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Future<CollectionBase<TModel>> reload() async {
     await _enqueueInternalTransaction(() async {
       _reloadingCompleter = Completer();
+      // Preserve errors for listeners without reporting unobserved duplicates.
+      _reloadingCompleter!.future.ignore();
       try {
         _loaded = false;
         await _load(operation: "reload");
-      } catch (e) {
-        _reloadingCompleter?.completeError(e);
+      } catch (e, stackTrace) {
+        _reloadingCompleter?.completeError(e, stackTrace);
         _reloadingCompleter = null;
         rethrow;
       } finally {
@@ -348,6 +352,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Future<CollectionBase<TModel>> next() async {
     await _enqueueInternalTransaction(() async {
       _reloadingCompleter = Completer();
+      // Preserve errors for listeners without reporting unobserved duplicates.
+      _reloadingCompleter!.future.ignore();
       try {
         _loaded = false;
         _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
@@ -357,8 +363,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
           _canNext = false;
           _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
         }
-      } catch (e) {
-        _reloadingCompleter?.completeError(e);
+      } catch (e, stackTrace) {
+        _reloadingCompleter?.completeError(e, stackTrace);
         _reloadingCompleter = null;
         rethrow;
       } finally {

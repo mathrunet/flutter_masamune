@@ -357,6 +357,12 @@ enum AndroidManifestPermissionType {
   /// バックグラウンドでの位置情報へのパーミッション。
   accessBackgroundLocation("ACCESS_BACKGROUND_LOCATION"),
 
+  /// Allows a foreground service to run.
+  foregroundService("FOREGROUND_SERVICE"),
+
+  /// Allows a location foreground service on Android 14 and later.
+  foregroundServiceLocation("FOREGROUND_SERVICE_LOCATION"),
+
   /// Permissions for monitoring phone status.
   ///
   /// 電話状態の監視用のパーミッション。
@@ -456,6 +462,20 @@ enum AndroidManifestPermissionType {
   ///
   /// 適用する最大のSDKバージョン。
   final String? maxSdkVersion;
+
+  /// Removes all declarations of this permission while retaining other entries.
+  Future<void> disablePermission() async {
+    final file = File("android/app/src/main/AndroidManifest.xml");
+    final document = XmlDocument.parse(await file.readAsString());
+    final manifest = document.rootElement;
+    manifest.children.removeWhere((node) =>
+        node is XmlElement &&
+        node.name.toString() == "uses-permission" &&
+        node.getAttribute("android:name") == permissionName);
+    await file.writeAsString(
+      document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+    );
+  }
 
   /// Grant the `uses-permission` tag in AndroidManifest.
   ///

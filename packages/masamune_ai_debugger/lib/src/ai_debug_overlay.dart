@@ -1,5 +1,10 @@
 part of '/masamune_ai_debugger.dart';
 
+// Stable across adapter/overlay recreation, different in a new Dart isolate.
+final _authBootId =
+    '${DateTime.now().microsecondsSinceEpoch.toRadixString(36)}-'
+    '${math.Random.secure().nextInt(1 << 32).toRadixString(36)}';
+
 enum _AIDebugRequestType {
   bugFix,
   requirementsEdit,
@@ -21,6 +26,8 @@ class _AIDebugOverlay extends StatefulWidget {
     required this.anonymousLogin,
     required this.logout,
     required this.isLoggedIn,
+    required this.authSnapshot,
+    required this.authListenable,
     required this.purchaseProducts,
     required this.purchase,
     required this.cancelPurchase,
@@ -39,6 +46,8 @@ class _AIDebugOverlay extends StatefulWidget {
   final AIDebugAnonymousLoginCallback? anonymousLogin;
   final AIDebugLogoutCallback? logout;
   final AIDebugIsLoggedInCallback? isLoggedIn;
+  final AIDebugAuthSnapshotCallback? authSnapshot;
+  final Listenable? authListenable;
   final AIDebugPurchaseProductsCallback? purchaseProducts;
   final AIDebugPurchaseCallback? purchase;
   final AIDebugCancelPurchaseCallback? cancelPurchase;
@@ -97,6 +106,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     _draftSettings = _settings;
     _settingsError = null;
     _readLoginState();
+    widget.authListenable?.addListener(_authChanged);
     WidgetsBinding.instance.addObserver(this);
     widget.controller.attachCapture(_capture);
     widget.controller._attachWidgetTree(_widgetTreeCapture);
@@ -109,6 +119,19 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
         if (mounted) setState(() => _status = error.toString());
       }));
     });
+  }
+
+  void _authChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void didUpdateWidget(covariant _AIDebugOverlay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.authListenable != widget.authListenable) {
+      oldWidget.authListenable?.removeListener(_authChanged);
+      widget.authListenable?.addListener(_authChanged);
+    }
   }
 
   @override
@@ -126,6 +149,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
 
   @override
   void dispose() {
+    widget.authListenable?.removeListener(_authChanged);
     WidgetsBinding.instance.removeObserver(this);
     widget.controller._detachIncidentSessionCreated(_incidentSessionCreated);
     widget.controller._detachWidgetTree(_widgetTreeCapture);
@@ -657,6 +681,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
       alignment: Alignment.topLeft,
       children: [
         RepaintBoundary(key: _boundaryKey, child: widget.child),
+        _buildAuthObservation(),
         if (!_hidden)
           LayoutBuilder(builder: (context, constraints) {
             final area = constraints.biggest;
@@ -706,7 +731,68 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     );
   }
 
+  String? _accountIdentifier(int index) {
+    final account = widget.accounts[index];
+    final alias = account.alias ?? "account_$index";
+    if (!RegExp(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$").hasMatch(alias) ||
+        widget.accounts.asMap().entries.where((entry) {
+              final entryAlias = entry.value.alias ?? "account_${entry.key}";
+              return entryAlias == alias;
+            }).length !=
+            1) {
+      return null;
+    }
+    return "ai_debugger_auth_account_$alias";
+  }
+
+  Widget _buildAuthObservation() {
+    var snapshot = const AIDebugAuthSnapshot();
+    try {
+      snapshot = widget.authSnapshot?.call() ?? snapshot;
+    } catch (error, stackTrace) {
+      FlutterError.reportError(FlutterErrorDetails(
+        exception: error,
+        stack: stackTrace,
+        library: "masamune_ai_debugger",
+        context: ErrorDescription("while observing authentication"),
+      ));
+      snapshot = const AIDebugAuthSnapshot(state: AIDebugAuthState.error);
+    }
+    final values = <String, String>{
+      "schema_version": "1",
+      "state": snapshot.state.name,
+      "identity": switch (snapshot.state) {
+        AIDebugAuthState.authenticated => snapshot.identity?.isNotEmpty == true
+            ? snapshot.identity!
+            : "unsupported",
+        AIDebugAuthState.unauthenticated => "none",
+        _ => "unsupported",
+      },
+      "restore_state": snapshot.restoreState.name,
+      "boot_state": snapshot.bootState.name,
+      "boot_id": _authBootId,
+      "login_count": snapshot.loginCount?.toString() ?? "unsupported",
+    };
+    return Positioned(
+      top: MediaQueryData.fromView(View.of(context)).padding.top,
+      right: 0,
+      child: Column(
+        children: values.entries
+            .map((entry) => Semantics(
+                  identifier: "ai_debugger_auth_${entry.key}",
+                  label: entry.value,
+                  textDirection: TextDirection.ltr,
+                  container: true,
+                  excludeSemantics: true,
+                  child: const SizedBox(width: 1, height: 1),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
   Widget _buildToggle() => Semantics(
+        identifier: "ai_debugger_open",
         label: "AI Debuggerを開く",
         button: true,
         child: Material(
@@ -815,13 +901,16 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          onPressed: () => setState(() {
-            _panelView = _AIDebugPanelView.prompt;
-            _expanded = false;
-          }),
-          icon: const Icon(Icons.close, size: 18, semanticLabel: "閉じる"),
+        Semantics(
+          identifier: "ai_debugger_close",
+          child: IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () => setState(() {
+              _panelView = _AIDebugPanelView.prompt;
+              _expanded = false;
+            }),
+            icon: const Icon(Icons.close, size: 18, semanticLabel: "閉じる"),
+          ),
         ),
       ]);
 
@@ -834,6 +923,9 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
               if (_hasAuthentication)
                 Expanded(
                   child: Semantics(
+                    identifier: _loggedIn
+                        ? "ai_debugger_auth_logout"
+                        : "ai_debugger_auth_login",
                     label: "AIデバッガー認証",
                     button: true,
                     excludeSemantics: true,
@@ -1068,12 +1160,13 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             itemBuilder: (context, index) {
               final account = widget.accounts[index];
               return Semantics(
-                label: "デバッグアカウントログイン ${account.id}",
+                identifier: _accountIdentifier(index),
+                label: "デバッグアカウントログイン ${account.alias ?? account.id}",
                 button: true,
                 excludeSemantics: true,
                 child: ListTile(
                   dense: true,
-                  title: Text(account.id),
+                  title: Text(account.alias ?? account.id),
                   trailing: _debugOperationRunning
                       ? const SizedBox.square(
                           dimension: 16,
@@ -1405,6 +1498,40 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+                                if (widget.controller.providers.isNotEmpty) ...[
+                                  const Text("プロバイダー",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600)),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 8,
+                                    children: <String?>[
+                                      null,
+                                      ...widget.controller.providers,
+                                    ]
+                                        .map((provider) => Semantics(
+                                              label:
+                                                  "AI Debugger provider ${provider ?? 'automatic'}",
+                                              child: ChoiceChip(
+                                                label: Text(provider ?? "自動"),
+                                                selected:
+                                                    _draftSettings.provider ==
+                                                        provider,
+                                                onSelected: (_) => setState(() {
+                                                  _draftSettings =
+                                                      _draftSettings.copyWith(
+                                                    provider: provider,
+                                                    clearProvider:
+                                                        provider == null,
+                                                  );
+                                                }),
+                                              ),
+                                            ))
+                                        .toList(),
+                                  ),
+                                  const SizedBox(height: 14),
+                                ],
                                 _buildSettingsSection(
                                   title: "エラー時",
                                   model: _draftSettings.errorModel,

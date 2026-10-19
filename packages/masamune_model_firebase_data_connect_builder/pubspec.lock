@@ -319,63 +319,63 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.4.0"
+    version: "3.4.1"
   katana_builder:
     dependency: "direct main"
     description:
       path: "../katana_builder"
       relative: true
     source: path
-    version: "3.2.3"
+    version: "3.2.4"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "3.2.1"
+    version: "3.2.2"
   katana_localization_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "3.2.4"
+    version: "3.2.5"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   katana_router_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "3.1.5"
+    version: "3.1.6"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "3.1.0"
+    version: "3.1.1"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   katana_theme_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "3.1.4"
+    version: "3.1.5"
   lints:
     dependency: transitive
     description:
@@ -398,21 +398,21 @@ packages:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   masamune_builder:
     dependency: "direct main"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "3.1.6"
+    version: "3.1.7"
   masamune_model_firebase_data_connect_annotation:
     dependency: "direct main"
     description:
       path: "../masamune_model_firebase_data_connect_annotation"
       relative: true
     source: path
-    version: "3.1.1"
+    version: "3.1.2"
   matcher:
     dependency: transitive
     description:

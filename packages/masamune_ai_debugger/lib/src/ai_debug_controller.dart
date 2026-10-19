@@ -14,6 +14,7 @@ class AIDebugController {
     required this.maxSessionsPerHour,
     this.reportHandledErrors = true,
     this.contextProvider,
+    List<String> providers = const [],
     AIDebugSettings settings = const AIDebugSettings(),
     this.post,
     this.registerRun = AIDebuggerMasamuneAdapter.defaultRegisterRun,
@@ -26,7 +27,13 @@ class AIDebugController {
     AIDebugReportIncidentCallback? reportIncident,
     this.uploadEvents = AIDebuggerMasamuneAdapter.defaultUploadEvents,
     this.heartbeatInterval = const Duration(seconds: 30),
-  })  : _settings = settings,
+  })  : providers = List.unmodifiable(
+          providers
+              .map((value) => value.trim())
+              .where((value) => value.isNotEmpty)
+              .toSet(),
+        ),
+        _settings = settings,
         _settingsStore = _AIDebugSettingsStore(projectId, settings),
         sendRequest = configuredSendRequest ??
             (sendRequest == null
@@ -52,7 +59,13 @@ class AIDebugController {
                       stackTrace: stackTrace,
                       timestamp: timestamp,
                       metadata: metadata,
-                    ));
+                    )) {
+    if (settings.provider != null &&
+        !this.providers.contains(settings.provider)) {
+      throw ArgumentError.value(settings.provider, "settings.provider",
+          "The initial provider must be included in providers.");
+    }
+  }
 
   /// Overrides Debug availability with `false` in tests.
   ///
@@ -139,6 +152,28 @@ class AIDebugController {
   /// フォアグラウンドでハートビートを送信する間隔。
   final Duration heartbeatInterval;
 
+  /// Execution provider candidates, in configured order.
+  final List<String> providers;
+
+  static final Object _providerZoneKey = Object();
+
+  /// Provider captured for the current callback, or the current selection.
+  /// Null means that the backend should select a provider automatically.
+  String? get currentProvider {
+    final captured = Zone.current[_providerZoneKey] as List<String?>?;
+    return captured == null ? _settings.provider : captured.single;
+  }
+
+  AIDebugSettings _normalizeSettings(AIDebugSettings value) {
+    if (value.provider == null || providers.contains(value.provider)) {
+      return value;
+    }
+    return value.copyWith(
+      provider: _settingsStore.fallback.provider,
+      clearProvider: _settingsStore.fallback.provider == null,
+    );
+  }
+
   final _AIDebugSettingsStore _settingsStore;
   AIDebugSettings _settings;
   Future<AIDebugSettings>? _settingsLoad;
@@ -149,10 +184,10 @@ class AIDebugController {
   /// Loads persisted settings once for this controller.
   Future<AIDebugSettings> loadSettings() {
     final existing = _settingsLoad;
-    if (existing != null) return existing;
+    if (existing != null) return existing.then((_) => _settings);
     final request = _settingsStore.load().then((value) {
-      _settings = value;
-      return value;
+      _settings = _normalizeSettings(value);
+      return _settings;
     }).catchError((Object error) {
       debugPrint("AI Debugger settings load failed: $error");
       return _settings;
@@ -164,8 +199,8 @@ class AIDebugController {
   /// Updates and persists AI Debugger settings.
   Future<void> updateSettings(AIDebugSettings settings) async {
     await loadSettings();
-    _settings = settings;
-    await _settingsStore.save(settings);
+    _settings = _normalizeSettings(settings);
+    await _settingsStore.save(_settings);
   }
 
   String _runId = _createRunId();
@@ -408,8 +443,8 @@ class AIDebugController {
     AIDebugPermissionMode? permissionMode,
   }) async {
     if (!_debugEnabled) return null;
-    final context = await captureContext();
     final settings = await loadSettings();
+    final context = await captureContext();
     await register();
     await flushLogs();
     final names = <String>[];
@@ -428,7 +463,10 @@ class AIDebugController {
         model: model ?? settings.manualModel,
         permissionMode: permissionMode ?? settings.manualPermissionMode,
       ),
-      zoneValues: {_contextZoneKey: _AIDebugContextZoneValue(context)},
+      zoneValues: {
+        _contextZoneKey: _AIDebugContextZoneValue(context),
+        _providerZoneKey: <String?>[settings.provider],
+      },
     );
   }
 
@@ -442,6 +480,7 @@ class AIDebugController {
       kind: "exception",
       message: _redact(error.toString()),
       stackTrace: _redact(stackTrace?.toString() ?? ""),
+      provider: settings.provider,
       model: settings.errorModel,
       permissionMode: settings.errorPermissionMode,
     );
@@ -470,12 +509,14 @@ class AIDebugController {
         "elapsedMs": elapsed.inMilliseconds,
         "thresholdMs": threshold.inMilliseconds,
       },
+      provider: settings.provider,
       model: settings.performanceModel,
       permissionMode: settings.performancePermissionMode,
     );
   }
 
   Future<void> _reportIncident({
+    required String? provider,
     required String kind,
     required String message,
     String stackTrace = "",
@@ -525,7 +566,10 @@ class AIDebugController {
           model: model,
           permissionMode: permissionMode,
         ),
-        zoneValues: {_contextZoneKey: _AIDebugContextZoneValue(context)},
+        zoneValues: {
+          _contextZoneKey: _AIDebugContextZoneValue(context),
+          _providerZoneKey: <String?>[provider],
+        },
       );
     } catch (sendError) {
       debugPrint("AI Debugger error report failed: $sendError");

@@ -28,7 +28,7 @@ void _check(bool condition, String message) {
 
 const _groups = [
   {
-    "name": "prod-apac",
+    "name": "prod-asia",
     "location": "aws-ap-northeast-1",
     "continents": ["AS", "OC"],
   },
@@ -53,7 +53,7 @@ TursoPlatformApi _api(_FakeTursoPlatformApi server) => TursoPlatformApi(
 
 /// 存在しないgroupだけPOSTし、2回目はPOSTしない。
 Future<void> _testCreatesOnlyMissingGroups(_FakeTursoPlatformApi server) async {
-  server.reset(existing: {"prod-apac": "aws-ap-northeast-1"});
+  server.reset(existing: {"prod-asia": "aws-ap-northeast-1"});
   final groups = CloudflareTursoCliAction.parseTursoGroups(_groups);
   _check(groups.first["location"] == "aws-ap-northeast-1",
       "parseTursoGroups must keep location.");
@@ -95,7 +95,7 @@ Future<void> _testCreatesOnlyMissingGroups(_FakeTursoPlatformApi server) async {
         "The second run must only list groups.");
     // primaryが異なる既存groupは警告のみで変更しない。
     server.reset(existing: {
-      "prod-apac": "aws-us-west-2",
+      "prod-asia": "aws-us-west-2",
       "prod-us": "aws-us-east-1",
       "prod-eu": "aws-eu-west-1",
     });
@@ -114,7 +114,7 @@ Future<void> _testCreatesOnlyMissingGroups(_FakeTursoPlatformApi server) async {
 /// 409は成功扱い。
 Future<void> _testConflictIsSuccess(_FakeTursoPlatformApi server) async {
   server
-      .reset(existing: {}, conflictNames: {"prod-us", "prod-apac", "prod-eu"});
+      .reset(existing: {}, conflictNames: {"prod-us", "prod-asia", "prod-eu"});
   final api = _api(server);
   try {
     final created = await ensureTursoGroups(
@@ -205,7 +205,7 @@ export default m.deploy([
     fake.writeAsStringSync(
         "#!/bin/sh\ncat >/dev/null\nprintf '%s\\n' \"\$*\" >> $secretMarker\n");
     await Process.run("chmod", ["+x", fake.path]);
-    server.reset(existing: {"prod-apac": "aws-ap-northeast-1"});
+    server.reset(existing: {"prod-asia": "aws-ap-northeast-1"});
     server.onPost = () {
       _check(!File(secretMarker).existsSync(),
           "Groups must be created before the secret is put.");
@@ -219,7 +219,7 @@ export default m.deploy([
         "turso": {
           "enable": true,
           "organization": "test-org",
-          "group": "prod-apac",
+          "group": "prod-asia",
           "groups": _groups,
           "platform_api_token": "test-token",
         }

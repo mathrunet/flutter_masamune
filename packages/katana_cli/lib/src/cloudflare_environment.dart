@@ -198,11 +198,12 @@ class WranglerEnvironmentSynchronizer {
     );
   }
 
-  /// Adds public Worker variables to one environment while preserving others.
+  /// Adds or removes Worker variables in one environment while preserving others.
   static String upsertVariables(
     String source, {
     required String flavor,
     required Map<String, String> values,
+    Set<String> removeKeys = const {},
   }) {
     return transformEnvironment(
       source,
@@ -226,6 +227,9 @@ class WranglerEnvironmentSynchronizer {
             variables[key] = value;
           }
           variables.addAll(values);
+          for (final key in removeKeys) {
+            variables.remove(key);
+          }
           final encoded = variables.entries
               .map((entry) =>
                   "${jsonEncode(entry.key)}: ${jsonEncode(entry.value)}")
@@ -233,6 +237,9 @@ class WranglerEnvironmentSynchronizer {
           return environment.replaceRange(open, close + 1, "{ $encoded }");
         }
         variables.addAll(values);
+        for (final key in removeKeys) {
+          variables.remove(key);
+        }
         final close = _findClosingBrace(environment, 0);
         final encoded = variables.entries
             .map((entry) =>

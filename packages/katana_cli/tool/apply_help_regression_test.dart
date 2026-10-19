@@ -9,6 +9,12 @@ Future<void> main(List<String> arguments) async {
   final packageRoot = File.fromUri(Platform.script).parent.parent;
   final cli = File("${packageRoot.path}/bin/katana.dart");
 
+  await _verifyDeeplinkMigration(cli);
+  if (arguments.contains("--deeplink-only")) {
+    stdout.writeln("Deeplink migration regression checks passed.");
+    return;
+  }
+
   await _verifyLocalCloudflareSecrets(
       messagingOnly: arguments.contains("--messaging-only"));
   if (arguments.contains("--messaging-only")) {
@@ -627,4 +633,101 @@ android {
     }
   }
   _expect(failures.isEmpty, failures.join("\n"));
+}
+
+Future<void> _verifyDeeplinkMigration(File cli) async {
+  final root =
+      await Directory.systemTemp.createTemp("katana_deeplink_migration_");
+  try {
+    Future<void> write(String path, String content) async {
+      final file = File("${root.path}/$path");
+      await file.parent.create(recursive: true);
+      await file.writeAsString(content);
+    }
+
+    await write("pubspec.yaml",
+        "name: fixture\ndependencies:\n  masamune_deeplink: any\n");
+    await write("katana.yaml", """
+app:
+  deeplink:
+    enable: true
+    host: segue://track
+    remove_hosts: [https://segue.day]
+cloudflare:
+  project_id: unrelated
+  workers:
+    enable: true
+""");
+    String filter(String data) =>
+        '<intent-filter><action android:name="android.intent.action.VIEW"/>$data</intent-filter>';
+    await write(
+        "android/app/src/main/AndroidManifest.xml",
+        '<manifest xmlns:android="http://schemas.android.com/apk/res/android"><application><activity>'
+            '${filter('<data android:scheme="https" android:host="segue.day"/>')}'
+            '${filter('<data android:scheme="https" android:host="other.example"/>')}'
+            '${filter('<data android:scheme="segue" android:host="track"/><data android:scheme="segue" android:host="playlist"/>')}'
+            '${filter('<data android:scheme="https" android:host="segue.day"/><data android:scheme="https" android:host="mixed.example"/>')}'
+            ' <intent-filter><action android:name="custom.ACTION"/><data android:scheme="https" android:host="segue.day"/></intent-filter> '
+            "</activity></application></manifest>");
+    await write("ios/Runner/Runner.entitlements", """
+<plist><dict><key>com.apple.developer.associated-domains</key><array>
+<string>applinks:segue.day</string><string>applinks:segue.day?mode=developer</string>
+<string>applinks:other.example</string><string>webcredentials:segue.day</string>
+</array><key>aps-environment</key><string>development</string></dict></plist>
+""");
+    await write("ios/Runner/Info.plist", """
+<plist><dict><key>CFBundleURLTypes</key><array><dict><key>CFBundleURLSchemes</key><array><string>google-auth</string></array></dict></array></dict></plist>
+""");
+    final first = await _runCli(cli, root, ["apply", "--only", "deeplink"]);
+    _expectEqual(
+        first.exitCode, 0, "deeplink-only migration succeeds: ${first.stderr}");
+    final manifest =
+        await File("${root.path}/android/app/src/main/AndroidManifest.xml")
+            .readAsString();
+    _expectEqual(
+        RegExp('android:host="segue.day"').allMatches(manifest).length,
+        2,
+        "only the dedicated legacy VIEW filter is removed; mixed and non-VIEW filters remain");
+    _expect(
+        manifest.contains('android:host="other.example"') &&
+            manifest.contains('android:host="mixed.example"'),
+        "unrelated and mixed filters remain");
+    _expect(
+        manifest.contains('android:host="track"') &&
+            manifest.contains('android:host="playlist"'),
+        "both custom-scheme hosts remain");
+    final entitlements =
+        await File("${root.path}/ios/Runner/Runner.entitlements")
+            .readAsString();
+    _expect(!entitlements.contains("applinks:segue.day"),
+        "old associated domains are removed");
+    _expect(
+        entitlements.contains("applinks:other.example") &&
+            entitlements.contains("webcredentials:segue.day") &&
+            entitlements.contains("aps-environment"),
+        "unrelated associated domains and push entitlements remain");
+    final plist =
+        await File("${root.path}/ios/Runner/Info.plist").readAsString();
+    _expect(plist.contains("google-auth") && plist.contains("segue"),
+        "scheme is added while OAuth remains");
+    final before = await _snapshot(root);
+    final second = await _runCli(cli, root, ["apply", "--only=deeplink"]);
+    _expectEqual(second.exitCode, 0, "migration can be reapplied");
+    _expectEqual((await _snapshot(root)).toString(), before.toString(),
+        "migration is idempotent");
+    await write("katana.yaml", """
+app:
+  deeplink:
+    enable: true
+    host: segue://track
+    remove_hosts: [https://segue.day/path]
+""");
+    final invalidBefore = await _snapshot(root);
+    final invalid = await _runCli(cli, root, ["apply", "--only=deeplink"]);
+    _expect(invalid.exitCode != 0, "a non-origin removal is rejected");
+    _expectEqual((await _snapshot(root)).toString(), invalidBefore.toString(),
+        "invalid removal changes no files");
+  } finally {
+    await root.delete(recursive: true);
+  }
 }

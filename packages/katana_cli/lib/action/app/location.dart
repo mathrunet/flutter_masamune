@@ -38,6 +38,8 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final location = context.yaml.getAsMap("location");
     final enableBackground = location.get("enable_background", false);
+    final requireAlwaysPermission =
+        location.get("require_always_permission", true);
     final googleMap = location.getAsMap("google_map");
     final enableGoogleMap = googleMap.get("enable", false);
     final googleMapApiKeys = googleMap.getAsMap("api_key");
@@ -63,8 +65,16 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
     label("Edit AndroidManifest.xml.");
     await AndroidManifestPermissionType.accessFineLocation.enablePermission();
     if (enableBackground) {
+      await AndroidManifestPermissionType.foregroundService.enablePermission();
+      await AndroidManifestPermissionType.foregroundServiceLocation
+          .enablePermission();
+    }
+    if (enableBackground && requireAlwaysPermission) {
       await AndroidManifestPermissionType.accessBackgroundLocation
           .enablePermission();
+    } else {
+      await AndroidManifestPermissionType.accessBackgroundLocation
+          .disablePermission();
     }
     if (enableGoogleMap) {
       final file = File("android/app/src/main/AndroidManifest.xml");
@@ -294,7 +304,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
           .map((key, value) => MapEntry(key, value.toString()))
           .where((key, value) => value.isNotEmpty),
     );
-    if (enableBackground) {
+    if (enableBackground && requireAlwaysPermission) {
       await XCodePermissionType.locationAlwaysUsage.setMessageToXCode(
         permission
             .map((key, value) => MapEntry(key, value.toString()))
@@ -311,7 +321,9 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
       await XCodePermissionType.locationAlwaysAndWhenInUseUsage
           .removeMessageFromXCode();
     }
-    await PodfilePermissionType.locationUsage.enablePermissionToPodfile();
+    await synchronizeLocationPodfilePermissions(
+      requireAlwaysPermission: enableBackground && requireAlwaysPermission,
+    );
     await addFlutterImport(
       [
         "masamune_location",

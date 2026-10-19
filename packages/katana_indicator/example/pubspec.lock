@@ -390,28 +390,28 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "3.4.0"
+    version: "3.4.1"
   katana_indicator:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "3.3.3"
+    version: "3.3.5"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "3.3.0"
+    version: "3.3.1"
   katana_platform_info:
     dependency: "direct overridden"
     description:
       path: "../../katana_platform_info"
       relative: true
     source: path
-    version: "3.2.1"
+    version: "3.2.2"
   leak_tracker:
     dependency: transitive
     description:

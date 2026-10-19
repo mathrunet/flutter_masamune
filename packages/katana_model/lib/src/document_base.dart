@@ -261,6 +261,8 @@ abstract class DocumentBase<T> extends ChangeNotifier
     try {
       final val = value;
       _loadCompleter = Completer<T?>();
+      // Observe the shared future even when only the calling operation is awaited.
+      _loadCompleter!.future.ignore();
       if (!loaded) {
         final res = await loadRequest();
         if (res != null) {
@@ -280,8 +282,8 @@ abstract class DocumentBase<T> extends ChangeNotifier
       }
       _loadCompleter?.complete(value);
       _loadCompleter = null;
-    } catch (e) {
-      _loadCompleter?.completeError(e);
+    } catch (e, stackTrace) {
+      _loadCompleter?.completeError(e, stackTrace);
       _loadCompleter = null;
       rethrow;
     } finally {
@@ -306,11 +308,13 @@ abstract class DocumentBase<T> extends ChangeNotifier
   Future<T?> reload() async {
     await _enqueueInternalTransaction(() async {
       _reloadingCompleter = Completer();
+      // Preserve errors for listeners without reporting unobserved duplicates.
+      _reloadingCompleter!.future.ignore();
       try {
         _loaded = false;
         await _load(operation: "reload");
-      } catch (e) {
-        _reloadingCompleter?.completeError(e);
+      } catch (e, stackTrace) {
+        _reloadingCompleter?.completeError(e, stackTrace);
         _reloadingCompleter = null;
         rethrow;
       } finally {
@@ -353,6 +357,9 @@ abstract class DocumentBase<T> extends ChangeNotifier
       }
       try {
         _saveCompleter = Completer<T?>();
+        // The caller receives the failure through rethrow. Observe the shared
+        // future even when there are no concurrent saving listeners.
+        _saveCompleter!.future.ignore();
         await saveRequest(_filterOnSave(toMap(newValue)));
         // TODO: とりあえず消したがうまくいかないようであればまた考える
         // if (value != newValue) {
@@ -361,8 +368,8 @@ abstract class DocumentBase<T> extends ChangeNotifier
         // }
         _saveCompleter?.complete(value);
         _saveCompleter = null;
-      } catch (e) {
-        _saveCompleter?.completeError(e);
+      } catch (e, stacktrace) {
+        _saveCompleter?.completeError(e, stacktrace);
         _saveCompleter = null;
         rethrow;
       } finally {
@@ -397,11 +404,14 @@ abstract class DocumentBase<T> extends ChangeNotifier
       }
       try {
         _saveCompleter = Completer<T?>();
+        // The caller receives the failure through rethrow. Observe the shared
+        // future even when there are no concurrent saving listeners.
+        _saveCompleter!.future.ignore();
         await deleteRequest();
         _saveCompleter?.complete(value);
         _saveCompleter = null;
-      } catch (e) {
-        _saveCompleter?.completeError(e);
+      } catch (e, stacktrace) {
+        _saveCompleter?.completeError(e, stacktrace);
         _saveCompleter = null;
         rethrow;
       } finally {
@@ -584,16 +594,17 @@ abstract class DocumentBase<T> extends ChangeNotifier
   Future<void> _executeAsReference(
     FutureOr<void> Function(DocumentBase<T> doc) callback,
   ) async {
-    _referenceCompleter = Completer();
+    final completer = _referenceCompleter = Completer<void>();
+    // The callback future reports failures to the caller. Observe this internal
+    // future as well so an unused reference marker cannot report them again.
+    completer.future.ignore();
     try {
       await callback.call(this);
-      _referenceCompleter?.complete();
-      _referenceCompleter = null;
-    } catch (e) {
-      _referenceCompleter?.completeError(e);
-      _referenceCompleter = null;
+      completer.complete();
+    } catch (e, stackTrace) {
+      completer.completeError(e, stackTrace);
+      rethrow;
     } finally {
-      _referenceCompleter?.complete();
       _referenceCompleter = null;
     }
   }

@@ -36,6 +36,7 @@ import "package:katana_cli/action/cloudflare/turso.dart";
 import "package:katana_cli/action/ecosystem/ecosystem.dart";
 import "package:katana_cli/action/firebase/algolia.dart";
 import "package:katana_cli/action/firebase/authentication.dart";
+import "package:katana_cli/action/firebase/anonymous_configuration.dart";
 import "package:katana_cli/action/firebase/dynamic_links.dart";
 import "package:katana_cli/action/firebase/firestore.dart";
 import "package:katana_cli/action/firebase/init.dart";
@@ -80,6 +81,7 @@ const _actions = <CliActionMixin>[
   CloudflareDurableObjectCliAction(),
   FirebaseInitCliAction(),
   FirebaseAuthenticationCliAction(),
+  FirebaseAnonymousConfigurationCliAction(),
   FirebaseSchedulerCliAction(),
   FirebaseMessagingCliAction(),
   FirebaseDynamicLinksCliAction(),
@@ -190,6 +192,20 @@ class ApplyCliCommand extends CliCommand {
 
   Future<void> _apply(ExecContext context) async {
     final only = _onlyFilters(context.args);
+    if (context.args.any((arg) => const [
+              "--auth-config",
+              "--initialize-auth",
+              "--enable-anonymous",
+              "--auth-project",
+              "--auth-account"
+            ].contains(arg)) &&
+        (!context.args.contains("--auth-config") ||
+            only.length != 1 ||
+            only.single != "firebaseanonymousconfiguration")) {
+      throw StateError(
+          "Auth config must run alone with --auth-config --only firebaseanonymousconfiguration.");
+    }
+
     final enabled = _actions
         .where((element) => element.checkEnabled(context))
         .where((element) => only.isEmpty || _matchesOnly(element, only))

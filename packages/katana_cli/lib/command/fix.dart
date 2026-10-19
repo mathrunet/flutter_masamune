@@ -68,9 +68,10 @@ class KatanaEnvironmentFixPlan {
     for (final path in _appleProjectPaths) {
       final file = File(path);
       if (file.existsSync() &&
-          !file.readAsStringSync().contains(
-                AppleFirebaseEnvironmentSynchronizer.buildPhaseName,
-              )) {
+          AppleFirebaseEnvironmentSynchronizer.synchronizeProject(
+                file.readAsStringSync(),
+              ) !=
+              file.readAsStringSync()) {
         operations.add("configure $path");
       }
     }

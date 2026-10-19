@@ -161,6 +161,18 @@ String? _validateApplyArguments(List<String> arguments) {
   var hasFlavor = false;
   for (var i = 0; i < arguments.length; i++) {
     final argument = arguments[i];
+    if (argument == "--auth-config" ||
+        argument == "--initialize-auth" ||
+        argument == "--enable-anonymous") {
+      continue;
+    }
+    if (argument == "--auth-project" || argument == "--auth-account") {
+      if (i + 1 >= arguments.length || arguments[i + 1].startsWith("--")) {
+        return "Invalid argument: $argument requires one value.";
+      }
+      i++;
+      continue;
+    }
     if (argument == "--local") {
       continue;
     }

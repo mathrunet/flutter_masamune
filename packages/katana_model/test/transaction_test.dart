@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_print
 
+// Dart imports:
+import "dart:async";
+
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:test/test.dart";
@@ -31,7 +34,15 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 
 class UserDocument extends DocumentBase<DynamicMap>
     with ModelRefMixin<DynamicMap> {
-  UserDocument(super.modelQuery);
+  UserDocument(super.modelQuery, {this.beforeLoad});
+
+  final Future<void> Function()? beforeLoad;
+
+  @override
+  Future<DynamicMap?> loadRequest() async {
+    await beforeLoad?.call();
+    return super.loadRequest();
+  }
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -51,7 +62,9 @@ class RuntimeCollectionRefModel extends CollectionBase<UserDocument> {
 
 class ShopDocument extends DocumentBase<DynamicMap>
     with ModelRefLoaderMixin<DynamicMap> {
-  ShopDocument(super.modelQuery);
+  ShopDocument(super.modelQuery, {this.referenceBeforeLoad});
+
+  final Future<void> Function()? referenceBeforeLoad;
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -63,7 +76,10 @@ class ShopDocument extends DocumentBase<DynamicMap>
   List<ModelRefBuilderBase<DynamicMap>> get builder => [
         ModelRefBuilder(
           modelRef: (value) => value.getAsModelRef("user", "/user/doc"),
-          document: UserDocument.new,
+          document: (query) => UserDocument(
+            query,
+            beforeLoad: referenceBeforeLoad,
+          ),
           value: (value, document) {
             return {
               ...value,
@@ -221,6 +237,64 @@ class RuntimeCollectionLoaderValueModel
 }
 
 void main() {
+  for (final operation in ["load", "reload"]) {
+    test("modelRef $operation forwards failure without an unhandled future",
+        () async {
+      final adapter = RuntimeModelAdapter(
+        database: NoSqlDatabase(),
+        initialValue: const [
+          DynamicModelInitialCollection("user", {
+            "doc": {"name": "user_name"},
+          }),
+          DynamicModelInitialCollection("shop", {
+            "doc": {"user": ModelRef.fromPath("user/doc")},
+          }),
+        ],
+      );
+      final error = TimeoutException("media_sync_request_deadline");
+      final stack = StackTrace.fromString("original reference request stack");
+      final unhandled = <Object>[];
+      Object? receivedError;
+      StackTrace? receivedStack;
+      var fail = operation == "load";
+      final done = Completer<void>();
+      final zoned = runZonedGuarded<Future<void>>(() async {
+        try {
+          final model = ShopDocument(
+            DocumentModelQuery("shop/doc", adapter: adapter),
+            referenceBeforeLoad: () async {
+              if (fail) {
+                Error.throwWithStackTrace(error, stack);
+              }
+            },
+          );
+          if (operation == "reload") {
+            await model.load();
+            fail = true;
+          }
+          try {
+            if (operation == "load") {
+              await model.load();
+            } else {
+              await model.reload();
+            }
+          } catch (error, stackTrace) {
+            receivedError = error;
+            receivedStack = stackTrace;
+          }
+          await Future<void>.delayed(Duration.zero);
+        } finally {
+          done.complete();
+        }
+      }, (error, stackTrace) => unhandled.add(error));
+      await done.future;
+      await zoned;
+      expect(unhandled, isEmpty);
+      expect(receivedError, same(error));
+      expect(receivedStack.toString(), stack.toString());
+    });
+  }
+
   test("runtimeDocumentModel.transaction", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),

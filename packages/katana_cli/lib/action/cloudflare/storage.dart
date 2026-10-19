@@ -190,10 +190,6 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     if (storage.get("bucket_name", "").isEmpty) {
       throw StateError("Storageのローカル設定が不正です: bucket_name");
     }
-    if (storage.get("public_base_url", "").isEmpty &&
-        storage.get("custom_domain", "").isEmpty) {
-      throw StateError("Storageのローカル設定が不正です: public_base_url");
-    }
     final binding = storage.get("binding", "R2_BUCKET");
     if (binding.isEmpty) {
       throw StateError("Storageのローカル設定が不正です: binding");
@@ -277,12 +273,6 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     if (bucketName.isEmpty) {
       error(
         "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[bucket_name]. Create it with `wrangler r2 bucket create <bucket_name>`.",
-      );
-      return;
-    }
-    if (publicBaseUrl.isEmpty) {
-      error(
-        "If [cloudflare]->[storage]->[enable] is enabled, please include [cloudflare]->[storage]->[public_base_url] or [cloudflare]->[storage]->[custom_domain].",
       );
       return;
     }
@@ -411,7 +401,12 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
           workerName: cloudflare.get("project_id", ""),
         ),
         flavor: flavor,
-        values: {"STORAGE_PUBLIC_BASE_URL": publicBaseUrl},
+        values: publicBaseUrl.isEmpty
+            ? const <String, String>{}
+            : {"STORAGE_PUBLIC_BASE_URL": publicBaseUrl},
+        removeKeys: publicBaseUrl.isEmpty
+            ? const {"STORAGE_PUBLIC_BASE_URL"}
+            : const {},
       ),
       flavor: flavor,
       transform: (environment) {

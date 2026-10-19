@@ -14,6 +14,445 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
+  test("provider candidates normalize and saved selection migrates", () async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "provider-migration",
+      providers: [" codex ", "", "claude", "codex", " custom-engine "],
+      initialProvider: "codex",
+    );
+    expect(adapter.providers, ["codex", "claude", "custom-engine"]);
+    expect(() => adapter.providers.add("gemini"), throwsUnsupportedError);
+    expect((await adapter.controller.loadSettings()).provider, "codex");
+    await adapter.controller.updateSettings(
+      adapter.controller.settings.copyWith(provider: "custom-engine"),
+    );
+    final restored = AIDebuggerMasamuneAdapter(
+      projectId: "provider-migration",
+      providers: ["custom-engine"],
+    );
+    expect(
+        (await restored.controller.loadSettings()).provider, "custom-engine");
+    final removed = AIDebuggerMasamuneAdapter(
+      projectId: "provider-migration",
+      providers: ["gemini"],
+      initialProvider: "gemini",
+    );
+    expect((await removed.controller.loadSettings()).provider, "gemini");
+    final automatic =
+        AIDebuggerMasamuneAdapter(projectId: "provider-migration");
+    expect((await automatic.controller.loadSettings()).provider, isNull);
+    await removed.controller.updateSettings(
+      removed.controller.settings.copyWith(clearProvider: true),
+    );
+    final savedAutomatic = AIDebuggerMasamuneAdapter(
+      projectId: "provider-migration",
+      providers: ["gemini"],
+      initialProvider: "gemini",
+    );
+    expect((await savedAutomatic.controller.loadSettings()).provider, isNull);
+    expect(
+        () => AIDebuggerMasamuneAdapter(
+              providers: ["codex"],
+              initialProvider: "claude",
+            ),
+        throwsArgumentError);
+  });
+
+  test("old settings retain models and use the initial provider", () async {
+    SharedPreferences.setMockInitialValues({
+      "masamune_ai_debugger.settings.v2.provider-old": jsonEncode({
+        "manualModel": "astra",
+      }),
+    });
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "provider-old",
+      providers: ["claude"],
+      initialProvider: "claude",
+    );
+    final settings = await adapter.controller.loadSettings();
+    expect(settings.provider, "claude");
+    expect(settings.manualModel, AIDebugModel.astra);
+  });
+
+  test("all request kinds forward the selected provider", () async {
+    for (final kind in ["manual", "error", "performance"]) {
+      final bodies = <Map<String, Object?>>[];
+      final adapter = AIDebuggerMasamuneAdapter(
+        projectId: "provider-payload-$kind",
+        endpoint: "https://example.test",
+        apiKey: "test-key",
+        providers: ["gemini"],
+        initialProvider: "gemini",
+        post: (url, headers, body) async {
+          if (url.endsWith("/request") || url.endsWith("/incidents")) {
+            bodies.add(body);
+          }
+          return {};
+        },
+      );
+      if (kind == "manual") {
+        await adapter.controller.send("test", []);
+      } else if (kind == "error") {
+        await adapter.controller
+            .reportError(StateError("test"), StackTrace.current);
+      } else {
+        await adapter.controller.reportPerformanceTrace(
+          category: "model",
+          traceName: "test",
+          startedAt: DateTime.now(),
+          elapsed: const Duration(seconds: 10),
+          threshold: const Duration(seconds: 5),
+        );
+      }
+      expect(bodies.single["provider"], "gemini");
+    }
+    final bodies = <Map<String, Object?>>[];
+    final automatic = AIDebuggerMasamuneAdapter(
+      projectId: "provider-auto-payload",
+      endpoint: "https://example.test",
+      apiKey: "test-key",
+      post: (url, headers, body) async {
+        bodies.add(body);
+        return {};
+      },
+    );
+    await automatic.controller.send("test", []);
+    expect(bodies.last.containsKey("provider"), isFalse);
+  });
+
+  test(
+      "legacy callbacks capture providers independently during concurrent sends",
+      () async {
+    final entered = Completer<void>();
+    final release = Completer<void>();
+    final observed = <String, String?>{};
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "provider-concurrent",
+      providers: ["codex", "claude"],
+      initialProvider: "codex",
+      registerRun: (_) async {},
+      uploadEvents: (_, __) async {},
+      sendRequest: (controller, instruction, screenshots) async {
+        if (instruction == "first") {
+          entered.complete();
+          await release.future;
+        }
+        observed[instruction] = controller.currentProvider;
+        return null;
+      },
+    );
+    final first = adapter.controller.send("first", []);
+    await entered.future;
+    await adapter.controller.updateSettings(
+      adapter.controller.settings.copyWith(provider: "claude"),
+    );
+    await adapter.controller.send("second", []);
+    await adapter.controller.updateSettings(
+      adapter.controller.settings.copyWith(clearProvider: true),
+    );
+    await adapter.controller.send("automatic", []);
+    release.complete();
+    await first;
+    expect(observed, {"first": "codex", "second": "claude", "automatic": null});
+  });
+
+  testWidgets("provider dialog saves, cancels, and selects automatic",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "provider-ui",
+      providers: ["codex", "claude", "gemini"],
+      initialProvider: "codex",
+      registerRun: (_) async {},
+      heartbeat: (_) async {},
+      endRun: (_) async {},
+    );
+    await tester.pumpWidget(Builder(
+        builder: (context) => adapter.onBuildApp(
+              context,
+              const MaterialApp(home: SizedBox()),
+            )));
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.auto_awesome));
+    await tester.pump();
+    Future<void> open() async {
+      await tester.tap(find.byIcon(Icons.settings));
+      await tester.pump();
+    }
+
+    await open();
+    expect(find.text("プロバイダー"), findsOneWidget);
+    await tester.tap(find.widgetWithText(ChoiceChip, "claude"));
+    await tester.tap(find.text("キャンセル"));
+    await tester.pump();
+    expect(adapter.controller.settings.provider, "codex");
+    await open();
+    await tester.tap(find.widgetWithText(ChoiceChip, "gemini"));
+    await tester.tap(find.widgetWithText(FilledButton, "保存"));
+    await tester.pumpAndSettle();
+    expect(adapter.controller.settings.provider, "gemini");
+    await open();
+    await tester.tap(find.widgetWithText(ChoiceChip, "自動"));
+    await tester.tap(find.widgetWithText(FilledButton, "保存"));
+    await tester.pumpAndSettle();
+    expect(adapter.controller.settings.provider, isNull);
+    await tester.pumpWidget(const SizedBox());
+    await adapter.controller.end();
+  });
+
+  testWidgets("auth snapshots stay observable and update while collapsed",
+      (tester) async {
+    final notifier = ChangeNotifier();
+    var snapshot = const AIDebugAuthSnapshot(
+      state: AIDebugAuthState.initializing,
+      restoreState: AIDebugAuthRestoreState.running,
+    );
+    final adapter = AIDebuggerMasamuneAdapter(
+      authSnapshot: () => snapshot,
+      authListenable: notifier,
+    );
+    final semantics = tester.ensureSemantics();
+    String observed(String field) => tester
+        .getSemantics(find.bySemanticsIdentifier("ai_debugger_auth_$field"))
+        .label;
+    await tester.pumpWidget(Builder(
+      builder: (context) =>
+          adapter.onBuildApp(context, const MaterialApp(home: SizedBox())),
+    ));
+    await tester.pump();
+    expect(observed("state"), "initializing");
+    expect(observed("restore_state"), "running");
+    expect(observed("login_count"), "unsupported");
+    final bootId = observed("boot_id");
+    snapshot = const AIDebugAuthSnapshot(
+      state: AIDebugAuthState.authenticated,
+      restoreState: AIDebugAuthRestoreState.completed,
+      bootState: AIDebugAuthBootState.ready,
+      identity: "opaque-user-1",
+      loginCount: 0,
+    );
+    notifier.notifyListeners();
+    await tester.pump();
+    expect(observed("identity"), "opaque-user-1");
+    expect(observed("state"), "authenticated");
+    expect(observed("restore_state"), "completed");
+    expect(observed("boot_state"), "ready");
+    expect(observed("login_count"), "0");
+    expect(observed("boot_id"), bootId);
+    snapshot = const AIDebugAuthSnapshot(
+      state: AIDebugAuthState.unauthenticated,
+      restoreState: AIDebugAuthRestoreState.completed,
+      bootState: AIDebugAuthBootState.ready,
+      identity: "stale-user-must-not-leak",
+      loginCount: 1,
+    );
+    notifier.notifyListeners();
+    await tester.pump();
+    expect(observed("identity"), "none");
+    expect(observed("login_count"), "1");
+    await tester.pumpWidget(const SizedBox());
+    notifier.notifyListeners();
+    notifier.dispose();
+    semantics.dispose();
+    await adapter.controller.end();
+  });
+
+  testWidgets("failed snapshots invalidate all previous identity evidence",
+      (tester) async {
+    final notifier = ChangeNotifier();
+    var fail = false;
+    final adapter = AIDebuggerMasamuneAdapter(
+      authListenable: notifier,
+      authSnapshot: () {
+        if (fail) throw StateError("observation failed");
+        return const AIDebugAuthSnapshot(
+          state: AIDebugAuthState.authenticated,
+          restoreState: AIDebugAuthRestoreState.completed,
+          bootState: AIDebugAuthBootState.ready,
+          identity: "opaque-real-user",
+          loginCount: 0,
+        );
+      },
+    );
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(Builder(
+      builder: (context) =>
+          adapter.onBuildApp(context, const MaterialApp(home: SizedBox())),
+    ));
+    await tester.pump();
+    fail = true;
+    notifier.notifyListeners();
+    await tester.pump();
+    expect(tester.takeException(), isA<StateError>());
+    expect(
+        tester
+            .getSemantics(find.bySemanticsIdentifier("ai_debugger_auth_state"))
+            .label,
+        "error");
+    for (final field in ["identity", "restore_state", "login_count"]) {
+      expect(
+          tester
+              .getSemantics(
+                  find.bySemanticsIdentifier("ai_debugger_auth_$field"))
+              .label,
+          "unsupported");
+    }
+    await tester.pumpWidget(const SizedBox());
+    notifier.dispose();
+    semantics.dispose();
+    await adapter.controller.end();
+  });
+
+  testWidgets("incomplete snapshots never invent identity or login evidence",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      authSnapshot: () => const AIDebugAuthSnapshot(
+        state: AIDebugAuthState.authenticated,
+        identity: "",
+        restoreState: AIDebugAuthRestoreState.failed,
+        bootState: AIDebugAuthBootState.error,
+      ),
+    );
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(Builder(
+      builder: (context) =>
+          adapter.onBuildApp(context, const MaterialApp(home: SizedBox())),
+    ));
+    await tester.pump();
+    for (final field in ["identity", "login_count"]) {
+      expect(
+          tester
+              .getSemantics(
+                  find.bySemanticsIdentifier("ai_debugger_auth_$field"))
+              .label,
+          "unsupported");
+    }
+    expect(
+        tester
+            .getSemantics(
+                find.bySemanticsIdentifier("ai_debugger_auth_restore_state"))
+            .label,
+        "failed");
+    expect(
+        tester
+            .getSemantics(
+                find.bySemanticsIdentifier("ai_debugger_auth_boot_state"))
+            .label,
+        "error");
+    semantics.dispose();
+    await adapter.controller.end();
+  });
+
+  testWidgets("legacy auth cannot claim supported restore observation",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      login: (_, __) {},
+      logout: () {},
+      isLoggedIn: () => true,
+    );
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(Builder(
+      builder: (context) =>
+          adapter.onBuildApp(context, const MaterialApp(home: SizedBox())),
+    ));
+    await tester.pump();
+    for (final field in ["identity", "restore_state", "login_count"]) {
+      expect(
+          tester
+              .getSemantics(
+                  find.bySemanticsIdentifier("ai_debugger_auth_$field"))
+              .label,
+          "unsupported");
+    }
+    expect(
+        tester
+            .getSemantics(find.bySemanticsIdentifier("ai_debugger_auth_state"))
+            .label,
+        "unknown");
+    semantics.dispose();
+    await adapter.controller.end();
+  });
+
+  testWidgets("automation account aliases hide credentials and preserve login",
+      (tester) async {
+    String? receivedEmail;
+    String? receivedPassword;
+    var loggedIn = false;
+    final adapter = AIDebuggerMasamuneAdapter(
+      accounts: const [
+        AIDebugAccount(
+            id: "private@example.test",
+            password: "secret-test-password",
+            alias: "member")
+      ],
+      login: (email, password) {
+        receivedEmail = email;
+        receivedPassword = password;
+        loggedIn = true;
+      },
+      logout: () => loggedIn = false,
+      isLoggedIn: () => loggedIn,
+    );
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(Builder(
+      builder: (context) =>
+          adapter.onBuildApp(context, const MaterialApp(home: SizedBox())),
+    ));
+    await tester.pump();
+    await tester.tap(find.bySemanticsIdentifier("ai_debugger_open"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsIdentifier("ai_debugger_auth_login"));
+    await tester.pump();
+    expect(find.text("private@example.test"), findsNothing);
+    expect(find.text("secret-test-password"), findsNothing);
+    await tester
+        .tap(find.bySemanticsIdentifier("ai_debugger_auth_account_member"));
+    await tester.pump();
+    expect(receivedEmail, "private@example.test");
+    expect(receivedPassword, "secret-test-password");
+    await tester.tap(find.bySemanticsIdentifier("ai_debugger_auth_logout"));
+    await tester.pump();
+    expect(loggedIn, false);
+    expect(find.bySemanticsIdentifier("ai_debugger_close"), findsOneWidget);
+    semantics.dispose();
+    await adapter.controller.end();
+  });
+
+  testWidgets("accounts without aliases expose stable slot identifiers",
+      (tester) async {
+    final adapter = AIDebuggerMasamuneAdapter(
+      accounts: const [
+        AIDebugAccount(id: "private@example.test", password: "test-password"),
+        AIDebugAccount(id: "second@example.test", password: "second-password"),
+      ],
+      login: (_, __) {},
+      logout: () {},
+      isLoggedIn: () => false,
+    );
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(Builder(
+      builder: (context) =>
+          adapter.onBuildApp(context, const MaterialApp(home: SizedBox())),
+    ));
+    await tester.pump();
+    await tester.tap(find.bySemanticsIdentifier("ai_debugger_open"));
+    await tester.pump();
+    await tester.tap(find.bySemanticsIdentifier("ai_debugger_auth_login"));
+    await tester.pump();
+
+    expect(
+      find.bySemanticsIdentifier("ai_debugger_auth_account_account_0"),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsIdentifier("ai_debugger_auth_account_account_1"),
+      findsOneWidget,
+    );
+    expect(find.text("test-password"), findsNothing);
+
+    semantics.dispose();
+    await adapter.controller.end();
+  });
+
   test("adapter reads the project ID from dart-define by default", () {
     final adapter = AIDebuggerMasamuneAdapter();
 

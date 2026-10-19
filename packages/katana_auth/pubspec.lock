@@ -225,28 +225,28 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "3.4.0"
+    version: "3.4.1"
   katana_logger:
     dependency: "direct main"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "3.3.0"
+    version: "3.3.1"
   katana_platform_info:
     dependency: "direct main"
     description:
       path: "../katana_platform_info"
       relative: true
     source: path
-    version: "3.2.1"
+    version: "3.2.2"
   katana_test:
     dependency: "direct dev"
     description:
       path: "../katana_test"
       relative: true
     source: path
-    version: "3.1.0"
+    version: "3.1.1"
   lints:
     dependency: transitive
     description:

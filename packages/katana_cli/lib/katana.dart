@@ -387,15 +387,19 @@ cloudflare:
     organization:
     group:
       dev: dev-apac
-      prod: prod-apac
+      prod: prod-us
     # List the groups for multiple regions. By default, production uses 3 groups
     # (Tokyo, Virginia, Ireland) and testing uses Tokyo only.
     # Clients are placed by country -> continent -> group (the first group if omitted).
+    # Unknown regions fall back to the default group (`prod-us`). Keep the US group
+    # first so the fallback stays the same when [group] is omitted.
     # A group with [location] is created by `katana apply` if it does not exist
     # (existing groups are not modified; multiple groups require the Scaler plan or higher).
     # 複数リージョンを利用する場合はグループを列挙します。既定では本番は東京・バージニア・アイルランドの3group、
     # テストは東京のみです。
     # 未指定クライアントはcountry→continent→group（省略時は先頭）の順で配置します。
+    # 地域が判別できない場合は既定group（`prod-us`）に配置します。[group]を省略しても
+    # 同じになるよう、US groupを先頭に置いてください。
     # [location]があるgroupは、存在しなければ`katana apply`が作成します
     # （既存groupは変更しません。複数groupの利用にはScaler以上のプランが必要です）。
     groups:
@@ -403,12 +407,12 @@ cloudflare:
         - name: dev-apac
           location: aws-ap-northeast-1
       prod:
-        - name: prod-apac
-          location: aws-ap-northeast-1
-          continents: [AS, OC]
         - name: prod-us
           location: aws-us-east-1
           continents: [NA, SA]
+        - name: prod-asia
+          location: aws-ap-northeast-1
+          continents: [AS, OC]
         - name: prod-eu
           location: aws-eu-west-1
           continents: [EU, AF]
@@ -998,6 +1002,8 @@ store:
 location:
   enable: false
   enable_background: false
+  # Keep background capability while requesting only WhenInUse when false.
+  require_always_permission: true
   google_map:
     enable: false
     api_key:

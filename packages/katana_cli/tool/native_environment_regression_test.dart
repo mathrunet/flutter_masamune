@@ -1,4 +1,5 @@
 import "dart:io";
+import "dart:convert";
 
 import "package:katana_cli/katana_cli.dart";
 
@@ -167,6 +168,85 @@ android {
     "Xcode project synchronization must be idempotent.",
   );
 
+  final sandbox = Directory.systemTemp.createTempSync("katana-apple-test-");
+  try {
+    final script = File("${sandbox.path}/select.sh")
+      ..writeAsStringSync(AppleFirebaseEnvironmentSynchronizer.shellScript);
+    final destination = Directory("${sandbox.path}/build/Runner.app")
+      ..createSync(recursive: true);
+    final stale = File("${destination.path}/GoogleService-Info.plist")
+      ..writeAsStringSync("stale production configuration");
+    final result = Process.runSync("/bin/sh", [
+      script.path
+    ], environment: {
+      "DART_DEFINES": base64.encode(utf8.encode("FLAVOR=test")),
+      "PROJECT_DIR": sandbox.path,
+      "TARGET_BUILD_DIR": "${sandbox.path}/build",
+      "UNLOCALIZED_RESOURCES_FOLDER_PATH": "Runner.app",
+    });
+    _expect(result.exitCode == 0,
+        "Test flavor must build without Firebase: ${result.stderr}");
+    _expect(
+        !stale.existsSync(), "Test flavor must remove stale Firebase output.");
+    for (final flavor in ["dev", "prod"]) {
+      final plist = File(
+          "${sandbox.path}/Runner/Firebase/$flavor/GoogleService-Info.plist");
+      plist.parent.createSync(recursive: true);
+      plist.writeAsStringSync(flavor);
+      final selected = Process.runSync("/bin/sh", [
+        script.path
+      ], environment: {
+        "DART_DEFINES": base64.encode(utf8.encode("FLAVOR=$flavor")),
+        "PROJECT_DIR": sandbox.path,
+        "TARGET_BUILD_DIR": "${sandbox.path}/build",
+        "UNLOCALIZED_RESOURCES_FOLDER_PATH": "Runner.app",
+      });
+      _expect(selected.exitCode == 0 && stale.readAsStringSync() == flavor,
+          "Each Firebase environment must select its own plist.");
+    }
+    for (final flavor in ["dev", "unknown", ""]) {
+      final missing =
+          File("${sandbox.path}/Runner/Firebase/dev/GoogleService-Info.plist");
+      if (missing.existsSync()) {
+        missing.deleteSync();
+      }
+      final rejected = Process.runSync("/bin/sh", [
+        script.path
+      ], environment: {
+        "DART_DEFINES": base64.encode(utf8.encode("FLAVOR=$flavor")),
+        "PROJECT_DIR": sandbox.path,
+        "TARGET_BUILD_DIR": "${sandbox.path}/build",
+        "UNLOCALIZED_RESOURCES_FOLDER_PATH": "Runner.app",
+      });
+      _expect(rejected.exitCode != 0,
+          "Missing real Firebase configurations and invalid flavors must fail.");
+    }
+  } finally {
+    sandbox.deleteSync(recursive: true);
+  }
+  final oldProject = synchronizedProject.replaceFirst(
+    RegExp(r'shellScript = "[^\n]*";'),
+    'shellScript = "legacy";',
+  );
+  _expect(
+      AppleFirebaseEnvironmentSynchronizer.synchronizeProject(oldProject) ==
+          synchronizedProject,
+      "Existing Firebase build phases must be upgraded.");
+  const legacyReferences = """
+    ABC001 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABC002 /* GoogleService-Info.plist */; };
+    ABC002 /* GoogleService-Info.plist */ = {isa = PBXFileReference; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
+    ABC002 /* GoogleService-Info.plist */,
+    ABC001 /* GoogleService-Info.plist in Resources */,
+""";
+  final migrated = AppleFirebaseEnvironmentSynchronizer.synchronizeProject(
+      legacyReferences + oldProject);
+  _expect(!migrated.contains("ABC001") && !migrated.contains("ABC002"),
+      "Legacy plist resources and file references must be retired.");
+
+  _expect(
+      AppleFirebaseEnvironmentSynchronizer.synchronizeProject(migrated) ==
+          migrated,
+      "Legacy resource migration must be idempotent.");
   for (final path in arguments) {
     final source = File(path).readAsStringSync();
     if (path.endsWith("project.pbxproj")) {

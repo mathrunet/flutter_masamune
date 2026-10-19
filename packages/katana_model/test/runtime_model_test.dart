@@ -1,3 +1,6 @@
+// Dart imports:
+import "dart:async";
+
 // Package imports:
 import "package:freezed_annotation/freezed_annotation.dart";
 import "package:test/test.dart";
@@ -59,7 +62,178 @@ class RuntimeTestValueCollectionModel
   }
 }
 
+class _FailingRuntimeModelAdapter extends RuntimeModelAdapter {
+  _FailingRuntimeModelAdapter() : super(database: NoSqlDatabase());
+
+  final _loadStarted = <Completer<void>?>[null];
+  Completer<void>? get loadStarted => _loadStarted.single;
+  set loadStarted(Completer<void>? value) => _loadStarted[0] = value;
+  final _loadGate = <Completer<void>?>[null];
+  Completer<void>? get loadGate => _loadGate.single;
+  set loadGate(Completer<void>? value) => _loadGate[0] = value;
+  final _saveOwner = <Object?>[null];
+  Object? get saveOwner => _saveOwner.single;
+  set saveOwner(Object? value) => _saveOwner[0] = value;
+
+  @override
+  Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    loadStarted?.complete();
+    await loadGate?.future;
+    return super.loadDocument(query);
+  }
+
+  final started = Completer<void>();
+  final release = Completer<void>();
+  final failure = StateError("HTTP 403: permission denied");
+  final failureStack =
+      StackTrace.fromString("adapter.saveDocument original stack");
+  final shouldFail = [true];
+
+  Future<void> _waitAndFail() async {
+    if (!shouldFail.single) {
+      return;
+    }
+    if (!started.isCompleted) {
+      started.complete();
+    }
+    await release.future;
+    Error.throwWithStackTrace(failure, failureStack);
+  }
+
+  @override
+  Future<void> saveDocument(
+      ModelAdapterDocumentQuery query, DynamicMap value) async {
+    saveOwner = Zone.current[#operationOwner];
+    await _waitAndFail();
+    await super.saveDocument(query, value);
+  }
+
+  @override
+  Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+    await _waitAndFail();
+    await super.deleteDocument(query);
+  }
+}
+
+Future<List<Object>> _captureUnhandled(Future<void> Function() process) {
+  final completed = Completer<List<Object>>();
+  final unhandled = <Object>[];
+  runZonedGuarded(() async {
+    try {
+      await process();
+      await Future<void>.delayed(Duration.zero);
+      completed.complete(unhandled);
+    } catch (error, stack) {
+      completed.completeError(error, stack);
+    }
+  }, (error, stack) => unhandled.add(error));
+  return completed.future;
+}
+
+Future<void> _expectFailure(
+    Future<void> operation, _FailingRuntimeModelAdapter adapter) async {
+  try {
+    await operation;
+    fail("The adapter failure must reach the caller.");
+  } catch (error, stack) {
+    expect(error, same(adapter.failure));
+    expect(stack.toString(), adapter.failureStack.toString());
+  }
+}
+
 void main() {
+  test("runtimeDocumentModel.queuedSaveKeepsOwnFailureAndZone", () async {
+    final unhandled = await _captureUnhandled(() async {
+      final adapter = _FailingRuntimeModelAdapter();
+      adapter.shouldFail[0] = false;
+      final model = RuntimeMapDocumentModel(
+          DocumentModelQuery("test/operation-owner", adapter: adapter));
+      await model.save({"name": "cached"});
+      adapter.loadStarted = Completer<void>();
+      adapter.loadGate = Completer<void>();
+      final reload =
+          runZoned(model.reload, zoneValues: {#operationOwner: "reader"});
+      await adapter.loadStarted!.future;
+      adapter.shouldFail[0] = true;
+      final save = runZoned(() => model.save({"name": "unsaved"}),
+          zoneValues: {#operationOwner: "writer"});
+      final failure = _expectFailure(save, adapter);
+      adapter.loadGate!.complete();
+      await adapter.started.future;
+      adapter.release.complete();
+      await expectLater(reload, completes);
+      await failure;
+      expect(adapter.saveOwner, "writer");
+      expect(model.value?["name"], "cached");
+      adapter.loadGate = null;
+      adapter.loadStarted = null;
+      adapter.shouldFail[0] = false;
+      await model.save({"name": "retry"});
+      await model.reload();
+      expect(model.value?["name"], "retry");
+    });
+    expect(unhandled, isEmpty);
+  });
+
+  for (final delete in [false, true]) {
+    test("runtimeDocumentModel.${delete ? 'delete' : 'save'}FailureAndRetry",
+        () async {
+      final unhandled = await _captureUnhandled(() async {
+        final adapter = _FailingRuntimeModelAdapter();
+        final model = RuntimeMapDocumentModel(
+            DocumentModelQuery("test/failure", adapter: adapter));
+        final operation =
+            delete ? model.delete() : model.save({"name": "first"});
+        final first = _expectFailure(operation, adapter);
+        await adapter.started.future;
+        final saving = _expectFailure(model.saving!, adapter);
+        final concurrent =
+            _expectFailure(model.save({"name": "concurrent"}), adapter);
+        adapter.release.complete();
+        await Future.wait([first, saving, concurrent]);
+        expect(model.saving, isNull);
+        adapter.shouldFail[0] = false;
+        await model.save({"name": "retry"});
+        await model.reload();
+        expect(model.value?["name"], "retry");
+      });
+      expect(unhandled, isEmpty);
+    });
+  }
+
+  test("runtimeDocumentModel.singleSaveFailureDoesNotLeak", () async {
+    final unhandled = await _captureUnhandled(() async {
+      final adapter = _FailingRuntimeModelAdapter();
+      final model = RuntimeMapDocumentModel(
+          DocumentModelQuery("test/single", adapter: adapter));
+      final operation = _expectFailure(model.save({"name": "first"}), adapter);
+      await adapter.started.future;
+      adapter.release.complete();
+      await operation;
+    });
+    expect(unhandled, isEmpty);
+  });
+
+  test("runtimeDocumentModel.queuedTransactionFailureReachesBothCallers",
+      () async {
+    final unhandled = await _captureUnhandled(() async {
+      final adapter = _FailingRuntimeModelAdapter();
+      final model = RuntimeMapDocumentModel(
+          DocumentModelQuery("test/queued", adapter: adapter));
+      final first = _expectFailure(model.save({"name": "first"}), adapter);
+      // Before the save callback starts, this call waits on the internal transaction.
+      final second = _expectFailure(model.save({"name": "second"}), adapter);
+      await adapter.started.future;
+      adapter.release.complete();
+      await Future.wait([first, second]);
+      adapter.shouldFail[0] = false;
+      await model.save({"name": "retry"});
+      await model.reload();
+      expect(model.value?["name"], "retry");
+    });
+    expect(unhandled, isEmpty);
+  });
+
   test("runtimeDocumentModel.saveAndLoadAndDelete", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);

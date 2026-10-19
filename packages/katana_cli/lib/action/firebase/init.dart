@@ -8,6 +8,7 @@ import "package:yaml/yaml.dart";
 
 // Project imports:
 import "package:katana_cli/action/firebase/authentication.dart";
+import "package:katana_cli/action/firebase/messaging.dart";
 import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -1261,6 +1262,16 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           await project.readAsString(),
         ),
       );
+    }
+    final disableDevCollection = firebase["disable_dev_sdk_collection"];
+    if (disableDevCollection != null && disableDevCollection is! bool) {
+      throw const FormatException(
+        "firebase.disable_dev_sdk_collection must be a boolean.",
+      );
+    }
+    if (flavor == "dev" && disableDevCollection == true) {
+      await const FirebaseMessagingCliAction()
+          .synchronizeDevSdkCollectionBuildPhase(disableCollection: true);
     }
     label("Edit settings.gradle.");
     final settingsGradle = SettingsGradle();

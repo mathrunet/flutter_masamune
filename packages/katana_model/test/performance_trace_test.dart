@@ -9,9 +9,10 @@ import "package:test/test.dart";
 import "package:katana_model/katana_model.dart";
 
 class _TraceDocumentModel extends DocumentBase<DynamicMap> {
-  _TraceDocumentModel(super.modelQuery, {this.fail = false});
+  _TraceDocumentModel(super.modelQuery, {this.fail = false, this.failure});
 
   final bool fail;
+  final _LoadFailure? failure;
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -21,6 +22,9 @@ class _TraceDocumentModel extends DocumentBase<DynamicMap> {
 
   @override
   Future<DynamicMap?> loadRequest() async {
+    if (failure != null) {
+      await failure!.raise();
+    }
     if (fail) {
       await Future<void>.delayed(const Duration(milliseconds: 10));
       throw StateError("load failed");
@@ -30,11 +34,34 @@ class _TraceDocumentModel extends DocumentBase<DynamicMap> {
 }
 
 class _TraceCollectionModel extends CollectionBase<_TraceDocumentModel> {
-  _TraceCollectionModel(super.modelQuery);
+  _TraceCollectionModel(super.modelQuery, {this.failure});
+
+  final _LoadFailure? failure;
+
+  @override
+  Future<Map<String, DynamicMap>?> loadRequest() async {
+    if (failure != null) {
+      await failure!.raise();
+    }
+    return super.loadRequest();
+  }
 
   @override
   _TraceDocumentModel create([String? id]) =>
       _TraceDocumentModel(modelQuery.create(id));
+}
+
+class _LoadFailure {
+  final error = StateError("load failed");
+  final stackTrace = StackTrace.fromString("original adapter stack");
+  final started = Completer<void>();
+  final release = Completer<void>();
+
+  Future<void> raise() async {
+    started.complete();
+    await release.future;
+    Error.throwWithStackTrace(error, stackTrace);
+  }
 }
 
 void main() {
@@ -132,4 +159,92 @@ void main() {
       ),
     );
   });
+
+  for (final target in ["collection", "document"]) {
+    for (final operation in [
+      "load",
+      "reload",
+      if (target == "collection") "next"
+    ]) {
+      for (final subscribe in [false, true]) {
+        test(
+            "$target $operation preserves failures without unhandled duplicates "
+            "(subscribe: $subscribe)", () async {
+          final failure = _LoadFailure();
+          final unhandled = <Object>[];
+          final receivedErrors = <Object>[];
+          final receivedStacks = <StackTrace>[];
+          final done = Completer<void>();
+          final zonedFuture = runZonedGuarded<Future<void>>(() async {
+            try {
+              late Future<Object?> Function() request;
+              late Future<Object?>? Function() loading;
+              late Future<Object?>? Function() reloading;
+              late Future<Object?> Function() concurrentLoad;
+              if (target == "collection") {
+                final model = _TraceCollectionModel(
+                  CollectionModelQuery("trace", adapter: modelAdapter),
+                  failure: failure,
+                );
+                request = switch (operation) {
+                  "load" => model.load,
+                  "reload" => model.reload,
+                  _ => model.next,
+                };
+                loading = () => model.loading;
+                reloading = () => model.reloading;
+                concurrentLoad = model.load;
+              } else {
+                final model = _TraceDocumentModel(
+                  DocumentModelQuery("trace/error", adapter: modelAdapter),
+                  failure: failure,
+                );
+                request = operation == "load" ? model.load : model.reload;
+                loading = () => model.loading;
+                reloading = () => model.reloading;
+                concurrentLoad = model.load;
+              }
+              Future<void> observe(Future<Object?> future) async {
+                try {
+                  await future;
+                } catch (error, stackTrace) {
+                  receivedErrors.add(error);
+                  receivedStacks.add(stackTrace);
+                }
+              }
+
+              final pending = <Future<void>>[observe(request())];
+              await failure.started.future;
+              if (subscribe) {
+                pending.add(observe(loading()!));
+                if (operation == "load") {
+                  pending.add(observe(concurrentLoad()));
+                } else {
+                  pending.add(observe(reloading()!));
+                }
+              }
+              failure.release.complete();
+              await Future.wait(pending);
+              await Future<void>.delayed(Duration.zero);
+              done.complete();
+            } catch (error, stackTrace) {
+              done.completeError(error, stackTrace);
+            }
+          }, (error, stackTrace) => unhandled.add(error));
+          if (zonedFuture != null) {
+            unawaited(zonedFuture);
+          }
+          await done.future;
+          expect(unhandled, isEmpty);
+          expect(receivedErrors, hasLength(subscribe ? 3 : 1));
+          for (final error in receivedErrors) {
+            expect(error, same(failure.error));
+          }
+          for (final stackTrace in receivedStacks) {
+            expect(stackTrace.toString(), failure.stackTrace.toString());
+          }
+        });
+      }
+    }
+  }
 }

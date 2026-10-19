@@ -201,3 +201,47 @@ For other commands, please see Help.
 Sponsors are always welcome. Thank you for your support!
 
 [https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)
+
+### Location during an active session
+
+`location.enable_background` controls the native background location capability.
+`location.require_always_permission` defaults to `true` for compatibility. Set
+it to `false` to keep that capability with WhenInUse authorization only:
+
+```yaml
+location:
+  enable: true
+  enable_background: true
+  require_always_permission: false
+  permission:
+    en: Location is used during playback to adapt your soundtrack.
+```
+
+Apply the setting with `katana apply --local --only location --flavor dev` when
+location dependencies and backend initialization already exist. The action
+removes obsolete Always usage messages and Android background location
+permission, preserves iOS background modes, enables Android location foreground
+service permissions, and synchronizes the permission_handler/geolocator iOS
+compilation flags. Reapplying or switching back to Always access is supported.
+The application must start location updates while visible, stop them when its
+active session ends, and handle denied permissions independently.
+
+### Migrating deep links to a custom scheme
+
+Use `app.deeplink.remove_hosts` to remove dedicated Android VIEW filters and iOS
+`applinks` entries for explicitly listed HTTP(S) origins. Other URL handlers and
+entitlements remain unchanged. Mixed Android filters are preserved; separate
+unrelated origins before using this migration.
+
+```yaml
+app:
+  deeplink:
+    enable: true
+    host: segue://track
+    remove_hosts:
+      - https://segue.day
+```
+
+Run `katana apply --only deeplink` to apply only the deep link settings. Existing
+custom-scheme handlers remain available. Update the hosted association documents
+separately when public HTTPS links should open a web page first.

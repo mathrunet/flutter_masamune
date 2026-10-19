@@ -319,6 +319,60 @@ Future<void> _testStorageBucketAndCustomDomain() async {
       isError && !_calls(root).any((call) => call.contains("domain add")),
       "A missing zone ID must be reported before attaching a domain: ${_calls(root)}",
     );
+
+    // Private buckets are valid without a public base URL or custom domain.
+    (yaml["cloudflare"] as Map)["zone_id"] = "zone-1";
+    storage["custom_domain"] = {"dev": "", "prod": "storage.example.com"};
+    storage["public_base_url"] = {"dev": "", "prod": null};
+    const cloudflarePackage = "@mathrunet/masamune_cloudflare_storage";
+    File("cloudflare/package-lock.json").writeAsStringSync(jsonEncode({
+      "packages": {
+        "node_modules/$cloudflarePackage": {"version": "1.0.0"},
+      },
+    }));
+    final installedPackage =
+        Directory("cloudflare/node_modules/$cloudflarePackage");
+    installedPackage.createSync(recursive: true);
+    File("${installedPackage.path}/package.json")
+        .writeAsStringSync('{"version":"1.0.0"}');
+    File("pubspec.lock").writeAsStringSync(
+      'packages:\n  masamune_storage_cloudflare:\n    version: "1.0.0"\n',
+    );
+    Directory("fake_flutter_dependency/lib").createSync(recursive: true);
+    File(".dart_tool/package_config.json")
+      ..parent.createSync(recursive: true)
+      ..writeAsStringSync(jsonEncode({
+        "configVersion": 2,
+        "packages": [
+          {
+            "name": "masamune_storage_cloudflare",
+            "rootUri": "../fake_flutter_dependency/",
+            "packageUri": "lib/",
+            "languageVersion": "3.0",
+          },
+        ],
+      }));
+    action.validateLocal(_context(yaml, "dev"));
+    final wranglerFile = File("cloudflare/wrangler.jsonc");
+    var wranglerSource = wranglerFile.readAsStringSync();
+    wranglerSource = WranglerEnvironmentSynchronizer.upsertVariables(
+      wranglerSource,
+      flavor: "dev",
+      values: const {"STORAGE_PUBLIC_BASE_URL": "https://stale.example.com"},
+    );
+    wranglerFile.writeAsStringSync(wranglerSource);
+    _clearCalls(root);
+    await action.exec(_context(yaml, "dev"));
+    wranglerSource = wranglerFile.readAsStringSync();
+    _decodeJsonc(wranglerSource);
+    _check(
+      !_env(wranglerSource, "dev").contains("STORAGE_PUBLIC_BASE_URL") &&
+          _env(wranglerSource, "prod").contains(
+            '"STORAGE_PUBLIC_BASE_URL": "https://storage.example.com"',
+          ) &&
+          _calls(root).contains("r2 bucket list"),
+      "A private dev bucket must be applied without a stale public URL and without changing prod: $wranglerSource\n${_calls(root)}",
+    );
   });
 }
 

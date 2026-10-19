@@ -173,6 +173,7 @@ class AIDebugAccount {
   const AIDebugAccount({
     required this.id,
     required this.password,
+    this.alias,
   });
 
   /// Identifier (typically an email) shown in the UI and passed to
@@ -185,6 +186,10 @@ class AIDebugAccount {
   ///
   /// 内部でのみ解決されるパスワード。UIには一切表示されません。
   final String password;
+
+  /// Optional non-secret automation alias matching `[A-Za-z0-9][A-Za-z0-9_-]{0,63}`.
+  /// Aliases must be unique within the adapter account list.
+  final String? alias;
 
   /// Parses a `id1:pass1,id2:pass2` formatted string into a list of accounts.
   ///
@@ -330,6 +335,7 @@ class _AIDebugContextSanitizer {
 class AIDebugSettings {
   /// Creates AI Debugger settings.
   const AIDebugSettings({
+    this.provider,
     this.manualModel = AIDebugModel.sol,
     this.manualPermissionMode = AIDebugPermissionMode.plan,
     this.errorModel = AIDebugModel.sol,
@@ -339,6 +345,9 @@ class AIDebugSettings {
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
   });
+
+  /// Execution provider shared by all requests, or null for automatic selection.
+  final String? provider;
 
   /// Model used by manual requests.
   final AIDebugModel manualModel;
@@ -366,6 +375,8 @@ class AIDebugSettings {
 
   /// Returns a copy with selected values replaced.
   AIDebugSettings copyWith({
+    String? provider,
+    bool clearProvider = false,
     AIDebugModel? manualModel,
     AIDebugPermissionMode? manualPermissionMode,
     AIDebugModel? errorModel,
@@ -376,6 +387,7 @@ class AIDebugSettings {
     Duration? indicatorTimeout,
   }) =>
       AIDebugSettings(
+        provider: clearProvider ? null : (provider ?? this.provider),
         manualModel: manualModel ?? this.manualModel,
         manualPermissionMode: manualPermissionMode ?? this.manualPermissionMode,
         errorModel: errorModel ?? this.errorModel,
@@ -388,6 +400,7 @@ class AIDebugSettings {
       );
 
   Map<String, Object?> _toJson() => {
+        "provider": provider,
         "manualModel": manualModel.name,
         "manualPermissionMode": manualPermissionMode.name,
         "errorModel": errorModel.name,
@@ -431,6 +444,9 @@ class AIDebugSettings {
     }
 
     return AIDebugSettings(
+      provider: json.containsKey("provider")
+          ? (json["provider"] is String ? json["provider"] as String : null)
+          : fallback.provider,
       manualModel: modelValue(json["manualModel"], fallback.manualModel),
       manualPermissionMode: enumValue(
         json["manualPermissionMode"],
@@ -587,3 +603,90 @@ typedef AIDebugConfiguredReportIncidentCallback = Future<void> Function(
   required AIDebugModel model,
   required AIDebugPermissionMode permissionMode,
 });
+
+/// Authentication state observed from the application's real auth controller.
+enum AIDebugAuthState {
+  /// The application cannot determine its authentication state.
+  unknown,
+
+  /// Authentication initialization is still in progress.
+  initializing,
+
+  /// A real authenticated session is available.
+  authenticated,
+
+  /// Initialization completed without an authenticated session.
+  unauthenticated,
+
+  /// Authentication observation failed.
+  error,
+}
+
+/// Completion of the application's startup session restoration.
+enum AIDebugAuthRestoreState {
+  /// Restoration instrumentation is unavailable.
+  unsupported,
+
+  /// Restoration has not started yet.
+  pending,
+
+  /// Restoration is running.
+  running,
+
+  /// The real restoration future completed successfully.
+  completed,
+
+  /// The real restoration future failed.
+  failed,
+}
+
+/// Application startup readiness, independent of the current route.
+enum AIDebugAuthBootState {
+  /// Startup is still in progress.
+  initializing,
+
+  /// Startup completed.
+  ready,
+
+  /// Startup failed.
+  error,
+}
+
+/// A read-only snapshot of real authentication and startup state.
+///
+/// Never derive [identity] from the selected debug account or route. Supply a
+/// stable non-secret opaque token derived from the actual authenticated user ID.
+/// Do not expose email addresses, credentials, access tokens or refresh tokens.
+/// [loginCount] counts ALL explicit sign-in attempts since process startup,
+/// including automatic sign-in and failed attempts, but excluding credential
+/// restoration. Leave it null unless every application sign-in path is covered.
+/// A null counter or unsupported restoration cannot prove session persistence.
+@immutable
+class AIDebugAuthSnapshot {
+  /// Creates a snapshot without performing authentication operations.
+  const AIDebugAuthSnapshot({
+    this.state = AIDebugAuthState.unknown,
+    this.restoreState = AIDebugAuthRestoreState.unsupported,
+    this.bootState = AIDebugAuthBootState.initializing,
+    this.identity,
+    this.loginCount,
+  }) : assert(loginCount == null || loginCount >= 0);
+
+  /// Current real authentication state.
+  final AIDebugAuthState state;
+
+  /// Startup restoration state, not inferred from [state].
+  final AIDebugAuthRestoreState restoreState;
+
+  /// Application startup readiness.
+  final AIDebugAuthBootState bootState;
+
+  /// Non-secret stable token for the actual authenticated user.
+  final String? identity;
+
+  /// All explicit sign-in attempts in this process, or null when unsupported.
+  final int? loginCount;
+}
+
+/// Observes authentication without login, logout, restore or other side effects.
+typedef AIDebugAuthSnapshotCallback = AIDebugAuthSnapshot Function();

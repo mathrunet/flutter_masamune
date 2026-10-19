@@ -23,6 +23,52 @@ final kSizeListNotificationIcon = {
   "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_notification.png": 432,
 };
 
+const _firebaseMessagingAutoInitBuildPhaseId = "F17EBA5E0000000000000002";
+const _firebaseMessagingAutoInitBuildPhaseName =
+    "Set Dev Firebase Messaging Auto-Init";
+const _firebaseMessagingAutoInitBuildScript = r'''
+#!/bin/sh
+set -eu
+
+FLAVOR=""
+OLD_IFS="$IFS"
+IFS=','
+for encoded in ${DART_DEFINES:-}; do
+  decoded="$(printf '%s' "$encoded" | /usr/bin/base64 -D)"
+  case "$decoded" in
+    FLAVOR=*) FLAVOR="${decoded#FLAVOR=}" ;;
+  esac
+done
+IFS="$OLD_IFS"
+
+case "$FLAVOR" in
+  dev|prod|test) ;;
+  *) echo "error: FLAVOR must be dev, prod or test." >&2; exit 1 ;;
+esac
+
+BUILT_PLIST="$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+SOURCE_PLIST="$PROJECT_DIR/$INFOPLIST_FILE"
+PLIST_BUDDY=/usr/libexec/PlistBuddy
+
+if [ "$FLAVOR" = "dev" ]; then
+  if [ ! -f "$BUILT_PLIST" ]; then
+    echo "error: Processed app Info.plist was not found: $BUILT_PLIST" >&2
+    exit 1
+  fi
+  if "$PLIST_BUDDY" -c "Print :FirebaseMessagingAutoInitEnabled" "$BUILT_PLIST" >/dev/null 2>&1; then
+    "$PLIST_BUDDY" -c "Delete :FirebaseMessagingAutoInitEnabled" "$BUILT_PLIST"
+  fi
+  "$PLIST_BUDDY" -c "Add :FirebaseMessagingAutoInitEnabled bool false" "$BUILT_PLIST"
+  exit 0
+fi
+
+if [ -f "$BUILT_PLIST" ] && [ -f "$SOURCE_PLIST" ] &&
+   ! "$PLIST_BUDDY" -c "Print :FirebaseMessagingAutoInitEnabled" "$SOURCE_PLIST" >/dev/null 2>&1 &&
+   "$PLIST_BUDDY" -c "Print :FirebaseMessagingAutoInitEnabled" "$BUILT_PLIST" >/dev/null 2>&1; then
+  "$PLIST_BUDDY" -c "Delete :FirebaseMessagingAutoInitEnabled" "$BUILT_PLIST"
+fi
+''';
+
 /// Initialize FirebaseMessaging settings.
 ///
 /// FirebaseMessagingの初期設定を行います。
@@ -88,12 +134,11 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         );
       }
     }
-    final compileOptions = GradleAndroidCompileOptions(
-      sourceCompatibility: "JavaVersion.VERSION_11",
-      targetCompatibility: "JavaVersion.VERSION_11",
-      coreLibraryDesugaringEnabled: true,
-    );
-    gradle.android?.compileOptions = compileOptions;
+    final compileOptions = gradle.android?.compileOptions;
+    compileOptions?.ensureMinimumJavaVersion(11);
+    if (compileOptions != null) {
+      compileOptions.coreLibraryDesugaringEnabled = true;
+    }
     final defaultConfig = gradle.android?.defaultConfig;
     if (defaultConfig == null) {
       throw Exception("defaultConfig is not found. Please check build.gradle.");
@@ -426,6 +471,12 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       );
     }
     await appDelegateFile.writeAsString(swift);
+    if (context.flavorContext?.flavor.name == "dev") {
+      label("Configure dev-only Firebase Messaging auto-init.");
+      await synchronizeDevSdkCollectionBuildPhase(
+        disableCollection: firebase.get("disable_dev_sdk_collection", false),
+      );
+    }
     await addFlutterImport(
       [
         "masamune_notification_firebase",
@@ -536,5 +587,120 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       name: "GOOGLE_SERVICE_ACCOUNT",
       value: serviceAccount!,
     );
+  }
+
+  /// Synchronizes the existing dev-only phase without changing production inputs.
+  Future<void> synchronizeDevSdkCollectionBuildPhase({
+    bool disableCollection = false,
+  }) async {
+    final projectFile = File("ios/Runner.xcodeproj/project.pbxproj");
+    if (!projectFile.existsSync()) {
+      throw Exception(
+        "Runner.xcodeproj does not exist in `ios/Runner.xcodeproj/project.pbxproj`.",
+      );
+    }
+    var source = await projectFile.readAsString();
+    var script = _firebaseMessagingAutoInitBuildScript;
+    if (disableCollection) {
+      script = script
+          .replaceAll("FirebaseMessagingAutoInitEnabled", r"$KEY")
+          .replaceFirst(
+            r'if [ "$FLAVOR" = "dev" ]; then',
+            "for KEY in FirebaseMessagingAutoInitEnabled FIREBASE_ANALYTICS_COLLECTION_ENABLED FirebaseCrashlyticsCollectionEnabled firebase_performance_collection_enabled; do\n"
+                r'if [ "$FLAVOR" = "dev" ]; then',
+          )
+          .replaceFirst("  exit 0\nfi", "  continue\nfi");
+      script = "$script\ndone\n";
+    }
+    final escapedScript = script
+        .replaceAll(r"\", r"\\")
+        .replaceAll('"', r'\"')
+        .replaceAll("\n", r"\n");
+    final phasePattern = RegExp(
+      "$_firebaseMessagingAutoInitBuildPhaseId /\\* $_firebaseMessagingAutoInitBuildPhaseName \\*/ = \\{[\\s\\S]*?\\n[ \\t]*\\};",
+    );
+    final existingPhase = phasePattern.firstMatch(source);
+    if (existingPhase != null) {
+      final updatedPhase = existingPhase
+          .group(0)!
+          .replaceFirst(
+            RegExp(r'shellScript = "(?:\\.|[^"\\])*";'),
+            'shellScript = "$escapedScript";',
+          )
+          .replaceFirst(
+            RegExp(r"inputPaths = \([\s\S]*?\);"),
+            r'inputPaths = ("$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)");',
+          )
+          .replaceFirst(
+            RegExp(r"outputPaths = \([\s\S]*?\);"),
+            "outputPaths = ();",
+          );
+      source = source.replaceRange(
+        existingPhase.start,
+        existingPhase.end,
+        updatedPhase,
+      );
+    } else {
+      const sectionEnd = "/* End PBXShellScriptBuildPhase section */";
+      final sectionIndex = source.indexOf(sectionEnd);
+      if (sectionIndex < 0) {
+        throw const FormatException(
+          "PBXShellScriptBuildPhase section was not found.",
+        );
+      }
+      final phase = '''
+\t\t$_firebaseMessagingAutoInitBuildPhaseId /* $_firebaseMessagingAutoInitBuildPhaseName */ = {
+\t\t\tisa = PBXShellScriptBuildPhase;
+\t\t\talwaysOutOfDate = 1;
+\t\t\tbuildActionMask = 2147483647;
+\t\t\tfiles = ();
+\t\t\tinputFileListPaths = ();
+\t\t\tinputPaths = ("\$(TARGET_BUILD_DIR)/\$(INFOPLIST_PATH)");
+\t\t\tname = "$_firebaseMessagingAutoInitBuildPhaseName";
+\t\t\toutputFileListPaths = ();
+\t\t\toutputPaths = ();
+\t\t\trunOnlyForDeploymentPostprocessing = 0;
+\t\t\tshellPath = /bin/sh;
+\t\t\tshellScript = "$escapedScript";
+\t\t};
+''';
+      source = source.replaceRange(sectionIndex, sectionIndex, phase);
+    }
+    const runnerTargetMarker = "/* Runner */ = {";
+    const nativeTargetSection = "/* Begin PBXNativeTarget section */";
+    final nativeTargetStart = source.indexOf(nativeTargetSection);
+    final runnerTargetStart = source.indexOf(
+      runnerTargetMarker,
+      nativeTargetStart,
+    );
+    final runnerTargetEnd = source.indexOf("\n\t\t};", runnerTargetStart);
+    if (runnerTargetStart < 0 || runnerTargetEnd < 0) {
+      throw const FormatException("The Runner Xcode target was not found.");
+    }
+    var runnerTarget = source.substring(runnerTargetStart, runnerTargetEnd);
+    const phaseReference =
+        "$_firebaseMessagingAutoInitBuildPhaseId /* $_firebaseMessagingAutoInitBuildPhaseName */,";
+    runnerTarget = runnerTarget
+        .replaceAll(
+          RegExp("^[ \t]*${RegExp.escape(phaseReference)}\n", multiLine: true),
+          "",
+        )
+        .replaceAll(RegExp(r"[ \t]+\n"), "\n");
+    final buildPhasesStart = runnerTarget.indexOf("buildPhases = (\n");
+    final buildPhasesEnd = runnerTarget.indexOf("\n\t\t\t);", buildPhasesStart);
+    if (buildPhasesStart < 0 || buildPhasesEnd < 0) {
+      throw const FormatException("The Runner build phases were not found.");
+    }
+    runnerTarget = runnerTarget.replaceRange(
+      buildPhasesEnd,
+      buildPhasesEnd,
+      "\n\t\t\t\t$phaseReference",
+    );
+    source = source.replaceRange(
+      runnerTargetStart,
+      runnerTargetEnd,
+      runnerTarget,
+    );
+    await projectFile.writeAsString(source);
   }
 }

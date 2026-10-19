@@ -76,7 +76,7 @@ Future<void> main() async {
     final expected = flavor == KatanaFlavor.dev
         ? {"dev-apac": "aws-ap-northeast-1"}
         : {
-            "prod-apac": "aws-ap-northeast-1",
+            "prod-asia": "aws-ap-northeast-1",
             "prod-us": "aws-us-east-1",
             "prod-eu": "aws-eu-west-1",
           };
@@ -420,7 +420,7 @@ Future<void> _testTursoRegions() async {
   const action = CloudflareTursoCliAction();
   const groups = [
     {
-      "name": "prod-apac",
+      "name": "prod-asia",
       "continents": ["AS", "OC"]
     },
     {
@@ -466,14 +466,14 @@ import * as m from "@mathrunet/masamune_cloudflare";
 import * as turso from "@mathrunet/masamune_cloudflare_turso";
 const shared = { groups: [{ name: "prod-eu" }], resolveGroup: () => "prod-eu" };
 export default m.deploy([
-  turso.Functions.turso({ ...shared, autoCreateDatabase: false, resolveGroup: ({country}) => country === "JP" ? "prod-apac" : "prod-eu" }),
+  turso.Functions.turso({ ...shared, autoCreateDatabase: false, resolveGroup: ({country}) => country === "JP" ? "prod-asia" : "prod-eu" }),
   turso.Functions.tursoToken(shared),
 ]);
 """;
   final once = action.updateTursoFunctions(source, useSchemaManifest: true)!;
   final twice = action.updateTursoFunctions(once, useSchemaManifest: true)!;
   _expect(once == twice, "再適用は冪等である必要があります。");
-  _expect(once.contains('country === "JP" ? "prod-apac" : "prod-eu"'),
+  _expect(once.contains('country === "JP" ? "prod-asia" : "prod-eu"'),
       "resolverが失われています。");
   _expect(once.contains("autoCreateDatabase: false"), "自動作成の明示設定を保持します。");
   _expect(
