@@ -749,12 +749,13 @@
       "runtimeAndChangelogMatch": true
     },
     "masamune_purchase_mobile": {
-      "version": "3.1.21",
-      "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e",
-      "archiveUrl": "https://pub.dev/api/archives/masamune_purchase_mobile-3.1.21.tar.gz",
-      "archiveSha256": "956ae11acdddcbf444593879170af146be21c538679556374dad8e4bb2bbb26f",
+      "version": "3.1.22",
+      "sourceSha": "23be2ef823e87d46ebdd8ecb7818f4205fc7e1e4",
+      "archiveUrl": "https://pub.dev/api/archives/masamune_purchase_mobile-3.1.22.tar.gz",
+      "verifiedOn": "2026-10-20",
       "matchedFiles": 11,
-      "runtimeAndChangelogMatch": true
+      "runtimeAndChangelogMatch": true,
+      "method": "All 11 extracted archive files match the existing published tag byte for byte. The prematurely advanced source version 3.1.23 was corrected to the published baseline 3.1.22; its release notes remain in the Unreleased section. Runtime changes, SDK constraints and dependency requirements are preserved for the normal release planner."
     },
     "masamune_purchase_stripe": {
       "version": "3.7.20",

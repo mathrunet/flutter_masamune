@@ -1,4 +1,4 @@
-## 3.1.23
+## Unreleased
 
  - **FIX**: Update the Android purchase integration to Google Play Billing Library 8.0.0 through `in_app_purchase_android` 0.5.3.
 
