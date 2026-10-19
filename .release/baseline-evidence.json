@@ -755,7 +755,8 @@
       "verifiedOn": "2026-10-20",
       "matchedFiles": 11,
       "runtimeAndChangelogMatch": true,
-      "method": "All 11 extracted archive files match the existing published tag byte for byte. The prematurely advanced source version 3.1.23 was corrected to the published baseline 3.1.22; its release notes remain in the Unreleased section. Runtime changes, SDK constraints and dependency requirements are preserved for the normal release planner."
+      "method": "All 11 extracted archive files match the existing published tag byte for byte. The prematurely advanced source version 3.1.23 was corrected to the published baseline 3.1.22; its release notes remain in the Unreleased section. Runtime changes, SDK constraints and dependency requirements are preserved for the normal release planner.",
+      "archiveSha256": "95760a7cb989161e651a5e9c67d5ef52308be4ec07647ba1cd64f663332dfe14"
     },
     "masamune_purchase_stripe": {
       "version": "3.7.20",
