@@ -38,7 +38,7 @@ class CodeDebugCliCommand extends CliCommand {
         "--update-goldens",
         "--dart-define=CI=false",
         "--dart-define=TESTDIR=documents/debug",
-        "--dart-define-from-file=dart_defines/dev.env",
+        "--dart-define-from-file=${resolveDartDefinesFileOrExit("dart_defines/dev.env")}",
         if (target.isNotEmpty) ...[
           "--plain-name",
           target,

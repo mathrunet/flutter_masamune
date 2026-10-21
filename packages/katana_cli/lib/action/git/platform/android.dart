@@ -3,6 +3,7 @@ import "dart:convert";
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/git/dart_defines.dart";
 import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -174,6 +175,21 @@ Future<void> buildAndroid(
       value: serviceAccount,
     );
   }
+  if (!isLocalApply) {
+    if (!await registerDartDefinesSecrets(
+      gh: gh,
+      path: kProductionDartDefinesFile,
+      suffix: appName.toUpperCase(),
+    )) {
+      return;
+    }
+    if (!await registerDartDefinesSecrets(
+      gh: gh,
+      path: kDevelopmentDartDefinesFile,
+    )) {
+      return;
+    }
+  }
   final gitDir = await findGitDirectory(Directory.current);
   await GitStatusCheckActionCliCode(
     workingDirectory: gitDir,
@@ -189,7 +205,13 @@ Future<void> buildAndroid(
     "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
       return androidCode._additionalSlackFilter(
-        value
+        applyDartDefinesToWorkflow(
+          value,
+          buildNames: dartDefinesEnvironmentNames(kProductionDartDefinesFile),
+          statusCheckNames:
+              dartDefinesEnvironmentNames(kDevelopmentDartDefinesFile),
+          suffix: appName.toUpperCase(),
+        )
             .replaceAll(
               "#### REPLACE_ANDROID_PACKAGE_NAME ####",
               packageName.replaceAll('"', ""),

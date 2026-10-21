@@ -3,7 +3,9 @@
 /// katana.yamlの中身。
 String katanaYamlCode(bool showAllConfig) => """
 # Values can reference environment variables with `\${NAME}` (`\${NAME:-default}` for a default, `\$\${NAME}` to keep it literally).
+# The same syntax can be used for values in `dart_defines/*.env`; katana commands and `katana git action` workflows expand them at build time.
 # 値には`\${NAME}`で環境変数を参照できます（`\${NAME:-default}`でデフォルト値、`\$\${NAME}`でそのまま記載）。
+# `dart_defines/*.env`の値にも同じ構文が使え、katanaコマンドと`katana git action`のワークフローがビルド時に展開します。
 
 # Describe the application information.
 # アプリケーション情報を記載します。

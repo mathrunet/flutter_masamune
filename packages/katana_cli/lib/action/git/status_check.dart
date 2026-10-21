@@ -2,6 +2,7 @@
 import "dart:io";
 
 // Project imports:
+import "package:katana_cli/action/git/dart_defines.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Check the status of the commit.
@@ -35,7 +36,14 @@ class GitStatusCheckCliAction extends CliCommand with CliActionMixin {
     ).generateFile("action.yaml");
     await GitStatusCheckCliCode(
       workingDirectory: gitDir,
-    ).generateFile("status_check.yaml");
+    ).generateFile(
+      "status_check.yaml",
+      filter: (value) => applyDartDefinesToWorkflow(
+        value,
+        statusCheckNames:
+            dartDefinesEnvironmentNames(kDevelopmentDartDefinesFile),
+      ),
+    );
   }
 }
 

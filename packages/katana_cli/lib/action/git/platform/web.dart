@@ -5,6 +5,7 @@ import "dart:io";
 import "package:yaml/yaml.dart";
 
 // Project imports:
+import "package:katana_cli/action/git/dart_defines.dart";
 import "package:katana_cli/action/git/status_check.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -20,6 +21,21 @@ Future<void> buildWeb(
   final secretGithub = context.secrets.getAsMap("github");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
+  if (!isLocalApply) {
+    if (!await registerDartDefinesSecrets(
+      gh: gh,
+      path: kProductionDartDefinesFile,
+      suffix: appName.toUpperCase(),
+    )) {
+      return;
+    }
+    if (!await registerDartDefinesSecrets(
+      gh: gh,
+      path: kDevelopmentDartDefinesFile,
+    )) {
+      return;
+    }
+  }
   final gitDir = await findGitDirectory(Directory.current);
   await GitStatusCheckActionCliCode(
     workingDirectory: gitDir,
@@ -46,7 +62,13 @@ Future<void> buildWeb(
   await webCode.generateFile(
     "build_web_${appName.toLowerCase()}.yaml",
     filter: (source) => webCode._additionalSlackFilter(
-      webCode._additionalFilter(yaml, source),
+      applyDartDefinesToWorkflow(
+        webCode._additionalFilter(yaml, source),
+        buildNames: dartDefinesEnvironmentNames(kProductionDartDefinesFile),
+        statusCheckNames:
+            dartDefinesEnvironmentNames(kDevelopmentDartDefinesFile),
+        suffix: appName.toUpperCase(),
+      ),
       slackIncomingWebhookUrl,
     ),
   );
