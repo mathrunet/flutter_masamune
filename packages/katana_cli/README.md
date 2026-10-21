@@ -201,6 +201,33 @@ cloudflare:
 - Commands that update `katana.yaml` keep the `${NAME}` references and never
   write expanded values back.
 
+## Android signing with environment variables
+
+When `app.keystore.enable` is `true`, the Android signing configuration can be
+supplied entirely by environment variables instead of keystore files.
+
+| Variable | Description |
+| --- | --- |
+| `ANDROID_KEYSTORE_B64` | Base64 encoded keystore. |
+| `ANDROID_KEYSTORE_PASSWORD` | Password for both the store and the key. |
+| `ANDROID_KEYSTORE_ALIAS` | Optional. Overrides `app.keystore.alias`. |
+| `GPC_SERVICE_ACCOUNT_KEY_B64` | Optional. Base64 encoded Google Play service account key used by GitHub Actions. |
+
+- If `ANDROID_KEYSTORE_B64` and `ANDROID_KEYSTORE_PASSWORD` are set, `katana apply`
+  does not create `appkey.keystore`, `key.properties`, or the password file. It
+  only configures Gradle.
+- At build time, Gradle decodes the keystore into
+  `build/app/signing/upload.keystore`. Release and debug builds use it, so the
+  signature stays the same between local builds and CI.
+- If the variables are not set, Gradle falls back to `android/key.properties`.
+  Debug builds without either use the default debug key.
+- With `github.action` enabled, `katana apply` registers the values as
+  `ANDROID_KEYSTORE_B64_<APP>`, `ANDROID_KEYSTORE_PASSWORD_<APP>`,
+  `ANDROID_KEYSTORE_ALIAS_<APP>` (when set), and
+  `ANDROID_SERVICE_ACCOUNT_KEY_JSON_<APP>`. The generated workflow passes them to
+  Gradle as environment variables. Secret values are passed to `gh` through
+  standard input.
+
 ### Automatic code generation
 
 If you want to perform automatic code generation as a one-shot, execute the following command.

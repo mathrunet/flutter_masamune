@@ -864,6 +864,44 @@ Future<String> command(
   }
 }
 
+/// Register [value] as the GitHub Actions secret [name] using [gh].
+///
+/// The value is passed through standard input so that it never appears in
+/// the process arguments.
+///
+/// [gh]を使い[value]をGitHub ActionsのSecret [name]として登録します。
+///
+/// 値はプロセスの引数に現れないよう標準入力で渡します。
+Future<void> githubSecret(
+  String title, {
+  required String gh,
+  required String name,
+  required String value,
+  String? workingDirectory,
+}) async {
+  if (isLocalApply) {
+    throw StateError("--local ではこのプロセスを実行できません: $title");
+  }
+  stdout.add(utf8.encode("\r\n#### $title"));
+  final process = await Process.start(
+    gh,
+    ["secret", "set", name],
+    runInShell: true,
+    workingDirectory: workingDirectory,
+  );
+  final stdoutDone = process.stdout.forEach(stdout.add);
+  final stderrDone = process.stderr.forEach(stderr.add);
+  process.stdin.write(value);
+  await process.stdin.close();
+  final exitCode = await process.exitCode;
+  await Future.wait([stdoutDone, stderrDone]);
+  if (exitCode != 0) {
+    throw Exception(
+      "Failed to set the GitHub secret `$name`. Please check the log above for details.",
+    );
+  }
+}
+
 /// Add Flutter dependencies from [packages].
 ///
 /// Existing dependencies are preserved unless an explicit constraint such as

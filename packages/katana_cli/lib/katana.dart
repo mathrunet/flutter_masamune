@@ -78,6 +78,8 @@ ${showAllConfig ? """
   # Enter the alias of the keystore in [alias], the common name in [name], the organization name in [organization], the state or province in [state], and the country in [country].
   # Android用のkeystoreを作成します。
   # [alias]にkeystoreのエイリアス、[name]に共通名、[organization]に組織名、[state]に州や都道府県、[country]に国名を入力してください。
+  # If `ANDROID_KEYSTORE_B64` (base64 keystore) and `ANDROID_KEYSTORE_PASSWORD` are set, no keystore files are created and Gradle decodes the keystore at build time. `ANDROID_KEYSTORE_ALIAS` overrides [alias].
+  # `ANDROID_KEYSTORE_B64`（base64のkeystore）と`ANDROID_KEYSTORE_PASSWORD`が設定されている場合はkeystoreのファイルを作らず、ビルド時にGradleが復元します。`ANDROID_KEYSTORE_ALIAS`で[alias]を上書きできます。
   keystore: 
     enable: false
     alias: 

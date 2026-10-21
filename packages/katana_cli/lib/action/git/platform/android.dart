@@ -24,7 +24,8 @@ Future<void> buildAndroid(
   final secretGithub = context.secrets.getAsMap("github");
   final slack = secretGithub.getAsMap("slack");
   final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
-  if (!isLocalApply) {
+  final useEnvironment = AndroidSigningEnvironment.isConfigured();
+  if (!isLocalApply && !useEnvironment) {
     final keystoreFile = File("android/app/appkey.keystore");
     if (!keystoreFile.existsSync()) {
       error(
@@ -51,6 +52,23 @@ Future<void> buildAndroid(
       return;
     }
   }
+  if (!isLocalApply && useEnvironment) {
+    if (AndroidSigningEnvironment.value(
+              AndroidSigningEnvironment.serviceAccountVariable,
+            ) ==
+            null &&
+        await find(
+              Directory("android"),
+              RegExp("([a-z0-9_-]+).json"),
+              recursive: false,
+            ) ==
+            null) {
+      error(
+        "Json for service account not found. Set `${AndroidSigningEnvironment.serviceAccountVariable}` or place the json in `android/`. サービスアカウント用のJsonが見つかりません。`${AndroidSigningEnvironment.serviceAccountVariable}`を設定するか`android/`にJsonを配置してください。",
+      );
+      return;
+    }
+  }
   final gradle = AppGradle();
   await gradle.load();
   final packageName = gradle.android?.defaultConfig.applicationId;
@@ -60,7 +78,72 @@ Future<void> buildAndroid(
     );
     return;
   }
-  if (!isLocalApply) {
+  if (useEnvironment &&
+      !gradle.rawData.contains(AndroidSigningEnvironment.beginMarker)) {
+    error(
+      "The Gradle file does not read the keystore from environment variables. Set [app]->[keystore]->[enable] to `true` and run `katana apply`. Gradleファイルが環境変数からキーストアを読み込む設定になっていません。[app]->[keystore]->[enable]を`true`にして`katana apply`を実行してください。",
+    );
+    return;
+  }
+  final appSuffix = appName.toUpperCase();
+  if (!isLocalApply && useEnvironment) {
+    final keystore = _normalizeBase64(
+      AndroidSigningEnvironment.value(
+        AndroidSigningEnvironment.keystoreVariable,
+      )!,
+      AndroidSigningEnvironment.keystoreVariable,
+    );
+    final serviceAccountValue = AndroidSigningEnvironment.value(
+      AndroidSigningEnvironment.serviceAccountVariable,
+    );
+    final serviceAccount = serviceAccountValue != null
+        ? _normalizeBase64(
+            serviceAccountValue,
+            AndroidSigningEnvironment.serviceAccountVariable,
+          )
+        : base64.encode(
+            await (await find(
+              Directory("android"),
+              RegExp("([a-z0-9_-]+).json"),
+              recursive: false,
+            ))!
+                .readAsBytes(),
+          );
+    if (keystore == null || serviceAccount == null) {
+      return;
+    }
+    await githubSecret(
+      "Store `${AndroidSigningEnvironment.keystoreVariable}` in `secrets.ANDROID_KEYSTORE_B64_$appSuffix`.",
+      gh: gh,
+      name: "ANDROID_KEYSTORE_B64_$appSuffix",
+      value: keystore,
+    );
+    await githubSecret(
+      "Store `${AndroidSigningEnvironment.passwordVariable}` in `secrets.ANDROID_KEYSTORE_PASSWORD_$appSuffix`.",
+      gh: gh,
+      name: "ANDROID_KEYSTORE_PASSWORD_$appSuffix",
+      value: AndroidSigningEnvironment.value(
+        AndroidSigningEnvironment.passwordVariable,
+      )!,
+    );
+    final alias = AndroidSigningEnvironment.value(
+      AndroidSigningEnvironment.aliasVariable,
+    );
+    if (alias != null) {
+      await githubSecret(
+        "Store `${AndroidSigningEnvironment.aliasVariable}` in `secrets.ANDROID_KEYSTORE_ALIAS_$appSuffix`.",
+        gh: gh,
+        name: "ANDROID_KEYSTORE_ALIAS_$appSuffix",
+        value: alias,
+      );
+    }
+    await githubSecret(
+      "Store the service account key in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_$appSuffix`.",
+      gh: gh,
+      name: "ANDROID_SERVICE_ACCOUNT_KEY_JSON_$appSuffix",
+      value: serviceAccount,
+    );
+  } else if (!isLocalApply) {
     final keystoreFile = File("android/app/appkey.keystore");
     final keyPropertiesFile = File("android/key.properties");
     final serviceAccountFile = await find(
@@ -72,38 +155,23 @@ Future<void> buildAndroid(
     final keyProperties = base64.encode(await keyPropertiesFile.readAsBytes());
     final serviceAccount =
         base64.encode(await serviceAccountFile!.readAsBytes());
-    await command(
-      "Store `appkey.keystore` in `secrets.ANDROID_KEYSTORE_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "ANDROID_KEYSTORE_${appName.toUpperCase()}",
-        "--body",
-        keystore,
-      ],
+    await githubSecret(
+      "Store `appkey.keystore` in `secrets.ANDROID_KEYSTORE_$appSuffix`.",
+      gh: gh,
+      name: "ANDROID_KEYSTORE_$appSuffix",
+      value: keystore,
     );
-    await command(
-      "Store `key.properties` in `secrets.ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}",
-        "--body",
-        keyProperties,
-      ],
+    await githubSecret(
+      "Store `key.properties` in `secrets.ANDROID_KEY_PROPERTIES_$appSuffix`.",
+      gh: gh,
+      name: "ANDROID_KEY_PROPERTIES_$appSuffix",
+      value: keyProperties,
     );
-    await command(
-      "Store `service_account.json` in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}",
-        "--body",
-        serviceAccount,
-      ],
+    await githubSecret(
+      "Store `service_account.json` in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_$appSuffix`.",
+      gh: gh,
+      name: "ANDROID_SERVICE_ACCOUNT_KEY_JSON_$appSuffix",
+      value: serviceAccount,
     );
   }
   final gitDir = await findGitDirectory(Directory.current);
@@ -115,6 +183,7 @@ Future<void> buildAndroid(
     defaultIncrementNumber: defaultIncrementNumber,
     changesNotSentForReview: changesNotSentForReview,
     status: status,
+    useEnvironmentSigning: useEnvironment,
   );
   await androidCode.generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
@@ -174,6 +243,20 @@ Future<void> buildAndroid(
   await gitignore.writeAsString(gitignores.join("\n"));
 }
 
+/// Removes whitespace from the base64 value in [variable] and validates it.
+///
+/// Returns `null` and reports an error without the value when it is invalid.
+String? _normalizeBase64(String value, String variable) {
+  final normalized = value.replaceAll(RegExp(r"\s"), "");
+  try {
+    base64.decode(normalized);
+    return normalized;
+  } on FormatException {
+    error("`$variable` is not valid base64. `$variable`がbase64として不正です。");
+    return null;
+  }
+}
+
 /// Contents of buiod.yaml for Android in Github Actions.
 ///
 /// Github ActionsのAndroid用のbuiod.yamlの中身。
@@ -187,6 +270,7 @@ class GithubActionsAndroidCliCode extends CliCode {
     this.changesNotSentForReview,
     this.status = "draft",
     this.slackWebhookURL,
+    this.useEnvironmentSigning = false,
   });
 
   /// Working Directory.
@@ -213,6 +297,12 @@ class GithubActionsAndroidCliCode extends CliCode {
   ///
   /// Slack通知を利用する場合Incoming webhookのURLを記載。
   final String? slackWebhookURL;
+
+  /// Whether the keystore is supplied to Gradle by environment variables
+  /// instead of restoring `appkey.keystore` and `key.properties`.
+  ///
+  /// `appkey.keystore`と`key.properties`を復元せず、環境変数でGradleへキーストアを渡すかどうか。
+  final bool useEnvironmentSigning;
 
   @override
   String get name => "build_android";
@@ -354,29 +444,7 @@ jobs:
         run: mkdir -p assets
         timeout-minutes: 3
 
-      # Generate appkey.keystore from Secrets.
-      # Secretsからappkey.keystoreを生成。
-      - name: Create appkey.keystore
-        run: echo -n \${{ secrets.ANDROID_KEYSTORE_#### REPLACE_APP_NAME #### }} | base64 -d > android/app/appkey.keystore
-        timeout-minutes: 3
-
-      # Generate service_account_key.json from Secrets.
-      # Secretsからservice_account_key.jsonを生成。
-      - name: Create service_account_key.json
-        run: echo -n \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_#### REPLACE_APP_NAME #### }} | base64 -d > android/service_account_key.json
-        timeout-minutes: 3
-
-      # Generate key.properties from Secrets.
-      # Secretsからkey.propertiesを生成。
-      - name: Create key.properties
-        run: echo \${{ secrets.ANDROID_KEY_PROPERTIES_#### REPLACE_APP_NAME #### }} | base64 -d > android/key.properties
-        timeout-minutes: 3
-      
-      # Generate app bundle.
-      # App Bundleを生成。
-      - name: Building Android AppBundle
-        run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define-from-file=dart_defines/prod.env
-        timeout-minutes: 30
+${useEnvironmentSigning ? _environmentSigningSteps : _fileSigningSteps}
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。
@@ -405,6 +473,50 @@ jobs:
           releaseFiles: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release/*.aab
 """;
   }
+
+  String get _fileSigningSteps => """
+      # Generate appkey.keystore from Secrets.
+      # Secretsからappkey.keystoreを生成。
+      - name: Create appkey.keystore
+        run: echo -n \${{ secrets.ANDROID_KEYSTORE_#### REPLACE_APP_NAME #### }} | base64 -d > android/app/appkey.keystore
+        timeout-minutes: 3
+
+      # Generate service_account_key.json from Secrets.
+      # Secretsからservice_account_key.jsonを生成。
+      - name: Create service_account_key.json
+        run: echo -n \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_#### REPLACE_APP_NAME #### }} | base64 -d > android/service_account_key.json
+        timeout-minutes: 3
+
+      # Generate key.properties from Secrets.
+      # Secretsからkey.propertiesを生成。
+      - name: Create key.properties
+        run: echo \${{ secrets.ANDROID_KEY_PROPERTIES_#### REPLACE_APP_NAME #### }} | base64 -d > android/key.properties
+        timeout-minutes: 3
+      
+      # Generate app bundle.
+      # App Bundleを生成。
+      - name: Building Android AppBundle
+        run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define-from-file=dart_defines/prod.env
+        timeout-minutes: 30""";
+
+  String get _environmentSigningSteps => """
+      # Generate service_account_key.json from Secrets.
+      # Secretsからservice_account_key.jsonを生成。
+      - name: Create service_account_key.json
+        env:
+          SERVICE_ACCOUNT_KEY_JSON: \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_#### REPLACE_APP_NAME #### }}
+        run: echo -n "\$SERVICE_ACCOUNT_KEY_JSON" | base64 -d > android/service_account_key.json
+        timeout-minutes: 3
+
+      # Generate app bundle. Gradle decodes the keystore from the environment variables.
+      # App Bundleを生成。キーストアはGradleが環境変数から復元します。
+      - name: Building Android AppBundle
+        env:
+          ANDROID_KEYSTORE_B64: \${{ secrets.ANDROID_KEYSTORE_B64_#### REPLACE_APP_NAME #### }}
+          ANDROID_KEYSTORE_PASSWORD: \${{ secrets.ANDROID_KEYSTORE_PASSWORD_#### REPLACE_APP_NAME #### }}
+          ANDROID_KEYSTORE_ALIAS: \${{ secrets.ANDROID_KEYSTORE_ALIAS_#### REPLACE_APP_NAME #### }}
+        run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define-from-file=dart_defines/prod.env
+        timeout-minutes: 30""";
 
   String _additionalSlackFilter(
       String source, String? slackIncomingWebhookURL) {

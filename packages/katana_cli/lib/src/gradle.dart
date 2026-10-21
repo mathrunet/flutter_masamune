@@ -6,6 +6,7 @@ import "package:katana/katana.dart";
 
 // Project imports:
 import "package:katana_cli/config.dart";
+import "package:katana_cli/src/android_signing.dart";
 import "package:katana_cli/src/native_environment.dart";
 
 /// Class for retrieving and saving files in `android/app/build.gradle`.
@@ -90,6 +91,7 @@ class AppGradle {
       r"[\s\S]*?"
       "${RegExp.escape(AndroidNativeEnvironmentSynchronizer.endMarker)}",
     ).firstMatch(_rawData)?.group(0);
+    final signingEnvironment = AndroidSigningEnvironment.extract(_rawData);
     _rawData = GradleLoadProperties._save(_rawData, _loadProperties);
     _rawData = GradleImport._save(_rawData, _imports);
     if (_android != null) {
@@ -108,6 +110,19 @@ class AppGradle {
         androidIndex,
         androidIndex,
         "$nativeEnvironment\n\n",
+      );
+    }
+    if (signingEnvironment != null &&
+        !_rawData.contains(AndroidSigningEnvironment.beginMarker)) {
+      final androidIndex =
+          RegExp(r"^android\s*\{", multiLine: true).firstMatch(_rawData)?.start;
+      if (androidIndex == null) {
+        throw const FormatException("Android Gradle block was not found.");
+      }
+      _rawData = _rawData.replaceRange(
+        androidIndex,
+        androidIndex,
+        "$signingEnvironment\n\n",
       );
     }
     if (File("android/app/build.gradle").existsSync()) {

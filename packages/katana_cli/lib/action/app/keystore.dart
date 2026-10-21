@@ -17,7 +17,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
 
   @override
   String get description =>
-      "Generate a keystore for Android and use it only at release build time. Save the password for keystore generation in `android/app/appkey_password.key`. Store the keystore in `android/app/appkey.keystore` and `android/app/appkey.p12`. Save the keystore information in `android/key.properties` so that it can be read by build.gradle. Save fingerprint information in `android/app/appkey_fingerprint.txt`. Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。`android/app/appkey_password.key`にkeystoreの生成時のパスワードを保存します。`android/app/appkey.keystore`と`android/app/appkey.p12`にキーストアが保存されます。`android/key.properties`にキーストアの情報を保存し、build.gradleで読み込めるようにします。`android/app/appkey_fingerprint.txt`にフィンガープリント情報を保存します。";
+      "Generate a keystore for Android and use it only at release build time. Save the password for keystore generation in `android/app/appkey_password.key`. Store the keystore in `android/app/appkey.keystore` and `android/app/appkey.p12`. Save the keystore information in `android/key.properties` so that it can be read by build.gradle. Save fingerprint information in `android/app/appkey_fingerprint.txt`. Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。`android/app/appkey_password.key`にkeystoreの生成時のパスワードを保存します。`android/app/appkey.keystore`と`android/app/appkey.p12`にキーストアが保存されます。`android/key.properties`にキーストアの情報を保存し、build.gradleで読み込めるようにします。`android/app/appkey_fingerprint.txt`にフィンガープリント情報を保存します。When `ANDROID_KEYSTORE_B64` and `ANDROID_KEYSTORE_PASSWORD` are set, no keystore files are created and Gradle decodes the keystore from the environment variables at build time (`ANDROID_KEYSTORE_ALIAS` optionally overrides the alias). `ANDROID_KEYSTORE_B64`と`ANDROID_KEYSTORE_PASSWORD`が設定されている場合はキーストアのファイルを作らず、ビルド時にGradleが環境変数からキーストアを復元します（`ANDROID_KEYSTORE_ALIAS`でエイリアスを上書きできます）。";
 
   @override
   bool checkEnabled(ExecContext context) {
@@ -65,6 +65,25 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
       return;
     }
     final alias = keystore.get("alias", "");
+    if (AndroidSigningEnvironment.isConfigured()) {
+      // 環境変数のキーストアを使う場合はファイルを生成せずGradleの設定のみ行う。
+      if (alias.isEmpty &&
+          AndroidSigningEnvironment.value(
+                AndroidSigningEnvironment.aliasVariable,
+              ) ==
+              null) {
+        error(
+          "The keystore alias is missing. Set `${AndroidSigningEnvironment.aliasVariable}` or describe [app]->[keystore]->[alias].",
+        );
+        return;
+      }
+      label(
+        "Use the keystore from `${AndroidSigningEnvironment.keystoreVariable}` and `${AndroidSigningEnvironment.passwordVariable}`. Skip creating keystore files.",
+      );
+      await _applyGradle(alias);
+      await _applyGitignore(context);
+      return;
+    }
     if (alias.isEmpty) {
       error(
         "The item [app]->[keystore]->[alias] is missing. Please describe the alias of the keystore.",
@@ -178,67 +197,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         "storePassword=$password\nkeyPassword=$password\nkeyAlias=$alias\nstoreFile=appkey.keystore",
       );
     }
-    label("Add processing to the Gradle file.");
-    final gradle = AppGradle();
-    await gradle.load();
-    if (gradle.isKotlin &&
-        !gradle.imports.any((e) => e.import == "java.util.Properties")) {
-      gradle.imports.add(
-        GradleImport(
-          import: "java.util.Properties",
-        ),
-      );
-    }
-    if (!gradle.loadProperties.any((e) => e.name == "keyProperties")) {
-      gradle.loadProperties.add(
-        GradleLoadProperties(
-          path: "key.properties",
-          name: "keyProperties",
-          file: "keyPropertiesFile",
-          isKotlin: gradle.isKotlin,
-        ),
-      );
-    }
-    gradle.android?.buildTypes = GradleAndroidBuildTypes(
-      release: gradle.isKotlin
-          ? GradleAndroidBuildType(
-              signingConfig: "signingConfigs.getByName(\"release\")")
-          : GradleAndroidBuildType(signingConfig: "signingConfigs.release"),
-      debug: gradle.isKotlin
-          ? GradleAndroidBuildType(
-              signingConfig: "signingConfigs.getByName(\"debug\")")
-          : GradleAndroidBuildType(signingConfig: "signingConfigs.debug"),
-    );
-
-    gradle.android?.signingConfigs = GradleAndroidSigningConfigs(
-      release: gradle.isKotlin
-          ? GradleAndroidSigningConfig(
-              keyAlias: "keyProperties[\"keyAlias\"] as String?",
-              keyPassword: "keyProperties[\"keyPassword\"] as String?",
-              storeFile:
-                  r'File(rootProject.projectDir, "app/" + keyProperties["storeFile"] as String?)',
-              storePassword: "keyProperties[\"storePassword\"] as String?")
-          : GradleAndroidSigningConfig(
-              keyAlias: "keyProperties['keyAlias']",
-              keyPassword: "keyProperties['keyPassword']",
-              storeFile: "file(keyProperties['storeFile'])",
-              storePassword: "keyProperties['storePassword']",
-            ),
-      debug: gradle.isKotlin
-          ? GradleAndroidSigningConfig(
-              keyAlias: "keyProperties[\"keyAlias\"] as String?",
-              keyPassword: "keyProperties[\"keyPassword\"] as String?",
-              storeFile:
-                  r'File(rootProject.projectDir, "app/" + keyProperties["storeFile"] as String?)',
-              storePassword: "keyProperties[\"storePassword\"] as String?")
-          : GradleAndroidSigningConfig(
-              keyAlias: "keyProperties['keyAlias']",
-              keyPassword: "keyProperties['keyPassword']",
-              storeFile: "file(keyProperties['storeFile'])",
-              storePassword: "keyProperties['storePassword']",
-            ),
-    );
-    await gradle.save();
+    await _applyGradle(alias);
     label("Save the fingerprint information.");
     final fingerPrintFile = File("android/app/appkey_fingerprint.txt");
     if (!fingerPrintFile.existsSync()) {
@@ -296,6 +255,87 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
       await openSslBase64Result.exitCode;
       await keyHashFile.writeAsString(keyHash);
     }
+    await _applyGitignore(context);
+  }
+
+  Future<void> _applyGradle(String alias) async {
+    label("Add processing to the Gradle file.");
+    final gradle = AppGradle();
+    await gradle.load();
+    if (gradle.isKotlin &&
+        !gradle.imports.any((e) => e.import == "java.util.Properties")) {
+      gradle.imports.add(
+        GradleImport(
+          import: "java.util.Properties",
+        ),
+      );
+    }
+    if (gradle.isKotlin &&
+        !gradle.imports.any((e) => e.import == "java.util.Base64")) {
+      gradle.imports.add(
+        GradleImport(
+          import: "java.util.Base64",
+        ),
+      );
+    }
+    if (!gradle.loadProperties.any((e) => e.name == "keyProperties")) {
+      gradle.loadProperties.add(
+        GradleLoadProperties(
+          path: "key.properties",
+          name: "keyProperties",
+          file: "keyPropertiesFile",
+          isKotlin: gradle.isKotlin,
+        ),
+      );
+    }
+    gradle.android?.buildTypes = GradleAndroidBuildTypes(
+      release: gradle.isKotlin
+          ? GradleAndroidBuildType(
+              signingConfig: "signingConfigs.getByName(\"release\")")
+          : GradleAndroidBuildType(signingConfig: "signingConfigs.release"),
+      debug: gradle.isKotlin
+          ? GradleAndroidBuildType(
+              signingConfig: "signingConfigs.getByName(\"debug\")")
+          : GradleAndroidBuildType(signingConfig: "signingConfigs.debug"),
+    );
+    // 値は`AndroidSigningEnvironment`が生成するブロックで環境変数 → key.propertiesの順に解決する。
+    // debugは解決できない場合に既定のデバッグ署名を使う。
+    gradle.android?.signingConfigs = GradleAndroidSigningConfigs(
+      release: GradleAndroidSigningConfig(
+        keyAlias: AndroidSigningEnvironment.keyAliasExpression,
+        keyPassword: AndroidSigningEnvironment.keyPasswordExpression,
+        storeFile: AndroidSigningEnvironment.storeFileExpression,
+        storePassword: AndroidSigningEnvironment.storePasswordExpression,
+        isKotlin: gradle.isKotlin,
+      ),
+      debug: GradleAndroidSigningConfig(
+        keyAlias: "${AndroidSigningEnvironment.keyAliasExpression} ?: keyAlias",
+        keyPassword:
+            "${AndroidSigningEnvironment.keyPasswordExpression} ?: keyPassword",
+        storeFile:
+            "${AndroidSigningEnvironment.storeFileExpression} ?: storeFile",
+        storePassword:
+            "${AndroidSigningEnvironment.storePasswordExpression} ?: storePassword",
+        isKotlin: gradle.isKotlin,
+      ),
+    );
+    await gradle.save();
+    final gradleFile = File(
+      gradle.isKotlin
+          ? "android/app/build.gradle.kts"
+          : "android/app/build.gradle",
+    );
+    final source = await gradleFile.readAsString();
+    await gradleFile.writeAsString(
+      AndroidSigningEnvironment.synchronize(
+        source,
+        isKotlin: gradle.isKotlin,
+        alias: alias,
+      ),
+    );
+  }
+
+  Future<void> _applyGitignore(ExecContext context) async {
     label("Rewrite `.gitignore`.");
     final gitignore = File("android/.gitignore");
     if (!gitignore.existsSync()) {
