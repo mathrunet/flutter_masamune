@@ -78,7 +78,7 @@ Future<void> main(List<String> args) async {
         continue;
       }
       final secrets = katanaSecrets.existsSync()
-          ? modifize(loadYaml(await katanaSecrets.readAsString()))
+          ? await _loadKatanaYaml(katanaSecrets)
           : <dynamic, dynamic>{};
       final flavorContext = _resolveFlavorContext(
         command: command,
@@ -103,7 +103,9 @@ Future<void> main(List<String> args) async {
       exit(0);
     }
   } else {
-    final yaml = modifize(loadYaml(await katana.readAsString()));
+    final rawYaml =
+        modifize(loadYaml(await katana.readAsString())) as Map? ?? {};
+    final yaml = _expandKatanaYaml(rawYaml, source: "katana.yaml");
     if (yaml.isEmpty) {
       error(
         "katana.yaml file could not be found. Place it in the root of the project.",
@@ -120,7 +122,7 @@ Future<void> main(List<String> args) async {
         continue;
       }
       final secrets = katanaSecrets.existsSync()
-          ? modifize(loadYaml(await katanaSecrets.readAsString()))
+          ? await _loadKatanaYaml(katanaSecrets)
           : <dynamic, dynamic>{};
       final flavorContext = _resolveFlavorContext(
         command: command,
@@ -130,6 +132,7 @@ Future<void> main(List<String> args) async {
       );
       final context = ExecContext(
         yaml: flavorContext?.yaml ?? yaml,
+        rawYaml: rawYaml,
         secrets: flavorContext?.secrets ?? secrets,
         args: args,
         flavorContext: flavorContext,
@@ -147,6 +150,26 @@ Future<void> main(List<String> args) async {
   }
   showReadme();
   exit(0);
+}
+
+Future<Map<dynamic, dynamic>> _loadKatanaYaml(File file) async {
+  final content = modifize(loadYaml(await file.readAsString()));
+  if (content is! Map) {
+    return <dynamic, dynamic>{};
+  }
+  return _expandKatanaYaml(content, source: file.path);
+}
+
+Map<dynamic, dynamic> _expandKatanaYaml(
+  Map<dynamic, dynamic> yaml, {
+  required String source,
+}) {
+  try {
+    return expandEnvironmentVariables(yaml, source: source) as Map;
+  } on KatanaEnvironmentVariableException catch (e) {
+    stderr.writeln(e);
+    exit(1);
+  }
 }
 
 bool _isHelpArgument(String argument) =>

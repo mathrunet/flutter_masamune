@@ -178,6 +178,29 @@ katana fix --apply
 Create Firebase and Cloudflare projects before running apply. Katana does not
 create those projects automatically.
 
+## Environment variables in katana.yaml
+
+String values in `katana.yaml` and `katana_secrets.yaml` can reference
+environment variables with `${NAME}`. References are expanded when the files are
+loaded, so secrets can be supplied by CI or a shell instead of being written to
+the files.
+
+```yaml
+cloudflare:
+  api_token: ${CLOUDFLARE_API_TOKEN}
+  endpoint: https://${API_HOST:-api.example.com}/v1
+  literal: $${NOT_EXPANDED}
+```
+
+- `${NAME}` is replaced with the value of `NAME`. Katana stops with an error if
+  `NAME` is not defined.
+- `${NAME:-default}` uses `default` when `NAME` is undefined or empty.
+- `$${NAME}` is kept as the literal `${NAME}`.
+- Only `${...}` is expanded; `$NAME` without braces is left as is. Map keys are
+  not expanded.
+- Commands that update `katana.yaml` keep the `${NAME}` references and never
+  write expanded values back.
+
 ### Automatic code generation
 
 If you want to perform automatic code generation as a one-shot, execute the following command.

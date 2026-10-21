@@ -5,7 +5,6 @@ import "dart:io";
 
 // Package imports:
 import "package:archive/archive_io.dart";
-import "package:yaml/yaml.dart";
 
 // Project imports:
 import "package:katana_cli/action/cloudflare/d1.dart";
@@ -73,7 +72,10 @@ void _finalizeTidbSchemas(ExecContext context) {
   for (final root in roots) {
     final config = File("${root.path}/katana.yaml");
     final yaml = config.existsSync()
-        ? modifize(loadYaml(config.readAsStringSync())) as Map
+        ? loadKatanaYaml(
+            config.readAsStringSync(),
+            source: config.path,
+          ) as Map
         : context.yaml;
     finalizeDurableObjectSchema(
         root: root.path,

@@ -34,10 +34,11 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     final com = context.args.get(2, "");
     if (com == "init") {
       label("Add initial information in `katana.yaml`.");
-      if (!context.yaml.containsKey("app")) {
-        context.yaml["app"] = {};
+      final yaml = context.rawYaml ?? context.yaml;
+      if (!yaml.containsKey("app")) {
+        yaml["app"] = {};
       }
-      final app = context.yaml.getAsMap("app");
+      final app = yaml.getAsMap("app");
       if (!app.containsKey("keystore")) {
         app["keystore"] = {};
       }

@@ -491,6 +491,8 @@ class CloudflareStorageCliAction extends CliCommand with CliActionMixin {
     }
   }
 
+  // Environment variables are intentionally not expanded because this is written back by [_saveSecretsRoot].
+  // [_saveSecretsRoot]で書き戻すため、環境変数はあえて展開しない。
   Future<Map<String, dynamic>> _loadSecretsRoot() async {
     final file = File("katana_secrets.yaml");
     if (!file.existsSync()) {

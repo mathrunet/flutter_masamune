@@ -2,6 +2,9 @@
 ///
 /// katana.yamlの中身。
 String katanaYamlCode(bool showAllConfig) => """
+# Values can reference environment variables with `\${NAME}` (`\${NAME:-default}` for a default, `\$\${NAME}` to keep it literally).
+# 値には`\${NAME}`で環境変数を参照できます（`\${NAME:-default}`でデフォルト値、`\$\${NAME}`でそのまま記載）。
+
 # Describe the application information.
 # アプリケーション情報を記載します。
 app:
@@ -1225,6 +1228,9 @@ generative_ai:
 ///
 /// katana_secrets.yamlの中身。
 String katanaSecretsYamlCode() => """
+# Values can reference environment variables with `\${NAME}` (`\${NAME:-default}` for a default, `\$\${NAME}` to keep it literally).
+# 値には`\${NAME}`で環境変数を参照できます（`\${NAME:-default}`でデフォルト値、`\$\${NAME}`でそのまま記載）。
+
 # Describe Cloudflare secret information.
 # Cloudflareのシークレット情報を記述します。
 cloudflare:

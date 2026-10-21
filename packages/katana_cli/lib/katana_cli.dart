@@ -15,6 +15,7 @@ export "command/create.dart";
 export "command/git/git.dart";
 export "command/pub/pub.dart";
 export "src/framework.dart";
+export "src/environment.dart";
 export "src/flavor.dart";
 export "src/gradle.dart";
 export "src/cloudflare_environment.dart";

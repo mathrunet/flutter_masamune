@@ -41,6 +41,7 @@ class ExecContext {
   ExecContext({
     required this.yaml,
     required this.args,
+    this.rawYaml,
     this.secrets = const {},
     this.flavorContext,
     int index = 1,
@@ -50,6 +51,15 @@ class ExecContext {
   ///
   /// `katana.yaml`の内容が入ります。
   final Map yaml;
+
+  /// The contents of `katana.yaml` before environment variables (`${NAME}`) are expanded.
+  ///
+  /// Used by [save] so that expanded values are not written back to the file.
+  ///
+  /// 環境変数（`${NAME}`）を展開する前の`katana.yaml`の内容。
+  ///
+  /// 展開後の値をファイルに書き戻さないよう[save]で使用します。
+  final Map? rawYaml;
 
   /// The contents of `katana_secrets.yaml` will be included.
   ///
@@ -74,6 +84,7 @@ class ExecContext {
   ExecContext _copyToChild() {
     return ExecContext(
       yaml: yaml,
+      rawYaml: rawYaml,
       secrets: secrets,
       args: args,
       flavorContext: flavorContext,
@@ -81,11 +92,11 @@ class ExecContext {
     );
   }
 
-  /// Save [yaml] to `katana.yaml`.
+  /// Save [rawYaml] (or [yaml] if not available) to `katana.yaml`.
   ///
-  /// [yaml]を`katana.yaml`に保存します。
+  /// [rawYaml]（ない場合は[yaml]）を`katana.yaml`に保存します。
   Future<void> save() async {
-    final content = YamlWriter().write(yaml);
+    final content = YamlWriter().write(rawYaml ?? yaml);
     await File("katana.yaml").writeAsString(content);
   }
 }
