@@ -2,8 +2,8 @@
   "schema": 1,
   "packages": {
     "katana_cli": {
-      "version": "3.35.0",
-      "sourceSha": "959d628a833483e57c886709e281cf6c018d9361"
+      "version": "3.36.0",
+      "sourceSha": "9bde0d5ae052fbc00d174031b90c00237dfec726"
     },
     "masamune_model_tidb_annotation": {
       "version": "3.6.1",

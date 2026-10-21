@@ -1,3 +1,9 @@
+## 3.36.0
+
+ - **FEAT**(katana_cli): integrate dart defines into build and test commands ([fa18a26b](https://github.com/mathrunet/flutter_masamune/commit/fa18a26bbe7a5c6b04dfb6b6411ea899c6481057))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([9bde0d5a](https://github.com/mathrunet/flutter_masamune/commit/9bde0d5ae052fbc00d174031b90c00237dfec726))
+ - **FEAT**(katana_cli): restore iOS signing from environment variables and resolve dart defines for VSCode ([9bde0d5a](https://github.com/mathrunet/flutter_masamune/commit/9bde0d5ae052fbc00d174031b90c00237dfec726))
+
 ## 3.35.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([959d628a](https://github.com/mathrunet/flutter_masamune/commit/959d628a833483e57c886709e281cf6c018d9361))
