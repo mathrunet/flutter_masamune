@@ -1,3 +1,8 @@
+## 3.34.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([953682e3](https://github.com/mathrunet/flutter_masamune/commit/953682e3c3b965dd615d7290d7ee640cc4e8b994))
+ - **FEAT**(katana_cli): expand ${NAME} environment variables in katana.yaml and katana_secrets.yaml ([953682e3](https://github.com/mathrunet/flutter_masamune/commit/953682e3c3b965dd615d7290d7ee640cc4e8b994))
+
 ## 3.33.0
 
  - **FEAT**(katana_cli): update Android billing version and enhance Cloudflare package validation ([a79359be](https://github.com/mathrunet/flutter_masamune/commit/a79359be48fc6e8b2ad72459b4e82f39e96cc27a))
