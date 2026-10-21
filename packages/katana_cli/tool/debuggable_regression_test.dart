@@ -44,9 +44,10 @@ Future<void> _generatesComposeEnvironment() async {
         await code.generateFile("$flavor.env");
         final content = await File("dart_defines/$flavor.env").readAsString();
         final expected = "FLAVOR=$flavor\n"
-            '${environment.containsKey(key) ? "$key=${environment[key]}\n" : ""}'
-            '${environment.containsKey(accountsKey) ? "$accountsKey=${environment[accountsKey]}\n" : ""}';
-        _expect(content == expected, "$flavor の環境変数がそのまま生成されます");
+            '${environment.containsKey(key) ? "$key=\${$key:-}\n" : ""}'
+            '${environment.containsKey(accountsKey) ? "$accountsKey=\${$accountsKey:-}\n" : ""}';
+        _expect(content == expected, "$flavor は値ではなく環境変数の参照を生成します");
+        _expect(!content.contains("fixture-key"), "$flavor に秘密値を書き込みません");
       }
     }
     for (final name in [key, accountsKey]) {
@@ -83,8 +84,16 @@ Future<void> _generatesComposeEnvironment() async {
     await synchronizer.apply(await synchronizer.createPlan());
     for (final flavor in flavors) {
       final content = await File("dart_defines/$flavor.env").readAsString();
-      _expect(content.contains("$key=$apiKey\n"), "取り込んだAPIキーを保持します");
-      _expect(content.contains("$accountsKey=$accounts\n"), "アカウント一覧を保持します");
+      _expect(content.contains("$key=\${$key:-}\n"), "APIキーの参照を保持します");
+      _expect(
+        content.contains("$accountsKey=\${$accountsKey:-}\n"),
+        "アカウント一覧の参照を保持します",
+      );
+      _expect(
+        "$key=".allMatches(content).length == 1 &&
+            "$accountsKey=".allMatches(content).length == 1,
+        "参照を重複して追加しません",
+      );
     }
   } finally {
     Directory.current = previous;
@@ -265,11 +274,13 @@ MASAMUNE_AI_DEBUGGER_ACCOUNTS=admin@example.com:pw
         "$flavor endpoint is added",
       );
       _expect(
-        content.contains("MASAMUNE_AI_DEBUGGER_API_KEY=\n"),
+        content.contains(
+            "MASAMUNE_AI_DEBUGGER_API_KEY=\${MASAMUNE_AI_DEBUGGER_API_KEY:-}\n"),
         "$flavor API key placeholder is added",
       );
       _expect(
-        content.contains("MASAMUNE_AI_DEBUGGER_ACCOUNTS=\n"),
+        content.contains(
+            "MASAMUNE_AI_DEBUGGER_ACCOUNTS=\${MASAMUNE_AI_DEBUGGER_ACCOUNTS:-}\n"),
         "$flavor accounts placeholder is added",
       );
     }

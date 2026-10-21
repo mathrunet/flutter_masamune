@@ -2164,13 +2164,15 @@ class LaunchCliCode extends CliCode {
       "name": "Development",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define-from-file=dart_defines/dev.env", "--web-port=5555"]
+      "preLaunchTask": "katana: dart_defines dev",
+      "args": ["--dart-define-from-file=build/katana/dart_defines/dev.env", "--web-port=5555"]
     },
     {
       "name": "Production",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define-from-file=dart_defines/prod.env", "--web-port=5555", "--release"]
+      "preLaunchTask": "katana: dart_defines prod",
+      "args": ["--dart-define-from-file=build/katana/dart_defines/prod.env", "--web-port=5555", "--release"]
     }
   ]
 }
@@ -2263,7 +2265,30 @@ class TasksCliCode extends CliCode {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
-    "tasks": []
+    "tasks": [
+        {
+            // Expands ${NAME} in dart_defines/dev.env into build/katana/dart_defines/dev.env.
+            "label": "katana: dart_defines dev",
+            "type": "shell",
+            "command": "katana",
+            "args": ["code", "dart_defines", "dev"],
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            // Expands ${NAME} in dart_defines/prod.env into build/katana/dart_defines/prod.env.
+            "label": "katana: dart_defines prod",
+            "type": "shell",
+            "command": "katana",
+            "args": ["code", "dart_defines", "prod"],
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        }
+    ]
 }
 """;
   }
@@ -3633,17 +3658,27 @@ class DartDefinesCliCode extends CliCode {
       return value;
     }
 
+    // Write references instead of the values so that secrets are not
+    // stored in dart_defines/*.env. They are expanded at build time.
     return DartDefinesCliCode(
       flavor: flavor,
-      aiDebuggerApiKey: read("MASAMUNE_AI_DEBUGGER_API_KEY"),
-      aiDebuggerAccounts: read("MASAMUNE_AI_DEBUGGER_ACCOUNTS"),
+      aiDebuggerApiKey: read("MASAMUNE_AI_DEBUGGER_API_KEY") == null
+          ? null
+          : r"${MASAMUNE_AI_DEBUGGER_API_KEY:-}",
+      aiDebuggerAccounts: read("MASAMUNE_AI_DEBUGGER_ACCOUNTS") == null
+          ? null
+          : r"${MASAMUNE_AI_DEBUGGER_ACCOUNTS:-}",
     );
   }
 
-  /// 環境変数から渡されたAPIキー。未設定の場合は行を生成しません。
+  /// Value written for `MASAMUNE_AI_DEBUGGER_API_KEY`. [DartDefinesCliCode.fromEnvironment] writes the `${MASAMUNE_AI_DEBUGGER_API_KEY:-}` reference. The line is omitted when `null`.
+  ///
+  /// `MASAMUNE_AI_DEBUGGER_API_KEY`に書き込む値。[DartDefinesCliCode.fromEnvironment]では`${MASAMUNE_AI_DEBUGGER_API_KEY:-}`の参照を書き込みます。`null`の場合は行を生成しません。
   final String? aiDebuggerApiKey;
 
-  /// 環境変数から渡されたアカウント一覧。未設定の場合は行を生成しません。
+  /// Value written for `MASAMUNE_AI_DEBUGGER_ACCOUNTS`. [DartDefinesCliCode.fromEnvironment] writes the `${MASAMUNE_AI_DEBUGGER_ACCOUNTS:-}` reference. The line is omitted when `null`.
+  ///
+  /// `MASAMUNE_AI_DEBUGGER_ACCOUNTS`に書き込む値。[DartDefinesCliCode.fromEnvironment]では`${MASAMUNE_AI_DEBUGGER_ACCOUNTS:-}`の参照を書き込みます。`null`の場合は行を生成しません。
   final String? aiDebuggerAccounts;
 
   /// Flavor.

@@ -22,6 +22,7 @@ export "src/gradle.dart";
 export "src/cloudflare_environment.dart";
 export "src/native_environment.dart";
 export "src/android_signing.dart";
+export "src/ios_signing.dart";
 export "src/xcode.dart";
 export "src/podfile.dart";
 export "src/functions.dart";

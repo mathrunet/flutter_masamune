@@ -50,6 +50,16 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
       return;
     }
     if (!File("ios/CertificateSigningRequest.certSigningRequest")
+            .existsSync() &&
+        !File("ios/ios_enterprise.key").existsSync() &&
+        IOSSigningEnvironment.value(
+              IOSSigningEnvironment.certificateKeyVariable,
+            ) !=
+            null) {
+      label(
+        "Skip creating a CertificateSigningRequest because `${IOSSigningEnvironment.certificateKeyVariable}` is set.",
+      );
+    } else if (!File("ios/CertificateSigningRequest.certSigningRequest")
         .existsSync()) {
       label("Create a CertificateSigningRequest.certificateSigningRequest");
       final process = await Process.start(

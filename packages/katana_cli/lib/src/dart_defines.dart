@@ -88,16 +88,21 @@ Set<String> dartDefinesEnvironmentNames(
 /// 含む場合は展開済みファイルを所有者のみ読み書きできる権限で[kResolvedDartDefinesDirectory]に書き出し、そのパスを返します。
 /// キー、コメント、空行はそのまま残します。構文は[expandEnvironmentVariables]と同じです。
 /// 未定義の変数がある場合は[KatanaEnvironmentVariableException]、値に改行が含まれる場合は[KatanaDartDefinesException]をスローします。
+///
+/// When [alwaysWrite] is `true`, a file without `${` is also copied to [kResolvedDartDefinesDirectory] so that the output path is always the same (e.g. for VSCode `launch.json`).
+///
+/// [alwaysWrite]が`true`の場合、`${`を含まないファイルも[kResolvedDartDefinesDirectory]にコピーし、出力先のパスを常に同じにします（VSCodeの`launch.json`用など）。
 String resolveDartDefinesFile(
   String path, {
   Map<String, String>? environment,
+  bool alwaysWrite = false,
 }) {
   final file = File(path);
   if (!file.existsSync()) {
     return path;
   }
   final content = file.readAsStringSync();
-  if (!content.contains(r"${")) {
+  if (!content.contains(r"${") && !alwaysWrite) {
     return path;
   }
   final missing = <String>{};

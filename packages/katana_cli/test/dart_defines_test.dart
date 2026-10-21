@@ -1,4 +1,5 @@
 // Dart imports:
+import "dart:convert";
 import "dart:io";
 
 // Project imports:
@@ -35,6 +36,20 @@ void main() {
       !Directory(kResolvedDartDefinesDirectory).existsSync(),
       "no file is written without references",
     );
+    final copied = resolveDartDefinesFile(
+      "dart_defines/plain.env",
+      alwaysWrite: true,
+    );
+    _check(
+      copied == "$kResolvedDartDefinesDirectory/plain.env" &&
+          File(copied).readAsStringSync() == "FLAVOR=dev\nKEY=value\n",
+      "alwaysWrite copies files without references",
+    );
+    if (!Platform.isWindows) {
+      final mode = File(copied).statSync().mode & 0x1FF;
+      _check(mode == 0x180, "copied file is owner-only");
+    }
+    Directory(kResolvedDartDefinesDirectory).deleteSync(recursive: true);
     _check(
       resolveDartDefinesFile("dart_defines/missing.env") ==
           "dart_defines/missing.env",
@@ -180,6 +195,46 @@ void main() {
     temp.deleteSync(recursive: true);
   }
 
+  // VSCode launch.json expands dart_defines with a preLaunchTask.
+  _check(
+    const CodeCliCommand().commands.containsKey("dart_defines"),
+    "dart_defines command is registered",
+  );
+  final launch = _parseJsonWithComments(
+    const LaunchCliCode().body("", "", ""),
+  );
+  final tasks = _parseJsonWithComments(
+    const TasksCliCode().body("", "", ""),
+  );
+  final labels = {
+    for (final task in tasks["tasks"] as List) (task as Map)["label"]: task,
+  };
+  for (final configuration in launch["configurations"] as List) {
+    final config = configuration as Map;
+    final flavor = config["name"] == "Production" ? "prod" : "dev";
+    final task = labels[config["preLaunchTask"]];
+    _check(task != null, "$flavor preLaunchTask exists in tasks.json");
+    _check(
+      task!["command"] == "katana" &&
+          (task["args"] as List).join(" ") == "code dart_defines $flavor",
+      "$flavor task runs katana code dart_defines",
+    );
+    _check(
+      (config["args"] as List).contains(
+        "--dart-define-from-file=$kResolvedDartDefinesDirectory/$flavor.env",
+      ),
+      "$flavor launch uses the expanded file",
+    );
+  }
+
   // ignore: avoid_print
   print("dart_defines_test: OK");
+}
+
+Map<String, dynamic> _parseJsonWithComments(String source) {
+  final withoutComments = source
+      .split("\n")
+      .where((line) => !line.trimLeft().startsWith("//"))
+      .join("\n");
+  return jsonDecode(withoutComments) as Map<String, dynamic>;
 }

@@ -35,9 +35,15 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
     final openssl = bin.get("openssl", "openssl");
     label("Find cer file");
     final cer = await find(Directory("ios"), regExp);
+    if (cer == null && IOSSigningEnvironment.isCertificateConfigured()) {
+      label(
+        "Skip creating a p12 file because `${IOSSigningEnvironment.certificateVariable}` and `${IOSSigningEnvironment.certificateKeyVariable}` are set. The p12 file is created temporarily when it is needed.",
+      );
+      return;
+    }
     if (cer == null) {
       error(
-        "Could not find the cer file in the IOS folder. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr` and download it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe to download the cer file to your IOS folder.",
+        "Could not find the cer file in the IOS folder. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr` and download it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe to download the cer file to your IOS folder, or set `${IOSSigningEnvironment.certificateVariable}` and `${IOSSigningEnvironment.certificateKeyVariable}`.",
       );
       return;
     }

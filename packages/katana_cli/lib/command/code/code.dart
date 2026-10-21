@@ -43,6 +43,7 @@ part "snippets.dart";
 part "localize.dart";
 part "debug.dart";
 part "debuggable.dart";
+part "dart_defines.dart";
 
 const _tidbSchemaBuilderKey =
     "masamune_model_tidb_builder:masamune_model_tidb_builder";
@@ -183,6 +184,7 @@ class CodeCliCommand extends CliCommandGroup {
         "test": CodeTestCliCommand(),
         "debug": CodeDebugCliCommand(),
         "debuggable": CodeDebuggableCliCommand(),
+        "dart_defines": CodeDartDefinesCliCommand(),
       };
 }
 

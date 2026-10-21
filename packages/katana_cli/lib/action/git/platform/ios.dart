@@ -22,7 +22,7 @@ Future<void> buildIOS(
   final github = context.yaml.getAsMap("github");
   final action = github.getAsMap("action");
   final ios = action.getAsMap("ios");
-  final issuerId = ios.get("issuer_id", "");
+  final issuerId = IOSSigningEnvironment.issuerId(ios.get("issuer_id", ""));
   final teamId = ios.get("team_id", "");
   final secretGithub = context.secrets.getAsMap("github");
   final slack = secretGithub.getAsMap("slack");
@@ -33,7 +33,7 @@ Future<void> buildIOS(
   final enableLogger = logger.get("enable", false) && projectId.isNotEmpty;
   if (issuerId.isEmpty) {
     error(
-      "The item [github]->[action]->[ios]->[issuer_id] is missing. Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.",
+      "The item [github]->[action]->[ios]->[issuer_id] is missing. Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api, or set `${IOSSigningEnvironment.apiIssuerIdVariable}`.",
     );
     return;
   }
@@ -107,112 +107,59 @@ Future<void> buildIOS(
   label("Create ExportOptions.plist");
   await const ExportOptionsCliCode().generateFile("ExportOptions.plist");
   if (!isLocalApply) {
-    final p12File = await find(
-      Directory("ios"),
-      RegExp(r".p12$"),
-    );
-    if (p12File == null) {
-      error(
-        "Cannot find the `distribution/development.p12` file, download the cer file from AppleDeveloperProgram and create a p12 file with `katana app p12`. `distribution/development.p12`ファイルが見つかりません。cerファイルをAppleDeveloperProgramからダウンロードし、`katana app p12`でp12ファイルを作成してください。",
-      );
+    final appSuffix = appName.toUpperCase();
+    final openssl = context.yaml.getAsMap("bin").get("openssl", "openssl");
+    final certificate = await _resolveIOSCertificate(openssl: openssl);
+    if (certificate == null) {
+      return;
+    }
+    final apiKey = await _resolveIOSApiKey();
+    if (apiKey == null) {
       return;
     }
     final mobileProvisionFile = await find(
       Directory("ios"),
       RegExp("([^/.]+).mobileprovision"),
     );
-    final passwordFile = File("ios/ios_certificate_password.key");
-    if (!passwordFile.existsSync()) {
-      error(
-        "Cannot find password file for Certificate. Please create a p12 file with `katana app p12`. Certificate用のパスワードファイルが見つかりません。`katana app p12`でp12ファイルを作成してください。",
-      );
-      return;
-    }
-    final p8File = await find(
-      Directory("ios"),
-      RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$"),
-    );
-    if (p8File == null) {
-      error(
-        "Cannot find the `AuthKey` file, please download the file from AppStoreConnect and place it under the IOS folder. `AuthKey`ファイルが見つかりません。AppStoreConnectからファイルをダウンロードしiosフォルダ以下に配置してください。",
-      );
-      return;
-    }
-    final p8 = base64.encode(await p8File.readAsBytes());
-    final p8Key = RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$")
-        .firstMatch(p8File.path)!
-        .group(1)!;
-    final p12 = base64.encode(await p12File.readAsBytes());
-    final password = await passwordFile.readAsString();
     if (mobileProvisionFile != null) {
       final mobileProvision =
           base64.encode(await mobileProvisionFile.readAsBytes());
-      await command(
-        "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}`.",
-        [
-          gh,
-          "secret",
-          "set",
-          "IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}",
-          "--body",
-          mobileProvision,
-        ],
+      await githubSecret(
+        "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE_$appSuffix`.",
+        gh: gh,
+        name: "IOS_PROVISIONING_PROFILE_$appSuffix",
+        value: mobileProvision,
       );
     }
-    await command(
-      "Store `${p12File.path.last()}` in `secrets.IOS_CERTIFICATES_P12_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "IOS_CERTIFICATES_P12_${appName.toUpperCase()}",
-        "--body",
-        p12,
-      ],
+    await githubSecret(
+      "Store ${certificate.source} in `secrets.IOS_CERTIFICATES_P12_$appSuffix`.",
+      gh: gh,
+      name: "IOS_CERTIFICATES_P12_$appSuffix",
+      value: certificate.p12,
     );
-    await command(
-      "Store `ios_certificate_password.key` in `secrets.IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}",
-        "--body",
-        password,
-      ],
+    await githubSecret(
+      "Store the p12 password in `secrets.IOS_CERTIFICATE_PASSWORD_$appSuffix`.",
+      gh: gh,
+      name: "IOS_CERTIFICATE_PASSWORD_$appSuffix",
+      value: certificate.password,
     );
-    await command(
-      "Store API key id in `secrets.IOS_API_KEY_ID_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "IOS_API_KEY_ID_${appName.toUpperCase()}",
-        "--body",
-        p8Key,
-      ],
+    await githubSecret(
+      "Store API key id in `secrets.IOS_API_KEY_ID_$appSuffix`.",
+      gh: gh,
+      name: "IOS_API_KEY_ID_$appSuffix",
+      value: apiKey.keyId,
     );
-    await command(
-      "Store `${p8File.path}` in `secrets.IOS_API_AUTHKEY_P8_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "IOS_API_AUTHKEY_P8_${appName.toUpperCase()}",
-        "--body",
-        p8,
-      ],
+    await githubSecret(
+      "Store ${apiKey.source} in `secrets.IOS_API_AUTHKEY_P8_$appSuffix`.",
+      gh: gh,
+      name: "IOS_API_AUTHKEY_P8_$appSuffix",
+      value: apiKey.privateKeyBase64,
     );
-    await command(
-      "Store Issuer ID in `secrets.IOS_API_ISSUER_ID_${appName.toUpperCase()}`.",
-      [
-        gh,
-        "secret",
-        "set",
-        "IOS_API_ISSUER_ID_${appName.toUpperCase()}",
-        "--body",
-        issuerId,
-      ],
+    await githubSecret(
+      "Store Issuer ID in `secrets.IOS_API_ISSUER_ID_$appSuffix`.",
+      gh: gh,
+      name: "IOS_API_ISSUER_ID_$appSuffix",
+      value: issuerId,
     );
   }
   if (!isLocalApply) {
@@ -355,6 +302,84 @@ Future<void> buildIOS(
     gitignores.removeWhere((e) => e.startsWith("**/ios_enterprise.key"));
   }
   await gitignore.writeAsString(gitignores.join("\n"));
+}
+
+/// Returns the base64 encoded p12 and its password.
+///
+/// `ios/*.p12` with `ios/ios_certificate_password.key` takes precedence over
+/// the environment variables of [IOSSigningEnvironment].
+Future<({String p12, String password, String source})?> _resolveIOSCertificate({
+  required String openssl,
+}) async {
+  final p12File = await find(
+    Directory("ios"),
+    RegExp(r".p12$"),
+  );
+  final passwordFile = File("ios/ios_certificate_password.key");
+  if (p12File != null && passwordFile.existsSync()) {
+    return (
+      p12: base64.encode(await p12File.readAsBytes()),
+      password: await passwordFile.readAsString(),
+      source: "`${p12File.path.last()}`",
+    );
+  }
+  if (IOSSigningEnvironment.isCertificateConfigured()) {
+    label("Create a p12 file from environment variables.");
+    try {
+      final bundle = await IOSSigningEnvironment.createP12(openssl: openssl);
+      return (
+        p12: bundle.p12Base64,
+        password: bundle.password,
+        source:
+            "the p12 created from `${IOSSigningEnvironment.certificateVariable}`",
+      );
+    } on IOSSigningEnvironmentException catch (e) {
+      error(e.toString());
+      return null;
+    }
+  }
+  const variables =
+      "`${IOSSigningEnvironment.certificateVariable}` and `${IOSSigningEnvironment.certificateKeyVariable}`";
+  if (p12File == null) {
+    error(
+      "Cannot find the `distribution/development.p12` file, download the cer file from AppleDeveloperProgram and create a p12 file with `katana app p12`, or set $variables. `distribution/development.p12`ファイルが見つかりません。cerファイルをAppleDeveloperProgramからダウンロードし、`katana app p12`でp12ファイルを作成するか、$variablesを設定してください。",
+    );
+  } else {
+    error(
+      "Cannot find password file for Certificate. Please create a p12 file with `katana app p12`, or set $variables. Certificate用のパスワードファイルが見つかりません。`katana app p12`でp12ファイルを作成するか、$variablesを設定してください。",
+    );
+  }
+  return null;
+}
+
+/// Returns the App Store Connect API key.
+///
+/// `ios/AuthKey_<KEY_ID>.p8` takes precedence over the environment variables
+/// of [IOSSigningEnvironment].
+Future<IOSApiKey?> _resolveIOSApiKey() async {
+  final pattern = RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$");
+  final p8File = await find(Directory("ios"), pattern);
+  if (p8File != null) {
+    return IOSApiKey(
+      keyId: pattern.firstMatch(p8File.path)!.group(1)!,
+      privateKeyBase64: base64.encode(await p8File.readAsBytes()),
+      source: "`${p8File.path}`",
+    );
+  }
+  if (IOSSigningEnvironment.isApiKeyConfigured()) {
+    try {
+      return IOSSigningEnvironment.apiKey();
+    } on IOSSigningEnvironmentException catch (e) {
+      error(e.toString());
+      return null;
+    }
+  }
+  const variables =
+      "`${IOSSigningEnvironment.apiKeyIdVariable}` and `${IOSSigningEnvironment.apiPrivateKeyVariable}`";
+  error(
+    "Cannot find the `AuthKey` file, please download the file from AppStoreConnect and place it under the IOS folder, or set $variables. `AuthKey`ファイルが見つかりません。AppStoreConnectからファイルをダウンロードしiosフォルダ以下に配置するか、$variablesを設定してください。",
+  );
+  return null;
 }
 
 /// Contents of buiod.yaml for IOS in Github Actions.
