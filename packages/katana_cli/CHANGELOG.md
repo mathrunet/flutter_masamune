@@ -1,3 +1,8 @@
+## 3.35.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([959d628a](https://github.com/mathrunet/flutter_masamune/commit/959d628a833483e57c886709e281cf6c018d9361))
+ - **FEAT**(katana_cli): sign Android builds with keystore from environment variables ([959d628a](https://github.com/mathrunet/flutter_masamune/commit/959d628a833483e57c886709e281cf6c018d9361))
+
 ## 3.34.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([953682e3](https://github.com/mathrunet/flutter_masamune/commit/953682e3c3b965dd615d7290d7ee640cc4e8b994))
