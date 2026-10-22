@@ -6,16 +6,21 @@ import "package:katana/katana.dart";
 
 // Project imports:
 import "package:katana_cli/config.dart";
-import "package:katana_cli/src/android_signing.dart";
-import "package:katana_cli/src/native_environment.dart";
 
-/// Class for retrieving and saving files in `android/app/build.gradle`.
+/// Class for retrieving and saving files in `android/build.gradle`.
 ///
-/// `android/app/build.gradle`のファイルを取得して保存するためのクラス。
+/// Only the values changed after [load] are written back by [save].
+/// Any other content in the file, such as custom blocks, comments and
+/// options that are not modeled by this class, is kept as it is.
+///
+/// `android/build.gradle`のファイルを取得して保存するためのクラス。
+///
+/// [save]では[load]後に変更された値だけを書き戻します。
+/// このクラスで扱わない独自のブロックやコメント、オプションはそのまま残ります。
 class AppGradle {
-  /// Class for retrieving and saving files in `android/app/build.gradle`.
+  /// Class for retrieving and saving files in `android/build.gradle`.
   ///
-  /// `android/app/build.gradle`のファイルを取得して保存するためのクラス。
+  /// `android/build.gradle`のファイルを取得して保存するためのクラス。
   AppGradle();
 
   /// Whether the file is written in Kotlin.
@@ -35,18 +40,21 @@ class AppGradle {
   /// `xxx.properties`のデータ読み込み部分。
   List<GradleLoadProperties> get loadProperties => _loadProperties;
   late List<GradleLoadProperties> _loadProperties;
+  late List<String> _originalLoadProperties;
 
   /// List of `import`.
   ///
   /// `import`のリスト。
   List<GradleImport> get imports => _imports;
   late List<GradleImport> _imports;
+  late List<String> _originalImports;
 
   /// List of `apply plugin`.
   ///
   /// `apply plugin`のリスト。
   List<GradlePlugin> get plugins => _plugins;
   late List<GradlePlugin> _plugins;
+  late List<String> _originalPlugins;
 
   /// Data in the `android` section.
   ///
@@ -56,9 +64,10 @@ class AppGradle {
 
   /// Data in the `android` section.
   ///
-  /// `android`セクションのデータ。
+  /// `dependencies`セクションのデータ。
   List<GradleDependencies> get dependencies => _dependencies;
   late List<GradleDependencies> _dependencies;
+  late List<String> _originalDependencies;
 
   /// Data loading.
   ///
@@ -73,10 +82,14 @@ class AppGradle {
       _rawData = await gradle.readAsString();
     }
     _loadProperties = GradleLoadProperties._load(_rawData);
+    _originalLoadProperties = _loadProperties.map((e) => e.name).toList();
     _imports = GradleImport._load(_rawData);
+    _originalImports = _imports.map((e) => e.import).toList();
     _plugins = GradlePlugin._load(_rawData);
+    _originalPlugins = _plugins.map((e) => e.plugin).toList();
     _android = GradleAndroid._load(_rawData);
     _dependencies = GradleDependencies._load(_rawData);
+    _originalDependencies = _dependencies.map((e) => e._key).toList();
   }
 
   /// Data storage.
@@ -86,45 +99,26 @@ class AppGradle {
     if (_rawData.isEmpty) {
       throw Exception("No value. Please load data with [load].");
     }
-    final nativeEnvironment = RegExp(
-      "${RegExp.escape(AndroidNativeEnvironmentSynchronizer.beginMarker)}"
-      r"[\s\S]*?"
-      "${RegExp.escape(AndroidNativeEnvironmentSynchronizer.endMarker)}",
-    ).firstMatch(_rawData)?.group(0);
-    final signingEnvironment = AndroidSigningEnvironment.extract(_rawData);
-    _rawData = GradleLoadProperties._save(_rawData, _loadProperties);
-    _rawData = GradleImport._save(_rawData, _imports);
+    _rawData = GradleImport._save(_rawData, _imports, _originalImports);
+    _rawData = GradlePlugin._save(_rawData, _plugins, _originalPlugins);
+    _rawData = GradleLoadProperties._save(
+      _rawData,
+      _loadProperties,
+      _originalLoadProperties,
+    );
     if (_android != null) {
-      _rawData = GradleAndroid._save(_rawData, _android!);
+      _rawData = GradleAndroid._save(_rawData, _android!, isKotlin: _isKotlin);
     }
-    _rawData = GradlePlugin._save(_rawData, _plugins);
-    _rawData = GradleDependencies._save(_rawData, _dependencies);
-    if (nativeEnvironment != null &&
-        !_rawData.contains(AndroidNativeEnvironmentSynchronizer.beginMarker)) {
-      final androidIndex =
-          RegExp(r"^android\s*\{", multiLine: true).firstMatch(_rawData)?.start;
-      if (androidIndex == null) {
-        throw const FormatException("Android Gradle block was not found.");
-      }
-      _rawData = _rawData.replaceRange(
-        androidIndex,
-        androidIndex,
-        "$nativeEnvironment\n\n",
-      );
-    }
-    if (signingEnvironment != null &&
-        !_rawData.contains(AndroidSigningEnvironment.beginMarker)) {
-      final androidIndex =
-          RegExp(r"^android\s*\{", multiLine: true).firstMatch(_rawData)?.start;
-      if (androidIndex == null) {
-        throw const FormatException("Android Gradle block was not found.");
-      }
-      _rawData = _rawData.replaceRange(
-        androidIndex,
-        androidIndex,
-        "$signingEnvironment\n\n",
-      );
-    }
+    _rawData = GradleDependencies._save(
+      _rawData,
+      _dependencies,
+      _originalDependencies,
+    );
+    _originalLoadProperties = _loadProperties.map((e) => e.name).toList();
+    _originalImports = _imports.map((e) => e.import).toList();
+    _originalPlugins = _plugins.map((e) => e.plugin).toList();
+    _originalDependencies = _dependencies.map((e) => e._key).toList();
+    _android?._original = GradleAndroid._load(_rawData);
     if (File("android/app/build.gradle").existsSync()) {
       final gradle = File("android/app/build.gradle");
       await gradle.writeAsString(_rawData);
@@ -132,6 +126,410 @@ class AppGradle {
       final gradle = File("android/app/build.gradle.kts");
       await gradle.writeAsString(_rawData);
     }
+  }
+}
+
+/// Range of a `name { ... }` block in a Gradle script.
+class _GradleBlock {
+  const _GradleBlock(this.start, this.open, this.close);
+
+  /// Start of the line containing the block header.
+  final int start;
+
+  /// Index of the opening brace.
+  final int open;
+
+  /// Index of the closing brace.
+  final int close;
+}
+
+/// Helpers for editing Gradle scripts without rebuilding them.
+///
+/// Braces inside strings and comments are ignored when blocks are located.
+class _GradleText {
+  /// Returns [source] with string literals and comments replaced by spaces.
+  ///
+  /// Line breaks are kept so that indices and lines match [source].
+  static String mask(String source) {
+    final codes = source.codeUnits.toList();
+    void blank(int from, int to) {
+      for (var i = from; i < to && i < codes.length; i++) {
+        if (codes[i] != 0x0A) {
+          codes[i] = 0x20;
+        }
+      }
+    }
+
+    var i = 0;
+    while (i < source.length) {
+      if (source.startsWith("//", i)) {
+        final end = source.indexOf("\n", i);
+        final to = end < 0 ? source.length : end;
+        blank(i, to);
+        i = to;
+      } else if (source.startsWith("/*", i)) {
+        final end = source.indexOf("*/", i + 2);
+        final to = end < 0 ? source.length : end + 2;
+        blank(i, to);
+        i = to;
+      } else if (source.startsWith('"""', i) || source.startsWith("'''", i)) {
+        final end = source.indexOf(source.substring(i, i + 3), i + 3);
+        final to = end < 0 ? source.length : end + 3;
+        blank(i, to);
+        i = to;
+      } else if (source[i] == '"' || source[i] == "'") {
+        final to = _endOfQuoted(source, i);
+        blank(i, to);
+        i = to;
+      } else {
+        i++;
+      }
+    }
+    return String.fromCharCodes(codes);
+  }
+
+  static int _endOfQuoted(String source, int start) {
+    final quote = source[start];
+    var i = start + 1;
+    while (i < source.length) {
+      final char = source[i];
+      if (char == r"\") {
+        i += 2;
+      } else if (char == quote) {
+        return i + 1;
+      } else if (char == "\n") {
+        return i;
+      } else if (char == r"$" && source.startsWith("{", i + 1)) {
+        i = _endOfTemplate(source, i + 2);
+      } else {
+        i++;
+      }
+    }
+    return source.length;
+  }
+
+  static int _endOfTemplate(String source, int start) {
+    var depth = 1;
+    var i = start;
+    while (i < source.length) {
+      final char = source[i];
+      if (char == '"' || char == "'") {
+        i = _endOfQuoted(source, i);
+        continue;
+      }
+      if (char == "{") {
+        depth++;
+      } else if (char == "}") {
+        depth--;
+        if (depth == 0) {
+          return i + 1;
+        }
+      }
+      i++;
+    }
+    return source.length;
+  }
+
+  static int? _matchingBrace(String masked, int open) {
+    var depth = 0;
+    for (var i = open; i < masked.length; i++) {
+      final char = masked[i];
+      if (char == "{") {
+        depth++;
+      } else if (char == "}") {
+        depth--;
+        if (depth == 0) {
+          return i;
+        }
+      }
+    }
+    return null;
+  }
+
+  /// Returns the start indices of lines located directly in `[from, to)`.
+  static Iterable<int> _lineStarts(String masked, int from, int to) sync* {
+    var depth = 0;
+    var lineStart = true;
+    for (var i = from; i < to; i++) {
+      if (lineStart && depth == 0) {
+        yield i;
+      }
+      final char = masked[i];
+      if (char == "{") {
+        depth++;
+      } else if (char == "}") {
+        depth--;
+      }
+      lineStart = char == "\n";
+    }
+  }
+
+  static bool _isCode(String source, String masked, int start, int end) {
+    for (var i = start; i < end; i++) {
+      if (source[i] != " " && source[i] != "\t") {
+        return masked[i] == source[i];
+      }
+    }
+    return false;
+  }
+
+  /// Finds a block whose header matches [head] directly in `[from, to)`.
+  static _GradleBlock? find(
+    String source,
+    String head, {
+    int from = 0,
+    int? to,
+    String? masked,
+  }) {
+    masked ??= mask(source);
+    final limit = to ?? source.length;
+    final pattern = RegExp("[ \\t]*(?:$head)[ \\t]*\\{");
+    for (final start in _lineStarts(masked, from, limit)) {
+      final match = pattern.matchAsPrefix(source, start);
+      if (match == null ||
+          masked[match.end - 1] != "{" ||
+          !_isCode(source, masked, start, match.end)) {
+        continue;
+      }
+      final close = _matchingBrace(masked, match.end - 1);
+      if (close != null && close < limit) {
+        return _GradleBlock(start, match.end - 1, close);
+      }
+    }
+    return null;
+  }
+
+  /// Finds nested blocks along [path] from the top level.
+  static _GradleBlock? path(String source, List<String> path) {
+    final masked = mask(source);
+    _GradleBlock? block;
+    for (final head in path) {
+      block = find(
+        source,
+        head,
+        from: block == null ? 0 : block.open + 1,
+        to: block?.close,
+        masked: masked,
+      );
+      if (block == null) {
+        return null;
+      }
+    }
+    return block;
+  }
+
+  /// Returns the body of the block at [path].
+  static String body(String source, List<String> path) {
+    final block = _GradleText.path(source, path);
+    if (block == null) {
+      return "";
+    }
+    return source.substring(block.open + 1, block.close);
+  }
+
+  static Match? _property(
+    String source,
+    _GradleBlock block,
+    List<String> keys,
+  ) {
+    final masked = mask(source);
+    final pattern = RegExp(
+      "([ \\t]*)(${keys.map(RegExp.escape).join("|")})([ \\t]*=[ \\t]*|[ \\t]+)(.*)",
+    );
+    for (final start in _lineStarts(masked, block.open + 1, block.close)) {
+      final match = pattern.matchAsPrefix(source, start);
+      if (match == null ||
+          match.end > block.close ||
+          !_isCode(source, masked, start, match.end) ||
+          (match.group(4) ?? "").trim().isEmpty ||
+          (match.group(4) ?? "").trimLeft().startsWith("{")) {
+        continue;
+      }
+      return match;
+    }
+    return null;
+  }
+
+  /// Returns the value of the first of [keys] in the block at [path].
+  static String? value(String source, List<String> path, List<String> keys) {
+    final block = _GradleText.path(source, path);
+    if (block == null) {
+      return null;
+    }
+    return _property(source, block, keys)?.group(4)?.trim();
+  }
+
+  /// Returns the lines located directly in the block at [path].
+  static List<String> lines(String source, List<String> path) {
+    final block = _GradleText.path(source, path);
+    if (block == null) {
+      return [];
+    }
+    final masked = mask(source);
+    return _lineStarts(masked, block.open + 1, block.close).map((start) {
+      final end = source.indexOf("\n", start);
+      return source.substring(
+        start,
+        end < 0 || end > block.close ? block.close : end,
+      );
+    }).toList();
+  }
+
+  static String _indent(String source, _GradleBlock block) {
+    final header = source.substring(block.start, block.open);
+    return "${RegExp(r"^[ \t]*").firstMatch(header)?.group(0) ?? ""}    ";
+  }
+
+  /// Sets [value] to the first of [keys] in the block at [path].
+  ///
+  /// When no key exists, `keys.first = value` is added to the block.
+  static String setValue(
+    String source,
+    List<String> path,
+    List<String> keys,
+    String value, {
+    bool atStart = false,
+  }) {
+    final block = _GradleText.path(source, path);
+    if (block == null) {
+      return source;
+    }
+    final match = _property(source, block, keys);
+    if (match != null) {
+      return source.replaceRange(
+        match.start,
+        match.end,
+        "${match.group(1)}${match.group(2)}${match.group(3)}$value",
+      );
+    }
+    return addLines(source, path, ["${keys.first} = $value"], atStart: atStart);
+  }
+
+  /// Adds [lines] to the block at [path] with its indentation.
+  static String addLines(
+    String source,
+    List<String> path,
+    List<String> lines, {
+    bool atStart = false,
+  }) {
+    final block = _GradleText.path(source, path);
+    if (block == null || lines.isEmpty) {
+      return source;
+    }
+    final indent = _indent(source, block);
+    final code = lines.map((e) => "$indent$e\n").join();
+    if (atStart) {
+      final lineEnd = source.indexOf("\n", block.open);
+      if (lineEnd >= 0 &&
+          lineEnd < block.close &&
+          source.substring(block.open + 1, lineEnd).trim().isEmpty) {
+        return source.replaceRange(lineEnd + 1, lineEnd + 1, code);
+      }
+    }
+    final closeLineStart = source.lastIndexOf("\n", block.close - 1) + 1;
+    if (closeLineStart > block.open &&
+        source.substring(closeLineStart, block.close).trim().isEmpty) {
+      return source.replaceRange(closeLineStart, closeLineStart, code);
+    }
+    final closeIndent = indent.substring(0, indent.length - 4);
+    return source.replaceRange(block.close, block.close, "\n$code$closeIndent");
+  }
+
+  /// Removes the lines in the block at [path] that satisfy [test].
+  static String removeLines(
+    String source,
+    List<String> path,
+    bool Function(String line) test,
+  ) {
+    final block = _GradleText.path(source, path);
+    if (block == null) {
+      return source;
+    }
+    final masked = mask(source);
+    final starts = _lineStarts(masked, block.open + 1, block.close).toList();
+    for (final start in starts.reversed) {
+      final end = source.indexOf("\n", start);
+      if (end < 0 || end >= block.close) {
+        continue;
+      }
+      if (test(source.substring(start, end).trim())) {
+        source = source.replaceRange(start, end + 1, "");
+      }
+    }
+    return source;
+  }
+
+  /// Creates an empty block [header] in the block at [parent] when missing.
+  ///
+  /// The block is placed before the first block in [before] that exists,
+  /// otherwise at the end of [parent].
+  static String ensureBlock(
+    String source,
+    List<String> parent,
+    String head,
+    String header, {
+    List<String> before = const [],
+  }) {
+    if (path(source, [...parent, head]) != null) {
+      return source;
+    }
+    final parentBlock = path(source, parent);
+    if (parentBlock == null) {
+      return source;
+    }
+    final indent = _indent(source, parentBlock);
+    for (final next in before) {
+      final nextBlock = path(source, [...parent, next]);
+      if (nextBlock != null) {
+        return source.replaceRange(
+          nextBlock.start,
+          nextBlock.start,
+          "$indent$header {\n$indent}\n\n",
+        );
+      }
+    }
+    final block = "$indent$header {\n$indent}\n";
+    final closeLineStart = source.lastIndexOf("\n", parentBlock.close - 1) + 1;
+    if (closeLineStart <= parentBlock.open ||
+        source.substring(closeLineStart, parentBlock.close).trim().isNotEmpty) {
+      return source.replaceRange(
+        parentBlock.close,
+        parentBlock.close,
+        "\n$block${indent.substring(0, indent.length - 4)}",
+      );
+    }
+    // 中身がある場合は空行で区切る。
+    final body = source.substring(parentBlock.open + 1, closeLineStart);
+    final separator = body.trim().isEmpty || body.endsWith("\n\n") ? "" : "\n";
+    return source.replaceRange(
+      closeLineStart,
+      closeLineStart,
+      "$separator$block",
+    );
+  }
+
+  /// Replaces the whole block at [path] with [code].
+  ///
+  /// When [code] is empty, the block is removed.
+  static String replaceBlock(String source, List<String> path, String code) {
+    final block = _GradleText.path(source, path);
+    if (block == null) {
+      return source;
+    }
+    final lineEnd = source.indexOf("\n", block.close);
+    final end = lineEnd < 0 ? source.length : lineEnd + 1;
+    return source.replaceRange(block.start, end, code);
+  }
+
+  /// Returns the end index of the top-level block that follows [from].
+  static int? nextTopLevelBlockEnd(String source, int from) {
+    final masked = mask(source);
+    final open = masked.indexOf("{", from);
+    if (open < 0) {
+      return null;
+    }
+    final close = _matchingBrace(masked, open);
+    return close == null ? null : close + 1;
   }
 }
 
@@ -216,37 +614,50 @@ class GradleLoadProperties {
     }
   }
 
-  static String _save(String content, List<GradleLoadProperties> list) {
-    final code = list.map((e) => e.toString()).join("\n");
-    // 旧バージョン
-    if (content.contains("def localProperties = new Properties()")) {
-      return content.replaceAllMapped(
-        RegExp(
-          r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)def localProperties = new Properties\(\)",
-        ),
-        (match) {
-          final plugins = match.group(1);
-          if (plugins.isEmpty) {
-            return "${match.group(1) ?? ""}$code\n\ndef localProperties = new Properties()";
-          } else {
-            return "$plugins\n\n$code\n\ndef localProperties = new Properties()";
-          }
-        },
-      );
-    } else {
-      final aa =
-          content.replaceAllMapped(RegExp(r"^([\s\S]*?)android \{"), (match) {
-        final content = match.group(1)?.replaceAllMapped(
-                RegExp(
-                  r"^([\s\S]*?)(?<plugins>plugins[^{]*?\{[\s\S]*?\})([\s\S]*?)$",
-                ), (m) {
-              return "${m.group(1) ?? ""}${m.group(2) ?? ""}\n\n$code";
-            }) ??
-            "";
-        return "$content\n\nandroid {";
-      });
-      return aa;
+  static String _save(
+    String content,
+    List<GradleLoadProperties> list,
+    List<String> original,
+  ) {
+    final added = list.where((e) => !original.contains(e.name)).toList();
+    if (added.isEmpty) {
+      return content;
     }
+    final code = added.map((e) => e.toString()).join("\n");
+    // 既存の読み込み処理の直後に追加し、それ以外の記述には触れない。
+    int? end;
+    for (final name in original) {
+      final declaration = RegExp(
+        "^[ \\t]*(?:val|def) ${RegExp.escape(name)} = (?:new )?Properties\\(\\)",
+        multiLine: true,
+      ).firstMatch(content);
+      if (declaration == null) {
+        continue;
+      }
+      final blockEnd = _GradleText.nextTopLevelBlockEnd(
+        content,
+        declaration.end,
+      );
+      if (blockEnd != null && (end == null || blockEnd > end)) {
+        end = blockEnd;
+      }
+    }
+    if (end != null) {
+      return content.replaceRange(end, end, "\n$code");
+    }
+    final plugins = _GradleText.find(content, r"plugins");
+    if (plugins != null) {
+      return content.replaceRange(
+        plugins.close + 1,
+        plugins.close + 1,
+        "\n\n$code",
+      );
+    }
+    final android = _GradleText.find(content, r"android");
+    if (android != null) {
+      return content.replaceRange(android.start, android.start, "$code\n\n");
+    }
+    return "$code\n\n$content";
   }
 
   /// Variable name of the property file.
@@ -286,36 +697,53 @@ class GradleImport {
   /// Data in the `import` section.
   ///
   /// `import`セクションのデータ。
-  GradleImport({
-    required this.import,
-  });
+  GradleImport({required this.import});
+
+  static final _lineRegExp = RegExp(
+    r"^[ \t]*import[ \t]+([a-zA-Z0-9_.*-]+)[ \t]*$",
+    multiLine: true,
+  );
 
   static List<GradleImport> _load(String content) {
-    final region =
-        RegExp(r"([\s\S]*?)plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
-    if (region != null) {
-      return RegExp(r"import (?<import>[a-zA-Z0-9_.-]+)")
-          .allMatches(region.group(1) ?? "")
-          .mapAndRemoveEmpty((e) {
-        return GradleImport(
-          import: e.namedGroup("import") ?? "",
-        );
-      });
-    }
-    return [];
+    final plugins = _GradleText.find(content, r"plugins");
+    final region = content.substring(0, plugins?.start ?? content.length);
+    return RegExp(
+      r"import (?<import>[a-zA-Z0-9_.-]+)",
+    ).allMatches(region).mapAndRemoveEmpty((e) {
+      return GradleImport(import: e.namedGroup("import") ?? "");
+    });
   }
 
-  static String _save(String content, List<GradleImport> list) {
-    final region =
-        RegExp(r"([\s\S]*?)plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
-    if (region != null) {
-      final code = list.map((e) => e.toString()).join("\n");
-      return content.replaceAll(
-        RegExp(r"([\s\S]*?)plugins[^{]*?\{([\s\S]*?)\}"),
-        "$code\n\nplugins {\n${region.group(2) ?? ""}\n}",
+  static String _save(
+    String content,
+    List<GradleImport> list,
+    List<String> original,
+  ) {
+    final imports = list.map((e) => e.import).toList();
+    for (final removed in original.where((e) => !imports.contains(e))) {
+      content = content.replaceAll(
+        RegExp(
+          "^[ \\t]*import[ \\t]+${RegExp.escape(removed)}[ \\t]*\\n",
+          multiLine: true,
+        ),
+        "",
       );
     }
-    return content;
+    final added = list.where((e) => !original.contains(e.import)).toList();
+    if (added.isEmpty) {
+      return content;
+    }
+    final code = added.map((e) => "${e.toString()}\n").join();
+    final plugins = _GradleText.find(content, r"plugins");
+    final last = _lineRegExp
+        .allMatches(content)
+        .where((e) => plugins == null || e.start < plugins.start)
+        .lastOrNull;
+    if (last != null) {
+      final end = last.end < content.length ? last.end + 1 : last.end;
+      return content.replaceRange(end, end, code);
+    }
+    return "$code\n$content";
   }
 
   /// Plugin Name.
@@ -336,18 +764,15 @@ class GradlePlugin {
   /// Data in the `apply plugin` section.
   ///
   /// `apply plugin`セクションのデータ。
-  GradlePlugin({
-    required this.plugin,
-    bool isKotlin = false,
-  }) : _isKotlin = isKotlin;
+  GradlePlugin({required this.plugin, bool isKotlin = false})
+      : _isKotlin = isKotlin;
 
   static List<GradlePlugin> _load(String content) {
-    final newRegion =
-        RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
-    if (newRegion != null) {
-      return RegExp(
-        "id[^(]*?\\(('|\")(?<plugin>[a-zA-Z0-9_.-]+)('|\")\\)",
-      ).allMatches(newRegion.group(1) ?? "").mapAndRemoveEmpty((e) {
+    final plugins = _GradleText.find(content, r"plugins");
+    if (plugins != null) {
+      return RegExp("id[^(]*?\\(('|\")(?<plugin>[a-zA-Z0-9_.-]+)('|\")\\)")
+          .allMatches(content.substring(plugins.open + 1, plugins.close))
+          .mapAndRemoveEmpty((e) {
         return GradlePlugin(
           plugin: e.namedGroup("plugin") ?? "",
           isKotlin: e.group(0)?.contains("id(") ?? false,
@@ -370,33 +795,60 @@ class GradlePlugin {
     return [];
   }
 
-  static String _save(String content, List<GradlePlugin> list) {
-    final newRegion =
-        RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
-    if (newRegion != null) {
-      final code = list.map((e) {
-        if (e.isKotlin) {
-          return "    id(\"${e.toString()}\")";
-        } else {
-          return "    id \"${e.toString()}\"";
-        }
-      }).join("\n");
-      return content.replaceAll(
-        RegExp(
-          r"plugins[^{]*?\{([\s\S]*?)\}",
+  static String _save(
+    String content,
+    List<GradlePlugin> list,
+    List<String> original,
+  ) {
+    final names = list.map((e) => e.plugin).toList();
+    final removed = original.where((e) => !names.contains(e)).toList();
+    final added = list.where((e) => !original.contains(e.plugin)).toList();
+    if (removed.isEmpty && added.isEmpty) {
+      return content;
+    }
+    if (_GradleText.find(content, r"plugins") != null) {
+      content = _GradleText.removeLines(
+        content,
+        [r"plugins"],
+        (line) => removed.any(
+          (e) =>
+              line.startsWith("id") &&
+              (line.contains('"$e"') || line.contains("'$e'")),
         ),
-        "plugins {\n$code\n}",
       );
-    } else {
-      final code =
-          list.map((e) => "apply plugin: '${e.toString()}'").join("\n");
-      return content.replaceAll(
-        RegExp(
-          r"apply plugin: 'kotlin-android'([\s\S]*?)apply from:",
-        ),
-        "apply plugin: 'kotlin-android'\n$code\napply from:",
+      return _GradleText.addLines(
+        content,
+        [r"plugins"],
+        added.map((e) {
+          if (e.isKotlin) {
+            return "id(\"${e.toString()}\")";
+          } else {
+            return "id \"${e.toString()}\"";
+          }
+        }).toList(),
       );
     }
+    for (final plugin in removed) {
+      content = content.replaceAll(
+        RegExp(
+          "^apply plugin: '${RegExp.escape(plugin)}'[ \\t]*\\n",
+          multiLine: true,
+        ),
+        "",
+      );
+    }
+    if (added.isEmpty) {
+      return content;
+    }
+    final code = added.map((e) => "apply plugin: '${e.toString()}'\n").join();
+    final anchor = RegExp(
+      r"^apply plugin: 'kotlin-android'[ \t]*\n",
+      multiLine: true,
+    ).firstMatch(content);
+    if (anchor == null) {
+      return content;
+    }
+    return content.replaceRange(anchor.end, anchor.end, code);
   }
 
   /// Plugin Name.
@@ -416,6 +868,16 @@ class GradlePlugin {
   }
 }
 
+const _androidPath = [r"android"];
+const _compileOptionsPath = [r"android", r"compileOptions"];
+const _defaultConfigPath = [r"android", r"defaultConfig"];
+const _buildFeaturesPath = [r"android", r"buildFeatures"];
+const _sourceSetsPath = [r"android", r"sourceSets"];
+const _signingConfigsPath = [r"android", r"signingConfigs"];
+const _buildTypesPath = [r"android", r"buildTypes"];
+const _releaseHead = r'release|getByName\("release"\)';
+const _debugHead = r'debug|getByName\("debug"\)';
+
 /// Data in the `android` section.
 ///
 /// `android`セクションのデータ。
@@ -428,43 +890,117 @@ class GradleAndroid {
     required this.compileOptions,
     required this.compileSdkVersion,
     required this.defaultConfig,
-    // required this.kotlinOptions,
     required this.sourceSets,
     this.namespace,
     this.ndkVersion,
     this.buildToolsVersion,
     this.signingConfigs,
   });
-  static final _regExp = RegExp(r"android {([\s\S]+?)\n}");
 
-  factory GradleAndroid._load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final namespace =
-        RegExp("namespace = ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
-    final compileSdkVersion =
-        RegExp("compileSdk = (.+)").firstMatch(region)?.group(1) ?? "0";
-    final buildToolsVersion =
-        RegExp("buildToolsVersion = (.+)").firstMatch(region)?.group(1);
-    final ndkVersion = RegExp("ndkVersion = (.+)").firstMatch(region)?.group(1);
-    final data = GradleAndroid(
-      namespace: namespace,
-      buildTypes: GradleAndroidBuildTypes._load(region),
-      signingConfigs: GradleAndroidSigningConfigs._load(region),
-      compileOptions: GradleAndroidCompileOptions._load(region),
-      compileSdkVersion: compileSdkVersion,
-      defaultConfig: GradleAndroidDefaultConfig._load(region),
-      buildToolsVersion: buildToolsVersion,
-      // kotlinOptions: GradleAndroidKotlinOptions._load(region),
-      ndkVersion: ndkVersion,
-      sourceSets: GradleAndroidSourceSet._load(region),
-    );
-    data._buildFeatures = _GradleAndroidBuildFeatures._load(region);
+  static GradleAndroid? _load(String content) {
+    final data = _parse(content);
+    data?._original = _parse(content);
     return data;
   }
 
-  static String _save(String content, GradleAndroid data) {
-    return content.replaceAll(_regExp, "android {\n$data\n}");
+  static GradleAndroid? _parse(String content) {
+    if (_GradleText.path(content, _androidPath) == null) {
+      return null;
+    }
+    String? value(List<String> keys) {
+      return _GradleText.value(content, _androidPath, keys);
+    }
+
+    return GradleAndroid(
+      namespace: value(["namespace"]),
+      buildTypes: GradleAndroidBuildTypes._load(content),
+      signingConfigs: GradleAndroidSigningConfigs._load(content),
+      compileOptions: GradleAndroidCompileOptions._load(content),
+      compileSdkVersion: value(["compileSdk", "compileSdkVersion"]) ?? "0",
+      defaultConfig: GradleAndroidDefaultConfig._load(content),
+      buildToolsVersion: value(["buildToolsVersion"]),
+      ndkVersion: value(["ndkVersion"]),
+      sourceSets: GradleAndroidSourceSet._load(content),
+    );
   }
+
+  static String _save(
+    String content,
+    GradleAndroid data, {
+    required bool isKotlin,
+  }) {
+    final original = data._original;
+    String set(String? value, String? before, List<String> keys) {
+      if (value.isEmpty || value == before) {
+        return content;
+      }
+      return _GradleText.setValue(
+        content,
+        _androidPath,
+        keys,
+        value!,
+        atStart: true,
+      );
+    }
+
+    content = set(data.namespace, original?.namespace, ["namespace"]);
+    content = set(data.compileSdkVersion, original?.compileSdkVersion, [
+      "compileSdk",
+      "compileSdkVersion",
+    ]);
+    content = set(data.buildToolsVersion, original?.buildToolsVersion, [
+      "buildToolsVersion",
+    ]);
+    content = set(data.ndkVersion, original?.ndkVersion, ["ndkVersion"]);
+    content = GradleAndroidCompileOptions._save(
+      content,
+      data.compileOptions,
+      original?.compileOptions,
+      isKotlin: isKotlin,
+    );
+    content = GradleAndroidSourceSet._save(
+      content,
+      data.sourceSets,
+      original?.sourceSets ?? const [],
+    );
+    content = GradleAndroidDefaultConfig._save(
+      content,
+      data.defaultConfig,
+      original?.defaultConfig,
+    );
+    if (data.defaultConfig.resValues.isNotEmpty) {
+      content = _GradleText.ensureBlock(
+        content,
+        _androidPath,
+        r"buildFeatures",
+        "buildFeatures",
+        before: [r"sourceSets", r"defaultConfig"],
+      );
+      if (_GradleText.value(content, _buildFeaturesPath, ["resValues"]) !=
+          "true") {
+        content = _GradleText.setValue(
+            content,
+            _buildFeaturesPath,
+            [
+              "resValues",
+            ],
+            "true");
+      }
+    }
+    content = GradleAndroidSigningConfigs._save(
+      content,
+      data.signingConfigs,
+      original?.signingConfigs,
+    );
+    content = GradleAndroidBuildTypes._save(
+      content,
+      data.buildTypes,
+      original?.buildTypes,
+    );
+    return content;
+  }
+
+  GradleAndroid? _original;
 
   /// Namespace.
   ///
@@ -491,13 +1027,6 @@ class GradleAndroid {
   /// コンパイルオプション設定。
   GradleAndroidCompileOptions compileOptions;
 
-  _GradleAndroidBuildFeatures? _buildFeatures;
-
-  /// Kotlin option settings.
-  ///
-  /// Kotlinのオプション設定。
-  // GradleAndroidKotlinOptions kotlinOptions;
-
   /// Source setting.
   ///
   /// ソースの設定。
@@ -520,56 +1049,7 @@ class GradleAndroid {
 
   @override
   String toString() {
-    if (defaultConfig.resValues.isNotEmpty) {
-      _buildFeatures ??= _GradleAndroidBuildFeatures();
-      _buildFeatures!.resValues = true;
-    }
-    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n${_buildFeatures != null ? "$_buildFeatures\n\n" : ""}${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
-  }
-}
-
-class _GradleAndroidBuildFeatures {
-  _GradleAndroidBuildFeatures([this._rawContent = ""]);
-
-  static _GradleAndroidBuildFeatures? _load(String content) {
-    final rawContent = _regExp.firstMatch(content)?.group(1);
-    if (rawContent == null) {
-      return null;
-    }
-    return _GradleAndroidBuildFeatures(rawContent);
-  }
-
-  static final _regExp = RegExp(
-    r"^[ \t]{4}buildFeatures\s*\{([\s\S]*?)^[ \t]{4}\}",
-    multiLine: true,
-  );
-  static final _resValuesRegExp = RegExp(
-    r"^([ \t]*)resValues\s*=\s*(true|false)([ \t]*(?://.*)?)$",
-    multiLine: true,
-  );
-
-  String _rawContent;
-
-  set resValues(bool value) {
-    if (_resValuesRegExp.hasMatch(_rawContent)) {
-      _rawContent = _rawContent.replaceFirstMapped(
-        _resValuesRegExp,
-        (match) => "${match.group(1)}resValues = $value${match.group(3) ?? ""}",
-      );
-      return;
-    }
-    if (_rawContent.isEmpty) {
-      _rawContent = "\n        resValues = $value\n";
-    } else if (_rawContent.endsWith("\n")) {
-      _rawContent = "$_rawContent        resValues = $value\n";
-    } else {
-      _rawContent = "$_rawContent\n        resValues = $value\n";
-    }
-  }
-
-  @override
-  String toString() {
-    return "    buildFeatures {$_rawContent    }";
+    return "${namespace.isEmpty ? "" : "    namespace = $namespace\n"}    compileSdk = $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion = $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion = $ndkVersion\n" : ""}\n$compileOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
   }
 }
 
@@ -587,32 +1067,76 @@ class GradleAndroidCompileOptions {
   });
 
   factory GradleAndroidCompileOptions._load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final sourceCompatibility = RegExp(r"sourceCompatibility\s*=\s*(.+)")
-            .firstMatch(region)
-            ?.group(1) ??
-        "";
-    final targetCompatibility = RegExp(r"targetCompatibility\s*=\s*(.+)")
-            .firstMatch(region)
-            ?.group(1) ??
-        "";
-    final coreLibraryDesugaringEnabledString =
-        RegExp("isCoreLibraryDesugaringEnabled = ([a-zA-Z0-9_\"'.-]+)")
-            .firstMatch(region)
-            ?.group(1)
-            ?.toLowerCase();
+    String? value(List<String> keys) {
+      return _GradleText.value(content, _compileOptionsPath, keys);
+    }
+
+    final coreLibraryDesugaringEnabledString = value([
+      "isCoreLibraryDesugaringEnabled",
+      "coreLibraryDesugaringEnabled",
+    ])?.toLowerCase();
     final coreLibraryDesugaringEnabled =
         coreLibraryDesugaringEnabledString == null
             ? null
             : (coreLibraryDesugaringEnabledString == "true" ? true : false);
     return GradleAndroidCompileOptions(
-      sourceCompatibility: sourceCompatibility,
-      targetCompatibility: targetCompatibility,
+      sourceCompatibility: value(["sourceCompatibility"]) ?? "",
+      targetCompatibility: value(["targetCompatibility"]) ?? "",
       coreLibraryDesugaringEnabled: coreLibraryDesugaringEnabled,
     );
   }
 
-  static final _regExp = RegExp(r"compileOptions {([\s\S]+?)}");
+  static String _save(
+    String content,
+    GradleAndroidCompileOptions data,
+    GradleAndroidCompileOptions? original, {
+    required bool isKotlin,
+  }) {
+    final changes = <List<String>, String>{
+      if (data.sourceCompatibility.isNotEmpty &&
+          data.sourceCompatibility != original?.sourceCompatibility)
+        ["sourceCompatibility"]: data.sourceCompatibility,
+      if (data.targetCompatibility.isNotEmpty &&
+          data.targetCompatibility != original?.targetCompatibility)
+        ["targetCompatibility"]: data.targetCompatibility,
+      if (data.coreLibraryDesugaringEnabled != null &&
+          data.coreLibraryDesugaringEnabled !=
+              original?.coreLibraryDesugaringEnabled)
+        isKotlin
+            ? [
+                "isCoreLibraryDesugaringEnabled",
+                "coreLibraryDesugaringEnabled",
+              ]
+            : [
+                "coreLibraryDesugaringEnabled",
+                "isCoreLibraryDesugaringEnabled",
+              ]: "${data.coreLibraryDesugaringEnabled}",
+    };
+    if (changes.isEmpty) {
+      return content;
+    }
+    content = _GradleText.ensureBlock(
+      content,
+      _androidPath,
+      r"compileOptions",
+      "compileOptions",
+      before: [
+        r"kotlinOptions",
+        r"buildFeatures",
+        r"sourceSets",
+        r"defaultConfig",
+      ],
+    );
+    for (final entry in changes.entries) {
+      content = _GradleText.setValue(
+        content,
+        _compileOptionsPath,
+        entry.key,
+        entry.value,
+      );
+    }
+    return content;
+  }
 
   /// Data for `sourceCompatibility`.
   ///
@@ -633,10 +1157,14 @@ class GradleAndroidCompileOptions {
   ///
   /// 未設定または[minimumVersion]未満のJava互換性だけを引き上げます。
   void ensureMinimumJavaVersion(int minimumVersion) {
-    sourceCompatibility =
-        _ensureMinimumJavaVersion(sourceCompatibility, minimumVersion);
-    targetCompatibility =
-        _ensureMinimumJavaVersion(targetCompatibility, minimumVersion);
+    sourceCompatibility = _ensureMinimumJavaVersion(
+      sourceCompatibility,
+      minimumVersion,
+    );
+    targetCompatibility = _ensureMinimumJavaVersion(
+      targetCompatibility,
+      minimumVersion,
+    );
   }
 
   static String _ensureMinimumJavaVersion(String value, int minimumVersion) {
@@ -651,9 +1179,9 @@ class GradleAndroidCompileOptions {
   }
 
   static int? _parseJavaVersion(String value) {
-    final javaVersion = RegExp(r"JavaVersion\.VERSION_(?:1_)?(\d+)")
-        .firstMatch(value)
-        ?.group(1);
+    final javaVersion = RegExp(
+      r"JavaVersion\.VERSION_(?:1_)?(\d+)",
+    ).firstMatch(value)?.group(1);
     if (javaVersion != null) {
       return int.tryParse(javaVersion);
     }
@@ -663,9 +1191,9 @@ class GradleAndroidCompileOptions {
     if (toVersion != null) {
       return _parseJavaVersionNumber(toVersion);
     }
-    final literal = RegExp("^[\"']?(\\d+(?:\\.\\d+)?)[\"']?\$")
-        .firstMatch(value.trim())
-        ?.group(1);
+    final literal = RegExp(
+      "^[\"']?(\\d+(?:\\.\\d+)?)[\"']?\$",
+    ).firstMatch(value.trim())?.group(1);
     return literal == null ? null : _parseJavaVersionNumber(literal);
   }
 
@@ -683,41 +1211,6 @@ class GradleAndroidCompileOptions {
   }
 }
 
-/// Kotlin option settings.
-///
-/// Kotlinのオプション設定。
-// class GradleAndroidKotlinOptions {
-//   /// Kotlin option settings.
-//   ///
-//   /// Kotlinのオプション設定。
-//   GradleAndroidKotlinOptions({
-//     required this.jvmTarget,
-//   });
-
-//   factory GradleAndroidKotlinOptions._load(String content) {
-//     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-//     final jvmTarget = RegExp("jvmTarget = ([a-zA-Z0-9_\"'().-]+)")
-//             .firstMatch(region)
-//             ?.group(1) ??
-//         '"1.8"';
-//     return GradleAndroidKotlinOptions(
-//       jvmTarget: jvmTarget,
-//     );
-//   }
-
-//   static final _regExp = RegExp(r"kotlinOptions {([\s\S]+?)}");
-
-//   /// Setting of `jvmTarget`.
-//   ///
-//   /// `jvmTarget`の設定。
-//   String jvmTarget;
-
-//   @override
-//   String toString() {
-//     return "    kotlinOptions {\n        jvmTarget = $jvmTarget\n    }\n";
-//   }
-// }
-
 /// Source setting.
 ///
 /// ソースの設定。
@@ -730,8 +1223,6 @@ class GradleAndroidSourceSet {
     required this.target,
     required this.symbol,
   });
-
-  static final _regExp = RegExp(r"sourceSets {([\s\S]+?)}");
 
   /// Source Target.
   ///
@@ -749,7 +1240,7 @@ class GradleAndroidSourceSet {
   String source;
 
   static List<GradleAndroidSourceSet> _load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final region = _GradleText.body(content, _sourceSetsPath);
     return RegExp(
       "(?<target>[a-zA-Z_.-]+) (?<symbol>[+=]+) (?<source>[a-zA-Z0-9_/\"'.-]+)",
     ).allMatches(region).mapAndRemoveEmpty((e) {
@@ -759,6 +1250,31 @@ class GradleAndroidSourceSet {
         target: e.namedGroup("target") ?? "",
       );
     });
+  }
+
+  static String _save(
+    String content,
+    List<GradleAndroidSourceSet> data,
+    List<GradleAndroidSourceSet> original,
+  ) {
+    final existing = original.map((e) => e.toString().trim()).toSet();
+    final added =
+        data.where((e) => !existing.contains(e.toString().trim())).toList();
+    if (added.isEmpty) {
+      return content;
+    }
+    content = _GradleText.ensureBlock(
+      content,
+      _androidPath,
+      r"sourceSets",
+      "sourceSets",
+      before: [r"defaultConfig"],
+    );
+    return _GradleText.addLines(
+      content,
+      _sourceSetsPath,
+      added.map((e) => e.toString().trim()).toList(),
+    );
   }
 
   @override
@@ -786,37 +1302,100 @@ class GradleAndroidDefaultConfig {
   });
 
   factory GradleAndroidDefaultConfig._load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final applicationId =
-        RegExp("applicationId = (.+)").firstMatch(region)?.group(1) ?? "";
-    final minSdkVersion =
-        RegExp("minSdk = (.+)").firstMatch(region)?.group(1) ?? "";
-    final targetSdkVersion =
-        RegExp("targetSdk = (.+)").firstMatch(region)?.group(1) ?? "";
-    final versionCode =
-        RegExp("versionCode = (.+)").firstMatch(region)?.group(1) ?? "";
-    final versionName =
-        RegExp("versionName = (.+)").firstMatch(region)?.group(1) ?? "";
-    final testInstrumentationRunner =
-        RegExp("testInstrumentationRunner = (.+)").firstMatch(region)?.group(1);
-    final multiDexEnabled =
-        RegExp("multiDexEnabled = (.+)").firstMatch(region)?.group(1);
-    final resValues = RegExp("resValue(.+)")
-        .allMatches(region)
-        .mapAndRemoveEmpty((e) => e.group(1));
+    String? value(List<String> keys) {
+      return _GradleText.value(content, _defaultConfigPath, keys);
+    }
+
+    final resValues =
+        _GradleText.lines(content, _defaultConfigPath).mapAndRemoveEmpty(
+      (e) => RegExp(r"^[ \t]*resValue(.+)$").firstMatch(e)?.group(1),
+    );
     return GradleAndroidDefaultConfig(
-      applicationId: applicationId,
-      minSdkVersion: minSdkVersion,
-      targetSdkVersion: targetSdkVersion,
-      versionCode: versionCode,
-      versionName: versionName,
-      testInstrumentationRunner: testInstrumentationRunner,
-      multiDexEnabled: multiDexEnabled,
+      applicationId: value(["applicationId"]) ?? "",
+      minSdkVersion: value(["minSdk", "minSdkVersion"]) ?? "",
+      targetSdkVersion: value(["targetSdk", "targetSdkVersion"]) ?? "",
+      versionCode: value(["versionCode"]) ?? "",
+      versionName: value(["versionName"]) ?? "",
+      testInstrumentationRunner: value(["testInstrumentationRunner"]),
+      multiDexEnabled: value(["multiDexEnabled"]),
       resValues: resValues,
     );
   }
 
-  static final _regExp = RegExp(r"defaultConfig {([\s\S]+?)}");
+  static String _save(
+    String content,
+    GradleAndroidDefaultConfig data,
+    GradleAndroidDefaultConfig? original,
+  ) {
+    final changes = <List<String>, String?>{
+      ["applicationId"]: data.applicationId == original?.applicationId
+          ? null
+          : data.applicationId,
+      ["minSdk", "minSdkVersion"]: data.minSdkVersion == original?.minSdkVersion
+          ? null
+          : data.minSdkVersion,
+      [
+        "targetSdk",
+        "targetSdkVersion",
+      ]: data.targetSdkVersion == original?.targetSdkVersion
+          ? null
+          : data.targetSdkVersion,
+      ["versionCode"]:
+          data.versionCode == original?.versionCode ? null : data.versionCode,
+      ["versionName"]:
+          data.versionName == original?.versionName ? null : data.versionName,
+      [
+        "testInstrumentationRunner",
+      ]: data.testInstrumentationRunner == original?.testInstrumentationRunner
+          ? null
+          : data.testInstrumentationRunner,
+      ["multiDexEnabled"]: data.multiDexEnabled == original?.multiDexEnabled
+          ? null
+          : data.multiDexEnabled,
+    }..removeWhere((key, value) => value.isEmpty);
+    final originalResValues =
+        (original?.resValues ?? const <String>[]).map((e) => e.trim()).toSet();
+    final resValues = data.resValues.map((e) => e.trim()).toSet();
+    final addedResValues = data.resValues
+        .where((e) => !originalResValues.contains(e.trim()))
+        .toList();
+    final removedResValues =
+        originalResValues.where((e) => !resValues.contains(e)).toSet();
+    if (changes.isEmpty && addedResValues.isEmpty && removedResValues.isEmpty) {
+      return content;
+    }
+    content = _GradleText.ensureBlock(
+      content,
+      _androidPath,
+      r"defaultConfig",
+      "defaultConfig",
+      before: [r"signingConfigs", r"buildTypes"],
+    );
+    for (final entry in changes.entries) {
+      content = _GradleText.setValue(
+        content,
+        _defaultConfigPath,
+        entry.key,
+        entry.value!,
+      );
+    }
+    if (removedResValues.isNotEmpty) {
+      content = _GradleText.removeLines(
+        content,
+        _defaultConfigPath,
+        (line) =>
+            line.startsWith("resValue") &&
+            removedResValues.contains(line.substring(8).trim()),
+      );
+    }
+    return _GradleText.addLines(
+      content,
+      _defaultConfigPath,
+      addedResValues
+          .map((e) => "resValue${e.replaceAll(RegExp(r"^resValue\s*"), "")}")
+          .toList(),
+    );
+  }
 
   /// Application ID.
   ///
@@ -871,24 +1450,44 @@ class GradleAndroidBuildTypes {
   /// Build type setting.
   ///
   /// ビルドタイプの設定。
-  GradleAndroidBuildTypes({
-    this.release,
-    this.debug,
-  });
+  GradleAndroidBuildTypes({this.release, this.debug});
 
   factory GradleAndroidBuildTypes._load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    final release = _releaseRegExp.firstMatch(region)?.group(1);
-    final debug = _debugRegExp.firstMatch(region)?.group(1);
+    GradleAndroidBuildType? load(String head) {
+      final path = [..._buildTypesPath, head];
+      if (_GradleText.path(content, path) == null) {
+        return null;
+      }
+      return GradleAndroidBuildType._load(content, path);
+    }
+
     return GradleAndroidBuildTypes(
-      release: release != null ? GradleAndroidBuildType._load(release) : null,
-      debug: debug != null ? GradleAndroidBuildType._load(debug) : null,
+      release: load(_releaseHead),
+      debug: load(_debugHead),
     );
   }
 
-  static final _regExp = RegExp(r"buildTypes {([\s\S]+)}");
-  static final _releaseRegExp = RegExp(r"release {([\s\S]+?)}");
-  static final _debugRegExp = RegExp(r"debug {([\s\S]+?)}");
+  static String _save(
+    String content,
+    GradleAndroidBuildTypes data,
+    GradleAndroidBuildTypes? original,
+  ) {
+    content = GradleAndroidBuildType._save(
+      content,
+      _releaseHead,
+      "release",
+      data.release,
+      original?.release,
+    );
+    content = GradleAndroidBuildType._save(
+      content,
+      _debugHead,
+      "debug",
+      data.debug,
+      original?.debug,
+    );
+    return content;
+  }
 
   /// Settings at the time of release.
   ///
@@ -911,7 +1510,13 @@ class GradleAndroidBuildTypes {
 
 /// Configuration class for the contents of [GradleAndroidBuildTypes].
 ///
+/// Only `signingConfig`, `minifyEnabled` and `shrinkResources` are managed.
+/// Other settings in the build type, such as `proguardFile`, are kept.
+///
 /// [GradleAndroidBuildTypes]の中身の設定クラス。
+///
+/// `signingConfig`、`minifyEnabled`、`shrinkResources`のみを扱い、
+/// `proguardFile`などそれ以外の設定は保持します。
 class GradleAndroidBuildType {
   /// Configuration class for the contents of [GradleAndroidBuildTypes].
   ///
@@ -922,18 +1527,59 @@ class GradleAndroidBuildType {
     this.shrinkResources,
   });
 
-  factory GradleAndroidBuildType._load(String content) {
-    final signingConfig =
-        RegExp("signingConfig = (.+)").firstMatch(content)?.group(1) ?? "";
-    final minifyEnabled =
-        RegExp("minifyEnabled = (.+)").firstMatch(content)?.group(1);
-    final shrinkResources =
-        RegExp("shrinkResources = (.+)").firstMatch(content)?.group(1);
+  factory GradleAndroidBuildType._load(String content, List<String> path) {
     return GradleAndroidBuildType(
-      signingConfig: signingConfig,
-      minifyEnabled: minifyEnabled,
-      shrinkResources: shrinkResources,
+      signingConfig: _GradleText.value(content, path, ["signingConfig"]) ?? "",
+      minifyEnabled: _GradleText.value(content, path, ["minifyEnabled"]),
+      shrinkResources: _GradleText.value(content, path, ["shrinkResources"]),
     );
+  }
+
+  static String _save(
+    String content,
+    String head,
+    String header,
+    GradleAndroidBuildType? data,
+    GradleAndroidBuildType? original,
+  ) {
+    if (data == null) {
+      return content;
+    }
+    final changes = <String, String?>{
+      "signingConfig": data.signingConfig == original?.signingConfig
+          ? null
+          : data.signingConfig,
+      "minifyEnabled": data.minifyEnabled == original?.minifyEnabled
+          ? null
+          : data.minifyEnabled,
+      "shrinkResources": data.shrinkResources == original?.shrinkResources
+          ? null
+          : data.shrinkResources,
+    }..removeWhere((key, value) => value.isEmpty);
+    if (changes.isEmpty) {
+      return content;
+    }
+    content = _GradleText.ensureBlock(
+      content,
+      _androidPath,
+      r"buildTypes",
+      "buildTypes",
+    );
+    content = _GradleText.ensureBlock(
+      content,
+      _buildTypesPath,
+      head,
+      header,
+    );
+    for (final entry in changes.entries) {
+      content = _GradleText.setValue(
+        content,
+        [..._buildTypesPath, head],
+        [entry.key],
+        entry.value!,
+      );
+    }
+    return content;
   }
 
   /// Signature Method.
@@ -959,41 +1605,70 @@ class GradleAndroidBuildType {
 
 /// Signature settings.
 ///
+/// The whole `signingConfigs` block is managed by Katana and is rewritten
+/// when its settings are changed.
+///
 /// 署名の設定。
+///
+/// `signingConfigs`ブロック全体をKatanaが管理し、設定変更時に書き換えます。
 class GradleAndroidSigningConfigs {
   /// Signature settings.
   ///
   /// 署名の設定。
-  GradleAndroidSigningConfigs({
-    this.release,
-    this.debug,
-    bool isKotlin = true,
-  }) : _isKotlin = isKotlin;
+  GradleAndroidSigningConfigs({this.release, this.debug, bool isKotlin = true})
+      : _isKotlin = isKotlin;
 
-  factory GradleAndroidSigningConfigs._load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+  static GradleAndroidSigningConfigs? _load(String content) {
+    if (_GradleText.path(content, _signingConfigsPath) == null) {
+      return null;
+    }
+    final region = _GradleText.body(content, _signingConfigsPath);
+    GradleAndroidSigningConfig? load(String head) {
+      final path = [..._signingConfigsPath, head];
+      if (_GradleText.path(content, path) == null) {
+        return null;
+      }
+      return GradleAndroidSigningConfig._load(_GradleText.body(content, path));
+    }
 
-    final release = region.contains("create(") || region.contains("getByName(")
-        ? _releaseWithKotlinRegExp.firstMatch(region)?.group(1)
-        : _releaseRegExp.firstMatch(region)?.group(1);
-    final debug = region.contains("create(") || region.contains("getByName(")
-        ? _debugWithKotlinRegExp.firstMatch(region)?.group(1)
-        : _debugRegExp.firstMatch(region)?.group(1);
     return GradleAndroidSigningConfigs(
-      release:
-          release != null ? GradleAndroidSigningConfig._load(release) : null,
-      debug: debug != null ? GradleAndroidSigningConfig._load(debug) : null,
+      release: load(r'release|create\("release"\)|getByName\("release"\)'),
+      debug: load(_debugHead),
       isKotlin: region.contains("create(") || region.contains("getByName("),
     );
   }
 
-  static final _regExp = RegExp(r"signingConfigs {([\s\S]+)}");
-  static final _releaseRegExp = RegExp(r"release {([\s\S]+?)}");
-  static final _debugRegExp = RegExp(r"debug {([\s\S]+?)}");
-  static final _releaseWithKotlinRegExp =
-      RegExp(r'create\("release"\) {([\s\S]+?)}');
-  static final _debugWithKotlinRegExp =
-      RegExp(r'getByName\("debug"\) {([\s\S]+?)}');
+  static String _save(
+    String content,
+    GradleAndroidSigningConfigs? data,
+    GradleAndroidSigningConfigs? original,
+  ) {
+    if (data == null || data.toString() == original?.toString()) {
+      return content;
+    }
+    if (_GradleText.path(content, _signingConfigsPath) != null) {
+      return _GradleText.replaceBlock(
+        content,
+        _signingConfigsPath,
+        data.toString(),
+      );
+    }
+    final code = data.toString();
+    if (code.isEmpty) {
+      return content;
+    }
+    final buildTypes = _GradleText.path(content, _buildTypesPath);
+    if (buildTypes != null) {
+      return content.replaceRange(
+        buildTypes.start,
+        buildTypes.start,
+        "$code\n",
+      );
+    }
+    final android = _GradleText.path(content, _androidPath)!;
+    final closeLineStart = content.lastIndexOf("\n", android.close - 1) + 1;
+    return content.replaceRange(closeLineStart, closeLineStart, "\n$code");
+  }
 
   /// Settings at the time of release.
   ///
@@ -1108,15 +1783,15 @@ class GradleDependencies {
   bool get isKotlin => _isKotlin;
   final bool _isKotlin;
 
-  static final _regExp = RegExp(r"dependencies {([\s\S]*?)\n?}");
+  String get _key => "$group:$packageName";
 
   static List<GradleDependencies> _load(String content) {
-    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final region = _GradleText.body(content, [r"dependencies"]);
     final isKotlin = content.contains('("');
     if (isKotlin) {
-      final implmentations =
-          RegExp(r'(?<group>[a-zA-Z]+)\("(?<packageName>[^"]+)"\)')
-              .allMatches(region);
+      final implmentations = RegExp(
+        r'(?<group>[a-zA-Z]+)\("(?<packageName>[^"]+)"\)',
+      ).allMatches(region);
       return implmentations
           .map(
             (e) => GradleDependencies(
@@ -1127,9 +1802,9 @@ class GradleDependencies {
           )
           .toList();
     } else {
-      final implmentations =
-          RegExp("(?<group>[a-zA-Z]+) \"(?<packageName>[^\"]+)\"")
-              .allMatches(region);
+      final implmentations = RegExp(
+        "(?<group>[a-zA-Z]+) \"(?<packageName>[^\"]+)\"",
+      ).allMatches(region);
       return implmentations
           .map(
             (e) => GradleDependencies(
@@ -1141,8 +1816,40 @@ class GradleDependencies {
     }
   }
 
-  static String _save(String content, List<GradleDependencies> data) {
-    return content.replaceAll(_regExp, "dependencies {\n${data.join("\n")}\n}");
+  static String _save(
+    String content,
+    List<GradleDependencies> data,
+    List<String> original,
+  ) {
+    final keys = data.map((e) => e._key).toSet();
+    final removed = original.where((e) => !keys.contains(e)).toList();
+    final added = data.where((e) => !original.contains(e._key)).toList();
+    if (removed.isEmpty && added.isEmpty) {
+      return content;
+    }
+    if (_GradleText.find(content, r"dependencies") == null) {
+      if (added.isEmpty) {
+        return content;
+      }
+      final separator = content.endsWith("\n") ? "\n" : "\n\n";
+      return "$content${separator}dependencies {\n${added.join("\n")}\n}\n";
+    }
+    content = _GradleText.removeLines(content, [r"dependencies"], (line) {
+      return removed.any((key) {
+        final separator = key.indexOf(":");
+        final group = key.substring(0, separator);
+        final packageName = key.substring(separator + 1);
+        return line.startsWith(group) &&
+            (line.contains('"$packageName"') ||
+                line.contains("'$packageName'"));
+      });
+    });
+    return _GradleText.addLines(
+        content,
+        [
+          r"dependencies",
+        ],
+        added.map((e) => e.toString().trim()).toList());
   }
 
   /// Group.

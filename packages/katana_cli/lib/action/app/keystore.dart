@@ -80,7 +80,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
       label(
         "Use the keystore from `${AndroidSigningEnvironment.keystoreVariable}` and `${AndroidSigningEnvironment.passwordVariable}`. Skip creating keystore files.",
       );
-      await _applyGradle(alias);
+      await applyGradle(alias);
       await _applyGitignore(context);
       return;
     }
@@ -197,7 +197,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         "storePassword=$password\nkeyPassword=$password\nkeyAlias=$alias\nstoreFile=appkey.keystore",
       );
     }
-    await _applyGradle(alias);
+    await applyGradle(alias);
     label("Save the fingerprint information.");
     final fingerPrintFile = File("android/app/appkey_fingerprint.txt");
     if (!fingerPrintFile.existsSync()) {
@@ -258,7 +258,16 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     await _applyGitignore(context);
   }
 
-  Future<void> _applyGradle(String alias) async {
+  /// Applies the signing settings to `android/app/build.gradle(.kts)`.
+  ///
+  /// Only the signing related parts are changed and other content is kept.
+  /// [alias] is used as the last fallback for the key alias.
+  ///
+  /// `android/app/build.gradle(.kts)`に署名設定を反映します。
+  ///
+  /// 署名に関係する箇所だけを変更し、それ以外の記述は保持します。
+  /// [alias]はキーエイリアスの最後のフォールバックとして使われます。
+  static Future<void> applyGradle(String alias) async {
     label("Add processing to the Gradle file.");
     final gradle = AppGradle();
     await gradle.load();
@@ -288,16 +297,28 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         ),
       );
     }
-    gradle.android?.buildTypes = GradleAndroidBuildTypes(
-      release: gradle.isKotlin
-          ? GradleAndroidBuildType(
-              signingConfig: "signingConfigs.getByName(\"release\")")
-          : GradleAndroidBuildType(signingConfig: "signingConfigs.release"),
-      debug: gradle.isKotlin
-          ? GradleAndroidBuildType(
-              signingConfig: "signingConfigs.getByName(\"debug\")")
-          : GradleAndroidBuildType(signingConfig: "signingConfigs.debug"),
-    );
+    // 署名の参照だけを差し替え、proguardFileなど既存のビルドタイプ設定は残す。
+    final buildTypes = gradle.android?.buildTypes;
+    if (buildTypes != null) {
+      final releaseSigningConfig = gradle.isKotlin
+          ? "signingConfigs.getByName(\"release\")"
+          : "signingConfigs.release";
+      final debugSigningConfig = gradle.isKotlin
+          ? "signingConfigs.getByName(\"debug\")"
+          : "signingConfigs.debug";
+      if (buildTypes.release == null) {
+        buildTypes.release =
+            GradleAndroidBuildType(signingConfig: releaseSigningConfig);
+      } else {
+        buildTypes.release!.signingConfig = releaseSigningConfig;
+      }
+      if (buildTypes.debug == null) {
+        buildTypes.debug =
+            GradleAndroidBuildType(signingConfig: debugSigningConfig);
+      } else {
+        buildTypes.debug!.signingConfig = debugSigningConfig;
+      }
+    }
     // 値は`AndroidSigningEnvironment`が生成するブロックで環境変数 → key.propertiesの順に解決する。
     // debugは解決できない場合に既定のデバッグ署名を使う。
     gradle.android?.signingConfigs = GradleAndroidSigningConfigs(
@@ -318,6 +339,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
             "${AndroidSigningEnvironment.storePasswordExpression} ?: storePassword",
         isKotlin: gradle.isKotlin,
       ),
+      isKotlin: gradle.isKotlin,
     );
     await gradle.save();
     final gradleFile = File(
