@@ -1,3 +1,8 @@
+## 3.36.1
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([1263a9cd](https://github.com/mathrunet/flutter_masamune/commit/1263a9cdb17c8f45715ddf82199deed75abdc253))
+ - **FIX**(katana_cli): preserve custom Gradle content when saving build.gradle ([1263a9cd](https://github.com/mathrunet/flutter_masamune/commit/1263a9cdb17c8f45715ddf82199deed75abdc253))
+
 ## 3.36.0
 
  - **FEAT**(katana_cli): integrate dart defines into build and test commands ([fa18a26b](https://github.com/mathrunet/flutter_masamune/commit/fa18a26bbe7a5c6b04dfb6b6411ea899c6481057))
