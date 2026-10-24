@@ -19,6 +19,10 @@ import "package:flutter/widgets.dart";
 
 // Package imports:
 import "package:firebase_app_check/firebase_app_check.dart";
+// `firebase_app_check` re-exports `WebProvider` only from 0.4.4, so import it explicitly for older versions.
+// ignore: unnecessary_import
+import "package:firebase_app_check_platform_interface/firebase_app_check_platform_interface.dart"
+    show WebProvider;
 import "package:katana_firebase/katana_firebase.dart";
 import "package:masamune/masamune.dart";
 
