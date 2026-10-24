@@ -59,6 +59,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
       return _instance!;
     }
     return _googleInstance ??= FirebaseAI.googleAI(
+      // Older supported firebase_ai versions still require an explicit App Check instance.
+      // ignore: deprecated_member_use
       appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
     );
   }
