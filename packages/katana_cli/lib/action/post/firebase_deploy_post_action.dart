@@ -23,7 +23,10 @@ enum FirebaseDeployPostActionType {
   /// Firebase Data Connect.
   ///
   /// Firebase Data Connect.
-  dataconnect;
+  dataconnect,
+
+  /// Firebase Storage rules.
+  storage;
 }
 
 class _FirebaseDeployPostAction extends PostAction {
@@ -41,6 +44,9 @@ class _FirebaseDeployPostAction extends PostAction {
     final projectId = context.yaml.getAsMap("firebase").get("project_id", "");
     if (projectId.isEmpty) {
       throw StateError("firebase.project_id is required for deployment.");
+    }
+    if (types.contains(FirebaseDeployPostActionType.functions)) {
+      await FirebaseFunctionsSecrets.prepareDeployment(context);
     }
     await command(
       "Deploy firebase products.",

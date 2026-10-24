@@ -168,7 +168,7 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     }
     await functions.save();
     label("Set firebase functions config.");
-    final env = FunctionsEnv();
+    final env = FunctionsEnv(context: context);
     await env.load();
     env["AGORA_APP_ID"] = appId;
     env["AGORA_APP_CERTIFICATE"] = appCertificate;

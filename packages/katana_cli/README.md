@@ -206,6 +206,59 @@ cloudflare:
 - Commands that update `katana.yaml` keep the `${NAME}` references and never
   write expanded values back.
 
+## Firebase Functions secrets without dotenv files
+
+Opt into Secret Manager for v2 Firebase Functions:
+
+```yaml
+firebase:
+  project_id:
+    dev: my-app-dev
+    prod: my-app-prod
+  functions:
+    enable: true
+    secret_manager: true
+    secrets:
+      CUSTOM_API_KEY: ${CUSTOM_API_KEY}
+sendgrid:
+  enable: true
+  api_key: ${SENDGRID_API_KEY}
+```
+
+Supply the environment variables through Samurai Passwords or CI secrets, then
+run `katana apply --flavor dev` to configure plugins and deploy. Subsequent
+`katana deploy --flavor dev` calls register the additional `functions.secrets`
+values and deploy the existing Functions code. Reapply after changing plugin
+settings so their new values are registered.
+
+- Plugin settings that previously went into `firebase/functions/.env` stay in
+  memory and are registered through the installed `firebase-tools` Node API with stdin
+  immediately before the consolidated deployment. No secret values are placed in
+  process arguments or dotenv files. Secret-registration subprocess output is
+  discarded to prevent accidental disclosure, including on errors. Using the Node
+  API avoids the CLI entrypoint's `firebase-debug.log`, which can include request
+  payloads. An npm-installed Firebase CLI and Node.js are required; standalone
+  Firebase executables are rejected. Override `bin.node` if needed.
+- Only secret names are written to a managed block in
+  `firebase/functions/src/index.ts`. The block calls v2 `setGlobalOptions` before
+  function registration; all v2 functions in that codebase receive these secrets
+  through their existing `process.env` names. Functions with explicit `secrets`
+  options must include the needed names themselves. Legacy v1 functions require
+  their own bindings. Secret names are tracked separately for dev and prod.
+- Each non-empty value registered during apply or deploy creates a new Secret
+  Manager version. Registration failure stops deployment; previously registered
+  versions are not rolled back automatically. Firebase authentication, Secret
+  Manager permissions, and applicable Google Cloud billing are required.
+- Existing `.env` and `.env.*` files cause this mode to stop without reading or
+  deleting them. Migrate their settings into Passwords and configuration, and
+  remove legacy files once the migration is confirmed. Existing custom
+  `setGlobalOptions(...)` calls must be reconciled before using the managed block.
+- `--local` never uploads secrets or deploys. With Secret Manager disabled or
+  omitted, the existing dotenv behavior remains available. When switching back,
+  remove the managed secret block from `index.ts` as part of that migration.
+- This configures runtime settings. The Firebase CLI still uses its existing
+  Google login or Application Default Credentials for deployment authentication.
+
 ## Android signing with environment variables
 
 When `app.keystore.enable` is `true`, the Android signing configuration can be

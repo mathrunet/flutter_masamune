@@ -132,7 +132,7 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
       workingDirectory: "firebase",
     );
     label("Set firebase functions config.");
-    final env = FunctionsEnv();
+    final env = FunctionsEnv(context: context);
     await env.load();
     env["SCHEDULER_COLLECTION_PATH"] = "plugins/scheduler/schedule";
     await env.save();

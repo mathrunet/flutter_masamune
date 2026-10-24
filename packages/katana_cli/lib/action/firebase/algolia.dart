@@ -85,7 +85,7 @@ class FirebaseAlogliaCliAction extends CliCommand with CliActionMixin {
     }
     await functions.save();
     label("Set firebase functions config.");
-    final env = FunctionsEnv();
+    final env = FunctionsEnv(context: context);
     await env.load();
     env["ALGOLIA_APPID"] = appId;
     env["ALGOLIA_APIKEY"] = apiKey;

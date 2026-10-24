@@ -90,7 +90,7 @@ class AppGeocodingCliAction extends CliCommand with CliActionMixin {
     }
     await functions.save();
     label("Set firebase functions config.");
-    final env = FunctionsEnv();
+    final env = FunctionsEnv(context: context);
     await env.load();
     env["MAP_GEOCODING_APIKEY"] = geocodingApiKey;
     await env.save();

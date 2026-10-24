@@ -704,6 +704,12 @@ ${showAllConfig ? """
   # Cloud Functions for Firebaseを有効にします。
   functions:
     enable: false
+    # Register plugin settings in Secret Manager without creating dotenv files.
+    # Values are supplied by environment references, for example Samurai Passwords.
+    secret_manager: false
+    # Additional secrets for all v2 functions in this codebase.
+    # Example: API_KEY: \${API_KEY}
+    secrets: {}
 
     # Specify the Region for FirebaseFunctions.
     # Please refer to the following link for the Region of FirebaseFunctions.

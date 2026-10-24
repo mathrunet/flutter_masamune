@@ -9,6 +9,7 @@ import "package:yaml/yaml.dart";
 // Project imports:
 import "package:katana_cli/action/firebase/authentication.dart";
 import "package:katana_cli/action/firebase/messaging.dart";
+import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -1366,7 +1367,20 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       hosting: enabledHosting,
       hostingGithubActions: enableActions,
     );
-    if (firebaseJsonFileExists && !isLocalApply && deployTargets.isNotEmpty) {
+    if (firebaseJsonFileExists &&
+        !isLocalApply &&
+        deployTargets.isNotEmpty &&
+        enabledFunctions &&
+        FirebaseFunctionsSecrets.isEnabled(context)) {
+      // Defer until all plugin settings have been collected in memory.
+      for (final target in deployTargets) {
+        context.requestFirebaseDeploy(
+          FirebaseDeployPostActionType.values.byName(target),
+        );
+      }
+    } else if (firebaseJsonFileExists &&
+        !isLocalApply &&
+        deployTargets.isNotEmpty) {
       await command(
         "Run firebase deploy",
         [

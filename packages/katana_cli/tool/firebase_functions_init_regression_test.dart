@@ -7,7 +7,12 @@ import "package:katana_cli/action/firebase/init.dart";
 import "package:katana_cli/katana_cli.dart";
 import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
+  if (args.contains("--secret-worker")) {
+    await _verifySecretManagerWorker();
+    return;
+  }
+  await _verifySecretManagerBoundary();
   _expectEqual(
     firebaseDeployTargets(
       firestore: true,
@@ -530,4 +535,234 @@ android {
       await root.delete(recursive: true);
     }
   }
+}
+
+// Run the secret process boundary in a child so that leaked subprocess output
+// can be detected without exposing any real credentials.
+Future<void> _verifySecretManagerBoundary() async {
+  final packageRoot = File.fromUri(Platform.script).parent.parent;
+  final result = await Process.run(Platform.resolvedExecutable, [
+    "--packages=${packageRoot.path}/.dart_tool/package_config.json",
+    File.fromUri(Platform.script).path,
+    "--secret-worker",
+  ]);
+  final output = "${result.stdout}${result.stderr}";
+  _expect(!output.contains("fixture-private-value"),
+      "Secret subprocess output must never be forwarded.");
+  _expect(result.exitCode == 0, "Secret Manager checks failed: $output");
+}
+
+Future<void> _verifySecretManagerWorker() async {
+  final original = Directory.current;
+  final root = await Directory.systemTemp.createTemp("katana_secrets_");
+  try {
+    Directory.current = root;
+    await Directory("firebase/functions/src").create(recursive: true);
+    final index = File("firebase/functions/src/index.ts");
+    const source = 'import * as mf from "@mathrunet/masamune_firebase";\n'
+        'mf.deploy(exports, ["us-central1"], []);\n';
+    await index.writeAsString(source);
+    final tools = Directory("${root.path}/firebase-tools/bin");
+    await tools.create(recursive: true);
+    await File("${root.path}/firebase-tools/package.json").writeAsString(
+      '{"name":"firebase-tools","main":"index.js"}',
+    );
+    await File("${root.path}/firebase-tools/index.js").writeAsString(r'''
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+exports.functions = {secrets: {set: async (name, options) => {
+  const value = fs.readFileSync(0, "utf8");
+  assert.equal(value, "fixture-private-value\nline=two\n");
+  assert.equal(options.dataFile, "-");
+  assert.equal(options.project, "fixture-prod");
+  assert.equal(options.format, "string");
+  assert.equal(options.nonInteractive, true);
+  assert(!process.argv.some(arg => arg.includes("fixture-private-value")));
+  console.log(value);
+  console.error(value);
+  if (fs.existsSync("../fail-secret")) throw new Error(value);
+  fs.appendFileSync("../calls", JSON.stringify(["functions:secrets:set", name]) + "\n");
+}}};
+''');
+    final fake = File("${tools.path}/firebase-fake");
+    await fake.writeAsString(r'''
+#!/usr/bin/env python3
+import sys, json, pathlib
+args = sys.argv[1:]
+with open("../calls", "a") as trace:
+    trace.write(json.dumps(args) + "\n")
+'''
+        .trimLeft());
+    final chmod = await Process.run("chmod", ["+x", fake.path]);
+    _expect(chmod.exitCode == 0, "Unable to prepare fake Firebase CLI.");
+    ExecContext context({bool enabled = true, String key = "CUSTOM_KEY"}) =>
+        ExecContext(yaml: {
+          "bin": {"firebase": fake.path},
+          "firebase": {
+            "project_id": "fixture-prod",
+            "functions": {
+              "enable": true,
+              "secret_manager": enabled,
+              "secrets": {key: "fixture-private-value\nline=two\n"},
+            },
+          },
+        }, args: [
+          "deploy"
+        ]);
+    final current = context();
+    final env = FunctionsEnv(context: current);
+    await env.load();
+    env["MAIL_SENDGRID_APIKEY"] = "fixture-private-value\nline=two\n";
+    await env.save();
+    final second = FunctionsEnv(context: current);
+    await second.load();
+    _expect(second["MAIL_SENDGRID_APIKEY"].startsWith("fixture-private-value"),
+        "Plugin values must be retained in memory across actions.");
+    final firstSource = await index.readAsString();
+    await FirebaseFunctionsSecrets.synchronize(current);
+    _expect(await index.readAsString() == firstSource,
+        "Secret bindings must be idempotent.");
+    _expect(!firstSource.contains("fixture-private-value"),
+        "Generated source must contain secret names only.");
+    _expect(
+        firstSource.indexOf("katanaSecretOptions({") <
+            firstSource.indexOf("mf.deploy("),
+        "Bindings must precede deployment.");
+    final functions = Functions();
+    await functions.load();
+    functions.functions.add("mf.Functions.test()");
+    await functions.save();
+    _expect((await index.readAsString()).contains("katanaSecretOptions({"),
+        "Plugin function rewrites must preserve global secret bindings.");
+    current.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
+    await current.postActions.single.exec(current);
+    final calls = await File("calls").readAsLines();
+    _expect(calls.length == 3, "Secrets must be registered before one deploy.");
+    _expect(jsonDecode(calls.last)[0] == "deploy", "Deploy must run last.");
+    _expect(
+        !Directory("firebase/functions")
+            .listSync()
+            .any((e) => e.uri.pathSegments.last.startsWith(".env")),
+        "Secret Manager mode must not create dotenv files.");
+    _expect(!File("firebase/firebase-debug.log").existsSync(),
+        "Secret registration must not initialize a Firebase debug log.");
+
+    // Exercise the actual CLI loader, environment expansion, and post action.
+    await File("katana.yaml").writeAsString(
+      "bin:\n  firebase: ${fake.path}\n"
+      "firebase:\n  project_id: fixture-prod\n  functions:\n"
+      "    enable: true\n    secret_manager: true\n"
+      "    secrets:\n      CUSTOM_KEY: \${KATANA_SECRET_FIXTURE}\n",
+    );
+    final packageRoot = File.fromUri(Platform.script).parent.parent;
+    final cliResult = await Process.run(Platform.resolvedExecutable, [
+      "--packages=${packageRoot.path}/.dart_tool/package_config.json",
+      "${packageRoot.path}/bin/katana.dart",
+      "deploy",
+      "--flavor",
+      "prod",
+    ], environment: {
+      "KATANA_SECRET_FIXTURE": "fixture-private-value\nline=two\n"
+    });
+    _expect(
+        !"${cliResult.stdout}${cliResult.stderr}"
+            .contains("fixture-private-value"),
+        "The actual CLI must not disclose secret values.");
+    _expect(
+        cliResult.exitCode == 0, "The actual CLI must deploy successfully.");
+    final cliCalls = await File("calls").readAsLines();
+    _expect(cliCalls.length == 5 && jsonDecode(cliCalls.last)[0] == "deploy",
+        "The CLI must upload the configured secret before deploying.");
+
+    // A standalone deploy retains plugin names whose values already exist in GCP.
+    final standalone = context();
+    await FirebaseFunctionsSecrets.synchronize(standalone);
+    _expect((await index.readAsString()).contains("MAIL_SENDGRID_APIKEY"),
+        "Standalone deploy must retain existing plugin bindings.");
+    final devFlavor = FlavorContext.resolve(yaml: {
+      "firebase": {
+        "project_id": {"dev": "fixture-dev", "prod": "fixture-prod"},
+        "functions": {
+          "secret_manager": true,
+          "secrets": {"DEV_ONLY": "test"}
+        },
+      },
+    }, secrets: {}, arguments: [
+      "--flavor",
+      "dev"
+    ]);
+    final dev =
+        ExecContext(yaml: devFlavor.yaml, args: [], flavorContext: devFlavor);
+    await FirebaseFunctionsSecrets.synchronize(dev);
+    final devSource = await index.readAsString();
+    _expect(devSource.contains('katanaSecretOptions({secrets: ["DEV_ONLY"]})'),
+        "A flavor must bind only its own secrets.");
+    await FirebaseFunctionsSecrets.synchronize(standalone);
+    _expect(
+        !(await index.readAsString())
+            .contains('katanaSecretOptions({secrets: ["DEV_ONLY"]})'),
+        "Switching flavors must restore the selected bindings.");
+
+    final withoutCustom = ExecContext(yaml: {
+      "firebase": {
+        "project_id": "fixture-prod",
+        "functions": {"secret_manager": true}
+      },
+    }, args: []);
+    await FirebaseFunctionsSecrets.synchronize(withoutCustom);
+    final withoutCustomSource = await index.readAsString();
+    _expect(
+        !withoutCustomSource.contains("CUSTOM_KEY") &&
+            withoutCustomSource.contains("MAIL_SENDGRID_APIKEY"),
+        "Removing custom secrets must retain only persisted plugin bindings.");
+
+    await File("fail-secret").writeAsString("");
+    final beforeFailure = await File("calls").readAsString();
+    var failed = false;
+    try {
+      await current.postActions.single.exec(current);
+    } on StateError catch (error) {
+      failed = true;
+      _expect(!error.toString().contains("fixture-private-value"),
+          "Secret failure messages must not include values.");
+    }
+    _expect(failed, "A failed secret upload must stop deployment.");
+    _expect(await File("calls").readAsString() == beforeFailure,
+        "Deployment must not run after a failed secret upload.");
+    await File("fail-secret").delete();
+    await _expectSecretFailure(() =>
+        FirebaseFunctionsSecrets.synchronize(context(key: "INVALID-NAME")));
+    await runApplyCommands(() async {
+      await _expectSecretFailure(
+          () => FirebaseFunctionsSecrets.prepareDeployment(current));
+    }, local: true);
+    final legacy = File("firebase/functions/.env");
+    await legacy.writeAsString("LEGACY_KEY=fixture-legacy");
+    await _expectSecretFailure(
+        () => FirebaseFunctionsSecrets.synchronize(current));
+    _expect(await legacy.readAsString() == "LEGACY_KEY=fixture-legacy",
+        "Legacy dotenv files must remain untouched.");
+    final legacyEnv = FunctionsEnv(context: context(enabled: false));
+    await legacyEnv.load();
+    _expect(legacyEnv["LEGACY_KEY"] == "fixture-legacy",
+        "Disabled Secret Manager mode must preserve legacy behavior.");
+    await legacy.delete();
+    await index.writeAsString("setGlobalOptions({maxInstances: 2});\n$source");
+    await _expectSecretFailure(
+        () => FirebaseFunctionsSecrets.synchronize(current));
+  } finally {
+    Directory.current = original;
+    await root.delete(recursive: true);
+  }
+}
+
+Future<void> _expectSecretFailure(Future<void> Function() callback) async {
+  try {
+    await callback();
+  } on StateError {
+    return;
+  } on FormatException {
+    return;
+  }
+  throw StateError("Invalid secret deployment must fail closed.");
 }
