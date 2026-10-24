@@ -2,8 +2,8 @@
   "schema": 1,
   "packages": {
     "katana_cli": {
-      "version": "3.36.1",
-      "sourceSha": "1263a9cdb17c8f45715ddf82199deed75abdc253"
+      "version": "3.37.0",
+      "sourceSha": "7298f1a2f353c7a4a265aee5e78e8f125776a3b0"
     },
     "masamune_model_tidb_annotation": {
       "version": "3.6.1",
@@ -42,8 +42,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "masamune_ai_firebase": {
-      "version": "3.3.0",
-      "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
+      "version": "3.4.0",
+      "sourceSha": "7298f1a2f353c7a4a265aee5e78e8f125776a3b0"
     },
     "masamune_ai_openai": {
       "version": "3.4.0",
@@ -98,8 +98,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "masamune_firebase_app_check": {
-      "version": "3.4.0",
-      "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
+      "version": "3.4.1",
+      "sourceSha": "7298f1a2f353c7a4a265aee5e78e8f125776a3b0"
     },
     "masamune_force_updater": {
       "version": "3.2.0",
@@ -142,8 +142,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "masamune_logger_firebase": {
-      "version": "3.2.0",
-      "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
+      "version": "3.3.0",
+      "sourceSha": "7298f1a2f353c7a4a265aee5e78e8f125776a3b0"
     },
     "masamune_mail": {
       "version": "3.3.0",
