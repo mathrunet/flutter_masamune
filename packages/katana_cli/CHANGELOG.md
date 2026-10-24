@@ -1,3 +1,10 @@
+## 3.37.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([3829ea63](https://github.com/mathrunet/flutter_masamune/commit/3829ea632018624fe18ecc779dacc64755124a95))
+ - **FEAT**(katana_cli): register PURCHASE_IOS_BUNDLEID secret for Cloudflare purchase Workers ([3829ea63](https://github.com/mathrunet/flutter_masamune/commit/3829ea632018624fe18ecc779dacc64755124a95))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([7298f1a2](https://github.com/mathrunet/flutter_masamune/commit/7298f1a2f353c7a4a265aee5e78e8f125776a3b0))
+ - **FEAT**(katana_cli): register Firebase Functions secrets in Secret Manager without dotenv files ([7298f1a2](https://github.com/mathrunet/flutter_masamune/commit/7298f1a2f353c7a4a265aee5e78e8f125776a3b0))
+
 ## 3.36.1
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([1263a9cd](https://github.com/mathrunet/flutter_masamune/commit/1263a9cdb17c8f45715ddf82199deed75abdc253))
