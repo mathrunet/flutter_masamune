@@ -127,6 +127,30 @@ await logger.send(const FirebaseAnalyticsTutorialStartLoggable());
 await logger.send(const FirebaseAnalyticsTutorialEndLoggable());
 ```
 
+### Custom Analytics Events
+
+Send custom events through the existing Masamune logger:
+
+```dart
+await appLogger.sendRawData("goal_completed", parameters: {
+  "variant": "control",
+  "duration_seconds": 12.5,
+  "count": 1,
+});
+```
+
+A custom `Loggable` can also override `name` and return its parameters from
+`toJson()`. Existing screen, authentication, purchase and tutorial events keep
+their specialized Firebase mappings.
+
+Custom names must start with a letter and contain at most 40 letters, digits or
+underscores. The prefixes `firebase_`, `google_` and `ga_` are reserved. Up to 25
+parameters are accepted. Values must be strings of at most 100 characters or
+finite numbers; convert booleans explicitly to `0`/`1` when needed. Invalid names,
+nulls, collections and unsupported values raise `ArgumentError` before sending.
+SDK errors propagate to the caller. Respect the application's existing analytics
+consent settings and avoid including personal information in event parameters.
+
 ### Performance Monitoring
 
 Use performance traces to measure operation durations:
