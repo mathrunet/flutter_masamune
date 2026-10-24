@@ -14,6 +14,7 @@ import "package:katana_cli/action/post/firebase_deploy_post_action.dart";
 import "package:katana_cli/config.dart";
 import "package:katana_cli/katana_cli.dart";
 import "package:katana_cli/src/android_manifest.dart";
+import "package:katana_cli/src/app_check_debug_token.dart";
 
 /// Add a module to use InAppPurchase.
 ///
@@ -354,6 +355,22 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final wrangler = bin.get("wrangler", "wrangler");
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final enableTurso = cloudflare.getAsMap("turso").get("enable", false);
+    final enableFirebaseAuth =
+        cloudflare.getAsMap("workers").get("enable_firebase_auth", false);
+    // 課金検証関数は認証済みUIDに書き込み先を拘束するため、認証アダプターが必須。
+    if (!enableFirebaseAuth) {
+      label(
+        "[cloudflare]->[workers]->[enable_firebase_auth] is false. The purchase verification Workers require an authenticated user and will respond 401 without an auth adapter. Set it to `true` and run `katana apply` again.",
+      );
+    }
+    // StoreKit 2 / App Store Server Notificationsの検証にはバンドルIDが必須。
+    final iosBundleId = enableAppStore ? resolveIosBundleId() : null;
+    if (enableAppStore && (iosBundleId == null || iosBundleId.isEmpty)) {
+      error(
+        "The iOS bundle ID could not be resolved from `ios/Runner.xcodeproj/project.pbxproj`. It is required for `PURCHASE_IOS_BUNDLEID`.",
+      );
+      return;
+    }
     label("Add Cloudflare Workers functions");
     // Tursoが有効な場合はウォレット・アンロック・サブスクリプションの保存用に
     // TursoDatabaseAdapterを注入する。
@@ -417,6 +434,12 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         environment: context.flavorContext?.flavor.name ?? "prod",
         name: "PURCHASE_IOS_SHAREDSECRET",
         value: appStoreSharedSecret,
+      );
+      await putWranglerSecret(
+        wrangler: wrangler,
+        environment: context.flavorContext?.flavor.name ?? "prod",
+        name: "PURCHASE_IOS_BUNDLEID",
+        value: iosBundleId!,
       );
       label(
         "Set the App Store Server Notification URL to `https://<your-workers-domain>/purchase_webhook_ios`.",
