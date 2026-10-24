@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([0a735117](https://github.com/mathrunet/flutter_masamune/commit/0a735117926c231c03dfc2514ea0d8cc292be366))
+ - **FEAT**(masamune_logger_firebase): report caught errors to Crashlytics and send validated custom events ([0a735117](https://github.com/mathrunet/flutter_masamune/commit/0a735117926c231c03dfc2514ea0d8cc292be366))
+
 ## 3.2.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))

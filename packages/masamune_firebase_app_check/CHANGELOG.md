@@ -1,3 +1,8 @@
+## 3.4.1
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([e43bcf43](https://github.com/mathrunet/flutter_masamune/commit/e43bcf436ac27c4c968cdccfb50cfc784cc27363))
+ - **FIX**(masamune_firebase_app_check): import WebProvider explicitly for firebase_app_check < 0.4.4 ([e43bcf43](https://github.com/mathrunet/flutter_masamune/commit/e43bcf436ac27c4c968cdccfb50cfc784cc27363))
+
 ## 3.4.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))

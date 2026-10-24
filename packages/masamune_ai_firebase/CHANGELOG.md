@@ -1,3 +1,10 @@
+## 3.4.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([8f448dfa](https://github.com/mathrunet/flutter_masamune/commit/8f448dfa5de2f18abd4a58ec2b81d1482a762a46))
+ - **FEAT**(masamune_ai_firebase): add Gemini 3.8 Flash and Gemini 3.5 Flash Lite models ([8f448dfa](https://github.com/mathrunet/flutter_masamune/commit/8f448dfa5de2f18abd4a58ec2b81d1482a762a46))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([20c7cfe3](https://github.com/mathrunet/flutter_masamune/commit/20c7cfe3c15ffd0f9647f11f091d90bc8424a6ad))
+ - **FIX**(masamune_ai_firebase): keep explicit App Check instance for older firebase_ai versions ([20c7cfe3](https://github.com/mathrunet/flutter_masamune/commit/20c7cfe3c15ffd0f9647f11f091d90bc8424a6ad))
+
 ## 3.3.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
