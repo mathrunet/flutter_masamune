@@ -14,7 +14,7 @@ class AIDebugController {
     required this.maxSessionsPerHour,
     this.reportHandledErrors = true,
     this.contextProvider,
-    List<String> providers = const [],
+    List<String> providers = const ["codex", "claude", "gemini"],
     AIDebugSettings settings = const AIDebugSettings(),
     this.post,
     this.registerRun = AIDebuggerMasamuneAdapter.defaultRegisterRun,

@@ -28,7 +28,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     this.reportHandledErrors = true,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
-    List<String> providers = const [],
+    List<String> providers = const ["codex", "claude", "gemini"],
     this.initialProvider,
     this.manualModel = AIDebugModel.sol,
     this.manualPermissionMode = AIDebugPermissionMode.plan,

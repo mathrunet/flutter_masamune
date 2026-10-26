@@ -40,6 +40,7 @@ void main() {
     expect((await removed.controller.loadSettings()).provider, "gemini");
     final automatic =
         AIDebuggerMasamuneAdapter(projectId: "provider-migration");
+    expect(automatic.providers, ["codex", "claude", "gemini"]);
     expect((await automatic.controller.loadSettings()).provider, isNull);
     await removed.controller.updateSettings(
       removed.controller.settings.copyWith(clearProvider: true),

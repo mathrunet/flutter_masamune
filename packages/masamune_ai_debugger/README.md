@@ -331,8 +331,9 @@ final aiDebugger = AIDebuggerMasamuneAdapter(
 
 The selection applies to manual requests, error incidents, and performance
 incidents, and is persisted per project on the device. Choose **自動** to let the
-backend select the provider. An empty candidate list (the default) hides the
-selector and preserves automatic selection. Blank candidates and duplicates are
+backend select the provider. By default, `providers` is
+`const ["codex", "claude", "gemini"]`; pass `const []` to hide the
+selector and preserve automatic selection. Blank candidates and duplicates are
 removed. A non-null `initialProvider` must match a configured candidate.
 If a saved candidate is removed, the selection falls back to `initialProvider`
 or automatic selection. Existing settings without a provider use the initial
