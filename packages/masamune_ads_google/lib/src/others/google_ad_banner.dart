@@ -29,12 +29,17 @@ enum GoogleBannerAdSize {
   /// リーダーボード。(728×90)
   leaderboard,
 
+  /// Adaptive. (Fits to the available width)
+  ///
+  /// アダプティブ。(利用可能な横幅に合わせて調整)
+  adaptive,
+
   /// Fluid. (varies depending on screen size)
   ///
   /// フルード。(画面のサイズによって変化)
   fluid;
 
-  AdSize _toAdSize() {
+  AdSize _toAdSize({double? width}) {
     switch (this) {
       case GoogleBannerAdSize.banner:
         return AdSize.banner;
@@ -46,8 +51,31 @@ enum GoogleBannerAdSize {
         return AdSize.fullBanner;
       case GoogleBannerAdSize.leaderboard:
         return AdSize.leaderboard;
+      case GoogleBannerAdSize.adaptive:
+        final targetWidth = width?.truncate() ?? 0;
+        if (targetWidth <= 0) {
+          return AdSize.banner;
+        }
+        return AdSize(width: targetWidth, height: 60);
       case GoogleBannerAdSize.fluid:
         return AdSize.fluid;
+    }
+  }
+
+  Future<AdSize> _resolveAdSize({double? width}) async {
+    switch (this) {
+      case GoogleBannerAdSize.adaptive:
+        final targetWidth = width?.truncate() ?? 0;
+        if (targetWidth <= 0) {
+          return AdSize.banner;
+        }
+        final adaptiveSize =
+            await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+          targetWidth,
+        );
+        return adaptiveSize ?? AdSize(width: targetWidth, height: 60);
+      default:
+        return _toAdSize(width: width);
     }
   }
 }
@@ -95,7 +123,7 @@ class GoogleBannerAd extends StatefulWidget {
   const GoogleBannerAd({
     super.key,
     this.adUnitId,
-    this.size = GoogleBannerAdSize.fullBanner,
+    this.size = GoogleBannerAdSize.adaptive,
     this.onAdClicked,
     this.onPaidEvent,
     this.border,
@@ -143,79 +171,150 @@ class GoogleBannerAd extends StatefulWidget {
 class _GoogleBannerAdState extends State<GoogleBannerAd>
     with AutomaticKeepAliveClientMixin {
   GoogleBannerAdUnit? _bannerAd;
+  double? _requestedWidth;
+  int _loadGeneration = 0;
 
   @override
   void initState() {
     super.initState();
-    loadAd();
-  }
-
-  @override
-  void didUpdateWidget(GoogleBannerAd oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.adUnitId != oldWidget.adUnitId) {
-      _bannerAd?.removeListener(_handledOnUpdate);
-      _bannerAd = null;
+    if (widget.size != GoogleBannerAdSize.adaptive) {
+      _requestedWidth = 0;
       loadAd();
     }
   }
 
   @override
+  void didUpdateWidget(GoogleBannerAd oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.adUnitId != oldWidget.adUnitId ||
+        widget.size != oldWidget.size) {
+      final width = _requestedWidth;
+      _releaseBannerAd();
+      _requestedWidth = null;
+      if (widget.size != GoogleBannerAdSize.adaptive) {
+        _requestedWidth = 0;
+        loadAd();
+      } else if (width != null && width > 0) {
+        _requestedWidth = width;
+        loadAd(width: width);
+      }
+    }
+  }
+
+  @override
   void dispose() {
-    _bannerAd?.removeListener(_handledOnUpdate);
-    GoogleAdsCore._returnBannerAd(unit: _bannerAd);
-    _bannerAd = null;
+    _releaseBannerAd();
     super.dispose();
   }
 
-  Future<void> loadAd() async {
+  void _releaseBannerAd() {
+    _loadGeneration++;
+    _bannerAd?.removeListener(_handledOnUpdate);
+    GoogleAdsCore._returnBannerAd(unit: _bannerAd);
+    _bannerAd = null;
+  }
+
+  void _ensureLoadedForWidth(double width) {
     if (GoogleAdsMasamuneAdapter.primary.isTest) {
       return;
     }
+    if (widget.size == GoogleBannerAdSize.adaptive) {
+      if (width <= 0 || _requestedWidth == width) {
+        return;
+      }
+      _requestedWidth = width;
+      _releaseBannerAd();
+      loadAd(width: width);
+    } else {
+      if (_requestedWidth != null) {
+        return;
+      }
+      _requestedWidth = width;
+      loadAd(width: width);
+    }
+  }
+
+  Future<void> loadAd({double? width}) async {
+    if (GoogleAdsMasamuneAdapter.primary.isTest) {
+      return;
+    }
+    final generation = ++_loadGeneration;
     await GoogleAdsCore.initialize();
+    if (!mounted || generation != _loadGeneration) {
+      return;
+    }
+    final adSize = await widget.size._resolveAdSize(
+      width: width ?? _requestedWidth,
+    );
+    if (!mounted || generation != _loadGeneration) {
+      return;
+    }
     _bannerAd ??= GoogleAdsCore._rentBannerAd(
       adUnitId:
           widget.adUnitId ?? GoogleAdsMasamuneAdapter.primary.defaultAdUnitId,
       size: widget.size,
+      adSize: adSize,
     );
     _bannerAd?.addListener(_handledOnUpdate);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _handledOnUpdate() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final adSize = widget.size._toAdSize();
-    if (GoogleAdsMasamuneAdapter.primary.isTest) {
-      return Container(
-        decoration: BoxDecoration(
-          border: widget.border,
-          color: Theme.of(context).disabledColor,
-        ),
-        width: adSize.width.toDouble(),
-        height: adSize.height.toDouble(),
-        child: const Center(
-          child: Text("AD BANNER"),
-        ),
-      );
-    }
-    return Container(
-      decoration: widget.border != null
-          ? BoxDecoration(
-              border: widget.border,
-            )
-          : null,
-      width: adSize.width.toDouble(),
-      height: adSize.height.toDouble(),
-      child: _bannerAd?.loaded ?? false
-          ? AdWidget(ad: _bannerAd!._bannerAd)
-          : Center(
-              child: widget.indicator ?? const CircularProgressIndicator(),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final availableWidth =
+            constraints.hasBoundedWidth && constraints.maxWidth > 0
+                ? constraints.maxWidth
+                : MediaQuery.sizeOf(context).width;
+        final targetWidth = availableWidth.truncateToDouble();
+        final fallbackAdSize = widget.size._toAdSize(width: targetWidth);
+        if (GoogleAdsMasamuneAdapter.primary.isTest) {
+          return Align(
+            alignment: Alignment.center,
+            child: Container(
+              decoration: BoxDecoration(
+                border: widget.border,
+                color: Theme.of(context).disabledColor,
+              ),
+              width: fallbackAdSize.width.toDouble(),
+              height: fallbackAdSize.height.toDouble(),
+              child: const Center(
+                child: Text("AD BANNER"),
+              ),
             ),
+          );
+        }
+        _ensureLoadedForWidth(targetWidth);
+        final adSize = _bannerAd?.adSize ?? fallbackAdSize;
+        return Align(
+          alignment: Alignment.center,
+          child: Container(
+            decoration: widget.border != null
+                ? BoxDecoration(
+                    border: widget.border,
+                  )
+                : null,
+            width: adSize.width.toDouble(),
+            height: adSize.height.toDouble(),
+            child: _bannerAd?.loaded ?? false
+                ? AdWidget(ad: _bannerAd!._bannerAd)
+                : Center(
+                    child:
+                        widget.indicator ?? const CircularProgressIndicator(),
+                  ),
+          ),
+        );
+      },
     );
   }
 
@@ -230,10 +329,11 @@ class GoogleBannerAdUnit extends ChangeNotifier {
   GoogleBannerAdUnit._({
     required this.adUnitId,
     required this.size,
+    required this.adSize,
   }) {
     _bannerAd = BannerAd(
       adUnitId: adUnitId,
-      size: size._toAdSize(),
+      size: adSize,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           _loaded = true;
@@ -275,6 +375,11 @@ class GoogleBannerAdUnit extends ChangeNotifier {
   ///
   /// 広告のサイズ。
   final GoogleBannerAdSize size;
+
+  /// Resolved [AdSize].
+  ///
+  /// 解決された[AdSize]。
+  final AdSize adSize;
 
   /// true` if the ad is loaded.
   ///

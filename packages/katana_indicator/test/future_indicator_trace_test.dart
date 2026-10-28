@@ -276,4 +276,51 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
   });
+
+  testWidgets("executeGuarded handles errors without unhandled zone errors", (
+    tester,
+  ) async {
+    late Completer<void> completer;
+    Object? handledError;
+    final unhandledErrors = <Object>[];
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => TextButton(
+            onPressed: () {
+              runZonedGuarded(
+                () {
+                  completer = Completer<void>();
+                  executeGuarded(
+                    context,
+                    () => completer.future,
+                    onError: (error, _) {
+                      handledError = error;
+                    },
+                  );
+                },
+                (error, _) {
+                  unhandledErrors.add(error);
+                },
+              );
+            },
+            child: const Text("fail"),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text("fail"));
+    await tester.pump();
+    await tester.pump();
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    final expectedError = StateError("kyashPhoneNumber error");
+    completer.completeError(expectedError);
+    await tester.pumpAndSettle();
+
+    expect(handledError, same(expectedError));
+    expect(unhandledErrors, isEmpty);
+  });
 }

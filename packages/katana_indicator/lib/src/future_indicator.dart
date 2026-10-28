@@ -38,11 +38,9 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
     if (futureOr is Future<T>) {
       final navigator = Navigator.of(context, rootNavigator: true);
       final rootContext = navigator.context;
-      final trace = await _startIndicatorTrace(StackTrace.current);
-      try {
-        completer = Completer<void>();
-        unawaited(
-          futureOr.whenComplete(
+      completer = Completer<void>();
+      futureOr
+          .whenComplete(
             () {
               completer?.complete();
               completer = null;
@@ -66,8 +64,10 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
                 // surrounding Future continues to complete normally.
               }
             },
-          ),
-        );
+          )
+          .ignore();
+      final trace = await _startIndicatorTrace(StackTrace.current);
+      try {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (completer == null) {
             return;

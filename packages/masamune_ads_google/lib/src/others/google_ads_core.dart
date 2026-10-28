@@ -81,25 +81,35 @@ class GoogleAdsCore {
   static Future<void> preloadBannerAd({
     required GoogleBannerAdSize size,
     String? adUnitId,
+    double? width,
   }) async {
     await initialize();
-    final unit = _rentBannerAd(size: size, adUnitId: adUnitId);
+    final adSize = await size._resolveAdSize(width: width);
+    final unit = _rentBannerAd(
+      size: size,
+      adSize: adSize,
+      adUnitId: adUnitId,
+    );
     _returnBannerAd(unit: unit);
     await unit.loading;
   }
 
   static GoogleBannerAdUnit _rentBannerAd({
     required GoogleBannerAdSize size,
+    required AdSize adSize,
     String? adUnitId,
   }) {
     adUnitId ??= GoogleAdsMasamuneAdapter.primary.defaultAdUnitId;
-    final key =
-        "$adUnitId:${size._toAdSize().width}x${size._toAdSize().height}";
+    final key = "$adUnitId:${size.name}:${adSize.width}x${adSize.height}";
     if (!_bannerAdPool.containsKey(key)) {
       _bannerAdPool[key] = [];
     }
     if (_bannerAdPool[key]!.isEmpty) {
-      return GoogleBannerAdUnit._(adUnitId: adUnitId, size: size);
+      return GoogleBannerAdUnit._(
+        adUnitId: adUnitId,
+        size: size,
+        adSize: adSize,
+      );
     }
     return _bannerAdPool[key]!.removeAt(0);
   }
@@ -111,7 +121,7 @@ class GoogleAdsCore {
       return;
     }
     final key =
-        "${unit.adUnitId}:${unit.size._toAdSize().width}x${unit.size._toAdSize().height}";
+        "${unit.adUnitId}:${unit.size.name}:${unit.adSize.width}x${unit.adSize.height}";
     if (!_bannerAdPool.containsKey(key)) {
       _bannerAdPool[key] = [];
     }

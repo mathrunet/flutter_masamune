@@ -60,6 +60,7 @@ class GoogleAdsCore {
   static Future<void> preloadBannerAd({
     required GoogleBannerAdSize size,
     String? adUnitId,
+    double? width,
   }) async {
     debugPrint("The web does not support GoogleAd.");
   }

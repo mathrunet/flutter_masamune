@@ -29,12 +29,17 @@ enum GoogleBannerAdSize {
   /// リーダーボード。
   leaderboard,
 
+  /// Adaptive.
+  ///
+  /// アダプティブ。
+  adaptive,
+
   /// Fluid.
   ///
   /// フルード。
   fluid;
 
-  Size _toAdSize() {
+  Size _toAdSize({double? width}) {
     switch (this) {
       case GoogleBannerAdSize.banner:
         return const Size(320, 50);
@@ -46,6 +51,9 @@ enum GoogleBannerAdSize {
         return const Size(468, 60);
       case GoogleBannerAdSize.leaderboard:
         return const Size(728, 90);
+      case GoogleBannerAdSize.adaptive:
+        final targetWidth = width?.truncateToDouble() ?? 320;
+        return Size(targetWidth > 0 ? targetWidth : 320, 60);
       case GoogleBannerAdSize.fluid:
         return const Size(0, 0);
     }
@@ -87,10 +95,11 @@ class GoogleBannerAd extends StatefulWidget {
   const GoogleBannerAd({
     super.key,
     this.adUnitId,
-    this.size = GoogleBannerAdSize.fullBanner,
+    this.size = GoogleBannerAdSize.adaptive,
     this.onAdClicked,
     this.onPaidEvent,
     this.border,
+    this.indicator,
   });
 
   /// Advertising Unit ID.
@@ -121,6 +130,11 @@ class GoogleBannerAd extends StatefulWidget {
   ///
   /// 広告の枠線。
   final BoxBorder? border;
+
+  /// Indicator of the ad.
+  ///
+  /// 広告のインジケーター。
+  final Widget? indicator;
 
   @override
   State<StatefulWidget> createState() => _GoogleBannerAdState();
