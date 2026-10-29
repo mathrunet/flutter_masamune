@@ -110,6 +110,12 @@ class MyPage extends PageScopedWidget {
 
 **Default Values**: Provide `initialValue` to ensure your app works even when remote config is unavailable.
 
+**Offline**: If fetching fails with a `FirebaseException` (for example offline or throttled), the values activated last time (cached on the device) or `initialValue` are returned instead of throwing.
+
+**Custom Instance**: Pass `remoteConfig` to use a specific `FirebaseRemoteConfig` instance (for example one bound to a secondary `FirebaseApp`). If omitted, `FirebaseRemoteConfig.instance` is used.
+
+**A/B Testing**: To switch behavior based on Remote Config values, use [masamune_experiment](https://pub.dev/packages/masamune_experiment), which loads values through this adapter.
+
 ### Firebase Console Setup
 
 1. Go to Firebase Console → Remote Config

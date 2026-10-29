@@ -27,7 +27,9 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
     this.macosOptions,
     this.fetchTimeout = const Duration(minutes: 1),
     this.minimumFetchInterval = const Duration(hours: 1),
-  }) : _options = options;
+    FirebaseRemoteConfig? remoteConfig,
+  })  : _options = options,
+        _remoteConfig = remoteConfig;
 
   static const _platformInfo = PlatformInfo();
 
@@ -166,10 +168,17 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
   @override
   VectorConverter get vectorConverter => const PassVectorConverter();
 
-  /// Firebase Remote Config.
+  /// [FirebaseRemoteConfig] instance to be used.
   ///
-  /// Firebase Remote Config.
-  static FirebaseRemoteConfig get remoteConfig => FirebaseRemoteConfig.instance;
+  /// If not specified in the constructor, [FirebaseRemoteConfig.instance] is used.
+  ///
+  /// 使用する[FirebaseRemoteConfig]のインスタンス。
+  ///
+  /// コンストラクタで指定されない場合は[FirebaseRemoteConfig.instance]が利用されます。
+  FirebaseRemoteConfig get remoteConfig =>
+      _remoteConfig ?? FirebaseRemoteConfig.instance;
+
+  final FirebaseRemoteConfig? _remoteConfig;
 
   @override
   bool get availableListen => false;
@@ -194,12 +203,30 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
 
   static bool _initialized = false;
 
+  /// Fetch and activate the latest values.
+  ///
+  /// If fetching fails (e.g. offline or throttled), the values activated last time
+  /// (cached on the device) or the default values are used as they are.
+  ///
+  /// 最新の値を取得して有効化します。
+  ///
+  /// 取得に失敗した場合（オフラインやスロットリングなど）は、前回有効化された値（端末内のキャッシュ）またはデフォルト値をそのまま利用します。
+  Future<void> _fetchAndActivate() async {
+    try {
+      await remoteConfig.fetchAndActivate();
+    } on FirebaseException catch (e) {
+      debugPrint(
+        "Failed to fetch Remote Config. Cached or default values are used: $e",
+      );
+    }
+  }
+
   @override
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
     await initialize();
-    await remoteConfig.fetchAndActivate();
+    await _fetchAndActivate();
     final map = remoteConfig.getAll();
     final res = <String, dynamic>{};
     for (final entry in map.entries) {
@@ -213,7 +240,7 @@ class FirebaseRemoteConfigModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
   ) async {
     await initialize();
-    await remoteConfig.fetchAndActivate();
+    await _fetchAndActivate();
     final map = remoteConfig.getAll();
     final res = <String, dynamic>{};
     for (final entry in map.entries) {
