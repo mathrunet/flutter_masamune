@@ -723,6 +723,11 @@ ${showAllConfig ? """
   remote_config:
     enable: false
   
+  # Enable A/B tests and feature switches using Firebase Remote Config (masamune_experiment).
+  # Firebase Remote Configを利用したA/Bテスト・機能の切り替え（masamune_experiment）を有効にします。
+  experiment:
+    enable: false
+  
   # Enable Firebase App Check.
   # Firebase App Checkを有効にします。
   app_check:

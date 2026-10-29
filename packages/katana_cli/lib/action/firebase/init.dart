@@ -303,6 +303,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final gemini = generativeAi.getAsMap("gemini").get("enable", false);
     final remoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
+    final experiment = firebase.getAsMap("experiment").get("enable", false);
     return projectId.isNotEmpty &&
         (firestore ||
             dataconnect ||
@@ -313,6 +314,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             hosting ||
             messaging ||
             remoteConfig ||
+            experiment ||
             appCheck ||
             gemini);
   }
@@ -464,6 +466,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enabledAppCheck = firebase.getAsMap("app_check").get("enable", false);
     final enabledRemoteConfig =
         firebase.getAsMap("remote_config").get("enable", false);
+    final enabledExperiment =
+        firebase.getAsMap("experiment").get("enable", false);
     final enabledVertexAi = firebase.getAsMap("vertex_ai").get("enable", false);
     if (projectId.isEmpty) {
       error(
@@ -635,9 +639,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "firebase_performance",
           "masamune_logger_firebase",
         ],
-        if (enabledRemoteConfig) ...[
+        if (enabledRemoteConfig || enabledExperiment) ...[
           "firebase_remote_config",
           "masamune_model_firebase_remote_config",
+        ],
+        if (enabledExperiment) ...[
+          "masamune_experiment",
         ],
         if (enabledAppCheck) ...[
           "firebase_app_check",
