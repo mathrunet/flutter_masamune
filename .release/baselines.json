@@ -205,6 +205,10 @@
       "version": "3.1.20",
       "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
     },
+    "masamune_experiment": {
+      "version": "3.0.0",
+      "sourceSha": "ffe7a5c64e705570f20e04fd3d55ca061c296a74"
+    },
     "masamune_firebase_app_check": {
       "version": "3.3.1",
       "sourceSha": "18cfe151d36f53c944a86be8d3785a30838d114e"
