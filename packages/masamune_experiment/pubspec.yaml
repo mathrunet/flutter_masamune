@@ -13,7 +13,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  meta:
   katana: ^3.5.0
   masamune: ^3.6.0
   masamune_model_firebase_remote_config: ^3.3.0
