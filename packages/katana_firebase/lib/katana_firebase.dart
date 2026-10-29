@@ -18,7 +18,8 @@ import "package:flutter/foundation.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_core/firebase_core.dart";
 
-export "package:firebase_core/firebase_core.dart" show FirebaseOptions;
+export "package:firebase_core/firebase_core.dart"
+    show FirebaseOptions, FirebaseException;
 
 part "firebase/firebase_core.dart";
 part "firebase/firebase_region.dart";
