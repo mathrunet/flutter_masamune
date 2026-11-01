@@ -1,3 +1,8 @@
+## 3.10.0
+
+ - **FEAT**(masamune_ai_debugger): set default AI providers ([6763157d](https://github.com/mathrunet/flutter_masamune/commit/6763157d35cb9c48eb4d3d3c8997e31720d41796))
+ - Update dependencies: masamune.
+
 ## 3.9.0
 
  - **FEAT**(masamune_ai_debugger): enhance authentication semantics and UI feedback ([47ecb661](https://github.com/mathrunet/flutter_masamune/commit/47ecb66139e674d0f5b68b769f6132aaff1eb52a))

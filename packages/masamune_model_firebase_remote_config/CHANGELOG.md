@@ -1,3 +1,9 @@
+## 3.4.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([1430cbe2](https://github.com/mathrunet/flutter_masamune/commit/1430cbe208684e64110d0f998da8b821e61beac0))
+ - **FEAT**(masamune_model_firebase_remote_config): allow injecting FirebaseRemoteConfig and fall back to cached values on fetch failure ([1430cbe2](https://github.com/mathrunet/flutter_masamune/commit/1430cbe208684e64110d0f998da8b821e61beac0))
+ - Update dependencies: katana_firebase, masamune.
+
 ## 3.3.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))

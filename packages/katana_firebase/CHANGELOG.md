@@ -1,3 +1,8 @@
+## 3.3.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([4de5a07f](https://github.com/mathrunet/flutter_masamune/commit/4de5a07fb80c2928662886c78eacd7e72f8f7b69))
+ - **FEAT**(katana_firebase): export FirebaseException ([4de5a07f](https://github.com/mathrunet/flutter_masamune/commit/4de5a07fb80c2928662886c78eacd7e72f8f7b69))
+
 ## 3.2.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))
