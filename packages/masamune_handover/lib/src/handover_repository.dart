@@ -57,7 +57,7 @@ class HandoverRepository {
       for (var hop = 0; hop < _maxDelegateHops; hop++) {
         final json = await _fetchJson(url);
         if (json == null) {
-          return _loadCache();
+          return await _loadCache();
         }
         final section = extractSection ? _extractSection(json) : json;
         if (section == null) {
@@ -67,7 +67,7 @@ class HandoverRepository {
           return HandoverConfig.empty;
         }
         if (verify != null && !await verify!.call(section)) {
-          return _loadCache();
+          return await _loadCache();
         }
         final config = HandoverConfig.fromJson(section);
         final delegateUrl = config.delegateUrl;
@@ -83,7 +83,7 @@ class HandoverRepository {
         await _saveCache(section);
         return config;
       }
-      return _loadCache();
+      return await _loadCache();
     } catch (e) {
       // All failures are normal conditions for the handover configuration.
       // ハンドオーバー設定においてはすべての失敗が正常系。

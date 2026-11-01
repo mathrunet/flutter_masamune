@@ -71,7 +71,7 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
       switch (type) {
         case PickerFileType.image:
           final files = await ImagePicker().pickMultiImage();
-          return Future.wait(
+          return await Future.wait(
             files.mapAndRemoveEmpty((file) async {
               return PickerValue(
                 uri: Uri.tryParse(file.path),

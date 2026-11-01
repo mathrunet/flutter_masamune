@@ -69,7 +69,9 @@ enum GoogleBannerAdSize {
         if (targetWidth <= 0) {
           return AdSize.banner;
         }
+        // The replacement API is only available in google_mobile_ads >=8.0.0.
         final adaptiveSize =
+            // ignore: deprecated_member_use
             await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
           targetWidth,
         );
