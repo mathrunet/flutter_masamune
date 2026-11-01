@@ -503,6 +503,27 @@ cloudflare:
       dev:
       prod:
 
+  # If you want to issue short links with campaign parameters (e.g. `https://example.com/s/<code>`), set [enable] to `true`.
+  # Create the KV namespaces with `wrangler kv namespace create SHORT_LINK_KV` and specify them in [namespace_id].
+  # [allowed_hosts] limits the destinations, [routes] adds zone routes `https://<host>/<path>/*`.
+  # The admin API (`/short_link`) is protected by the `SHORT_LINK_ADMIN_TOKEN` secret, which is generated automatically.
+  # キャンペーンパラメータ付きの短縮URL（例: `https://example.com/s/<code>`）を発行したい場合は[enable]を`true`にしてください。
+  # `wrangler kv namespace create SHORT_LINK_KV`でKV namespaceを作成し[namespace_id]に指定します。
+  # [allowed_hosts]でリダイレクト先を制限し、[routes]でゾーンルート`https://<host>/<path>/*`を追加します。
+  # 管理API（`/short_link`）は自動生成される`SHORT_LINK_ADMIN_TOKEN` secretで保護されます。
+  short_link:
+    enable: false
+    binding: SHORT_LINK_KV
+    namespace_id:
+      dev:
+      prod:
+    path: s
+    allowed_hosts:
+    not_found_url:
+    routes:
+      dev:
+      prod:
+
   # If you want to use Cloudflare R2 Storage via Workers, set [enable] to `true`.
   # Specify the R2 bucket name and public R2/custom domain.
   # The binding defaults to `R2_BUCKET`, and the limited-download secret is generated automatically.

@@ -297,12 +297,13 @@ class WranglerEnvironmentSynchronizer {
     );
   }
 
-  /// Replaces `"routes": [...]` of the selected environment object with
-  /// custom-domain routes for [customDomains], preserving the other
-  /// environment. The array is added when it does not exist.
+  /// Replaces the custom-domain routes in `"routes": [...]` of the selected
+  /// environment object with [customDomains], preserving zone routes
+  /// (e.g. `{ "pattern": "https://example.com/s/*", "zone_name": "example.com" }`)
+  /// and the other environment. The array is added when it does not exist.
   ///
-  /// 選択した環境オブジェクトの`"routes": [...]`を[customDomains]の
-  /// カスタムドメインルートで丸ごと置き換え、他の環境は保持します。
+  /// 選択した環境オブジェクトの`"routes": [...]`のカスタムドメインルートを
+  /// [customDomains]で置き換えます。ゾーンルートと他の環境は保持します。
   /// 配列が存在しない場合は追加します。
   static String upsertRoutes(
     String source, {
@@ -320,9 +321,10 @@ class WranglerEnvironmentSynchronizer {
         "Must not be empty.",
       );
     }
-    final routes = "[\n"
-        "${hosts.map((host) => '        { "pattern": ${jsonEncode(host)}, "custom_domain": true }').join(",\n")}\n"
-        "      ]";
+    final customRoutes = hosts
+        .map((host) =>
+            '{ "pattern": ${jsonEncode(host)}, "custom_domain": true }')
+        .toList();
     return transformEnvironment(
       source,
       flavor: flavor,
@@ -334,8 +336,17 @@ class WranglerEnvironmentSynchronizer {
           if (close < 0) {
             throw const FormatException("Wrangler routes array is malformed.");
           }
-          return environment.replaceRange(open, close + 1, routes);
+          final zoneRoutes =
+              _routeEntries(environment.substring(open, close + 1))
+                  .where((entry) => !_isCustomDomainRoute(entry))
+                  .toList();
+          return environment.replaceRange(
+            open,
+            close + 1,
+            _routesArray([...customRoutes, ...zoneRoutes]),
+          );
         }
+        final routes = _routesArray(customRoutes);
         final close = _findClosingBrace(environment, 0);
         if (close < 0) {
           throw FormatException("Wrangler environment is malformed: $flavor");
@@ -349,10 +360,13 @@ class WranglerEnvironmentSynchronizer {
     );
   }
 
-  /// Removes `"routes"` from the selected environment object, preserving the
-  /// other environment. Nothing changes when the property does not exist.
+  /// Removes the custom-domain routes from the selected environment object,
+  /// preserving zone routes and the other environment. `"routes"` itself is
+  /// removed when no zone route remains. Nothing changes when the property
+  /// does not exist.
   ///
-  /// 選択した環境オブジェクトから`"routes"`を削除し、他の環境は保持します。
+  /// 選択した環境オブジェクトからカスタムドメインルートを削除し、ゾーンルートと
+  /// 他の環境は保持します。ゾーンルートが残らない場合は`"routes"`自体を削除します。
   /// プロパティが存在しない場合は何も変更しません。
   static String removeRoutes(
     String source, {
@@ -370,6 +384,16 @@ class WranglerEnvironmentSynchronizer {
         final close = _findClosingBracket(environment, open);
         if (close < 0) {
           throw const FormatException("Wrangler routes array is malformed.");
+        }
+        final zoneRoutes = _routeEntries(environment.substring(open, close + 1))
+            .where((entry) => !_isCustomDomainRoute(entry))
+            .toList();
+        if (zoneRoutes.isNotEmpty) {
+          return environment.replaceRange(
+            open,
+            close + 1,
+            _routesArray(zoneRoutes),
+          );
         }
         var start = match.start;
         var end = close + 1;
@@ -398,6 +422,135 @@ class WranglerEnvironmentSynchronizer {
         return environment.replaceRange(start, end, "");
       },
     );
+  }
+
+  /// Adds zone routes (`{ "pattern": ..., "zone_name": ... }`) for [patterns]
+  /// to the selected environment object if they do not exist yet, preserving
+  /// the existing routes and the other environment.
+  ///
+  /// 選択した環境オブジェクトに[patterns]のゾーンルート
+  /// （`{ "pattern": ..., "zone_name": ... }`）が無い場合に追加します。
+  /// 既存のルートと他の環境は保持します。
+  static String addZoneRoutes(
+    String source, {
+    required String flavor,
+    required Map<String, String> patterns,
+  }) {
+    if (patterns.isEmpty) {
+      return source;
+    }
+    return transformEnvironment(
+      source,
+      flavor: flavor,
+      transform: (environment) {
+        final match = RegExp(r'''"routes"\s*:\s*\[''').firstMatch(environment);
+        if (match == null) {
+          final close = _findClosingBrace(environment, 0);
+          if (close < 0) {
+            throw FormatException("Wrangler environment is malformed: $flavor");
+          }
+          final before = environment.substring(0, close).trimRight();
+          final comma = before.endsWith(",") || before.endsWith("{") ? "" : ",";
+          return "$before$comma\n"
+              '      "routes": ${_routesArray(patterns.entries.map(_zoneRoute).toList())}\n'
+              "    ${environment.substring(close)}";
+        }
+        final open = environment.indexOf("[", match.start);
+        final close = _findClosingBracket(environment, open);
+        if (close < 0) {
+          throw const FormatException("Wrangler routes array is malformed.");
+        }
+        final entries = _routeEntries(environment.substring(open, close + 1));
+        final existing = entries.map(_routePattern).whereType<String>().toSet();
+        final missing = patterns.entries
+            .where((entry) => !existing.contains(entry.key))
+            .map(_zoneRoute)
+            .toList();
+        if (missing.isEmpty) {
+          return environment;
+        }
+        return environment.replaceRange(
+          open,
+          close + 1,
+          _routesArray([...entries, ...missing]),
+        );
+      },
+    );
+  }
+
+  static String _zoneRoute(MapEntry<String, String> entry) {
+    return '{ "pattern": ${jsonEncode(entry.key)}, "zone_name": ${jsonEncode(entry.value)} }';
+  }
+
+  static String _routesArray(List<String> entries) {
+    if (entries.isEmpty) {
+      return "[]";
+    }
+    return "[\n${entries.map((entry) => "        $entry").join(",\n")}\n      ]";
+  }
+
+  static bool _isCustomDomainRoute(String entry) {
+    return RegExp(r'''"custom_domain"\s*:\s*true''').hasMatch(entry);
+  }
+
+  static String? _routePattern(String entry) {
+    if (!entry.trimLeft().startsWith("{")) {
+      try {
+        return jsonDecode(entry) as String;
+      } catch (_) {
+        return null;
+      }
+    }
+    return RegExp(r'''"pattern"\s*:\s*"([^"]*)"''').firstMatch(entry)?.group(1);
+  }
+
+  /// Splits the top-level entries of a JSONC routes array (comments are dropped).
+  static List<String> _routeEntries(String array) {
+    final entries = <String>[];
+    var depth = 0;
+    var escaped = false;
+    String? quote;
+    var start = -1;
+    for (var index = 1; index < array.length - 1; index++) {
+      final character = array[index];
+      if (quote != null) {
+        if (escaped) {
+          escaped = false;
+        } else if (character == r"\") {
+          escaped = true;
+        } else if (character == quote) {
+          quote = null;
+          if (depth == 0) {
+            entries.add(array.substring(start, index + 1));
+            start = -1;
+          }
+        }
+        continue;
+      }
+      if (depth == 0 &&
+          character == "/" &&
+          index + 1 < array.length &&
+          array[index + 1] == "/") {
+        final lineEnd = array.indexOf("\n", index);
+        index = lineEnd < 0 ? array.length : lineEnd;
+        continue;
+      }
+      if (character == '"') {
+        quote = character;
+        if (depth == 0) {
+          start = index;
+        }
+      } else if (character == "{") {
+        if (depth == 0) {
+          start = index;
+        }
+        depth++;
+      } else if (character == "}" && --depth == 0) {
+        entries.add(array.substring(start, index + 1));
+        start = -1;
+      }
+    }
+    return entries;
   }
 
   static int _findClosingBracket(String source, int open) {

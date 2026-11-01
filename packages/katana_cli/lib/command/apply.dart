@@ -29,6 +29,7 @@ import "package:katana_cli/action/cloudflare/d1.dart";
 import "package:katana_cli/action/cloudflare/durable_object.dart";
 import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/cloudflare/kv.dart";
+import "package:katana_cli/action/cloudflare/short_link.dart";
 import "package:katana_cli/action/cloudflare/pages.dart";
 import "package:katana_cli/action/cloudflare/storage.dart";
 import "package:katana_cli/action/cloudflare/tidb.dart";
@@ -74,6 +75,7 @@ const _actions = <CliActionMixin>[
   CloudflarePagesCliAction(),
   CloudflareAuthenticationCliAction(),
   CloudflareKvCliAction(),
+  CloudflareShortLinkCliAction(),
   CloudflareStorageCliAction(),
   CloudflareTursoCliAction(),
   CloudflareTidbCliAction(),
