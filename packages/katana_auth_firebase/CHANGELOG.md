@@ -1,3 +1,8 @@
+## 3.4.1
+
+
+ - Update dependencies: katana_firebase.
+
 ## 3.4.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))

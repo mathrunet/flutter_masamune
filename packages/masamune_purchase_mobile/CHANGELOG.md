@@ -1,3 +1,8 @@
+## 3.1.24
+
+
+ - Update dependencies: masamune, masamune_purchase.
+
 ## 3.1.23
 
  - **FIX**(masamune_purchase_mobile): update Android purchase integration and dependencies ([3be2f0fd](https://github.com/mathrunet/flutter_masamune/commit/3be2f0fdada1372082c506f082ff885d4da9b603))

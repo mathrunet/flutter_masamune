@@ -1,3 +1,8 @@
+## 3.4.2
+
+
+ - Update dependencies: katana_firebase, masamune.
+
 ## 3.4.1
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([e43bcf43](https://github.com/mathrunet/flutter_masamune/commit/e43bcf436ac27c4c968cdccfb50cfc784cc27363))

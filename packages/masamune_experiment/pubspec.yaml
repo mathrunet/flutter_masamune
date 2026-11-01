@@ -1,7 +1,7 @@
 name: masamune_experiment
-description: Plug-in for Masamune that defines A/B tests and feature switches
-  in a single synchronous function based on Firebase Remote Config values.
-version: 3.0.0
+description: Plug-in for Masamune that defines A/B tests and feature switches in
+  a single synchronous function based on Firebase Remote Config values.
+version: 3.0.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_experiment
 
@@ -14,8 +14,8 @@ dependencies:
     sdk: flutter
 
   katana: ^3.5.0
-  masamune: ^3.6.0
-  masamune_model_firebase_remote_config: ^3.3.0
+  masamune: ^3.6.1
+  masamune_model_firebase_remote_config: ^3.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
