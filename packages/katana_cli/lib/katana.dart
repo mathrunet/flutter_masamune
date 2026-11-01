@@ -523,6 +523,9 @@ cloudflare:
     routes:
       dev:
       prod:
+    # Optional hook to customize destinations, e.g. `{ name: resolveDestination, from: ./lib/short_link_destination }`.
+    # リダイレクト先を変換するフック（任意）。例: `{ name: resolveDestination, from: ./lib/short_link_destination }`。
+    resolve_destination:
 
   # If you want to use Cloudflare R2 Storage via Workers, set [enable] to `true`.
   # Specify the R2 bucket name and public R2/custom domain.

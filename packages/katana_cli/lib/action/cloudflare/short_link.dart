@@ -44,6 +44,18 @@ class CloudflareShortLinkCliAction extends CliCommand with CliActionMixin {
     final notFoundUrl = shortLink.get("not_found_url", "");
     final allowedHosts = _stringList(shortLink["allowed_hosts"]);
     final routeHosts = _stringList(shortLink["routes"]);
+    final resolveDestination = shortLink.getAsMap("resolve_destination");
+    final resolveDestinationName = resolveDestination.get("name", "").trim();
+    final resolveDestinationFrom = resolveDestination.get("from", "").trim();
+    if (resolveDestinationName.isNotEmpty &&
+        (!RegExp(r"^[A-Za-z_$][A-Za-z0-9_$]*$")
+                .hasMatch(resolveDestinationName) ||
+            !resolveDestinationFrom.startsWith("./"))) {
+      error(
+        "[cloudflare]->[short_link]->[resolve_destination] requires [name] (an exported function name) and [from] (a path relative to `cloudflare/src` starting with `./`).",
+      );
+      return;
+    }
     if (!RegExp(r"^[A-Za-z_][A-Za-z0-9_]*$").hasMatch(binding)) {
       error(
         "If [cloudflare]->[short_link]->[enable] is enabled, please include a valid [cloudflare]->[short_link]->[binding].",
@@ -86,13 +98,23 @@ class CloudflareShortLinkCliAction extends CliCommand with CliActionMixin {
       package: "@mathrunet/masamune_cloudflare_short_link",
       functions: {
         "shortLink.Functions.shortLink":
-            "    shortLink.Functions.shortLink(${_withPath(options, path, "s")}),",
+            "    shortLink.Functions.shortLink(${_withResolveDestination(_withPath(options, path, "s"), resolveDestinationName)}),",
         "shortLink.Functions.shortLinkAdmin":
             "    shortLink.Functions.shortLinkAdmin(${_withPath(options, adminPath, "short_link")}),",
       },
     );
     if (!applied) {
       return;
+    }
+    if (resolveDestinationName.isNotEmpty) {
+      final entry = File(cloudflareEdgeEntryPath);
+      await entry.writeAsString(
+        CloudflareSourceUtils.ensureNamedImport(
+          await entry.readAsString(),
+          name: resolveDestinationName,
+          from: resolveDestinationFrom,
+        ),
+      );
     }
 
     label("Add Cloudflare KV namespace binding and routes");
@@ -179,6 +201,14 @@ class CloudflareShortLinkCliAction extends CliCommand with CliActionMixin {
     }
     final parts = host.split(".");
     return parts.length <= 2 ? host : parts.sublist(parts.length - 2).join(".");
+  }
+
+  String _withResolveDestination(String options, String name) {
+    if (name.isEmpty) {
+      return options;
+    }
+    return options.replaceFirst(
+        RegExp(r" }$"), ", resolveDestination: $name }");
   }
 
   String _withPath(String options, String path, String defaultPath) {
