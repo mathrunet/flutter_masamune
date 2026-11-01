@@ -1,3 +1,12 @@
+## 3.38.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([5f6401a1](https://github.com/mathrunet/flutter_masamune/commit/5f6401a1aaaaf779179128e06b1f82fef4a70ffd))
+ - **FEAT**(katana_cli): add firebase.experiment.enable to install masamune_experiment ([5f6401a1](https://github.com/mathrunet/flutter_masamune/commit/5f6401a1aaaaf779179128e06b1f82fef4a70ffd))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([f3dbe866](https://github.com/mathrunet/flutter_masamune/commit/f3dbe866a8c099e3cd8b9bb0c278784e93aec1f5))
+ - **FEAT**(katana_cli): add cloudflare.short_link apply action and preserve zone routes when syncing custom domains ([f3dbe866](https://github.com/mathrunet/flutter_masamune/commit/f3dbe866a8c099e3cd8b9bb0c278784e93aec1f5))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([4c3cdb48](https://github.com/mathrunet/flutter_masamune/commit/4c3cdb48613e75928e1082c7cfc1862a0abcaae6))
+ - **FEAT**(katana_cli): support resolve_destination hook for cloudflare.short_link ([4c3cdb48](https://github.com/mathrunet/flutter_masamune/commit/4c3cdb48613e75928e1082c7cfc1862a0abcaae6))
+
 ## 3.37.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([3829ea63](https://github.com/mathrunet/flutter_masamune/commit/3829ea632018624fe18ecc779dacc64755124a95))

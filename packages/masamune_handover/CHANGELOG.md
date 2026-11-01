@@ -1,3 +1,11 @@
+## 3.2.1
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([a5e6f7ec](https://github.com/mathrunet/flutter_masamune/commit/a5e6f7eccbdd4f5d47457a57087c85c2feb235b3))
+ - **FIX**: resolve analyzer issues blocking package release ([a5e6f7ec](https://github.com/mathrunet/flutter_masamune/commit/a5e6f7eccbdd4f5d47457a57087c85c2feb235b3))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([f7e2c075](https://github.com/mathrunet/flutter_masamune/commit/f7e2c0753b7f775e2e2311956fbe7d65e0abda20))
+ - **CHORE**(masamune_handover): stop tracking build artifacts ([f7e2c075](https://github.com/mathrunet/flutter_masamune/commit/f7e2c0753b7f775e2e2311956fbe7d65e0abda20))
+ - Update dependencies: masamune.
+
 ## 3.2.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))

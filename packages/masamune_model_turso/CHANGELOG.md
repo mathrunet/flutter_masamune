@@ -1,3 +1,8 @@
+## 3.10.1
+
+
+ - Update dependencies: masamune.
+
 ## 3.10.0
 
  - **FEAT**(masamune_model_turso): enhance schema preparation and connection management ([7f8e862e](https://github.com/mathrunet/flutter_masamune/commit/7f8e862e08283d0e34bdbba640526f8302ee7c7a))

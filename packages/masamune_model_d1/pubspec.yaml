@@ -1,6 +1,6 @@
 name: masamune_model_d1
 description: Masamune plugin package that includes a model adapter to retrieve data from D1.
-version: 3.2.2
+version: 3.2.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_d1
 
@@ -15,7 +15,7 @@ dependencies:
   meta: ">=1.0.0 <2.0.0"
 
   katana: ^3.5.0
-  masamune: ^3.6.0
+  masamune: ^3.6.1
 
 dev_dependencies:
   test: ^1.25.0
