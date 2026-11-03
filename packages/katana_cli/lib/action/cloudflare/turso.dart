@@ -5,6 +5,7 @@ import "dart:io";
 // Project imports:
 import "package:katana_cli/action/cloudflare/cloudflare_source_utils.dart";
 import "package:katana_cli/action/cloudflare/turso_platform_api.dart";
+import "package:katana_cli/action/cloudflare/turso_shared.dart";
 import "package:katana_cli/katana_cli.dart";
 
 /// Cloudflare deployment process for Turso.
@@ -144,6 +145,42 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       error("The file `cloudflare/wrangler.jsonc` does not exist.");
       return;
     }
+    // The shared database is served only by the region Worker.
+    final sharedEnabled = turso.getAsMap("shared").get("enable", false);
+    TursoSharedConfig? sharedConfig;
+    final regionEntryFile = File(cloudflareRegionEntryPath);
+    final regionWranglerFile =
+        File("cloudflare/$cloudflareRegionWranglerConfig");
+    if (sharedEnabled) {
+      if (!isCloudflareRegionWorkerEnabled(context.yaml)) {
+        error(
+          "[cloudflare]->[turso]->[shared]->[enable] requires the region Worker. Set [cloudflare]->[workers]->[region]->[enable] to `true`. "
+          "共用TursoDBにはregion Workerが必要です。[cloudflare]->[workers]->[region]->[enable]を`true`にしてください。",
+        );
+        return;
+      }
+      if (!regionEntryFile.existsSync() || !regionWranglerFile.existsSync()) {
+        error(
+          "The region Worker files (`$cloudflareRegionEntryPath`, `cloudflare/$cloudflareRegionWranglerConfig`) do not exist. Run `katana apply` with the region Worker enabled first.",
+        );
+        return;
+      }
+      if (flavor != "dev" && flavor != "prod") {
+        error(
+            "The shared Turso database supports only the dev and prod flavors.");
+        return;
+      }
+      try {
+        sharedConfig = resolveTursoSharedConfig(
+          shared: turso.getAsMap("shared"),
+          appName: readTursoSharedAppName(),
+          flavorContext: context.flavorContext,
+        );
+      } on FormatException catch (e) {
+        error(e.message);
+        return;
+      }
+    }
     final wranglerSource = WranglerEnvironmentSynchronizer.ensureEnvironment(
       await wranglerFile.readAsString(),
       flavor: flavor,
@@ -178,33 +215,28 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     label("Add Cloudflare Workers functions");
     final schemaManifest = File(schemaManifestPath);
     final useSchemaManifest = schemaManifest.existsSync();
+    final sharedLogicalName = sharedConfig?.logicalName;
     if (useSchemaManifest) {
       final schema = jsonDecode(await schemaManifest.readAsString()) as Map;
-      final tables = schema["tables"];
-      final compatible = tables is List
-          ? {
-              "version": schema["sourceHash"] ?? schema["version"],
-              "tables": {
-                for (final table in tables)
-                  "${table["database"]}\u0000${table["table"]}": {
-                    "database": table["database"],
-                    "table": table["table"],
-                    "columns": [
-                      for (final column in table["columns"])
-                        {
-                          "name": column["name"],
-                          "type": tursoNativeColumnType(
-                              column["sqlType"] as String),
-                          if (column["vectorMetric"] != null)
-                            "vectorMetric": column["vectorMetric"]
-                        }
-                    ],
-                  }
-              },
-            }
-          : schema;
+      // Tables of the shared logical database are served by the region Worker.
+      final compatible = tursoCompatibleSchemaManifest(
+        schema,
+        columnType: tursoNativeColumnType,
+        include: sharedLogicalName == null
+            ? null
+            : (database) => database != sharedLogicalName,
+      );
       await File("cloudflare/src/turso_schema_manifest.json")
           .writeAsString(jsonEncode(compatible));
+      if (sharedLogicalName != null) {
+        await File(tursoSharedSchemaManifestPath).writeAsString(
+          jsonEncode(tursoCompatibleSchemaManifest(
+            schema,
+            columnType: tursoNativeColumnType,
+            include: (database) => database == sharedLogicalName,
+          )),
+        );
+      }
     } else {
       label(
         "Turso schema manifest was not found at `$schemaManifestPath`; runtime value inference remains enabled.",
@@ -214,9 +246,43 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     final updated = updateTursoFunctions(
       source,
       useSchemaManifest: useSchemaManifest,
+      reservedDatabase: sharedLogicalName,
     );
     if (updated == null) {
       return;
+    }
+    if (sharedConfig != null) {
+      final regionSource = updateTursoSharedRegionSource(
+        await regionEntryFile.readAsString(),
+        config: sharedConfig,
+        useSchemaManifest: useSchemaManifest,
+      );
+      if (regionSource == null) {
+        error(
+          "Could not find the Cloudflare deploy array in `$cloudflareRegionEntryPath`. Please check the namespace import and Workers entrypoint.",
+        );
+        return;
+      }
+      await regionEntryFile.writeAsString(regionSource);
+      // TURSO_GROUP(S) would conflict with the fixed group of the bound database.
+      final regionWrangler = WranglerEnvironmentSynchronizer.ensureEnvironment(
+        await regionWranglerFile.readAsString(),
+        flavor: flavor,
+        workerName: "${cloudflare.get("project_id", "")}-region",
+      );
+      await regionWranglerFile.writeAsString(
+        WranglerEnvironmentSynchronizer.upsertVariables(
+          regionWrangler,
+          flavor: flavor,
+          values: {
+            "TURSO_ORGANIZATION": organization,
+            "TURSO_SERVER_TOKEN_TTL_SECONDS": serverTokenTtl.toString(),
+            "TURSO_DATABASE_BINDINGS":
+                jsonEncode(sharedConfig.databaseBindingsJson([flavor])),
+          },
+          removeKeys: const {"TURSO_GROUP", "TURSO_GROUPS"},
+        ),
+      );
     }
     await indexFile.writeAsString(updated);
     await installMissingCloudflarePackages(
@@ -242,12 +308,50 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     } finally {
       api.close();
     }
+    if (sharedConfig != null) {
+      final binding = sharedConfig.bindings[flavor]!;
+      final sharedApi = TursoPlatformApi(
+        token: platformApiToken,
+        baseUrl:
+            platformApiBaseUrl == null ? null : Uri.parse(platformApiBaseUrl!),
+      );
+      try {
+        await ensureTursoSharedDatabase(
+          api: sharedApi,
+          organization: organization,
+          database: binding.database,
+          group: binding.group,
+        );
+      } finally {
+        sharedApi.close();
+      }
+    }
     await putWranglerSecret(
       wrangler: wrangler,
       environment: flavor,
       name: "TURSO_PLATFORM_API_TOKEN",
       value: platformApiToken,
     );
+    if (sharedConfig != null) {
+      final serverAccessToken = await loadOrCreateTursoServerAccessToken(
+        secrets: context.secrets,
+        flavor: flavor,
+      );
+      await putWranglerSecret(
+        wrangler: wrangler,
+        environment: flavor,
+        name: "TURSO_PLATFORM_API_TOKEN",
+        value: platformApiToken,
+        config: cloudflareRegionWranglerConfig,
+      );
+      await putWranglerSecret(
+        wrangler: wrangler,
+        environment: flavor,
+        name: tursoServerAccessTokenSecret,
+        value: serverAccessToken,
+        config: cloudflareRegionWranglerConfig,
+      );
+    }
     if (rotateLegacyTokens) {
       for (final name in groups.isEmpty
           ? [group]
@@ -262,27 +366,42 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
   }
 
   /// 既存のオプション・resolverを保持してTurso関数を追加します。
+  ///
+  /// When [reservedDatabase] is given, it is added to `reservedDatabases` so that the
+  /// edge Worker never creates the shared logical database as a per-user database.
+  ///
+  /// [reservedDatabase]を指定すると`reservedDatabases`に追加し、edge Workerが共用DBの
+  /// 論理名を個別DBとして作成しないようにします。
   String? updateTursoFunctions(
     String source, {
     required bool useSchemaManifest,
+    String? reservedDatabase,
   }) {
     final tursoFunction = _tursoFunction(
       "turso",
       useSchemaManifest: useSchemaManifest,
+      reservedDatabase: reservedDatabase,
     );
     final tursoTokenFunction = _tursoFunction(
       "tursoToken",
       useSchemaManifest: useSchemaManifest,
+      reservedDatabase: reservedDatabase,
     );
     var updated = _ensureTursoImport(source);
     if (useSchemaManifest) {
       updated = _ensureSchemaManifestImport(updated);
     }
-    updated = _replaceFunction(updated, "turso.Functions.turso", tursoFunction);
+    updated = _replaceFunction(
+      updated,
+      "turso.Functions.turso",
+      tursoFunction,
+      reservedDatabase: reservedDatabase,
+    );
     updated = _replaceFunction(
       updated,
       "turso.Functions.tursoToken",
       tursoTokenFunction,
+      reservedDatabase: reservedDatabase,
     );
     final functions = <String>[
       if (!updated.contains("turso.Functions.turso(")) tursoFunction,
@@ -344,8 +463,9 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
   String _replaceFunction(
     String source,
     String functionName,
-    String replacement,
-  ) {
+    String replacement, {
+    String? reservedDatabase,
+  }) {
     var updated = source;
     var searchStart = 0;
     var replaced = false;
@@ -356,7 +476,10 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       }
       // ユーザーのgroups/resolverや共通設定への参照を削除しません。
       final call = updated.substring(range.start, range.end);
-      final next = replaced ? "" : _mergeFunctionDefaults(call, replacement);
+      var next = replaced ? "" : _mergeFunctionDefaults(call, replacement);
+      if (next.isNotEmpty && reservedDatabase != null) {
+        next = addTursoReservedDatabase(next, reservedDatabase);
+      }
       updated = updated.replaceRange(range.start, range.end, next);
       searchStart = range.start + next.length;
       replaced = true;
@@ -524,11 +647,14 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
   String _tursoFunction(
     String name, {
     required bool useSchemaManifest,
+    String? reservedDatabase,
   }) {
     return """
     turso.Functions.$name({
         autoCreateDatabase: true,
-${useSchemaManifest ? "        schemaManifest: tursoSchemaManifest as turso.TursoSchemaManifest,\n" : ""}    }),""";
+${useSchemaManifest ? "        schemaManifest: tursoSchemaManifest as turso.TursoSchemaManifest,\n" : ""}${reservedDatabase != null ? "        reservedDatabases: ${jsonEncode([
+                reservedDatabase
+              ])},\n" : ""}    }),""";
   }
 
   Future<void> _rotateLegacyTokens({

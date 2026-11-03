@@ -95,6 +95,70 @@ class TursoPlatformApi {
     return true;
   }
 
+  /// Returns the database [name] of [organization], or `null` if it does not exist (HTTP 404).
+  ///
+  /// `GET /v1/organizations/{organization}/databases/{name}`
+  ///
+  /// [organization]のデータベース[name]を取得します。存在しない場合（HTTP 404）は`null`を返します。
+  Future<TursoDatabaseInfo?> getDatabase(
+    String organization, {
+    required String name,
+  }) async {
+    final response = await _request(
+      "GET",
+      "${_databasesPath(organization)}/${Uri.encodeComponent(name)}",
+    );
+    if (response.statusCode == HttpStatus.notFound) {
+      return null;
+    }
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw TursoPlatformApiException(
+        statusCode: response.statusCode,
+        body: response.body,
+        operation: "get database `$name`",
+      );
+    }
+    final decoded = jsonDecode(response.body);
+    final database = decoded is Map ? decoded["database"] : null;
+    if (database is! Map) {
+      throw const FormatException(
+          "Unexpected response format of the Turso databases API.");
+    }
+    return TursoDatabaseInfo.fromJson(database);
+  }
+
+  /// Creates the TursoDB (MVCC) database [name] in [group] of [organization].
+  ///
+  /// Returns false if the database already exists (HTTP 409), otherwise true.
+  ///
+  /// `POST /v1/organizations/{organization}/databases`
+  ///
+  /// [organization]の[group]にTursoDB（MVCC）のデータベース[name]を作成します。
+  ///
+  /// 既に存在する場合（HTTP 409）はfalse、それ以外はtrueを返します。
+  Future<bool> createDatabase(
+    String organization, {
+    required String name,
+    required String group,
+  }) async {
+    final response = await _request(
+      "POST",
+      _databasesPath(organization),
+      {"name": name, "group": group, "use_tursodb": true},
+    );
+    if (response.statusCode == HttpStatus.conflict) {
+      return false;
+    }
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw TursoPlatformApiException(
+        statusCode: response.statusCode,
+        body: response.body,
+        operation: "create database `$name` in group `$group`",
+      );
+    }
+    return true;
+  }
+
   /// Closes the underlying HTTP client.
   ///
   /// 内部のHTTPクライアントを閉じます。
@@ -104,6 +168,9 @@ class TursoPlatformApi {
 
   String _groupsPath(String organization) =>
       "/v1/organizations/${Uri.encodeComponent(organization)}/groups";
+
+  String _databasesPath(String organization) =>
+      "/v1/organizations/${Uri.encodeComponent(organization)}/databases";
 
   Future<_TursoResponse> _request(
     String method,
@@ -163,6 +230,46 @@ class TursoGroupInfo {
   ///
   /// グループのロケーションコード一覧。
   final List<String> locations;
+}
+
+/// Database information returned by the Turso Platform API.
+///
+/// Turso Platform APIが返すデータベース情報。
+class TursoDatabaseInfo {
+  /// Database information returned by the Turso Platform API.
+  ///
+  /// Turso Platform APIが返すデータベース情報。
+  const TursoDatabaseInfo({
+    required this.name,
+    this.group,
+    this.hostname,
+  });
+
+  /// Creates an instance from the API response object.
+  ///
+  /// APIの応答オブジェクトから作成します。
+  factory TursoDatabaseInfo.fromJson(Map<dynamic, dynamic> json) {
+    return TursoDatabaseInfo(
+      name: (json["Name"] ?? json["name"])?.toString() ?? "",
+      group: json["group"]?.toString(),
+      hostname: (json["Hostname"] ?? json["hostname"])?.toString(),
+    );
+  }
+
+  /// Database name.
+  ///
+  /// データベース名。
+  final String name;
+
+  /// Group of the database.
+  ///
+  /// データベースの所属group。
+  final String? group;
+
+  /// Host name of the database.
+  ///
+  /// データベースのホスト名。
+  final String? hostname;
 }
 
 /// Error response of the Turso Platform API.
@@ -272,6 +379,59 @@ Future<List<String>> ensureTursoGroups({
     }
   }
   return created;
+}
+
+/// Creates the shared Turso database [database] in [group] if it does not exist.
+///
+/// An existing database in another group throws [StateError] because the region
+/// Worker rejects a group mismatch. HTTP 401/403 and other failures throw [StateError].
+/// Returns true if the database was created.
+///
+/// 共用Turso DB [database]が存在しなければ[group]に作成します。
+///
+/// 別groupに既存DBがある場合はregion Workerが拒否するため[StateError]を投げます。
+/// HTTP 401/403とその他の失敗は[StateError]を投げます。作成した場合はtrueを返します。
+Future<bool> ensureTursoSharedDatabase({
+  required TursoPlatformApi api,
+  required String organization,
+  required String database,
+  required String group,
+}) async {
+  const tokenHint =
+      "A Turso Platform API token that can read and create databases in the organization is required. "
+      "Set it to [cloudflare]->[turso]->[platform_api_token]. "
+      "organizationのDBを参照・作成できるTurso Platform API tokenが必要です。 "
+      "[cloudflare]->[turso]->[platform_api_token]に設定してください。";
+  try {
+    final existing = await api.getDatabase(organization, name: database);
+    if (existing != null) {
+      if (existing.group != null &&
+          existing.group!.isNotEmpty &&
+          existing.group != group) {
+        throw StateError(
+          "The shared Turso database `$database` already exists in group `${existing.group}` "
+          "(katana.yaml: `$group`). Fix [cloudflare]->[turso]->[shared]->[group]. "
+          "共用Turso DB `$database` は既にgroup `${existing.group}` に存在します（katana.yaml: `$group`）。 "
+          "[cloudflare]->[turso]->[shared]->[group]を修正してください。",
+        );
+      }
+      return false;
+    }
+    label("Create shared Turso database: $database ($group)");
+    return await api.createDatabase(
+      organization,
+      name: database,
+      group: group,
+    );
+  } on TursoPlatformApiException catch (e) {
+    if (e.isUnauthorized) {
+      throw StateError("$e\n$tokenHint");
+    }
+    throw StateError(
+      "$e\nCheck that the group `$group` exists, or list it in [cloudflare]->[turso]->[groups] with a location. "
+      "group `$group` が存在するか、[cloudflare]->[turso]->[groups]にlocation付きで記載されているか確認してください。",
+    );
+  }
 }
 
 class _TursoResponse {

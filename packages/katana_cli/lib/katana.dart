@@ -423,6 +423,29 @@ cloudflare:
         - name: prod-eu
           location: aws-eu-west-1
           continents: [EU, AF]
+    # Shared Turso database (one database in one group) served by the region Worker.
+    # Requires [cloudflare]->[workers]->[region]->[enable]. Tables whose `database` is
+    # [logical_name] in the schema manifest are served by the region Worker, and the
+    # edge Worker rejects that logical name. Use `TursoModelAdapter.shared` in Flutter.
+    # Empty values use the defaults below (`<snake>` is the pubspec name with `_` replaced by `-`):
+    #   database: dev `<snake>-dev-shared`, prod `<snake>-shared`
+    #   group: dev `<snake>-dev`, prod `<snake>-us` (the group must exist or be listed in [groups] with a location)
+    # region Workerが提供する共用TursoDB（1つのgroupに1DB）。
+    # [cloudflare]->[workers]->[region]->[enable]が必要です。schema manifestで`database`が
+    # [logical_name]のテーブルはregion Workerが提供し、edge Workerはその論理名を拒否します。
+    # Flutterでは`TursoModelAdapter.shared`を使用します。
+    # 空の場合は下記の既定値を使用します（`<snake>`はpubspecのnameの`_`を`-`に置換したもの）。
+    #   database: dev `<snake>-dev-shared`、prod `<snake>-shared`
+    #   group: dev `<snake>-dev`、prod `<snake>-us`（groupは既存、または[groups]にlocation付きで記載してください）
+    shared:
+      enable: false
+      logical_name: shared
+      database:
+        dev:
+        prod:
+      group:
+        dev:
+        prod:
 
   # ユーザー単位Durable Objects。SQLの承認はmigrate --backend doで行います。
   durable_object:
@@ -471,6 +494,12 @@ cloudflare:
   # `api_key`はkatana_secrets.yamlの[cloudflare]->[tidb]->[public_key]/[private_key]
   # （または環境変数TIDBCLOUD_PUBLIC_KEY/TIDBCLOUD_PRIVATE_KEY）、
   # `ticloud_oauth`は`ticloud auth login`済みprofile（[migration_auth_profile]、既定`default`）を使います。
+  # Share one cluster between dev and prod: set the same value to [cluster_id] and [host] for both,
+  # and split [database] as `dev_<name>` (dev) / `<name>` (prod). Create both databases beforehand.
+  # On a shared cluster the dev migration user (role_admin) can also change the prod database.
+  # devとprodは1つのclusterを共有します。[cluster_id]と[host]には両環境で同じ値を入れ、
+  # [database]はdevを`dev_<name>`、prodを`<name>`に分けます。両方のdatabaseを事前に作成してください。
+  # 共有clusterではdevのmigration user（role_admin）もprodのdatabaseを変更できるため、--flavorの対象を確認してください。
   tidb:
     enable: false
     cluster_id:
@@ -620,6 +649,16 @@ firebase:
   # [generate_rules_and_indexes]を`true`にするとFirestoreのセキュリティルールとインデックスを自動生成します。
   # [primary_remote_index]を`true`にするとコンソール上のインデックスが優先されるため、インデックスの自動インポートが有効になります。
   # [database]にはFirestoreのデータベース名を指定します。複数指定可能です。
+  # Set [worker_access]->[enable] to `true` to access Firestore from the Cloudflare region Worker via the REST API
+  # (`@mathrunet/masamune_cloudflare_firestore`). Requires [cloudflare]->[workers]->[region]->[enable].
+  # The Worker uses a service account, so Security Rules are not applied: the Worker code is the permission boundary.
+  # Put the service account JSON in `katana_secrets.yaml` at [firebase]->[firestore]->[service_account].
+  # Clients keep using the Firebase SDK directly; enable [app_check] and [generate_rules_and_indexes].
+  # [worker_access]->[enable]を`true`にするとCloudflareのregion WorkerからREST API経由でFirestoreにアクセスします
+  # （`@mathrunet/masamune_cloudflare_firestore`）。[cloudflare]->[workers]->[region]->[enable]が必要です。
+  # Workerはサービスアカウントで動作するためセキュリティルールは適用されません。Workerの処理自体が権限境界です。
+  # サービスアカウントJSONは`katana_secrets.yaml`の[firebase]->[firestore]->[service_account]に記載してください。
+  # クライアントは引き続きFirebase SDKで直接アクセスします。[app_check]と[generate_rules_and_indexes]を有効にしてください。
   firestore:
     enable: false
     location_id: "nam5"
@@ -627,6 +666,8 @@ firebase:
     primary_remote_index: false
     database:
       - "(default)"
+    worker_access:
+      enable: false
 
   # Enable Firebase Data Connect.
   # Firebase Data Connectを有効にします。
@@ -1294,6 +1335,15 @@ cloudflare:
     # TursoのPlatform API Token。空でない場合は`katana.yaml`より優先されます。
     platform_api_token:
 
+    shared:
+      # Server access token of the shared Turso database (`TURSO_SERVER_ACCESS_TOKEN` of the region Worker).
+      # Send it from trusted backends in the `x-masamune-server-token` header. Do not ship it in apps.
+      # If empty, it is generated and stored in `cloudflare/turso.yaml` (git-ignored).
+      # 共用TursoDBのサーバーアクセストークン（region Workerの`TURSO_SERVER_ACCESS_TOKEN`）。
+      # 信頼できるバックエンドから`x-masamune-server-token`ヘッダーで送信します。アプリには含めないでください。
+      # 空の場合は生成して`cloudflare/turso.yaml`（git管理外）に保存します。
+      server_access_token:
+
   tidb:
     # TiDB Cloud API key used only by `katana apply` to create SQL users
     # when [cloudflare]->[tidb]->[migration_auth] is `api_key`.
@@ -1302,6 +1352,20 @@ cloudflare:
     # 環境変数TIDBCLOUD_PUBLIC_KEY / TIDBCLOUD_PRIVATE_KEYが優先されます。
     public_key:
     private_key:
+
+# Describe Firebase secret information.
+# Firebaseのシークレット情報を記述します。
+firebase:
+  firestore:
+    # Service account JSON used by the Cloudflare region Worker to access Firestore
+    # when [firebase]->[firestore]->[worker_access]->[enable] is `true`. Put as `GOOGLE_SERVICE_ACCOUNT`.
+    # If empty, the Cloudflare Authentication / Messaging service account or a JSON file
+    # under `cloudflare/` / `android/` matching [firebase]->[project_id] is used.
+    # [firebase]->[firestore]->[worker_access]->[enable]が`true`の場合に、Cloudflareのregion Workerが
+    # FirestoreへアクセスするためのサービスアカウントJSON。`GOOGLE_SERVICE_ACCOUNT`として登録されます。
+    # 空の場合はCloudflareのAuthentication・Messaging用、または`cloudflare/`・`android/`にある
+    # [firebase]->[project_id]と一致するJSONファイルを使用します。
+    service_account:
 
 # Describe purchase secret information.
 # 課金のシークレット情報を記述します。

@@ -27,6 +27,7 @@ import "package:katana_cli/action/app/text_to_speech.dart";
 import "package:katana_cli/action/cloudflare/authentication.dart";
 import "package:katana_cli/action/cloudflare/d1.dart";
 import "package:katana_cli/action/cloudflare/durable_object.dart";
+import "package:katana_cli/action/cloudflare/firestore.dart";
 import "package:katana_cli/action/cloudflare/init.dart";
 import "package:katana_cli/action/cloudflare/kv.dart";
 import "package:katana_cli/action/cloudflare/short_link.dart";
@@ -79,6 +80,7 @@ const _actions = <CliActionMixin>[
   CloudflareStorageCliAction(),
   CloudflareTursoCliAction(),
   CloudflareTidbCliAction(),
+  CloudflareFirestoreCliAction(),
   CloudflareD1CliAction(),
   CloudflareDurableObjectCliAction(),
   FirebaseInitCliAction(),
