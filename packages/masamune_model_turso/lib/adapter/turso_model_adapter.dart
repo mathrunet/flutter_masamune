@@ -697,7 +697,73 @@ class TursoModelAdapter extends ModelAdapter {
     NoSqlDatabase? cachedRuntimeDatabase,
   })  : _functionsAdapter = functionsAdapter,
         _prefix = prefix,
-        _cachedRuntimeDatabase = cachedRuntimeDatabase;
+        _cachedRuntimeDatabase = cachedRuntimeDatabase,
+        sharedLogicalName = null;
+
+  /// A model adapter for a shared Turso database served by the region Worker.
+  ///
+  /// Every request is relayed by the Workers CRUD endpoint of
+  /// [functionsAdapter] (use a `FunctionsAdapter` for the region Worker).
+  /// Direct connections are disabled, so no database token is requested and
+  /// no client prefix or group is sent.
+  ///
+  /// Model paths must use [logicalName] as the database, e.g.
+  /// `database/shared/ranking/<id>`. Any other database throws
+  /// [ArgumentError] before a request is sent.
+  ///
+  /// ```dart
+  /// final regionFunctions = CloudflareFunctionsAdapter(endpoint: regionUrl);
+  /// final sharedTursoAdapter = TursoModelAdapter.shared(
+  ///   functionsAdapter: regionFunctions,
+  /// );
+  ///
+  /// @CollectionModelPath("database/shared/ranking", adapter: sharedTursoAdapter)
+  /// class RankingModel with _$RankingModel { ... }
+  /// ```
+  const TursoModelAdapter.shared({
+    required FunctionsAdapter functionsAdapter,
+    String logicalName = "shared",
+    super.defaultAutoDisposeWhenUnreferenced,
+    this.vectorConverter = const PassVectorConverter(),
+    this.nativeVectors = false,
+    this.retryDelays = _tursoRetryDelays,
+    NoSqlDatabase? cachedRuntimeDatabase,
+  })  : _functionsAdapter = functionsAdapter,
+        _prefix = null,
+        group = null,
+        useDirectClient = false,
+        directClientSession = null,
+        tokenTtlSeconds = 3600,
+        _cachedRuntimeDatabase = cachedRuntimeDatabase,
+        sharedLogicalName = logicalName;
+
+  /// Logical name of the shared database when created with
+  /// [TursoModelAdapter.shared]. `null` for per-user databases.
+  ///
+  /// When set, model paths must use this name as the database.
+  final String? sharedLogicalName;
+
+  TursoModelPath _documentPath(ModelAdapterDocumentQuery query) {
+    return _checkSharedPath(TursoModelPath.fromDocumentQuery(query),
+        query.query.path);
+  }
+
+  TursoModelPath _collectionPath(ModelAdapterCollectionQuery query) {
+    return _checkSharedPath(TursoModelPath.fromCollectionQuery(query),
+        query.query.path);
+  }
+
+  TursoModelPath _checkSharedPath(TursoModelPath path, String rawPath) {
+    final logicalName = sharedLogicalName;
+    if (logicalName != null && path.database != logicalName) {
+      throw ArgumentError.value(
+        rawPath,
+        "path",
+        "The shared Turso adapter only accepts database/$logicalName/... paths.",
+      );
+    }
+    return path;
+  }
 
   /// Functions adapter for obtaining tokens and using Workers CRUD.
   ///
@@ -950,7 +1016,7 @@ class TursoModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    final path = TursoModelPath.fromDocumentQuery(query);
+    final path = _documentPath(query);
     if (_directEnabled) {
       await _withDirectClient(
         database: path.database,
@@ -1034,7 +1100,7 @@ class TursoModelAdapter extends ModelAdapter {
       throw UnsupportedError(
           "TursoModelAdapter supports only count aggregate.");
     }
-    final path = TursoModelPath.fromCollectionQuery(query);
+    final path = _collectionPath(query);
     final payload = TursoQueryPayload.fromFilters(query.query.filters);
     if (payload.nearest != null) {
       throw UnsupportedError("nearestの集計は未対応です。");
@@ -1104,7 +1170,7 @@ class TursoModelAdapter extends ModelAdapter {
       if (cache?.query != null) {
         query = cache!.query!;
       }
-      final path = TursoModelPath.fromCollectionQuery(query);
+      final path = _collectionPath(query);
       final payload = TursoQueryPayload.fromFilters(query.query.filters);
       final remote = _directEnabled && payload.nearest == null
           ? await _loadCollectionDirect(path, payload)
@@ -1142,7 +1208,7 @@ class TursoModelAdapter extends ModelAdapter {
       );
       return cached;
     }
-    final path = TursoModelPath.fromDocumentQuery(query);
+    final path = _documentPath(query);
     final data = _directEnabled
         ? await _loadDocumentDirect(path)
         : await _loadDocumentFunctions(path);
@@ -1178,7 +1244,7 @@ class TursoModelAdapter extends ModelAdapter {
   @override
   Future<void> saveDocument(
       ModelAdapterDocumentQuery query, DynamicMap value) async {
-    final path = TursoModelPath.fromDocumentQuery(query);
+    final path = _documentPath(query);
     final row = _buildSaveRow(path, value);
     final boolFields = _extractTursoBoolFields(value);
     _cacheTursoBoolFields(path.database, path.table, boolFields);
@@ -1340,6 +1406,7 @@ class TursoModelAdapter extends ModelAdapter {
       } catch (_) {
         continue;
       }
+      _checkSharedPath(path, query.query.path);
       final indexKey = path.indexKey;
       if (indexKey == null || indexKey.isEmpty) {
         continue;

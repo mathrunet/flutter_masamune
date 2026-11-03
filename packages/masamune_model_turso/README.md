@@ -204,6 +204,54 @@ Workers fallback requests use path-based Turso endpoints:
 /turso/token/database/main
 ```
 
+## Shared database on the region Worker
+
+Besides per-user databases (edge Worker, direct connections), an app can keep
+one shared database behind the region Worker. Use `TursoModelAdapter.shared`
+for it. It always relays requests through the Workers CRUD endpoint of the
+given `FunctionsAdapter`, never requests a direct connection token, and sends
+no client `prefix` or `group`. Paths must use the shared logical name
+(`shared` by default); any other database throws `ArgumentError` before a
+request is sent.
+
+Create one `FunctionsAdapter` per Worker and pick the adapter per model:
+
+```dart
+final edgeFunctions = CloudflareFunctionsAdapter(
+  endpoint: edgeUrl,
+  regionEndpoint: regionUrl,
+);
+final regionFunctions = CloudflareFunctionsAdapter(endpoint: regionUrl);
+
+// Per-user databases (default): direct libSQL connections via the edge Worker.
+final userTursoAdapter = TursoModelAdapter(
+  prefix: null,
+  functionsAdapter: edgeFunctions,
+);
+
+// Shared database: relayed by the region Worker only.
+final sharedTursoAdapter = TursoModelAdapter.shared(
+  functionsAdapter: regionFunctions,
+  // logicalName: "shared",
+);
+
+// Set the most used adapter as the app-wide `modelAdapter` in main.dart and
+// override the other one per model.
+@CollectionModelPath("database/shared/ranking", adapter: sharedTursoAdapter)
+class RankingModel with _$RankingModel { ... }
+```
+
+- The edge Worker should reserve the shared logical name
+  (`reservedDatabases: ["shared"]`), so a shared path sent to the edge Worker
+  is rejected instead of creating a per-user database.
+- `"server"` rules on the shared database are granted only to trusted backends
+  that send the server access token. Do not ship that token in the app.
+- A transaction cannot span a per-user database and the shared database. Put
+  writes that must stay consistent in a region Worker function.
+
+`katana apply` sets this up when `cloudflare.turso.shared.enable` is `true` in
+`katana.yaml`.
+
 ## Supported queries
 
 Collection load converts supported `ModelQueryFilter` values to Turso SQL or
