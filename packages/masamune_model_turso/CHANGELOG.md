@@ -1,3 +1,8 @@
+## 3.11.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([2c62f060](https://github.com/mathrunet/flutter_masamune/commit/2c62f060808c878fd7e01a5462efeed0aeb67415))
+ - **FEAT**(masamune_model_turso): add TursoModelAdapter.shared for region-hosted shared databases ([2c62f060](https://github.com/mathrunet/flutter_masamune/commit/2c62f060808c878fd7e01a5462efeed0aeb67415))
+
 ## 3.10.1
 
 
