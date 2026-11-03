@@ -56,6 +56,11 @@ class FlavorContext {
     return _deepCopy((value! as Map)[(flavor ?? this.flavor).name]);
   }
 
+  /// Whether the unresolved YAML value at [path] is a `{dev:, prod:}` map.
+  bool hasEnvironmentMap(List<String> path) {
+    return _isEnvironmentMap(_readPath(_sourceYaml, path));
+  }
+
   /// Resolves flavor and environment-aware leaf values.
   factory FlavorContext.resolve({
     required Map<dynamic, dynamic> yaml,

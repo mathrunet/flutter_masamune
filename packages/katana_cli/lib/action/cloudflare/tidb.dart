@@ -136,6 +136,9 @@ class TidbMigrateCliCommand extends CliCommand {
     final database = rawDatabase is Map
         ? rawDatabase[environment]?.toString() ?? ""
         : rawDatabase.toString();
+    if (!_reportTidbEnvironmentLayout(context)) {
+      return;
+    }
     final credentials = await resolveTidbMigrationCredentials(
       environment: environment,
       cluster: cluster,
@@ -255,6 +258,98 @@ String _tidbEnvironmentSetting(
     return value[environment]?.toString() ?? fallback;
   }
   return value.toString();
+}
+
+/// dev/prodのTiDB配置を検査した結果。
+class TidbEnvironmentLayoutResult {
+  /// 検査結果を作成する。
+  const TidbEnvironmentLayoutResult({
+    this.warnings = const [],
+    this.error,
+  });
+
+  /// 処理は続行するが利用者へ知らせる内容。
+  final List<String> warnings;
+
+  /// 処理を止める内容。
+  final String? error;
+}
+
+/// dev/prodが1つのclusterを共有し、databaseを`dev_<db>` / `<db>`で分ける標準構成かを検査する。
+///
+/// 別clusterの既存構成は警告に留め、同一clusterで同じdatabaseを使う構成だけを拒否する。
+TidbEnvironmentLayoutResult validateTidbEnvironmentLayout({
+  required String devCluster,
+  required String prodCluster,
+  required String devDatabase,
+  required String prodDatabase,
+}) {
+  if (devCluster.isEmpty || prodCluster.isEmpty) {
+    return const TidbEnvironmentLayoutResult();
+  }
+  if (devCluster != prodCluster) {
+    return const TidbEnvironmentLayoutResult(warnings: [
+      "Warning: TiDBのdevとprodが別のclusterです。標準構成は1つのclusterを共有し、 "
+          "databaseを`dev_<db>` / `<db>`で分ける形です。既存の構成はそのまま動作します。",
+    ]);
+  }
+  if (devDatabase.isEmpty || prodDatabase.isEmpty) {
+    return const TidbEnvironmentLayoutResult();
+  }
+  if (devDatabase == prodDatabase) {
+    return TidbEnvironmentLayoutResult(
+      error: "TiDBのdevとprodが同じcluster・同じdatabase `$prodDatabase` を指しています。 "
+          "devのdatabaseを`dev_$prodDatabase`にしてください。",
+    );
+  }
+  if (devDatabase != "dev_$prodDatabase") {
+    return TidbEnvironmentLayoutResult(warnings: [
+      "Warning: TiDBのdev database `$devDatabase` が`dev_$prodDatabase`ではありません。 "
+          "Workerは`FLAVOR=dev`で`dev_`を付けるため、schemaのdatabase名と一致するか確認してください。",
+    ]);
+  }
+  return const TidbEnvironmentLayoutResult();
+}
+
+TidbEnvironmentLayoutResult _checkTidbEnvironmentLayout(ExecContext context) {
+  final config = context.yaml.getAsMap("cloudflare").getAsMap("tidb");
+  // 単一値のcluster_idは両環境で共有、単一値のdatabaseは環境を分けない設定として扱う。
+  String read(String key, KatanaFlavor flavor, {required bool scalarShared}) {
+    final flavorContext = context.flavorContext;
+    final isEnvironmentMap = flavorContext != null
+        ? flavorContext.hasEnvironmentMap(["cloudflare", "tidb", key])
+        : config[key] is Map;
+    if (!isEnvironmentMap && !scalarShared) {
+      return "";
+    }
+    final value = flavorContext != null
+        ? flavorContext.yamlValue(["cloudflare", "tidb", key], flavor: flavor)
+        : config[key];
+    if (value is Map) {
+      return value[flavor.name]?.toString() ?? "";
+    }
+    return value?.toString() ?? "";
+  }
+
+  return validateTidbEnvironmentLayout(
+    devCluster: read("cluster_id", KatanaFlavor.dev, scalarShared: true),
+    prodCluster: read("cluster_id", KatanaFlavor.prod, scalarShared: true),
+    devDatabase: read("database", KatanaFlavor.dev, scalarShared: false),
+    prodDatabase: read("database", KatanaFlavor.prod, scalarShared: false),
+  );
+}
+
+/// TiDB配置の警告を表示し、処理を止める必要があればエラーを表示して`false`を返す。
+bool _reportTidbEnvironmentLayout(ExecContext context) {
+  final result = _checkTidbEnvironmentLayout(context);
+  for (final warning in result.warnings) {
+    label(warning);
+  }
+  if (result.error != null) {
+    error(result.error!);
+    return false;
+  }
+  return true;
 }
 
 Future<Map<String, dynamic>> _loadTidbCredentialState() async {
@@ -469,6 +564,9 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
         : rawCluster.toString();
     if (host.isEmpty || database.isEmpty) {
       error("TiDB直結のhostとdatabaseが必要です。");
+      return;
+    }
+    if (!_reportTidbEnvironmentLayout(context)) {
       return;
     }
     final schemaPath =
