@@ -1,3 +1,10 @@
+## 3.39.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([b6d7f1cf](https://github.com/mathrunet/flutter_masamune/commit/b6d7f1cf3d7d93498c2c2e78471b900a58cea478))
+ - **FEAT**(katana_cli): validate TiDB dev/prod environment layout ([b6d7f1cf](https://github.com/mathrunet/flutter_masamune/commit/b6d7f1cf3d7d93498c2c2e78471b900a58cea478))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([b9892c8f](https://github.com/mathrunet/flutter_masamune/commit/b9892c8f6f1fe11b97f187b2887882fb82e50018))
+ - **FEAT**(katana_cli): add shared Turso database and Firestore worker access to katana apply ([b9892c8f](https://github.com/mathrunet/flutter_masamune/commit/b9892c8f6f1fe11b97f187b2887882fb82e50018))
+
 ## 3.38.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([5f6401a1](https://github.com/mathrunet/flutter_masamune/commit/5f6401a1aaaaf779179128e06b1f82fef4a70ffd))
