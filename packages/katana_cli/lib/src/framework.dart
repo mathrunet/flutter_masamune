@@ -1041,17 +1041,15 @@ bool _isPatchedFirestoreVersion(semver.Version? version) {
   if (version == null || version.preRelease.isNotEmpty) {
     return false;
   }
-  return (version >= semver.Version(6, 10, 2) &&
-          version < semver.Version(7, 0, 0)) ||
-      version >= semver.Version(7, 1, 0);
+  return version >= semver.Version(7, 1, 0);
 }
 
 void _validateFirestoreSecurityVersion() {
   if (!_isPatchedFirestoreVersion(_lockedFirestoreVersion())) {
     throw StateError(
-      "cloud_firestore must resolve to a stable 6.10.2+ version within 6.x, "
-      "or 7.1.0+. Update the dependency and any custom source or override "
-      "before applying Firebase configuration.",
+      "cloud_firestore must resolve to a stable 7.1.0+ version. Update the "
+      "dependency and any custom source or override before applying Firebase "
+      "configuration.",
     );
   }
 }
@@ -1078,27 +1076,18 @@ String _firestoreSecuritySpecification(
   }
   final separator = package.indexOf(":");
   final original = separator < 0
-      ? (declared is String ? declared : "^6.10.2")
+      ? (declared is String ? declared : "^7.1.0")
       : package.substring(separator + 1);
   final constraint = semver.VersionConstraint.parse(original);
-  final six = semver.VersionConstraint.parse(">=6.10.2 <7.0.0");
-  final seven = semver.VersionConstraint.parse(">=7.1.0");
-  final safe = semver.VersionConstraint.unionOf([six, seven]);
+  final safe = semver.VersionConstraint.parse(">=7.1.0");
   if (safe.allowsAll(constraint)) {
     return "$name:$original";
   }
-  final locked = _lockedFirestoreVersion();
-  final sixIntersection = constraint.intersect(six);
-  final sevenIntersection = constraint.intersect(seven);
-  if (!sevenIntersection.isEmpty &&
-      (sixIntersection.isEmpty || (locked != null && seven.allows(locked)))) {
-    return "$name:$sevenIntersection";
+  final intersection = constraint.intersect(safe);
+  if (!intersection.isEmpty) {
+    return "$name:$intersection";
   }
-  if (!sixIntersection.isEmpty) {
-    return "$name:$sixIntersection";
-  }
-  final affectedSeven = semver.VersionConstraint.parse(">=7.0.0 <8.0.0");
-  return constraint.allowsAny(affectedSeven) ? "$name:^7.1.0" : "$name:^6.10.2";
+  return "$name:^7.1.0";
 }
 
 /// Add npm imports by giving [packages].

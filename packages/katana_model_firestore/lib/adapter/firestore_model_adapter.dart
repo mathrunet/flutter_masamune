@@ -92,7 +92,7 @@ class FirestoreModelAdapter extends ModelAdapter
   @override
   FirebaseFirestore get database {
     if (_database != null) {
-      return _database!;
+      return _database;
     }
     if (databaseId.isNotEmpty) {
       return FirebaseFirestore.instanceFor(

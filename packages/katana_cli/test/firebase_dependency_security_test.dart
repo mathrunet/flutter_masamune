@@ -13,7 +13,7 @@ Future<List<String>> _apply({
   String? declaration,
   String? lockedVersion,
   String? override,
-  String resolvedVersion = "6.10.2",
+  String resolvedVersion = "7.1.0",
   int exitCode = 0,
   bool rejects = false,
   bool local = false,
@@ -95,16 +95,17 @@ Future<List<String>> _apply({
 
 Future<void> main() async {
   final old = await _apply(declaration: "^6.0.3", lockedVersion: "6.8.0");
-  _check(old.any((argument) => argument.contains("6.10.2")),
+  _check(old.any((argument) => argument.contains("7.1.0")),
       "An existing vulnerable Firestore dependency was left unchanged");
 
   final fresh = await _apply();
-  _check(fresh.any((argument) => argument.contains("6.10.2")),
+  _check(fresh.any((argument) => argument.contains("7.1.0")),
       "A fresh dependency did not receive the security minimum");
 
-  _check(
-      (await _apply(declaration: "^6.10.9", lockedVersion: "6.10.9")).isEmpty,
-      "A newer patched 6.x constraint was changed");
+  final legacySix =
+      await _apply(declaration: "^6.10.9", lockedVersion: "6.10.9");
+  _check(legacySix.any((argument) => argument.contains("7.1.0")),
+      "A 6.x dependency was not moved to the supported 7.1.0+ range");
   _check((await _apply(declaration: "^7.1.2", lockedVersion: "7.1.2")).isEmpty,
       "A patched 7.x dependency was downgraded");
 
@@ -116,14 +117,14 @@ Future<void> main() async {
   _check(unsafeSeven.any((argument) => argument.contains("7.1.0")),
       "An affected 7.0 dependency did not receive its patched minimum");
 
-  final stale = await _apply(declaration: "^6.10.2", lockedVersion: "6.8.0");
+  final stale = await _apply(declaration: "^7.1.0", lockedVersion: "7.0.0");
   _check(stale.contains("upgrade") && stale.contains("cloud_firestore"),
       "A stale lockfile was not updated");
 
   _check(
       (await _apply(
         declaration: "{path: ../custom_firestore}",
-        lockedVersion: "6.10.2",
+        lockedVersion: "7.1.0",
       ))
           .isEmpty,
       "A patched path dependency was overwritten");
@@ -134,8 +135,8 @@ Future<void> main() async {
   );
   _check(
       (await _apply(
-        declaration: "^6.10.2",
-        lockedVersion: "6.10.2",
+        declaration: "^7.1.0",
+        lockedVersion: "7.1.0",
         local: true,
       ))
           .isEmpty,
@@ -157,14 +158,14 @@ Future<void> main() async {
   );
   await _apply(
     declaration: "^6.0.3",
-    lockedVersion: "6.10.2",
+    lockedVersion: "7.1.0",
     exitCode: 42,
     rejects: true,
   );
   _check(
       (await _apply(
         declaration: "^6.0.3",
-        lockedVersion: "6.10.2",
+        lockedVersion: "7.1.0",
         override: "{path: ../patched_firestore}",
       ))
           .isEmpty,

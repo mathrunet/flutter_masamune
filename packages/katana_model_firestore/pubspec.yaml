@@ -7,8 +7,8 @@ homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model_firestore
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
@@ -17,8 +17,8 @@ dependencies:
   katana: ^3.5.0
   katana_firebase: ^3.3.0
   katana_model: ^3.9.0
-  firebase_core: ^4.2.0
-  cloud_firestore: ^6.10.2
+  firebase_core: ^5.1.0
+  cloud_firestore: ^7.1.0
   katana_platform_info: ^3.3.0
 
 dev_dependencies:
@@ -32,4 +32,4 @@ dev_dependencies:
   json_annotation: ^4.7.0
   json_serializable: ^6.5.4
   build_runner: ^2.3.3
-  fake_cloud_firestore: ^4.0.0
+  fake_cloud_firestore: ^4.5.0

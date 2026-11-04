@@ -7,8 +7,8 @@ homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_firebase_data_connect
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
@@ -20,7 +20,7 @@ dependencies:
   masamune: ^3.6.1
   masamune_model_firebase_data_connect_annotation: ^3.2.0
   katana_firebase: ^3.3.0
-  firebase_data_connect: ^0.2.1
+  firebase_data_connect: ^0.4.1
 dev_dependencies:
   test: ^1.25.0
   katana_test: ^3.1.1

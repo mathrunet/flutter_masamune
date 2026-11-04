@@ -6,16 +6,16 @@ homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_firebase
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
   katana: ^3.5.0
-  firebase_core: ^4.2.0
-  cloud_firestore: ^6.10.2
+  firebase_core: ^5.1.0
+  cloud_firestore: ^7.1.0
 
 dev_dependencies:
   test: ^1.25.0

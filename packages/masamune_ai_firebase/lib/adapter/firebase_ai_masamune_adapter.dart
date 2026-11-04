@@ -48,7 +48,14 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
 
   /// Whether to enable AppCheck.
   ///
+  /// This flag no longer has any effect. Since firebase_ai 5.0.0, App Check is attached automatically when it is configured in the app.
+  ///
   /// AppCheckを有効にするかどうか。
+  ///
+  /// このフラグは効果がありません。firebase_ai 5.0.0以降、App Checkはアプリで設定されていれば自動で付与されます。
+  @Deprecated(
+    "This flag has no effect. App Check is attached automatically when it is configured in the app.",
+  )
   final bool enableAppCheck;
 
   /// FirebaseVertexAI instance.
@@ -56,13 +63,9 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   /// FirebaseVertexAIのインスタンス。
   FirebaseAI get instance {
     if (_instance != null) {
-      return _instance!;
+      return _instance;
     }
-    return _googleInstance ??= FirebaseAI.googleAI(
-      // Older supported firebase_ai versions still require an explicit App Check instance.
-      // ignore: deprecated_member_use
-      appCheck: enableAppCheck ? FirebaseAppCheck.instance : null,
-    );
+    return _googleInstance ??= FirebaseAI.googleAI();
   }
 
   final FirebaseAI? _instance;

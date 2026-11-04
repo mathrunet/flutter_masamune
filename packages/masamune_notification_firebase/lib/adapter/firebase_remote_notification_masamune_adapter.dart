@@ -149,6 +149,8 @@ class FirebaseRemoteNotificationMasamuneAdapter
 
   @override
   Future<String?> getToken() {
+    // `RemoteNotificationMasamuneAdapter.getToken` keeps returning the current token on demand.
+    // ignore: deprecated_member_use
     return _messaging.getToken();
   }
 

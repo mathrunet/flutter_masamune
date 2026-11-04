@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **BREAKING**: Upgrade to firebase_core ^5.1.0 and firebase_storage ^14.0.1. Require Dart 3.10 / Flutter 3.38 or later, Firebase iOS SDK 13 (iOS 15+) and Android Firebase BoM 35 (minSdk 24). Apps must upgrade their own FlutterFire dependencies to the same release.
+
 ## 3.2.1
 
 

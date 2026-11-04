@@ -38,7 +38,7 @@
 - Extends `masamune_ai` with `FirebaseAIMasamuneAdapter` for Firebase-powered generative AI.
 - Supports Gemini 2.0 Flash and other Firebase AI models.
 - Includes automatic function-calling support via Vertex AI when using MCP tools.
-- Optionally enables Firebase App Check for secure API access.
+- Attaches Firebase App Check automatically when it is configured in the app.
 
 ## Setup
 
@@ -62,7 +62,6 @@ void main() {
         FirebaseAIMasamuneAdapter(
           options: DefaultFirebaseOptions.currentPlatform,  // Firebase config
           model: FirebaseAIModel.gemini20Flash,             // AI model
-          enableAppCheck: true,                              // Optional: Enable App Check
           defaultConfig: AIConfig(
             systemPromptContent: AIContent.system([
               AIContent.model(text: "You are a helpful assistant."),
@@ -85,7 +84,7 @@ void main() {
 ### Optional Parameters
 
 - `defaultConfig` (`AIConfig`): Default system prompt and response schema
-- `enableAppCheck` (`bool`): Enable Firebase App Check for API security (default: `false`)
+- `enableAppCheck` (`bool`): **Deprecated.** Has no effect; App Check is attached automatically when configured.
 - `contentFilter`: Preprocess messages before sending to the AI
 - `onGenerateFunctionCallingConfig`: Control function-calling retry logic
 - `mcpServerConfig`, `mcpClientConfig`, `mcpFunctions`: MCP tool integration settings
@@ -142,15 +141,7 @@ FirebaseAIMasamuneAdapter(
 
 ### App Check Integration
 
-Enable Firebase App Check for additional API security:
-
-```dart
-FirebaseAIMasamuneAdapter(
-  options: DefaultFirebaseOptions.currentPlatform,
-  model: FirebaseAIModel.gemini20Flash,
-  enableAppCheck: true,  // Requires Firebase App Check setup
-)
-```
+Since firebase_ai 5.0.0, App Check tokens are attached automatically when Firebase App Check is activated in the app (for example with `masamune_firebase_app_check`). No adapter option is required.
 
 ## Usage with AIThread and AISingle
 

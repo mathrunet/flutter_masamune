@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **BREAKING**: Upgrade to firebase_remote_config ^7.0.1. Require Dart 3.10 / Flutter 3.38 or later, Firebase iOS SDK 13 (iOS 15+) and Android Firebase BoM 35 (minSdk 24). Apps must upgrade their own FlutterFire dependencies to the same release.
+
 ## 3.4.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([1430cbe2](https://github.com/mathrunet/flutter_masamune/commit/1430cbe208684e64110d0f998da8b821e61beac0))

@@ -6,8 +6,8 @@ homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_notification_firebase
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.10.0
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
@@ -16,7 +16,7 @@ dependencies:
   masamune: ^3.6.1
   freezed_annotation: ^3.0.0
   json_annotation: ^4.8.0
-  firebase_messaging: ^16.0.3
+  firebase_messaging: ^17.0.1
   flutter_local_notifications: ^19.0.0
   katana_firebase: ^3.3.0
   masamune_notification: ^3.3.1

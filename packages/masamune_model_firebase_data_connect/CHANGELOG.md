@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **BREAKING**: Upgrade to firebase_data_connect ^0.4.1 so the package resolves together with cloud_firestore 7. Require Dart 3.10 / Flutter 3.38 or later, Firebase iOS SDK 13 (iOS 15+) and Android Firebase BoM 35 (minSdk 24). Apps must upgrade their own FlutterFire dependencies to the same release.
+
 ## 3.3.1
 
 

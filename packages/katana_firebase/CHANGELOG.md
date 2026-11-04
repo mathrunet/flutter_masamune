@@ -1,6 +1,6 @@
 ## Unreleased
 
- - **FIX**: Require cloud_firestore 6.10.2 or later within 6.x to include the eMudhra certificate security patch.
+ - **BREAKING**: Upgrade to firebase_core ^5.1.0 and cloud_firestore ^7.1.0 (7.1.0 includes the eMudhra certificate security patch). Require Dart 3.10 / Flutter 3.38 or later, Firebase iOS SDK 13 (iOS 15+) and Android Firebase BoM 35 (minSdk 24). Apps must upgrade their own FlutterFire dependencies to the same release.
 
 ## 3.3.0
 

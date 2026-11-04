@@ -62,7 +62,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Firebase Functionsのインスタンス。
   FirebaseFunctions get functions {
     if (_functions != null) {
-      return _functions!;
+      return _functions;
     }
     final region = this.region.value;
     if (region.isEmpty) {
@@ -228,9 +228,8 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
           )
               .call<DynamicMap>(
             {
-              if (map != null) ...map,
-              if (firestoreDatabaseId != null)
-                _kFirestoreDatabaseId: firestoreDatabaseId,
+              ...?map,
+              _kFirestoreDatabaseId: ?firestoreDatabaseId,
             },
           );
           return res.data;
