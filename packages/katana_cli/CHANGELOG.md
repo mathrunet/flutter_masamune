@@ -1,3 +1,9 @@
+## 3.40.0
+
+ - **FIX**(firebase): secure Firestore dependency setup ([25338bfc](https://github.com/mathrunet/flutter_masamune/commit/25338bfcee862a7fe03a7d41f1fca1683cb909ce))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([e19f0245](https://github.com/mathrunet/flutter_masamune/commit/e19f02455837d6d104524bf17dc03fed74d76dae))
+ - **FEAT**(katana_cli): support cloudflare.tidb.additional_grants ([e19f0245](https://github.com/mathrunet/flutter_masamune/commit/e19f02455837d6d104524bf17dc03fed74d76dae))
+
 ## Unreleased
 
  - **FEAT**: Read `cloudflare.tidb.additional_grants` in `katana.yaml` and pass it to `provisionRuntimeUser` so the TiDB runtime user receives exact, declared privileges on tables outside the schema manifest. `database` defaults to the database of the current flavor and also accepts a string or a `dev`/`prod` map.

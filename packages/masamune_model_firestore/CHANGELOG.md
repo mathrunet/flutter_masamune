@@ -1,3 +1,8 @@
+## 3.4.2
+
+
+ - Update dependencies: katana_model_firestore.
+
 ## 3.4.1
 
 

@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**(firebase): secure Firestore dependency setup ([25338bfc](https://github.com/mathrunet/flutter_masamune/commit/25338bfcee862a7fe03a7d41f1fca1683cb909ce))
+
 ## Unreleased
 
  - **FIX**: Require cloud_firestore 6.10.2 or later within 6.x to include the eMudhra certificate security patch.

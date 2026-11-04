@@ -1,3 +1,8 @@
+## 3.0.2
+
+
+ - Update dependencies: masamune_model_firebase_remote_config.
+
 ## 3.0.1
 
 

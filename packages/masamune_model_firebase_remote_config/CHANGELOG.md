@@ -1,3 +1,8 @@
+## 3.4.1
+
+
+ - Update dependencies: katana_firebase.
+
 ## 3.4.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([1430cbe2](https://github.com/mathrunet/flutter_masamune/commit/1430cbe208684e64110d0f998da8b821e61beac0))

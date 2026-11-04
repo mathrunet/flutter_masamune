@@ -1,7 +1,7 @@
 name: katana_storage_firebase
 description: Firebase plugin for katana_storage. A package to facilitate
   switching between Local and Firebase storage implementations.
-version: 3.2.1
+version: 3.2.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_storage_firebase
 
@@ -15,7 +15,7 @@ dependencies:
 
   katana: ^3.5.0
   katana_storage: ^3.2.0
-  katana_firebase: ^3.3.0
+  katana_firebase: ^3.3.1
   firebase_core: ^4.2.0
   firebase_storage: ^13.0.3
   path_provider: ^2.1.3

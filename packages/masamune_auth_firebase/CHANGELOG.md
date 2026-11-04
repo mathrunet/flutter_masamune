@@ -1,3 +1,8 @@
+## 3.2.2
+
+
+ - Update dependencies: katana_auth_firebase, katana_firebase.
+
 ## 3.2.1
 
 

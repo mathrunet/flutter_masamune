@@ -1,3 +1,8 @@
+## 3.4.3
+
+
+ - Update dependencies: katana_firebase.
+
 ## 3.4.2
 
 

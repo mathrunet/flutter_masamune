@@ -1,3 +1,8 @@
+## 3.5.2
+
+ - **FIX**(firebase): secure Firestore dependency setup ([25338bfc](https://github.com/mathrunet/flutter_masamune/commit/25338bfcee862a7fe03a7d41f1fca1683cb909ce))
+ - Update dependencies: katana_firebase.
+
 ## 3.5.1
 
 
