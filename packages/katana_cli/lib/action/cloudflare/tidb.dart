@@ -384,6 +384,105 @@ Map<String, dynamic> selectTidbRuntimeCredentials(
   return tidb.getAsMap("runtime_users").getAsMap(environment);
 }
 
+const _tidbRuntimeTablePrivileges = ["SELECT", "INSERT", "UPDATE", "DELETE"];
+final _tidbIdentifierPattern = RegExp(r"^[A-Za-z_][A-Za-z0-9_]{0,63}$");
+
+/// Resolves `cloudflare.tidb.additional_grants` in `katana.yaml` for [environment].
+///
+/// Each entry grants the runtime SQL user exactly `privileges` (a non-empty subset of
+/// SELECT/INSERT/UPDATE/DELETE) on `table`, a table outside the schema manifest.
+/// `database` is optional and accepts a string or a `dev`/`prod` map; when omitted it resolves
+/// to [database], the database of the current environment. The whole list may also be a
+/// `dev`/`prod` map of lists. Tables already in [manifestTables] are rejected.
+/// Throws a [FormatException] when the declaration is invalid.
+///
+/// `katana.yaml`の`cloudflare.tidb.additional_grants`を[environment]向けに解決します。
+/// 各要素はschema manifest外の`table`へ、runtime SQL userが持つ権限`privileges`
+/// （SELECT/INSERT/UPDATE/DELETEから選ぶ空でない集合）を宣言します。
+/// `database`は省略可能で、文字列または`dev`/`prod`のmapで指定します。省略時は[database]を使います。
+List<Map<String, Object>> resolveTidbAdditionalGrants(
+  Object? raw, {
+  required String environment,
+  required String database,
+  Iterable<Map<String, String>> manifestTables = const [],
+}) {
+  var value = raw;
+  if (value is Map && (value.containsKey("dev") || value.containsKey("prod"))) {
+    value = value[environment];
+  }
+  if (value == null) {
+    return const [];
+  }
+  if (value is! List) {
+    throw const FormatException(
+        "[cloudflare]->[tidb]->[additional_grants]はtable・privilegesを持つ要素のリストで指定してください。");
+  }
+  final manifestKeys = manifestTables
+      .map((table) =>
+          "${table["database"]}\u0000${table["table"]}".toLowerCase())
+      .toSet();
+  final seen = <String>{};
+  final grants = <Map<String, Object>>[];
+  for (final entry in value) {
+    if (entry is! Map) {
+      throw const FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]の要素はtable・privilegesを持つmapで指定してください。");
+    }
+    final unknownKeys = entry.keys
+        .map((key) => key.toString())
+        .where(
+            (key) => !const {"table", "database", "privileges"}.contains(key))
+        .toList();
+    if (unknownKeys.isNotEmpty) {
+      throw FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]に未対応のキーがあります: ${unknownKeys.join(", ")}");
+    }
+    final table = entry["table"]?.toString() ?? "";
+    final rawDatabase = entry["database"];
+    final resolvedDatabase = rawDatabase == null
+        ? database
+        : rawDatabase is Map
+            ? rawDatabase[environment]?.toString() ?? ""
+            : rawDatabase.toString();
+    if (!_tidbIdentifierPattern.hasMatch(table) ||
+        !_tidbIdentifierPattern.hasMatch(resolvedDatabase)) {
+      throw FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]のdatabase/tableが不正です: $resolvedDatabase.$table");
+    }
+    final name = "$resolvedDatabase.$table";
+    final rawPrivileges = entry["privileges"];
+    if (rawPrivileges is! List ||
+        rawPrivileges.isEmpty ||
+        rawPrivileges.any((privilege) => privilege is! String)) {
+      throw FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]のprivilegesは空でないリストで指定してください: $name");
+    }
+    final requested = rawPrivileges
+        .map((privilege) => privilege.toString().trim().toUpperCase())
+        .toSet();
+    if (!requested.every(_tidbRuntimeTablePrivileges.contains)) {
+      throw FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]のprivilegesはSELECT/INSERT/UPDATE/DELETEから指定してください: $name");
+    }
+    final key = "$resolvedDatabase\u0000$table".toLowerCase();
+    if (manifestKeys.contains(key)) {
+      throw FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]にschema manifestのtableは指定できません: $name");
+    }
+    if (!seen.add(key)) {
+      throw FormatException(
+          "[cloudflare]->[tidb]->[additional_grants]のtableが重複しています: $name");
+    }
+    grants.add({
+      "database": resolvedDatabase,
+      "table": table,
+      "privileges":
+          _tidbRuntimeTablePrivileges.where(requested.contains).toList(),
+    });
+  }
+  return grants;
+}
+
 Future<void> _runTidbRuntimeProvision({
   required ExecContext context,
   required String environment,
@@ -392,6 +491,7 @@ Future<void> _runTidbRuntimeProvision({
   required String database,
   required Map<String, dynamic> state,
   required List<Map<String, String>> tables,
+  required List<Map<String, Object>> additionalGrants,
   required Map<String, dynamic> secrets,
   required Map<String, dynamic> existing,
   required String authMode,
@@ -424,7 +524,13 @@ let input = "";
 process.stdin.setEncoding("utf8");
 process.stdin.on("data", chunk => { input += chunk; if (input.length > 1048576) process.exit(2); });
 process.stdin.on("end", async () => {
-  try { console.log(JSON.stringify(await migration.provisionRuntimeUser(JSON.parse(input)))); }
+  try {
+    const request = JSON.parse(input);
+    if (request.additionalGrants && migration.supportsRuntimeUserAdditionalGrants !== true) {
+      throw new Error("additional_grantsには新しい@mathrunet/masamune_cloudflare_tidbが必要です。cloudflareでpackageを更新してください。");
+    }
+    console.log(JSON.stringify(await migration.provisionRuntimeUser(request)));
+  }
   catch (error) { console.error(error instanceof Error ? error.message : "TiDB runtime userの準備に失敗しました。"); process.exitCode = 1; }
 });
 '''
@@ -446,6 +552,7 @@ process.stdin.on("end", async () => {
     "cluster": cluster,
     "credentialState": credentials.state,
     "tables": tables,
+    if (additionalGrants.isNotEmpty) "additionalGrants": additionalGrants,
   }));
   await process.stdin.close();
   final status = await process.exitCode;
@@ -646,6 +753,19 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           "共通schemaに対象databaseのtableがありません。katana code generateとkatana migrate generateを確認してください。");
       return;
     }
+    // Validate extra table grants before creating SQL users or touching Worker files.
+    final List<Map<String, Object>> additionalGrants;
+    try {
+      additionalGrants = resolveTidbAdditionalGrants(
+        config["additional_grants"],
+        environment: environment,
+        database: database,
+        manifestTables: tablesByKey.values,
+      );
+    } on FormatException catch (e) {
+      error(e.message);
+      return;
+    }
     // package・登録位置の不備でruntime userを作成しないよう先に検査する。
     final index = File(
         regionEnabled ? cloudflareRegionEntryPath : cloudflareEdgeEntryPath);
@@ -711,6 +831,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
           database: database,
           state: credentialState,
           tables: tablesByKey.values.toList(),
+          additionalGrants: additionalGrants,
           secrets: secrets,
           existing: stored,
           authMode: _tidbEnvironmentSetting(
@@ -751,6 +872,7 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             database: database,
             state: credentialState,
             tables: tablesByKey.values.toList(),
+            additionalGrants: additionalGrants,
             secrets: secrets,
             existing: const <String, dynamic>{},
             authMode: _tidbEnvironmentSetting(
@@ -772,6 +894,9 @@ class CloudflareTidbCliAction extends CliCommand with CliActionMixin {
             selectTidbRuntimeCredentials(credentialState, environment, cluster);
         username = provisioned.get("username", "").toString();
         password = provisioned.get("password", "").toString();
+      } else if (additionalGrants.isNotEmpty) {
+        label(
+            "Warning: katana_secrets.yamlの互換用TiDB資格情報を使うため、[additional_grants]は適用されません。権限は手動で付与してください。");
       }
     }
     if (username.isEmpty || password.isEmpty) {

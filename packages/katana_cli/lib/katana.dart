@@ -500,6 +500,15 @@ cloudflare:
   # devとprodは1つのclusterを共有します。[cluster_id]と[host]には両環境で同じ値を入れ、
   # [database]はdevを`dev_<name>`、prodを`<name>`に分けます。両方のdatabaseを事前に作成してください。
   # 共有clusterではdevのmigration user（role_admin）もprodのdatabaseを変更できるため、--flavorの対象を確認してください。
+  # [additional_grants] grants the runtime SQL user exact privileges (subset of SELECT/INSERT/UPDATE/DELETE)
+  # on tables outside the schema manifest. [database] is optional (a string or a dev/prod map) and
+  # defaults to [database] of the current flavor. Example:
+  #   additional_grants:
+  #     - table: google_subscription_notification
+  #       privileges: [SELECT, INSERT, DELETE]
+  # [additional_grants]はschema manifest外のtableへruntime SQL userの権限（SELECT/INSERT/UPDATE/DELETEから選択）を付与します。
+  # [database]は省略可能（文字列またはdev/prodのmap）で、省略時は対象flavorの[database]を使います。
+  # 既存の権限が宣言と完全に一致しない場合、katana applyは停止します。
   tidb:
     enable: false
     cluster_id:
@@ -520,6 +529,7 @@ cloudflare:
     schema: tidb/schema/schema.json
     migrations: tidb/migrations
     prefixes: [dev]
+    additional_grants: []
 
   # If you want to use Cloudflare KV via Workers, set [enable] to `true`.
   # Specify the KV binding name in [binding] and the KV namespace ID in [namespace_id].

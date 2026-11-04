@@ -1,5 +1,6 @@
 ## Unreleased
 
+ - **FEAT**: Read `cloudflare.tidb.additional_grants` in `katana.yaml` and pass it to `provisionRuntimeUser` so the TiDB runtime user receives exact, declared privileges on tables outside the schema manifest. `database` defaults to the database of the current flavor and also accepts a string or a `dev`/`prod` map.
  - **FIX**: Upgrade affected Firestore constraints during Firebase setup, verify the resolved security patch, and preserve patched custom sources and newer constraints.
  - **FIX**: Install `firebase_ai` for Vertex AI configuration to match `masamune_ai_firebase` and use the configured Flutter executable for Firebase dependency updates.
 
