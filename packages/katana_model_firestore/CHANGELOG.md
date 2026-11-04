@@ -1,3 +1,14 @@
+## 3.6.0
+
+ - **FIX**(firebase): secure Firestore dependency setup ([25338bfc](https://github.com/mathrunet/flutter_masamune/commit/25338bfcee862a7fe03a7d41f1fca1683cb909ce))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))
+ - **FEAT**(firebase): upgrade to FlutterFire BoM with firebase_core 5 ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))
+
+### BREAKING CHANGES
+
+ - The Firebase packages now require firebase_core 5, Dart 3.10 / Flutter 3.38, Firebase iOS SDK 13 and Android minSdk 24. Apps must upgrade their FlutterFire dependencies to the same release.
+ - Update dependencies: katana_firebase.
+
 ## Unreleased
 
  - **BREAKING**: Upgrade to firebase_core ^5.1.0 and cloud_firestore ^7.1.0. Require Dart 3.10 / Flutter 3.38 or later, Firebase iOS SDK 13 (iOS 15+) and Android Firebase BoM 35 (minSdk 24). Apps must upgrade their own FlutterFire dependencies to the same release.

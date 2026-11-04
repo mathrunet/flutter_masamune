@@ -2,8 +2,8 @@
   "schema": 1,
   "packages": {
     "katana_cli": {
-      "version": "3.39.0",
-      "sourceSha": "a470d13226919db51ebfc8caac84a768923702b7"
+      "version": "3.40.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_model_tidb_annotation": {
       "version": "3.6.1",
@@ -18,8 +18,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "katana_functions_firebase": {
-      "version": "3.2.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.3.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune": {
       "version": "3.6.1",
@@ -42,8 +42,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_ai_firebase": {
-      "version": "3.4.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.5.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_ai_openai": {
       "version": "3.4.1",
@@ -62,28 +62,28 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_auth_apple_firebase": {
-      "version": "3.2.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.3.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_auth_facebook": {
       "version": "3.2.1",
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_auth_firebase": {
-      "version": "3.2.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.3.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_auth_github_firebase": {
-      "version": "3.5.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.6.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_auth_google": {
       "version": "3.3.1",
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_auth_google_firebase": {
-      "version": "3.2.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.3.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_calendar": {
       "version": "3.2.1",
@@ -98,8 +98,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_firebase_app_check": {
-      "version": "3.4.2",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.5.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_force_updater": {
       "version": "3.2.1",
@@ -142,8 +142,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_logger_firebase": {
-      "version": "3.3.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.4.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_mail": {
       "version": "3.3.1",
@@ -154,8 +154,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_model_algolia": {
-      "version": "3.3.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.4.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_model_cloudflare_kv": {
       "version": "3.4.3",
@@ -170,16 +170,16 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_model_firebase_data_connect": {
-      "version": "3.3.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.4.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_model_firebase_remote_config": {
-      "version": "3.4.0",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.5.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_model_firestore": {
-      "version": "3.4.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.5.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_model_functions": {
       "version": "3.5.1",
@@ -206,8 +206,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_notification_firebase": {
-      "version": "3.2.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.3.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "masamune_notification_local": {
       "version": "3.2.1",
@@ -290,12 +290,12 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "katana_firebase": {
-      "version": "3.3.0",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.4.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "katana_auth_firebase": {
-      "version": "3.4.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.5.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "katana_builder": {
       "version": "3.3.0",
@@ -326,8 +326,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "katana_model_firestore": {
-      "version": "3.5.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.6.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "katana_model_local": {
       "version": "3.4.0",
@@ -358,8 +358,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "katana_storage_firebase": {
-      "version": "3.2.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.3.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     },
     "katana_theme_annotation": {
       "version": "3.2.0",
@@ -422,8 +422,8 @@
       "sourceSha": "7688b0da4c9765669391eb83f0ebda74c57fa41b"
     },
     "masamune_experiment": {
-      "version": "3.0.1",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.1.0",
+      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
     }
   }
 }
