@@ -227,11 +227,13 @@ Future<void> _verifyApplyProcessBoundaries() async {
     "jest",
     "lint",
     "none",
+    "firebase-ai",
     "local",
     "local-lock",
     "local-check",
     "local-missing",
-    "local-config"
+    "local-config",
+    "local-firestore"
   ]) {
     final local = failure.startsWith("local");
     final root =
@@ -248,6 +250,12 @@ Future<void> _verifyApplyProcessBoundaries() async {
       final trace = "${root.path}/calls";
       final firebase = "${root.path}/firebase-fake";
       final npm = "${root.path}/npm-fake";
+      final flutter = "${root.path}/flutter-fake";
+      await write("flutter-fake", """
+#!/bin/sh
+echo "flutter:\$*" >> '$trace'
+exit 0
+""");
       await write("firebase-fake", """
 #!/bin/sh
 if [ "\$1" = "projects:list" ]; then
@@ -297,15 +305,18 @@ exit 0
       for (final path in [
         firebase,
         npm,
+        flutter,
         "${root.path}/firebase/functions/node_modules/.bin/ts-jest",
         "${root.path}/firebase/functions/node_modules/.bin/eslint"
       ]) {
         await Process.run("chmod", ["+x", path]);
       }
       await write("pubspec.yaml",
-          "name: fixture\ndependencies:\n  firebase_core: any\n  cloud_firestore: any\n  katana_model_firestore: any\n  katana_functions_firebase: any\n");
+          "name: fixture\ndependencies:\n  firebase_core: any\n  cloud_firestore: ^6.10.2\n  katana_model_firestore: any\n  katana_functions_firebase: any\n");
+      await write("pubspec.lock",
+          "packages:\n  cloud_firestore:\n    version: '6.10.2'\n");
       await write("katana.yaml",
-          "bin:\n  firebase: $firebase\n  npm: $npm\nfirebase:\n  project_id: fixture\n  firestore:\n    enable: true\n    location_id: ${failure == "firestore-mismatch" ? "eur3" : "nam5"}\n  functions:\n    enable: true\n");
+          "bin:\n  firebase: $firebase\n  npm: $npm\n  flutter: $flutter\nfirebase:\n  project_id: fixture\n  firestore:\n    enable: true\n    location_id: ${failure == "firestore-mismatch" ? "eur3" : "nam5"}\n  functions:\n    enable: true\n  vertex_ai:\n    enable: ${failure == "firebase-ai"}\n");
       await write(
           "firebase/firebase.json",
           firestoreSetup
@@ -373,7 +384,7 @@ android {
           "katana_functions_firebase"
         ];
         await write("pubspec.lock",
-            "packages:\n${names.map((e) => "  $e: {}").join("\n")}\n");
+            "packages:\n${names.map((e) => e == "cloud_firestore" ? "  $e:\n    version: '${failure == "local-firestore" ? "6.8.0" : "6.10.2"}'" : "  $e: {}").join("\n")}\n");
         await write(
             ".dart_tool/package_config.json",
             jsonEncode({
@@ -424,7 +435,7 @@ android {
               "packages": {"": failure == "local-lock" ? {} : package}
             }));
       }
-      if (failure == "none") {
+      if (failure == "none" || failure == "firebase-ai") {
         await write(
             "firebase/functions/jest.config.js",
             'const { createDefaultPreset } = require("ts-jest");\n'
@@ -498,7 +509,17 @@ android {
                   calls.contains("firestore:location-confirmed"),
               "Answer the configured region even across output chunks: $failure / $calls / ${result.stdout}\n${result.stderr}");
         }
-      } else if (failure == "none") {
+      } else if (failure == "none" || failure == "firebase-ai") {
+        if (failure == "firebase-ai") {
+          _expect(result.exitCode == 0,
+              "Firebase AI setup failed: ${result.stdout}\n${result.stderr}");
+          _expect(
+              calls.contains(
+                  "flutter:pub add firebase_ai masamune_ai masamune_ai_firebase"),
+              "Vertex AI configuration must install the Firebase AI SDK used by Masamune: $calls");
+          _expect(!calls.any((call) => call.contains("firebase_vertexai")),
+              "Vertex AI configuration must not restore the incompatible legacy SDK: $calls");
+        }
         final arguments =
             await File("${root.path}/npm-arguments").readAsString();
         _expect(arguments.contains("@mathrunet/masamune_firebase"),

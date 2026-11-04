@@ -20,6 +20,7 @@ dependencies:
   html: ^0.15.5
   http: ^1.1.0
   googleapis_auth: ^2.0.0
+  pub_semver: ^2.2.0
 
 executables:
   katana:

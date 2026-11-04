@@ -18,6 +18,7 @@
 
 ## Unreleased
 
+ - **FIX**: Require cloud_firestore 6.10.2 or later within 6.x to include the eMudhra certificate security patch.
  - **FEAT**: Enable Firestore persistent cache index auto-creation by default on supported platforms, with an opt-out option.
 
 ## 3.3.9

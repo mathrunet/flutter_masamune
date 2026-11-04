@@ -362,6 +362,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           (pubspec[section] as Map? ?? {}).keys.cast<String>().toList(),
           development: section == "dev_dependencies");
     }
+    if (firebase.getAsMap("firestore").get("enable", false)) {
+      await runApplyCommands(
+        () => addFlutterImport(["cloud_firestore"]),
+        local: true,
+      );
+    }
     if (firebase.getAsMap("functions").get("enable", false)) {
       final packageFile = File("firebase/functions/package.json");
       final lockFile = File("firebase/functions/package-lock.json");
@@ -651,11 +657,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "masamune_firebase_app_check",
         ],
         if (enabledVertexAi) ...[
-          "firebase_vertexai",
+          "firebase_ai",
           "masamune_ai",
           "masamune_ai_firebase",
         ],
       ],
+      flutterCommand: flutter,
     );
     await addFlutterImport(
       [
@@ -664,6 +671,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ],
       ],
       development: true,
+      flutterCommand: flutter,
     );
     final commandStack = <String>[];
     if (enabledFirestore) {

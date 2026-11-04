@@ -7,6 +7,7 @@ import "dart:io";
 
 // Package imports:
 import "package:katana/katana.dart";
+import "package:pub_semver/pub_semver.dart" as semver;
 import "package:yaml/yaml.dart";
 import "package:yaml_writer/yaml_writer.dart";
 
@@ -906,11 +907,28 @@ Future<void> githubSecret(
 ///
 /// Existing dependencies are preserved unless an explicit constraint such as
 /// `package:^1.2.3` differs from the declared constraint.
+/// Firestore dependencies must also exclude SDKs affected by the eMudhra CA
+/// compromise. Custom sources are preserved and their locked version is checked.
 Future<void> addFlutterImport(
   List<String> packages, {
   bool development = false,
   String flutterCommand = "flutter",
 }) async {
+  final initialPubspec =
+      loadYaml(File("pubspec.yaml").readAsStringSync()) as Map;
+  final initialDependencies = initialPubspec
+      .getAsMap(development ? "dev_dependencies" : "dependencies");
+  final includesFirestore =
+      packages.any((package) => package.split(":").first == "cloud_firestore");
+  if (includesFirestore) {
+    packages = packages.map((package) {
+      if (package.split(":").first != "cloud_firestore") {
+        return package;
+      }
+      return _firestoreSecuritySpecification(
+          package, initialDependencies, initialPubspec);
+    }).toList();
+  }
   if (isLocalApply) {
     validateLocalFlutterDependencies(
       packages.map((package) => package.split(":").first).toList(),
@@ -931,6 +949,9 @@ Future<void> addFlutterImport(
           "The declared Flutter dependency $name must use $constraint before local apply.",
         );
       }
+    }
+    if (includesFirestore) {
+      _validateFirestoreSecurityVersion();
     }
     return;
   }
@@ -960,6 +981,8 @@ Future<void> addFlutterImport(
           "--dev",
           ...addPackages,
         ],
+        catchError: includesFirestore,
+        failOnStderr: !includesFirestore,
       );
     }
   } else {
@@ -984,9 +1007,98 @@ Future<void> addFlutterImport(
           "add",
           ...addPackages,
         ],
+        catchError: includesFirestore,
+        failOnStderr: !includesFirestore,
       );
     }
   }
+  if (includesFirestore) {
+    if (!_isPatchedFirestoreVersion(_lockedFirestoreVersion()) &&
+        addPackages.isEmpty) {
+      await command(
+        "Update the Firestore security patch.",
+        [flutterCommand, "pub", "upgrade", "cloud_firestore"],
+        catchError: true,
+        failOnStderr: false,
+      );
+    }
+    _validateFirestoreSecurityVersion();
+  }
+}
+
+semver.Version? _lockedFirestoreVersion() {
+  final file = File("pubspec.lock");
+  if (!file.existsSync()) {
+    return null;
+  }
+  final lock = loadYaml(file.readAsStringSync()) as Map? ?? {};
+  final version =
+      ((lock["packages"] as Map?)?["cloud_firestore"] as Map?)?["version"];
+  return version is String ? semver.Version.parse(version) : null;
+}
+
+bool _isPatchedFirestoreVersion(semver.Version? version) {
+  if (version == null || version.preRelease.isNotEmpty) {
+    return false;
+  }
+  return (version >= semver.Version(6, 10, 2) &&
+          version < semver.Version(7, 0, 0)) ||
+      version >= semver.Version(7, 1, 0);
+}
+
+void _validateFirestoreSecurityVersion() {
+  if (!_isPatchedFirestoreVersion(_lockedFirestoreVersion())) {
+    throw StateError(
+      "cloud_firestore must resolve to a stable 6.10.2+ version within 6.x, "
+      "or 7.1.0+. Update the dependency and any custom source or override "
+      "before applying Firebase configuration.",
+    );
+  }
+}
+
+String _firestoreSecuritySpecification(
+  String package,
+  Map dependencies,
+  Map pubspec,
+) {
+  const name = "cloud_firestore";
+  final declared = dependencies[name];
+  final overrides = <dynamic, dynamic>{
+    ...?pubspec["dependency_overrides"] as Map?,
+  };
+  final overridesFile = File("pubspec_overrides.yaml");
+  if (overridesFile.existsSync()) {
+    final localOverrides =
+        loadYaml(overridesFile.readAsStringSync()) as Map? ?? {};
+    overrides.addAll(localOverrides["dependency_overrides"] as Map? ?? {});
+  }
+  if (declared is Map || overrides.containsKey(name)) {
+    _validateFirestoreSecurityVersion();
+    return name;
+  }
+  final separator = package.indexOf(":");
+  final original = separator < 0
+      ? (declared is String ? declared : "^6.10.2")
+      : package.substring(separator + 1);
+  final constraint = semver.VersionConstraint.parse(original);
+  final six = semver.VersionConstraint.parse(">=6.10.2 <7.0.0");
+  final seven = semver.VersionConstraint.parse(">=7.1.0");
+  final safe = semver.VersionConstraint.unionOf([six, seven]);
+  if (safe.allowsAll(constraint)) {
+    return "$name:$original";
+  }
+  final locked = _lockedFirestoreVersion();
+  final sixIntersection = constraint.intersect(six);
+  final sevenIntersection = constraint.intersect(seven);
+  if (!sevenIntersection.isEmpty &&
+      (sixIntersection.isEmpty || (locked != null && seven.allows(locked)))) {
+    return "$name:$sevenIntersection";
+  }
+  if (!sixIntersection.isEmpty) {
+    return "$name:$sixIntersection";
+  }
+  final affectedSeven = semver.VersionConstraint.parse(">=7.0.0 <8.0.0");
+  return constraint.allowsAny(affectedSeven) ? "$name:^7.1.0" : "$name:^6.10.2";
 }
 
 /// Add npm imports by giving [packages].

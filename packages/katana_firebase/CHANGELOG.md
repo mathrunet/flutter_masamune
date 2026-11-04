@@ -1,3 +1,7 @@
+## Unreleased
+
+ - **FIX**: Require cloud_firestore 6.10.2 or later within 6.x to include the eMudhra certificate security patch.
+
 ## 3.3.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([4de5a07f](https://github.com/mathrunet/flutter_masamune/commit/4de5a07fb80c2928662886c78eacd7e72f8f7b69))

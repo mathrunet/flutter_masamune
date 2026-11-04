@@ -1,3 +1,8 @@
+## Unreleased
+
+ - **FIX**: Upgrade affected Firestore constraints during Firebase setup, verify the resolved security patch, and preserve patched custom sources and newer constraints.
+ - **FIX**: Install `firebase_ai` for Vertex AI configuration to match `masamune_ai_firebase` and use the configured Flutter executable for Firebase dependency updates.
+
 ## 3.39.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([b6d7f1cf](https://github.com/mathrunet/flutter_masamune/commit/b6d7f1cf3d7d93498c2c2e78471b900a58cea478))
