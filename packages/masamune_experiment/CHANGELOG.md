@@ -1,3 +1,13 @@
+## 3.1.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))
+ - **FEAT**(firebase): upgrade to FlutterFire BoM with firebase_core 5 ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))
+
+### BREAKING CHANGES
+
+ - The Firebase packages now require firebase_core 5, Dart 3.10 / Flutter 3.38, Firebase iOS SDK 13 and Android minSdk 24. Apps must upgrade their FlutterFire dependencies to the same release.
+ - Update dependencies: masamune_model_firebase_remote_config.
+
 ## 3.0.1
 
 

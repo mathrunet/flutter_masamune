@@ -1,3 +1,15 @@
+## 3.40.0
+
+ - **FIX**(firebase): secure Firestore dependency setup ([25338bfc](https://github.com/mathrunet/flutter_masamune/commit/25338bfcee862a7fe03a7d41f1fca1683cb909ce))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([e19f0245](https://github.com/mathrunet/flutter_masamune/commit/e19f02455837d6d104524bf17dc03fed74d76dae))
+ - **FEAT**(katana_cli): support cloudflare.tidb.additional_grants ([e19f0245](https://github.com/mathrunet/flutter_masamune/commit/e19f02455837d6d104524bf17dc03fed74d76dae))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))
+ - **FEAT**(firebase): upgrade to FlutterFire BoM with firebase_core 5 ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))
+
+### BREAKING CHANGES
+
+ - The Firebase packages now require firebase_core 5, Dart 3.10 / Flutter 3.38, Firebase iOS SDK 13 and Android minSdk 24. Apps must upgrade their FlutterFire dependencies to the same release.
+
 ## Unreleased
 
  - **BREAKING**: Require cloud_firestore 7.1.0 or later during Firebase setup. Existing 6.x constraints are moved to the 7.1.0+ range to match the FlutterFire upgrade of the Masamune Firebase packages.
