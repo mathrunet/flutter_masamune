@@ -226,8 +226,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_purchase_mobile": {
-      "version": "3.1.24",
-      "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
+      "version": "3.1.25",
+      "sourceSha": "5c68356ebfd231b5e88a82d8bd6d228a3e8e44a2"
     },
     "masamune_purchase_stripe": {
       "version": "3.8.1",
