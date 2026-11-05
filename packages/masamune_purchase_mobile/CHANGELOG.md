@@ -1,3 +1,8 @@
+## 3.1.25
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([5c68356e](https://github.com/mathrunet/flutter_masamune/commit/5c68356ebfd231b5e88a82d8bd6d228a3e8e44a2))
+ - **FIX**(masamune_purchase_mobile): handle Android canceled purchases without unhandled errors ([5c68356e](https://github.com/mathrunet/flutter_masamune/commit/5c68356ebfd231b5e88a82d8bd6d228a3e8e44a2))
+
 ## 3.1.24
 
 
