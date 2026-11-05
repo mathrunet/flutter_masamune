@@ -106,6 +106,17 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
           var done = false;
           for (final purchase in purchaseDetailsList) {
             try {
+              // Check the status before looking up the product.
+              // On Android, a canceled or failed billing flow is delivered with
+              // an empty product ID, so it must not be reported as a missing product.
+              if (purchase.status == PurchaseStatus.canceled) {
+                throw Exception("Your purchase has been canceled.");
+              }
+              if (purchase.status == PurchaseStatus.error) {
+                throw Exception(
+                  "Purchase completed with error: ${purchase.productID}:${purchase.error.toString()}",
+                );
+              }
               final product = products.firstWhereOrNull(
                 (product) => product.productId == purchase.productID,
               );
@@ -113,14 +124,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                 throw Exception("Product not found: ${purchase.productID}");
               }
               if (purchase.status != PurchaseStatus.pending) {
-                if (purchase.status == PurchaseStatus.error) {
-                  if (purchase.pendingCompletePurchase) {
-                    await _iap.completePurchase(purchase);
-                  }
-                  throw Exception(
-                    "Purchase completed with error: ${purchase.productID}:${purchase.error.toString()}",
-                  );
-                } else if (purchase.status == PurchaseStatus.purchased) {
+                if (purchase.status == PurchaseStatus.purchased) {
                   if (_platformInfo.isAndroid) {
                     final androidPurchase =
                         purchase as GooglePlayPurchaseDetails;
@@ -508,8 +512,6 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
                       "There is no method for purchase. Set up a method for purchasing.",
                     );
                   }
-                } else if (purchase.status == PurchaseStatus.canceled) {
-                  throw Exception("Your purchase has been canceled.");
                 }
                 if (_platformInfo.isAndroid) {
                   if ((!automaticallyConsumeOnAndroid &&
@@ -540,18 +542,14 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
             onDone();
           }
         } catch (e, stacktrace) {
+          // The error is delivered through [onError].
+          // Rethrowing here would surface it again as an unhandled zone error.
           onError(e, stacktrace);
-          throw Exception(
-            "Purchase completed with error: ${e.toString()}:${stacktrace.toString()}",
-          );
         }
       },
       onDone: onDisposed,
       onError: (e, stacktrace) {
         onError(e, stacktrace);
-        throw Exception(
-          "Purchase completed with error: ${e.toString()}:${stacktrace.toString()}",
-        );
       },
     );
   }
