@@ -1,3 +1,10 @@
+## 3.4.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([e9adf656](https://github.com/mathrunet/flutter_masamune/commit/e9adf656710de3e2bf5add0b810ea2a4e9013458))
+ - **FEAT**(masamune_universal_ui): avoid iPadOS 26 window controls in app bars ([e9adf656](https://github.com/mathrunet/flutter_masamune/commit/e9adf656710de3e2bf5add0b810ea2a4e9013458))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([ee95d804](https://github.com/mathrunet/flutter_masamune/commit/ee95d804433812fbef305aa20be0baef9f9e0819))
+ - **FIX**(masamune_universal_ui): remove deprecated use_if_null_to_convert_nulls_to_bools lint ([ee95d804](https://github.com/mathrunet/flutter_masamune/commit/ee95d804433812fbef305aa20be0baef9f9e0819))
+
 ## 3.3.1
 
 
