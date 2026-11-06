@@ -1,3 +1,8 @@
+## 3.4.0
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([e9adf656](https://github.com/mathrunet/flutter_masamune/commit/e9adf656710de3e2bf5add0b810ea2a4e9013458))
+ - **FEAT**(masamune_universal_ui): avoid iPadOS 26 window controls in app bars ([e9adf656](https://github.com/mathrunet/flutter_masamune/commit/e9adf656710de3e2bf5add0b810ea2a4e9013458))
+
 ## 3.3.1
 
 
