@@ -179,6 +179,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.iconTheme,
     this.actionsIconTheme,
     this.primary = true,
+    this.windowControlLeadingSpacing,
     this.centerTitle = false,
     this.excludeHeaderSemantics = false,
     this.titleSpacing,
@@ -234,6 +235,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.iconTheme,
     this.actionsIconTheme,
     this.primary = true,
+    this.windowControlLeadingSpacing,
     this.centerTitle = false,
     this.excludeHeaderSemantics = false,
     this.titleSpacing,
@@ -379,6 +381,15 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
 
   /// {@macro flutter.material.appbar.primary}
   final bool primary;
+
+  /// Extra space added to the leading side only while the window controls of iPadOS 26 or later are being avoided in windowed mode.
+  ///
+  /// If `null`, [UniversalMasamuneAdapter.windowControlLeadingSpacing] is used.
+  ///
+  /// iPadOS 26以降のウィンドウ表示でウィンドウ操作ボタンを避けている間だけ、先頭側に追加する余白。
+  ///
+  /// `null`の場合は[UniversalMasamuneAdapter.windowControlLeadingSpacing]が利用されます。
+  final double? windowControlLeadingSpacing;
 
   /// {@macro flutter.material.appbar.centerTitle}
   final bool centerTitle;
@@ -596,12 +607,19 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           ),
         ),
         child: LayoutBuilder(builder: (context, constraints) {
-          final titleSpacing = _leadingSpace(context, showLeading);
-          final trailingSpacing = _trailingSpace(context, showLeading);
+          final windowControlInsets = UniversalWindowControlInsets.of(context,
+              primary: primary, leadingSpacing: windowControlLeadingSpacing);
+          final titleSpacing = windowControlInsets._applyTitleSpacing(
+            _leadingSpace(context, showLeading),
+            hasLeading: leading != null,
+          );
+          final trailingSpacing = windowControlInsets._applyTrailingSpacing(
+            _trailingSpace(context, showLeading),
+          );
 
           return AppBar(
             key: key,
-            leading: leading,
+            leading: windowControlInsets._applyLeading(leading),
             automaticallyImplyLeading: false,
             title: mergedTitle,
             actions: actions.isNotEmpty
@@ -623,7 +641,11 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
             titleSpacing: titleSpacing,
             shape: shape,
             toolbarHeight: toolbarHeight,
-            leadingWidth: leadingWidth,
+            leadingWidth: windowControlInsets._applyLeadingWidth(
+              context,
+              leadingWidth,
+              hasLeading: leading != null,
+            ),
             toolbarTextStyle: toolbarTextStyle,
             titleTextStyle: titleTextStyle,
             systemOverlayStyle: systemOverlayStyle,
@@ -644,12 +666,17 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
         breakpoint: breakpoint,
       )!
           .resolve(TextDirection.ltr);
+      final windowControlInsets = UniversalWindowControlInsets.of(context,
+          primary: primary, leadingSpacing: windowControlLeadingSpacing);
       final titleSpacing = _leadingSpace(context, showLeading);
-      final trailingSpacing = _trailingSpace(context, showLeading);
+      final trailingSpacing = windowControlInsets._applyTrailingSpacing(
+        _trailingSpace(context, showLeading),
+      );
       final optimizedTitlePadding = EdgeInsets.fromLTRB(
         padding.left +
             (hasLeading ? (leadingWidth ?? _kLeadingWidth) : 0) +
-            (titleSpacing ?? NavigationToolbar.kMiddleSpacing),
+            (titleSpacing ?? NavigationToolbar.kMiddleSpacing) +
+            windowControlInsets.leading,
         padding.top,
         padding.right,
         padding.bottom + (subtitle != null ? 8 : 16) + bottomHeight,
@@ -701,10 +728,12 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
         child: SliverAppBar(
           key: key,
           leading: leading != null
-              ? _DynamicExtentForegroundColor(
-                  startForegroundColor: foregroundColor,
-                  endForegroundColor: expandedForegroundColor,
-                  child: leading,
+              ? windowControlInsets._applyLeading(
+                  _DynamicExtentForegroundColor(
+                    startForegroundColor: foregroundColor,
+                    endForegroundColor: expandedForegroundColor,
+                    child: leading,
+                  ),
                 )
               : null,
           automaticallyImplyLeading: false,
@@ -792,7 +821,10 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           primary: primary,
           centerTitle: centerTitle,
           excludeHeaderSemantics: excludeHeaderSemantics,
-          titleSpacing: this.titleSpacing ?? titleSpacing,
+          titleSpacing: windowControlInsets._applyTitleSpacing(
+            this.titleSpacing ?? titleSpacing,
+            hasLeading: leading != null,
+          ),
           collapsedHeight: _collapsedHeightFromStyle,
           expandedHeight: expandedHeight ?? height,
           floating: _floatingFromStyle,
@@ -803,7 +835,11 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           onStretchTrigger: onStretchTrigger,
           shape: shape,
           toolbarHeight: toolbarHeight,
-          leadingWidth: leadingWidth,
+          leadingWidth: windowControlInsets._applyLeadingWidth(
+            context,
+            leadingWidth,
+            hasLeading: leading != null,
+          ),
           toolbarTextStyle: toolbarTextStyle,
           titleTextStyle: titleTextStyle,
           systemOverlayStyle: systemOverlayStyle,
@@ -966,11 +1002,18 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final titleSpacing = _leadingSpace(context, showLeading);
-            final trailingSpacing = _trailingSpace(context, showLeading);
+            final windowControlInsets = UniversalWindowControlInsets.of(context,
+                primary: primary, leadingSpacing: windowControlLeadingSpacing);
+            final titleSpacing = windowControlInsets._applyTitleSpacing(
+              _leadingSpace(context, showLeading),
+              hasLeading: leading != null,
+            );
+            final trailingSpacing = windowControlInsets._applyTrailingSpacing(
+              _trailingSpace(context, showLeading),
+            );
 
             return AppBar(
-              leading: leading,
+              leading: windowControlInsets._applyLeading(leading),
               automaticallyImplyLeading: false,
               title: _mobileAppBarTitle(
                 context,
@@ -997,7 +1040,11 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
               excludeHeaderSemantics: excludeHeaderSemantics,
               titleSpacing: titleSpacing,
               toolbarHeight: toolbarHeight,
-              leadingWidth: leadingWidth,
+              leadingWidth: windowControlInsets._applyLeadingWidth(
+                context,
+                leadingWidth,
+                hasLeading: leading != null,
+              ),
               toolbarTextStyle: toolbarTextStyle,
               titleTextStyle: titleTextStyle,
               systemOverlayStyle: systemOverlayStyle,
@@ -1311,6 +1358,7 @@ class UniversalSliverAppBar extends UniversalAppBar with SliverAppBarMixin {
     super.iconTheme,
     super.actionsIconTheme,
     super.primary = true,
+    super.windowControlLeadingSpacing,
     super.centerTitle = false,
     super.excludeHeaderSemantics = false,
     super.titleSpacing,
@@ -1437,6 +1485,7 @@ class UniversalAvatarSliverAppBar extends UniversalSliverAppBar {
     super.iconTheme,
     super.actionsIconTheme,
     super.primary = true,
+    super.windowControlLeadingSpacing,
     super.centerTitle = false,
     super.excludeHeaderSemantics = false,
     super.titleSpacing,
@@ -1586,12 +1635,18 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
       breakpoint: appBar.breakpoint,
     )!
         .resolve(TextDirection.ltr);
+    final windowControlInsets = UniversalWindowControlInsets.of(context,
+        primary: appBar.primary,
+        leadingSpacing: appBar.windowControlLeadingSpacing);
     final titleSpacing = appBar._leadingSpace(context, showLeading);
-    final trailingSpacing = appBar._trailingSpace(context, showLeading);
+    final trailingSpacing = windowControlInsets._applyTrailingSpacing(
+      appBar._trailingSpace(context, showLeading),
+    );
     final optimizedTitlePadding = EdgeInsets.fromLTRB(
       padding.left +
           (hasLeading ? (appBar.leadingWidth ?? _kLeadingWidth) : 0) +
-          (titleSpacing ?? NavigationToolbar.kMiddleSpacing),
+          (titleSpacing ?? NavigationToolbar.kMiddleSpacing) +
+          windowControlInsets.leading,
       padding.top,
       padding.right,
       padding.bottom + (appBar.subtitle != null ? 8 : 16) + bottomHeight,
@@ -1709,10 +1764,12 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
               isScrolledUnder: isScrolledUnder,
               child: AppBar(
                 leading: leading != null
-                    ? _DynamicExtentForegroundColor(
-                        startForegroundColor: foregroundColor,
-                        endForegroundColor: expandedForegroundColor,
-                        child: leading,
+                    ? windowControlInsets._applyLeading(
+                        _DynamicExtentForegroundColor(
+                          startForegroundColor: foregroundColor,
+                          endForegroundColor: expandedForegroundColor,
+                          child: leading,
+                        ),
                       )
                     : null,
                 automaticallyImplyLeading: false,
@@ -1807,7 +1864,15 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
                 primary: appBar.primary,
                 centerTitle: appBar.centerTitle,
                 excludeHeaderSemantics: appBar.excludeHeaderSemantics,
-                titleSpacing: appBar.titleSpacing ?? titleSpacing,
+                titleSpacing: windowControlInsets._applyTitleSpacing(
+                  appBar.titleSpacing ?? titleSpacing,
+                  hasLeading: leading != null,
+                ),
+                leadingWidth: windowControlInsets._applyLeadingWidth(
+                  context,
+                  null,
+                  hasLeading: leading != null,
+                ),
                 shape: appBar.shape,
               ),
             ),
@@ -1888,6 +1953,7 @@ class UniversalExtentAppBar extends StatelessWidget
     this.background,
     this.breakpoint,
     this.leadingWidth,
+    this.windowControlLeadingSpacing,
     this.titleSpacing,
     this.titlePadding = const EdgeInsets.all(16),
     this.titlePosition = UniversalAppBarTitlePosition.bottom,
@@ -1955,6 +2021,15 @@ class UniversalExtentAppBar extends StatelessWidget
 
   /// {@macro flutter.material.appbar.leadingWidth}
   final double? leadingWidth;
+
+  /// Extra space added to the leading side only while the window controls of iPadOS 26 or later are being avoided in windowed mode.
+  ///
+  /// If `null`, [UniversalMasamuneAdapter.windowControlLeadingSpacing] is used.
+  ///
+  /// iPadOS 26以降のウィンドウ表示でウィンドウ操作ボタンを避けている間だけ、先頭側に追加する余白。
+  ///
+  /// `null`の場合は[UniversalMasamuneAdapter.windowControlLeadingSpacing]が利用されます。
+  final double? windowControlLeadingSpacing;
 
   /// {@macro flutter.material.appbar.titleSpacing}
   final double? titleSpacing;
@@ -2069,6 +2144,8 @@ class UniversalExtentAppBar extends StatelessWidget
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
+            final windowControlInsets = UniversalWindowControlInsets.of(context,
+                leadingSpacing: windowControlLeadingSpacing);
             final titleSpacing = _leadingSpace(context, showLeading);
             final trailingSpacing = _trailingSpace(context, showLeading);
 
@@ -2095,7 +2172,12 @@ class UniversalExtentAppBar extends StatelessWidget
                     children: [
                       if (background != null) background!,
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                          8 + windowControlInsets.leading,
+                          16,
+                          8 + windowControlInsets.trailing,
+                          0,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

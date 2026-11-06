@@ -20,10 +20,13 @@ import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
 
 // Package imports:
+import "package:ios_window_control_layout/ios_window_control_layout.dart";
 import "package:masamune/masamune.dart";
 import "package:shimmer/shimmer.dart" as sm;
 import "package:url_launcher/url_launcher_string.dart";
 
+export "package:ios_window_control_layout/ios_window_control_layout.dart"
+    show IosWindowControlLayout, IosWindowControlLayoutData;
 export "package:url_launcher/url_launcher_string.dart" show LaunchMode;
 
 part "adapter/universal_masamune_adapter.dart";
@@ -35,6 +38,7 @@ part "src/breakpoint.dart";
 part "src/extensions.dart";
 part "src/responsive.dart";
 part "src/universal_app_bar.dart";
+part "src/universal_window_control_insets.dart";
 part "src/universal_column.dart";
 part "src/universal_container.dart";
 part "src/universal_list_view.dart";

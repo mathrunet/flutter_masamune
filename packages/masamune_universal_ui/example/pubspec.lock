@@ -360,6 +360,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  ios_window_control_layout:
+    dependency: transitive
+    description:
+      name: ios_window_control_layout
+      sha256: "7ba7add276e8218bc4d98d711c53cffba065113b57e0c336e06a78c7f410acb2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   js:
     dependency: transitive
     description:
@@ -390,133 +398,133 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "3.4.1"
+    version: "3.5.0"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../../katana_auth"
       relative: true
     source: path
-    version: "3.1.4"
+    version: "3.2.0"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../../katana_form"
       relative: true
     source: path
-    version: "3.2.4"
+    version: "3.3.0"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../../katana_functions"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.3.0"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../../katana_indicator"
       relative: true
     source: path
-    version: "3.3.5"
+    version: "3.4.1"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.2.0"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "3.2.2"
+    version: "3.3.0"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "3.3.1"
+    version: "3.4.0"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "3.8.1"
+    version: "3.9.0"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "3.3.9"
+    version: "3.4.0"
   katana_platform_info:
     dependency: "direct overridden"
     description:
       path: "../../katana_platform_info"
       relative: true
     source: path
-    version: "3.2.2"
+    version: "3.3.0"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../../katana_router"
       relative: true
     source: path
-    version: "3.3.4"
+    version: "3.4.0"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_router_annotation"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.2.0"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../../katana_scoped"
       relative: true
     source: path
-    version: "3.1.4"
+    version: "3.2.0"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../../katana_shorten"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.2.0"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../../katana_storage"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.2.0"
   katana_theme:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme"
       relative: true
     source: path
-    version: "3.4.2"
+    version: "3.5.0"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme_annotation"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.2.0"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../../katana_ui"
       relative: true
     source: path
-    version: "3.3.5"
+    version: "3.4.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -563,29 +571,29 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "3.5.20"
+    version: "3.6.1"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../../masamune_annotation"
       relative: true
     source: path
-    version: "3.1.2"
+    version: "3.2.0"
   masamune_universal_ui:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "3.2.21"
+    version: "3.3.1"
   matcher:
     dependency: transitive
     description:
       name: matcher
-      sha256: dc0b7dc7651697ea4ff3e69ef44b0407ea32c487a39fff6a4004fa585e901861
+      sha256: "31bd099b47c10cd1aeb55146a2d46ce0277630ecef3f7dae54ad7873f36696cd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.19"
+    version: "0.12.20"
   material_color_utilities:
     dependency: transitive
     description:
@@ -598,10 +606,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: "1741988757a65eb6b36abe716829688cf01910bbf91c34354ff7ec1c3de2b349"
+      sha256: "307249ce4ff29d58a18e97f6345f539382eb9c9c29ecda628900f31de0443dd9"
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.0"
   mime:
     dependency: transitive
     description:
@@ -931,10 +939,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "949a932224383300f01be9221c39180316445ecb8e7547f70a41a35bf421fb9e"
+      sha256: "2a122cbe059f8b610d3a5415f42e255b6c17b1f21eee1d960f31080237fb4f11"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.11"
+    version: "0.7.12"
   timing:
     dependency: transitive
     description:
@@ -1067,10 +1075,10 @@ packages:
     dependency: transitive
     description:
       name: vector_math
-      sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b
+      sha256: fa49e1674cb84acb900141714e6c6e1f9ae099827c24d141430ff6819db4e1bc
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.4.4"
   vm_service:
     dependency: transitive
     description:
@@ -1144,5 +1152,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.10.0-0 <4.0.0"
-  flutter: ">=3.27.0"
+  dart: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"

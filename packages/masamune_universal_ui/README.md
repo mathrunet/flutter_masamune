@@ -175,6 +175,43 @@ This is a sidebar widget that is effective when placed directly under the `sideB
 
 Padding is automatically adjusted according to screen size.
 
+### iPadOS window controls
+
+On iPadOS 26 or later, apps shown in a window have the system window controls (close, minimize, zoom) at the top-left corner of the window.
+
+`UniversalAppBar`, `UniversalSliverAppBar`, `UniversalAvatarSliverAppBar`, and `UniversalExtentAppBar` automatically shift `leading` and `title` so that they do not overlap these controls. The avoidance width is obtained from [ios_window_control_layout](https://pub.dev/packages/ios_window_control_layout) and follows window resizing. It is `0` on other platforms, on iPadOS earlier than 26, and in full screen, so the layout does not change there.
+
+This is enabled by `UniversalMasamuneAdapter` and can be disabled with `enableWindowControlAvoidance`.
+
+```dart
+const UniversalMasamuneAdapter(
+  enableWindowControlAvoidance: false,
+);
+```
+
+While the window controls are being avoided, extra space is added to the leading side so that `leading` and `title` are not placed right next to the window controls. The default is `16`, and it can be changed with `windowControlLeadingSpacing` of the adapter or of each app bar. It is not added in full screen.
+
+```dart
+const UniversalMasamuneAdapter(
+  windowControlLeadingSpacing: 24.0,
+);
+
+UniversalAppBar(
+  windowControlLeadingSpacing: 8.0,
+  title: const Text("Title"),
+);
+```
+
+To apply the same avoidance to your own widgets placed at the top of the window, use `UniversalWindowControlInsets`.
+
+```dart
+final insets = UniversalWindowControlInsets.of(context);
+return Padding(
+  padding: EdgeInsetsDirectional.only(start: insets.leading),
+  child: const CloseButton(),
+);
+```
+
 ## Grid design
 
 Please refer to the bootstrap page for basic concepts.
