@@ -63,6 +63,7 @@ import "package:katana_cli/src/android_manifest.dart";
 ///
 /// 実行する順番で並べてください。
 const _actions = <CliActionMixin>[
+  NativeTargetCliAction(),
   AppInfoCliAction(),
   AppSpreadSheetCliAction(),
   AppCsrCliAction(),
@@ -119,6 +120,42 @@ const _actions = <CliActionMixin>[
   AndroidManifestQueryFinalizeCliAction(),
   AndroidManifestPlaceholderFinalizeCliAction(),
 ];
+
+/// Applies an explicitly selected local application target without external setup.
+class NativeTargetCliAction extends CliCommand with CliActionMixin {
+  /// Creates the local native target action.
+  const NativeTargetCliAction();
+
+  @override
+  String get description =>
+      "Apply app.targets.<name> {entrypoint, application_id} with an explicit --target. Optional ios_bundle_id/android_application_id override the common ID. No dependencies or remote settings are changed.";
+
+  @override
+  bool checkEnabled(ExecContext context) =>
+      context.yaml.getAsMap("app").getAsMap("targets").isNotEmpty;
+
+  @override
+  Future<void> exec(ExecContext context) async {
+    final args = context.args;
+    final selections = <String>[];
+    for (var i = 0; i < args.length; i++) {
+      if (args[i] == "--target") {
+        if (++i >= args.length) {
+          throw const FormatException("--target requires a name.");
+        }
+        selections.add(args[i]);
+      } else if (args[i].startsWith("--target=")) {
+        selections.add(args[i].substring(9));
+      }
+    }
+    if (selections.length != 1) {
+      throw const FormatException(
+          "app.targets requires exactly one explicit --target.");
+    }
+    await NativeAppTarget.apply(
+        context.yaml.getAsMap("app").getAsMap("targets"), selections.single);
+  }
+}
 
 /// 全プラグインの設定後に、ブラウザ認証に必要なManifest queryを整えます。
 class AndroidManifestQueryFinalizeCliAction extends CliCommand
@@ -186,7 +223,7 @@ class ApplyCliCommand extends CliCommand {
 
   @override
   String? get example =>
-      "katana apply [--local] [--only <name,...>] [--flavor dev|prod]";
+      "katana apply [--local] [--only <name,...>] [--target <app.targets name>] [--flavor dev|prod]";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -232,19 +269,26 @@ class ApplyCliCommand extends CliCommand {
         }
       }
       const cloudflare = CloudflareInitCliAction();
-      if (cloudflare.checkEnabled(context)) {
+      if (enabled
+              .any((action) => _actionName(action).startsWith("cloudflare")) &&
+          cloudflare.checkEnabled(context)) {
         cloudflare.validateLocal(context);
       }
       const turso = CloudflareTursoCliAction();
-      if (turso.checkEnabled(context)) {
+      if (enabled.any((action) => action is CloudflareTursoCliAction) &&
+          turso.checkEnabled(context)) {
         turso.validateLocal(context);
       }
       const storage = CloudflareStorageCliAction();
-      if (storage.checkEnabled(context)) {
+      if (enabled.any((action) => action is CloudflareStorageCliAction) &&
+          storage.checkEnabled(context)) {
         storage.validateLocal(context);
       }
       const firebase = FirebaseInitCliAction();
-      if (firebase.checkEnabled(context)) {
+      if (enabled.any((action) =>
+              _actionName(action).startsWith("firebase") &&
+              action is! FirebaseAnonymousConfigurationCliAction) &&
+          firebase.checkEnabled(context)) {
         await firebase.validateLocal(context);
       }
     }

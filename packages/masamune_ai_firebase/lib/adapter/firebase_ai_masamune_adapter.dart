@@ -38,8 +38,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     super.defaultAgentVectorMemoryConfig,
     super.maxAgentRecordStep = 100,
     super.appRef,
-  })  : _options = options,
-        _instance = ai;
+  }) : _options = options,
+       _instance = ai;
 
   /// The model name of the AI.
   ///
@@ -230,17 +230,16 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
       ),
       tools: [
         if (!enableSearch) ...[
-          if (tools.isNotEmpty) ...[
-            tools._toVertexAITools(),
-          ],
+          if (tools.isNotEmpty) ...[tools._toVertexAITools()],
         ] else ...[
           Tool.googleSearch(),
-        ]
+        ],
       ],
       toolConfig: !enableSearch && tools.isNotEmpty
           ? ToolConfig(
-              functionCallingConfig:
-                  FunctionCallingConfig.any({...tools.map((e) => e.name)}),
+              functionCallingConfig: FunctionCallingConfig.any({
+                ...tools.map((e) => e.name),
+              }),
             )
           : null,
       systemInstruction: systemPromptContent
@@ -254,15 +253,19 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
   Future<AIContent?> generateContent(
     List<AIContent> contents, {
     Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)?
-        onFunctionCall,
+      List<AIContentFunctionCallPart> functionCalls,
+    )?
+    onFunctionCall,
     AIConfig? config,
     Set<AITool> tools = const {},
     bool enableSearch = false,
     bool includeSystemInitialContent = false,
     AIFunctionCallingConfig? Function(
-            AIContent response, Set<AITool> tools, int trialCount)?
-        onGenerateFunctionCallingConfig,
+      AIContent response,
+      Set<AITool> tools,
+      int trialCount,
+    )?
+    onGenerateFunctionCallingConfig,
   }) async {
     config ??= defaultConfig;
     final key = AIConfigKey(config: config, tools: tools);
@@ -272,9 +275,9 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     }
     final systemInitialContent = includeSystemInitialContent
         ? config.systemPromptContent
-            ?._toSystemInitialContent()
-            ._toContents()
-            .firstOrNull
+              ?._toSystemInitialContent()
+              ._toContents()
+              .firstOrNull
         : null;
     final res = AIContent.model();
     unawaited(
@@ -303,51 +306,65 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
     required GenerativeModel generativeModel,
     required int trialCount,
     Future<List<AIContentFunctionResponsePart>> Function(
-            List<AIContentFunctionCallPart> functionCalls)?
-        onFunctionCall,
+      List<AIContentFunctionCallPart> functionCalls,
+    )?
+    onFunctionCall,
     Set<AITool> tools = const {},
     bool enableSearch = false,
     AIFunctionCallingConfig? Function(
-            AIContent response, Set<AITool> tools, int trialCount)?
-        onGenerateFunctionCallingConfig,
+      AIContent response,
+      Set<AITool> tools,
+      int trialCount,
+    )?
+    onGenerateFunctionCallingConfig,
   }) async {
     StreamSubscription<GenerateContentResponse>? subscription;
-    final functionCallingConfig = (onGenerateFunctionCallingConfig ??
+    final functionCallingConfig =
+        (onGenerateFunctionCallingConfig ??
                 this.onGenerateFunctionCallingConfig)
-            ?.call(
-          response,
-          tools,
-          trialCount,
-        ) ??
+            ?.call(response, tools, trialCount) ??
         AIFunctionCallingConfig.auto();
     final stream = generativeModel.generateContentStream(
-      [
-        ...contents,
-        ...response._toContents(),
-      ],
+      [...contents, ...response._toContents()],
       toolConfig: !enableSearch && tools.isNotEmpty
           ? ToolConfig(
-              functionCallingConfig:
-                  functionCallingConfig._toFunctionCallingConfig(),
+              functionCallingConfig: functionCallingConfig
+                  ._toFunctionCallingConfig(),
             )
           : null,
     );
     Completer<void>? functionCallCompleter;
+    // Each streamed chunk reports the usage of the whole request so far,
+    // so only the increase from the previous chunk is added.
+    // Thinking tokens are billed as output, so they are counted as candidates.
+    var reportedPromptTokenCount = 0;
+    var reportedCandidateTokenCount = 0;
     subscription = stream.listen(
       (line) async {
-        response.usage(
-          promptTokenCount: line.usageMetadata?.promptTokenCount ?? 0,
-          candidateTokenCount: line.usageMetadata?.candidatesTokenCount ?? 0,
-        );
+        final usageMetadata = line.usageMetadata;
+        if (usageMetadata != null) {
+          final promptTokenCount = max(
+            reportedPromptTokenCount,
+            usageMetadata.promptTokenCount ?? 0,
+          );
+          final candidateTokenCount = max(
+            reportedCandidateTokenCount,
+            (usageMetadata.candidatesTokenCount ?? 0) +
+                (usageMetadata.thoughtsTokenCount ?? 0),
+          );
+          response.usage(
+            promptTokenCount: promptTokenCount - reportedPromptTokenCount,
+            candidateTokenCount:
+                candidateTokenCount - reportedCandidateTokenCount,
+          );
+          reportedPromptTokenCount = promptTokenCount;
+          reportedCandidateTokenCount = candidateTokenCount;
+        }
         final candidates = line.candidates;
         for (final candidate in candidates) {
           final parts = candidate.content._toAIContentParts();
           final references = candidate.groundingMetadata?._toAIReferences();
-          response.add(
-            parts,
-            time: Clock.now(),
-            references: references,
-          );
+          response.add(parts, time: Clock.now(), references: references);
           if (functionCallCompleter != null) {
             await functionCallCompleter?.future;
           }
@@ -367,7 +384,8 @@ class FirebaseAIMasamuneAdapter extends AIMasamuneAdapter {
                       time: Clock.now(),
                       references: functionResponse
                           .expand(
-                              (e) => e.source?.references ?? <AIReference>{})
+                            (e) => e.source?.references ?? <AIReference>{},
+                          )
                           .toSet(),
                     );
                     unawaited(

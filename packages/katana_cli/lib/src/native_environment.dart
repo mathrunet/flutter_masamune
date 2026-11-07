@@ -1,3 +1,6 @@
+import "dart:convert";
+import "dart:io";
+
 /// Configures Android Gradle to read Katana's native build environment from
 /// Flutter's `DART_DEFINES` project property.
 class AndroidNativeEnvironmentSynchronizer {
@@ -314,5 +317,225 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
         .where((line) => !ids.any(
             (id) => RegExp("^\\s*$id /\\* GoogleService-Info").hasMatch(line)))
         .join("\n");
+  }
+}
+
+/// Validates and applies opt-in application identities from `app.targets`.
+///
+/// Select targets under the same build lock used by the Flutter build. No
+/// packages, Firebase registrations, or remote resources are changed.
+class NativeAppTarget {
+  const NativeAppTarget._();
+
+  /// Validates all declarations and selects one local application target.
+  static Future<void> apply(Map declarations, String selected) async {
+    final namePattern = RegExp(r"^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$");
+    final idPattern =
+        RegExp(r"^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+$");
+    if (!namePattern.hasMatch(selected) ||
+        !declarations.containsKey(selected)) {
+      throw const FormatException("Unknown or invalid native target.");
+    }
+    final targets = <String, Map<String, String>>{};
+    for (final declaration in declarations.entries) {
+      final name = declaration.key;
+      final data = declaration.value;
+      if (name is! String ||
+          !namePattern.hasMatch(name) ||
+          data is! Map ||
+          data.keys.any((key) => !const {
+                "entrypoint",
+                "application_id",
+                "ios_bundle_id",
+                "android_application_id",
+                "ios_minimum_version"
+              }.contains(key))) {
+        throw const FormatException("Invalid app.targets declaration.");
+      }
+      final entry = data["entrypoint"];
+      final common = data["application_id"];
+      final ios = data["ios_bundle_id"] ?? common;
+      final android = data["android_application_id"] ?? common;
+      if (entry is! String ||
+          !RegExp(r"^lib/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\.dart$")
+              .hasMatch(entry) ||
+          ios is! String ||
+          !idPattern.hasMatch(ios) ||
+          android is! String ||
+          !idPattern.hasMatch(android)) {
+        throw const FormatException(
+            "Targets require a lib entrypoint and valid platform identifiers.");
+      }
+      final minimumIos = data["ios_minimum_version"];
+      if (minimumIos != null &&
+          (minimumIos is! String ||
+              !RegExp(r"^[0-9]{1,2}\.[0-9]{1,2}(?:\.[0-9]{1,2})?$")
+                  .hasMatch(minimumIos))) {
+        throw const FormatException(
+            "ios_minimum_version must be a quoted iOS version (e.g. 15.5).");
+      }
+      targets[name] = {
+        "entrypoint": entry,
+        "ios_bundle_id": ios,
+        "android_application_id": android,
+        if (minimumIos != null) "ios_minimum_version": minimumIos as String
+      };
+    }
+    final target = targets[selected]!;
+    final entry = File(target["entrypoint"]!);
+    _validatePath(entry.path);
+    if (!entry.existsSync()) {
+      throw const FormatException(
+          "Selected entrypoint must exist inside lib without symlinks.");
+    }
+    final updates = <String, String>{};
+    final project = File("ios/Runner.xcodeproj/project.pbxproj");
+    if (project.existsSync()) {
+      var count = 0;
+      final source = project.readAsStringSync();
+      final updated = source.replaceAllMapped(
+        RegExp(
+            r"(isa = XCBuildConfiguration;[\s\S]*?buildSettings = \{)([\s\S]*?)(\n[ \t]*\};[ \t\r\n]*name = [^;]+;)"),
+        (match) {
+          var settings = match[2]!;
+          if (!RegExp(r'INFOPLIST_FILE = "?Runner/Info\.plist"?;')
+              .hasMatch(settings)) {
+            return match[0]!;
+          }
+          if (!RegExp(r"PRODUCT_BUNDLE_IDENTIFIER = [^;]+;")
+              .hasMatch(settings)) {
+            throw const FormatException(
+                "Runner bundle identifier was not found.");
+          }
+          settings = settings.replaceFirst(
+              RegExp(r"PRODUCT_BUNDLE_IDENTIFIER = [^;]+;"),
+              r'PRODUCT_BUNDLE_IDENTIFIER = "$(KATANA_APPLICATION_ID)";');
+          settings = settings.replaceAll(
+              RegExp(r"\n[ \t]*FLUTTER_TARGET = [^;]+;"), "");
+          settings = "${settings.trimRight()}\n\t\t\t\t"
+              r'FLUTTER_TARGET = "$(KATANA_FLUTTER_TARGET)";';
+          count++;
+          return "${match[1]}$settings${match[3]}";
+        },
+      );
+      if (count == 0) {
+        throw const FormatException(
+            "No supported Runner build configurations found.");
+      }
+      updates[project.path] = updated;
+      var includes = 0;
+      for (final mode in ["Debug", "Release", "Profile"]) {
+        final file = File("ios/Flutter/$mode.xcconfig");
+        if (!file.existsSync()) {
+          continue;
+        }
+        final content = file.readAsStringSync();
+        const include = '#include "KatanaTarget.xcconfig"';
+        updates[file.path] =
+            content.contains(include) ? content : "$content\n$include\n";
+        includes++;
+      }
+      if (includes < 2) {
+        throw const FormatException(
+            "Flutter Debug/Release xcconfigs are required.");
+      }
+      updates["ios/Flutter/KatanaTarget.xcconfig"] =
+          "// Generated by katana apply --only nativetarget --target $selected.\n"
+          "KATANA_APPLICATION_ID = ${target['ios_bundle_id']}\n"
+          "KATANA_FLUTTER_TARGET = ${target['entrypoint']}\n"
+          "${target['ios_minimum_version'] == null ? '' : 'IPHONEOS_DEPLOYMENT_TARGET = ${target['ios_minimum_version']}\n'}";
+      final podfile = File("ios/Podfile");
+      if (podfile.existsSync()) {
+        const begin = "# KATANA NATIVE TARGET IOS MINIMUM BEGIN";
+        const end = "# KATANA NATIVE TARGET IOS MINIMUM END";
+        final original = podfile.readAsStringSync();
+        final cleaned = original.replaceAll(
+            RegExp(
+                "${RegExp.escape(begin)}\\n[\\s\\S]*?${RegExp.escape(end)}\\n"),
+            "");
+        final minimum = target["ios_minimum_version"];
+        updates[podfile.path] = minimum == null
+            ? cleaned
+            : "$begin\nplatform :ios, '$minimum'\n$end\n$cleaned";
+      }
+    }
+    for (final fileName in [
+      "android/app/build.gradle.kts",
+      "android/app/build.gradle"
+    ]) {
+      final file = File(fileName);
+      if (!file.existsSync()) {
+        continue;
+      }
+      final kotlin = fileName.endsWith(".kts");
+      var gradle = AndroidNativeEnvironmentSynchronizer.synchronize(
+          file.readAsStringSync(),
+          isKotlin: kotlin);
+      gradle = gradle
+          .replaceAll('setOf("dev", "prod")', 'setOf("test", "dev", "prod")')
+          .replaceAll('["dev", "prod"]', '["test", "dev", "prod"]');
+      if (gradle
+          .contains(AndroidNativeEnvironmentSynchronizer.firebaseBeginMarker)) {
+        if (kotlin && !gradle.contains("return@configureEach")) {
+          gradle = gradle.replaceFirst(
+              "        val selectedGoogleServices =",
+              '        if (katanaFlavor == "test") { enabled = false; return@configureEach }\n'
+                  "        val selectedGoogleServices =");
+        } else if (!kotlin && !gradle.contains('katanaFlavor == "test"')) {
+          gradle = gradle.replaceFirst(
+              "        def selectedGoogleServices =",
+              '        if (katanaFlavor == "test") { enabled = false; return }\n'
+                  "        def selectedGoogleServices =");
+        }
+      }
+      gradle = gradle.replaceFirst(
+          RegExp(r'''katanaAndroidApplicationId \?: ["'][^"']+["']'''),
+          'katanaAndroidApplicationId ?: "${target['android_application_id']}"');
+      updates[fileName] = gradle;
+    }
+    if (!project.existsSync() &&
+        !File("android/app/build.gradle.kts").existsSync() &&
+        !File("android/app/build.gradle").existsSync()) {
+      throw const FormatException(
+          "No supported native application project found.");
+    }
+    final yamlFile = File("katana.yaml");
+    _validatePath(yamlFile.path);
+    final digest =
+        Process.runSync("openssl", ["dgst", "-sha256", yamlFile.path]);
+    final hash = RegExp(r"[a-fA-F0-9]{64}$")
+        .firstMatch(digest.stdout.toString().trim())
+        ?.group(0);
+    if (digest.exitCode != 0 || hash == null) {
+      throw const FormatException(
+          "Cannot fingerprint katana.yaml with openssl.");
+    }
+    final catalog = {
+      "schema_version": 1,
+      "selected": selected,
+      "targets": targets,
+      "katana_sha256": hash.toLowerCase()
+    };
+    updates[".katana/native_targets.json"] = "${jsonEncode(catalog)}\n";
+    for (final update in updates.entries) {
+      final file = File(update.key);
+      _validatePath(file.path);
+    }
+    for (final update in updates.entries) {
+      final file = File(update.key);
+      file.parent.createSync(recursive: true);
+      file.writeAsStringSync(update.value);
+    }
+  }
+
+  static void _validatePath(String path) {
+    var current = Directory.current.resolveSymbolicLinksSync();
+    for (final part in path.split("/")) {
+      current = "$current/$part";
+      if (FileSystemEntity.isLinkSync(current)) {
+        throw const FormatException(
+            "Native target paths must not traverse symlinks.");
+      }
+    }
   }
 }

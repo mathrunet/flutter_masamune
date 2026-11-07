@@ -182,6 +182,7 @@ String? _validateApplyArguments(List<String> arguments) {
     return null;
   }
   var hasFlavor = false;
+  var hasTarget = false;
   for (var i = 0; i < arguments.length; i++) {
     final argument = arguments[i];
     if (argument == "--auth-config" ||
@@ -194,6 +195,25 @@ String? _validateApplyArguments(List<String> arguments) {
         return "Invalid argument: $argument requires one value.";
       }
       i++;
+      continue;
+    }
+    if (argument == "--target" || argument.startsWith("--target=")) {
+      if (hasTarget) {
+        return "Invalid argument: --target was specified more than once.";
+      }
+      String target;
+      if (argument == "--target") {
+        if (i + 1 >= arguments.length || arguments[i + 1].startsWith("--")) {
+          return "Invalid argument: --target requires one value.";
+        }
+        target = arguments[++i];
+      } else {
+        target = argument.substring("--target=".length);
+      }
+      if (!RegExp(r"^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$").hasMatch(target)) {
+        return "Invalid argument: --target requires a valid target name.";
+      }
+      hasTarget = true;
       continue;
     }
     if (argument == "--local") {

@@ -12,6 +12,7 @@ library;
 
 // Dart imports:
 import "dart:async";
+import "dart:math";
 
 // Package imports:
 import "package:firebase_ai/firebase_ai.dart";
