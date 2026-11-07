@@ -87,6 +87,42 @@ Future<void> _synchronizeAppleFirebaseEnvironment() async {
   }
 }
 
+/// Ensures that [path] is a symbolic link to `/dev/null`.
+///
+/// Links are inspected without following them, so an existing link to
+/// `/dev/null` is kept as is and the command can be run repeatedly.
+/// Regular files and links to other targets are replaced. Directories are
+/// left untouched and `false` is returned.
+///
+/// [path]が`/dev/null`へのシンボリックリンクになるようにします。
+///
+/// リンクをたどらずに判定するため、既に`/dev/null`へのリンクがある場合はそのまま維持され、繰り返し実行できます。
+/// 通常ファイルや別のリンク先を持つリンクは置き換えます。ディレクトリの場合は何もせず`false`を返します。
+Future<bool> ensureFirebaseDebugLogLink({
+  String path = "firebase-debug.log",
+}) async {
+  const target = "/dev/null";
+  final type = FileSystemEntity.typeSync(path, followLinks: false);
+  switch (type) {
+    case FileSystemEntityType.link:
+      final link = Link(path);
+      if (link.targetSync() == target) {
+        return true;
+      }
+      await link.delete();
+      break;
+    case FileSystemEntityType.directory:
+      return false;
+    case FileSystemEntityType.notFound:
+      break;
+    default:
+      await File(path).delete();
+      break;
+  }
+  await Link(path).create(target);
+  return true;
+}
+
 /// Create a new Flutter project.
 ///
 /// 新しいFlutterプロジェクトを作成します。
@@ -934,11 +970,11 @@ $document
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     label("Create firebase-debug.log symlink to /dev/null");
-    final firebaseDebugLog = File("firebase-debug.log");
-    if (firebaseDebugLog.existsSync()) {
-      await firebaseDebugLog.delete();
+    if (!await ensureFirebaseDebugLogLink()) {
+      label(
+        "Skip the symlink because firebase-debug.log is a directory.",
+      );
     }
-    await Link("firebase-debug.log").create("/dev/null");
     await Future.delayed(const Duration(seconds: 5));
     await command(
       "Run the project's build_runner to generate code.",
