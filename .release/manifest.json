@@ -2,8 +2,8 @@
   "schema": 1,
   "packages": {
     "katana_cli": {
-      "version": "3.40.0",
-      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
+      "version": "3.40.1",
+      "sourceSha": "d17296ef674354ca43c2cbf9a7fe9eaa0b929ba7"
     },
     "masamune_model_tidb_annotation": {
       "version": "3.6.1",
@@ -142,8 +142,8 @@
       "sourceSha": "f7e2c0753b7f775e2e2311956fbe7d65e0abda20"
     },
     "masamune_logger_firebase": {
-      "version": "3.4.0",
-      "sourceSha": "aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1"
+      "version": "3.4.1",
+      "sourceSha": "d17296ef674354ca43c2cbf9a7fe9eaa0b929ba7"
     },
     "masamune_mail": {
       "version": "3.3.1",
