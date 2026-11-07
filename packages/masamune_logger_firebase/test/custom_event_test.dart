@@ -7,6 +7,15 @@ import "package:masamune/masamune.dart";
 class _Analytics implements FirebaseAnalytics {
   final events = <({String name, Map<String, Object>? parameters})>[];
   int tutorials = 0;
+  final userProperties = <({String name, String? value})>[];
+
+  @override
+  Future<void> setUserProperty(
+      {required String name,
+      required String? value,
+      AnalyticsCallOptions? callOptions}) async {
+    userProperties.add((name: name, value: value));
+  }
 
   @override
   Future<void> logEvent(
@@ -150,5 +159,23 @@ void main() {
     await expectLater(
         logger.sendRawData("goal", parameters: {"text": "a" * 101}),
         throwsArgumentError);
+  });
+  test("experiment exposure sets the user property", () async {
+    await logger.sendRawData("ExperimentLoggerEvent.exposure", parameters: {
+      "user_property": "ab_slot_2",
+      "value": "F-20261107-01:treatment",
+      "experiment_id": "F-20261107-01",
+      "label": "treatment",
+    });
+    expect(analytics.userProperties, hasLength(1));
+    expect(analytics.userProperties.single.name, "ab_slot_2");
+    expect(analytics.userProperties.single.value, "F-20261107-01:treatment");
+    expect(analytics.events, isEmpty);
+  });
+  test("experiment exposure without values is ignored", () async {
+    await logger.sendRawData("ExperimentLoggerEvent.exposure",
+        parameters: {"experiment_id": "F-20261107-01"});
+    expect(analytics.userProperties, isEmpty);
+    expect(analytics.events, isEmpty);
   });
 }

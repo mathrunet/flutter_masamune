@@ -36,6 +36,7 @@ Define A/B tests and feature switches in a single synchronous function based on 
 - Values are loaded through [masamune_model_firebase_remote_config](https://pub.dev/packages/masamune_model_firebase_remote_config) and kept in memory, so branches are evaluated synchronously.
 - Every branch has a label, and the first branch whose condition matches is executed.
 - Branches can be fixed with `overrides` for debugging and tests, or with `fixed` after an A/B test is finished.
+- The exposed branch can be recorded as an analytics user property with `ExperimentExposure`.
 - A/B tests are performed only on the client. See [Server Side](#server-side).
 
 ## Usage
@@ -129,6 +130,46 @@ final button = experiment.run(
 `Experiment.run` is synchronous. Load values in advance with `Experiment.load`. Before loading, `initialValue` is used.
 
 If the return types of the cases differ, specify type arguments explicitly, such as `run<String, Widget>(...)`.
+
+### Record Exposures
+
+Pass `ExperimentExposure` to `Experiment.run` to record which branch the user actually saw. The `ExperimentLoggerEvent.exposure` event is sent to `LoggerAdapter.primary` and `ExperimentMasamuneAdapter.loggerAdapters` with the following parameters.
+
+| Parameter | Value |
+| --- | --- |
+| `user_property` | `ExperimentExposure.userProperty` |
+| `value` | `<experimentId>:<label>` |
+| `experiment_id` | `ExperimentExposure.experimentId` |
+| `label` | Label of the selected `ExperimentCase` |
+
+With [masamune_logger_firebase](https://pub.dev/packages/masamune_logger_firebase), the event is stored as the Firebase Analytics user property `user_property` with the value `value`.
+
+```dart
+final button = experiment.run(
+  (config) => config.getString("new_button"),
+  [
+    ExperimentCase.equals("treatment", label: "treatment", run: () => const NewButton()),
+    ExperimentCase.otherwise(label: "control", run: () => const OldButton()),
+  ],
+  exposure: const ExperimentExposure(
+    userProperty: "ab_slot_1",
+    experimentId: "F-20261107-01",
+  ),
+);
+```
+
+- `userProperty` must start with a letter, contain only letters, digits and underscores, be at most 24 characters and must not start with `firebase_`, `google_` or `ga_`.
+- `<experimentId>:<label>` must be at most 36 characters.
+- The exposure is not sent before loading, when `fixed` is specified, when the first callback reads a key in `overrides`, or when no case matches.
+- The same pair of `userProperty` and value is sent only once per process.
+
+**Await `load()` at startup.** Exposures are not sent before loading, so the first screen would otherwise show the default branch without recording it. Load the values before the first `run`, for example in a boot process:
+
+```dart
+await appRef.controller(Experiment.query()).load();
+```
+
+Logger adapters passed to `ExperimentMasamuneAdapter.loggerAdapters` are also added to the logger adapters of the app, like other Masamune adapters.
 
 ### Fix Branches for Debugging and Tests
 

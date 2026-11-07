@@ -81,12 +81,14 @@ class Experiment
   /// 現在の値。
   ///
   /// [ExperimentMasamuneAdapter.defaults]、読み込んだ値、[ExperimentMasamuneAdapter.overrides]の順に統合されます。
-  ExperimentConfig get config {
-    return ExperimentConfig({
+  ExperimentConfig get config => ExperimentConfig(_values);
+
+  Map<String, Object?> get _values {
+    return {
       ...adapter.defaults,
       ...?_document.value,
       ...adapter.overrides,
-    });
+    };
   }
 
   /// Labels selected by [run], in the order of selection.
@@ -177,6 +179,13 @@ class Experiment
   ///
   /// If the return types of [cases] differ, specify the type arguments explicitly, such as `run<String, Widget>(...)`.
   ///
+  /// If [exposure] is specified, [ExperimentLoggerEvent.exposure] is sent to [LoggerAdapter.primary] and
+  /// [ExperimentMasamuneAdapter.loggerAdapters] with the value `<experimentId>:<label>` of the selected case.
+  /// It is not sent before loading, when [fixed] is specified, when [value] reads a key in
+  /// [ExperimentMasamuneAdapter.overrides], or when no case matches.
+  /// The same pair of [ExperimentExposure.userProperty] and value is sent only once per process.
+  /// Await [load] at startup so that the exposure is recorded on the first call.
+  ///
   /// 現在の値に一致する分岐を実行します。
   ///
   /// [value]は[config]を受け取り、条件に利用する値を返します。
@@ -197,10 +206,15 @@ class Experiment
     TValue Function(ExperimentConfig config) value,
     List<ExperimentCase<TValue, TResult>> cases, {
     String? fixed,
+    ExperimentExposure? exposure,
   }) {
     assert(
       cases.map((e) => e.label).toSet().length == cases.length,
       "The labels of ExperimentCase must be unique: ${cases.map((e) => e.label).join(", ")}",
+    );
+    assert(
+      exposure == null || exposure.isValidUserProperty,
+      "The userProperty [${exposure.userProperty}] must match ^[A-Za-z][A-Za-z0-9_]*\$, be at most ${ExperimentExposure.maxUserPropertyLength} characters and must not start with firebase_, google_ or ga_.",
     );
     if (fixed != null) {
       for (final experimentCase in cases) {
@@ -214,14 +228,77 @@ class Experiment
         "The fixed label [$fixed] is not found in: ${cases.map((e) => e.label).join(", ")}",
       );
     }
-    final current = value(config);
+    final accessedKeys = exposure != null ? <String>{} : null;
+    final values = _values;
+    final current = value(
+      accessedKeys != null
+          ? ExperimentConfig._tracking(values, accessedKeys)
+          : ExperimentConfig(values),
+    );
     for (final experimentCase in cases) {
       if (experimentCase._matches(current)) {
         _select(experimentCase.label);
+        if (exposure != null && accessedKeys != null) {
+          _expose(exposure, experimentCase.label, accessedKeys);
+        }
         return experimentCase._run();
       }
     }
     return null;
+  }
+
+  /// Clear the record of exposures already sent in this process.
+  ///
+  /// Use this only in tests.
+  @visibleForTesting
+  static void clearSentExposures() {
+    _sentExposures.clear();
+  }
+
+  // Pairs of user property and value already sent in this process.
+  static final Set<String> _sentExposures = {};
+
+  void _expose(
+    ExperimentExposure exposure,
+    String label,
+    Set<String> accessedKeys,
+  ) {
+    final value = exposure.valueOf(label);
+    assert(
+      value.length <= ExperimentExposure.maxValueLength,
+      "The exposure value [$value] must be at most ${ExperimentExposure.maxValueLength} characters.",
+    );
+    if (!_loaded) {
+      return;
+    }
+    if (accessedKeys.any(adapter.overrides.containsKey)) {
+      return;
+    }
+    if (!_sentExposures.add("${exposure.userProperty}\u0000$value")) {
+      return;
+    }
+    final parameters = <String, Object?>{
+      ExperimentLoggerEvent.userPropertyKey: exposure.userProperty,
+      ExperimentLoggerEvent.valueKey: value,
+      ExperimentLoggerEvent.experimentIdKey: exposure.experimentId,
+      ExperimentLoggerEvent.labelKey: label,
+    };
+    final name = ExperimentLoggerEvent.exposure.toString();
+    final loggerAdapters = <LoggerAdapter>[...LoggerAdapter.primary];
+    for (final loggerAdapter in adapter.loggerAdapters) {
+      if (!loggerAdapters.any((e) => identical(e, loggerAdapter))) {
+        loggerAdapters.add(loggerAdapter);
+      }
+    }
+    for (final loggerAdapter in loggerAdapters) {
+      // Logging must not break the branch, so errors are only reported.
+      unawaited(
+        Future.sync(() => loggerAdapter.send(name, parameters: parameters))
+            .catchError((Object e, StackTrace stackTrace) {
+          debugPrint("Failed to send the experiment exposure: $e");
+        }),
+      );
+    }
   }
 
   void _select(String label) {

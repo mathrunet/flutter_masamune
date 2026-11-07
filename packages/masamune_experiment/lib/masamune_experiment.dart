@@ -25,3 +25,5 @@ part "src/experiment.dart";
 part "src/experiment_case.dart";
 part "src/experiment_config.dart";
 part "src/experiment_document.dart";
+part "src/experiment_exposure.dart";
+part "src/experiment_logger_event.dart";

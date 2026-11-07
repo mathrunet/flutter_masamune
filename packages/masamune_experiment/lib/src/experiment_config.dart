@@ -22,7 +22,17 @@ class ExperimentConfig {
   /// [Experiment.run]の最初のコールバックに渡される値。
   ///
   /// [values]に値を渡してください。
-  const ExperimentConfig(Map<String, Object?> values) : _values = values;
+  const ExperimentConfig(Map<String, Object?> values)
+      : _values = values,
+        _accessedKeys = null;
+
+  // Records the keys read through this config.
+  // Used by [Experiment.run] to detect values fixed by [ExperimentMasamuneAdapter.overrides].
+  const ExperimentConfig._tracking(
+    Map<String, Object?> values,
+    Set<String> accessedKeys,
+  )   : _values = values,
+        _accessedKeys = accessedKeys;
 
   static const List<String> _trueValues = [
     "1",
@@ -34,16 +44,28 @@ class ExperimentConfig {
   ];
 
   final Map<String, Object?> _values;
+  final Set<String>? _accessedKeys;
+
+  Object? _read(String key) {
+    _accessedKeys?.add(key);
+    return _values[key];
+  }
 
   /// Returns `true` if [key] exists.
   ///
   /// [key]が存在する場合`true`を返します。
-  bool containsKey(String key) => _values.containsKey(key);
+  bool containsKey(String key) {
+    _accessedKeys?.add(key);
+    return _values.containsKey(key);
+  }
 
   /// Get all values.
   ///
   /// すべての値を取得します。
-  Map<String, Object?> getAll() => Map.unmodifiable(_values);
+  Map<String, Object?> getAll() {
+    _accessedKeys?.addAll(_values.keys);
+    return Map.unmodifiable(_values);
+  }
 
   /// Get the value of [key] as [String].
   ///
@@ -52,7 +74,7 @@ class ExperimentConfig {
   /// [key]の値を[String]として取得します。
   ///
   /// [key]が存在しない場合は`""`を返します。
-  String getString(String key) => _values[key]?.toString() ?? "";
+  String getString(String key) => _read(key)?.toString() ?? "";
 
   /// Get the value of [key] as [bool].
   ///
@@ -62,7 +84,7 @@ class ExperimentConfig {
   ///
   /// 値が`1`、`true`、`t`、`yes`、`y`、`on`のいずれかの場合のみ`true`を返します。
   bool getBool(String key) {
-    final value = _values[key];
+    final value = _read(key);
     if (value is bool) {
       return value;
     }
@@ -77,7 +99,7 @@ class ExperimentConfig {
   ///
   /// 変換できない場合は`0`を返します。
   int getInt(String key) {
-    final value = _values[key];
+    final value = _read(key);
     if (value is int) {
       return value;
     }
@@ -92,7 +114,7 @@ class ExperimentConfig {
   ///
   /// 変換できない場合は`0.0`を返します。
   double getDouble(String key) {
-    final value = _values[key];
+    final value = _read(key);
     if (value is num) {
       return value.toDouble();
     }

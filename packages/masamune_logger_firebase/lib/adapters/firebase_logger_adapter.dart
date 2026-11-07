@@ -188,6 +188,15 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
       await analytics.logTutorialBegin();
     } else if (name == FirebaseAnalyticsLoggerEvent.tutorialEnd.toString()) {
       await analytics.logTutorialComplete();
+    } else if (name == _experimentExposureEvent) {
+      // Sent by `masamune_experiment` with `ExperimentExposure`.
+      // Matched by name to avoid a dependency on the package.
+      final userProperty = parameters.get(_experimentUserPropertyKey, "");
+      final value = parameters.get(_experimentValueKey, "");
+      if (userProperty.isEmpty || value.isEmpty) {
+        return;
+      }
+      await analytics.setUserProperty(name: userProperty, value: value);
     } else if (_isFrameworkEvent(name)) {
       // Framework-internal events (e.g. `ScopedLoggerEvent.init`) are sent
       // without awaiting by each package and are not Analytics events.
@@ -218,6 +227,11 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
           name: name, parameters: values.isEmpty ? null : values);
     }
   }
+
+  // Event name and parameter keys of `ExperimentLoggerEvent.exposure` in `masamune_experiment`.
+  static const _experimentExposureEvent = "ExperimentLoggerEvent.exposure";
+  static const _experimentUserPropertyKey = "user_property";
+  static const _experimentValueKey = "value";
 
   static final _frameworkEventPattern =
       RegExp(r"^[A-Z][A-Za-z0-9]*LoggerEvent\.[A-Za-z0-9_]+$");

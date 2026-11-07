@@ -151,6 +151,29 @@ nulls, collections and unsupported values raise `ArgumentError` before sending.
 SDK errors propagate to the caller. Respect the application's existing analytics
 consent settings and avoid including personal information in event parameters.
 
+### Experiment Exposures
+
+When `Experiment.run` of [masamune_experiment](https://pub.dev/packages/masamune_experiment)
+is called with `ExperimentExposure`, the `ExperimentLoggerEvent.exposure` event is
+converted to a Firebase Analytics user property instead of a custom event:
+
+```dart
+// Sets the user property `ab_slot_1` to `F-20261107-01:treatment`.
+experiment.run(
+  (config) => config.getString("new_button"),
+  cases,
+  exposure: const ExperimentExposure(
+    userProperty: "ab_slot_1",
+    experimentId: "F-20261107-01",
+  ),
+);
+```
+
+This calls `FirebaseAnalytics.setUserProperty(name: user_property, value: value)`.
+Register the user property as a user-scoped custom dimension in Google Analytics
+to compare the variants. User property names are limited to 24 characters and
+values to 36 characters.
+
 ### Performance Monitoring
 
 Use performance traces to measure operation durations:

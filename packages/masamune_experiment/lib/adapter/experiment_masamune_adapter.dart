@@ -10,6 +10,9 @@ part of "/masamune_experiment.dart";
 /// [overrides] always take precedence over loaded values. Use them to fix a specific branch for debugging and testing.
 /// Do not pass [overrides] in production flavors.
 ///
+/// [loggerAdapters] receive [ExperimentLoggerEvent.exposure] in addition to [LoggerAdapter.primary]
+/// when [ExperimentExposure] is passed to [Experiment.run].
+///
 /// [Experiment]でA/Bテストや機能の切り替えを行うための[MasamuneAdapter]。
 ///
 /// 値は[modelAdapter]を通してドキュメントとして読み込まれます。
@@ -39,6 +42,9 @@ class ExperimentMasamuneAdapter extends MasamuneAdapter {
   /// [overrides] always take precedence over loaded values. Use them to fix a specific branch for debugging and testing.
   /// Do not pass [overrides] in production flavors.
   ///
+  /// [loggerAdapters] receive [ExperimentLoggerEvent.exposure] in addition to [LoggerAdapter.primary]
+  /// when [ExperimentExposure] is passed to [Experiment.run].
+  ///
   /// [Experiment]でA/Bテストや機能の切り替えを行うための[MasamuneAdapter]。
   ///
   /// 値は[modelAdapter]を通してドキュメントとして読み込まれます。
@@ -52,6 +58,7 @@ class ExperimentMasamuneAdapter extends MasamuneAdapter {
     this.modelAdapter = const FirebaseRemoteConfigModelAdapter(),
     Map<String, Object?>? defaults,
     this.overrides = const {},
+    this.loggerAdapters = const [],
   }) : _defaults = defaults;
 
   /// [ExperimentMasamuneAdapter] for testing.
@@ -70,6 +77,7 @@ class ExperimentMasamuneAdapter extends MasamuneAdapter {
   factory ExperimentMasamuneAdapter.test({
     Map<String, Object?> values = const {},
     Map<String, Object?> overrides = const {},
+    List<LoggerAdapter> loggerAdapters = const [],
   }) {
     return ExperimentMasamuneAdapter(
       modelAdapter: RuntimeModelAdapter(
@@ -80,6 +88,7 @@ class ExperimentMasamuneAdapter extends MasamuneAdapter {
       ),
       defaults: values,
       overrides: overrides,
+      loggerAdapters: loggerAdapters,
     );
   }
 
@@ -105,6 +114,13 @@ class ExperimentMasamuneAdapter extends MasamuneAdapter {
   ///
   /// デバッグやテストで特定の分岐を固定するために利用します。
   final Map<String, Object?> overrides;
+
+  /// [LoggerAdapter]s that receive [ExperimentLoggerEvent.exposure] in addition to [LoggerAdapter.primary].
+  ///
+  /// As with other [MasamuneAdapter]s, they are also added to the logger adapters of the app.
+  /// The same instance is not sent twice even if it is included in [LoggerAdapter.primary].
+  @override
+  final List<LoggerAdapter> loggerAdapters;
 
   /// Values used before loading.
   ///
