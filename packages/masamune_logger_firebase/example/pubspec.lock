@@ -524,7 +524,7 @@ packages:
       path: "../../katana_firebase"
       relative: true
     source: path
-    version: "3.3.0"
+    version: "3.4.0"
   katana_form:
     dependency: "direct overridden"
     description:
@@ -704,7 +704,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "3.3.1"
+    version: "3.4.0"
   matcher:
     dependency: transitive
     description:

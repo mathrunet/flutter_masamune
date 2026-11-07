@@ -188,6 +188,11 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
       await analytics.logTutorialBegin();
     } else if (name == FirebaseAnalyticsLoggerEvent.tutorialEnd.toString()) {
       await analytics.logTutorialComplete();
+    } else if (_isFrameworkEvent(name)) {
+      // Framework-internal events (e.g. `ScopedLoggerEvent.init`) are sent
+      // without awaiting by each package and are not Analytics events.
+      // Skip them instead of throwing an unhandled error.
+      return;
     } else {
       _validateCustomName(name, "event");
       if ((parameters?.length ?? 0) > 25) {
@@ -212,6 +217,13 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
       await analytics.logEvent(
           name: name, parameters: values.isEmpty ? null : values);
     }
+  }
+
+  static final _frameworkEventPattern =
+      RegExp(r"^[A-Z][A-Za-z0-9]*LoggerEvent\.[A-Za-z0-9_]+$");
+
+  static bool _isFrameworkEvent(String name) {
+    return _frameworkEventPattern.hasMatch(name);
   }
 
   static void _validateCustomName(String name, String label) {

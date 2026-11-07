@@ -96,6 +96,20 @@ void main() {
     expect(analytics.events, isEmpty);
   });
   for (final name in [
+    "ScopedLoggerEvent.init",
+    "ScopedLoggerEvent.dispose",
+    "NotificationLoggerEvent.receive",
+  ]) {
+    test("framework-internal event is skipped without error: $name",
+        () async {
+      await logger.sendRawData(name, parameters: {
+        "type": "_QueryValue<Controller, AppRef>",
+        "managed": Object(),
+      });
+      expect(analytics.events, isEmpty);
+    });
+  }
+  for (final name in [
     "",
     "a.b",
     "2event",
