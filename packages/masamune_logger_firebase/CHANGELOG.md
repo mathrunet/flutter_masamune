@@ -1,3 +1,8 @@
+## 3.4.1
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([044abe71](https://github.com/mathrunet/flutter_masamune/commit/044abe71e25122149a13ab8c4c5e36c82865765f))
+ - **FIX**(masamune_logger_firebase): skip framework-internal logger events ([044abe71](https://github.com/mathrunet/flutter_masamune/commit/044abe71e25122149a13ab8c4c5e36c82865765f))
+
 ## 3.4.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))

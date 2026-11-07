@@ -1,3 +1,8 @@
+## 3.40.1
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([ae0c2260](https://github.com/mathrunet/flutter_masamune/commit/ae0c2260389443cca9a236c1c900811d79a101f1))
+ - **FIX**(katana_cli): make firebase-debug.log symlink creation idempotent ([ae0c2260](https://github.com/mathrunet/flutter_masamune/commit/ae0c2260389443cca9a236c1c900811d79a101f1))
+
 ## 3.40.0
 
  - **FIX**(firebase): secure Firestore dependency setup ([25338bfc](https://github.com/mathrunet/flutter_masamune/commit/25338bfcee862a7fe03a7d41f1fca1683cb909ce))
