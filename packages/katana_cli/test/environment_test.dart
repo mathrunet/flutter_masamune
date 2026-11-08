@@ -1,4 +1,5 @@
 import "dart:io";
+import "package:katana_cli/action/firebase/init.dart";
 import "package:katana_cli/command/apply.dart";
 import "package:katana_cli/katana_cli.dart";
 
@@ -15,6 +16,55 @@ void _check(bool condition, String message) {
 }
 
 Future<void> main() async {
+  _check(
+      firebaseInitializationAccountArguments(
+                  "Logged in as owner@example.com\n\nOther available accounts\n - other@example.com\n")
+              .join(" ") ==
+          "--account owner@example.com",
+      "Firebase init must reuse the verified CLI account without prompting");
+
+  _check(firebaseAppleBundleId('"net.example.legacy"') == "net.example.legacy",
+      "Literal Apple identity must remain supported");
+  _check(
+      firebaseAppleBundleId(r'"$(KATANA_APPLICATION_ID)"',
+              targetConfiguration:
+                  "KATANA_APPLICATION_ID = net.example.play\n") ==
+          "net.example.play",
+      "Selected Apple identity must resolve before FlutterFire");
+
+  _check(
+      firebaseAppleBundleId(r"${KATANA_APPLICATION_ID}",
+              targetConfiguration:
+                  "KATANA_APPLICATION_ID = net.example.staff // target\n") ==
+          "net.example.staff",
+      "Selected staff identity must not use play identity");
+  for (final value in [r"$(KATANA_APPLICATION_ID)", r"$(UNKNOWN)"]) {
+    var rejected = false;
+    try {
+      firebaseAppleBundleId(value, targetConfiguration: "");
+    } on FormatException {
+      rejected = true;
+    }
+    _check(rejected, "Unresolved identities must fail before FlutterFire");
+  }
+  _check(
+      firebaseInitializationAccountArguments(
+                  "\u001b[32mLogged in as owner@example.com\u001b[0m\r\n")
+              .last ==
+          "owner@example.com",
+      "CLI account output may include terminal formatting");
+  _check(
+      firebaseInitializationAccountArguments("No authorized accounts").isEmpty,
+      "Service-account authentication must not invent a CLI user");
+  var rejectedAccount = false;
+  try {
+    firebaseInitializationAccountArguments(
+        "Other available accounts: other@example.com");
+  } on FormatException {
+    rejectedAccount = true;
+  }
+  _check(rejectedAccount,
+      "Unknown account output must not select a different user");
   await _scopedLocalApply();
   await _nativeTargetApply();
   final yaml = loadKatanaYaml(
@@ -167,7 +217,8 @@ DEF /* Debug */ = {
           "play": <String, Object>{
             "entrypoint": "lib/main_play.dart",
             "application_id": "com.example.play",
-            "ios_minimum_version": "15.5"
+            "ios_minimum_version": "15.5",
+            "ios_link_objc_categories": true
           },
           "staff": {
             "entrypoint": "lib/main_staff.dart",
@@ -182,6 +233,10 @@ DEF /* Debug */ = {
           args: ["--local", "--only", "nativetarget", "--target", target],
         ));
     await apply("play");
+    _check(
+        firebaseAppleBundleId(r"$(KATANA_APPLICATION_ID)") ==
+            "com.example.play",
+        "Firebase must read the generated play identity");
     final play = project.readAsStringSync();
     _check(
         play.contains("KATANA_APPLICATION_ID") &&
@@ -197,14 +252,28 @@ DEF /* Debug */ = {
     _check(
         config.readAsStringSync().contains("IPHONEOS_DEPLOYMENT_TARGET = 15.5"),
         "Play must use its explicitly configured minimum iOS version.");
+    _check(
+        config
+            .readAsStringSync()
+            .contains(r"OTHER_LDFLAGS = $(inherited) -ObjC"),
+        "Selected target must retain Objective-C categories and inherited flags.");
+    final catalog = File(".katana/native_targets.json").readAsStringSync();
+    _check(catalog.contains('"ios_link_objc_categories":true'),
+        "Native target catalog must fingerprint Objective-C category linkage.");
     _check(podfile.readAsStringSync().contains("platform :ios, '15.5'"),
         "CocoaPods must use the selected target minimum.");
     await apply("play");
     _check(project.readAsStringSync() == play,
         "Minimum iOS generation must preserve project-level and test settings.");
     await apply("staff");
+    _check(
+        firebaseAppleBundleId(r"$(KATANA_APPLICATION_ID)") ==
+            "com.example.staff",
+        "Firebase must read the generated staff identity");
     _check(!config.readAsStringSync().contains("IPHONEOS_DEPLOYMENT_TARGET"),
         "An undeclared staff minimum must inherit its original value.");
+    _check(!config.readAsStringSync().contains("OTHER_LDFLAGS"),
+        "Switching targets must remove the previous target linker override.");
     _check(podfile.readAsStringSync() == originalPodfile,
         "Switching targets must remove the previous target CocoaPods override.");
     _check(
@@ -266,6 +335,32 @@ app:
       _check(config.readAsStringSync() == once,
           "Rejected CLI arguments must not mutate native configuration.");
     }
+    final playTarget = ((yaml["app"] as Map)["targets"] as Map)["play"] as Map;
+    playTarget["ios_link_objc_categories"] = false;
+    await apply("play");
+    _check(!config.readAsStringSync().contains("OTHER_LDFLAGS"),
+        "Explicit false must preserve the existing linker behavior.");
+    await apply("staff");
+    for (final invalid in [
+      "true",
+      1,
+      ["-ObjC"],
+      "-ObjC\nINJECTED = YES"
+    ]) {
+      playTarget["ios_link_objc_categories"] = invalid;
+      var rejectedLinkage = false;
+      try {
+        await apply("play");
+      } on FormatException {
+        rejectedLinkage = true;
+      }
+      _check(rejectedLinkage, "Objective-C category linkage must be boolean.");
+      _check(
+          config.readAsStringSync() == once &&
+              podfile.readAsStringSync() == originalPodfile,
+          "Invalid linkage options must fail before writing native files.");
+    }
+    playTarget["ios_link_objc_categories"] = true;
     for (final invalid in ["15.5; injected", "15", "../15.5", 15.5]) {
       final target = ((yaml["app"] as Map)["targets"] as Map)["play"] as Map;
       target["ios_minimum_version"] = invalid;

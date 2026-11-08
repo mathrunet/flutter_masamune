@@ -46,6 +46,51 @@ List<String> firebaseAppleBuildConfigurationArgumentsForFlavor(
   ];
 }
 
+/// Selects the existing Firebase CLI account for automated initialization.
+List<String> firebaseInitializationAccountArguments(String output) {
+  final normalized = output.replaceAll(_ansiEscapePattern, "");
+  final account = RegExp(r"^Logged in as ([^\s]+@[^\s]+)\s*$", multiLine: true)
+      .firstMatch(normalized)
+      ?.group(1);
+  if (account != null) {
+    return ["--account", account];
+  }
+  if (normalized.contains("No authorized accounts")) {
+    return [];
+  }
+  throw const FormatException(
+      "Cannot determine the current Firebase CLI account. Check firebase login:list.");
+}
+
+/// Resolves the Runner identity before invoking FlutterFire.
+String firebaseAppleBundleId(String? value, {String? targetConfiguration}) {
+  var bundleId = (value ?? "").trim().replaceAll('"', "").replaceAll("'", "");
+  if (bundleId == r"$(KATANA_APPLICATION_ID)" ||
+      bundleId == r"${KATANA_APPLICATION_ID}") {
+    final file = File("ios/Flutter/KatanaTarget.xcconfig");
+    final configuration = targetConfiguration ??
+        (file.existsSync() ? file.readAsStringSync() : "");
+    bundleId =
+        RegExp(r"^\s*KATANA_APPLICATION_ID\s*=\s*([^\r\n]+)", multiLine: true)
+                .firstMatch(configuration)
+                ?.group(1)
+                ?.split("//")
+                .first
+                .trim()
+                .replaceAll('"', "")
+                .replaceAll("'", "") ??
+            "";
+    if (bundleId.isEmpty) {
+      throw const FormatException(
+          "Selected Apple identity is missing. Run katana apply --only nativetarget --target <target> first.");
+    }
+  }
+  if (bundleId.contains(r"$") || bundleId.contains("(")) {
+    throw FormatException("Unresolved Apple bundle identifier: $bundleId");
+  }
+  return bundleId;
+}
+
 /// Maintains flavor-specific Firebase project aliases in `.firebaserc`.
 class FirebaseProjectAliasSynchronizer {
   const FirebaseProjectAliasSynchronizer._();
@@ -499,10 +544,21 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    var firebaseAccountArguments = <String>[];
     if (!isLocalApply) {
+      final firebaseAccounts = await Process.run(
+        firebaseCommand,
+        ["login:list"],
+        runInShell: true,
+      );
+      if (firebaseAccounts.exitCode != 0) {
+        throw StateError("Cannot read the current Firebase CLI account.");
+      }
+      firebaseAccountArguments = firebaseInitializationAccountArguments(
+          firebaseAccounts.stdout.toString());
       final firebaseProjects = await Process.run(
         firebaseCommand,
-        ["projects:list", "--json"],
+        ["projects:list", "--json", ...firebaseAccountArguments],
         runInShell: true,
       );
       if (firebaseProjects.exitCode != 0 ||
@@ -562,16 +618,13 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         applicationIdExpression;
     final xcode = XCode();
     await xcode.load();
-    final bundleId = xcode.pbxBuildConfiguration
+    final bundleId = firebaseAppleBundleId(xcode.pbxBuildConfiguration
         .map(
           (e) => e.buildSettings
               .firstWhereOrNull((e) => e.key == "PRODUCT_BUNDLE_IDENTIFIER")
               ?.value,
         )
-        .firstWhereOrNull((e) => e != null)
-        ?.trim()
-        .replaceAll('"', "")
-        .replaceAll("'", "");
+        .firstWhereOrNull((e) => e != null));
     if (bundleId.isEmpty) {
       error(
         "Bundle ID is not set in your XCode project. Please open `ios/Runner.xcodeproj` and check the settings.",
@@ -684,6 +737,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             "firestore",
             "--project",
             projectId,
+            ...firebaseAccountArguments,
           ],
           runInShell: true,
           workingDirectory: "firebase",
@@ -770,6 +824,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             "dataconnect",
             "--project",
             projectId,
+            ...firebaseAccountArguments,
           ],
           runInShell: true,
           workingDirectory: "firebase",
@@ -834,6 +889,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
               "storage",
               "--project",
               projectId,
+              ...firebaseAccountArguments,
             ],
             runInShell: true,
             workingDirectory: "firebase", action: (process, line) {
@@ -907,6 +963,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             "hosting",
             "--project",
             projectId,
+            ...firebaseAccountArguments,
           ],
           runInShell: true,
           workingDirectory: "firebase",
@@ -1007,6 +1064,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             "functions",
             "--project",
             projectId,
+            ...firebaseAccountArguments,
           ],
           runInShell: true,
           workingDirectory: "firebase",

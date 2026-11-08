@@ -17,6 +17,8 @@
 
 ## Unreleased
 
+ - **FIX**: Support target-scoped Objective-C category linkage with `app.targets.<name>.ios_link_objc_categories`, preserving inherited flags and removing the override when switching targets.
+
  - **BREAKING**: Require cloud_firestore 7.1.0 or later during Firebase setup. Existing 6.x constraints are moved to the 7.1.0+ range to match the FlutterFire upgrade of the Masamune Firebase packages.
  - **FEAT**: Read `cloudflare.tidb.additional_grants` in `katana.yaml` and pass it to `provisionRuntimeUser` so the TiDB runtime user receives exact, declared privileges on tables outside the schema manifest. `database` defaults to the database of the current flavor and also accepts a string or a `dev`/`prod` map.
  - **FIX**: Upgrade affected Firestore constraints during Firebase setup, verify the resolved security patch, and preserve patched custom sources and newer constraints.

@@ -39,6 +39,26 @@ The following features are available
 - Automatic code generation with [build_runner](https://pub.dev/packages/build_runner)
 - Other settings
 
+## Native application targets
+
+Use `app.targets` with `katana apply --local --only nativetarget --target NAME`
+to select an entrypoint and application ID. A target can set
+`ios_link_objc_categories: true` when static iOS libraries require Objective-C
+categories to be linked. Katana writes `OTHER_LDFLAGS = $(inherited) -ObjC` to the
+selected target's generated xcconfig, preserving inherited linker flags. Omit the
+option or set it to `false` to keep the existing linker behavior. Switching targets
+removes the previous target's override. This local action does not change
+dependencies or remote settings.
+
+```yaml
+app:
+  targets:
+    play:
+      entrypoint: lib/main_play.dart
+      application_id: com.example.play
+      ios_link_objc_categories: true
+```
+
 # Installation
 
 Install with the following command.
