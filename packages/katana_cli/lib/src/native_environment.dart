@@ -237,36 +237,43 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
   /// Adds an idempotent shell build phase to the Runner native target.
   static String synchronizeProject(String source) {
     source = _retireLegacyPlistReferences(source);
+    final targets = RegExp(
+      r"/\* Begin PBXNativeTarget section \*/[\s\S]*?/\* End PBXNativeTarget section \*/",
+    ).firstMatch(source);
+    if (targets == null) {
+      throw const FormatException("The Xcode native targets were not found.");
+    }
+    var targetSection = targets.group(0)!.replaceAll(
+          RegExp("^[ \\t]*$buildPhaseId /\\* $buildPhaseName \\*/,\\n",
+              multiLine: true),
+          "",
+        );
+    final runner = RegExp(
+      r"[A-Z0-9]+ /\* Runner \*/ = \{\s*isa = PBXNativeTarget;[\s\S]*?buildPhases = \(\n",
+    ).firstMatch(targetSection);
+    if (runner == null) {
+      throw const FormatException("The Runner Xcode target was not found.");
+    }
+    targetSection = targetSection.replaceRange(runner.end, runner.end,
+        "\t\t\t\t$buildPhaseId /* $buildPhaseName */,\n");
+    source = source.replaceRange(targets.start, targets.end, targetSection);
     final escapedScript = shellScript
         .replaceAll(r"\", r"\\")
         .replaceAll('"', r'\"')
         .replaceAll("\n", r"\n");
-    if (source.contains("$buildPhaseId /* $buildPhaseName */")) {
-      final phasePattern = RegExp(
-        "$buildPhaseId /\\* $buildPhaseName \\*/ = \\{[\\s\\S]*?\\n[ \\t]*\\};",
-      );
-      final phase = phasePattern.firstMatch(source);
-      if (phase == null) {
-        throw const FormatException(
-            "The managed Firebase build phase was not found.");
-      }
-      final updated = phase.group(0)!.replaceFirst(
+    final phasePattern = RegExp(
+      "$buildPhaseId /\\* $buildPhaseName \\*/ = \\{[\\s\\S]*?\\n[ \\t]*\\};",
+    );
+    final existingPhase = phasePattern.firstMatch(source);
+    if (existingPhase != null) {
+      final updated = existingPhase.group(0)!.replaceFirst(
             RegExp(r'shellScript = "(?:\\.|[^"\\])*";'),
             'shellScript = "$escapedScript";',
           );
-      return source.replaceRange(phase.start, phase.end, updated);
+      return source.replaceRange(
+          existingPhase.start, existingPhase.end, updated);
     }
-    final runnerTarget = RegExp(
-      r"(?<head>[A-Z0-9]+ /\* Runner \*/ = \{[\s\S]*?buildPhases = \(\n)",
-    ).firstMatch(source);
-    if (runnerTarget == null) {
-      throw const FormatException("The Runner Xcode target was not found.");
-    }
-    var result = source.replaceRange(
-      runnerTarget.end,
-      runnerTarget.end,
-      "\t\t\t\t$buildPhaseId /* $buildPhaseName */,\n",
-    );
+    var result = source;
     const sectionEnd = "/* End PBXShellScriptBuildPhase section */";
     final sectionIndex = result.indexOf(sectionEnd);
     if (sectionIndex < 0) {

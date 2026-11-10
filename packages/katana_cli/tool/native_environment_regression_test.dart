@@ -167,6 +167,43 @@ android {
         synchronizedProject,
     "Xcode project synchronization must be idempotent.",
   );
+  final misplaced = synchronizedProject
+      .replaceFirst(
+        RegExp(
+            r"^[ \t]*F17EBA5E0000000000000001 /\* Select Katana Firebase Configuration \*/,\n",
+            multiLine: true),
+        "",
+      )
+      .replaceFirst(
+        "123ABC /* Runner */ = {",
+        "456DEF /* RunnerTests */ = {\n"
+            "      isa = PBXNativeTarget;\n"
+            "      buildPhases = (\n"
+            "        ${AppleFirebaseEnvironmentSynchronizer.buildPhaseId} "
+            "/* ${AppleFirebaseEnvironmentSynchronizer.buildPhaseName} */,\n"
+            "      );\n"
+            "    };\n"
+            "    123ABC /* Runner */ = {",
+      );
+  final repaired =
+      AppleFirebaseEnvironmentSynchronizer.synchronizeProject(misplaced);
+  _expect(
+    repaired.indexOf(
+            "F17EBA5E0000000000000001 /* Select Katana Firebase Configuration */,") >
+        repaired.indexOf("123ABC /* Runner */ = {"),
+    "A misplaced phase must move from RunnerTests to Runner.",
+  );
+  _expect(
+    RegExp(r"F17EBA5E0000000000000001 /\* Select Katana Firebase Configuration \*/,")
+            .allMatches(repaired)
+            .length ==
+        1,
+    "The managed phase must be referenced by exactly one target.",
+  );
+  _expect(
+      AppleFirebaseEnvironmentSynchronizer.synchronizeProject(repaired) ==
+          repaired,
+      "Repairing a misplaced phase must be idempotent.");
 
   final sandbox = Directory.systemTemp.createTempSync("katana-apple-test-");
   try {
