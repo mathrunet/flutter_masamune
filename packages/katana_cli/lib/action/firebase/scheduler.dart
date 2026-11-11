@@ -119,18 +119,22 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
       ];
     }
     await firestoreIndexes.writeAsString(jsonEncode(indexes));
-    await command(
-      "Deploy firebase firestore.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "firestore:indexes",
-        "--project",
-        projectId,
-      ],
-      workingDirectory: "firebase",
-    );
+    if (isNoDeployApply) {
+      label("Skip firebase firestore:indexes deploy (--no-deploy)");
+    } else {
+      await command(
+        "Deploy firebase firestore.",
+        [
+          firebaseCommand,
+          "deploy",
+          "--only",
+          "firestore:indexes",
+          "--project",
+          projectId,
+        ],
+        workingDirectory: "firebase",
+      );
+    }
     label("Set firebase functions config.");
     final env = FunctionsEnv(context: context);
     await env.load();

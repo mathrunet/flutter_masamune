@@ -931,17 +931,21 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         if (enabledCors) {
           label("Set the cors.json");
           await const FirebaseStorageCorsCliCode().generateFile("cors.json");
-          await command(
-            "Run cors.json deploy",
-            [
-              gsutil,
-              "cors",
-              "set",
-              "cors.json",
-              "gs://$projectId.appspot.com",
-            ],
-            workingDirectory: "firebase",
-          );
+          if (isNoDeployApply) {
+            label("Skip cors.json deploy (--no-deploy)");
+          } else {
+            await command(
+              "Run cors.json deploy",
+              [
+                gsutil,
+                "cors",
+                "set",
+                "cors.json",
+                "gs://$projectId.appspot.com",
+              ],
+              workingDirectory: "firebase",
+            );
+          }
         }
       }
       if (firestoreGenerateRulesAndIndexes) {
@@ -1441,6 +1445,13 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       hostingGithubActions: enableActions,
     );
     if (firebaseJsonFileExists &&
+        !isLocalApply &&
+        deployTargets.isNotEmpty &&
+        isNoDeployApply) {
+      label(
+        "Skip firebase deploy (--no-deploy): ${deployTargets.join(",")}",
+      );
+    } else if (firebaseJsonFileExists &&
         !isLocalApply &&
         deployTargets.isNotEmpty &&
         enabledFunctions &&

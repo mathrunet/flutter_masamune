@@ -372,6 +372,12 @@ Future<void> _applyRegionWorker({
   if (existing.exitCode == 0) {
     return;
   }
+  if (isNoDeployApply) {
+    label(
+      "Skip creating Cloudflare region Worker `$projectId-region` (--no-deploy)",
+    );
+    return;
+  }
   await command(
     "Create Cloudflare region Worker `$projectId-region`",
     [

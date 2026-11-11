@@ -39,6 +39,12 @@ class _FirebaseDeployPostAction extends PostAction {
     if (types.isEmpty) {
       return;
     }
+    if (context.noDeploy) {
+      // Fail closed if a deployment was scheduled despite --no-deploy.
+      throw StateError(
+        "Deployment is not allowed with --no-deploy: ${types.map((e) => e.name).join(",")}",
+      );
+    }
     final bin = context.yaml.getAsMap("bin");
     final firebaseCommand = bin.get("firebase", "firebase");
     final projectId = context.yaml.getAsMap("firebase").get("project_id", "");
@@ -72,8 +78,14 @@ extension FirebaseDeployPostActionExecContextExtensions on ExecContext {
   /// Deploy the entire package after the process is complete.
   ///
   /// 処理終了後にまとめてデプロイします。
+  ///
+  /// Nothing is scheduled with `--local` or `--no-deploy`.
   void requestFirebaseDeploy(FirebaseDeployPostActionType type) {
     if (isLocalApply) {
+      return;
+    }
+    if (isNoDeployApply || noDeploy) {
+      label("Skip scheduling firebase deploy (--no-deploy): ${type.name}");
       return;
     }
     final action = postActions.firstWhereOrNull(

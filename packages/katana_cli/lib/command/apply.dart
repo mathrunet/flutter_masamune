@@ -219,16 +219,16 @@ class ApplyCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。--only <name,...> は名前（例: tidb, turso, storage）に一致する有効なアクションだけを実行します。";
+      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。--only <name,...> は名前（例: tidb, turso, storage）に一致する有効なアクションだけを実行します。--no-deploy は依存追加と設定反映を行い、Firebase（Firestore・Storage・Functions・Hosting等）の即時デプロイ、終了後のデプロイ予約、Storage CORS反映、Cloudflare Workerの新規デプロイを行いません。";
 
   @override
   String? get example =>
-      "katana apply [--local] [--only <name,...>] [--target <app.targets name>] [--flavor dev|prod]";
+      "katana apply [--local] [--no-deploy] [--only <name,...>] [--target <app.targets name>] [--flavor dev|prod]";
 
   @override
   Future<void> exec(ExecContext context) async {
     await runApplyCommands(() => _apply(context),
-        local: context.args.contains("--local"));
+        local: context.args.contains("--local"), noDeploy: context.noDeploy);
   }
 
   Future<void> _apply(ExecContext context) async {

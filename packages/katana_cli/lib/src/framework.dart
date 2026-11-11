@@ -80,6 +80,12 @@ class ExecContext {
   /// 実行した後のポストアクション。
   final List<PostAction> postActions = [];
 
+  /// Whether `--no-deploy` was specified.
+  ///
+  /// Dependencies and settings are applied, but deployments are neither run
+  /// immediately nor scheduled as post actions.
+  bool get noDeploy => args.contains("--no-deploy");
+
   final int _index;
 
   ExecContext _copyToChild() {
@@ -732,16 +738,29 @@ bool validateFilePath(String path) {
 }
 
 /// apply 実行中だけ内部コマンドの終了コードを必須検証します。
+///
+/// Set [noDeploy] to apply dependencies and settings without running or
+/// scheduling any deployment.
 Future<T> runApplyCommands<T>(Future<T> Function() body,
-        {bool local = false}) =>
-    runZoned(body,
-        zoneValues: {_applyCommandScope: true, _localApplyScope: local});
+        {bool local = false, bool noDeploy = false}) =>
+    runZoned(body, zoneValues: {
+      _applyCommandScope: true,
+      _localApplyScope: local,
+      _noDeployApplyScope: noDeploy,
+    });
 
 final _applyCommandScope = Object();
 final _localApplyScope = Object();
+final _noDeployApplyScope = Object();
 
 /// 依存変更と外部操作を禁止するローカル適用の実行状態。
 bool get isLocalApply => Zone.current[_localApplyScope] == true;
+
+/// Whether the current apply must not run or schedule deployments.
+///
+/// Dependencies and settings are still applied. Immediate deployments and
+/// deployments scheduled after the command are skipped.
+bool get isNoDeployApply => Zone.current[_noDeployApplyScope] == true;
 
 /// ローカル適用で使用する、宣言済み・解決済みの Dart 依存を確認します。
 void validateLocalFlutterDependencies(List<String> packages,
@@ -805,6 +824,9 @@ Future<String> command(
   }
   if (commands.isEmpty) {
     throw Exception("At least one command is required.");
+  }
+  if (isNoDeployApply && commands.length > 1 && commands[1] == "deploy") {
+    throw StateError("Deployment is not allowed with --no-deploy: $title");
   }
   if (isLocalApply) {
     final executable = commands.first.split("/").last;

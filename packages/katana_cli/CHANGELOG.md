@@ -17,6 +17,7 @@
 
 ## Unreleased
 
+ - **FEAT**: Add `katana apply --no-deploy` to add dependencies and apply settings without running or scheduling Firebase deploys (Firestore, Storage, Functions, Hosting, Data Connect), Storage CORS updates or new Cloudflare region Worker deployments. Normal apply and `--local` keep their behavior.
  - **FIX**: Support target-scoped Objective-C category linkage with `app.targets.<name>.ios_link_objc_categories`, preserving inherited flags and removing the override when switching targets.
 
  - **BREAKING**: Require cloud_firestore 7.1.0 or later during Firebase setup. Existing 6.x constraints are moved to the 7.1.0+ range to match the FlutterFire upgrade of the Masamune Firebase packages.
