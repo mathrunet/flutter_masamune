@@ -1,3 +1,8 @@
+## 3.4.2
+
+
+ - Update dependencies: masamune, masamune_ai.
+
 ## 3.4.1
 
 

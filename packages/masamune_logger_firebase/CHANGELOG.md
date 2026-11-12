@@ -1,3 +1,8 @@
+## 3.5.0
+
+ - **FEAT**: record experiment exposures in analytics ([626cbfae](https://github.com/mathrunet/flutter_masamune/commit/626cbfae04beff12262174ce2a335353975920fb))
+ - Update dependencies: masamune.
+
 ## 3.4.1
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([044abe71](https://github.com/mathrunet/flutter_masamune/commit/044abe71e25122149a13ab8c4c5e36c82865765f))

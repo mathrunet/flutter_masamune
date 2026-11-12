@@ -1,3 +1,8 @@
+## 3.6.0
+
+ - **FEAT**: add native app target selection and fix AI usage counts ([250c2b84](https://github.com/mathrunet/flutter_masamune/commit/250c2b8438800df208117e227fd0c4df4de0d252))
+ - Update dependencies: masamune, masamune_ai.
+
 ## 3.5.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))

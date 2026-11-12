@@ -1,3 +1,8 @@
+## 3.2.2
+
+
+ - Update dependencies: masamune.
+
 ## 3.2.1
 
  - **FIX**: improve adaptive ads and future error handling ([de0e0a73](https://github.com/mathrunet/flutter_masamune/commit/de0e0a73dc418466d29594eda94219756c8947d9))

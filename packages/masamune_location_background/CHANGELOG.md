@@ -1,3 +1,8 @@
+## 3.2.2
+
+
+ - Update dependencies: masamune, masamune_location_platform_interface.
+
 ## 3.2.1
 
 

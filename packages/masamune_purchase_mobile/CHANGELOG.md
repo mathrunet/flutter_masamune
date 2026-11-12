@@ -1,3 +1,8 @@
+## 3.1.26
+
+
+ - Update dependencies: masamune, masamune_purchase.
+
 ## 3.1.25
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([5c68356e](https://github.com/mathrunet/flutter_masamune/commit/5c68356ebfd231b5e88a82d8bd6d228a3e8e44a2))

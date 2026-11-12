@@ -1,3 +1,9 @@
+## 3.4.1
+
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([d17296ef](https://github.com/mathrunet/flutter_masamune/commit/d17296ef674354ca43c2cbf9a7fe9eaa0b929ba7))
+ - **CHORE**(masamune_universal_ui): exclude build directory from analysis ([d17296ef](https://github.com/mathrunet/flutter_masamune/commit/d17296ef674354ca43c2cbf9a7fe9eaa0b929ba7))
+ - Update dependencies: masamune.
+
 ## 3.4.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([e9adf656](https://github.com/mathrunet/flutter_masamune/commit/e9adf656710de3e2bf5add0b810ea2a4e9013458))

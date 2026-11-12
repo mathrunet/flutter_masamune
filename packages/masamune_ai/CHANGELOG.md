@@ -1,3 +1,8 @@
+## 3.5.2
+
+
+ - Update dependencies: masamune.
+
 ## 3.5.1
 
 

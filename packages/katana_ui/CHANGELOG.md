@@ -1,3 +1,8 @@
+## 3.5.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([830375f2](https://github.com/mathrunet/flutter_masamune/commit/830375f228f982093b70286ad2e054c6a7917cff))
+ - **FEAT**(katana_ui): add SegmentedTabBar pill-shaped tab bar ([830375f2](https://github.com/mathrunet/flutter_masamune/commit/830375f228f982093b70286ad2e054c6a7917cff))
+
 ## 3.4.0
 
  - **FEAT**: improve CLI, model transactions, and debugger tooling ([fada65a8](https://github.com/mathrunet/flutter_masamune/commit/fada65a8c34769d940664b72fd56f62320b0d419))

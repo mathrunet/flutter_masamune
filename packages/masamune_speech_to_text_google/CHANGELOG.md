@@ -1,3 +1,8 @@
+## 3.3.2
+
+
+ - Update dependencies: masamune, masamune_google_cloud, masamune_speech_to_text.
+
 ## 3.3.1
 
 

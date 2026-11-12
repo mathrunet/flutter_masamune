@@ -1,3 +1,8 @@
+## 3.3.1
+
+
+ - Update dependencies: katana_auth_firebase, masamune.
+
 ## 3.3.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))

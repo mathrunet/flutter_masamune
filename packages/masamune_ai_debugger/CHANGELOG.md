@@ -1,3 +1,9 @@
+## 3.11.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([68c8c914](https://github.com/mathrunet/flutter_masamune/commit/68c8c9141c75a820c6e65b1b33423e9b6f4d626e))
+ - **FEAT**(masamune_ai_debugger): default incident sessions to bypassPermissions and support expected performance delays ([68c8c914](https://github.com/mathrunet/flutter_masamune/commit/68c8c9141c75a820c6e65b1b33423e9b6f4d626e))
+ - Update dependencies: masamune.
+
 ## 3.10.0
 
  - **FEAT**(masamune_ai_debugger): set default AI providers ([6763157d](https://github.com/mathrunet/flutter_masamune/commit/6763157d35cb9c48eb4d3d3c8997e31720d41796))

@@ -1,3 +1,8 @@
+## 3.3.2
+
+
+ - Update dependencies: masamune, masamune_scheduler.
+
 ## 3.3.1
 
 
