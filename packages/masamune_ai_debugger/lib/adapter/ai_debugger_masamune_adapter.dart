@@ -18,24 +18,30 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   /// dart-defineから読み込みます。コールバックを差し替えた場合、これらの値が
   /// 必要かどうかは各コールバックの実装に依存します。
   AIDebuggerMasamuneAdapter({
-    this.projectId =
-        const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_PROJECT_ID"),
-    this.endpoint =
-        const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_ENDPOINT"),
+    this.projectId = const String.fromEnvironment(
+      "MASAMUNE_AI_DEBUGGER_PROJECT_ID",
+    ),
+    this.endpoint = const String.fromEnvironment(
+      "MASAMUNE_AI_DEBUGGER_ENDPOINT",
+    ),
     this.apiKey = const String.fromEnvironment("MASAMUNE_AI_DEBUGGER_API_KEY"),
     this.maxScreenshots = 6,
     this.maxSessionsPerHour = 6,
     this.reportHandledErrors = true,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
+    String flavor = const String.fromEnvironment(
+      "FLAVOR",
+      defaultValue: "unknown",
+    ),
     List<String> providers = const ["codex", "claude", "gemini"],
     this.initialProvider,
     this.manualModel = AIDebugModel.sol,
     this.manualPermissionMode = AIDebugPermissionMode.plan,
     this.errorModel = AIDebugModel.sol,
-    this.errorPermissionMode = AIDebugPermissionMode.plan,
+    this.errorPermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.performanceModel = AIDebugModel.sol,
-    this.performancePermissionMode = AIDebugPermissionMode.plan,
+    this.performancePermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.contextProvider,
     AIDebugPost? post,
     AIDebugRegisterRunCallback? registerRun,
@@ -118,7 +124,8 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
             indicatorTimeout: indicatorTimeout,
           ),
           post: post,
-          registerRun: registerRun ?? defaultRegisterRun,
+          registerRun: registerRun ??
+              ((controller) => defaultRegisterRun(controller, flavor: flavor)),
           heartbeatCallback: heartbeat ?? defaultHeartbeat,
           endRun: endRun ?? defaultEndRun,
           uploadScreenshot: uploadScreenshot ?? defaultUploadScreenshot,
@@ -278,18 +285,34 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
   final AIDebugController controller;
   late final LoggerAdapter _loggerAdapter;
 
+  static final Object _expectedDelayZoneKey = Object();
+
+  /// Marks traces created by [operation] as expected while [isExpected] holds.
+  /// Other concurrent operations retain their own monitoring context.
+  static Future<T> runWithExpectedPerformanceDelay<T>(
+    Future<T> Function() operation, {
+    required bool Function(String name) isExpected,
+  }) =>
+      runZoned(operation, zoneValues: {_expectedDelayZoneKey: isExpected});
+
   FlutterExceptionHandler? _previousFlutterError;
   bool Function(Object, StackTrace)? _previousPlatformError;
 
   /// Registers a run with the default SamuraiAI API.
   ///
   /// デフォルトのSamuraiAI APIへ実行を登録します。
-  static Future<void> defaultRegisterRun(AIDebugController controller) async {
+  static Future<void> defaultRegisterRun(
+    AIDebugController controller, {
+    String flavor = const String.fromEnvironment(
+      "FLAVOR",
+      defaultValue: "unknown",
+    ),
+  }) async {
     await _postToSamuraiAI(controller, "/api/app-debug/runs", {
       "runId": controller.runId,
       "projectId": controller.projectId,
       "platform": defaultTargetPlatform.name,
-      "flavor": "debug",
+      "flavor": flavor,
       "startedAt": controller.startedAt.toIso8601String(),
       "maxSessionsPerHour": controller.maxSessionsPerHour,
     });
@@ -328,10 +351,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     final result = await _postToSamuraiAI(
       controller,
       "/api/app-debug/runs/${controller.runId}/screenshots",
-      {
-        "name": name,
-        "data": "data:image/png;base64,${base64Encode(bytes)}",
-      },
+      {"name": name, "data": "data:image/png;base64,${base64Encode(bytes)}"},
     );
     return ((result["screenshot"] as Map?)?["name"] as String?) ?? "";
   }

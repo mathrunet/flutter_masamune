@@ -339,9 +339,9 @@ class AIDebugSettings {
     this.manualModel = AIDebugModel.sol,
     this.manualPermissionMode = AIDebugPermissionMode.plan,
     this.errorModel = AIDebugModel.sol,
-    this.errorPermissionMode = AIDebugPermissionMode.plan,
+    this.errorPermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.performanceModel = AIDebugModel.sol,
-    this.performancePermissionMode = AIDebugPermissionMode.plan,
+    this.performancePermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.modelLoadTimeout = const Duration(seconds: 5),
     this.indicatorTimeout = const Duration(seconds: 10),
   });

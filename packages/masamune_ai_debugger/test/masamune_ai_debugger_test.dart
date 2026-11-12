@@ -4,6 +4,7 @@ import "dart:typed_data";
 
 import "package:flutter/material.dart";
 import "package:flutter_test/flutter_test.dart";
+import "package:masamune/masamune.dart";
 import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -835,6 +836,19 @@ void main() {
     expect(calls, isEmpty);
   });
 
+  test("automatic incidents default to bypassPermissions", () {
+    const settings = AIDebugSettings();
+    expect(settings.manualPermissionMode, AIDebugPermissionMode.plan);
+    expect(
+      settings.errorPermissionMode,
+      AIDebugPermissionMode.bypassPermissions,
+    );
+    expect(
+      settings.performancePermissionMode,
+      AIDebugPermissionMode.bypassPermissions,
+    );
+  });
+
   test("settings persist per project", () async {
     final first = AIDebugController(
       projectId: "Users-example-settings-a",
@@ -1065,6 +1079,85 @@ void main() {
     await adapter.controller.end();
   });
 
+  for (final clockChange in ["fixed", "changed", "cleared"]) {
+    test("trace elapsed ignores $clockChange application clock", () async {
+      final incidents = <Map<String, Object?>>[];
+      final events = <Map<String, Object?>>[];
+      final controllerAdapter = AIDebuggerMasamuneAdapter(
+        projectId: "trace-clock-observed-$clockChange",
+        modelLoadTimeout: const Duration(milliseconds: 5),
+        registerRun: (_) async {},
+        uploadEvents: (_, batch) async => events.addAll(batch),
+        reportIncident: (
+          _, {
+          required kind,
+          required message,
+          required stackTrace,
+          required timestamp,
+          required metadata,
+        }) async =>
+            incidents.add(metadata),
+      );
+      Clock.setTestCurrentTime(DateTime(2020));
+      addTearDown(() => Clock.setTestCurrentTime(null));
+      final startedAt = Clock.now();
+      final trace = controllerAdapter.loggerAdapters.single.trace(
+        "katana.model.load|document|load|ClockModel",
+      );
+      final wallStartedAt = DateTime.now().toUtc();
+      await trace.start(startedAt);
+      if (clockChange == "changed") {
+        Clock.setTestCurrentTime(DateTime(2030));
+      } else if (clockChange == "cleared") {
+        Clock.setTestCurrentTime(null);
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+      await trace.stop(startedAt, Clock.now());
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      await controllerAdapter.controller.flushLogs();
+      expect(incidents, hasLength(1));
+      final recordedStart =
+          DateTime.parse(incidents.single["startedAt"] as String);
+      expect(recordedStart.isBefore(wallStartedAt), isFalse);
+      expect(recordedStart.isAfter(DateTime.now().toUtc()), isFalse);
+      expect(incidents.single["elapsedMs"], inInclusiveRange(5, 2000));
+      final event = events.single["message"]! as String;
+      final parameters = jsonDecode(event.substring(event.indexOf("{"))) as Map;
+      expect(parameters["duration_ms"], inInclusiveRange(5, 2000));
+      expect(parameters["threshold_exceeded"], true);
+      await controllerAdapter.controller.end();
+    });
+  }
+
+  test("stopping while settings load never arms a timeout", () async {
+    final incidents = <Map<String, Object?>>[];
+    final adapter = AIDebuggerMasamuneAdapter(
+      projectId: "trace-settings-race",
+      indicatorTimeout: const Duration(milliseconds: 5),
+      registerRun: (_) async {},
+      uploadEvents: (_, __) async {},
+      reportIncident: (
+        _, {
+        required kind,
+        required message,
+        required stackTrace,
+        required timestamp,
+        required metadata,
+      }) async =>
+          incidents.add(metadata),
+    );
+    final trace = adapter.loggerAdapters.single.trace(
+      "katana.indicator.show|SettingsRace",
+    );
+    final startedAt = DateTime.now();
+    final start = trace.start(startedAt);
+    await trace.stop(startedAt, startedAt);
+    await start;
+    await Future<void>.delayed(const Duration(milliseconds: 30));
+    expect(incidents, isEmpty);
+    await adapter.controller.end();
+  });
+
   testWidgets("debug toggle opens the AI Debugger panel and stays on screen",
       (tester) async {
     final adapter = AIDebuggerMasamuneAdapter(projectId: "Users-example-app");
@@ -1129,9 +1222,7 @@ void main() {
     expect(find.text("エラー時"), findsOneWidget);
     expect(find.text("計測超過時"), findsOneWidget);
     await tester.tap(find.widgetWithText(ChoiceChip, "Sol").first);
-    await tester.tap(
-      find.widgetWithText(ChoiceChip, "bypassPermissions").first,
-    );
+    await tester.tap(find.widgetWithText(ChoiceChip, "Plan").first);
     final timeoutFields = find.byType(TextField);
     await tester.enterText(timeoutFields.at(1), "7.5");
     await tester.enterText(timeoutFields.at(2), "12");
@@ -1140,10 +1231,7 @@ void main() {
 
     final settings = adapter.controller.settings;
     expect(settings.errorModel, AIDebugModel.sol);
-    expect(
-      settings.errorPermissionMode,
-      AIDebugPermissionMode.bypassPermissions,
-    );
+    expect(settings.errorPermissionMode, AIDebugPermissionMode.plan);
     expect(settings.modelLoadTimeout, const Duration(milliseconds: 7500));
     expect(settings.indicatorTimeout, const Duration(seconds: 12));
   });

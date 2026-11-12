@@ -47,9 +47,9 @@ final aiDebugger = AIDebuggerMasamuneAdapter(
   manualModel: AIDebugModel.sol,
   manualPermissionMode: AIDebugPermissionMode.plan,
   errorModel: AIDebugModel.sol,
-  errorPermissionMode: AIDebugPermissionMode.plan,
+  errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
   performanceModel: AIDebugModel.sol,
-  performancePermissionMode: AIDebugPermissionMode.plan,
+  performancePermissionMode: AIDebugPermissionMode.bypassPermissions,
   modelLoadTimeout: const Duration(seconds: 5),
   indicatorTimeout: const Duration(seconds: 10),
 );
@@ -380,7 +380,7 @@ Debugビルドでは、既存の `LoggerAdapter` のperformance traceを使っ�
 - `Future.showIndicator` 経由のインジケーター表示（既定10秒）
 - `MeasuredCircularProgressIndicator` / `MeasuredLinearProgressIndicator` の表示時間（既定10秒）
 
-処理が終わらなくても閾値へ達した時点で、現在画面と直近ログをperformance incidentとして送信し、SamuraiAIにPlan Modeの調査セッションを作成します。同一処理はアプリ起動中の重複排除と時間当たり上限の対象です。閾値以下で完了した処理は `duration_ms` の通常ログだけを送ります。
+処理が終わらなくても閾値へ達した時点で、現在画面と直近ログをperformance incidentとして送信し、SamuraiAIにbypassPermissionsモード（既定）の調査・修正セッションを作成します。同一処理はアプリ起動中の重複排除と時間当たり上限の対象です。閾値以下で完了した処理は `duration_ms` の通常ログだけを送ります。
 
 Widgetツリーへ待機表示を直接配置する場合は、固定かつ機密情報を含まない`traceName`を付けた
 `MeasuredCircularProgressIndicator`または`MeasuredLinearProgressIndicator`を使用してください。
