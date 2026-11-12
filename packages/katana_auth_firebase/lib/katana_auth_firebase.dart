@@ -34,4 +34,5 @@ export "package:katana_auth/katana_auth.dart";
 export "package:katana_firebase/katana_firebase.dart";
 
 part "adapter/firebase_auth_adapter.dart";
+part "provider/firebase_custom_token_sign_in_auth_provider.dart";
 part "provider/firebase_sns_sign_in_auth_provider.dart";

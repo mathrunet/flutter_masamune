@@ -556,6 +556,24 @@ class FirebaseAuthAdapter extends AuthAdapter {
       throw Exception(
         "This provider is not supported: ${provider.providerId}",
       );
+    } else if (provider is FirebaseCustomTokenSignInAuthProvider) {
+      if (provider.token.trim().isEmpty) {
+        throw FirebaseAuthException(
+          message: "The custom token is empty.",
+          code: "invalid-custom-token",
+        );
+      }
+      await _prepareProcessInternal();
+      if (_user != null && _user!.uid.isNotEmpty) {
+        throw Exception(
+          "This user is already signed in, please sign out first.",
+        );
+      }
+      await database.signInWithCustomToken(provider.token);
+      if (_user == null || _user!.uid.isEmpty) {
+        throw Exception("User is not found.");
+      }
+      onUserStateChanged.call();
     } else if (provider is AnonymouslySignInAuthProvider) {
       await _prepareProcessInternal();
       if (_user != null && _user!.uid.isNotEmpty) {
