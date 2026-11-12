@@ -1,3 +1,8 @@
+## 3.12.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([d20431a8](https://github.com/mathrunet/flutter_masamune/commit/d20431a8bdaa8911b44ce8865ddac3255542e809))
+ - **FEAT**(masamune_ai_debugger): add dev-only real-time voice input ([d20431a8](https://github.com/mathrunet/flutter_masamune/commit/d20431a8bdaa8911b44ce8865ddac3255542e809))
+
 ## 3.11.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([68c8c914](https://github.com/mathrunet/flutter_masamune/commit/68c8c9141c75a820c6e65b1b33423e9b6f4d626e))
