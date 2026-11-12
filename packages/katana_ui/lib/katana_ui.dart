@@ -43,3 +43,4 @@ part "ui/square_avatar.dart";
 part "ui/sns_content_tile.dart";
 part "ui/list_tile_group.dart";
 part "ui/sns_image.dart";
+part "ui/segmented_tab_bar.dart";

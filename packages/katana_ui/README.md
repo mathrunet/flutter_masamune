@@ -72,6 +72,36 @@ Modal.confirm(
 );
 ```
 
+## Segmented tab bar
+
+A pill-shaped tab bar that works like Flutter's `TabBar`. Combine it with a `TabBarView` to switch the content by tapping a tab or by swiping horizontally.
+
+```dart
+DefaultTabController(
+  length: 3,
+  child: Column(
+    children: [
+      const SegmentedTabBar(
+        tabs: [
+          Tab(text: "Stock"),
+          Tab(text: "Trading"),
+          Tab(text: "Favorite"),
+        ],
+      ),
+      Expanded(
+        child: TabBarView(
+          children: [
+            StockView(),
+            TradingView(),
+            FavoriteView(),
+          ],
+        ),
+      ),
+    ],
+  ),
+);
+```
+
 # GitHub Sponsors
 
 Sponsors are always welcome. Thank you for your support!
