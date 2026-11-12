@@ -7,7 +7,7 @@ class AIDebugHttpException implements Exception {
   /// Creates an HTTP exception with [statusCode] and [message].
   ///
   /// [statusCode]と[message]を持つHTTP例外を作成します。
-  const AIDebugHttpException(this.statusCode, this.message);
+  const AIDebugHttpException(this.statusCode, this.message, {this.code});
 
   /// HTTP status code returned by the API.
   ///
@@ -18,6 +18,12 @@ class AIDebugHttpException implements Exception {
   ///
   /// APIから返されたエラーメッセージ。
   final String message;
+
+  /// Machine-readable error code returned by the API, such as
+  /// `not_configured`.
+  ///
+  /// APIから返された機械可読のエラーコード（`not_configured`など）。
+  final String? code;
 
   @override
   String toString() => "AIDebugHttpException($statusCode): $message";

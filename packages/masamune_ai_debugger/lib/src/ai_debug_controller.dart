@@ -26,6 +26,7 @@ class AIDebugController {
     AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
     AIDebugReportIncidentCallback? reportIncident,
     this.uploadEvents = AIDebuggerMasamuneAdapter.defaultUploadEvents,
+    this.speechToken = AIDebuggerMasamuneAdapter.defaultSpeechToken,
     this.heartbeatInterval = const Duration(seconds: 30),
   })  : providers = List.unmodifiable(
           providers
@@ -146,6 +147,11 @@ class AIDebugController {
   ///
   /// パンくずログイベントをアップロードするコールバック。
   final AIDebugUploadEventsCallback uploadEvents;
+
+  /// Callback that issues a single-use real-time speech token.
+  ///
+  /// リアルタイム音声認識用の使い捨てトークンを発行するコールバック。
+  final AIDebugSpeechTokenCallback speechToken;
 
   /// Interval between foreground heartbeat requests.
   ///
@@ -431,6 +437,27 @@ class AIDebugController {
       bytes,
       name: name ?? "screenshot-${DateTime.now().millisecondsSinceEpoch}.png",
     );
+  }
+
+  /// Issues a single-use speech token for the voice input of this run.
+  ///
+  /// A run that expired or disappeared on the server is recreated once.
+  /// Throws a [StateError] outside Debug builds.
+  ///
+  /// この実行の音声入力用に使い捨てのトークンを発行します。
+  Future<AIDebugSpeechToken> requestSpeechToken() async {
+    if (!_debugEnabled) {
+      throw StateError("AI Debugger is only available in Debug builds.");
+    }
+    try {
+      await register();
+      return await speechToken(this);
+    } on AIDebugHttpException catch (error) {
+      if (error.statusCode != 404 && error.statusCode != 410) rethrow;
+      _rotateRun();
+      await register();
+      return speechToken(this);
+    }
   }
 
   /// Sends an AI [instruction] with the selected [screenshots].

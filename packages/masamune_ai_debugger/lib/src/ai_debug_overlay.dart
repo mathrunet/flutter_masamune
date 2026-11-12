@@ -96,6 +96,9 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   String? _settingsError;
   Uint8List? _preview;
   Timer? _incidentNotificationTimer;
+  AIDebugVoiceSession? _voiceSession;
+  AIDebugVoiceState _voiceState = AIDebugVoiceState.idle;
+  String _voicePartial = "";
   late AIDebugSettings _settings;
   late AIDebugSettings _draftSettings;
 
@@ -154,6 +157,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     widget.controller._detachIncidentSessionCreated(_incidentSessionCreated);
     widget.controller._detachWidgetTree(_widgetTreeCapture);
     _incidentNotificationTimer?.cancel();
+    _cancelVoice();
     unawaited(widget.controller.end());
     _textController.dispose();
     _emailController.dispose();
@@ -512,6 +516,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     final text = _textController.text.trim();
     if (text.isEmpty || _sending) return;
     final instruction = _buildInstruction(text);
+    _cancelVoice();
     setState(() {
       _sending = true;
       _status = null;
@@ -535,6 +540,124 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
     } finally {
       if (mounted) setState(() => _sending = false);
     }
+  }
+
+  /// Whether the voice input button is shown. [kAIDebugVoiceEnabled] comes
+  /// first so that the compiler drops the voice code when it is `false`.
+  bool get _voiceAvailable =>
+      kAIDebugVoiceEnabled && AIDebugVoiceSession.isSupported;
+
+  bool get _voiceActive => _voiceState != AIDebugVoiceState.idle;
+
+  Future<void> _toggleVoice() async {
+    if (!_voiceAvailable) return;
+    final current = _voiceSession;
+    if (current != null) {
+      if (current.state == AIDebugVoiceState.recording) {
+        await current.stop();
+      } else {
+        current.cancel();
+      }
+      return;
+    }
+    late final AIDebugVoiceSession session;
+    session = AIDebugVoiceSession(
+      controller: widget.controller,
+      onPartial: (text) {
+        if (mounted && identical(_voiceSession, session)) {
+          setState(() => _voicePartial = text);
+        }
+      },
+      onCommitted: (text) {
+        if (mounted) _insertTranscript(text);
+      },
+      onError: (error) {
+        if (mounted) setState(() => _status = _voiceErrorMessage(error));
+      },
+      onStateChanged: (state) {
+        if (!mounted || !identical(_voiceSession, session)) return;
+        setState(() {
+          _voiceState = state;
+          if (state == AIDebugVoiceState.idle) {
+            _voiceSession = null;
+            _voicePartial = "";
+          }
+        });
+      },
+    );
+    setState(() {
+      _voiceSession = session;
+      _voicePartial = "";
+      _status = null;
+    });
+    await session.start();
+  }
+
+  void _cancelVoice() {
+    final session = _voiceSession;
+    if (session == null) return;
+    _voiceSession = null;
+    _voiceState = AIDebugVoiceState.idle;
+    _voicePartial = "";
+    session.cancel();
+  }
+
+  void _insertTranscript(String text) {
+    final value = _textController.value;
+    final selection = value.selection;
+    final result = AIDebugVoiceProtocol.insertTranscript(
+      value.text,
+      text,
+      start: selection.isValid ? selection.start : null,
+      end: selection.isValid ? selection.end : null,
+    );
+    _textController.value = TextEditingValue(
+      text: result.value,
+      selection: TextSelection.collapsed(offset: result.cursor),
+    );
+  }
+
+  String _voiceErrorMessage(Object error) {
+    if (error is AIDebugHttpException) {
+      if (error.statusCode == 412 || error.code == "not_configured") {
+        return "音声入力を使うには Samurai の設定 → ElevenLabs で API キーを登録してください";
+      }
+      return "音声入力を開始できませんでした: ${error.message}";
+    }
+    if (error is AIDebugVoiceException) {
+      return switch (error.code) {
+        "permission_denied" => "マイクの使用が許可されていません。端末の設定でマイクを許可してください",
+        "unavailable" => "このビルドでは音声入力を使えません: ${error.message}",
+        _ => "音声入力でエラーが起きました: ${error.message}",
+      };
+    }
+    return "音声入力でエラーが起きました: $error";
+  }
+
+  Widget _buildVoiceButton() {
+    final recording = _voiceState == AIDebugVoiceState.recording;
+    final busy = _voiceState == AIDebugVoiceState.connecting ||
+        _voiceState == AIDebugVoiceState.stopping;
+    return Semantics(
+      label: kAIDebugVoiceInputLabel,
+      button: true,
+      toggled: _voiceActive,
+      excludeSemantics: true,
+      child: IconButton(
+        visualDensity: VisualDensity.compact,
+        tooltip: recording ? "音声入力を停止" : "音声入力",
+        onPressed: _sending ? null : () => unawaited(_toggleVoice()),
+        icon: busy
+            ? const SizedBox.square(
+                dimension: 18,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Icon(
+                recording ? Icons.stop_circle : Icons.mic,
+                color: recording ? Colors.redAccent : null,
+              ),
+      ),
+    );
   }
 
   String _buildInstruction(String text) {
@@ -905,10 +1028,13 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
           identifier: "ai_debugger_close",
           child: IconButton(
             visualDensity: VisualDensity.compact,
-            onPressed: () => setState(() {
-              _panelView = _AIDebugPanelView.prompt;
-              _expanded = false;
-            }),
+            onPressed: () {
+              _cancelVoice();
+              setState(() {
+                _panelView = _AIDebugPanelView.prompt;
+                _expanded = false;
+              });
+            },
             icon: const Icon(Icons.close, size: 18, semanticLabel: "閉じる"),
           ),
         ),
@@ -1000,6 +1126,16 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             ),
           ),
         ),
+        if (_voiceAvailable && _voicePartial.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              _voicePartial,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 12, color: Colors.white54),
+            ),
+          ),
         const SizedBox(height: 8),
         SizedBox(
           height: 48,
@@ -1008,6 +1144,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                 onPressed: _addScreenshot,
                 icon: const Icon(Icons.screenshot_monitor,
                     semanticLabel: "スクリーンショット")),
+            if (_voiceAvailable) _buildVoiceButton(),
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,

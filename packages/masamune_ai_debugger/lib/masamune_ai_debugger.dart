@@ -17,13 +17,21 @@ library;
 import "dart:async";
 import "dart:convert";
 import "dart:math" as math;
+import "dart:typed_data" show BytesBuilder;
 import "dart:ui" as ui;
 
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
+import "package:flutter/services.dart";
 import "package:masamune/masamune.dart";
 import "package:shared_preferences/shared_preferences.dart";
+
+import "src/voice/ai_debug_voice_socket.dart";
+import "src/voice/ai_debug_voice_socket_stub.dart"
+    if (dart.library.io) "src/voice/ai_debug_voice_socket_io.dart";
+
+export "src/voice/ai_debug_voice_socket.dart";
 
 part "adapter/ai_debugger_masamune_adapter.dart";
 part "src/ai_debug_post.dart";
@@ -31,6 +39,7 @@ part "src/ai_debug_http_exception.dart";
 part "src/ai_debug_controller.dart";
 part "src/ai_debug_logger_adapter.dart";
 part "src/ai_debug_overlay.dart";
+part "src/ai_debug_voice.dart";
 
 const _modelLoadTracePrefix = "katana.model.load";
 const _indicatorTracePrefix = "katana.indicator.show";

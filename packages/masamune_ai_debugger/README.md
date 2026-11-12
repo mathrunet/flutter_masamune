@@ -346,6 +346,74 @@ Custom callbacks keep their existing signatures and can read
 `controller.currentProvider` to obtain the selection captured for that request,
 including during concurrent requests. A null value means automatic selection.
 
+## Real-time voice input
+
+The instruction field can be dictated with a microphone button. Speech is
+transcribed in real time by ElevenLabs Scribe; interim text is shown faintly
+under the field and each committed sentence is inserted at the cursor
+(a half-width space is added only between adjacent ASCII words).
+The button's accessibility label is fixed to `AI debugger voice input`
+(`kAIDebugVoiceInputLabel`), the same as the Whisker implementation.
+
+SamuraiAI issues a single-use token with
+`POST /api/app-debug/runs/{runId}/speech-token` (authenticated with the same
+`x-api-key`), and the app connects to ElevenLabs directly; audio never passes
+through SamuraiAI. Register the ElevenLabs API key in SamuraiAI under
+**Settings → ElevenLabs**. Without it, the overlay shows where to register it.
+
+The feature is compiled in only for development builds. Without the flags
+below, the app contains no recording code, no `RECORD_AUDIO` permission, no
+`NSMicrophoneUsageDescription`, and no microphone API symbols, and the button
+is not shown. Release builds never show the overlay regardless of the flags.
+
+### Development build
+
+```bash
+FLUTTER_XCODE_MASAMUNE_AI_DEBUGGER_VOICE=YES flutter run \
+  --dart-define=MASAMUNE_AI_DEBUGGER_VOICE=true \
+  --dart-define=MASAMUNE_AI_DEBUGGER_PROJECT_ID=... \
+  --dart-define=MASAMUNE_AI_DEBUGGER_ENDPOINT=... \
+  --dart-define=MASAMUNE_AI_DEBUGGER_API_KEY=...
+```
+
+- `--dart-define=MASAMUNE_AI_DEBUGGER_VOICE=true` enables the Dart code
+  (`kAIDebugVoiceEnabled`) and, on Android, the native recorder and the
+  `RECORD_AUDIO` permission. No other Android setup is needed.
+- `FLUTTER_XCODE_MASAMUNE_AI_DEBUGGER_VOICE=YES` is passed by Flutter to Xcode
+  as the `MASAMUNE_AI_DEBUGGER_VOICE=YES` build setting, which compiles the iOS
+  recorder (`AVAudioEngine`). When building from Xcode directly, set the
+  `MASAMUNE_AI_DEBUGGER_VOICE` build setting instead.
+
+Both are required on iOS. The microphone permission is requested the first
+time the button is pressed.
+
+### iOS: microphone usage description
+
+Add a Run Script build phase to the **Runner** target (after
+"Copy Bundle Resources") so that `NSMicrophoneUsageDescription` is added to
+the built `Info.plist` only when `MASAMUNE_AI_DEBUGGER_VOICE=YES`:
+
+```sh
+/bin/sh "${SRCROOT}/.symlinks/plugins/masamune_ai_debugger/ios/scripts/ai_debugger_microphone_usage.sh"
+```
+
+- Input Files: `$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)`
+- Output Files: `$(DERIVED_FILE_DIR)/masamune_ai_debugger_microphone_usage.stamp`
+- Uncheck "Based on dependency analysis" (always out of date).
+
+Do not list the `Info.plist` as an output file (Xcode fails with
+"Multiple commands produce"), and do not use Info.plist preprocessing, which
+breaks `//` in URLs. A usage description defined by the app itself is never
+changed. Set `MASAMUNE_AI_DEBUGGER_MICROPHONE_USAGE` to customize the text.
+
+The iOS implementation is distributed with CocoaPods. Apps that use Swift
+Package Manager fall back to CocoaPods for this plugin.
+
+### Web and desktop
+
+The voice input is available only on Android and iOS. On other platforms the
+button is not shown, and the Web build does not import `dart:io`.
+
 ## Custom AI provider
 
 SamuraiAI is the default provider. To connect another AI or backend, pass callbacks for each API operation. Custom callbacks receive semantic values instead of SamuraiAI-specific URLs or JSON payloads, so `endpoint` and `apiKey` are not required when all callbacks are supplied.

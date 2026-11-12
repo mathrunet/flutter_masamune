@@ -53,6 +53,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     AIDebugReportIncidentCallback? reportIncident,
     AIDebugConfiguredReportIncidentCallback? configuredReportIncident,
     AIDebugUploadEventsCallback? uploadEvents,
+    AIDebugSpeechTokenCallback? speechToken,
     List<AIDebugAccount>? accounts,
     this.login,
     this.anonymousLogin,
@@ -134,6 +135,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
           reportIncident: reportIncident,
           configuredReportIncident: configuredReportIncident,
           uploadEvents: uploadEvents ?? defaultUploadEvents,
+          speechToken: speechToken ?? defaultSpeechToken,
         ) {
     _loggerAdapter = _AIDebugLoggerAdapter(controller);
   }
@@ -401,6 +403,22 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     return result["sessionId"] as String?;
   }
 
+  /// Issues a single-use real-time speech token from the default SamuraiAI
+  /// API (`POST /api/app-debug/runs/{runId}/speech-token`).
+  ///
+  /// デフォルトのSamuraiAI APIからリアルタイム音声認識用の使い捨てトークンを
+  /// 発行します。
+  static Future<AIDebugSpeechToken> defaultSpeechToken(
+    AIDebugController controller,
+  ) async {
+    final result = await _postToSamuraiAI(
+      controller,
+      "/api/app-debug/runs/${controller.runId}/speech-token",
+      const {},
+    );
+    return AIDebugSpeechToken.fromJson(result);
+  }
+
   /// Reports an incident to the default SamuraiAI API.
   ///
   /// デフォルトのSamuraiAI APIへインシデントを報告します。
@@ -512,9 +530,11 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
         response.body.isEmpty ? <String, Object?>{} : jsonDecode(response.body);
     if (response.statusCode < 200 || response.statusCode >= 300) {
       final message = decoded is Map ? decoded["error"] : null;
+      final code = decoded is Map ? decoded["code"] : null;
       throw AIDebugHttpException(
         response.statusCode,
         message?.toString() ?? "AI Debugger HTTP ${response.statusCode}",
+        code: code?.toString(),
       );
     }
     return Map<String, Object?>.from(decoded as Map);
