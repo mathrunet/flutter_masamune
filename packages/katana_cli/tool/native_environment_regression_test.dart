@@ -185,6 +185,30 @@ android {
             "    };\n"
             "    123ABC /* Runner */ = {",
       );
+  final duplicateCopy = synchronizedProject
+      .replaceFirst("AAA /* Sources */,", "AAA /* Sources */,\n"
+          "        FFF001 /* FlutterFire copy */,\n"
+          "        FFF002 /* Crashlytics upload */,")
+      .replaceFirst("/* End PBXShellScriptBuildPhase section */", r'''
+    FFF001 /* FlutterFire copy */ = {
+      isa = PBXShellScriptBuildPhase;
+      shellScript = "\nflutterfire bundle-service-file --platform=ios\n";
+    };
+    FFF002 /* Crashlytics upload */ = {
+      isa = PBXShellScriptBuildPhase;
+      shellScript = "flutterfire upload-crashlytics-symbols";
+    };
+/* End PBXShellScriptBuildPhase section */
+''');
+  final singleCopy =
+      AppleFirebaseEnvironmentSynchronizer.synchronizeProject(duplicateCopy);
+  _expect(!singleCopy.contains("FFF001"),
+      "The superseded FlutterFire bundle phase and its reference must be retired.");
+  _expect(singleCopy.contains("FFF002 /* Crashlytics upload */,") &&
+      singleCopy.contains('shellScript = "flutterfire upload-crashlytics-symbols";'),
+      "Unrelated FlutterFire phases must remain intact.");
+  _expect(AppleFirebaseEnvironmentSynchronizer.synchronizeProject(singleCopy) ==
+      singleCopy, "Retiring the duplicate copy phase must be idempotent.");
   final repaired =
       AppleFirebaseEnvironmentSynchronizer.synchronizeProject(misplaced);
   _expect(

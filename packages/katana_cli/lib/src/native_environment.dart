@@ -237,6 +237,7 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
   /// Adds an idempotent shell build phase to the Runner native target.
   static String synchronizeProject(String source) {
     source = _retireLegacyPlistReferences(source);
+    source = _retireFlutterFireBundlePhases(source);
     final targets = RegExp(
       r"/\* Begin PBXNativeTarget section \*/[\s\S]*?/\* End PBXNativeTarget section \*/",
     ).firstMatch(source);
@@ -300,6 +301,27 @@ destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/GoogleService-
 ''';
     result = result.replaceRange(sectionIndex, sectionIndex, phase);
     return result;
+  }
+
+  /// Removes FlutterFire plist copying superseded by FLAVOR-based selection.
+  static String _retireFlutterFireBundlePhases(String source) {
+    final phases = RegExp(
+      r"^[ \t]*([A-Z0-9]+) /\*[^\n]*\*/ = \{\n[ \t]*isa = PBXShellScriptBuildPhase;[\s\S]*?^[ \t]*\};",
+      multiLine: true,
+    ).allMatches(source).where((match) => RegExp(
+          r'shellScript = "(?:\\.|[^"\\])*flutterfire bundle-service-file\b',
+        ).hasMatch(match.group(0)!)).toList();
+    for (final phase in phases.reversed) {
+      source = source.replaceRange(phase.start, phase.end, "");
+    }
+    for (final phase in phases) {
+      source = source.replaceAll(
+        RegExp("^[ \\t]*${phase.group(1)} /\\*[^\\n]*\\*/,\\n",
+            multiLine: true),
+        "",
+      );
+    }
+    return source;
   }
 
   /// Removes the root plist references superseded by the selection phase.

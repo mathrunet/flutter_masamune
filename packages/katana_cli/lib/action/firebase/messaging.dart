@@ -680,22 +680,30 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     var runnerTarget = source.substring(runnerTargetStart, runnerTargetEnd);
     const phaseReference =
         "$_firebaseMessagingAutoInitBuildPhaseId /* $_firebaseMessagingAutoInitBuildPhaseName */,";
-    runnerTarget = runnerTarget
-        .replaceAll(
-          RegExp("^[ \t]*${RegExp.escape(phaseReference)}\n", multiLine: true),
-          "",
-        )
-        .replaceAll(RegExp(r"[ \t]+\n"), "\n");
     final buildPhasesStart = runnerTarget.indexOf("buildPhases = (\n");
     final buildPhasesEnd = runnerTarget.indexOf("\n\t\t\t);", buildPhasesStart);
     if (buildPhasesStart < 0 || buildPhasesEnd < 0) {
       throw const FormatException("The Runner build phases were not found.");
     }
-    runnerTarget = runnerTarget.replaceRange(
-      buildPhasesEnd,
-      buildPhasesEnd,
-      "\n\t\t\t\t$phaseReference",
+    var phases = runnerTarget.substring(buildPhasesStart, buildPhasesEnd);
+    final referencePattern = RegExp(
+      "^[ \t]*${RegExp.escape(phaseReference)}(?:\n|\$)",
+      multiLine: true,
     );
+    var seen = false;
+    phases = phases.replaceAllMapped(referencePattern, (match) {
+      if (seen) {
+        return "";
+      }
+      seen = true;
+      return match.group(0)!;
+    });
+    if (!seen) {
+      // Run after the native environment phase; preserve all other ordering.
+      phases = "$phases\n\t\t\t\t$phaseReference";
+    }
+    runnerTarget =
+        runnerTarget.replaceRange(buildPhasesStart, buildPhasesEnd, phases);
     source = source.replaceRange(
       runnerTargetStart,
       runnerTargetEnd,

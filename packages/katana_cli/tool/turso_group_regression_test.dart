@@ -7,6 +7,33 @@ import "package:katana_cli/katana_cli.dart";
 
 /// Turso group自動作成（Platform API）の回帰テスト。
 Future<void> main() async {
+  final resolved = FlavorContext.resolve(yaml: {
+    "cloudflare": {
+      "turso": {
+        "group": {"dev": "only-dev", "prod": "only-prod"},
+        "groups": {
+          "dev": [
+            {"name": "only-dev", "location": "aws-ap-northeast-1"}
+          ],
+          "prod": [
+            {"name": "only-prod", "location": "aws-us-east-1"}
+          ],
+        },
+      }
+    },
+  }, secrets: const {}, arguments: const [
+    "apply",
+    "--flavor",
+    "dev"
+  ]);
+  final selected = (resolved.yaml["cloudflare"] as Map)["turso"] as Map;
+  final selectedGroups =
+      CloudflareTursoCliAction.parseTursoGroups(selected["groups"]);
+  _check(
+      selected["group"] == "only-dev" &&
+          selectedGroups.length == 1 &&
+          selectedGroups.single["name"] == "only-dev",
+      "Dev apply must not ensure production groups.");
   final server = await _FakeTursoPlatformApi.start();
   try {
     await _testCreatesOnlyMissingGroups(server);

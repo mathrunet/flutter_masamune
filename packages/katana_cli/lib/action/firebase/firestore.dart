@@ -42,20 +42,58 @@ class FirebaseFirestoreCliAction extends CliCommand with CliActionMixin {
     label("Set firebase firestore config.");
     final file = File("firebase/firebase.json");
     final json = jsonDecodeAsMap(await file.readAsString());
-    if (database.isEmpty) {
-      json["firestore"] = {
-        "rules": "firestore.rules",
-        "indexes": "firestore.indexes.json",
-      };
-    } else {
-      json["firestore"] = database
-          .map((name) => {
-                "database": name,
-                "rules": "firestore.rules",
-                "indexes": "firestore.indexes.json"
-              })
-          .toList();
-    }
+    json["firestore"] = synchronizeFirestoreConfig(json["firestore"], database);
     await file.writeAsString(jsonEncode(json));
+  }
+
+  /// Updates managed paths while preserving database metadata and extra entries.
+  static Object synchronizeFirestoreConfig(
+      Object? existing, List<String> databases) {
+    const paths = {
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
+    };
+    if (databases.isEmpty) {
+      if (existing is List) {
+        return existing.map((entry) {
+          if (entry is! Map) {
+            throw const FormatException("Invalid Firestore database entry.");
+          }
+          return {...entry, ...paths};
+        }).toList();
+      }
+      if (existing != null && existing is! Map) {
+        throw const FormatException("Invalid Firestore configuration.");
+      }
+      return {if (existing is Map) ...existing, ...paths};
+    }
+    final entries = existing is List
+        ? existing
+        : existing is Map
+            ? [existing]
+            : <Object>[];
+    if (existing != null && existing is! Map && existing is! List) {
+      throw const FormatException("Invalid Firestore configuration.");
+    }
+    final result = <Map<String, dynamic>>[];
+    final found = <String>{};
+    for (final entry in entries) {
+      if (entry is! Map) {
+        throw const FormatException("Invalid Firestore database entry.");
+      }
+      final name = entry["database"] ?? "(default)";
+      result.add({
+        ...Map<String, dynamic>.from(entry),
+        if (databases.contains(name)) "database": name,
+        if (databases.contains(name)) ...paths,
+      });
+      found.add(name as String);
+    }
+    for (final name in databases) {
+      if (!found.contains(name)) {
+        result.add({"database": name, ...paths});
+      }
+    }
+    return result;
   }
 }
