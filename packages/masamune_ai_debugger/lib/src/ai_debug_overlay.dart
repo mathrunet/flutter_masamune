@@ -820,33 +820,41 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                 if (mounted) setState(() => _position = position);
               });
             }
-            return Directionality(
-              textDirection: TextDirection.ltr,
-              child: Theme(
-                data: ThemeData.dark(),
-                child: Stack(children: [
-                  if (_incidentNotification != null)
-                    _buildIncidentNotification(safe),
-                  Positioned(
-                    left: position.dx,
-                    top: position.dy,
-                    width: itemSize.width,
-                    height: itemSize.height,
-                    child: GestureDetector(
-                      onTap: _expanded
-                          ? null
-                          : () => setState(() => _expanded = true),
-                      onPanUpdate: (details) => setState(() {
-                        _position = _clamp(
-                            _position + details.delta, area, itemSize, safe);
-                      }),
-                      onLongPress: _expanded ? null : _captureAndOpen,
-                      child: _expanded ? _buildPanel() : _buildToggle(),
+            // The overlay uses fixed-size panels, so it must not inherit the
+            // host app's text scaling (e.g. iOS accessibility text sizes),
+            // which would overflow the panel contents.
+            final media = MediaQuery.maybeOf(context) ??
+                MediaQueryData.fromView(View.of(context));
+            return MediaQuery(
+              data: media.copyWith(textScaler: TextScaler.noScaling),
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Theme(
+                  data: ThemeData.dark(),
+                  child: Stack(children: [
+                    if (_incidentNotification != null)
+                      _buildIncidentNotification(safe),
+                    Positioned(
+                      left: position.dx,
+                      top: position.dy,
+                      width: itemSize.width,
+                      height: itemSize.height,
+                      child: GestureDetector(
+                        onTap: _expanded
+                            ? null
+                            : () => setState(() => _expanded = true),
+                        onPanUpdate: (details) => setState(() {
+                          _position = _clamp(
+                              _position + details.delta, area, itemSize, safe);
+                        }),
+                        onLongPress: _expanded ? null : _captureAndOpen,
+                        child: _expanded ? _buildPanel() : _buildToggle(),
+                      ),
                     ),
-                  ),
-                  if (_preview != null) _buildPreview(),
-                  if (_settingsOpen) _buildSettingsDialog(),
-                ]),
+                    if (_preview != null) _buildPreview(),
+                    if (_settingsOpen) _buildSettingsDialog(),
+                  ]),
+                ),
               ),
             );
           }),
