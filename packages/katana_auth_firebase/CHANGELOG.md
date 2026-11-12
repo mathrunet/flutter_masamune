@@ -1,3 +1,8 @@
+## 3.6.0
+
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([84fd6ba9](https://github.com/mathrunet/flutter_masamune/commit/84fd6ba9c2e9d34e29aafed9fc13c1cb43b5c4eb))
+ - **FEAT**(katana_auth_firebase): add FirebaseCustomTokenSignInAuthProvider for custom token sign-in ([84fd6ba9](https://github.com/mathrunet/flutter_masamune/commit/84fd6ba9c2e9d34e29aafed9fc13c1cb43b5c4eb))
+
 ## 3.5.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))

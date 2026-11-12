@@ -1,3 +1,8 @@
+## 3.2.0
+
+ - **FEAT**: record experiment exposures in analytics ([626cbfae](https://github.com/mathrunet/flutter_masamune/commit/626cbfae04beff12262174ce2a335353975920fb))
+ - Update dependencies: masamune, masamune_model_firebase_remote_config.
+
 ## 3.1.0
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([aa03281c](https://github.com/mathrunet/flutter_masamune/commit/aa03281cd8c57eb2b1b9d5c86ceb99af752ff3b1))

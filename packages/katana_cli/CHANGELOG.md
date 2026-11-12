@@ -1,3 +1,13 @@
+## 3.41.0
+
+ - **FEAT**: add native app target selection and fix AI usage counts ([250c2b84](https://github.com/mathrunet/flutter_masamune/commit/250c2b8438800df208117e227fd0c4df4de0d252))
+ - **FEAT**(katana_cli): support target-aware Firebase setup and iOS linkage ([f4db03e4](https://github.com/mathrunet/flutter_masamune/commit/f4db03e49e8300d5bfe88b4615f8283b5826cfcb))
+ - **FIX**(katana_cli): repair misplaced Firebase build phase ([843b80c9](https://github.com/mathrunet/flutter_masamune/commit/843b80c9b754592db10e6912780f78e987351330))
+ - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([a9802c37](https://github.com/mathrunet/flutter_masamune/commit/a9802c37dff35b50aad177e087b79a71b613d310))
+ - **FEAT**(katana_cli): add option to apply Firebase settings without deploy ([a9802c37](https://github.com/mathrunet/flutter_masamune/commit/a9802c37dff35b50aad177e087b79a71b613d310))
+ - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([9f4664e8](https://github.com/mathrunet/flutter_masamune/commit/9f4664e85118ec7d50481eaf19df483aa126703d))
+ - **FIX**(katana_cli): preserve Firestore config entries and keep Firebase build phase order ([9f4664e8](https://github.com/mathrunet/flutter_masamune/commit/9f4664e85118ec7d50481eaf19df483aa126703d))
+
 ## 3.40.1
 
  - **CO-AUTHORED-BY**: Claude Opus 5.5 <noreply@anthropic.com> ([ae0c2260](https://github.com/mathrunet/flutter_masamune/commit/ae0c2260389443cca9a236c1c900811d79a101f1))

@@ -1,3 +1,8 @@
+## 3.2.2
+
+
+ - Update dependencies: masamune, masamune_location.
+
 ## 3.2.1
 
 
