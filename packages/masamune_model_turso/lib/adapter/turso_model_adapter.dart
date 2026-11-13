@@ -744,13 +744,13 @@ class TursoModelAdapter extends ModelAdapter {
   final String? sharedLogicalName;
 
   TursoModelPath _documentPath(ModelAdapterDocumentQuery query) {
-    return _checkSharedPath(TursoModelPath.fromDocumentQuery(query),
-        query.query.path);
+    return _checkSharedPath(
+        TursoModelPath.fromDocumentQuery(query), query.query.path);
   }
 
   TursoModelPath _collectionPath(ModelAdapterCollectionQuery query) {
-    return _checkSharedPath(TursoModelPath.fromCollectionQuery(query),
-        query.query.path);
+    return _checkSharedPath(
+        TursoModelPath.fromCollectionQuery(query), query.query.path);
   }
 
   TursoModelPath _checkSharedPath(TursoModelPath path, String rawPath) {
@@ -1066,6 +1066,7 @@ class TursoModelAdapter extends ModelAdapter {
     if (ref is! TursoModelTransactionRef) {
       throw Exception("[ref] is not [TursoModelTransactionRef].");
     }
+    ref._atomic?.check(_documentPath(query));
     ref._operations.add(_TursoDeleteOperation(query));
   }
 
@@ -1222,6 +1223,10 @@ class TursoModelAdapter extends ModelAdapter {
     if (ref is! TursoModelTransactionRef) {
       throw Exception("[ref] is not [TursoModelTransactionRef].");
     }
+    final atomic = ref._atomic;
+    if (atomic != null) {
+      return _loadOnAtomicTransaction(ref, atomic, query);
+    }
     return loadDocument(query);
   }
 
@@ -1233,12 +1238,271 @@ class TursoModelAdapter extends ModelAdapter {
     await _runOperations(ref._operations, transaction: true);
   }
 
+  /// Runs [transaction] as a general-purpose transaction.
+  ///
+  /// Reads are not pinned to the connection that writes, and writes may be
+  /// executed one by one when the direct client is disabled or the token
+  /// selects the Workers (Functions) mode. Use [runAtomicTransaction] when a
+  /// failure in the middle must not leave partial writes.
+  ///
+  /// 汎用のトランザクションを実行します。読取は書込と同じ接続に固定されず、
+  /// 直接接続が無効な場合やトークンがWorkers（Functions）経路を選んだ場合は
+  /// 書込が逐次実行されます。途中失敗で一部の書込も残してはならない場合は
+  /// [runAtomicTransaction]を使用してください。
   @override
   FutureOr<void> runTransaction(
       FutureOr<void> Function(ModelTransactionRef ref) transaction) async {
     final ref = TursoModelTransactionRef._();
     await transaction.call(ref);
     await _runOperations(ref._operations, transaction: true);
+  }
+
+  /// Runs [transaction] atomically on a single direct connection to [database].
+  ///
+  /// Every read performed with [loadOnTransaction] and every write registered
+  /// with [saveOnTransaction] / [deleteOnTransaction] is executed on the same
+  /// connection between `BEGIN IMMEDIATE` and `COMMIT`. If [transaction],
+  /// the schema preparation, any write or the commit throws, the whole
+  /// transaction is rolled back and the error is rethrown.
+  ///
+  /// Only the tables listed in [tables] can be read or written. As with
+  /// Firestore, all reads must be performed before the first write, and reads
+  /// do not observe writes registered in the same transaction.
+  ///
+  /// This method never falls back to sequential Workers (Functions) writes.
+  /// When the atomic direct connection cannot be used (shared adapter,
+  /// `useDirectClient: false`, `nativeVectors: true`, or a token that selects
+  /// a mode other than `direct` for reads or writes), a
+  /// [TursoAtomicTransactionUnavailableException] is thrown before any read
+  /// or write is sent to the database.
+  ///
+  /// [database]の単一の直接接続で[transaction]を原子的に実行します。
+  ///
+  /// [loadOnTransaction]の読取と[saveOnTransaction] / [deleteOnTransaction]の
+  /// 書込はすべて同じ接続の`BEGIN IMMEDIATE`から`COMMIT`の間で実行されます。
+  /// [transaction]、スキーマ準備、書込、commitのいずれかで例外が発生した場合は
+  /// 全体をrollbackして例外を再送出します。
+  ///
+  /// 読み書きできるテーブルは[tables]に限定されます。Firestoreと同様に読取は
+  /// 最初の書込より前に行い、同じトランザクション内の未commitの書込は
+  /// 読取結果に反映されません。
+  ///
+  /// Workers（Functions）への逐次書込へは切り替えません。原子的な直接接続を
+  /// 使えない場合（共有アダプター、`useDirectClient: false`、
+  /// `nativeVectors: true`、読取または書込で`direct`以外を選ぶトークン）は、
+  /// データベースへ読み書きを送る前に
+  /// [TursoAtomicTransactionUnavailableException]を送出します。
+  Future<T> runAtomicTransaction<T>({
+    required String database,
+    required Iterable<String> tables,
+    required FutureOr<T> Function(ModelTransactionRef ref) transaction,
+  }) async {
+    if (sharedLogicalName != null) {
+      throw TursoAtomicTransactionUnavailableException(
+        TursoAtomicTransactionUnavailableReason.sharedDatabase,
+        database: database,
+      );
+    }
+    if (!_directEnabled) {
+      throw TursoAtomicTransactionUnavailableException(
+        TursoAtomicTransactionUnavailableReason.directClientDisabled,
+        database: database,
+      );
+    }
+    TursoModelPath._validateLogicalName(database, "database");
+    final tableSet = tables
+        .map((table) => TursoModelPath._validateIdentifier(table, "tables"))
+        .toSet();
+    if (tableSet.isEmpty) {
+      throw ArgumentError.value(
+          tables, "tables", "Specify at least one table.");
+    }
+    if (tableSet.contains(_tursoSchemaTable)) {
+      throw ArgumentError.value(
+          tables, "tables", "The internal schema table cannot be used.");
+    }
+    final mergedScopes = _mergeScopes([
+      for (final table in tableSet)
+        TursoTokenScope(table: table, operations: const ["read", "write"]),
+      const TursoTokenScope(
+          table: _tursoSchemaTable, operations: ["read", "write"]),
+    ]);
+    final session = directClientSession;
+    final connectionKey = _connectionKey;
+    for (final write in const [false, true]) {
+      final cachedMode = session?._cachedMode(
+        connectionKey: connectionKey,
+        database: database,
+        prefix: prefix,
+        scopes: mergedScopes,
+        write: write,
+      );
+      if (cachedMode != null && cachedMode != "direct") {
+        throw TursoAtomicTransactionUnavailableException(
+          TursoAtomicTransactionUnavailableReason.fromMode(cachedMode),
+          database: database,
+          mode: cachedMode,
+        );
+      }
+    }
+    final token = await _retryTursoTransient(() async {
+      return session == null
+          ? await functionsAdapter.execute(TursoTokenFunctionsAction(
+              database: database,
+              prefix: prefix,
+              group: group,
+              targets: mergedScopes,
+              ttlSeconds: tokenTtlSeconds,
+            ))
+          : await session._resolve(
+              connectionKey: connectionKey,
+              database: database,
+              prefix: prefix,
+              scopes: mergedScopes,
+              loader: (targets) =>
+                  functionsAdapter.execute(TursoTokenFunctionsAction(
+                database: database,
+                prefix: prefix,
+                group: group,
+                targets: targets,
+                ttlSeconds: tokenTtlSeconds,
+              )),
+            );
+    });
+    for (final write in const [false, true]) {
+      final mode = session?._modeFor(token, mergedScopes, write: write) ??
+          (write ? token.writeMode : token.readMode);
+      if (mode != "direct") {
+        throw TursoAtomicTransactionUnavailableException(
+          TursoAtomicTransactionUnavailableReason.fromMode(mode),
+          database: database,
+          mode: mode,
+        );
+      }
+    }
+    if (token.url.isEmpty) {
+      throw TursoAtomicTransactionUnavailableException(
+        TursoAtomicTransactionUnavailableReason.missingUrl,
+        database: database,
+      );
+    }
+    final committed = <_TursoOperation>[];
+    Future<T> run(LibsqlClient client) async {
+      final context = _TursoAtomicContext(
+        database: database,
+        tables: tableSet,
+        client: client,
+      );
+      final ref = TursoModelTransactionRef._atomic(context);
+      await _beginAtomicTransaction(client);
+      try {
+        final result = await transaction(ref);
+        context.closed = true;
+        for (final operation
+            in ref._operations.whereType<_TursoSaveOperation>()) {
+          final path = operation.path();
+          final boolFields = _extractTursoBoolFields(operation.value);
+          _cacheTursoBoolFields(path.database, path.table, boolFields);
+          // SQLite DDL is transactional, so schema preparation is rolled back
+          // together with the writes.
+          await _prepareSchema(
+            client,
+            path.table,
+            _buildSaveRow(path, operation.value),
+            boolFields,
+          );
+        }
+        for (final operation in ref._operations) {
+          await operation.runDirectTransaction(this, client);
+        }
+        await client.execute("COMMIT");
+        committed.addAll(ref._operations);
+        return result;
+      } catch (_) {
+        context.closed = true;
+        // DDL inside a rolled back transaction is undone as well.
+        _tursoSchemaApplications[client] = null;
+        try {
+          await client.execute("ROLLBACK");
+        } catch (_) {
+          // Keep the original error. The session disposes a connection whose
+          // callback failed, so no transaction stays open on it.
+        }
+        rethrow;
+      }
+    }
+
+    final T result;
+    if (session != null) {
+      result = await session._run(
+        connectionKey: connectionKey,
+        database: database,
+        prefix: prefix,
+        token: token,
+        write: true,
+        callback: run,
+      );
+    } else {
+      final client = LibsqlClient.remote(token.url, authToken: token.token);
+      await client.connect();
+      try {
+        result = await run(client);
+      } finally {
+        await client.dispose();
+      }
+    }
+    for (final operation in committed) {
+      await operation.syncCache(this);
+    }
+    return result;
+  }
+
+  Future<void> _beginAtomicTransaction(LibsqlClient client) async {
+    for (var attempt = 0; attempt <= retryDelays.length; attempt++) {
+      try {
+        await client.execute("BEGIN IMMEDIATE");
+        return;
+      } catch (error) {
+        // Nothing has been read or written yet, so only a busy lock is retried.
+        if (attempt == retryDelays.length ||
+            !RegExp(r"SQLITE_BUSY|database is locked", caseSensitive: false)
+                .hasMatch(error.toString())) {
+          rethrow;
+        }
+        await Future<void>.delayed(retryDelays[attempt]);
+      }
+    }
+  }
+
+  Future<DynamicMap> _loadOnAtomicTransaction(
+    TursoModelTransactionRef ref,
+    _TursoAtomicContext context,
+    ModelAdapterDocumentQuery query,
+  ) async {
+    final path = _documentPath(query);
+    context.check(path);
+    if (ref._operations.isNotEmpty) {
+      throw StateError(
+          "All reads must be performed before the first write in an atomic Turso transaction.");
+    }
+    final client = context.client;
+    final table = await client.query(
+      "SELECT 1 FROM sqlite_master WHERE type = ? AND name = ? LIMIT 1",
+      positional: ["table", path.table],
+    );
+    if (table.isEmpty) {
+      return <String, dynamic>{};
+    }
+    final boolFields =
+        await _loadTursoBoolFields(client, path.database, path.table);
+    final rows = await client.query(
+      "SELECT * FROM ${_quoteTursoIdentifier(path.table)} "
+      "WHERE ${_quoteTursoIdentifier("id")} = ? LIMIT 1",
+      positional: [path.indexKey],
+    );
+    return rows.isEmpty
+        ? <String, dynamic>{}
+        : _decodeTursoRow(rows.first, boolFields: boolFields);
   }
 
   @override
@@ -1271,6 +1535,7 @@ class TursoModelAdapter extends ModelAdapter {
     if (ref is! TursoModelTransactionRef) {
       throw Exception("[ref] is not [TursoModelTransactionRef].");
     }
+    ref._atomic?.check(_documentPath(query));
     ref._operations.add(_TursoSaveOperation(query, value));
   }
 
@@ -2108,9 +2373,122 @@ class TursoModelAdapter extends ModelAdapter {
 /// [TursoModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class TursoModelTransactionRef extends ModelTransactionRef {
-  TursoModelTransactionRef._();
+  TursoModelTransactionRef._() : _atomic = null;
+
+  TursoModelTransactionRef._atomic(_TursoAtomicContext context)
+      : _atomic = context;
 
   final List<_TursoOperation> _operations = [];
+
+  final _TursoAtomicContext? _atomic;
+
+  /// `true` when this reference belongs to
+  /// [TursoModelAdapter.runAtomicTransaction].
+  ///
+  /// [TursoModelAdapter.runAtomicTransaction]の参照の場合`true`。
+  bool get isAtomic => _atomic != null;
+}
+
+class _TursoAtomicContext {
+  _TursoAtomicContext({
+    required this.database,
+    required this.tables,
+    required this.client,
+  });
+
+  final String database;
+  final Set<String> tables;
+  final LibsqlClient client;
+  bool closed = false;
+
+  void check(TursoModelPath path) {
+    if (closed) {
+      throw StateError("The atomic Turso transaction has already finished.");
+    }
+    if (path.database != database || !tables.contains(path.table)) {
+      throw ArgumentError.value(
+        "database/${path.database}/${path.table}",
+        "path",
+        "The atomic Turso transaction only accepts the declared database and tables.",
+      );
+    }
+  }
+}
+
+/// Reason why [TursoModelAdapter.runAtomicTransaction] cannot run.
+///
+/// [TursoModelAdapter.runAtomicTransaction]を実行できない理由。
+enum TursoAtomicTransactionUnavailableReason {
+  /// The adapter was created with [TursoModelAdapter.shared].
+  ///
+  /// [TursoModelAdapter.shared]で作成されたアダプター。
+  sharedDatabase,
+
+  /// The direct client is disabled (`useDirectClient: false` or
+  /// `nativeVectors: true`).
+  ///
+  /// 直接接続が無効（`useDirectClient: false`または`nativeVectors: true`）。
+  directClientDisabled,
+
+  /// The token selected the Workers (Functions) mode.
+  ///
+  /// トークンがWorkers（Functions）経路を選択した。
+  functionsMode,
+
+  /// The token denied the access.
+  ///
+  /// トークンがアクセスを拒否した。
+  accessDenied,
+
+  /// The token does not contain a database URL.
+  ///
+  /// トークンにデータベースURLが含まれていない。
+  missingUrl;
+
+  /// Converts the token [mode] to a reason.
+  ///
+  /// トークンの[mode]を理由へ変換します。
+  static TursoAtomicTransactionUnavailableReason fromMode(String? mode) {
+    return mode == "functions" ? functionsMode : accessDenied;
+  }
+}
+
+/// Thrown by [TursoModelAdapter.runAtomicTransaction] before any read or
+/// write when the transaction cannot be executed atomically.
+///
+/// 原子的に実行できない場合に、読み書きの前に
+/// [TursoModelAdapter.runAtomicTransaction]が送出する例外。
+class TursoAtomicTransactionUnavailableException implements Exception {
+  /// Thrown when the transaction cannot be executed atomically.
+  ///
+  /// 原子的に実行できない場合に送出されます。
+  const TursoAtomicTransactionUnavailableException(
+    this.reason, {
+    this.database,
+    this.mode,
+  });
+
+  /// Reason.
+  ///
+  /// 理由。
+  final TursoAtomicTransactionUnavailableReason reason;
+
+  /// Target database.
+  ///
+  /// 対象データベース。
+  final String? database;
+
+  /// Mode returned by the token, if any.
+  ///
+  /// トークンが返したモード。
+  final String? mode;
+
+  @override
+  String toString() {
+    return "TursoAtomicTransactionUnavailableException: ${reason.name}"
+        "${database == null ? "" : " database=$database"}"
+        "${mode == null ? "" : " mode=$mode"}";
+  }
 }
 
 /// [ModelBatchRef] for [TursoModelAdapter].

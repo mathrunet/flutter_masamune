@@ -196,6 +196,33 @@ When both read and write are functions-only, the backend can omit `token`,
 `expiresAt`, and `url`. The adapter follows the returned modes and uses the
 FunctionsActions without opening a direct libSQL connection.
 
+### Atomic transactions
+
+`runTransaction` follows the modes above, so its writes can be sent one by one
+through the FunctionsActions. When a failure in the middle must not leave
+partial writes, use `runAtomicTransaction`. Reads and writes run on one pinned
+direct connection between `BEGIN IMMEDIATE` and `COMMIT`, and any error rolls
+back the whole transaction.
+
+```dart
+await adapter.runAtomicTransaction(
+  database: userId,
+  tables: const ["official_transitions", "outcomes"],
+  transaction: (ref) async {
+    final current = await adapter.loadOnTransaction(ref, transitionQuery);
+    // All reads must come before the first write.
+    adapter.saveOnTransaction(ref, transitionQuery, {"launch_state": "failed"});
+    adapter.deleteOnTransaction(ref, outcomeQuery);
+  },
+);
+```
+
+`runAtomicTransaction` never falls back to the Workers CRUD. With
+`TursoModelAdapter.shared`, `useDirectClient: false`, `nativeVectors: true`, or
+a token whose read or write mode is not `direct`, it throws
+`TursoAtomicTransactionUnavailableException` before anything is read or
+written. Only the declared `database` and `tables` can be used.
+
 Workers fallback requests use path-based Turso endpoints:
 
 ```text

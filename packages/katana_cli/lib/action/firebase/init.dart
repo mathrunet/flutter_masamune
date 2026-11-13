@@ -729,89 +729,79 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final commandStack = <String>[];
     if (enabledFirestore) {
       if (!firebaseJson.containsKey("firestore")) {
-        await command(
-          "Initialize Firestore",
-          [
-            firebaseCommand,
-            "init",
-            "firestore",
-            "--project",
-            projectId,
-            ...firebaseAccountArguments,
-          ],
-          runInShell: true,
-          workingDirectory: "firebase",
-          action: (process, line) {
-            // Confirm only when Firebase has selected the configured region.
-            final normalized = line.replaceAll(_ansiEscapePattern, "");
-            if (firestoreLocationId.isNotEmpty &&
-                RegExp("❯ ${RegExp.escape(firestoreLocationId)}(?:\\r?\\n|\$)")
-                    .hasMatch(normalized)) {
+        // Firebase may discover a parent configuration and write outside cwd.
+        // Preserve every existing scaffold file, including custom deny-all rules.
+        final scaffold = _FirestoreInitScaffold.capture();
+        try {
+          await command(
+            "Initialize Firestore",
+            [
+              firebaseCommand,
+              "init",
+              "firestore",
+              "--project",
+              projectId,
+              ...firebaseAccountArguments,
+            ],
+            runInShell: true,
+            workingDirectory: "firebase",
+            action: (process, line) {
+              // Confirm only when Firebase has selected the configured region.
+              final normalized = line.replaceAll(_ansiEscapePattern, "");
+              if (firestoreLocationId.isNotEmpty &&
+                  RegExp("❯ ${RegExp.escape(firestoreLocationId)}(?:\\r?\\n|\$)")
+                      .hasMatch(normalized)) {
+                _runCommandStack(
+                  line,
+                  "? Please select the location of your Firestore database:",
+                  commandStack,
+                  () => process.stdin.write("\n"),
+                );
+              }
               _runCommandStack(
                 line,
-                "? Please select the location of your Firestore database:",
+                "? Are you ready to proceed?",
+                commandStack,
+                () => process.stdin.write("y\n"),
+              );
+              _runCommandStack(
+                line,
+                "? What file should be used for Firestore Rules?",
                 commandStack,
                 () => process.stdin.write("\n"),
               );
-            }
-            _runCommandStack(
-              line,
-              "? Are you ready to proceed?",
-              commandStack,
-              () => process.stdin.write("y\n"),
-            );
-            _runCommandStack(
-              line,
-              "? What file should be used for Firestore Rules?",
-              commandStack,
-              () => process.stdin.write("\n"),
-            );
-            _runCommandStack(
-              line,
-              "? File firestore.indexes.json already exists.",
-              commandStack,
-              () => process.stdin.write("n\n"),
-            );
-            _runCommandStack(
-              line,
-              "? File firestore.rules already exists.",
-              commandStack,
-              () => process.stdin.write("n\n"),
-            );
-            _runCommandStack(
-              line,
-              "? Would you like to delete these indexes?",
-              commandStack,
-              () => process.stdin.write("n\n"),
-            );
-            _runCommandStack(
-              line,
-              "? What file should be used for Firestore indexes?",
-              commandStack,
-              () => process.stdin.write("\n"),
-            );
-          },
-        );
-        // ファイルがfirebaseフォルダに作られないので移動
-        label("Move files");
-        final firebasercFile = File(".firebaserc");
-        if (firebasercFile.existsSync()) {
-          await firebasercFile.rename("firebase/.firebaserc");
+              _runCommandStack(
+                line,
+                "? File firestore.indexes.json already exists.",
+                commandStack,
+                () => process.stdin.write("n\n"),
+              );
+              _runCommandStack(
+                line,
+                "? File firestore.rules already exists.",
+                commandStack,
+                () => process.stdin.write("n\n"),
+              );
+              _runCommandStack(
+                line,
+                "? Would you like to delete these indexes?",
+                commandStack,
+                () => process.stdin.write("n\n"),
+              );
+              _runCommandStack(
+                line,
+                "? What file should be used for Firestore indexes?",
+                commandStack,
+                () => process.stdin.write("\n"),
+              );
+            },
+          );
+
+          await scaffold.collectGenerated();
+        } finally {
+          await scaffold.restoreExisting();
         }
-        final firebaseJsonFile = File("firebase.json");
-        if (firebaseJsonFile.existsSync()) {
-          await firebaseJsonFile.rename("firebase/firebase.json");
-        }
-        final firestoreIndexFile = File("firestore.indexes.json");
-        if (firestoreIndexFile.existsSync()) {
-          await firestoreIndexFile.rename("firebase/firestore.indexes.json");
-        }
-        final firestoreRulesFile = File("firestore.rules");
-        if (firestoreRulesFile.existsSync()) {
-          await firestoreRulesFile.rename("firebase/firestore.rules");
-        }
-        label("Rewriting Rules");
-        await const FirestoreRulesCliCode().generateFile("firestore.rules");
+        await scaffold.installMissing();
       }
     }
     if (enabledDataconnect) {
@@ -1398,11 +1388,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     if (requiresCliScaffold) {
       label("Rewrite `.gitignore`.");
       final gitignore = File("firebase/.gitignore");
-      if (!gitignore.existsSync()) {
-        error("Cannot find `firebase/.gitignore`. Project is broken.");
-        return;
-      }
-      final gitignores = await gitignore.readAsLines();
+      final gitignores =
+          gitignore.existsSync() ? await gitignore.readAsLines() : <String>[];
       if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
         if (!gitignores.any((e) => e.startsWith(".env"))) {
           gitignores.add(".env");
@@ -2118,5 +2105,78 @@ library connector;
   @override
   String body(String path, String baseName, String className) {
     return "";
+  }
+}
+
+/// Protects existing configuration while Firebase initializes Firestore.
+class _FirestoreInitScaffold {
+  _FirestoreInitScaffold(this.existing);
+
+  static const names = [
+    ".firebaserc",
+    "firebase.json",
+    "firestore.rules",
+    "firestore.indexes.json",
+  ];
+
+  final Map<String, List<int>> existing;
+  final Map<String, List<int>> generated = {};
+
+  factory _FirestoreInitScaffold.capture() => _FirestoreInitScaffold({
+        for (final name in names)
+          for (final path in [name, "firebase/$name"])
+            if (File(path).existsSync()) path: File(path).readAsBytesSync(),
+      });
+
+  Future<void> collectGenerated() async {
+    for (final name in names) {
+      // Prefer the working-directory output unless the CLI wrote to the root.
+      for (final path in ["firebase/$name", name]) {
+        final file = File(path);
+        if (file.existsSync() &&
+            (!existing.containsKey(path) ||
+                base64Encode(existing[path]!) !=
+                    base64Encode(await file.readAsBytes()))) {
+          generated[name] = await file.readAsBytes();
+        }
+      }
+    }
+  }
+
+  Future<void> restoreExisting() async {
+    for (final entry in existing.entries) {
+      await File(entry.key).writeAsBytes(entry.value);
+    }
+  }
+
+  Future<void> installMissing() async {
+    for (final name in names) {
+      final target = "firebase/$name";
+      if (!existing.containsKey(target)) {
+        final bytes = existing[name] ?? generated[name];
+        if (bytes != null) {
+          await File(target).writeAsBytes(bytes);
+        }
+      }
+      // Only move files created by this initialization, never a user's file.
+      final root = File(name);
+      if (!existing.containsKey(name) && root.existsSync()) {
+        await root.delete();
+      }
+    }
+    final config = File("firebase/firebase.json");
+    final json = config.existsSync()
+        ? jsonDecodeAsMap(await config.readAsString())
+        : <String, dynamic>{};
+    if (!json.containsKey("firestore")) {
+      json["firestore"] = {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json",
+      };
+      await config.writeAsString(jsonEncode(json));
+    }
+    if (!File("firebase/firestore.rules").existsSync()) {
+      await const FirestoreRulesCliCode().generateFile("firestore.rules");
+    }
   }
 }

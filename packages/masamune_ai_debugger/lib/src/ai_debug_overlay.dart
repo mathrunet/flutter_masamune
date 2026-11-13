@@ -1009,7 +1009,11 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
         ),
       );
 
-  Widget _buildPanelHeader(String title, {bool showBack = false}) =>
+  Widget _buildPanelHeader(
+    String title, {
+    bool showBack = false,
+    bool showSettings = false,
+  }) =>
       Row(children: [
         if (showBack)
           IconButton(
@@ -1032,10 +1036,17 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
+        if (showSettings)
+          IconButton(
+            constraints: const BoxConstraints.tightFor(width: 48, height: 48),
+            tooltip: "AI Debugger設定",
+            onPressed: _sending ? null : _openSettings,
+            icon: const Icon(Icons.settings, size: 24, semanticLabel: "設定"),
+          ),
         Semantics(
           identifier: "ai_debugger_close",
           child: IconButton(
-            visualDensity: VisualDensity.compact,
+            constraints: const BoxConstraints.tightFor(width: 48, height: 48),
             onPressed: () {
               _cancelVoice();
               setState(() {
@@ -1043,13 +1054,13 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                 _expanded = false;
               });
             },
-            icon: const Icon(Icons.close, size: 18, semanticLabel: "閉じる"),
+            icon: const Icon(Icons.close, size: 24, semanticLabel: "閉じる"),
           ),
         ),
       ]);
 
   Widget _buildPromptPanel() => Column(children: [
-        _buildPanelHeader("AI Debugger"),
+        _buildPanelHeader("AI Debugger", showSettings: true),
         if (_hasAuthentication || _hasPurchase || _hasCamera) ...[
           SizedBox(
             height: 38,
@@ -1148,11 +1159,11 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
         SizedBox(
           height: 48,
           child: Row(children: [
+            if (_voiceAvailable) _buildVoiceButton(),
             IconButton(
                 onPressed: _addScreenshot,
                 icon: const Icon(Icons.screenshot_monitor,
                     semanticLabel: "スクリーンショット")),
-            if (_voiceAvailable) _buildVoiceButton(),
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -1181,12 +1192,6 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
                   ]),
                 ),
               ),
-            ),
-            IconButton(
-              visualDensity: VisualDensity.compact,
-              tooltip: "AI Debugger設定",
-              onPressed: _sending ? null : _openSettings,
-              icon: const Icon(Icons.settings, semanticLabel: "設定"),
             ),
             _buildCompactSelector(
               tooltip: "送信種別: $_requestTypeLabel",

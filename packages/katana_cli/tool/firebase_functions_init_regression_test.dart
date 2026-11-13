@@ -217,6 +217,8 @@ Future<void> _verifyApplyProcessBoundaries() async {
   final cli = Platform.environment["KATANA_TEST_CLI"] ??
       "${packageRoot.path}/bin/katana.dart";
   for (final failure in [
+    "firestore-preserve",
+    "firestore-preserve-failure",
     "firestore-new",
     "firestore-split",
     "firestore-mismatch",
@@ -247,6 +249,7 @@ Future<void> _verifyApplyProcessBoundaries() async {
       }
 
       final firestoreSetup = failure.startsWith("firestore-");
+      final preserve = failure.startsWith("firestore-preserve");
       final trace = "${root.path}/calls";
       final firebase = "${root.path}/firebase-fake";
       final npm = "${root.path}/npm-fake";
@@ -258,12 +261,18 @@ exit 0
 """);
       await write("firebase-fake", """
 #!/bin/sh
-if [ "\$1" = "projects:list" ]; then
+if [ "\$1" = "login:list" ]; then
+  echo 'No authorized accounts'
+elif [ "\$1" = "projects:list" ]; then
   echo 'firebase:projects:list' >> '$trace'
   echo '{"status":"success","result":[{"projectId":"fixture"}]}'
 elif [ "\$1" = "init" ] && [ "\$2" = "firestore" ]; then
   echo "firebase:\$*" >> '$trace'
-  [ '$failure' = 'firestore-init-failure' ] && exit 43
+  if [ '$failure' = 'firestore-init-failure' ] || [ '$failure' = 'firestore-preserve-failure' ]; then
+    echo 'clobbered' > firestore.rules
+    echo 'clobbered' > ../firebase.json
+    exit 43
+  fi
   printf '? Please select the location of your Firestore database:\n'
   [ '$failure' = 'firestore-split' ] && sleep 0.2
   printf '  eur3\n❯ nam5\n  nam7\n'
@@ -274,6 +283,14 @@ elif [ "\$1" = "init" ] && [ "\$2" = "firestore" ]; then
   [ -z "\$reply" ] || exit 44
   echo 'firestore:location-confirmed' >> '$trace'
   echo '{"firestore":{},"functions":{}}' > firebase.json
+  if [ '$failure' = 'firestore-preserve' ]; then
+    echo 'replaced nested rules' > firestore.rules
+    echo 'replaced nested indexes' > firestore.indexes.json
+    echo '{"firestore":{}}' > ../firebase.json
+    echo '{"projects":{"default":"replaced"}}' > ../.firebaserc
+    echo 'generated root rules' > ../firestore.rules
+    echo '{}' > ../firestore.indexes.json
+  fi
 else
   echo "firebase:\$*" >> '$trace'
 fi
@@ -312,17 +329,32 @@ exit 0
         await Process.run("chmod", ["+x", path]);
       }
       await write("pubspec.yaml",
-          "name: fixture\ndependencies:\n  firebase_core: any\n  cloud_firestore: ^6.10.2\n  katana_model_firestore: any\n  katana_functions_firebase: any\n");
+          "name: fixture\ndependencies:\n  firebase_core: any\n  cloud_firestore: ^7.1.0\n  katana_model_firestore: any\n  katana_functions_firebase: any\n");
       await write("pubspec.lock",
-          "packages:\n  cloud_firestore:\n    version: '6.10.2'\n");
+          "packages:\n  cloud_firestore:\n    version: '7.1.0'\n");
       await write("katana.yaml",
-          "bin:\n  firebase: $firebase\n  npm: $npm\n  flutter: $flutter\nfirebase:\n  project_id: fixture\n  firestore:\n    enable: true\n    location_id: ${failure == "firestore-mismatch" ? "eur3" : "nam5"}\n  functions:\n    enable: true\n  vertex_ai:\n    enable: ${failure == "firebase-ai"}\n");
+          "bin:\n  firebase: $firebase\n  npm: $npm\n  flutter: $flutter\nfirebase:\n  project_id: fixture\n  firestore:\n    enable: true\n    location_id: ${failure == "firestore-mismatch" ? "eur3" : "nam5"}\n  functions:\n    enable: ${!preserve}\n  vertex_ai:\n    enable: ${failure == "firebase-ai"}\n");
       await write(
           "firebase/firebase.json",
           firestoreSetup
               ? '{"functions":{}}'
               : '{"firestore":{},"functions":{},"storage":{}}');
-      await write("firebase/.gitignore", ".env\n");
+      if (!preserve) {
+        await write("firebase/.gitignore", ".env\n");
+      }
+      final scaffold = <String, String>{
+        "firebase.json": '{"hosting":{"public":"custom-root"}}\n',
+        ".firebaserc": '{"projects":{"custom":"fixture"}}\n',
+        "firebase/firestore.rules":
+            "rules_version = '2';\nservice cloud.firestore { match /{all=**} { allow read, write: if false; } }\n",
+        "firebase/firestore.indexes.json":
+            '{"indexes":[{"collectionGroup":"custom"}],"fieldOverrides":[]}\n',
+      };
+      if (preserve) {
+        for (final entry in scaffold.entries) {
+          await write(entry.key, entry.value);
+        }
+      }
       await write("firebase/functions/src/index.ts", "// 既存コード\n");
       await write("firebase/functions/package.json",
           '{"dependencies":{},"devDependencies":{}}');
@@ -384,7 +416,7 @@ android {
           "katana_functions_firebase"
         ];
         await write("pubspec.lock",
-            "packages:\n${names.map((e) => e == "cloud_firestore" ? "  $e:\n    version: '${failure == "local-firestore" ? "6.8.0" : "6.10.2"}'" : "  $e: {}").join("\n")}\n");
+            "packages:\n${names.map((e) => e == "cloud_firestore" ? "  $e:\n    version: '${failure == "local-firestore" ? "6.8.0" : "7.1.0"}'" : "  $e: {}").join("\n")}\n");
         await write(
             ".dart_tool/package_config.json",
             jsonEncode({
@@ -456,8 +488,8 @@ android {
           protected[path] = file.readAsStringSync();
         }
       }
-      final result = await Process.run(
-          Platform.resolvedExecutable, [cli, "apply", if (local) "--local"],
+      final result = await Process.run(Platform.resolvedExecutable,
+          [cli, "apply", if (local) "--local", if (preserve) "--no-deploy"],
           workingDirectory: root.path);
       final calls =
           File(trace).existsSync() ? File(trace).readAsLinesSync() : <String>[];
@@ -497,7 +529,55 @@ android {
       } else if (firestoreSetup) {
         _expect(calls.any((e) => e.startsWith("firebase:init firestore")),
             "Reach the actual Firebase init boundary: $calls");
-        if (["firestore-init-failure", "firestore-mismatch"]
+        if (preserve) {
+          for (final entry in scaffold.entries) {
+            _expect(
+                File("${root.path}/${entry.key}").readAsStringSync() ==
+                    entry.value,
+                "Preserve existing scaffold bytes: ${entry.key}");
+          }
+          _expect(!calls.any((e) => e.startsWith("firebase:deploy")),
+              "Firestore preservation must not deploy: $calls");
+          if (failure == "firestore-preserve-failure") {
+            _expect(result.exitCode != 0, "Propagate failed Firestore init");
+            _expect(calls.last.startsWith("firebase:init firestore"),
+                "No later action after failed Firestore init: $calls");
+            _expect(!File("${root.path}/firebase/.gitignore").existsSync(),
+                "Do not proceed to gitignore on failure");
+            _expect(!File("${root.path}/firestore.rules").existsSync(),
+                "Do not generate or move rules after failure");
+          } else {
+            _expect(result.exitCode == 0,
+                "Firestore-only setup with no gitignore: ${result.stdout} ${result.stderr}");
+            _expect(
+                File("${root.path}/firebase/.gitignore").readAsStringSync() ==
+                    ".env",
+                "Create missing env ignore");
+            await write("firebase/.gitignore", "custom.ignore\n.env");
+            final second = await Process.run(
+                Platform.resolvedExecutable, [cli, "apply", "--no-deploy"],
+                workingDirectory: root.path);
+            _expect(second.exitCode == 0,
+                "Repeated setup succeeds: ${second.stderr}");
+            for (final entry in scaffold.entries) {
+              _expect(
+                  File("${root.path}/${entry.key}").readAsStringSync() ==
+                      entry.value,
+                  "Repeated setup preserves ${entry.key}");
+            }
+            _expect(
+                File("${root.path}/firebase/.gitignore").readAsStringSync() ==
+                    "custom.ignore\n.env",
+                "Repeated setup preserves existing ignore entries");
+            final repeatedCalls = File(trace).readAsLinesSync();
+            _expect(
+                repeatedCalls
+                        .where((e) => e.startsWith("firebase:init firestore"))
+                        .length ==
+                    1,
+                "Do not initialize existing scaffold twice");
+          }
+        } else if (["firestore-init-failure", "firestore-mismatch"]
             .contains(failure)) {
           _expect(
               result.exitCode != 0 &&
