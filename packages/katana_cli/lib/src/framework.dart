@@ -86,6 +86,12 @@ class ExecContext {
   /// immediately nor scheduled as post actions.
   bool get noDeploy => args.contains("--no-deploy");
 
+  /// Whether `--no-secrets` was specified.
+  ///
+  /// Dependencies and settings are applied, but Firebase service accounts are
+  /// not resolved and no Cloudflare Workers / GitHub secrets are put.
+  bool get noSecrets => args.contains("--no-secrets");
+
   final int _index;
 
   ExecContext _copyToChild() {
@@ -741,17 +747,22 @@ bool validateFilePath(String path) {
 ///
 /// Set [noDeploy] to apply dependencies and settings without running or
 /// scheduling any deployment.
+///
+/// Set [noSecrets] to apply dependencies and settings without resolving
+/// Firebase service accounts or putting any secret to external services.
 Future<T> runApplyCommands<T>(Future<T> Function() body,
-        {bool local = false, bool noDeploy = false}) =>
+        {bool local = false, bool noDeploy = false, bool noSecrets = false}) =>
     runZoned(body, zoneValues: {
       _applyCommandScope: true,
       _localApplyScope: local,
       _noDeployApplyScope: noDeploy,
+      _noSecretsApplyScope: noSecrets,
     });
 
 final _applyCommandScope = Object();
 final _localApplyScope = Object();
 final _noDeployApplyScope = Object();
+final _noSecretsApplyScope = Object();
 
 /// 依存変更と外部操作を禁止するローカル適用の実行状態。
 bool get isLocalApply => Zone.current[_localApplyScope] == true;
@@ -761,6 +772,13 @@ bool get isLocalApply => Zone.current[_localApplyScope] == true;
 /// Dependencies and settings are still applied. Immediate deployments and
 /// deployments scheduled after the command are skipped.
 bool get isNoDeployApply => Zone.current[_noDeployApplyScope] == true;
+
+/// Whether the current apply must not resolve or put any secret.
+///
+/// Dependencies and settings are still applied. Firebase service accounts for
+/// Cloudflare Workers are not resolved, and Cloudflare Workers / GitHub
+/// secrets are not put.
+bool get isNoSecretsApply => Zone.current[_noSecretsApplyScope] == true;
 
 /// ローカル適用で使用する、宣言済み・解決済みの Dart 依存を確認します。
 void validateLocalFlutterDependencies(List<String> packages,
@@ -904,6 +922,10 @@ Future<void> githubSecret(
 }) async {
   if (isLocalApply) {
     throw StateError("--local ではこのプロセスを実行できません: $title");
+  }
+  if (isNoSecretsApply) {
+    label("Skip setting GitHub secret `$name` (--no-secrets)");
+    return;
   }
   stdout.add(utf8.encode("\r\n#### $title"));
   final process = await Process.start(

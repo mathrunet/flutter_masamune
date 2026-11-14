@@ -691,6 +691,7 @@ class TursoModelAdapter extends ModelAdapter {
     this.directClientSession,
     this.vectorConverter = const PassVectorConverter(),
     this.nativeVectors = false,
+    this.columnTypes = const {},
     FunctionsAdapter? functionsAdapter,
     this.tokenTtlSeconds = 3600,
     this.retryDelays = _tursoRetryDelays,
@@ -722,6 +723,7 @@ class TursoModelAdapter extends ModelAdapter {
   /// ```
   const TursoModelAdapter.shared({
     required FunctionsAdapter functionsAdapter,
+    this.columnTypes = const {},
     String logicalName = "shared",
     super.defaultAutoDisposeWhenUnreferenced,
     this.vectorConverter = const PassVectorConverter(),
@@ -736,6 +738,11 @@ class TursoModelAdapter extends ModelAdapter {
         tokenTtlSeconds = 3600,
         _cachedRuntimeDatabase = cachedRuntimeDatabase,
         sharedLogicalName = logicalName;
+
+  /// Explicit SQL types for nullable fields, indexed by table and column.
+  /// Unknown null values still fail rather than guessing a persistent type.
+  /// Supported types are TEXT, INTEGER, REAL, BLOB and NUMERIC.
+  final Map<String, Map<String, String>> columnTypes;
 
   /// Logical name of the shared database when created with
   /// [TursoModelAdapter.shared]. `null` for per-user databases.
@@ -1228,6 +1235,50 @@ class TursoModelAdapter extends ModelAdapter {
       return _loadOnAtomicTransaction(ref, atomic, query);
     }
     return loadDocument(query);
+  }
+
+  /// Reads a collection on the connection pinned by [runAtomicTransaction].
+  /// The collection must belong to a declared table and all reads must precede
+  /// writes. This never opens another client or falls back to Functions.
+  Future<Map<String, DynamicMap>> loadCollectionOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterCollectionQuery query,
+  ) async {
+    if (ref is! TursoModelTransactionRef || ref._atomic == null) {
+      throw UnsupportedError("An atomic Turso transaction is required.");
+    }
+    final context = ref._atomic!;
+    final path = _collectionPath(query);
+    context.check(path);
+    if (ref._operations.isNotEmpty) {
+      throw StateError(
+          "All reads must be performed before the first write in an atomic Turso transaction.");
+    }
+    final payload = TursoQueryPayload.fromFilters(query.query.filters);
+    if (payload.nearest != null) {
+      throw UnsupportedError("Atomic collection reads do not support vectors.");
+    }
+    final client = context.client;
+    final existing = await client.query(
+      "SELECT 1 FROM sqlite_master WHERE type = ? AND name = ? LIMIT 1",
+      positional: ["table", path.table],
+    );
+    if (existing.isEmpty) {
+      return {};
+    }
+    final boolFields =
+        await _loadTursoBoolFields(client, path.database, path.table);
+    final where = _buildTursoWhereSql(where: payload.where);
+    final rows = await client.query(
+      "SELECT * FROM ${_quoteTursoIdentifier(path.table)}"
+      "${where.sql}${_buildTursoOrderSql(payload.orderBy)}"
+      "${_buildTursoLimitSql(payload.limit)}",
+      positional: where.args,
+    );
+    return Map.fromEntries(rows.map((row) {
+      final decoded = _decodeTursoRow(row, boolFields: boolFields);
+      return MapEntry(decoded.get("id", ""), decoded);
+    }).where((entry) => entry.key.isNotEmpty));
   }
 
   @override
@@ -2156,7 +2207,11 @@ class TursoModelAdapter extends ModelAdapter {
     final key = jsonEncode([
       table,
       for (final column in columns)
-        [column, _inferTursoSqlType(row[column], column: column)],
+        [
+          column,
+          _inferTursoSqlType(row[column],
+              column: column, declaredType: columnTypes[table]?[column])
+        ],
       booleans,
     ]);
     final applications = _tursoSchemaApplications[client] ??= {};
@@ -2177,7 +2232,8 @@ class TursoModelAdapter extends ModelAdapter {
     DynamicMap row,
     Set<String> boolFields,
   ) async {
-    final create = _buildTursoCreateTableSql(table, row);
+    final create = _buildTursoCreateTableSql(table, row,
+        columnTypes: columnTypes[table] ?? const {});
     await client.execute(create.sql);
     await _ensureTursoSchemaTable(client);
     await _saveTursoBoolFields(client, table, boolFields);
@@ -2188,7 +2244,8 @@ class TursoModelAdapter extends ModelAdapter {
       if (columns.contains(entry.key)) {
         continue;
       }
-      final type = _inferTursoSqlType(entry.value, column: entry.key);
+      final type = _inferTursoSqlType(entry.value,
+          column: entry.key, declaredType: columnTypes[table]?[entry.key]);
       try {
         await client.execute(
           "ALTER TABLE ${_quoteTursoIdentifier(table)} "

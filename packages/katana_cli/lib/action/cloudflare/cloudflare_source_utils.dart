@@ -771,6 +771,10 @@ Future<void> putWranglerSecret({
   if (isLocalApply) {
     throw StateError("--local ではCloudflare secretを更新できません。");
   }
+  if (isNoSecretsApply) {
+    label("Skip setting Cloudflare Workers secret `$name` (--no-secrets)");
+    return;
+  }
   label("Set Cloudflare Workers secret: $name");
   final process = await Process.start(
     wrangler,

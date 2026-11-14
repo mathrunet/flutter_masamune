@@ -14,11 +14,13 @@ internal class MasamuneAIDebuggerVoice(
 ) : PluginRegistry.RequestPermissionsResultListener {
     companion object {
         const val AVAILABLE = false
+        const val DEFAULT_SAMPLE_RATE = 16000
     }
 
     fun start(
         activity: Activity?,
         result: MethodChannel.Result,
+        @Suppress("UNUSED_PARAMETER") sampleRate: Int = DEFAULT_SAMPLE_RATE,
     ) {
         result.error(
             "unavailable",

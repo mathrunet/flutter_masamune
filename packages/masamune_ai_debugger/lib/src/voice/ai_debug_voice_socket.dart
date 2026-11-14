@@ -20,9 +20,15 @@ abstract class AIDebugVoiceSocket {
   Future<void> close();
 }
 
-/// Opens an [AIDebugVoiceSocket] for [url].
+/// Opens an [AIDebugVoiceSocket] for [url] requesting the WebSocket
+/// subprotocols [protocols].
 ///
-/// [url]への[AIDebugVoiceSocket]を開きます。
+/// [protocols] may carry a single-use key, so never log them.
+///
+/// WebSocketのサブプロトコル[protocols]を指定して、[url]への
+/// [AIDebugVoiceSocket]を開きます。[protocols]は使い捨てのキーを含む場合が
+/// あるため、ログに出さないでください。
 typedef AIDebugVoiceSocketConnector = Future<AIDebugVoiceSocket> Function(
   Uri url,
+  List<String> protocols,
 );

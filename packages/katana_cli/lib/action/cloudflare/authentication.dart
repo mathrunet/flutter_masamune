@@ -67,10 +67,13 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final serviceAccount = await resolveCloudflareFirebaseServiceAccount(
-      context,
-      projectId: firebaseProjectId,
-    );
+    // `--no-secrets` skips both resolving the service account and putting it.
+    final serviceAccount = isNoSecretsApply
+        ? null
+        : await resolveCloudflareFirebaseServiceAccount(
+            context,
+            projectId: firebaseProjectId,
+          );
 
     final bin = context.yaml.getAsMap("bin");
     final npm = bin.get("npm", "npm");
@@ -105,6 +108,12 @@ class CloudflareAuthenticationCliAction extends CliCommand with CliActionMixin {
       npm: npm,
       packages: const ["@mathrunet/masamune_cloudflare_auth"],
     );
+    if (serviceAccount == null) {
+      label(
+        "Skip resolving and setting Cloudflare Workers secret `GOOGLE_SERVICE_ACCOUNT` (--no-secrets)",
+      );
+      return;
+    }
     await putWranglerSecret(
       wrangler: wrangler,
       environment: flavor,

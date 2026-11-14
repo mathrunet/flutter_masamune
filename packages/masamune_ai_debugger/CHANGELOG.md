@@ -1,3 +1,13 @@
+## Unreleased
+
+ - **BREAKING** **FIX**(masamune_ai_debugger): switch the real-time voice input from ElevenLabs Scribe to OpenAI Realtime transcription (`gpt-live-transcribe`) to match the new SamuraiAI `speech-token` response. The previous client was closed by OpenAI with `invalid_request_error`.
+   - `AIDebugSpeechToken` now has `protocols` (the single-use key is passed as a WebSocket subprotocol), `sessionUpdate`, and `client` (`AIDebugSpeechClientConfig`: `commitSilenceMs`, `noiseGateDb`, `autoStopSilenceSec`, `replacements`); `keytermLibrary` is removed, `sampleRate` defaults to 24000, and `toString` does not include the URL or the protocols.
+   - Audio is sent with `input_audio_buffer.append` every 100 ms after a `session.update`, and turns are committed with `input_audio_buffer.commit` by client-side turn detection with an optional noise gate. Interim and committed text are assembled per `item_id`, and reading-to-spelling replacements are applied.
+   - Recording stops automatically when the text does not change for `autoStopSilenceSec` seconds. Stopping before the connection now sends the buffered audio once connected.
+   - `AIDebugVoiceSocketConnector` takes the subprotocols as a second argument, `AIDebugVoiceAudioSource.start` takes `sampleRate`, `AIDebugVoiceMessageType` has the OpenAI event kinds, and `AIDebugVoiceProtocol.buildAudioChunk` / `errorTypes` are replaced by `buildAppendMessage` / `commitMessage` / `buildSessionUpdate`.
+   - The Android and iOS recorders capture at the sample rate passed from Dart (16 kHz when absent).
+   - The overlay asks to register the OpenAI API key under Samurai's voice input settings.
+
 ## 3.12.0
 
  - **CO-AUTHORED-BY**: Claude Code <noreply@anthropic.com> ([d20431a8](https://github.com/mathrunet/flutter_masamune/commit/d20431a8bdaa8911b44ce8865ddac3255542e809))

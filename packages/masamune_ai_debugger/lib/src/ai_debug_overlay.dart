@@ -620,7 +620,7 @@ class _AIDebugOverlayState extends State<_AIDebugOverlay>
   String _voiceErrorMessage(Object error) {
     if (error is AIDebugHttpException) {
       if (error.statusCode == 412 || error.code == "not_configured") {
-        return "音声入力を使うには Samurai の設定 → ElevenLabs で API キーを登録してください";
+        return "音声入力を使うには Samurai の設定 → 音声入力 で OpenAI の API キーを登録してください";
       }
       return "音声入力を開始できませんでした: ${error.message}";
     }

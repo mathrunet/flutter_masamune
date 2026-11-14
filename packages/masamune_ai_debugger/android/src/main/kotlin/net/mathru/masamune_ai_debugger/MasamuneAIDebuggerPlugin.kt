@@ -50,7 +50,13 @@ class MasamuneAIDebuggerPlugin :
     ) {
         when (call.method) {
             "isAvailable" -> result.success(MasamuneAIDebuggerVoice.AVAILABLE)
-            "start" -> voice.start(activityBinding?.activity, result)
+            "start" ->
+                voice.start(
+                    activityBinding?.activity,
+                    result,
+                    call.argument<Number>("sampleRate")?.toInt()
+                        ?: MasamuneAIDebuggerVoice.DEFAULT_SAMPLE_RATE,
+                )
             "stop" -> {
                 voice.stop()
                 result.success(null)

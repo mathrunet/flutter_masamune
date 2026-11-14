@@ -534,7 +534,8 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    final serviceAccount = isLocalApply
+    // `--no-secrets` skips both resolving the service account and putting it.
+    final serviceAccount = isLocalApply || isNoSecretsApply
         ? null
         : await resolveCloudflareFirebaseServiceAccount(
             context,
@@ -579,6 +580,12 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     );
     if (isLocalApply) {
       label("--local: Messagingのローカル生成を完了しました。Cloudflare secretの更新は行いません。");
+      return;
+    }
+    if (isNoSecretsApply) {
+      label(
+        "Skip resolving and setting Cloudflare Workers secret `GOOGLE_SERVICE_ACCOUNT` (--no-secrets)",
+      );
       return;
     }
     await putWranglerSecret(

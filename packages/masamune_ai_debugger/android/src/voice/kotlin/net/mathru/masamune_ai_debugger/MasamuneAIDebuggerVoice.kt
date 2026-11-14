@@ -11,8 +11,9 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 
 /**
- * Captures the microphone as 16 kHz mono PCM16 (little endian) chunks of
- * about 100 ms and passes them to [emit] from a background thread.
+ * Captures the microphone as mono PCM16 (little endian) chunks of about
+ * 100 ms at the sample rate requested by Dart (16 kHz when not given) and
+ * passes them to [emit] from a background thread.
  *
  * Compiled only into builds with `MASAMUNE_AI_DEBUGGER_VOICE=true`.
  */
@@ -21,8 +22,9 @@ internal class MasamuneAIDebuggerVoice(
 ) : PluginRegistry.RequestPermissionsResultListener {
     companion object {
         const val AVAILABLE = true
-        private const val SAMPLE_RATE = 16000
-        private const val CHUNK_BYTES = 3200
+        const val DEFAULT_SAMPLE_RATE = 16000
+        private const val MIN_SAMPLE_RATE = 8000
+        private const val MAX_SAMPLE_RATE = 48000
         private const val PERMISSION_REQUEST_CODE = 0x4d41
     }
 
@@ -32,11 +34,14 @@ internal class MasamuneAIDebuggerVoice(
     @Volatile
     private var running = false
     private var pendingResult: MethodChannel.Result? = null
+    private var pendingSampleRate = DEFAULT_SAMPLE_RATE
 
     fun start(
         activity: Activity?,
         result: MethodChannel.Result,
+        sampleRate: Int = DEFAULT_SAMPLE_RATE,
     ) {
+        val rate = sampleRate.coerceIn(MIN_SAMPLE_RATE, MAX_SAMPLE_RATE)
         if (activity == null) {
             result.error("start_failed", "No activity is attached.", null)
             return
@@ -44,11 +49,12 @@ internal class MasamuneAIDebuggerVoice(
         if (activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO) ==
             PackageManager.PERMISSION_GRANTED
         ) {
-            begin(result)
+            begin(result, rate)
             return
         }
         pendingResult?.error("cancelled", "A newer permission request replaced this one.", null)
         pendingResult = result
+        pendingSampleRate = rate
         activity.requestPermissions(
             arrayOf(Manifest.permission.RECORD_AUDIO),
             PERMISSION_REQUEST_CODE,
@@ -64,7 +70,7 @@ internal class MasamuneAIDebuggerVoice(
         val result = pendingResult ?: return true
         pendingResult = null
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            begin(result)
+            begin(result, pendingSampleRate)
         } else {
             result.error("permission_denied", "Microphone permission was denied.", null)
         }
@@ -72,12 +78,17 @@ internal class MasamuneAIDebuggerVoice(
     }
 
     @SuppressLint("MissingPermission")
-    private fun begin(result: MethodChannel.Result) {
+    private fun begin(
+        result: MethodChannel.Result,
+        sampleRate: Int,
+    ) {
         stop()
+        // About 100 ms of PCM16.
+        val chunkBytes = sampleRate * 2 / 10
         try {
             val minSize =
                 AudioRecord.getMinBufferSize(
-                    SAMPLE_RATE,
+                    sampleRate,
                     AudioFormat.CHANNEL_IN_MONO,
                     AudioFormat.ENCODING_PCM_16BIT,
                 )
@@ -88,10 +99,10 @@ internal class MasamuneAIDebuggerVoice(
             val record =
                 AudioRecord(
                     MediaRecorder.AudioSource.VOICE_RECOGNITION,
-                    SAMPLE_RATE,
+                    sampleRate,
                     AudioFormat.CHANNEL_IN_MONO,
                     AudioFormat.ENCODING_PCM_16BIT,
-                    maxOf(minSize, CHUNK_BYTES) * 2,
+                    maxOf(minSize, chunkBytes) * 2,
                 )
             if (record.state != AudioRecord.STATE_INITIALIZED) {
                 record.release()
@@ -102,7 +113,7 @@ internal class MasamuneAIDebuggerVoice(
             recorder = record
             running = true
             thread =
-                Thread({ read(record) }, "masamune_ai_debugger_voice").apply { start() }
+                Thread({ read(record, chunkBytes) }, "masamune_ai_debugger_voice").apply { start() }
             result.success(true)
         } catch (error: Exception) {
             stop()
@@ -110,12 +121,15 @@ internal class MasamuneAIDebuggerVoice(
         }
     }
 
-    private fun read(record: AudioRecord) {
-        val buffer = ByteArray(CHUNK_BYTES)
+    private fun read(
+        record: AudioRecord,
+        chunkBytes: Int,
+    ) {
+        val buffer = ByteArray(chunkBytes)
         while (running) {
             var filled = 0
-            while (running && filled < CHUNK_BYTES) {
-                val count = record.read(buffer, filled, CHUNK_BYTES - filled)
+            while (running && filled < chunkBytes) {
+                val count = record.read(buffer, filled, chunkBytes - filled)
                 if (count < 0) {
                     running = false
                     break

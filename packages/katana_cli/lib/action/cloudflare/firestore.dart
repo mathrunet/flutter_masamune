@@ -63,15 +63,18 @@ class CloudflareFirestoreCliAction extends CliCommand with CliActionMixin {
       label("Warning: $warning");
     }
 
-    String serviceAccount;
-    try {
-      serviceAccount = await resolveCloudflareFirestoreServiceAccount(
-        context,
-        projectId: projectId,
-      );
-    } on StateError catch (e) {
-      error(e.message);
-      return;
+    String? serviceAccount;
+    // `--no-secrets` skips both resolving the service account and putting it.
+    if (!isNoSecretsApply) {
+      try {
+        serviceAccount = await resolveCloudflareFirestoreServiceAccount(
+          context,
+          projectId: projectId,
+        );
+      } on StateError catch (e) {
+        error(e.message);
+        return;
+      }
     }
 
     final bin = context.yaml.getAsMap("bin");
@@ -95,6 +98,12 @@ class CloudflareFirestoreCliAction extends CliCommand with CliActionMixin {
     if (isLocalApply) {
       label(
         "Skip putting `GOOGLE_SERVICE_ACCOUNT` to the region Worker in --local mode.",
+      );
+      return;
+    }
+    if (serviceAccount == null) {
+      label(
+        "Skip resolving and setting `GOOGLE_SERVICE_ACCOUNT` to the region Worker (--no-secrets)",
       );
       return;
     }

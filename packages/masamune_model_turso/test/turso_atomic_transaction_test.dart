@@ -129,6 +129,12 @@ class _TransactionalClient extends LibsqlClient {
       final row = _view[select.group(1)!]?[positional!.first];
       return row == null ? [] : [Map<String, dynamic>.of(row)];
     }
+    final collection = RegExp(r'^SELECT \* FROM "([^"]+)"$').firstMatch(sql);
+    if (collection != null) {
+      return (_view[collection.group(1)!]?.values ?? const [])
+          .map((row) => Map<String, dynamic>.of(row))
+          .toList();
+    }
     return [];
   }
 }
@@ -177,6 +183,7 @@ class _Fixture {
     String readMode = "direct",
     String writeMode = "direct",
     bool useDirectClient = true,
+    Map<String, Map<String, String>> columnTypes = const {},
   }) : functions = _Functions(readMode: readMode, writeMode: writeMode) {
     session = TursoDirectClientSession(
       sessionKey: () => "uid-1",
@@ -190,6 +197,7 @@ class _Fixture {
       prefix: null,
       functionsAdapter: functions,
       useDirectClient: useDirectClient,
+      columnTypes: columnTypes,
       directClientSession: session,
       retryDelays: const [],
       cachedRuntimeDatabase: NoSqlDatabase(),
@@ -219,6 +227,115 @@ class _Fixture {
 const _tables = ["official_transitions", "outcomes"];
 
 void main() {
+  test("collection reads use the pinned transaction and retain legacy IDs",
+      () async {
+    final f = _Fixture();
+    f.seed("outcomes", "legacy-id", {"vacancyId": "v1"});
+    await f.adapter.runAtomicTransaction<void>(
+        database: "uid-1",
+        tables: _tables,
+        transaction: (ref) async {
+          final rows = await f.adapter.loadCollectionOnTransaction(
+              ref,
+              ModelAdapterCollectionQuery(
+                  query: CollectionModelQuery("database/uid-1/outcomes")));
+          expect(rows.keys, ["legacy-id"]);
+          expect(rows["legacy-id"]?["vacancyId"], "v1");
+          f.adapter.saveOnTransaction(
+              ref,
+              f.query("official_transitions", "r1"),
+              {"outcomeId": rows.keys.single});
+        });
+    expect(f.connections, 1);
+    expect(f.functions.crudRequests, 0);
+    expect(f.row("official_transitions", "r1")?["outcomeId"], "legacy-id");
+    await f.session.clear();
+  });
+  test("collection reads after a write are rejected and roll back", () async {
+    final f = _Fixture();
+    await expectLater(
+        f.adapter.runAtomicTransaction<void>(
+            database: "uid-1",
+            tables: _tables,
+            transaction: (ref) async {
+              f.adapter.saveOnTransaction(
+                  ref, f.query("outcomes", "v1"), {"vacancyId": "v1"});
+              await f.adapter.loadCollectionOnTransaction(
+                  ref,
+                  ModelAdapterCollectionQuery(
+                      query: CollectionModelQuery("database/uid-1/outcomes")));
+            }),
+        throwsStateError);
+    expect(f.client.committed, isEmpty);
+    expect(f.client.statements, contains("ROLLBACK"));
+    await f.session.clear();
+  });
+
+  test(
+      "atomic writes preserve nested JSON booleans and ModelTimestamp metadata",
+      () async {
+    final f = _Fixture();
+    const stamp = {
+      "@type": "ModelTimestamp",
+      "@now": false,
+      "@source": "server",
+      "@time": 1794355200000000,
+      "flags": [true, false]
+    };
+    await f.adapter.runAtomicTransaction<void>(
+        database: "uid-1",
+        tables: _tables,
+        transaction: (ref) {
+          f.adapter.saveOnTransaction(
+              ref, f.query("outcomes", "legacy-id"), {"expiresAt": stamp});
+        });
+    await f.adapter.runAtomicTransaction<void>(
+        database: "uid-1",
+        tables: _tables,
+        transaction: (ref) async {
+          final row = await f.adapter
+              .loadOnTransaction(ref, f.query("outcomes", "legacy-id"));
+          expect(row["expiresAt"], stamp);
+        });
+    await f.session.clear();
+  });
+
+  test("atomic writes retain explicitly typed null fields", () async {
+    final f = _Fixture(columnTypes: const {
+      "outcomes": {"recordedAt": "TEXT", "favoriteId": "TEXT"},
+    });
+    await f.adapter.runAtomicTransaction<void>(
+        database: "uid-1",
+        tables: _tables,
+        transaction: (ref) {
+          f.adapter.saveOnTransaction(ref, f.query("outcomes", "legacy-id"),
+              {"vacancyId": "v1", "recordedAt": null, "favoriteId": null});
+        });
+    expect(f.row("outcomes", "legacy-id"), containsPair("recordedAt", null));
+    expect(f.row("outcomes", "legacy-id"), containsPair("favoriteId", null));
+    expect(f.client.statements.any((sql) => sql.contains('"recordedAt" TEXT')),
+        true);
+    await f.session.clear();
+  });
+
+  test("declared column types cannot inject SQL", () async {
+    final f = _Fixture(columnTypes: const {
+      "outcomes": {"recordedAt": "TEXT); DROP TABLE outcomes;--"},
+    });
+    await expectLater(
+        f.adapter.runAtomicTransaction<void>(
+            database: "uid-1",
+            tables: _tables,
+            transaction: (ref) {
+              f.adapter.saveOnTransaction(
+                  ref, f.query("outcomes", "r1"), {"recordedAt": null});
+            }),
+        throwsArgumentError);
+    expect(f.client.committed, isEmpty);
+    expect(f.client.statements, contains("ROLLBACK"));
+    await f.session.clear();
+  });
+
   test("reads and writes run on one pinned connection and commit together",
       () async {
     final f = _Fixture();

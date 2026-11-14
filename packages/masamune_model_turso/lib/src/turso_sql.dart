@@ -50,11 +50,11 @@ Object? _encodeTursoSaveValue(Object? value) {
     return value ? 1 : 0;
   }
   if (value is Iterable) {
-    return value.map(_encodeTursoSaveValue).toList();
+    return value.map(_encodeTursoValue).toList();
   }
   if (value is Map) {
     return value.map(
-      (key, val) => MapEntry(key.toString(), _encodeTursoSaveValue(val)),
+      (key, val) => MapEntry(key.toString(), _encodeTursoValue(val)),
     );
   }
   return value;
@@ -235,7 +235,16 @@ String _buildTursoLimitSql(int? limit) {
   return " LIMIT $limit";
 }
 
-String _inferTursoSqlType(Object? value, {String? column}) {
+String _inferTursoSqlType(Object? value,
+    {String? column, String? declaredType}) {
+  if (declaredType != null) {
+    final type = declaredType.toUpperCase();
+    if (!const {"TEXT", "INTEGER", "REAL", "BLOB", "NUMERIC"}.contains(type)) {
+      throw ArgumentError.value(
+          declaredType, "declaredType", "Unsupported SQL type");
+    }
+    return type;
+  }
   if (value == null) {
     throw StateError(
       "Cannot infer SQL type for column ${column ?? "<unknown>"} from null. "
@@ -252,7 +261,8 @@ String _inferTursoSqlType(Object? value, {String? column}) {
   return "TEXT";
 }
 
-_TursoSql _buildTursoCreateTableSql(String table, DynamicMap value) {
+_TursoSql _buildTursoCreateTableSql(String table, DynamicMap value,
+    {Map<String, String> columnTypes = const {}}) {
   final columns = <String>[
     "${_quoteTursoIdentifier("id")} TEXT PRIMARY KEY",
     "${_quoteTursoIdentifier("created_at")} INTEGER",
@@ -265,7 +275,7 @@ _TursoSql _buildTursoCreateTableSql(String table, DynamicMap value) {
       continue;
     }
     columns.add("${_quoteTursoIdentifier(entry.key)} "
-        "${_inferTursoSqlType(entry.value, column: entry.key)}");
+        "${_inferTursoSqlType(entry.value, column: entry.key, declaredType: columnTypes[entry.key])}");
   }
   return _TursoSql(
     sql:

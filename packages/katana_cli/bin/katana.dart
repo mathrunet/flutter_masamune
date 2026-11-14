@@ -216,7 +216,9 @@ String? _validateApplyArguments(List<String> arguments) {
       hasTarget = true;
       continue;
     }
-    if (argument == "--local" || argument == "--no-deploy") {
+    if (argument == "--local" ||
+        argument == "--no-deploy" ||
+        argument == "--no-secrets") {
       continue;
     }
     if (argument == "--only") {

@@ -349,17 +349,33 @@ including during concurrent requests. A null value means automatic selection.
 ## Real-time voice input
 
 The instruction field can be dictated with a microphone button. Speech is
-transcribed in real time by ElevenLabs Scribe; interim text is shown faintly
-under the field and each committed sentence is inserted at the cursor
-(a half-width space is added only between adjacent ASCII words).
+transcribed in real time by OpenAI Realtime transcription
+(`gpt-live-transcribe`); interim text is shown faintly under the field and
+each committed sentence is inserted at the cursor (a half-width space is added
+only between adjacent ASCII words).
 The button's accessibility label is fixed to `AI debugger voice input`
 (`kAIDebugVoiceInputLabel`), the same as the Whisker implementation.
 
-SamuraiAI issues a single-use token with
+SamuraiAI issues a single-use key with
 `POST /api/app-debug/runs/{runId}/speech-token` (authenticated with the same
-`x-api-key`), and the app connects to ElevenLabs directly; audio never passes
-through SamuraiAI. Register the ElevenLabs API key in SamuraiAI under
-**Settings → ElevenLabs**. Without it, the overlay shows where to register it.
+`x-api-key`), and the app connects to OpenAI directly with the key in the
+WebSocket subprotocols; audio never passes through SamuraiAI. Register the
+OpenAI API key in SamuraiAI under **Settings → Voice input**. Without it, the
+overlay shows where to register it.
+
+- Audio is captured as 24 kHz mono PCM16 (the rate is taken from the token)
+  and sent every 100 ms with `input_audio_buffer.append`. Up to 15 seconds of
+  audio captured while connecting is buffered and sent once connected.
+- The model has no server-side VAD, so the client ends a turn with
+  `input_audio_buffer.commit` after speech followed by silence
+  (`client.commitSilenceMs`, 700 ms by default). Chunks quieter than
+  `client.noiseGateDb` are sent as silence.
+- `client.replacements` (reading to spelling, e.g. `フラッター` to `Flutter`)
+  are applied to interim and committed text.
+- Recording stops automatically when the text does not change for
+  `client.autoStopSilenceSec` seconds (5 by default, `0` disables it). On
+  stop the remaining audio and the last turn are sent, and the outstanding
+  transcripts are awaited for up to 3 seconds.
 
 The feature is compiled in only for development builds. Without the flags
 below, the app contains no recording code, no `RECORD_AUDIO` permission, no

@@ -3,10 +3,16 @@ import "dart:io";
 
 import "ai_debug_voice_socket.dart";
 
-/// Opens a WebSocket with `dart:io`.
-Future<AIDebugVoiceSocket> connectAIDebugVoiceSocket(Uri url) async {
-  final socket = await WebSocket.connect(url.toString())
-      .timeout(const Duration(seconds: 10));
+/// Opens a WebSocket with `dart:io`, requesting the subprotocols
+/// [protocols].
+Future<AIDebugVoiceSocket> connectAIDebugVoiceSocket(
+  Uri url,
+  List<String> protocols,
+) async {
+  final socket = await WebSocket.connect(
+    url.toString(),
+    protocols: protocols.isEmpty ? null : protocols,
+  ).timeout(const Duration(seconds: 10));
   return _AIDebugIOVoiceSocket(socket);
 }
 

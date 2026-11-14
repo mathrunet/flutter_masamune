@@ -1360,6 +1360,10 @@ ${previewBucketName.isEmpty ? "" : '\t\t\t"preview_bucket_name": "$previewBucket
     required String key,
     required String value,
   }) async {
+    if (isNoSecretsApply) {
+      label("Skip setting Cloudflare Workers secret `$key` (--no-secrets)");
+      return;
+    }
     label("Set Cloudflare Workers secrets.");
     final process = await Process.start(
       wrangler,

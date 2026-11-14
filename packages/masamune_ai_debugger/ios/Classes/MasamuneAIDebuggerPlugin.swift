@@ -42,7 +42,7 @@ public class MasamuneAIDebuggerPlugin: NSObject, FlutterPlugin, FlutterStreamHan
       #endif
     case "start":
       #if MASAMUNE_AI_DEBUGGER_VOICE
-      capture.start(result: result)
+      capture.start(result: result, sampleRate: Self.sampleRate(of: call.arguments))
       #else
       result(Self.unavailable())
       #endif
@@ -69,6 +69,18 @@ public class MasamuneAIDebuggerPlugin: NSObject, FlutterPlugin, FlutterStreamHan
     return nil
   }
 
+  /// Sample rate requested by Dart (`{"sampleRate": 24000}`), 16 kHz when absent.
+  private static func sampleRate(of arguments: Any?) -> Double {
+    guard
+      let map = arguments as? [String: Any],
+      let value = map["sampleRate"] as? NSNumber,
+      value.doubleValue > 0
+    else {
+      return 16000
+    }
+    return min(max(value.doubleValue, 8000), 48000)
+  }
+
   private static func unavailable() -> FlutterError {
     FlutterError(
       code: "unavailable",
@@ -81,11 +93,12 @@ public class MasamuneAIDebuggerPlugin: NSObject, FlutterPlugin, FlutterStreamHan
 #if MASAMUNE_AI_DEBUGGER_VOICE
 import AVFoundation
 
-/// Captures the microphone as 16 kHz mono PCM16 (little endian) chunks.
+/// Captures the microphone as mono PCM16 (little endian) chunks of about
+/// 100 ms at the requested sample rate.
 final class MasamuneAIDebuggerVoiceCapture {
-  private static let sampleRate: Double = 16000
-  /// About 100 ms of 16 kHz PCM16.
-  private static let chunkBytes = 3200
+  private var sampleRate: Double = 16000
+  /// About 100 ms of PCM16 at `sampleRate`.
+  private var chunkBytes = 3200
 
   private let emit: (Data) -> Void
   private var engine: AVAudioEngine?
@@ -99,7 +112,7 @@ final class MasamuneAIDebuggerVoiceCapture {
     self.emit = emit
   }
 
-  func start(result: @escaping FlutterResult) {
+  func start(result: @escaping FlutterResult, sampleRate: Double = 16000) {
     let handler: (Bool) -> Void = { granted in
       DispatchQueue.main.async {
         guard granted else {
@@ -110,7 +123,7 @@ final class MasamuneAIDebuggerVoiceCapture {
           ))
           return
         }
-        self.begin(result: result)
+        self.begin(result: result, sampleRate: sampleRate)
       }
     }
     if #available(iOS 17.0, *) {
@@ -134,8 +147,10 @@ final class MasamuneAIDebuggerVoiceCapture {
     restoreSession()
   }
 
-  private func begin(result: @escaping FlutterResult) {
+  private func begin(result: @escaping FlutterResult, sampleRate: Double) {
     stop()
+    self.sampleRate = sampleRate
+    chunkBytes = Int(sampleRate / 10) * MemoryLayout<Int16>.size
     do {
       let session = AVAudioSession.sharedInstance()
       previousCategory = session.category
@@ -151,7 +166,7 @@ final class MasamuneAIDebuggerVoiceCapture {
         inputFormat.sampleRate > 0,
         let outputFormat = AVAudioFormat(
           commonFormat: .pcmFormatInt16,
-          sampleRate: Self.sampleRate,
+          sampleRate: sampleRate,
           channels: 1,
           interleaved: true
         ),
@@ -222,9 +237,9 @@ final class MasamuneAIDebuggerVoiceCapture {
   private func append(_ data: Data) {
     guard engine != nil else { return }
     pending.append(data)
-    while pending.count >= Self.chunkBytes {
-      emit(Data(pending.prefix(Self.chunkBytes)))
-      pending.removeFirst(Self.chunkBytes)
+    while pending.count >= chunkBytes {
+      emit(Data(pending.prefix(chunkBytes)))
+      pending.removeFirst(chunkBytes)
     }
   }
 
