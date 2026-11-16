@@ -337,7 +337,7 @@ class AIDebugSettings {
   const AIDebugSettings({
     this.provider,
     this.manualModel = AIDebugModel.sol,
-    this.manualPermissionMode = AIDebugPermissionMode.plan,
+    this.manualPermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.errorModel = AIDebugModel.sol,
     this.errorPermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.performanceModel = AIDebugModel.sol,

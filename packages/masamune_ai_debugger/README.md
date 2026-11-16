@@ -45,7 +45,7 @@ import "package:masamune_ai_debugger/masamune_ai_debugger.dart";
 
 final aiDebugger = AIDebuggerMasamuneAdapter(
   manualModel: AIDebugModel.sol,
-  manualPermissionMode: AIDebugPermissionMode.plan,
+  manualPermissionMode: AIDebugPermissionMode.bypassPermissions,
   errorModel: AIDebugModel.sol,
   errorPermissionMode: AIDebugPermissionMode.bypassPermissions,
   performanceModel: AIDebugModel.sol,

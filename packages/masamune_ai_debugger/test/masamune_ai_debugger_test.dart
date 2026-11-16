@@ -836,9 +836,12 @@ void main() {
     expect(calls, isEmpty);
   });
 
-  test("automatic incidents default to bypassPermissions", () {
+  test("all requests default to bypassPermissions", () {
     const settings = AIDebugSettings();
-    expect(settings.manualPermissionMode, AIDebugPermissionMode.plan);
+    expect(
+      settings.manualPermissionMode,
+      AIDebugPermissionMode.bypassPermissions,
+    );
     expect(
       settings.errorPermissionMode,
       AIDebugPermissionMode.bypassPermissions,
@@ -1181,7 +1184,7 @@ void main() {
     expect(find.byIcon(Icons.settings), findsOneWidget);
     expect(find.bySemanticsLabel("不具合修正"), findsOneWidget);
     expect(find.byIcon(Icons.bug_report), findsOneWidget);
-    expect(find.bySemanticsLabel("Mode Plan"), findsOneWidget);
+    expect(find.bySemanticsLabel("Mode bypassPermissions"), findsOneWidget);
     expect(find.bySemanticsLabel("Model Sol"), findsOneWidget);
     expect(find.byIcon(Icons.send), findsOneWidget);
     final textField = tester.widget<TextField>(find.byType(TextField));

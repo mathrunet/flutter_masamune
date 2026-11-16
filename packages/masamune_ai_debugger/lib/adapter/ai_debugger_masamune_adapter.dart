@@ -37,7 +37,7 @@ class AIDebuggerMasamuneAdapter extends MasamuneAdapter {
     List<String> providers = const ["codex", "claude", "gemini"],
     this.initialProvider,
     this.manualModel = AIDebugModel.sol,
-    this.manualPermissionMode = AIDebugPermissionMode.plan,
+    this.manualPermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.errorModel = AIDebugModel.sol,
     this.errorPermissionMode = AIDebugPermissionMode.bypassPermissions,
     this.performanceModel = AIDebugModel.sol,

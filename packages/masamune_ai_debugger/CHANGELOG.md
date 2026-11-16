@@ -1,5 +1,6 @@
 ## Unreleased
 
+ - **FEAT**(masamune_ai_debugger): default manual requests to bypassPermissions. Settings already saved on the device keep their mode.
  - **BREAKING** **FIX**(masamune_ai_debugger): switch the real-time voice input from ElevenLabs Scribe to OpenAI Realtime transcription (`gpt-live-transcribe`) to match the new SamuraiAI `speech-token` response. The previous client was closed by OpenAI with `invalid_request_error`.
    - `AIDebugSpeechToken` now has `protocols` (the single-use key is passed as a WebSocket subprotocol), `sessionUpdate`, and `client` (`AIDebugSpeechClientConfig`: `commitSilenceMs`, `noiseGateDb`, `autoStopSilenceSec`, `replacements`); `keytermLibrary` is removed, `sampleRate` defaults to 24000, and `toString` does not include the URL or the protocols.
    - Audio is sent with `input_audio_buffer.append` every 100 ms after a `session.update`, and turns are committed with `input_audio_buffer.commit` by client-side turn detection with an optional noise gate. Interim and committed text are assembled per `item_id`, and reading-to-spelling replacements are applied.
