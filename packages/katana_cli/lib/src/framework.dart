@@ -88,8 +88,9 @@ class ExecContext {
 
   /// Whether `--no-secrets` was specified.
   ///
-  /// Dependencies and settings are applied, but Firebase service accounts are
-  /// not resolved and no Cloudflare Workers / GitHub secrets are put.
+  /// Dependencies and settings are applied without reading katana_secrets.yaml,
+  /// resolving Firebase or purchase store credentials, or writing purchase
+  /// environment secrets or Cloudflare Workers / GitHub secrets.
   bool get noSecrets => args.contains("--no-secrets");
 
   final int _index;

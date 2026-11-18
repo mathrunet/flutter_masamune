@@ -72,12 +72,13 @@ Future<void> main(List<String> args) async {
   }
   final katana = File("katana.yaml");
   final katanaSecrets = File("katana_secrets.yaml");
+  final skipSecrets = command == "apply" && args.contains("--no-secrets");
   if (!katana.existsSync()) {
     for (final tmp in commands.entries) {
       if (tmp.key != command) {
         continue;
       }
-      final secrets = katanaSecrets.existsSync()
+      final secrets = !skipSecrets && katanaSecrets.existsSync()
           ? await _loadKatanaYaml(katanaSecrets)
           : <dynamic, dynamic>{};
       final flavorContext = _resolveFlavorContext(
@@ -105,7 +106,8 @@ Future<void> main(List<String> args) async {
   } else {
     final rawYaml =
         modifize(loadYaml(await katana.readAsString())) as Map? ?? {};
-    final yaml = _expandKatanaYaml(rawYaml, source: "katana.yaml");
+    final yaml = _expandKatanaYaml(rawYaml,
+        source: "katana.yaml", noSecrets: skipSecrets);
     if (yaml.isEmpty) {
       error(
         "katana.yaml file could not be found. Place it in the root of the project.",
@@ -121,7 +123,7 @@ Future<void> main(List<String> args) async {
       if (tmp.key != command) {
         continue;
       }
-      final secrets = katanaSecrets.existsSync()
+      final secrets = !skipSecrets && katanaSecrets.existsSync()
           ? await _loadKatanaYaml(katanaSecrets)
           : <dynamic, dynamic>{};
       final flavorContext = _resolveFlavorContext(
@@ -163,7 +165,20 @@ Future<Map<dynamic, dynamic>> _loadKatanaYaml(File file) async {
 Map<dynamic, dynamic> _expandKatanaYaml(
   Map<dynamic, dynamic> yaml, {
   required String source,
+  bool noSecrets = false,
 }) {
+  if (noSecrets &&
+      yaml
+          .getAsMap("purchase")
+          .getAsMap("app_store")
+          .containsKey("shared_secret")) {
+    // Keep the raw document intact while avoiding legacy inline store secrets.
+    final purchase = Map<dynamic, dynamic>.from(yaml.getAsMap("purchase"));
+    final appStore = Map<dynamic, dynamic>.from(purchase.getAsMap("app_store"));
+    appStore.remove("shared_secret");
+    purchase["app_store"] = appStore;
+    yaml = {...yaml, "purchase": purchase};
+  }
   try {
     return expandEnvironmentVariables(yaml, source: source) as Map;
   } on KatanaEnvironmentVariableException catch (e) {

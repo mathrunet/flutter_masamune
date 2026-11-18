@@ -44,13 +44,15 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final purchase = context.yaml.getAsMap("purchase");
     final googlePlay = purchase.getAsMap("google_play");
     final appStore = purchase.getAsMap("app_store");
-    final secretAppStore =
-        context.secrets.getAsMap("purchase").getAsMap("app_store");
     final googlePlayPubsubTopic = googlePlay.get("pubsub_topic", "");
-    final secretAppStoreSharedSecret = secretAppStore.get("shared_secret", "");
-    final appStoreSharedSecret = secretAppStoreSharedSecret.isNotEmpty
-        ? secretAppStoreSharedSecret
-        : appStore.get("shared_secret", "");
+    var appStoreSharedSecret = "";
+    if (!context.noSecrets) {
+      final secretAppStore =
+          context.secrets.getAsMap("purchase").getAsMap("app_store");
+      final secret = secretAppStore.get("shared_secret", "");
+      appStoreSharedSecret =
+          secret.isNotEmpty ? secret : appStore.get("shared_secret", "");
+    }
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final function = firebase.getAsMap("functions");
@@ -62,9 +64,9 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final cloudflare = context.yaml.getAsMap("cloudflare");
     final enableCloudflareWorkers =
         cloudflare.getAsMap("workers").get("enable", false);
-    late final String androidServiceAccountEmail;
-    late final String androidServiceAccountPrivateKey;
-    if (enableGooglePlay) {
+    var androidServiceAccountEmail = "";
+    var androidServiceAccountPrivateKey = "";
+    if (enableGooglePlay && !context.noSecrets) {
       final serviceAccountFile = await find(
         Directory("android"),
         RegExp("([a-z0-9_-]+).json"),
@@ -88,16 +90,18 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         );
         return;
       }
-      // Cloudflare版のwebhookはHTTP pushサブスクリプションで受けるためトピックIDは不要。
-      if (!enableCloudflareWorkers && googlePlayPubsubTopic.isEmpty) {
-        error(
-          "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it. "
-          "Set the topic ID you set in Pubsub.",
-        );
-        return;
-      }
     }
-    if (enableAppStore) {
+    // Cloudflare webhooks use HTTP push subscriptions instead of topic IDs.
+    if (enableGooglePlay &&
+        !enableCloudflareWorkers &&
+        googlePlayPubsubTopic.isEmpty) {
+      error(
+        "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it. "
+        "Set the topic ID you set in Pubsub.",
+      );
+      return;
+    }
+    if (enableAppStore && !context.noSecrets) {
       if (appStoreSharedSecret.isEmpty) {
         error(
           "The item [purchase]->[app_store]->[shared_secret] is empty. Please set it in `katana_secrets.yaml` or `katana.yaml`.",
@@ -314,20 +318,22 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         }
       }
       await functions.save();
-      label("Set firebase functions config.");
-      final env = FunctionsEnv(context: context);
-      await env.load();
-      env["PURCHASE_SUBSCRIPTIONPATH"] = "plugins/iap/subscription";
-      if (enableGooglePlay) {
-        env["PURCHASE_ANDROID_SERVICEACCOUNT_EMAIL"] =
-            androidServiceAccountEmail;
-        env["PURCHASE_ANDROID_SERVICEACCOUNT_PRIVATE_KEY"] =
-            androidServiceAccountPrivateKey.replaceAll("\n", "\\n");
+      if (!context.noSecrets) {
+        label("Set firebase functions config.");
+        final env = FunctionsEnv(context: context);
+        await env.load();
+        env["PURCHASE_SUBSCRIPTIONPATH"] = "plugins/iap/subscription";
+        if (enableGooglePlay) {
+          env["PURCHASE_ANDROID_SERVICEACCOUNT_EMAIL"] =
+              androidServiceAccountEmail;
+          env["PURCHASE_ANDROID_SERVICEACCOUNT_PRIVATE_KEY"] =
+              androidServiceAccountPrivateKey.replaceAll("\n", "\\n");
+        }
+        if (enableAppStore) {
+          env["PURCHASE_IOS_SHAREDSECRET"] = appStoreSharedSecret;
+        }
+        await env.save();
       }
-      if (enableAppStore) {
-        env["PURCHASE_IOS_SHAREDSECRET"] = appStoreSharedSecret;
-      }
-      await env.save();
       context.requestFirebaseDeploy(FirebaseDeployPostActionType.functions);
       // await command(
       //   "Deploy firebase functions.",
@@ -401,6 +407,11 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         if (enableTurso) "@mathrunet/masamune_cloudflare_turso",
       ],
     );
+    if (context.noSecrets) {
+      label(
+          "--no-secrets: Purchase credentials and secret writes are skipped.");
+      return;
+    }
     if (isLocalApply) {
       label("--local: Purchaseのローカル生成を完了しました。Cloudflare secretの更新は行いません。");
       return;

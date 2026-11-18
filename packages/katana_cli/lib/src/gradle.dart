@@ -99,6 +99,13 @@ class AppGradle {
     if (_rawData.isEmpty) {
       throw Exception("No value. Please load data with [load].");
     }
+    // Kotlin does not implicitly import java.util.Properties. Repair older
+    // generated scripts as well as scripts receiving a new property loader.
+    if (_isKotlin &&
+        _loadProperties.isNotEmpty &&
+        !_imports.any((e) => e.import == "java.util.Properties")) {
+      _imports.add(GradleImport(import: "java.util.Properties"));
+    }
     _rawData = GradleImport._save(_rawData, _imports, _originalImports);
     _rawData = GradlePlugin._save(_rawData, _plugins, _originalPlugins);
     _rawData = GradleLoadProperties._save(

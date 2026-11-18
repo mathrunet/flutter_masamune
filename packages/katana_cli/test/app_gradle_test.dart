@@ -205,6 +205,47 @@ void _checkCustomLines(String source, List<String> lines, String label) {
 }
 
 Future<void> main() async {
+  // Property loading must work without a pre-existing signing import.
+  for (final existing in [false, true]) {
+    final source = existing
+        ? _kotlinGradle.replaceFirst("import java.util.Properties\n", "")
+        : 'plugins { id("com.android.application") }\nandroid { }\n';
+    await _withGradle("build.gradle.kts", source, (file) async {
+      final gradle = AppGradle();
+      await gradle.load();
+      if (!existing) {
+        gradle.loadProperties.add(GradleLoadProperties(
+          name: "configProperties",
+          file: "configPropertiesFile",
+          path: "config.properties",
+          isKotlin: true,
+        ));
+      }
+      await gradle.save();
+      final first = await file.readAsString();
+      _check(
+        _count(first, "import java.util.Properties") == 1,
+        "Kotlin property loading must add its missing Properties import.",
+      );
+      _check(
+        first.indexOf("import java.util.Properties") < first.indexOf("plugins"),
+        "Properties must be imported before the plugins block.",
+      );
+      if (existing) {
+        _checkCustomLines(
+            first, _kotlinCustomLines, "Properties import repair");
+      }
+      await gradle.save();
+      _check(
+          await file.readAsString() == first, "Repeated save must be stable.");
+      final reloaded = AppGradle();
+      await reloaded.load();
+      await reloaded.save();
+      _check(await file.readAsString() == first,
+          "Reload and save must be stable.");
+    });
+  }
+
   // A round trip without changes keeps the file byte for byte.
   for (final entry in {
     "build.gradle.kts": _kotlinGradle,

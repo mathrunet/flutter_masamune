@@ -11,6 +11,7 @@ Future<void> main() async {
   _testSchemaSplit();
   _testRegionSourceUpdate();
   _testEdgeReservedDatabases();
+  _testDisabledEdgeToken();
   final server = await _FakeTursoPlatformApi.start();
   try {
     await _testActionRequiresRegionWorker(server);
@@ -259,6 +260,31 @@ export default m.deploy([
   )!;
   _check(!disabled.contains('"shared"'),
       "Without the shared database nothing must be reserved.");
+}
+
+/// The opt-out removes only token registration and remains stable on reapply.
+void _testDisabledEdgeToken() {
+  const action = CloudflareTursoCliAction();
+  const source = """
+import * as m from "@mathrunet/masamune_cloudflare";
+export default m.deploy([turso.Functions.turso({}), turso.Functions.tursoToken({}), other()], {type: "edge"});""";
+  final result = action.updateTursoFunctions(source,
+      useSchemaManifest: false, registerToken: false)!;
+  _check(
+      !result.contains("turso.Functions.tursoToken(") &&
+          result.contains("turso.Functions.turso(") &&
+          result.contains("other()"),
+      "Only token registration must be removed: $result");
+  _check(
+      action.updateTursoFunctions(result,
+              useSchemaManifest: false, registerToken: false) ==
+          result,
+      "The opt-out must be idempotent.");
+  _check(
+      action
+          .updateTursoFunctions(source, useSchemaManifest: false)!
+          .contains("turso.Functions.tursoToken("),
+      "Default must remain enabled.");
 }
 
 class _Workspace {

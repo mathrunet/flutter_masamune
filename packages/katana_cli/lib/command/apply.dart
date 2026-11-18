@@ -219,7 +219,7 @@ class ApplyCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。--only <name,...> は名前（例: tidb, turso, storage）に一致する有効なアクションだけを実行します。--no-deploy は依存追加と設定反映を行い、Firebase（Firestore・Storage・Functions・Hosting等）の即時デプロイ、終了後のデプロイ予約、Storage CORS反映、Cloudflare Workerの新規デプロイを行いません。--no-secrets applies dependencies and settings, but skips resolving Firebase service accounts (GOOGLE_SERVICE_ACCOUNT) and putting Cloudflare Workers / GitHub secrets.";
+      "Reflect the settings in katana.yaml in the application project. katana.yamlの設定をアプリケーションプロジェクトに反映させます。--local は導入済み依存と初期設定を検証し、依存変更・外部設定・デプロイを行わずローカル設定を反映します。未対応の外部設定が有効な場合は失敗します。--only <name,...> は名前（例: tidb, turso, storage）に一致する有効なアクションだけを実行します。--no-deploy は依存追加と設定反映を行い、Firebase（Firestore・Storage・Functions・Hosting等）の即時デプロイ、終了後のデプロイ予約、Storage CORS反映、Cloudflare Workerの新規デプロイを行いません。--no-secrets applies dependencies and settings, but skips reading katana_secrets.yaml, resolving Firebase service accounts (GOOGLE_SERVICE_ACCOUNT) and purchase store credentials, and writing purchase environment secrets or Cloudflare Workers / GitHub secrets.";
 
   @override
   String? get example =>

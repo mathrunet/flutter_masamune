@@ -557,22 +557,36 @@ Future<TidbCloudSqlUserApi> _openSqlUserApi(String authMode,
 Future<void> verifyTidbMigrationSqlUser(String host, String database,
     String username, String password, String node) async {
   const script = r"""
-const {connect}=require('@tidbcloud/serverless');
-let input=''; process.stdin.setEncoding('utf8');
-process.stdin.on('data', part => input += part);
-process.stdin.on('end', async () => {
-  try {
-    const p=JSON.parse(input);
-    const db=connect({host:p.host,database:p.database,username:p.username,password:p.password,debug:false});
-    const rows=await db.execute('SELECT CURRENT_USER() AS identity_name');
-    const actual=String(rows[0]?.identity_name ?? '').split('@')[0];
-    if(actual!==p.username) throw new Error('identity');
-    const grants=await db.execute('SHOW GRANTS');
-    const text=grants.map(row=>String(Object.values(row)[0] ?? '')).join(' ').toLowerCase();
-    if(!text.includes('role_admin') && !text.includes('all privileges')) throw new Error('privileges');
-    process.stdout.write('verified');
-  } catch { process.stderr.write('TiDB migration SQL identityまたは管理権限を確認できません。'); process.exitCode=1; }
-});
+let stage='driver_load_failed';
+function fail(error){
+  // Only emit fixed classifications; SQL error messages may contain secrets.
+  if(stage==='identity_query_failed' && /unknown database/i.test(String(error?.message ?? ''))) stage='database_missing';
+  process.stderr.write(stage);process.exitCode=1;
+}
+try {
+  const {connect}=require('@tidbcloud/serverless');
+  let input=''; process.stdin.setEncoding('utf8');
+  process.stdin.on('data', part => input += part);
+  process.stdin.on('end', async () => {
+    try {
+      stage='input_invalid';
+      const p=JSON.parse(input);
+      stage='connection_failed';
+      const db=connect({host:p.host,database:p.database,username:p.username,password:p.password,debug:false});
+      stage='identity_query_failed';
+      const rows=await db.execute('SELECT CURRENT_USER() AS identity_name');
+      stage='identity_mismatch';
+      const actual=String(rows[0]?.identity_name ?? '').split('@')[0];
+      if(actual!==p.username) throw new Error();
+      stage='grants_query_failed';
+      const grants=await db.execute('SHOW GRANTS');
+      stage='privileges_missing';
+      const text=grants.map(row=>String(Object.values(row)[0] ?? '')).join(' ').toLowerCase();
+      if(!text.includes('role_admin') && !text.includes('all privileges')) throw new Error();
+      process.stdout.write('verified');
+    } catch (error) { fail(error); }
+  });
+} catch (error) { fail(error); }
 """;
   final process =
       await Process.start(node, ["-e", script], workingDirectory: "cloudflare");
@@ -586,9 +600,20 @@ process.stdin.on('end', async () => {
   }));
   await process.stdin.close();
   final status = await process.exitCode;
-  await output;
-  await failure;
-  if (status != 0) {
-    throw StateError("TiDB migration SQL identityまたは管理権限を確認できません。");
+  final response = await output;
+  final diagnostic = (await failure).trim();
+  const stages = {
+    "driver_load_failed",
+    "input_invalid",
+    "connection_failed",
+    "identity_query_failed",
+    "identity_mismatch",
+    "database_missing",
+    "grants_query_failed",
+    "privileges_missing",
+  };
+  if (status != 0 || response != "verified") {
+    final stage = stages.contains(diagnostic) ? diagnostic : "probe_failed";
+    throw StateError("TiDB migration SQL検証に失敗しました。[$stage]");
   }
 }

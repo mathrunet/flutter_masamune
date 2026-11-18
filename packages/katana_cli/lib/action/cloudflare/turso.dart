@@ -247,6 +247,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       source,
       useSchemaManifest: useSchemaManifest,
       reservedDatabase: sharedLogicalName,
+      registerToken: turso.get("register_token_endpoint", true),
     );
     if (updated == null) {
       return;
@@ -376,6 +377,7 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
     String source, {
     required bool useSchemaManifest,
     String? reservedDatabase,
+    bool registerToken = true,
   }) {
     final tursoFunction = _tursoFunction(
       "turso",
@@ -397,15 +399,35 @@ class CloudflareTursoCliAction extends CliCommand with CliActionMixin {
       tursoFunction,
       reservedDatabase: reservedDatabase,
     );
-    updated = _replaceFunction(
-      updated,
-      "turso.Functions.tursoToken",
-      tursoTokenFunction,
-      reservedDatabase: reservedDatabase,
-    );
+    if (registerToken) {
+      updated = _replaceFunction(
+        updated,
+        "turso.Functions.tursoToken",
+        tursoTokenFunction,
+        reservedDatabase: reservedDatabase,
+      );
+    } else {
+      while (true) {
+        final range =
+            _findFunctionCall(updated, "turso.Functions.tursoToken", 0);
+        if (range == null) {
+          break;
+        }
+        final lineStart = updated.lastIndexOf("\n", range.start - 1) + 1;
+        final lineEnd = updated.indexOf("\n", range.end);
+        final removeLine =
+            updated.substring(lineStart, range.start).trim().isEmpty &&
+                lineEnd >= 0 &&
+                updated.substring(range.end, lineEnd).trim().isEmpty;
+        updated = removeLine
+            ? updated.replaceRange(lineStart, lineEnd + 1, "")
+            : updated.replaceRange(range.start, range.end, "");
+      }
+    }
     final functions = <String>[
       if (!updated.contains("turso.Functions.turso(")) tursoFunction,
-      if (!updated.contains("turso.Functions.tursoToken(")) tursoTokenFunction,
+      if (registerToken && !updated.contains("turso.Functions.tursoToken("))
+        tursoTokenFunction,
     ];
     if (functions.isEmpty) {
       return updated;

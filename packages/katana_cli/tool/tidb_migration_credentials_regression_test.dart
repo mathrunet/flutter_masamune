@@ -75,6 +75,7 @@ Future<void> main(List<String> arguments) async {
     }
     return;
   }
+  await verifySqlProbeDiagnostics();
   final before = Directory.current;
   final temporary =
       await Directory.systemTemp.createTemp("tidb-migration-test-");
@@ -493,4 +494,50 @@ Future<void> rejects(Future<Object?> Function() action, String message) async {
     return;
   }
   throw StateError(message);
+}
+
+// Exercise the real child script with an isolated SQL driver, without a network.
+Future<void> verifySqlProbeDiagnostics() async {
+  final before = Directory.current;
+  final root = await Directory.systemTemp.createTemp("tidb-sql-probe-");
+  try {
+    Directory.current = root;
+    final module =
+        File("cloudflare/node_modules/@tidbcloud/serverless/index.js");
+    await module.parent.create(recursive: true);
+    for (final scenario in {
+      "connection_failed": "throw new Error('fixture-secret')",
+      "identity_query_failed":
+          "return {execute:async()=>{throw new Error('fixture-secret')}}",
+      "database_missing":
+          "return {execute:async()=>{throw new Error(\"Unknown database fixture-secret\")}}",
+      "identity_mismatch":
+          "return {execute:async()=>[{identity_name:'other@%'}]}",
+      "grants_query_failed":
+          "return {execute:async(q)=>{if(q==='SHOW GRANTS')throw new Error('fixture-secret');return [{identity_name:'prefix.migrate_dev@%'}]}}",
+      "privileges_missing":
+          "return {execute:async(q)=>q==='SHOW GRANTS'?[{grant:'GRANT SELECT ON db.*'}]:[{identity_name:'prefix.migrate_dev@%'}]}",
+      "verified":
+          "return {execute:async(q)=>q==='SHOW GRANTS'?[{grant:'GRANT role_admin'}]:[{identity_name:'prefix.migrate_dev@%'}]}",
+    }.entries) {
+      await module.writeAsString("exports.connect=()=>{${scenario.value}};");
+      String? error;
+      try {
+        await verifyTidbMigrationSqlUser("fixture-host", "fixture-db",
+            "prefix.migrate_dev", "fixture-secret", "node");
+      } catch (e) {
+        error = e.toString();
+      }
+      if (scenario.key == "verified") {
+        check(error == null, "valid SQL identity and admin role must pass");
+      } else {
+        check(error != null && error.contains("[${scenario.key}]"),
+            "SQL probe must retain safe stage ${scenario.key}: $error");
+        check(!error!.contains("fixture-secret"), "SQL probe leaked a secret");
+      }
+    }
+  } finally {
+    Directory.current = before;
+    await root.delete(recursive: true);
+  }
 }
