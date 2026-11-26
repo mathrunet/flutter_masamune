@@ -26,6 +26,52 @@ const cloudflareLegacyEntryPath = "cloudflare/src/index.ts";
 /// region WorkerのWrangler設定ファイル名（`cloudflare/`からの相対パス）。
 const cloudflareRegionWranglerConfig = "wrangler.region.jsonc";
 
+/// Default Cloudflare Workers implementation language (`"rust"`).
+///
+/// Cloudflare Workersの既定実装言語（`"rust"`）。既存TS構成は `"ts"` を指定します。
+const cloudflareDefaultWorkerLanguage = "rust";
+
+/// Path of the Rust edge Worker entrypoint.
+const cloudflareRustEdgeEntryPath = "cloudflare/crates/edge/src/lib.rs";
+
+/// Path of the Rust region Worker entrypoint.
+const cloudflareRustRegionEntryPath = "cloudflare/crates/region/src/lib.rs";
+
+/// Path of the Rust workspace manifest.
+const cloudflareRustCargoTomlPath = "cloudflare/Cargo.toml";
+
+/// Resolve the Cloudflare Workers language from [yaml] (`cloudflare.workers.language`).
+///
+/// Defaults to `"rust"`. If unspecified and an existing TS project (`cloudflare/package.json`
+/// without `cloudflare/Cargo.toml`) is detected, callers may fall back to `"ts"`.
+String resolveCloudflareWorkerLanguage(Map yaml, {bool detectExistingTs = true}) {
+  final cloudflare = yaml["cloudflare"];
+  if (cloudflare is Map) {
+    final workers = cloudflare["workers"];
+    if (workers is Map) {
+      final raw = workers["language"]?.toString().trim().toLowerCase();
+      if (raw == "rust" || raw == "ts" || raw == "typescript") {
+        return raw == "typescript" ? "ts" : raw!;
+      }
+    }
+  }
+  if (detectExistingTs &&
+      !File(cloudflareRustCargoTomlPath).existsSync() &&
+      File("cloudflare/package.json").existsSync()) {
+    return "ts";
+  }
+  return cloudflareDefaultWorkerLanguage;
+}
+
+/// Returns true if the Cloudflare Workers workspace targets Rust (`workers-rs`).
+bool isCloudflareRustWorker(Map yaml, {bool detectExistingTs = true}) {
+  return resolveCloudflareWorkerLanguage(
+        yaml,
+        detectExistingTs: detectExistingTs,
+      ) ==
+      "rust";
+}
+
 /// Returns true if the region Worker is enabled in [yaml] (`cloudflare.workers.region.enable`).
 ///
 /// [yaml]でregion Worker（`cloudflare.workers.region.enable`）が有効な場合trueを返します。
